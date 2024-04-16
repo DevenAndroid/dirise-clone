@@ -1,0 +1,98 @@
+{
+  "project_info": {
+    "project_number": "1034755606968",
+    "project_id": "dirise-app",
+    "storage_bucket": "dirise-app.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:1034755606968:android:de3e9506c88a532717e74d",
+        "android_client_info": {
+          "package_name": "com.dirise.diris"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "1034755606968-g51p6rtcl128gau5157l794f9j8kurce.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.dirise.diris",
+            "certificate_hash": "205c7d0d77c9701d6bf996964859863de86a5c0e"
+          }
+        },
+        {
+          "client_id": "1034755606968-kfe27h2aqrrbadgucnqt7ag9m18buqdk.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.dirise.diris",
+            "certificate_hash": "93f9b16a3f994c4816000fd384de9e92fa006c39"
+          }
+        },
+        {
+          "client_id": "1034755606968-iqsfs7tbrdjnujto0oaeg5bnr2qp70fb.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyD0GSZovR8h_tjvpWr-NRn3AacRWVgnsqI"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "1034755606968-iqsfs7tbrdjnujto0oaeg5bnr2qp70fb.apps.googleusercontent.com",
+              "client_type": 3
+            },
+            {
+              "client_id": "1034755606968-4l8jcigfqlfqfpcvg2cqnlfrhc6vhi59.apps.googleusercontent.com",
+              "client_type": 2,
+              "ios_info": {
+                "bundle_id": "com.dirise.diris"
+              }
+            }
+          ]
+        }
+      }
+    },
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:1034755606968:android:0e28c16ee2d8397017e74d",
+        "android_client_info": {
+          "package_name": "com.dirise.dirisee"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "1034755606968-iqsfs7tbrdjnujto0oaeg5bnr2qp70fb.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyD0GSZovR8h_tjvpWr-NRn3AacRWVgnsqI"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "1034755606968-iqsfs7tbrdjnujto0oaeg5bnr2qp70fb.apps.googleusercontent.com",
+              "client_type": 3
+            },
+            {
+              "client_id": "1034755606968-4l8jcigfqlfqfpcvg2cqnlfrhc6vhi59.apps.googleusercontent.com",
+              "client_type": 2,
+              "ios_info": {
+                "bundle_id": "com.dirise.diris"
+              }
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

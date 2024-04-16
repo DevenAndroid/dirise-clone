@@ -1,0 +1,141 @@
+import 'dart:convert';
+import 'dart:ui';
+import 'package:flutter/foundation.dart';
+import 'package:get/get.dart';
+import 'package:image_picker/image_picker.dart';
+import 'package:shared_preferences/shared_preferences.dart';
+import '../model/aboutus_model.dart';
+import '../model/customer_profile/model_city_list.dart';
+import '../model/customer_profile/model_country_list.dart';
+import '../model/customer_profile/model_state_list.dart';
+import '../model/profile_model.dart';
+import '../repository/repository.dart';
+import '../utils/api_constant.dart';
+
+class ProfileController extends GetxController {
+  ProfileModel model = ProfileModel();
+  final Repositories repositories = Repositories();
+  bool apiLoaded = false;
+  final ImagePicker picker = ImagePicker();
+  RxInt refreshInt = 0.obs;
+  bool userLoggedIn = false;
+  RxString selectedLAnguage = "English".obs;
+  String code = 'KW';
+  ModelCountryList? modelCountryList;
+  Country? selectedCountry;
+  Rx<AboutUsmodel> aboutusModal = AboutUsmodel().obs;
+  Future aboutUsData() async {
+    Map<String, dynamic> map = {};
+    map["id"] = 12;
+    repositories.postApi(url: ApiUrls.aboutUsUrl, mapData: map).then((value) {
+      aboutusModal.value = AboutUsmodel.fromJson(jsonDecode(value));
+    });
+  }
+  ModelStateList? modelStateList;
+  CountryState? selectedState;
+
+  ModelCityList? modelCityList;
+  City? selectedCity;
+
+  getCountryList() {
+    if(modelCountryList != null)return;
+    repositories.getApi(url: ApiUrls.allCountriesUrl).then((value) {
+      modelCountryList = ModelCountryList.fromString(value);
+    });
+  }
+
+  checkLanguage() async {
+    SharedPreferences sharedPreferences = await SharedPreferences.getInstance();
+    if (sharedPreferences.getString("app_language") == null ||
+        sharedPreferences.getString("app_language") == "English") {
+      Get.updateLocale(const Locale('en', 'US'));
+      selectedLAnguage.value = "English";
+    } else{
+      Get.updateLocale(const Locale('ar', 'Ar'));
+      selectedLAnguage.value = 'عربي';
+    }
+  }
+
+
+
+  RxInt stateRefresh = 2.obs;
+  Future getStateList({required String countryId,bool? reset}) async {
+    if(reset == true) {
+      modelStateList = null;
+      selectedState = null;
+      modelCityList = null;
+      selectedCity = null;
+    }
+    stateRefresh.value = -5;
+    final map = {'country_id': countryId};
+    await repositories.postApi(url: ApiUrls.allStatesUrl, mapData: map).then((value) {
+      modelStateList = ModelStateList.fromJson(jsonDecode(value));
+      stateRefresh.value = DateTime.now().millisecondsSinceEpoch;
+    }).catchError((e){
+      stateRefresh.value = DateTime.now().millisecondsSinceEpoch;
+    });
+  }
+
+  RxInt cityRefresh = 2.obs;
+  Future getCityList({required String stateId,bool? reset}) async {
+    if(reset == true) {
+      modelCityList = null;
+      selectedCity = null;
+    }
+    cityRefresh.value = -5;
+    final map = {'state_id': stateId};
+    await repositories.postApi(url: ApiUrls.allCityUrl, mapData: map).then((value) {
+      modelCityList = ModelCityList.fromJson(jsonDecode(value));
+      cityRefresh.value = DateTime.now().millisecondsSinceEpoch;
+    }).catchError((e){
+      cityRefresh.value = DateTime.now().millisecondsSinceEpoch;
+    });
+  }
+
+  Future<bool> checkUserLoggedIn() async {
+    SharedPreferences preferences = await SharedPreferences.getInstance();
+    if (preferences.getString(Repositories.userInfo) != null) {
+      userLoggedIn = true;
+    } else {
+      userLoggedIn = false;
+    }
+    return userLoggedIn;
+  }
+
+  updateUI() {
+    refreshInt.value = DateTime.now().millisecondsSinceEpoch;
+  }
+
+  bool isVendorRegistered = false;
+
+  @override
+  void onInit() {
+    super.onInit();
+    checkUserLoggedIn().then((value) {
+      getDataProfile();
+    });
+  }
+
+  Future getDataProfile() async {
+    await checkUserLoggedIn();
+    if (userLoggedIn) {
+      await repositories.postApi(url: ApiUrls.userProfile).then((value) {
+        model = ProfileModel.fromJson(jsonDecode(value));
+        if (kDebugMode) print(model.user!.firstName);
+        apiLoaded = true;
+        updateUI();
+      });
+    } else {
+      model = ProfileModel();
+      updateUI();
+    }
+  }
+}
+
+
+class CommonAddressRelatedClass{
+  final String title;
+  final String addressId;
+  final String? flagUrl;
+  CommonAddressRelatedClass({required this.title, required this.addressId,this.flagUrl});
+}
