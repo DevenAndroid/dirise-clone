@@ -2,6 +2,7 @@
 class AppStrings{
 
   static String home = "Home";
+  static String register = "Register";
   static String categories = "Categories";
   static String favorite = "Favourite";
   static String profile = "Profile";
@@ -54,6 +55,10 @@ class AppStrings{
     static String alreadyAccount = "Already have an Account? ";
     static String noAccount = "Don't have an Account? ";
     static String signUp = "Sign Up";
+    static String pickUpAddress = "Pick up address";
+    static String tellUsAboutYourself = "Tell us about yourself";
+    static String iAmHereToSell = "I am here to sell";
+    static String iWantToGoShopping = "I want to go shopping";
     static String associatedAccount = "Enter the email address associated with your account";
     static String email = "Email";
     static String referralEmail = "My Referral";

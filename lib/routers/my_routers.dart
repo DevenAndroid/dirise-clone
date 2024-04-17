@@ -7,6 +7,11 @@ import 'package:dirise/screens/my_account_screens/profile_screen.dart';
 import 'package:dirise/screens/my_account_screens/return_policy_screen.dart';
 import 'package:dirise/screens/my_account_screens/termsconditions_screen.dart';
 import 'package:get/get.dart';
+import '../iAmHereToSell/personalizeyourstoreScreen.dart';
+import '../iAmHereToSell/whatdoyousellScreen.dart';
+import '../iAmHereToSell/whichplantypedescribeyouScreen.dart';
+import '../newAuthScreens/newOtpScreen.dart';
+import '../newAuthScreens/signupScreen.dart';
 import '../posts/posts_ui.dart';
 import '../screens/auth_screens/createacc_screen.dart';
 import '../screens/auth_screens/otp_screen.dart';
@@ -37,7 +42,7 @@ import '../vendor/profile/vendor_profile_screen.dart';
 
 class MyRouters {
   static var route = [
-    GetPage(name: '/', page: () => const BottomNavbar()),
+    GetPage(name: '/', page: () => const CreateAccountNewScreen()),
     GetPage(name: LoginScreen.route, page: () => const LoginScreen()),
     GetPage(name: VendorOTPVerification.route, page: () => const VendorOTPVerification()),
     GetPage(name: CreateAccountScreen.route, page: () => const CreateAccountScreen()),
@@ -45,7 +50,7 @@ class MyRouters {
     GetPage(name: BottomNavbar.route, page: () => const BottomNavbar()),
     GetPage(name: PrivacyPolicy.route, page: () => const PrivacyPolicy()),
     GetPage(name: ProfileScreen.route, page: () => const ProfileScreen()),
-    GetPage(name: OtpScreen.route, page: () => const OtpScreen()),
+    GetPage(name: OtpScreen.route, page: () => const NewOtpScreen()),
     GetPage(name: FrequentlyAskedQuestionsScreen.route, page: () => const FrequentlyAskedQuestionsScreen()),
     GetPage(name: VendorOrderList.route, page: () => const VendorOrderList()),
     GetPage(name: VendorProductScreen.route, page: () => const VendorProductScreen()),

@@ -23,6 +23,8 @@ class CommonTextField extends StatefulWidget {
   final String? hintText;
   final Widget? suffixIcon;
   final Widget? prefix;
+  // final int? minLines;
+  // final int? maxLines;
 
   final List<TextInputFormatter>? inputFormatters;
 
@@ -47,6 +49,8 @@ class CommonTextField extends StatefulWidget {
     this.labelText,
     this.inputFormatters,
     this.onFieldSubmitted,
+    // this.maxLines,
+    // this.minLines
   });
 
   @override
@@ -66,8 +70,8 @@ class _CommonTextFieldState extends State<CommonTextField> {
         onChanged: widget.onChanged,
         onEditingComplete: widget.onEditingCompleted,
         obscureText: widget.obSecure ?? false,
-        minLines: widget.isMulti ? 4 : 1,
-        maxLines: widget.isMulti ? null : 1,
+        // minLines: minLines,
+        // maxLines: maxLines,
         onTap: widget.onTap,
         enabled: widget.enabled,
         readOnly: widget.readOnly,

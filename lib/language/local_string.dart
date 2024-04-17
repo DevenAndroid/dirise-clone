@@ -8,7 +8,22 @@ class LocaleString extends Translations {
         'en_US': {
           AppStrings.home: "Home",
           "PROFILE": "profile",
+
+
+
+
           "Default Address":"Default Address",
+          "Referral Point (Optional)":"Referral Point (Optional)",
+
+
+
+
+
+
+
+
+
+
           AppStrings.guestUser : 'Guest User',
           "TIMESHEETS": "Timesheets",
           "TASKS": "Tasks",

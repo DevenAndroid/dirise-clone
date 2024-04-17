@@ -256,13 +256,15 @@ class _PublishPostScreenState extends State<PublishPostScreen> {
                   profileController.userLoggedIn == true ? Column(
                     children: [
                       Container(
-                            decoration: BoxDecoration(color: Colors.white, boxShadow: [
+                            decoration: BoxDecoration(color: Colors.white,
+                                boxShadow: [
                               BoxShadow(
                                 color: const Color(0xFF5F5F5F).withOpacity(0.4),
                                 offset: const Offset(0.0, 0.2),
                                 blurRadius: 2,
                               ),
-                            ]),
+                            ]
+                            ),
                             padding: const EdgeInsets.symmetric(horizontal: 15),
                             child: Column(
                               crossAxisAlignment: CrossAxisAlignment.start,

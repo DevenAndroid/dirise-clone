@@ -9,9 +9,10 @@ class CustomOutlineButton extends StatelessWidget {
   final Color? backgroundColor;
   final bool? expandedValue;
   final Color? textColor;
+  final double? borderRadius;
 
   const CustomOutlineButton(
-      {Key? key, required this.title, this.onPressed, this.backgroundColor, this.textColor, this.expandedValue = false})
+      {Key? key, required this.title, this.borderRadius, this.onPressed, this.backgroundColor, this.textColor, this.expandedValue = false})
       : super(key: key);
 
   @override
@@ -23,7 +24,7 @@ class CustomOutlineButton extends StatelessWidget {
       child: ElevatedButton(
           style: ElevatedButton.styleFrom(
               backgroundColor: AppTheme.buttonColor,
-              shape: const RoundedRectangleBorder(borderRadius: BorderRadius.zero),
+              shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(borderRadius ?? 0)),
               textStyle: GoogleFonts.poppins(
                 fontWeight: FontWeight.bold,
               )),
