@@ -41,7 +41,7 @@ class _VendorDashBoardScreenState extends State<VendorDashBoardScreen> {
       color: Colors.grey.shade100,
       child: SafeArea(
         child: Scaffold(
-            appBar: const AppBarScreen(),
+            // appBar: const AppBarScreen(),
             backgroundColor: Colors.grey.shade100,
             body: RefreshIndicator(
               onRefresh: () async {

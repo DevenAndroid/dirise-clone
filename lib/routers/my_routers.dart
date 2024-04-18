@@ -10,8 +10,11 @@ import 'package:get/get.dart';
 import '../iAmHereToSell/personalizeyourstoreScreen.dart';
 import '../iAmHereToSell/whatdoyousellScreen.dart';
 import '../iAmHereToSell/whichplantypedescribeyouScreen.dart';
+import '../newAddress/locationScreen.dart';
+import '../newAddress/pickUpAddressScreen.dart';
 import '../newAuthScreens/newOtpScreen.dart';
 import '../newAuthScreens/signupScreen.dart';
+import '../newAuthScreens/tellUsAboutYourself.dart';
 import '../posts/posts_ui.dart';
 import '../screens/auth_screens/createacc_screen.dart';
 import '../screens/auth_screens/otp_screen.dart';
@@ -42,8 +45,9 @@ import '../vendor/profile/vendor_profile_screen.dart';
 
 class MyRouters {
   static var route = [
-    GetPage(name: '/', page: () => const CreateAccountNewScreen()),
+    GetPage(name: '/', page: () =>  TellUsAboutYourSelf()),
     GetPage(name: LoginScreen.route, page: () => const LoginScreen()),
+    GetPage(name: TellUsAboutYourSelf.route, page: () => const TellUsAboutYourSelf()),
     GetPage(name: VendorOTPVerification.route, page: () => const VendorOTPVerification()),
     GetPage(name: CreateAccountScreen.route, page: () => const CreateAccountScreen()),
     GetPage(name: ForgetPasswordScreen.route, page: () => const ForgetPasswordScreen()),

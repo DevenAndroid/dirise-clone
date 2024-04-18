@@ -1,14 +1,12 @@
 import 'dart:async';
 import 'dart:developer';
 import 'dart:ui' as ui;
-import 'package:firebase_auth/firebase_auth.dart';
+import 'package:dirise/newAddress/pickUpAddressScreen.dart';
 import 'package:flutter/animation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_google_places_hoc081098/flutter_google_places_hoc081098.dart';
 import 'package:flutter_google_places_hoc081098/google_maps_webservice_places.dart';
-import 'package:fluttertoast/fluttertoast.dart';
-import 'package:form_field_validator/form_field_validator.dart';
 import 'package:geocoding/geocoding.dart';
 import 'package:get/get.dart';
 import 'package:google_api_headers/google_api_headers.dart';
@@ -18,7 +16,6 @@ import 'package:shared_preferences/shared_preferences.dart';
 
 import '../widgets/common_button.dart';
 import '../widgets/common_colour.dart';
-import '../widgets/common_textfield.dart';
 import '../widgets/dimension_screen.dart';
 import 'customeraccountcreatedsuccessfullyScreen.dart';
 
@@ -33,17 +30,6 @@ class ChooseAddress extends StatefulWidget {
 }
 
 class _ChooseAddressState extends State<ChooseAddress> {
-  final _formKey = GlobalKey<FormState>();
-  final List<String> choiceAddress = ["Home", "Office", "Hotel", "Other"];
-  final RxBool _isValue = false.obs;
-  RxBool customTip = false.obs;
-  RxString selectedChip = "Home".obs;
-  final TextEditingController searchController = TextEditingController();
-  final TextEditingController otherController = TextEditingController();
-  final TextEditingController nameController = TextEditingController();
-  final TextEditingController streetAddressController = TextEditingController();
-  final TextEditingController flatAddressController = TextEditingController();
-
   final Completer<GoogleMapController> googleMapController = Completer();
   GoogleMapController? mapController;
 
@@ -92,8 +78,29 @@ class _ChooseAddressState extends State<ChooseAddress> {
       debugPrint(e);
     });
   }
+   String? street;
+   String? city;
+   String? state;
+   String? country;
+   String? zipcode;
+   String? town;
 
   Future<void> _getAddressFromLatLng(Position position) async {
+    List<Placemark> placemarks = await placemarkFromCoordinates(position.latitude, position.longitude);
+
+    if (placemarks != null && placemarks.isNotEmpty) {
+      Placemark placemark = placemarks[0];
+
+      setState(() {
+        street = placemark.street ?? '';
+        city = placemark.locality ?? '';
+        state = placemark.administrativeArea ?? '';
+        country = placemark.country ?? '';
+        zipcode = placemark.postalCode ?? '';
+        town = placemark.subAdministrativeArea ?? '';
+
+      });
+    }
     await placemarkFromCoordinates(_currentPosition!.latitude, _currentPosition!.longitude)
         .then((List<Placemark> placemarks) {
       Placemark place = placemarks[0];
@@ -105,142 +112,6 @@ class _ChooseAddressState extends State<ChooseAddress> {
     });
   }
 
-  showChangeAddressSheet() {
-    print(selectedChip.value);
-    showModalBottomSheet(
-        context: context,
-        isScrollControlled: true,
-        enableDrag: false,
-        isDismissible: false,
-        backgroundColor: Colors.transparent,
-        elevation: 0,
-        builder: (context) {
-          return WillPopScope(
-            onWillPop: () async {
-              return false;
-            },
-            child: Obx(() {
-              return Padding(
-                  padding: EdgeInsets.only(bottom: MediaQuery.of(context).viewInsets.bottom),
-                  child: SingleChildScrollView(
-                    child: Form(
-                      key: _formKey,
-                      child: Column(
-                        mainAxisSize: MainAxisSize.min,
-                        children: [
-                          GestureDetector(
-                            behavior: HitTestBehavior.translucent,
-                            onTap: () {
-                              setState(() {
-                                _isValue.value = !_isValue.value;
-                              });
-                              Get.back();
-                              setState(() {});
-                            },
-                            child: Container(
-                              height: 50,
-                              width: 50,
-                              decoration: ShapeDecoration(color: Colors.transparent, shape: CircleBorder()),
-                              child: Center(
-                                  child: Icon(
-                                Icons.clear,
-                                color: Colors.transparent,
-                                size: AddSize.size30,
-                              )),
-                            ),
-                          ),
-                          SizedBox(
-                            height: AddSize.size20,
-                          ),
-                          Container(
-                            width: double.maxFinite,
-                            decoration: const BoxDecoration(
-                                color: Colors.white,
-                                borderRadius:
-                                    BorderRadius.only(topRight: Radius.circular(20), topLeft: Radius.circular(20))),
-                            child: Padding(
-                              padding: EdgeInsets.symmetric(horizontal: AddSize.padding16, vertical: AddSize.padding16),
-                              child: Column(
-                                crossAxisAlignment: CrossAxisAlignment.start,
-                                children: [
-                                  Text(
-                                    "Enter complete address".tr,
-                                    style:
-                                        TextStyle(color: Colors.transparent, fontWeight: FontWeight.w600, fontSize: 17),
-                                  ),
-                                  SizedBox(
-                                    height: AddSize.size12,
-                                  ),
-                                  Row(
-                                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                                    children: List.generate(
-                                      choiceAddress.length,
-                                      (index) => chipList(choiceAddress[index].tr),
-                                    ),
-                                  ),
-                                  SizedBox(
-                                    height: AddSize.size20,
-                                  ),
-                                  if (customTip.value)
-                                    CommonTextField(
-                                      hintText: "Other".tr,
-                                    ),
-                                  SizedBox(
-                                    height: AddSize.size20,
-                                  ),
-                                  CommonTextField(
-                                    controller: streetAddressController,
-                                    hintText: "Flat, House no, Floor, Tower,Street".tr,
-                                    validator: MultiValidator([
-                                      RequiredValidator(errorText: 'Flat, House no, Floor, Tower,Street'),
-                                    ]).call,
-                                  ),
-                                  SizedBox(
-                                    height: AddSize.size20,
-                                  ),
-                                  CommonTextField(
-                                    controller: flatAddressController,
-                                    hintText: "Street, Society, Landmark".tr,
-                                    validator: MultiValidator([
-                                      RequiredValidator(errorText: 'Select city'),
-                                    ]).call,
-                                  ),
-                                  SizedBox(
-                                    height: AddSize.size20,
-                                  ),
-                                  CommonTextField(
-                                    hintText: "Recipient’s name".tr,
-                                    controller: nameController,
-                                    validator: MultiValidator([
-                                      RequiredValidator(errorText: 'Recipient’s name'),
-                                    ]).call,
-                                  ),
-                                  SizedBox(
-                                    height: AddSize.size20,
-                                  ),
-                                  CustomOutlineButton(
-                                    title: 'SAVE ADDRESS'.tr,
-                                    onPressed: () {
-                                      if (_formKey.currentState!.validate()) {}
-                                    },
-                                  ),
-                                ],
-                              ),
-                            ),
-                          ),
-                          // Obx(() {
-                          //   return SizedBox(
-                          //     height: sizeBoxHeight.value,
-                          //   );
-                          // })
-                        ],
-                      ),
-                    ),
-                  ));
-            }),
-          );
-        });
-  }
 
   String? appLanguage = "English";
   getLanguage() async {
@@ -303,13 +174,6 @@ class _ChooseAddressState extends State<ChooseAddress> {
           FocusManager.instance.primaryFocus!.unfocus();
         },
         child: Scaffold(
-            // appBar: backAppBar(
-            //     title: _isValue.value == true ? "Complete Address".tr : "Choose Address".tr,
-            //     context: context,
-            //     dispose: "dispose",
-            //     disposeController: () {
-            //       mapController!.dispose();
-            //     }),
             body: Stack(
           children: [
             GoogleMap(
@@ -448,7 +312,14 @@ class _ChooseAddressState extends State<ChooseAddress> {
                             title: "Confirm Your Location".tr,
                             borderRadius: 11,
                             onPressed: () {
-                              Get.to(const CustomerAccountCreatedSuccessfullyScreen());
+                              Get.to( PickUpAddressScreen(
+                                    street: street,
+                                    city: city,
+                                state: state,
+                                country: country,
+                                town: town,
+                                zipcode: zipcode,
+                              ));
                             },
                           ),
                         ],
@@ -462,41 +333,4 @@ class _ChooseAddressState extends State<ChooseAddress> {
     );
   }
 
-  chipList(
-    title,
-  ) {
-    var height = MediaQuery.of(context).size.height;
-    var width = MediaQuery.of(context).size.width;
-    return Obx(() {
-      return Column(
-        children: [
-          ChoiceChip(
-            padding: EdgeInsets.symmetric(horizontal: width * .01, vertical: height * .01),
-            backgroundColor: Colors.transparent,
-            shape: RoundedRectangleBorder(
-                borderRadius: BorderRadius.circular(10),
-                side: BorderSide(color: title != selectedChip.value ? Colors.grey.shade300 : const Color(0xff7ED957))),
-            label: Text("$title",
-                style: TextStyle(
-                    color: title != selectedChip.value ? Colors.grey.shade600 : const Color(0xff7ED957),
-                    fontSize: AddSize.font14,
-                    fontWeight: FontWeight.w500)),
-            selected: title == selectedChip.value,
-            selectedColor: const Color(0xff7ED957).withOpacity(.13),
-            onSelected: (value) {
-              selectedChip.value = title;
-              if (title == "Other") {
-                customTip.value = true;
-                otherController.text = "";
-              } else {
-                customTip.value = false;
-                otherController.text = title;
-              }
-              setState(() {});
-            },
-          )
-        ],
-      );
-    });
-  }
 }

@@ -48,7 +48,7 @@ class _NewOtpScreenState extends State<NewOtpScreen> {
     Map<String, dynamic> map = {};
     map['email'] = email;
     map['otp'] = _otpController.text.trim();
-    map['fcm_token'] = Platform.isAndroid?token.toString():token1.toString();
+    map['fcm_token'] = Platform.isAndroid ? token.toString() : token1.toString();
     map['key'] = 'forget';
     repositories.postApi(url: ApiUrls.verifyOtpEmail, context: context, mapData: map).then((value) async {
       LoginModal response = LoginModal.fromJson(jsonDecode(value));
@@ -56,7 +56,7 @@ class _NewOtpScreenState extends State<NewOtpScreen> {
       if (response.status == true) {
         if (check == true) {
           repositories.saveLoginDetails(jsonEncode(response));
-          Get.offAllNamed(BottomNavbar.route);
+          Get.offAllNamed(TellUsAboutYourSelf.route);
         } else {
           // Get.offNamed(NewPasswordScreen.route, arguments: [email]);
         }
@@ -81,6 +81,7 @@ class _NewOtpScreenState extends State<NewOtpScreen> {
       }
     });
   }
+
   Future resendApi() async {
     Map<String, dynamic> map = {};
     map['email'] = email.toString();
@@ -161,9 +162,9 @@ class _NewOtpScreenState extends State<NewOtpScreen> {
       decoration: BoxDecoration(
           border: Border(
               bottom: BorderSide(
-                color: Colors.grey.shade300,
-                width: 4.0,
-              ))));
+        color: Colors.grey.shade300,
+        width: 4.0,
+      ))));
 
   @override
   Widget build(BuildContext context) {
@@ -171,7 +172,11 @@ class _NewOtpScreenState extends State<NewOtpScreen> {
     return Scaffold(
       appBar: AppBar(
         backgroundColor: AppTheme.buttonColor,
-        leading: const Icon(Icons.arrow_back_ios_new,color: Colors.white,size: 16,),
+        leading: const Icon(
+          Icons.arrow_back_ios_new,
+          color: Colors.white,
+          size: 16,
+        ),
       ),
       body: SingleChildScrollView(
         child: SizedBox(
@@ -252,7 +257,7 @@ class _NewOtpScreenState extends State<NewOtpScreen> {
                             child: Obx(() {
                               return Text(
                                 ' Resend OTP\n'
-                                    '${timerInt.value > 0 ? "In ${timerInt.value > 9 ? timerInt.value : "0${timerInt.value}"}" : ""}',
+                                '${timerInt.value > 0 ? "In ${timerInt.value > 9 ? timerInt.value : "0${timerInt.value}"}" : ""}',
                                 textAlign: TextAlign.center,
                                 style: GoogleFonts.poppins(
                                     fontWeight: FontWeight.w600, color: const Color(0xff578AE8), fontSize: 16),
@@ -280,7 +285,7 @@ class _NewOtpScreenState extends State<NewOtpScreen> {
                   fontWeight: FontWeight.bold,
                 )),
             onPressed: () {
-               verifyOtp();
+              verifyOtp();
             },
             child: Padding(
               padding: const EdgeInsets.all(16.0),

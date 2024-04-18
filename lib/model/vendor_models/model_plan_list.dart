@@ -30,8 +30,8 @@ class Plans {
         element.value.forEach((v) {
           temp.add(PlanInfoData.fromJson(v));
         });
-      plants ??= {};
-      plants![element.key] = temp;
+        plants ??= {};
+        plants![element.key] = temp;
       }
     }
   }

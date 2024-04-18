@@ -2,11 +2,14 @@ import 'dart:convert';
 import 'package:dirise/language/app_strings.dart';
 import 'package:dirise/widgets/common_colour.dart';
 import 'package:flutter/cupertino.dart';
+import 'package:flutter/foundation.dart';
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:form_field_validator/form_field_validator.dart';
 import 'package:get/get.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:intl_phone_field/countries.dart';
+import 'package:intl_phone_field/intl_phone_field.dart';
 import 'package:url_launcher/url_launcher.dart';
 import '../../widgets/common_button.dart';
 import '../../widgets/common_textfield.dart';
@@ -18,6 +21,7 @@ import 'newOtpScreen.dart';
 
 class CreateAccountNewScreen extends StatefulWidget {
   static String route = "/CreateAccountScreen";
+
   const CreateAccountNewScreen({Key? key}) : super(key: key);
 
   @override
@@ -33,11 +37,13 @@ class _CreateAccountNewScreenState extends State<CreateAccountNewScreen> {
   final TextEditingController _passwordController = TextEditingController();
   final TextEditingController _referralEmailController = TextEditingController();
   final TextEditingController _confirmPasswordController = TextEditingController();
+  final TextEditingController phoneNumberController = TextEditingController();
   RxBool hide = true.obs;
   RxBool hide1 = true.obs;
   bool showValidation = false;
   bool? _isValue = false;
   final Repositories repositories = Repositories();
+  String code = "+91";
   registerApi() {
     if (_isValue == false) return;
     Map<String, dynamic> map = {};
@@ -46,6 +52,8 @@ class _CreateAccountNewScreenState extends State<CreateAccountNewScreen> {
     map['email'] = _emailController.text.trim();
     map['password'] = _passwordController.text.trim();
     map['confirm_password'] = _confirmPasswordController.text.trim();
+    map['phone'] = phoneNumberController.text.trim();
+    map['phone_country_code'] = code;
     FocusManager.instance.primaryFocus!.unfocus();
     repositories.postApi(url: ApiUrls.newRegisterUrl, context: context, mapData: map).then((value) {
       ModelCommonResponse response = ModelCommonResponse.fromJson(jsonDecode(value));
@@ -59,19 +67,21 @@ class _CreateAccountNewScreenState extends State<CreateAccountNewScreen> {
   _makingPrivacyPolicy() async {
     var url = Uri.parse('https://diriseapp.com/en/privacy-policy/');
     if (await canLaunchUrl(url)) {
-      await launchUrl(url,mode: LaunchMode.externalApplication);
+      await launchUrl(url, mode: LaunchMode.externalApplication);
     } else {
       throw 'Could not launch $url';
     }
   }
+
   _termsCondition() async {
     var url = Uri.parse('https://diriseapp.com/en/terms-and-conditions/');
     if (await canLaunchUrl(url)) {
-      await launchUrl(url,mode: LaunchMode.externalApplication);
+      await launchUrl(url, mode: LaunchMode.externalApplication);
     } else {
       throw 'Could not launch $url';
     }
   }
+
   @override
   void dispose() {
     super.dispose();
@@ -84,7 +94,9 @@ class _CreateAccountNewScreenState extends State<CreateAccountNewScreen> {
 
   @override
   Widget build(BuildContext context) {
-    Size size = MediaQuery.of(context).size;
+    Size size = MediaQuery
+        .of(context)
+        .size;
     return Scaffold(
       backgroundColor: Colors.white,
       appBar: AppBar(
@@ -155,6 +167,47 @@ class _CreateAccountNewScreenState extends State<CreateAccountNewScreen> {
                 SizedBox(
                   height: size.height * .01,
                 ),
+                IntlPhoneField(
+                  dropdownIcon: const Icon(Icons.arrow_drop_down_rounded, color: Colors.black),
+                  flagsButtonPadding: const EdgeInsets.all(8),
+                  dropdownIconPosition: IconPosition.trailing,
+                  controller: phoneNumberController,
+                  style: const TextStyle(color: Colors.black),
+                  validator: MultiValidator([
+                    RequiredValidator(errorText: 'Please enter your phone number'.tr),
+                  ]).call,
+                  dropdownTextStyle: const TextStyle(color: Colors.black),
+                  decoration: InputDecoration(
+                    hintText: 'Enter your Mobile number'.tr,
+                    hintStyle: const TextStyle(color: AppTheme.secondaryColor),
+                    filled: true,
+                    enabled: true,
+                    enabledBorder: const OutlineInputBorder(borderSide: BorderSide(color: AppTheme.secondaryColor)),
+                    focusedBorder: const OutlineInputBorder(borderSide: BorderSide(color: AppTheme.secondaryColor)),
+                    iconColor: Colors.black,
+                    errorBorder: const OutlineInputBorder(borderSide: BorderSide(width: 1)),
+                    fillColor: const Color(0x63ffffff).withOpacity(.2),
+                    border: OutlineInputBorder(
+                      borderRadius: BorderRadius.circular(5),
+                      borderSide: const BorderSide(width: 1, color: Colors.black),
+                    ),
+                    disabledBorder: const OutlineInputBorder(borderSide: BorderSide(color: AppTheme.secondaryColor)),
+                  ),
+                  onCountryChanged: (Country phone) {
+                    setState(() {
+                      code = "+${phone.dialCode}";
+                      if (kDebugMode) {
+                        print(code.toString());
+                      }
+                    });
+                  },
+                  initialCountryCode: 'IE',
+                  cursorColor: Colors.black,
+                  keyboardType: TextInputType.number,
+                ),
+                SizedBox(
+                  height: size.height * .01,
+                ),
                 Obx(() {
                   return CommonTextField(
                     controller: _passwordController,
@@ -170,11 +223,11 @@ class _CreateAccountNewScreenState extends State<CreateAccountNewScreen> {
                       RequiredValidator(errorText: 'Please enter your password'.tr),
                       MinLengthValidator(8,
                           errorText:
-                              'Password must be at least 8 characters, with 1 special character & 1 numerical'.tr),
+                          'Password must be at least 8 characters, with 1 special character & 1 numerical'.tr),
                       // MaxLengthValidator(16, errorText: "Password maximum length is 16"),
                       PatternValidator(r"(?=.*\W)(?=.*?[#?!@()$%^&*-_])(?=.*[0-9])",
                           errorText:
-                              "Password must be at least 8 characters, with 1 special character & 1 numerical".tr),
+                          "Password must be at least 8 characters, with 1 special character & 1 numerical".tr),
                     ]),
                   );
                 }),
