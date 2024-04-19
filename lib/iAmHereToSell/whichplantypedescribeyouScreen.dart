@@ -1,6 +1,7 @@
 import 'dart:convert';
 import 'dart:developer';
 
+import 'package:dirise/iAmHereToSell/whatdoyousellScreen.dart';
 import 'package:dirise/model/vendor_models/newVendorPlanlist.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
@@ -56,10 +57,15 @@ class _WhichplantypedescribeyouScreenState extends State<Whichplantypedescribeyo
         backgroundColor: Colors.white,
         surfaceTintColor: Colors.white,
         elevation: 0,
-        leading: const Icon(
-          Icons.arrow_back_ios_new,
-          color: Color(0xff0D5877),
-          size: 16,
+        leading: GestureDetector(
+          onTap: (){
+            Get.back();
+          },
+          child: const Icon(
+            Icons.arrow_back_ios_new,
+            color: Color(0xff0D5877),
+            size: 16,
+          ),
         ),
         titleSpacing: 0,
         title: Row(
@@ -150,7 +156,7 @@ class _WhichplantypedescribeyouScreenState extends State<Whichplantypedescribeyo
                 ),
 
               ),
-
+                SizedBox(height: 10,),
               if (_selectedOption == 1) ...[
                 Container(
                   height: 410,
@@ -228,7 +234,7 @@ class _WhichplantypedescribeyouScreenState extends State<Whichplantypedescribeyo
                             ),
                             modelPlansList?.plans!.advertisement != null ?
                             ListView.builder(
-                              physics: NeverScrollableScrollPhysics(),
+                              physics: const NeverScrollableScrollPhysics(),
                                 shrinkWrap: true,
                                 itemCount: modelPlansList!.plans!.advertisement!.length,
                                 itemBuilder: (context, index) {
@@ -263,7 +269,7 @@ class _WhichplantypedescribeyouScreenState extends State<Whichplantypedescribeyo
                                       )),
                                 ],
                               );
-                            }) : CircularProgressIndicator()
+                            }) : const CircularProgressIndicator()
 
                           ],
                         )
@@ -317,6 +323,7 @@ class _WhichplantypedescribeyouScreenState extends State<Whichplantypedescribeyo
                 ),
 
               ),
+              SizedBox(height: 10,),
               if (_selectedOption == 2) ...[
                 Container(
                   height: 400,
@@ -379,7 +386,7 @@ class _WhichplantypedescribeyouScreenState extends State<Whichplantypedescribeyo
                       ),
                       modelPlansList?.plans!.personal != null ?
                       ListView.builder(
-                          physics: NeverScrollableScrollPhysics(),
+                          physics: const NeverScrollableScrollPhysics(),
                           shrinkWrap: true,
                           itemCount: modelPlansList!.plans!.personal!.length,
                           itemBuilder: (context, index) {
@@ -414,7 +421,7 @@ class _WhichplantypedescribeyouScreenState extends State<Whichplantypedescribeyo
                                     )),
                               ],
                             );
-                          }) : CircularProgressIndicator()
+                          }) : const CircularProgressIndicator()
                     ],
                   ),
                 ),
@@ -460,6 +467,7 @@ class _WhichplantypedescribeyouScreenState extends State<Whichplantypedescribeyo
                 ),
 
               ),
+              SizedBox(height: 10,),
               if (_selectedOption == 3) ...[
                 Container(
                   height: 400,
@@ -522,7 +530,7 @@ class _WhichplantypedescribeyouScreenState extends State<Whichplantypedescribeyo
                       ),
                       modelPlansList?.plans!.company != null ?
                       ListView.builder(
-                          physics: NeverScrollableScrollPhysics(),
+                          physics: const NeverScrollableScrollPhysics(),
                           shrinkWrap: true,
                           itemCount: modelPlansList!.plans!.company!.length,
                           itemBuilder: (context, index) {
@@ -557,7 +565,7 @@ class _WhichplantypedescribeyouScreenState extends State<Whichplantypedescribeyo
                                     )),
                               ],
                             );
-                          }) : CircularProgressIndicator()
+                          }) : const CircularProgressIndicator()
                     ],
                   ),
                 ),
@@ -755,24 +763,33 @@ class _WhichplantypedescribeyouScreenState extends State<Whichplantypedescribeyo
               const SizedBox(
                 height: 10,
               ),
-              Container(
-                width: Get.width,
-                height: 50,
-                decoration: BoxDecoration(
-                  border: Border.all(
-                    color: const Color(0xff0D5877), // Border color
-                    width: 1.0, // Border width
+              InkWell(
+                onTap: (){
+                  if(_isValue == true) {
+                    Get.to(const WhatdoyousellScreen());
+                  }else{
+                    showToast("Select Plan and Agree terms and Conditions");
+                  }
+                },
+                child: Container(
+                  width: Get.width,
+                  height: 50,
+                  decoration: BoxDecoration(
+                    border: Border.all(
+                      color: const Color(0xff0D5877), // Border color
+                      width: 1.0, // Border width
+                    ),
+                    borderRadius: BorderRadius.circular(2), // Border radius
                   ),
-                  borderRadius: BorderRadius.circular(2), // Border radius
-                ),
-                padding: const EdgeInsets.all(10), // Padding inside the container
-                child: const Center(
-                  child: Text(
-                    'Next',
-                    style: TextStyle(
-                      fontSize: 16,
-                      fontWeight: FontWeight.bold,
-                      color: Colors.black, // Text color
+                  padding: const EdgeInsets.all(10), // Padding inside the container
+                  child: const Center(
+                    child: Text(
+                      'Next',
+                      style: TextStyle(
+                        fontSize: 16,
+                        fontWeight: FontWeight.bold,
+                        color: Colors.black, // Text color
+                      ),
                     ),
                   ),
                 ),

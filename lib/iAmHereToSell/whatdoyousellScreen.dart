@@ -1,12 +1,28 @@
+import 'dart:convert';
+import 'dart:developer';
+import 'dart:io';
+
+import 'package:dirise/iAmHereToSell/pickUpAddressForsellHere.dart';
+import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/widgets.dart';
 import 'package:get/get.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:pinput/pinput.dart';
 import 'package:flutter_pin_code_fields/flutter_pin_code_fields.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
+import '../bottomavbar.dart';
+import '../controller/vendor_controllers/vendor_profile_controller.dart';
+import '../model/login_model.dart';
+import '../model/vendor_models/model_vendor_details.dart';
 import '../model/vendor_models/vendor_category_model.dart';
+import '../repository/repository.dart';
+import '../screens/auth_screens/newpasswordscreen.dart';
+import '../utils/api_constant.dart';
+import '../vendor/authentication/vendor_registration_screen.dart';
 import '../widgets/common_colour.dart';
 import '../widgets/common_textfield.dart';
 
@@ -23,8 +39,127 @@ class _WhatdoyousellScreenState extends State<WhatdoyousellScreen> {
   final GlobalKey categoryKey = GlobalKey();
   Map<String, VendorCategoriesData> allSelectedCategory = {};
   TextEditingController _otpController = TextEditingController();
+  TextEditingController storeName = TextEditingController();
+  TextEditingController storeEmail = TextEditingController();
+  TextEditingController storeNumber = TextEditingController();
   bool showValidation = false;
   bool? _isValue = false;
+  final Repositories repositories = Repositories();
+  VendorUser get vendorInfo => vendorProfileController.model.user!;
+  final vendorProfileController = Get.put(VendorProfileController());
+  void getVendorCategories() {
+    vendorCategoryStatus.value = RxStatus.loading();
+    repositories.getApi(url: ApiUrls.vendorCategoryListUrl, showResponse: false).then((value) {
+      modelVendorCategory = ModelVendorCategory.fromJson(jsonDecode(value));
+      vendorCategoryStatus.value = RxStatus.success();
+
+      for (var element in vendorInfo.vendorCategory!) {
+        allSelectedCategory[element.id.toString()] = VendorCategoriesData.fromJson(element.toJson());
+      }
+      setState(() {});
+    }).catchError((e) {
+      vendorCategoryStatus.value = RxStatus.error();
+      // throw Exception(e);
+    });
+  }
+
+  void onNextButtonPressed() async {
+    if (!validateFields()) return; // Validate all required fields
+
+    // Make API call to register vendor
+    vendorregister();
+  }
+
+  bool validateFields() {
+    if (storeName.text.trim().isEmpty ||
+        storeEmail.text.trim().isEmpty ||
+        storeNumber.text.trim().isEmpty ||
+        allSelectedCategory.isEmpty ||
+        _otpController.text.trim().length < 4 ||
+        _isValue != true) {
+      showToast('Please fill in all required fields and accept terms.');
+      return false;
+    }
+    return true;
+  }
+
+  String? vendorRegister;
+
+  PlansType selectedPlan = PlansType.personal;
+  static String userInfo = "login_user";
+  void vendorregister() {
+    Map<String, String> map = {};
+    map["store_name"] = storeName.text.trim();
+    map["store_email"] = storeEmail.text.trim();
+    map["store_number"] = storeNumber.text.trim();
+    map["vendor_type"] = selectedPlan.name;
+    map["category_id"] = allSelectedCategory.entries.map((e) => e.key).toList().join(",");
+    repositories.postApi(url: ApiUrls.vendorRegistrationUrl, context: context, mapData: map).then((value) async {
+      LoginModal response = LoginModal.fromJson(jsonDecode(value));
+      LoginModal model = LoginModal();
+      SharedPreferences preferences = await SharedPreferences.getInstance();
+      if (preferences.getString(userInfo) != null) {
+        model = LoginModal.fromJson(jsonDecode(preferences.getString(userInfo)!));
+      }
+      if (response.status == true) {
+        SharedPreferences prefs = await SharedPreferences.getInstance();
+        await prefs.setString('email', storeEmail.text.trim());
+        vendorRegister = 'done';
+        showToast('User Register Successfully');
+      }
+    });
+  }
+
+  String emailAddress = ""; // Declare email variable
+
+  void getEmailFromSharedPreferences() async {
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    emailAddress = prefs.getString('email') ?? "";
+    log("ddddddd" + emailAddress);
+  }
+
+  late bool check;
+  String? otpVerify;
+  Map<String, dynamic> tempMap = {};
+  verifyOtp() async {
+    String? token = await FirebaseMessaging.instance.getToken();
+    String? token1 = await FirebaseMessaging.instance.getToken();
+    if (_otpController.text.trim().isEmpty) {
+      showToast("Please enter OTP".tr);
+      return;
+    }
+    if (_otpController.text.trim().length < 4) {
+      showToast("Enter complete OTP".tr);
+      return;
+    }
+    FocusManager.instance.primaryFocus!.unfocus();
+    Map<String, dynamic> map = {};
+    map['email'] = emailAddress;
+    map['otp'] = _otpController.text.trim();
+    map['fcm_token'] = Platform.isAndroid ? token.toString() : token1.toString();
+    map['key'] = 'forget';
+    repositories.postApi(url: ApiUrls.verifyOtpEmail, context: context, mapData: map).then((value) async {
+      LoginModal response = LoginModal.fromJson(jsonDecode(value));
+      showToast(response.message);
+      if (response.status == true) {
+        otpVerify = "done";
+        if (check == true) {
+          repositories.saveLoginDetails(jsonEncode(response));
+          Get.offAllNamed(BottomNavbar.route);
+        } else {
+          Get.offNamed(NewPasswordScreen.route, arguments: [emailAddress]);
+        }
+      }
+    });
+  }
+
+  @override
+  void initState() {
+    // TODO: implement initState
+    super.initState();
+    getVendorCategories();
+    getEmailFromSharedPreferences();
+  }
 
   final defaultPinTheme = PinTheme(
     width: 56,
@@ -45,10 +180,15 @@ class _WhatdoyousellScreenState extends State<WhatdoyousellScreen> {
         backgroundColor: Colors.white,
         surfaceTintColor: Colors.white,
         elevation: 0,
-        leading: const Icon(
-          Icons.arrow_back_ios_new,
-          color: Color(0xff0D5877),
-          size: 16,
+        leading: GestureDetector(
+          onTap: (){
+            Get.back();
+          },
+          child: const Icon(
+            Icons.arrow_back_ios_new,
+            color: Color(0xff0D5877),
+            size: 16,
+          ),
         ),
         titleSpacing: 0,
         title: Row(
@@ -63,7 +203,7 @@ class _WhatdoyousellScreenState extends State<WhatdoyousellScreen> {
       ),
       body: SingleChildScrollView(
         child: Container(
-          padding: EdgeInsets.only(left: 20,right: 20),
+          padding: EdgeInsets.only(left: 20, right: 20),
           child: Column(
             mainAxisAlignment: MainAxisAlignment.start,
             crossAxisAlignment: CrossAxisAlignment.start,
@@ -86,16 +226,7 @@ class _WhatdoyousellScreenState extends State<WhatdoyousellScreen> {
                   autovalidateMode: AutovalidateMode.onUserInteraction,
                   icon: vendorCategoryStatus.value.isLoading
                       ? const CupertinoActivityIndicator()
-                      : vendorCategoryStatus.value.isError
-                          ? IconButton(
-                              onPressed: () {},
-                              padding: EdgeInsets.zero,
-                              visualDensity: VisualDensity.compact,
-                              icon: const Icon(
-                                Icons.refresh,
-                                color: Colors.black,
-                              ))
-                          : const Icon(Icons.keyboard_arrow_down_rounded),
+                      : const Icon(Icons.keyboard_arrow_down_rounded),
                   iconSize: 30,
                   iconDisabledColor: const Color(0xff97949A),
                   iconEnabledColor: const Color(0xff97949A),
@@ -127,7 +258,7 @@ class _WhatdoyousellScreenState extends State<WhatdoyousellScreen> {
                   items: modelVendorCategory.usphone!
                       .map((e) => DropdownMenuItem(value: e, child: Text(e.name.toString().capitalize!)))
                       .toList(),
-                  hint: Text('Search category to choose'.tr),
+                  hint: Text('Category'.tr),
                   onChanged: (value) {
                     // selectedCategory = value;
                     if (value == null) return;
@@ -146,15 +277,54 @@ class _WhatdoyousellScreenState extends State<WhatdoyousellScreen> {
               const SizedBox(
                 height: 10,
               ),
-              const CommonTextField(hintText: 'Store Name*',),
+              CommonTextField(
+                hintText: 'Store Name*',
+                controller: storeName,
+              ),
               const SizedBox(
                 height: 10,
               ),
-              const CommonTextField(hintText: 'Store Email*',),
+              CommonTextField(
+                hintText: 'Store Email*',
+                controller: storeEmail,
+              ),
               const SizedBox(
                 height: 10,
               ),
-              const CommonTextField(hintText: 'Store Number*',),
+              CommonTextField(
+                hintText: 'Store Number*',
+                controller: storeNumber,
+              ),
+              const SizedBox(
+                height: 10,
+              ),
+              GestureDetector(
+                onTap: () {
+                  vendorregister();
+                },
+                child: Container(
+                  width: Get.width,
+                  height: 50,
+                  decoration: BoxDecoration(
+                    border: Border.all(
+                      color: const Color(0xff0D5877), // Border color
+                      width: 1.0, // Border width
+                    ),
+                    borderRadius: BorderRadius.circular(2), // Border radius
+                  ),
+                  padding: const EdgeInsets.all(10), // Padding inside the container
+                  child: const Center(
+                    child: Text(
+                      'Send Otp',
+                      style: TextStyle(
+                        fontSize: 16,
+                        fontWeight: FontWeight.bold,
+                        color: Colors.black, // Text color
+                      ),
+                    ),
+                  ),
+                ),
+              ),
               const SizedBox(
                 height: 10,
               ),
@@ -166,9 +336,8 @@ class _WhatdoyousellScreenState extends State<WhatdoyousellScreen> {
                 'Enter Verification'.tr,
                 style: GoogleFonts.poppins(color: const Color(0xff1D2C3D), fontWeight: FontWeight.w400, fontSize: 14),
               ),
-
               PinCodeFields(
-                length: 5,
+                length: 4,
                 controller: _otpController,
                 fieldBorderStyle: FieldBorderStyle.square,
                 responsive: true,
@@ -176,22 +345,31 @@ class _WhatdoyousellScreenState extends State<WhatdoyousellScreen> {
                 fieldWidth: 60.0,
                 borderWidth: 1.0,
                 activeBorderColor: Colors.black,
-                activeBackgroundColor:
-                Colors.black.withOpacity(.10),
+                activeBackgroundColor: Colors.black.withOpacity(.10),
                 borderRadius: BorderRadius.circular(5.0),
                 keyboardType: TextInputType.number,
                 autoHideKeyboard: true,
-                fieldBackgroundColor:
-                Colors.white.withOpacity(.10),
+                fieldBackgroundColor: Colors.white.withOpacity(.10),
                 borderColor: Colors.black,
                 textStyle: GoogleFonts.poppins(
                   fontSize: 25.0,
-                  color: Colors.white,
+                  color: Colors.black,
                   fontWeight: FontWeight.w600,
                 ),
-                onComplete: (output) {
-
+                onComplete: (output) {},
+              ),
+              InkWell(
+                onTap: () {
+                  verifyOtp();
                 },
+                child: Align(
+                  alignment: Alignment.centerRight,
+                  child: Text(
+                    'Verify Otp'.tr,
+                    style:
+                        GoogleFonts.poppins(color: const Color(0xff1D2C3D), fontWeight: FontWeight.w400, fontSize: 14),
+                  ),
+                ),
               ),
               const SizedBox(
                 height: 10,
@@ -199,19 +377,12 @@ class _WhatdoyousellScreenState extends State<WhatdoyousellScreen> {
               RichText(
                 text: const TextSpan(
                   text: 'if you dont receive a code',
-                  style: TextStyle(
-                    fontFamily: 'Your App Font Family',
-                    color: Colors.black
-                  ),
+                  style: TextStyle(fontFamily: 'Your App Font Family', color: Colors.black),
                   children: [
                     TextSpan(
                       text: 'Resend',
-                      style: TextStyle(
-                        fontWeight: FontWeight.w500,
-                        color: Color(0xff014E70)
-                      ),
+                      style: TextStyle(fontWeight: FontWeight.w500, color: Color(0xff014E70)),
                     ),
-
                   ],
                 ),
               ),
@@ -241,7 +412,8 @@ class _WhatdoyousellScreenState extends State<WhatdoyousellScreen> {
                   Expanded(
                     child: Text(
                       'By clicking next, you agree to the DIRISE Terms of Service and Privacy Policy'.tr,
-                      style: GoogleFonts.poppins(color: const Color(0xff292F45), fontWeight: FontWeight.w500, fontSize: 13),
+                      style: GoogleFonts.poppins(
+                          color: const Color(0xff292F45), fontWeight: FontWeight.w500, fontSize: 13),
                     ),
                   ),
                 ],
@@ -249,24 +421,34 @@ class _WhatdoyousellScreenState extends State<WhatdoyousellScreen> {
               const SizedBox(
                 height: 10,
               ),
-              Container(
-                width: Get.width,
-                height: 50,
-                decoration: BoxDecoration(
-                  border: Border.all(
-                    color: const Color(0xff0D5877), // Border color
-                    width: 1.0, // Border width
+              GestureDetector(
+                onTap: () {
+                if(vendorRegister == 'done' && otpVerify == 'done' && _isValue == true){
+                  Get.to(PickUpAddressScreenForSell());
+                }
+                else{
+                  showToast('Please Done All Process Complete');
+                }
+                },
+                child: Container(
+                  width: Get.width,
+                  height: 50,
+                  decoration: BoxDecoration(
+                    border: Border.all(
+                      color: const Color(0xff0D5877), // Border color
+                      width: 1.0, // Border width
+                    ),
+                    borderRadius: BorderRadius.circular(2), // Border radius
                   ),
-                  borderRadius: BorderRadius.circular(2), // Border radius
-                ),
-                padding: const EdgeInsets.all(10), // Padding inside the container
-                child: const Center(
-                  child: Text(
-                    'Next',
-                    style: TextStyle(
-                      fontSize: 16,
-                      fontWeight: FontWeight.bold,
-                      color: Colors.black, // Text color
+                  padding: const EdgeInsets.all(10), // Padding inside the container
+                  child: const Center(
+                    child: Text(
+                      'Next',
+                      style: TextStyle(
+                        fontSize: 16,
+                        fontWeight: FontWeight.bold,
+                        color: Colors.black, // Text color
+                      ),
                     ),
                   ),
                 ),
