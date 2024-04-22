@@ -1,0 +1,286 @@
+import 'package:flutter/cupertino.dart';
+import 'package:flutter/material.dart';
+import 'package:flutter/widgets.dart';
+import 'package:get/get.dart';
+import 'package:google_fonts/google_fonts.dart';
+
+import '../language/app_strings.dart';
+
+class VerificationOptionScreen extends StatefulWidget {
+  const VerificationOptionScreen({super.key});
+
+  @override
+  State<VerificationOptionScreen> createState() => _VerificationOptionScreenState();
+}
+
+class _VerificationOptionScreenState extends State<VerificationOptionScreen> {
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+      appBar: AppBar(
+        backgroundColor: Colors.white,
+        elevation: 0,
+        leading: GestureDetector(
+          onTap: () {
+            Get.back();
+          },
+          child: IconButton(
+            icon: const Icon(
+              Icons.arrow_back_ios_new,
+              color: Color(0xff0D5877),
+              size: 16,
+            ),
+            onPressed: () {
+              // Handle back button press
+            },
+          ),
+        ),
+        titleSpacing: 0,
+        title: Row(
+          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+          children: [
+            Text(
+              'Verification'.tr,
+              style: GoogleFonts.poppins(color: Colors.black, fontWeight: FontWeight.w600, fontSize: 20),
+            ),
+          ],
+        ),
+      ),
+      body: SingleChildScrollView(
+        child: Column(
+          children: [
+            Stack(
+              children: [
+                Container(
+                  height: 200,
+                  margin: const EdgeInsets.only(left: 15, right: 15, bottom: 10, top: 15),
+                  padding: const EdgeInsets.only(left: 15, right: 15, top: 20),
+                  decoration: BoxDecoration(color: Colors.grey.shade100, borderRadius: BorderRadius.circular(11), boxShadow: const [
+                    BoxShadow(
+                      color: Colors.black26,
+                      offset: Offset(
+                        0.2,
+                        0.2,
+                      ),
+                      blurRadius: 1,
+                    ),
+                  ]),
+                  child: Column(
+                    children: [
+                      Row(
+                        children: [
+                          Image.asset(
+                            'assets/images/creditcard.png',
+                            height: 50,
+                            width: 50,
+                          ),
+                          const SizedBox(width: 10,),
+                          Text(
+                            'Credit card',
+                            style: GoogleFonts.poppins(fontWeight: FontWeight.w500, fontSize: 24, color: Colors.black),
+                          )
+                        ],
+                      ),
+                      const SizedBox(height: 10,),
+                      Text(
+                        'We ask you for your credit card to make sure that you are not a robot, helps us reduce fraud and theft.  Any charges, will be refunded. No auto-charge after free trial ends',
+                        style: GoogleFonts.poppins(fontWeight: FontWeight.w400, fontSize: 14, color: Colors.black),
+                      )
+                    ],
+                  ),
+                ),
+                const Positioned(
+                  right: 20,
+                  top: 20,
+                  child: Radio(
+                    value: 1,
+                    groupValue: 1,
+                    onChanged: null,
+                  ),
+                ),
+
+              ],
+            ),
+            Stack(
+              children: [
+                Container(
+                  margin: const EdgeInsets.only(left: 15, right: 15, bottom: 10, top: 15),
+                  padding: const EdgeInsets.only(left: 15, right: 15, top: 20,bottom: 20),
+                  decoration: BoxDecoration(color: Colors.grey.shade100, borderRadius: BorderRadius.circular(11), boxShadow: const [
+                    BoxShadow(
+                      color: Colors.black26,
+                      offset: Offset(
+                        0.2,
+                        0.2,
+                      ),
+                      blurRadius: 1,
+                    ),
+                  ]),
+                  child: Column(
+                    children: [
+                      Row(
+                        children: [
+                          Image.asset(
+                            'assets/images/metting.png',
+                            height: 50,
+                            width: 50,
+                          ),
+                          const SizedBox(width: 10,),
+                          Text(
+                            'Virtual Meeting',
+                            style: GoogleFonts.poppins(fontWeight: FontWeight.w500, fontSize: 24, color: Colors.black),
+                          )
+                        ],
+                      ),
+                      const SizedBox(height: 10,),
+                      Text(
+                        'Schedule a time for the verification',
+                        style: GoogleFonts.poppins(fontWeight: FontWeight.w400, fontSize: 14, color: Colors.black),
+                      )
+                    ],
+                  ),
+                ),
+                const Positioned(
+                  right: 20,
+                  top: 20,
+                  child: Radio(
+                    value: 1,
+                    groupValue: 1,
+                    onChanged: null,
+                  ),
+                ),
+
+              ],
+            ),
+            Stack(
+              children: [
+                Container(
+                  margin: const EdgeInsets.only(left: 15, right: 15, bottom: 10, top: 15),
+                  padding: const EdgeInsets.only(left: 15, right: 15, top: 20,bottom: 20),
+                  decoration: BoxDecoration(color: Colors.grey.shade100, borderRadius: BorderRadius.circular(11), boxShadow: const [
+                    BoxShadow(
+                      color: Colors.black26,
+                      offset: Offset(
+                        0.2,
+                        0.2,
+                      ),
+                      blurRadius: 1,
+                    ),
+                  ]),
+                  child: Column(
+                    children: [
+                      Row(
+                        children: [
+                          Image.asset(
+                            'assets/images/voicecall.png',
+                            height: 50,
+                            width: 50,
+                          ),
+                          const SizedBox(width: 10,),
+                          Text(
+                            'Voice Call',
+                            style: GoogleFonts.poppins(fontWeight: FontWeight.w500, fontSize: 24, color: Colors.black),
+                          )
+                        ],
+                      ),
+                      const SizedBox(height: 10,),
+                      Text(
+'Choose the best time to receive the verification call. ',
+                        style: GoogleFonts.poppins(fontWeight: FontWeight.w400, fontSize: 14, color: Colors.black),
+                      )
+                    ],
+                  ),
+                ),
+                const Positioned(
+                  right: 20,
+                  top: 20,
+                  child: Radio(
+                    value: 1,
+                    groupValue: 1,
+                    onChanged: null,
+                  ),
+                ),
+
+              ],
+            ),
+            Stack(
+              children: [
+                Container(
+
+                  margin: const EdgeInsets.only(left: 15, right: 15, bottom: 10, top: 15),
+                  padding: const EdgeInsets.only(left: 15, right: 15, top: 20,bottom: 20),
+                  decoration: BoxDecoration(color: Colors.grey.shade100, borderRadius: BorderRadius.circular(11), boxShadow: const [
+                    BoxShadow(
+                      color: Colors.black26,
+                      offset: Offset(
+                        0.2,
+                        0.2,
+                      ),
+                      blurRadius: 1,
+                    ),
+                  ]),
+                  child: Column(
+                    children: [
+                      Row(
+                        children: [
+                          Image.asset(
+                            'assets/images/pause.png',
+                            height: 50,
+                            width: 50,
+                          ),
+                          Text(
+                            'Skip verification',
+                            style: GoogleFonts.poppins(fontWeight: FontWeight.w500, fontSize: 24, color: Colors.black),
+                          )
+                        ],
+                      ),
+                      const SizedBox(height: 10,),
+                      Text(
+                        'Earnings will be on hold until verification is done. ',
+                        style: GoogleFonts.poppins(fontWeight: FontWeight.w400, fontSize: 14, color: Colors.black),
+                      )
+                    ],
+                  ),
+                ),
+                const Positioned(
+                  right: 20,
+                  top: 20,
+                  child: Radio(
+                    value: 1,
+                    groupValue: 1,
+                    onChanged: null,
+                  ),
+                ),
+
+              ],
+            ),
+            SizedBox(height: 20,),
+            Container(
+              margin: EdgeInsets.only(left: 15,right: 15),
+              width: Get.width,
+              height: 50,
+              decoration: BoxDecoration(
+                border: Border.all(
+                  color: const Color(0xff0D5877), // Border color
+                  width: 1.0, // Border width
+                ),
+                borderRadius: BorderRadius.circular(2), // Border radius
+              ),
+              padding: const EdgeInsets.all(10), // Padding inside the container
+              child: const Center(
+                child: Text(
+                  'Next',
+                  style: TextStyle(
+                    fontSize: 16,
+                    fontWeight: FontWeight.bold,
+                    color: Colors.black, // Text color
+                  ),
+                ),
+              ),
+            ),
+          ],
+        ),
+      ),
+    );
+  }
+}

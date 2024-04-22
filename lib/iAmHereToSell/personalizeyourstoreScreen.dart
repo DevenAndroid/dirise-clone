@@ -1,13 +1,22 @@
 import 'dart:io';
 
 import 'package:cached_network_image/cached_network_image.dart';
+import 'package:dirise/personalizeyourstore/returnpolicyScreen.dart';
+import 'package:dirise/screens/my_account_screens/return_policy_screen.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/widgets.dart';
 import 'package:flutter_animate/flutter_animate.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:get/get.dart';
 import 'package:google_fonts/google_fonts.dart';
 
+import '../personalizeyourstore/bannersScreen.dart';
+import '../personalizeyourstore/operatinghourScreen.dart';
+import '../personalizeyourstore/personalizeAddressScreen.dart';
+import '../personalizeyourstore/socialMediaScreen.dart';
+import '../personalizeyourstore/vendorinformationScreen.dart';
+import '../vendor/dashboard/store_open_time_screen.dart';
 import '../widgets/common_button.dart';
 import '../widgets/common_colour.dart';
 import '../widgets/common_textfield.dart';
@@ -141,19 +150,24 @@ class _PersonalizeyourstoreScreenState extends State<PersonalizeyourstoreScreen>
                 // minLines: 2,
                 // maxLines: 2,
               ),
-              Row(
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                children: [
-                  Text(
-                    'Social media',
-                    style: GoogleFonts.poppins(color: Colors.black, fontSize: 14),
-                  ),
-                  const Icon(
-                    Icons.arrow_forward_ios,
-                    color: Colors.grey,
-                    size: 15,
-                  )
-                ],
+              GestureDetector(
+                onTap: (){
+                  Get.to(const SocialMediaStore());
+                },
+                child: Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  children: [
+                    Text(
+                      'Social media',
+                      style: GoogleFonts.poppins(color: Colors.black, fontSize: 14),
+                    ),
+                    const Icon(
+                      Icons.arrow_forward_ios,
+                      color: Colors.grey,
+                      size: 15,
+                    )
+                  ],
+                ),
               ),
               const SizedBox(
                 height: 5,
@@ -165,19 +179,24 @@ class _PersonalizeyourstoreScreenState extends State<PersonalizeyourstoreScreen>
               const SizedBox(
                 height: 5,
               ),
-              Row(
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                children: [
-                  Text(
-                    'Operating hour',
-                    style: GoogleFonts.poppins(color: Colors.black, fontSize: 14),
-                  ),
-                  const Icon(
-                    Icons.arrow_forward_ios,
-                    color: Colors.grey,
-                    size: 15,
-                  )
-                ],
+              GestureDetector(
+                onTap: (){
+                  Get.to(const SetTimeScreen());
+                },
+                child: Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  children: [
+                    Text(
+                      'Operating hour',
+                      style: GoogleFonts.poppins(color: Colors.black, fontSize: 14),
+                    ),
+                    const Icon(
+                      Icons.arrow_forward_ios,
+                      color: Colors.grey,
+                      size: 15,
+                    )
+                  ],
+                ),
               ),
               const SizedBox(
                 height: 5,
@@ -189,19 +208,24 @@ class _PersonalizeyourstoreScreenState extends State<PersonalizeyourstoreScreen>
               const SizedBox(
                 height: 5,
               ),
-              Row(
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                children: [
-                  Text(
-                    'Vendor information',
-                    style: GoogleFonts.poppins(color: Colors.black, fontSize: 14),
-                  ),
-                  const Icon(
-                    Icons.arrow_forward_ios,
-                    color: Colors.grey,
-                    size: 15,
-                  )
-                ],
+              GestureDetector(
+                onTap: (){
+                  Get.to(const VendorInformationScreen());
+                },
+                child: Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  children: [
+                    Text(
+                      'Vendor information',
+                      style: GoogleFonts.poppins(color: Colors.black, fontSize: 14),
+                    ),
+                    const Icon(
+                      Icons.arrow_forward_ios,
+                      color: Colors.grey,
+                      size: 15,
+                    )
+                  ],
+                ),
               ),
               const SizedBox(
                 height: 5,
@@ -213,19 +237,24 @@ class _PersonalizeyourstoreScreenState extends State<PersonalizeyourstoreScreen>
               const SizedBox(
                 height: 5,
               ),
-              Row(
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                children: [
-                  Text(
-                    'Addresses',
-                    style: GoogleFonts.poppins(color: Colors.black, fontSize: 14),
-                  ),
-                  const Icon(
-                    Icons.arrow_forward_ios,
-                    color: Colors.grey,
-                    size: 15,
-                  )
-                ],
+              GestureDetector(
+                onTap: (){
+                  Get.to(PersonalizeAddressScreen());
+                },
+                child: Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  children: [
+                    Text(
+                      'Addresses',
+                      style: GoogleFonts.poppins(color: Colors.black, fontSize: 14),
+                    ),
+                    const Icon(
+                      Icons.arrow_forward_ios,
+                      color: Colors.grey,
+                      size: 15,
+                    )
+                  ],
+                ),
               ),
               const SizedBox(
                 height: 5,
@@ -237,19 +266,24 @@ class _PersonalizeyourstoreScreenState extends State<PersonalizeyourstoreScreen>
               const SizedBox(
                 height: 5,
               ),
-              Row(
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                children: [
-                  Text(
-                    'Banners',
-                    style: GoogleFonts.poppins(color: Colors.black, fontSize: 14),
-                  ),
-                  const Icon(
-                    Icons.arrow_forward_ios,
-                    color: Colors.grey,
-                    size: 15,
-                  )
-                ],
+              GestureDetector(
+                onTap: (){
+                  Get.to(const BannersScreen());
+                },
+                child: Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  children: [
+                    Text(
+                      'Banners',
+                      style: GoogleFonts.poppins(color: Colors.black, fontSize: 14),
+                    ),
+                    const Icon(
+                      Icons.arrow_forward_ios,
+                      color: Colors.grey,
+                      size: 15,
+                    )
+                  ],
+                ),
               ),
               const SizedBox(
                 height: 5,
@@ -261,19 +295,24 @@ class _PersonalizeyourstoreScreenState extends State<PersonalizeyourstoreScreen>
               const SizedBox(
                 height: 5,
               ),
-              Row(
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                children: [
-                  Text(
-                    'Return Policy',
-                    style: GoogleFonts.poppins(color: Colors.black, fontSize: 14),
-                  ),
-                  const Icon(
-                    Icons.arrow_forward_ios,
-                    color: Colors.grey,
-                    size: 15,
-                  )
-                ],
+              GestureDetector(
+                onTap: (){
+                  Get.to(ReturnPolicyScreens());
+                },
+                child: Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  children: [
+                    Text(
+                      'Return Policy',
+                      style: GoogleFonts.poppins(color: Colors.black, fontSize: 14),
+                    ),
+                    const Icon(
+                      Icons.arrow_forward_ios,
+                      color: Colors.grey,
+                      size: 15,
+                    )
+                  ],
+                ),
               ),
               const SizedBox(
                 height: 20,

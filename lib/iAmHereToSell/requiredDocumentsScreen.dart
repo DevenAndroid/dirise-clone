@@ -1,9 +1,14 @@
+import 'dart:io';
+
 import 'package:dotted_border/dotted_border.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:google_fonts/google_fonts.dart';
 
+import '../model/vendor_models/model_vendor_details.dart';
+import '../repository/repository.dart';
+import '../vendor/authentication/image_widget.dart';
 import '../vendor/products/add_product/product_gallery_images.dart';
 import '../widgets/common_button.dart';
 
@@ -15,6 +20,25 @@ class RequiredDocumentsScreen extends StatefulWidget {
 }
 
 class _RequiredDocumentsScreenState extends State<RequiredDocumentsScreen> {
+  File idProof = File("");
+  bool checkValidation(bool bool1, bool2) {
+    if (bool1 == true && bool2 == true) {
+      return true;
+    } else {
+      return false;
+    }
+  }
+  ModelVendorDetails model = ModelVendorDetails();
+  final _formKey = GlobalKey<FormState>();
+  final GlobalKey categoryKey = GlobalKey();
+  final GlobalKey idProofKey = GlobalKey();
+  final Repositories repositories = Repositories();
+  bool apiLoaded = false;
+  RxInt refreshInt = 0.obs;
+  RxBool showValidation = false.obs;
+  get updateUI => refreshInt.value = DateTime.now().millisecondsSinceEpoch;
+  File storeBanner = File("");
+  Map<String, File> images = {};
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -49,7 +73,7 @@ class _RequiredDocumentsScreenState extends State<RequiredDocumentsScreen> {
               ),
               Container(
                 margin: const EdgeInsets.only(left: 15,right: 15,bottom: 10,top: 15),
-                padding: const EdgeInsets.all(15),
+                padding: const EdgeInsets.only(left: 15,right: 15),
                 decoration: BoxDecoration(
                     color: Colors.white,
                     borderRadius: BorderRadius.circular(11),
@@ -68,58 +92,22 @@ class _RequiredDocumentsScreenState extends State<RequiredDocumentsScreen> {
                   mainAxisAlignment: MainAxisAlignment.start,
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
-                    Text(
-                      'Id Card Front'.tr,
-                      style: GoogleFonts.poppins(color: Colors.black, fontWeight: FontWeight.w400, fontSize: 13),
-                    ),
-                    const SizedBox(
-                      height: 10,
-                    ),
-                    DottedBorder(
-                      borderType: BorderType.RRect,
-                      radius: const Radius.circular(10),
-                      padding: const EdgeInsets.only(left: 40, right: 40, bottom: 1),
-                      color: Colors.black,
-                      dashPattern: const [6],
-                      strokeWidth: 1,
-                      child: InkWell(
-                        onTap: () {},
-                        child: Container(
-                          padding: const EdgeInsets.only(top: 8),
-                          margin: const EdgeInsets.symmetric(vertical: 2, horizontal: 2),
-                          width: double.maxFinite,
-                          height: 87,
-                          alignment: Alignment.center,
-                          child: Column(
-                            mainAxisAlignment: MainAxisAlignment.center,
-                            children: [
-                              Image.asset(
-                                'assets/images/upload.png',
-                                height: 30,
-                                width: 40,
-                              ),
-                              const SizedBox(
-                                height: 5,
-                              ),
-                              const Text(
-                                'Upload image',
-                                style: TextStyle(fontSize: 16, color: Colors.black54),
-                                textAlign: TextAlign.center,
-                              ),
-                              const SizedBox(
-                                height: 11,
-                              ),
-                            ],
-                          ),
-                        ),
-                      ),
+
+                    ImageWidget(
+                      // key: paymentReceiptCertificateKey,
+                      title: "Id Card Front".tr,
+                      file: idProof,
+                      validation: checkValidation(showValidation.value, idProof.path.isEmpty),
+                      filePicked: (File g) {
+                        idProof = g;
+                      },
                     ),
                   ],
                 ),
               ),
               Container(
                 margin: const EdgeInsets.only(left: 15,right: 15,bottom: 10),
-                padding: const EdgeInsets.all(15),
+                padding: const EdgeInsets.only(left: 15,right: 15),
                 decoration: BoxDecoration(
                     color: Colors.white,
                     borderRadius: BorderRadius.circular(11),
@@ -138,58 +126,21 @@ class _RequiredDocumentsScreenState extends State<RequiredDocumentsScreen> {
                   mainAxisAlignment: MainAxisAlignment.start,
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
-                    Text(
-                      'Id Card Back'.tr,
-                      style: GoogleFonts.poppins(color: Colors.black, fontWeight: FontWeight.w400, fontSize: 13),
-                    ),
-                    const SizedBox(
-                      height: 10,
-                    ),
-                    DottedBorder(
-                      borderType: BorderType.RRect,
-                      radius: const Radius.circular(10),
-                      padding: const EdgeInsets.only(left: 40, right: 40, bottom: 1),
-                      color: Colors.black,
-                      dashPattern: const [6],
-                      strokeWidth: 1,
-                      child: InkWell(
-                        onTap: () {},
-                        child: Container(
-                          padding: const EdgeInsets.only(top: 8),
-                          margin: const EdgeInsets.symmetric(vertical: 2, horizontal: 2),
-                          width: double.maxFinite,
-                          height: 87,
-                          alignment: Alignment.center,
-                          child: Column(
-                            mainAxisAlignment: MainAxisAlignment.center,
-                            children: [
-                              Image.asset(
-                                'assets/images/upload.png',
-                                height: 30,
-                                width: 40,
-                              ),
-                              const SizedBox(
-                                height: 5,
-                              ),
-                              const Text(
-                                'Upload image',
-                                style: TextStyle(fontSize: 16, color: Colors.black54),
-                                textAlign: TextAlign.center,
-                              ),
-                              const SizedBox(
-                                height: 11,
-                              ),
-                            ],
-                          ),
-                        ),
-                      ),
+                    ImageWidget(
+                      // key: paymentReceiptCertificateKey,
+                      title: "Id Card Back".tr,
+                      file: idProof,
+                      validation: checkValidation(showValidation.value, idProof.path.isEmpty),
+                      filePicked: (File g) {
+                        idProof = g;
+                      },
                     ),
                   ],
                 ),
               ),
               Container(
                 margin: const EdgeInsets.only(left: 15,right: 15,bottom: 10),
-                padding: const EdgeInsets.all(15),
+                padding: const EdgeInsets.only(left: 15,right: 15),
                 decoration: BoxDecoration(
                     color: Colors.white,
                     borderRadius: BorderRadius.circular(11),
@@ -208,58 +159,21 @@ class _RequiredDocumentsScreenState extends State<RequiredDocumentsScreen> {
                   mainAxisAlignment: MainAxisAlignment.start,
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
-                    Text(
-                      'Id Card Front'.tr,
-                      style: GoogleFonts.poppins(color: Colors.black, fontWeight: FontWeight.w400, fontSize: 13),
-                    ),
-                    const SizedBox(
-                      height: 10,
-                    ),
-                    DottedBorder(
-                      borderType: BorderType.RRect,
-                      radius: const Radius.circular(10),
-                      padding: const EdgeInsets.only(left: 40, right: 40, bottom: 1),
-                      color: Colors.black,
-                      dashPattern: const [6],
-                      strokeWidth: 1,
-                      child: InkWell(
-                        onTap: () {},
-                        child: Container(
-                          padding: const EdgeInsets.only(top: 8),
-                          margin: const EdgeInsets.symmetric(vertical: 2, horizontal: 2),
-                          width: double.maxFinite,
-                          height: 87,
-                          alignment: Alignment.center,
-                          child: Column(
-                            mainAxisAlignment: MainAxisAlignment.center,
-                            children: [
-                              Image.asset(
-                                'assets/images/upload.png',
-                                height: 30,
-                                width: 40,
-                              ),
-                              const SizedBox(
-                                height: 5,
-                              ),
-                              const Text(
-                                'Bank Statement',
-                                style: TextStyle(fontSize: 16, color: Colors.black54),
-                                textAlign: TextAlign.center,
-                              ),
-                              const SizedBox(
-                                height: 11,
-                              ),
-                            ],
-                          ),
-                        ),
-                      ),
+                    ImageWidget(
+                      // key: paymentReceiptCertificateKey,
+                      title: "Bank Statement".tr,
+                      file: idProof,
+                      validation: checkValidation(showValidation.value, idProof.path.isEmpty),
+                      filePicked: (File g) {
+                        idProof = g;
+                      },
                     ),
                   ],
                 ),
               ),
               Container(
                 margin: const EdgeInsets.only(left: 15,right: 15,bottom: 10),
-                padding: const EdgeInsets.all(15),
+                padding: const EdgeInsets.only(left: 15,right: 15),
                 decoration: BoxDecoration(
                     color: Colors.white,
                     borderRadius: BorderRadius.circular(11),
@@ -278,51 +192,14 @@ class _RequiredDocumentsScreenState extends State<RequiredDocumentsScreen> {
                   mainAxisAlignment: MainAxisAlignment.start,
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
-                    Text(
-                      'Other'.tr,
-                      style: GoogleFonts.poppins(color: Colors.black, fontWeight: FontWeight.w400, fontSize: 13),
-                    ),
-                    const SizedBox(
-                      height: 10,
-                    ),
-                    DottedBorder(
-                      borderType: BorderType.RRect,
-                      radius: const Radius.circular(10),
-                      padding: const EdgeInsets.only(left: 40, right: 40, bottom: 1),
-                      color: Colors.black,
-                      dashPattern: const [6],
-                      strokeWidth: 1,
-                      child: InkWell(
-                        onTap: () {},
-                        child: Container(
-                          padding: const EdgeInsets.only(top: 8),
-                          margin: const EdgeInsets.symmetric(vertical: 2, horizontal: 2),
-                          width: double.maxFinite,
-                          height: 87,
-                          alignment: Alignment.center,
-                          child: Column(
-                            mainAxisAlignment: MainAxisAlignment.center,
-                            children: [
-                              Image.asset(
-                                'assets/images/upload.png',
-                                height: 30,
-                                width: 40,
-                              ),
-                              const SizedBox(
-                                height: 5,
-                              ),
-                              const Text(
-                                'Upload image',
-                                style: TextStyle(fontSize: 16, color: Colors.black54),
-                                textAlign: TextAlign.center,
-                              ),
-                              const SizedBox(
-                                height: 11,
-                              ),
-                            ],
-                          ),
-                        ),
-                      ),
+                    ImageWidget(
+                      // key: paymentReceiptCertificateKey,
+                      title: "other".tr,
+                      file: idProof,
+                      validation: checkValidation(showValidation.value, idProof.path.isEmpty),
+                      filePicked: (File g) {
+                        idProof = g;
+                      },
                     ),
                   ],
                 ),

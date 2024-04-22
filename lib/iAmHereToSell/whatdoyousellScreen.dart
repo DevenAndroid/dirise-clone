@@ -294,6 +294,7 @@ class _WhatdoyousellScreenState extends State<WhatdoyousellScreen> {
               CommonTextField(
                 hintText: 'Store Number*',
                 controller: storeNumber,
+                keyboardType: TextInputType.number,
               ),
               const SizedBox(
                 height: 10,

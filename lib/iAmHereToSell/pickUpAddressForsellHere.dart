@@ -1,6 +1,7 @@
 import 'dart:convert';
 import 'dart:developer';
 
+import 'package:dirise/iAmHereToSell/personalizeyourstoreScreen.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
@@ -86,7 +87,7 @@ class _PickUpAddressScreenForSellState extends State<PickUpAddressScreenForSell>
       ModelCommonResponse response = ModelCommonResponse.fromJson(jsonDecode(value));
       showToast(response.message.toString());
       if (response.status == true) {
-        Get.to(const CustomerAccountCreatedSuccessfullyScreen());
+        Get.to(const PersonalizeyourstoreScreen());
       }
     });
   }

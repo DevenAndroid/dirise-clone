@@ -21,6 +21,25 @@ import 'package:file_picker/file_picker.dart';
 
 class NewHelper {
 
+  static Future<List<File>?> addMultiImagePicker({int imageQuality = 30}) async {
+    try {
+      final result = await FilePicker.platform.pickFiles(
+        allowMultiple: true,
+        type: FileType.custom,
+        allowedExtensions: ['jpg', 'png', 'jpeg', 'heic', 'mp4', 'mov', 'hevc'],
+      );
+
+      if (result == null) {
+        return null;
+      } else {
+        List<File> files = result.files.map((file) => File(file.path.toString())).toList();
+        return files;
+      }
+    } catch (e) {
+      throw Exception(e);
+    }
+  }
+
   static String countryCodeToEmoji(String countryCode) {
     // 0x41 is Letter A
     // 0x1F1E6 is Regional Indicator Symbol Letter A

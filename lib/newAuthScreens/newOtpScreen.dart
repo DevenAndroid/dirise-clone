@@ -172,10 +172,15 @@ class _NewOtpScreenState extends State<NewOtpScreen> {
     return Scaffold(
       appBar: AppBar(
         backgroundColor: AppTheme.buttonColor,
-        leading: const Icon(
-          Icons.arrow_back_ios_new,
-          color: Colors.white,
-          size: 16,
+        leading: GestureDetector(
+          onTap: (){
+            Get.back();
+          },
+          child: const Icon(
+            Icons.arrow_back_ios_new,
+            color: Colors.white,
+            size: 16,
+          ),
         ),
       ),
       body: SingleChildScrollView(
