@@ -17,6 +17,7 @@ import 'package:shared_preferences/shared_preferences.dart';
 import '../bottomavbar.dart';
 import '../controller/vendor_controllers/vendor_profile_controller.dart';
 import '../model/login_model.dart';
+import '../model/vendor_models/model_plan_list.dart';
 import '../model/vendor_models/model_vendor_details.dart';
 import '../model/vendor_models/vendor_category_model.dart';
 import '../repository/repository.dart';
@@ -27,7 +28,9 @@ import '../widgets/common_colour.dart';
 import '../widgets/common_textfield.dart';
 
 class WhatdoyousellScreen extends StatefulWidget {
-  const WhatdoyousellScreen({super.key});
+  final PlanInfoData? selectedPlan;
+  final ModelPlansList? modelPlansList;
+  const WhatdoyousellScreen({super.key,this.selectedPlan, this.modelPlansList});
 
   @override
   State<WhatdoyousellScreen> createState() => _WhatdoyousellScreenState();

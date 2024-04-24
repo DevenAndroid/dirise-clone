@@ -33,6 +33,7 @@ class ApiUrls {
   static const String userProfile = "${baseUrl}my-account";
   static const String addressListUrl = "${baseUrl}address";
   static const String editAddressUrl = "${baseUrl}edit-address";
+  static const String giveawayProductAddress = "${baseUrl}giveaway-product-add";
   static const String placeOrderUrl = "${baseUrl}add-order";
   static const String myOrdersListUrl = "${baseUrl}orders";
   static const String customerDashboardUrl = "${baseUrl}customer-dashboard";
@@ -42,6 +43,7 @@ class ApiUrls {
   static const String wishListUrl = "${baseUrl}wishlist";
   static const String storesUrl = "${baseUrl}stores";
   static const String vendorCategoryListUrl = "${baseUrl}vendor-category-list";
+  static const String productCategory = "${baseUrl}product-category";
   static const String vendorRegistrationUrl = "${baseUrl}vendor-signup";
   static const String verifyVendorOTPEmailUrl = "${baseUrl}verify-otp-email";
   static const String vendorResendOTPUrl = "${baseUrl}vendor-resend-otp";

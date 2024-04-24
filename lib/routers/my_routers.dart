@@ -7,10 +7,21 @@ import 'package:dirise/screens/my_account_screens/profile_screen.dart';
 import 'package:dirise/screens/my_account_screens/return_policy_screen.dart';
 import 'package:dirise/screens/my_account_screens/termsconditions_screen.dart';
 import 'package:get/get.dart';
+import '../addNewProduct/addImagesProductScreen.dart';
+import '../addNewProduct/itemdetailsScreen.dart';
+import '../addNewProduct/addProductScreen.dart';
+import '../addNewProduct/deliverySizeScreen.dart';
+import '../addNewProduct/internationalshippingdetailsScreem.dart';
+import '../addNewProduct/myItemIsScreen.dart';
+import '../addNewProduct/optionalScreen.dart';
+import '../addNewProduct/reviewPublishScreen.dart';
+import '../addNewProduct/rewardScreen.dart';
 import '../iAmHereToSell/listofquestionScreen.dart';
 import '../iAmHereToSell/personalizeyourstoreScreen.dart';
 import '../iAmHereToSell/requiredDocumentsScreen.dart';
+import '../iAmHereToSell/timeVerificationScreen.dart';
 import '../iAmHereToSell/verificationOptiionScreen.dart';
+import '../iAmHereToSell/verificationSelectDateScreen.dart';
 import '../iAmHereToSell/whatdoyousellScreen.dart';
 import '../iAmHereToSell/whichplantypedescribeyouScreen.dart';
 import '../newAddress/locationScreen.dart';
@@ -54,7 +65,7 @@ import '../vendor/profile/vendor_profile_screen.dart';
 
 class MyRouters {
   static var route = [
-    GetPage(name: '/', page: () =>  ListOfQuestionsScreen()),
+    GetPage(name: '/', page: () =>  CreateAccountNewScreen()),
     GetPage(name: LoginScreen.route, page: () => const LoginScreen()),
     GetPage(name: NewOtpScreen.route, page: () => const NewOtpScreen()),
     GetPage(name: TellUsAboutYourSelf.route, page: () => const TellUsAboutYourSelf()),

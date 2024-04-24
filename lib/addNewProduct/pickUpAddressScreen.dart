@@ -14,10 +14,9 @@ import '../repository/repository.dart';
 import '../screens/auth_screens/otp_screen.dart';
 import '../utils/api_constant.dart';
 import '../widgets/common_textfield.dart';
-import 'customeraccountcreatedsuccessfullyScreen.dart';
 import 'locationScreen.dart';
 
-class PickUpAddressScreen extends StatefulWidget {
+class AddProductPickUpAddressScreen extends StatefulWidget {
   final String? street;
   final String? city;
   final String? state;
@@ -26,7 +25,7 @@ class PickUpAddressScreen extends StatefulWidget {
   final String? town;
 
 
-  PickUpAddressScreen({
+  AddProductPickUpAddressScreen({
     Key? key,
     this.street,
     this.city,
@@ -37,14 +36,13 @@ class PickUpAddressScreen extends StatefulWidget {
   }) : super(key: key);
 
   @override
-  State<PickUpAddressScreen> createState() => _PickUpAddressScreenState();
+  State<AddProductPickUpAddressScreen> createState() => _AddProductPickUpAddressScreenState();
 }
 
-class _PickUpAddressScreenState extends State<PickUpAddressScreen> {
+class _AddProductPickUpAddressScreenState extends State<AddProductPickUpAddressScreen> {
   final TextEditingController streetController = TextEditingController();
   final TextEditingController cityController = TextEditingController();
   final TextEditingController stateController = TextEditingController();
-  final TextEditingController countryController = TextEditingController();
   final TextEditingController zipcodeController = TextEditingController();
   final TextEditingController townController = TextEditingController();
   final TextEditingController specialInstructionController = TextEditingController();
@@ -59,21 +57,16 @@ class _PickUpAddressScreenState extends State<PickUpAddressScreen> {
     if (widget.street != null &&
         widget.city != null &&
         widget.state != null &&
-        widget.country != null &&
         widget.zipcode != null &&
         widget.town != null) {
-      map['address_type'] = 'Both';
       map['city'] = widget.city;
-      map['country'] = widget.country;
       map['state'] = widget.state;
       map['zip_code'] = widget.zipcode;
       map['town'] = widget.town;
       map['street'] = widget.street;
       map['special_instruction'] = specialInstructionController.text.trim();
     }else{
-      map['address_type'] = 'Both';
       map['city'] = cityController.text.trim();
-      map['country'] = countryController.text.trim();
       map['state'] = stateController.text.trim();
       map['zip_code'] = zipcodeController.text.trim();
       map['town'] = townController.text.trim();
@@ -82,11 +75,12 @@ class _PickUpAddressScreenState extends State<PickUpAddressScreen> {
     }
 
     FocusManager.instance.primaryFocus!.unfocus();
-    repositories.postApi(url: ApiUrls.editAddressUrl, context: context, mapData: map).then((value) {
+    repositories.postApi(url: ApiUrls.giveawayProductAddress, context: context, mapData: map).then((value) {
       ModelCommonResponse response = ModelCommonResponse.fromJson(jsonDecode(value));
+      print('API Response Status Code: ${response.status}');
       showToast(response.message.toString());
       if (response.status == true) {
-        Get.to(const DeliverySizeScreen());
+       Get.to(DeliverySizeScreen());
       }
     });
   }
@@ -99,8 +93,7 @@ class _PickUpAddressScreenState extends State<PickUpAddressScreen> {
       streetController.text = widget.street!;
       cityController.text = widget.city ?? '';
       stateController.text = widget.state ?? '';
-      countryController.text = widget.country ?? '';
-      zipcodeController.text = widget.zipcode ?? '';
+       zipcodeController.text = widget.zipcode ?? '';
       townController.text = widget.town ?? '';
     }
   }
@@ -175,12 +168,6 @@ class _PickUpAddressScreenState extends State<PickUpAddressScreen> {
                     hintText: "state",
                     textController: stateController,
                     title: 'State*',
-                    validator: (String? value) {},
-                    keyboardType: TextInputType.name),
-                ...commonField(
-                    hintText: "Country",
-                    textController: countryController,
-                    title: 'Country*',
                     validator: (String? value) {},
                     keyboardType: TextInputType.name),
                 ...commonField(

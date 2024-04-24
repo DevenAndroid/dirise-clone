@@ -18,6 +18,7 @@ import 'package:google_sign_in/google_sign_in.dart';
 import 'package:hive/hive.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:sign_in_with_apple/sign_in_with_apple.dart';
+import '../../addNewProduct/addProductScreen.dart';
 import '../../controller/profile_controller.dart';
 import '../../model/login_model.dart';
 import '../../model/social_login_model.dart';
@@ -68,10 +69,15 @@ class _LoginScreenState extends State<LoginScreen> {
   String? token = "";
 
   loginUserApi() async {
+
     String? token1 = await FirebaseMessaging.instance.getAPNSToken();
+
     String? token = await FirebaseMessaging.instance.getToken();
+
     print('token iss ${token.toString()}');
+
     if (loginFormKey.currentState!.validate()) {
+
 // if(Platform.isIOS){
 //   String? token = await FirebaseMessaging.instance.getAPNSToken();
 // }
@@ -102,7 +108,8 @@ class _LoginScreenState extends State<LoginScreen> {
         print('messageForEmail ${messageForPass}');
         // showToast(response.message.toString());
         if (response.status == true) {
-          Get.offAllNamed(BottomNavbar.route);
+          Get.to(const NewAddProductScreen());
+          // Get.offAllNamed(BottomNavbar.route);
         }
       });
     }
@@ -273,6 +280,7 @@ class _LoginScreenState extends State<LoginScreen> {
                   CustomOutlineButton(
                     title: AppStrings.signIn.tr,
                     onPressed: () {
+
                       loginUserApi();
                       // loginWithApple();
                     },

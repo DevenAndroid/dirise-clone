@@ -30,15 +30,15 @@ class ModelVendorCategory {
 }
 
 class VendorCategoriesData {
-  int? id;
-  String? name;
-  String? status;
-  String? description;
-  String? profileImage;
-  String? arabName;
-  String? bannerProfile;
-  String? createdAt;
-  String? updatedAt;
+  dynamic id;
+  dynamic name;
+  dynamic status;
+  dynamic description;
+  dynamic profileImage;
+  dynamic arabName;
+  dynamic bannerProfile;
+  dynamic createdAt;
+  dynamic updatedAt;
 
   VendorCategoriesData(
       {this.id,
