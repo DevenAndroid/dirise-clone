@@ -1,6 +1,7 @@
 import 'dart:convert';
 
 import 'package:dirise/addNewProduct/pickUpAddressScreen.dart';
+import 'package:dirise/singleproductScreen/singleProductPriceScreen.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
@@ -21,14 +22,14 @@ import '../widgets/common_colour.dart';
 import '../widgets/common_textfield.dart';
 import 'package:http/http.dart' as http;
 
-class ItemDetailsScreens extends StatefulWidget {
-  const ItemDetailsScreens({super.key});
+class SingleProductItemDetailsScreens extends StatefulWidget {
+  const SingleProductItemDetailsScreens({super.key});
 
   @override
-  State<ItemDetailsScreens> createState() => _ItemDetailsScreensState();
+  State<SingleProductItemDetailsScreens> createState() => _SingleProductItemDetailsScreensState();
 }
 
-class _ItemDetailsScreensState extends State<ItemDetailsScreens> {
+class _SingleProductItemDetailsScreensState extends State<SingleProductItemDetailsScreens> {
   ProductCategoryData? selectedSubcategory;
   SubProductData? selectedProductSubcategory;
 
@@ -333,7 +334,8 @@ class _ItemDetailsScreensState extends State<ItemDetailsScreens> {
                 title: 'Confirm',
                 borderRadius: 11,
                 onPressed: () {
-                  editAddressApi();
+                  // editAddressApi();
+                  Get.to(const SingleProductPriceScreen());
                 },
               ),
             ],
