@@ -54,6 +54,7 @@ import '../screens/school_nursery_category.dart';
 import '../screens/order_screens/selectd_order_screen.dart';
 import '../screens/virtual_assets/virtual_assets_screen.dart';
 import '../singleproductScreen/itemdetailsScreen.dart';
+import '../singleproductScreen/virtualProductScreen.dart';
 import '../vendor/authentication/verify_vendor_otp.dart';
 import '../vendor/dashboard/dashboard_screen.dart';
 import '../vendor/dashboard/store_open_time_screen.dart';
@@ -66,7 +67,7 @@ import '../vendor/profile/vendor_profile_screen.dart';
 
 class MyRouters {
   static var route = [
-    GetPage(name: '/', page: () =>  SingleProductItemDetailsScreens()),
+    GetPage(name: '/', page: () =>  VirtualProductScreen()),
     GetPage(name: LoginScreen.route, page: () => const LoginScreen()),
     GetPage(name: NewOtpScreen.route, page: () => const NewOtpScreen()),
     GetPage(name: TellUsAboutYourSelf.route, page: () => const TellUsAboutYourSelf()),

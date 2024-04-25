@@ -1,3 +1,4 @@
+import 'package:dirise/singleproductScreen/singleProductDiscriptionScreen.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
@@ -212,6 +213,7 @@ class _SingleProductPriceScreenState extends State<SingleProductPriceScreen> {
                 title: 'Next',
                 borderRadius: 11,
                 onPressed: () {
+                  Get.to(const SingleProductDiscriptionScreen());
                 },
               ),
               const SizedBox(height: 20,),
