@@ -43,7 +43,7 @@ class MyRouters {
     GetPage(name: '/', page: () => BottomNavbar()),
     GetPage(name: LoginScreen.route, page: () => const LoginScreen()),
     GetPage(name: VendorOTPVerification.route, page: () => const VendorOTPVerification()),
-    GetPage(name: CreateAccountScreen.route, page: () => const CreateAccountScreen()),
+    GetPage(name: CreateAccountNewScreen.route, page: () => const CreateAccountNewScreen()),
     GetPage(name: ForgetPasswordScreen.route, page: () => const ForgetPasswordScreen()),
     GetPage(name: BottomNavbar.route, page: () => const BottomNavbar()),
     GetPage(name: PrivacyPolicy.route, page: () => const PrivacyPolicy()),
