@@ -1,6 +1,7 @@
 import 'dart:io';
 
 import 'package:cached_network_image/cached_network_image.dart';
+import 'package:dirise/iAmHereToSell/securityDetailsScreen.dart';
 import 'package:dirise/personalizeyourstore/returnpolicyScreen.dart';
 import 'package:dirise/screens/my_account_screens/return_policy_screen.dart';
 import 'package:flutter/cupertino.dart';
@@ -341,7 +342,9 @@ class _PersonalizeyourstoreScreenState extends State<PersonalizeyourstoreScreen>
               ),
               CustomOutlineButton(
                 title: "Skip".tr,
-                onPressed: () {},
+                onPressed: () {
+                  Get.to(SecurityDetailsScreen());
+                },
               ),
               const SizedBox(
                 height: 20,

@@ -67,7 +67,7 @@ class _CustomerAccountCreatedSuccessfullyScreenState extends State<CustomerAccou
                 height: 60,
               ),
               Text(
-                "Customer account created successfully ".tr,
+                "Vendor account created successfully ".tr,
                 textAlign: TextAlign.center,
                 style: Theme.of(context)
                     .textTheme
