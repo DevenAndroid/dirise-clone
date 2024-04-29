@@ -279,10 +279,7 @@ class _WhichplantypedescribeyouScreenState extends State<Whichplantypedescribeyo
                   ),
                 ),
               ],
-
-
-
-          const SizedBox(height: 20,),
+              const SizedBox(height: 20,),
               Container(
                 width: Get.width,
 
@@ -766,8 +763,13 @@ class _WhichplantypedescribeyouScreenState extends State<Whichplantypedescribeyo
               InkWell(
                 onTap: (){
                   if(_isValue == true) {
-                    Get.to(const WhatdoyousellScreen());
-                  }else{
+                    // Check if any plan is selected
+                    if(selectedPlan != null ||  selectedPlan1 != null || selectedPlan2 != null) {
+                      Get.to(const WhatdoyousellScreen());
+                    } else {
+                      showToast("Please select a plan first");
+                    }
+                  } else {
                     showToast("Select Plan and Agree terms and Conditions");
                   }
                 },

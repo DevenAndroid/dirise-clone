@@ -1,9 +1,11 @@
+import 'dart:convert';
 import 'dart:io';
 
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:dirise/iAmHereToSell/securityDetailsScreen.dart';
 import 'package:dirise/personalizeyourstore/returnpolicyScreen.dart';
 import 'package:dirise/screens/my_account_screens/return_policy_screen.dart';
+import 'package:dirise/utils/helper.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
@@ -12,11 +14,16 @@ import 'package:flutter_svg/svg.dart';
 import 'package:get/get.dart';
 import 'package:google_fonts/google_fonts.dart';
 
+import '../model/common_modal.dart';
+import '../model/vendor_models/model_vendor_details.dart';
+import '../newAddress/customeraccountcreatedsuccessfullyScreen.dart';
 import '../personalizeyourstore/bannersScreen.dart';
 import '../personalizeyourstore/operatinghourScreen.dart';
 import '../personalizeyourstore/personalizeAddressScreen.dart';
 import '../personalizeyourstore/socialMediaScreen.dart';
 import '../personalizeyourstore/vendorinformationScreen.dart';
+import '../repository/repository.dart';
+import '../utils/api_constant.dart';
 import '../vendor/dashboard/store_open_time_screen.dart';
 import '../widgets/common_button.dart';
 import '../widgets/common_colour.dart';
@@ -30,6 +37,58 @@ class PersonalizeyourstoreScreen extends StatefulWidget {
 }
 
 class _PersonalizeyourstoreScreenState extends State<PersonalizeyourstoreScreen> {
+  bool showValidation = false;
+  bool showValidationImg = false;
+  Rx<List<File>> images = Rx<List<File>>([]);
+  Rx<File> categoryFile = File("").obs;
+  String? categoryValue;
+  void showActionSheet(BuildContext context) async {
+    List<File>? selectedImages = await Helpers.addMultiImagePicker();
+    if (selectedImages != null && selectedImages.isNotEmpty) {
+      images.value = selectedImages.map((image) => File(image.path)).toList();
+      setState(() {});
+    }
+  }
+
+  final TextEditingController detailsController = TextEditingController();
+  File idProof = File("");
+  bool checkValidation(bool bool1, bool2) {
+    if (bool1 == true && bool2 == true) {
+      return true;
+    } else {
+      return false;
+    }
+  }
+  ModelVendorDetails model = ModelVendorDetails();
+  final _formKey = GlobalKey<FormState>();
+  final GlobalKey categoryKey = GlobalKey();
+  final GlobalKey idProofKey = GlobalKey();
+  final Repositories repositories = Repositories();
+  bool apiLoaded = false;
+  RxInt refreshInt = 0.obs;
+
+  get updateUI => refreshInt.value = DateTime.now().millisecondsSinceEpoch;
+  File storeBanner = File("");
+  Map<String, File> picture = {};
+  void updateProfile() {
+    Map<String, String> map = {};
+    picture["banner_profile"] = storeBanner;
+
+    repositories
+        .multiPartApi(
+        mapData: map,
+        images: picture,
+        context: context,
+        url: ApiUrls.editVendorDetailsUrl,
+        onProgress: (int bytes, int totalBytes) {
+
+        })
+        .then((value) {
+      showToast('Add Banner successfully');
+    });
+  }
+
+
   File image = File("");
   @override
   Widget build(BuildContext context) {
@@ -87,7 +146,7 @@ class _PersonalizeyourstoreScreenState extends State<PersonalizeyourstoreScreen>
                     child: SizedBox(
                       height: 110,
                       width: 110,
-                      child: image.path != ""
+                      child: image.path.isNotEmpty
                           ? ClipOval(
                               child: Image.file(
                                 image,
@@ -102,12 +161,12 @@ class _PersonalizeyourstoreScreenState extends State<PersonalizeyourstoreScreen>
                                 color: AppTheme.primaryColor,
                               ),
                               child: ClipOval(
-                                child: CachedNetworkImage(
+                                child:
+                                CachedNetworkImage(
                                   width: 120,
                                   height: 120,
                                   fit: BoxFit.cover,
-                                  imageUrl:
-                                      'https://letsenhance.io/static/8f5e523ee6b2479e26ecc91b9c25261e/1015f/MainAfter.jpg',
+                                  imageUrl: image.toString(),
                                   placeholder: (context, url) => const SizedBox(),
                                   errorWidget: (context, url, error) => const SizedBox(),
                                 ),
@@ -120,7 +179,11 @@ class _PersonalizeyourstoreScreenState extends State<PersonalizeyourstoreScreen>
                     child: Row(
                       mainAxisAlignment: MainAxisAlignment.end,
                       children: [
-                        SvgPicture.asset("assets/svgs/profile_edit.svg"),
+                        InkWell(
+                          onTap :(){
+                            showActionSheet(context);
+                  },
+                            child: SvgPicture.asset("assets/svgs/profile_edit.svg")),
                         const SizedBox(
                           width: 4,
                         )
@@ -146,8 +209,9 @@ class _PersonalizeyourstoreScreenState extends State<PersonalizeyourstoreScreen>
               const SizedBox(
                 height: 10,
               ),
-              const CommonTextField(
+              CommonTextField(
                 hintText: 'Details',
+                controller: detailsController,
                 // minLines: 2,
                 // maxLines: 2,
               ),
@@ -318,21 +382,31 @@ class _PersonalizeyourstoreScreenState extends State<PersonalizeyourstoreScreen>
               const SizedBox(
                 height: 20,
               ),
-              Container(
-                width: Get.width,
-                height: 50,
-                decoration: BoxDecoration(
-                  color: const Color(0xffF5F2F2),
-                  borderRadius: BorderRadius.circular(2), // Border radius
-                ),
-                padding: const EdgeInsets.all(10), // Padding inside the container
-                child: const Center(
-                  child: Text(
-                    'Save',
-                    style: TextStyle(
-                      fontSize: 16,
-                      fontWeight: FontWeight.bold,
-                      color: Color(0xff514949), // Text color
+              InkWell(
+                onTap: (){
+                  if(detailsController.text.isNotEmpty){
+                    Get.to(CustomerAccountCreatedSuccessfullyScreen());
+                  }
+                  else{
+                    showToast('please enter Details');
+                  }
+                },
+                child: Container(
+                  width: Get.width,
+                  height: 50,
+                  decoration: BoxDecoration(
+                    color: const Color(0xffF5F2F2),
+                    borderRadius: BorderRadius.circular(2), // Border radius
+                  ),
+                  padding: const EdgeInsets.all(10), // Padding inside the container
+                  child: const Center(
+                    child: Text(
+                      'Save',
+                      style: TextStyle(
+                        fontSize: 16,
+                        fontWeight: FontWeight.bold,
+                        color: Color(0xff514949), // Text color
+                      ),
                     ),
                   ),
                 ),

@@ -1,4 +1,5 @@
 
+import 'package:dirise/bottomavbar.dart';
 import 'package:dirise/repository/repository.dart';
 import 'package:dirise/widgets/common_colour.dart';
 import 'package:flutter/material.dart';
@@ -67,7 +68,7 @@ class _CustomerAccountCreatedSuccessfullyScreenState extends State<CustomerAccou
                 height: 60,
               ),
               Text(
-                "Vendor account created successfully ".tr,
+                "Customer account created successfully ".tr,
                 textAlign: TextAlign.center,
                 style: Theme.of(context)
                     .textTheme
@@ -127,7 +128,7 @@ class _CustomerAccountCreatedSuccessfullyScreenState extends State<CustomerAccou
               ),
               ElevatedButton(
                   onPressed: () {
-                    Get.to(const SecurityDetailsScreen());
+                    Get.to(const BottomNavbar());
                   },
                   style: ElevatedButton.styleFrom(
                       minimumSize: const Size(double.maxFinite, 60),
