@@ -7,6 +7,10 @@ import 'package:dirise/screens/my_account_screens/profile_screen.dart';
 import 'package:dirise/screens/my_account_screens/return_policy_screen.dart';
 import 'package:dirise/screens/my_account_screens/termsconditions_screen.dart';
 import 'package:get/get.dart';
+import '../Services/locationwherecustomerwilljoin.dart';
+import '../Services/servicesReturnPolicyScreen.dart';
+import '../Services/tellUsscreen.dart';
+import '../Services/whatServiceDoYouProvide.dart';
 import '../addNewProduct/addImagesProductScreen.dart';
 import '../addNewProduct/itemdetailsScreen.dart';
 import '../addNewProduct/addProductScreen.dart';
@@ -24,6 +28,8 @@ import '../iAmHereToSell/verificationOptiionScreen.dart';
 import '../iAmHereToSell/verificationSelectDateScreen.dart';
 import '../iAmHereToSell/whatdoyousellScreen.dart';
 import '../iAmHereToSell/whichplantypedescribeyouScreen.dart';
+import '../jobOffers/hiringJobDetailsScreen.dart';
+import '../jobOffers/tellusaboutyourselfScreen.dart';
 import '../newAddress/locationScreen.dart';
 import '../newAddress/pickUpAddressScreen.dart';
 import '../newAuthScreens/newOtpScreen.dart';
@@ -67,7 +73,7 @@ import '../vendor/profile/vendor_profile_screen.dart';
 
 class MyRouters {
   static var route = [
-    GetPage(name: '/', page: () =>  VirtualProductScreen()),
+    GetPage(name: '/', page: () =>  Locationwherecustomerwilljoin()),
     GetPage(name: LoginScreen.route, page: () => const LoginScreen()),
     GetPage(name: NewOtpScreen.route, page: () => const NewOtpScreen()),
     GetPage(name: TellUsAboutYourSelf.route, page: () => const TellUsAboutYourSelf()),

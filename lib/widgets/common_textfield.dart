@@ -83,11 +83,11 @@ class _CommonTextFieldState extends State<CommonTextField> {
             fontSize: 25,
           ),
           counter: const Offstage(),
-
+          filled: true,
           errorMaxLines: 2,
           enabled: widget.enabled,
           contentPadding: const EdgeInsets.all(15),
-          //   fillColor: Colors.transparent,
+          fillColor: Colors.grey.shade100,
           hintText: widget.hintText,
           errorText: widget.errorText,
           labelText: widget.labelText,
