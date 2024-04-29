@@ -41,7 +41,7 @@ class _PaymentScreenState extends State<PaymentScreen> {
             onNavigationRequest: (NavigationRequest request) {
               log("Navigation Request....      ${request.url}");
               if (request.url.contains(navigationBackUrl)) {
-                showToast("Payment Successfully".tr);
+                showToast("Payment Successfull".tr);
                 if(widget.onSuccess == null) {
                   Get.back();
                   Get.back();

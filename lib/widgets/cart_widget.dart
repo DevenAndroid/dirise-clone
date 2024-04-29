@@ -26,6 +26,7 @@ class _CartBagCardState extends State<CartBagCard> {
         behavior: HitTestBehavior.translucent,
         onTap: () {
           Get.toNamed(BagsScreen.route);
+
         },
         child: Padding(
           padding: const EdgeInsets.symmetric(vertical: 10,horizontal: 15),

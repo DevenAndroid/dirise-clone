@@ -173,6 +173,9 @@ class _HomePageState extends State<HomePage> {
                 'Sell'.tr,
                 style: GoogleFonts.poppins(color: AppTheme.buttonColor, fontSize: 17, fontWeight: FontWeight.w500),
               ),
+              const SizedBox(
+                width: 3,
+              ),
             ],
           ),
         ),

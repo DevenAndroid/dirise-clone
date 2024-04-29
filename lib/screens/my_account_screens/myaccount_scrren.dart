@@ -1940,7 +1940,7 @@ List<Widget> vendorPartner() {
                                             }else if(vendor[index] == 'Dashboard'){
                                              Get.toNamed( VendorDashBoardScreen.route);
                                             }else{
-                                              null;
+                                              showToast('Your payment is not successfull'.tr);
                                             }
                                           },
                                           style: TextButton.styleFrom(

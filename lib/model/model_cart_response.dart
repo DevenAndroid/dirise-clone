@@ -84,15 +84,18 @@ class StoreData {
   List<Products>? products;
   List<ShippingTypes>? shippingTypes;
   FedexShipping? fedexShipping;
+  String? fedexCommision;
   RxString fedexShippingOption = "".obs;
   List<ShippingTypes>? selectedContacts;
   RxString shippingOption = "".obs;
   RxInt shippingId = 0.obs;
   RxString shippingVendorName = "".obs;
   RxString vendorPrice = "".obs;
+  double sPrice = 0.0;
+  double sMethod = 0.0;
   RxInt vendorId = 0.obs;
 
-  StoreData({this.products, this.shippingTypes});
+  StoreData({this.products, this.shippingTypes,this.fedexCommision,});
 
   StoreData.fromJson(Map<String, dynamic> json) {
     if (json['products'] != null) {
@@ -107,7 +110,14 @@ class StoreData {
         shippingTypes!.add(ShippingTypes.fromJson(v));
       });
     }
-    fedexShipping = json['fedex_shipping'] != null ? FedexShipping.fromJson(json['fedex_shipping']) : null;
+    if (json['fedex_shipping'] != null && json['fedex_shipping'] is Map<String, dynamic>) {
+      fedexShipping = FedexShipping.fromJson(json['fedex_shipping']);
+    } else {
+      // Handle the case where 'fedex_shipping' is not a valid JSON object
+      // You can initialize fedexShipping to a default value or handle the error accordingly
+      fedexShipping = null; // For example, set it to null
+    }
+
   }
 
   Map<String, dynamic> toJson() {
@@ -207,6 +217,7 @@ class RateReplyDetails {
   dynamic packagingType;
   Commit? commit;
   List<CustomerMessages>? customerMessages;
+  String shippingDate = '';
   List<RatedShipmentDetails>? ratedShipmentDetails;
   OperationalDetail? operationalDetail;
   dynamic signatureOptionType;

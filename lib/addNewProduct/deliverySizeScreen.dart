@@ -24,6 +24,7 @@ class _DeliverySizeScreenState extends State<DeliverySizeScreen> {
   deliverySizeApi(String deliverySize) {
     Map<String, dynamic> map = {};
     map['delivery_size'] = deliverySize;
+    map['item_type'] = 'giveaway';
 
     final Repositories repositories = Repositories();
     FocusManager.instance.primaryFocus!.unfocus();

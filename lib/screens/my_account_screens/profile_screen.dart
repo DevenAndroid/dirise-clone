@@ -143,20 +143,22 @@ class _ProfileScreenState extends State<ProfileScreen> {
                         value: profileController.model.user!.referralEmail.toString(),
                       ),
                       ...profileCard(
-                        imagePath: "assets/svgs/location.svg",
-                        title: AppStrings.streetAddress.tr,
-                        value: profileController.model.user!.street_name.toString(),
+                        imagePath: "assets/svgs/country.svg",
+                        title: AppStrings.country.tr,
+                        value: profileController.model.user!.country_name.toString(),
                       ),
+
                       ...profileCard(
                         imagePath: "assets/svgs/city.svg",
                         title: AppStrings.stateCity.tr,
                         value: "${profileController.model.user!.state_name}, ${profileController.model.user!.city_name}",
                       ),
                       ...profileCard(
-                        imagePath: "assets/svgs/country.svg",
-                        title: AppStrings.country.tr,
-                        value: profileController.model.user!.country_name.toString(),
+                        imagePath: "assets/svgs/location.svg",
+                        title: AppStrings.streetAddress.tr,
+                        value: profileController.model.user!.street_name.toString(),
                       ),
+
                       SizedBox(
                         width: double.infinity,
                         height: size.height * .07,

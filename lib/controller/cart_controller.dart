@@ -1,6 +1,7 @@
 import 'dart:async';
 import 'dart:convert';
 import 'dart:developer';
+import 'package:dirise/controller/profile_controller.dart';
 import 'package:dirise/model/common_modal.dart';
 import 'package:dirise/repository/repository.dart';
 import 'package:dirise/utils/helper.dart';
@@ -27,6 +28,7 @@ class CartController extends GetxController {
   String stateCode = '';
   String cityCode = '';
   RxString countryName = ''.obs;
+  // int isKuwait = 0;
   RxString stateName = ''.obs;
   RxString cityName = ''.obs;
   final Repositories repositories = Repositories();
@@ -36,7 +38,6 @@ class CartController extends GetxController {
   bool addressLoaded = false;
   String shippingId = "";
   AddressData selectedAddress = AddressData();
-  DefaultAddress defaultAddress = DefaultAddress();
 
   final GlobalKey addressKey = GlobalKey();
   RxString deliveryOption1 = "delivery".obs;
@@ -64,6 +65,7 @@ class CartController extends GetxController {
   Timer? _timer;
   String formattedTotal = '';
   List<int> shippingList = [];
+  List<String> shippingDate = [];
   List<int> shippingVendorId = [];
   List<String> shippingVendorName = [];
   List<String> shippingPriceList = [];
@@ -127,7 +129,8 @@ class CartController extends GetxController {
       'callback_url': 'https://diriseapp.com/home/$navigationBackUrl',
       'failure_url': 'https://diriseapp.com/home/$failureUrl',
       "shipping": [
-        {"store_id": storeIdShipping!= '' ? storeIdShipping.toString() : '0', "store_name": storeNameShipping.toString(), "title": shippingTitle.toString(), "ship_price": shippingPrices.toString() , "shipping_type_id": shippingList.isNotEmpty ? shippingList.join(',') : ''}
+        {"store_id": storeIdShipping!= '' ? storeIdShipping.toString() : '0', "store_name": storeNameShipping.toString(), "title": shippingTitle.toString(), "ship_price": shippingPrices.toString() , "shipping_type_id": shippingList.isNotEmpty ? shippingList.join(',') : '',
+        'shipping_date' :  shippingDate.isNotEmpty ? shippingDate.join(',') : ''}
       ],
       "cart_id": ["2"],
       'billing_address' : {
@@ -456,7 +459,7 @@ class CartController extends GetxController {
     }).catchError((e) {});
     return false;
   }
-
+  final profileController = Get.put(ProfileController());
   getAddress() {
     repositories.postApi(url: ApiUrls.addressListUrl).then((value) {
       addressLoaded = true;
@@ -486,8 +489,11 @@ class CartController extends GetxController {
     // }
     Map<String, dynamic> map = {};
     map["key"] = 'fedexRate';
+    map["country_id"]=profileController.model.user!.country_id;
+
+    log("mappppppp::::::$map");
     await repositories.postApi(url: ApiUrls.cartListUrl,mapData: map ).then((value) {
-      cartModel = ModelCartResponse.fromJson(jsonDecode(value));
+     cartModel = ModelCartResponse.fromJson(jsonDecode(value));
       log('cart model is ${cartModel.toJson()}');
       apiLoaded = true;
       updateUI();
@@ -497,7 +503,7 @@ class CartController extends GetxController {
   myDefaultAddressData() {
     repositories.getApi(url: ApiUrls.myDefaultAddressStatus).then((value) {
       myDefaultAddressModel.value = MyDefaultAddressModel.fromJson(jsonDecode(value));
-      log('defalut address value....${      myDefaultAddressModel.value.defaultAddress!.toJson()}');
+      // log('defalut address value....${      myDefaultAddressModel.value.defaultAddress!.toJson()}');
     });
   }
 
@@ -514,7 +520,6 @@ class CartController extends GetxController {
       }
     });
   }
-
   updateUI() {
     refreshInt.value = DateTime.now().microsecondsSinceEpoch;
   }

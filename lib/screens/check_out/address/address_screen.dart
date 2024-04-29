@@ -18,7 +18,6 @@ import '../../../model/customer_profile/model_country_list.dart';
 import '../../../model/customer_profile/model_state_list.dart';
 import '../../../model/login_model.dart';
 import '../../../model/model_address_list.dart';
-import '../../../model/myDefaultAddressModel.dart';
 import '../../../repository/repository.dart';
 import '../../../utils/api_constant.dart';
 import '../../../widgets/common_colour.dart';
@@ -69,10 +68,6 @@ class _AddressScreenState extends State<AddressScreen> {
       stateRefresh.value = DateTime.now().millisecondsSinceEpoch;
     });
   }
-
-
-
-
 
   defaultAddressApi() async {
          Map<String, dynamic> map = {};
@@ -136,7 +131,7 @@ class _AddressScreenState extends State<AddressScreen> {
           child: Obx(() {
             if (cartController.refreshInt.value > 0) {}
             return cartController.myDefaultAddressModel.value.defaultAddress!= null ?
-            Column(
+              Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
                       // Row(
@@ -274,7 +269,8 @@ class _AddressScreenState extends State<AddressScreen> {
                               addAddressWithoutLogin(addressData: cartController.selectedAddress);
                             }
                           },
-                          child: DottedBorder(
+                          child:
+                          DottedBorder(
                             color: const Color(0xff014E70),
                             strokeWidth: 1.2,
                             dashPattern: const [6, 3, 0, 3],
@@ -286,7 +282,7 @@ class _AddressScreenState extends State<AddressScreen> {
                               child: cartController.selectedAddress.id != null
                                   ? Text(cartController.selectedAddress.getShortAddress,
                                   style: GoogleFonts.poppins(fontWeight: FontWeight.w500, fontSize: 16))
-                                  :   cartController.myDefaultAddressModel.value.defaultAddress!.isDefault == true ?
+                                  :   cartController.myDefaultAddressModel.value.defaultAddress?.isDefault == true ?
                               Text(cartController.myDefaultAddressModel.value.defaultAddress!.getShortAddress,
                                   style: GoogleFonts.poppins(fontWeight: FontWeight.w500, fontSize: 16))
                                   : Text("Choose Address".tr,
@@ -319,8 +315,7 @@ class _AddressScreenState extends State<AddressScreen> {
                         height: 10,
                       ),
                     ],
-                  ) : const SizedBox.shrink();
-                // : const LoadingAnimation();
+                  ) : const LoadingAnimation();
           }),
         ),
       ),

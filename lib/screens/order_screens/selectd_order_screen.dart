@@ -85,7 +85,7 @@ class _SelectedOrderScreenState extends State<SelectedOrderScreen> {
                       child: Padding(
                         padding: const EdgeInsets.symmetric(vertical: 10),
                         child: Text(
-                          "${'Order'.tr} #${singleOrder.order!.orderId}",
+                          "${'Order'.tr} #$orderId",
                           style: GoogleFonts.poppins(
                               color: Colors.black,
                               fontWeight: FontWeight.w500,

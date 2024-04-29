@@ -139,13 +139,10 @@ class _VendorPlansScreenState extends State<VendorPlansScreen> {
                                                               e1.value.label.toString().capitalize!,
                                                               style: titleStyle,
                                                             )),
-                                                        Expanded(
-                                                            flex: 2,
-                                                            child: Text(
-                                                              "${e1.value.amount} ${e1.value.currency ?? 'KWD'}",
-                                                              style: titleStyle.copyWith(
-                                                                  fontWeight: FontWeight.w400, fontSize: 14),
-                                                            )),
+                                                        Expanded(flex: 2, child: Text("${e1.value.amount} ${e1.value.currency ?? 'KWD'}",style: titleStyle.copyWith(
+                                                          fontWeight: FontWeight.w400,
+                                                          fontSize: 14
+                                                        ),)),
                                                       ],
                                                     ),
                                                   ],
@@ -165,26 +162,26 @@ class _VendorPlansScreenState extends State<VendorPlansScreen> {
         bottomNavigationBar: Padding(
           padding: const EdgeInsets.symmetric(horizontal: 20).copyWith(bottom: 25),
           child: ElevatedButton(
-            onPressed: () {
-              if (selectedPlan == null) {
+            onPressed: (){
+              if(selectedPlan == null){
                 showToast("Please select any plan".tr);
                 return;
               }
               Get.to(() => VendorRegistrationScreen(
-                    selectedPlan: selectedPlan!,
-                    modelPlansList: modelPlansList!,
-                  ));
+                selectedPlan: selectedPlan!,
+                modelPlansList: modelPlansList!,
+              ));
             },
             style: ElevatedButton.styleFrom(
-                backgroundColor: AppTheme.buttonColor,
-                surfaceTintColor: AppTheme.buttonColor,
-                shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(4))),
+              backgroundColor: AppTheme.buttonColor,
+              surfaceTintColor: AppTheme.buttonColor,
+              shape: RoundedRectangleBorder(
+                borderRadius: BorderRadius.circular(4)
+              )
+            ),
             child: Padding(
               padding: const EdgeInsets.symmetric(vertical: 16),
-              child: Text(
-                "Proceed".tr,
-                style: titleStyle.copyWith(color: Colors.white),
-              ),
+              child: Text("Proceed".tr,style: titleStyle.copyWith(color: Colors.white),),
             ),
           ),
         ),

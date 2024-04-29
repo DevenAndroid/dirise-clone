@@ -392,12 +392,7 @@ class _AddProductImageAndVirtualFileState extends State<AddProductImageAndVirtua
     return GestureDetector(
       onTap: () {
         // showActionSheet(context);
-        NewHelper.showImagePickerSheet(
-            context: context,
-            gotImage: (File gg) {
-              controller.productImage = gg;
-              setState(() {});
-            });
+        showActionSheet(context);
       },
       child: DottedBorder(
         radius: const Radius.circular(10),

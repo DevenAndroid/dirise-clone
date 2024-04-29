@@ -97,7 +97,7 @@ class _BankDetailsScreenState extends State<BankDetailsScreen> {
           ),
         ),
       ),
-      body: controller.modelBankInfo.data != null && controller.modelBankList.data != null
+      body:controller.modelBankList.data != null
           ? RefreshIndicator(
               onRefresh: () async {
                 getData();

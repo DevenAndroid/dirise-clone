@@ -7,7 +7,7 @@ import '../model/login_model.dart';
 import '../widgets/common_colour.dart';
 
 class ApiUrls {
-   static const String baseUrl = 'https://dirise.eoxyslive.com/api/';
+  static const String baseUrl = 'https://dirise.eoxyslive.com/api/';
   // static const String baseUrl = 'https://backend.diriseapp.com/api/';
   // static const String baseUrl = 'https://admin.diriseapp.com/api/';
   static const String signInUrl = "${baseUrl}register";
@@ -33,7 +33,7 @@ class ApiUrls {
   static const String userProfile = "${baseUrl}my-account";
   static const String addressListUrl = "${baseUrl}address";
   static const String editAddressUrl = "${baseUrl}edit-address";
-  static const String giveawayProductAddress = "${baseUrl}giveaway-product-add";
+  static const String giveawayProductAddress = "${baseUrl}add-vendor-product";
   static const String placeOrderUrl = "${baseUrl}add-order";
   static const String myOrdersListUrl = "${baseUrl}orders";
   static const String customerDashboardUrl = "${baseUrl}customer-dashboard";
@@ -106,6 +106,7 @@ class ApiUrls {
   static const String changeOrderStatus = "${baseUrl}change-order-status";
   static const String defaultAddressStatus = "${baseUrl}default-address";
   static const String myDefaultAddressStatus = "${baseUrl}my-default-address";
+  static const String vendorEarning = "${baseUrl}vendor-earning";
 
 
 

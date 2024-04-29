@@ -117,9 +117,9 @@ class _NewPasswordScreenState extends State<NewPasswordScreen> {
                       hintText: AppStrings.newPassword.tr,
                       validator: (value) {
                         if (value!.trim().isEmpty) {
-                          return 'Conform password is required '.tr;
+                          return 'Confirm password is required '.tr;
                         } else if (value.trim() != passwordController.text.trim()) {
-                          return 'Conform password not matching'.tr;
+                          return 'Confirm password not matching'.tr;
                         } else {
                           return null;
                         }

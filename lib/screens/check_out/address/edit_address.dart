@@ -209,9 +209,14 @@ class _EditAddressSheetState extends State<EditAddressSheet> {
     stateController = TextEditingController(text: addressData.state ?? "");
     cityController = TextEditingController(text: addressData.city ?? "");
     countryIddd = addressData.countryId.toString();
-    stateIddd = addressData.stateId.toString();
+    cartController.countryCode = addressData.countryId.toString();
     getStateList(countryId: countryIddd.toString());
-    getCityList(stateId: stateIddd.toString());
+    stateIddd = addressData.stateId.toString();
+    getCityList(stateId: stateIddd.toString()).then((value) {
+      setState(() {
+
+      });
+    });
   }
   final profileController = Get.put(ProfileController());
   @override
@@ -509,7 +514,8 @@ class _EditAddressSheetState extends State<EditAddressSheet> {
                           print('stateNameee ${cartController.stateName.toString()}');
                           if (previous != selectedState!.stateId.toString()) {
                             stateIddd = gg.toString();
-                            getCityList(stateId: stateIddd.toString(), reset: true).then((value) {
+                            getCityList(stateId: gg, reset: true).then((value) {
+                              cityController.text= '';
                               setState(() {});
                             });
                             setState(() {});

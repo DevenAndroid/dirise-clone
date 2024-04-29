@@ -8,22 +8,7 @@ class LocaleString extends Translations {
         'en_US': {
           AppStrings.home: "Home",
           "PROFILE": "profile",
-
-
-
-
           "Default Address":"Default Address",
-          "Referral Point (Optional)":"Referral Point (Optional)",
-
-
-
-
-
-
-
-
-
-
           AppStrings.guestUser : 'Guest User',
           "TIMESHEETS": "Timesheets",
           "TASKS": "Tasks",
@@ -269,7 +254,7 @@ class LocaleString extends Translations {
           'Please select bank' : 'Please select bank',
           'Validity' : 'Validity',
           'Document must be smaller then 10 Mb' : 'Document must be smaller then 10 Mb',
-          'Payment Successfully' : 'Payment Successfully',
+          'Payment Successfull' : 'Payment Successfull',
           'Payment Failed' : 'Payment Failed',
           'Skip' : 'Skip',
           'Please select any plan'  : 'Please select any plan',
@@ -442,13 +427,15 @@ class LocaleString extends Translations {
           'STARS OF THE MONTH IN CATEGORY OF' : 'STARS OF THE MONTH IN CATEGORY OF',
           'CUSTOMER REVIEWS' : 'CUSTOMER REVIEWS',
           'Do You Want To Changed Your Address.' : 'Do You Want To Changed Your Address.',
-          'Update Account' : 'Update Account'
+          'Update Account' : 'Update Account',
+          'Your payment is not successfully' : 'Your payment is not successfully',
         },
 
 
 
         'ar_AR': {
-           'Update Account' : 'تحديث الحساب',
+          'Your payment is not successfully' : 'لم يتم تغيير الدفع بنجاح',
+          'Update Account' : 'تحديث الحساب',
           'Do You Want To Changed Your Address.' : 'هل تريد تغيير عنوانك.',
           'CUSTOMER REVIEWS' : 'آراء العملاء',
           'STARS OF THE MONTH IN CATEGORY OF' : 'نجوم الشهر في هذه الفئة',
@@ -610,7 +597,7 @@ class LocaleString extends Translations {
           'Please select any plan' : 'من فضلك،  حدد أي خطة',
           'Skip' : 'تخطي',
           'Payment Failed' : 'فشلت عملية الدفع',
-          'Payment Successfully' : 'تم الدفع بنجاح',
+          'Payment Successfull' : 'تم الدفع بنجاح',
           'Document must be smaller then 10 Mb' : 'يجب أن يكون حجم المستند أقل من 10 ميغابايت',
           'Validity' : 'الصلاحية',
           'Please select bank' : 'من فضلك،  اختر البنك',

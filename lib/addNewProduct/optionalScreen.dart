@@ -39,6 +39,7 @@ class _OptionalScreenState extends State<OptionalScreen> {
     Map<String, dynamic> map = {};
 
       map['meta_title'] = metaTitleController.text.trim();
+      map['item_type'] = 'giveaway';
       map['meta_description'] = metaDescriptionController.text.trim();
       map['long_description'] = longDescriptionController.text.trim();
       map['serial_number'] = serialNumberController.text.trim();

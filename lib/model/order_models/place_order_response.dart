@@ -1,7 +1,7 @@
 class ModelPlaceOrderResponse {
   bool? status;
-  String? message;
-  String? URL;
+  dynamic message;
+  dynamic URL;
   dynamic order_id;
 
   ModelPlaceOrderResponse({this.status, this.message, this.order_id, this.URL});

@@ -1,6 +1,7 @@
 import 'package:dirise/addNewProduct/optionalScreen.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/widgets.dart';
 import 'package:get/get.dart';
 import 'package:google_fonts/google_fonts.dart';
 
@@ -282,24 +283,29 @@ class _InternationalshippingdetailsScreenState extends State<Internationalshippi
                 },
               ),
               const SizedBox(height: 20),
-              Container(
-                width: Get.width,
-                height: 55,
-                decoration: BoxDecoration(
-                  border: Border.all(
-                    color: Colors.black, // Border color
-                    width: 1.0, // Border width
+              GestureDetector(
+                onTap: (){
+                  Get.to(OptionalScreen());
+                },
+                child: Container(
+                  width: Get.width,
+                  height: 55,
+                  decoration: BoxDecoration(
+                    border: Border.all(
+                      color: Colors.black, // Border color
+                      width: 1.0, // Border width
+                    ),
+                    borderRadius: BorderRadius.circular(10), // Border radius
                   ),
-                  borderRadius: BorderRadius.circular(10), // Border radius
-                ),
-                padding: const EdgeInsets.all(10), // Padding inside the container
-                child: const Center(
-                  child: Text(
-                    'Skip',
-                    style: TextStyle(
-                      fontSize: 16,
-                      fontWeight: FontWeight.bold,
-                      color: Colors.black, // Text color
+                  padding: const EdgeInsets.all(10), // Padding inside the container
+                  child: const Center(
+                    child: Text(
+                      'Skip',
+                      style: TextStyle(
+                        fontSize: 16,
+                        fontWeight: FontWeight.bold,
+                        color: Colors.black, // Text color
+                      ),
                     ),
                   ),
                 ),

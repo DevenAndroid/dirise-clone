@@ -60,6 +60,7 @@ class _AddProductPickUpAddressScreenState extends State<AddProductPickUpAddressS
         widget.zipcode != null &&
         widget.town != null) {
       map['city'] = widget.city;
+      map['item_type'] = 'giveaway';
       map['state'] = widget.state;
       map['zip_code'] = widget.zipcode;
       map['town'] = widget.town;
@@ -67,6 +68,7 @@ class _AddProductPickUpAddressScreenState extends State<AddProductPickUpAddressS
       map['special_instruction'] = specialInstructionController.text.trim();
     }else{
       map['city'] = cityController.text.trim();
+      map['item_type'] = 'giveaway';
       map['state'] = stateController.text.trim();
       map['zip_code'] = zipcodeController.text.trim();
       map['town'] = townController.text.trim();

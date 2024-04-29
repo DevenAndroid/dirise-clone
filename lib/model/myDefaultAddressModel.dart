@@ -13,8 +13,13 @@ class MyDefaultAddressModel {
   MyDefaultAddressModel.fromJson(Map<String, dynamic> json) {
     status = json['status'];
     message = json['message'];
-    defaultAddress = json['default_address'] != null ? new DefaultAddress.fromJson(json['default_address']) : null;
+    if (json['default_address'] != null && json['default_address'] is Map<String, dynamic>) {
+      defaultAddress = DefaultAddress.fromJson(json['default_address']);
+    } else {
+      defaultAddress = null;
+    }
   }
+
 
   Map<String, dynamic> toJson() {
     final Map<String, dynamic> data = new Map<String, dynamic>();
@@ -59,33 +64,33 @@ class DefaultAddress {
 
   DefaultAddress(
       {this.id,
-      this.userId,
-      this.firstName,
-      this.lastName,
-      this.email,
-      this.companyName,
-      this.orderId,
-      this.phone,
-      this.phoneCountryCode,
-      this.alternatePhone,
-      this.alterPhoneCountryCode,
-      this.addressType,
-      this.type,
-      this.isDefault,
-      this.address,
-      this.address2,
-      this.city,
-      this.country,
-      this.countryCode,
-      this.state,
-      this.countryId,
-      this.stateId,
-      this.cityId,
-      this.title,
-      this.zipCode,
-      this.landmark,
-      this.createdAt,
-      this.updatedAt});
+        this.userId,
+        this.firstName,
+        this.lastName,
+        this.email,
+        this.companyName,
+        this.orderId,
+        this.phone,
+        this.phoneCountryCode,
+        this.alternatePhone,
+        this.alterPhoneCountryCode,
+        this.addressType,
+        this.type,
+        this.isDefault,
+        this.address,
+        this.address2,
+        this.city,
+        this.country,
+        this.countryCode,
+        this.state,
+        this.countryId,
+        this.stateId,
+        this.cityId,
+        this.title,
+        this.zipCode,
+        this.landmark,
+        this.createdAt,
+        this.updatedAt});
 
   String get getCompleteAddressInFormat {
     List<String> gg = [];

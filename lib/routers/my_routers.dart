@@ -7,40 +7,9 @@ import 'package:dirise/screens/my_account_screens/profile_screen.dart';
 import 'package:dirise/screens/my_account_screens/return_policy_screen.dart';
 import 'package:dirise/screens/my_account_screens/termsconditions_screen.dart';
 import 'package:get/get.dart';
-import '../Services/locationwherecustomerwilljoin.dart';
-import '../Services/servicesReturnPolicyScreen.dart';
-import '../Services/tellUsscreen.dart';
-import '../Services/whatServiceDoYouProvide.dart';
-import '../addNewProduct/addImagesProductScreen.dart';
-import '../addNewProduct/itemdetailsScreen.dart';
-import '../addNewProduct/addProductScreen.dart';
-import '../addNewProduct/deliverySizeScreen.dart';
-import '../addNewProduct/internationalshippingdetailsScreem.dart';
-import '../addNewProduct/myItemIsScreen.dart';
-import '../addNewProduct/optionalScreen.dart';
-import '../addNewProduct/reviewPublishScreen.dart';
-import '../addNewProduct/rewardScreen.dart';
-import '../iAmHereToSell/listofquestionScreen.dart';
-import '../iAmHereToSell/personalizeyourstoreScreen.dart';
-import '../iAmHereToSell/requiredDocumentsScreen.dart';
-import '../iAmHereToSell/timeVerificationScreen.dart';
-import '../iAmHereToSell/verificationOptiionScreen.dart';
-import '../iAmHereToSell/verificationSelectDateScreen.dart';
-import '../iAmHereToSell/whatdoyousellScreen.dart';
-import '../iAmHereToSell/whichplantypedescribeyouScreen.dart';
-import '../jobOffers/hiringJobDetailsScreen.dart';
-import '../jobOffers/tellusaboutyourselfScreen.dart';
-import '../newAddress/locationScreen.dart';
-import '../newAddress/pickUpAddressScreen.dart';
+import '../addNewProduct/pickUpAddressScreen.dart';
 import '../newAuthScreens/newOtpScreen.dart';
 import '../newAuthScreens/signupScreen.dart';
-import '../newAuthScreens/tellUsAboutYourself.dart';
-import '../personalizeyourstore/bannersScreen.dart';
-import '../personalizeyourstore/operatinghourScreen.dart';
-import '../personalizeyourstore/personalizeAddressScreen.dart';
-import '../personalizeyourstore/returnpolicyScreen.dart';
-import '../personalizeyourstore/socialMediaScreen.dart';
-import '../personalizeyourstore/vendorinformationScreen.dart';
 import '../posts/posts_ui.dart';
 import '../screens/auth_screens/createacc_screen.dart';
 import '../screens/auth_screens/otp_screen.dart';
@@ -59,8 +28,6 @@ import '../screens/public_speaker_screen/single_public_speaker_screen.dart';
 import '../screens/school_nursery_category.dart';
 import '../screens/order_screens/selectd_order_screen.dart';
 import '../screens/virtual_assets/virtual_assets_screen.dart';
-import '../singleproductScreen/itemdetailsScreen.dart';
-import '../singleproductScreen/virtualProductScreen.dart';
 import '../vendor/authentication/verify_vendor_otp.dart';
 import '../vendor/dashboard/dashboard_screen.dart';
 import '../vendor/dashboard/store_open_time_screen.dart';
@@ -73,10 +40,8 @@ import '../vendor/profile/vendor_profile_screen.dart';
 
 class MyRouters {
   static var route = [
-    GetPage(name: '/', page: () =>  Locationwherecustomerwilljoin()),
+    GetPage(name: '/', page: () => CreateAccountNewScreen()),
     GetPage(name: LoginScreen.route, page: () => const LoginScreen()),
-    GetPage(name: NewOtpScreen.route, page: () => const NewOtpScreen()),
-    GetPage(name: TellUsAboutYourSelf.route, page: () => const TellUsAboutYourSelf()),
     GetPage(name: VendorOTPVerification.route, page: () => const VendorOTPVerification()),
     GetPage(name: CreateAccountScreen.route, page: () => const CreateAccountScreen()),
     GetPage(name: ForgetPasswordScreen.route, page: () => const ForgetPasswordScreen()),

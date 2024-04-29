@@ -362,9 +362,9 @@ class _DirectCheckOutScreenState extends State<DirectCheckOutScreen> {
                                       ii == 0
                                           ? 0.spaceY
                                           : const Divider(
-                                              color: Color(0xFFD9D9D9),
-                                              thickness: 0.8,
-                                            ),
+                                        color: Color(0xFFD9D9D9),
+                                        thickness: 0.8,
+                                      ),
                                       Row(
                                         children: [
                                           Radio(
@@ -377,7 +377,7 @@ class _DirectCheckOutScreenState extends State<DirectCheckOutScreen> {
                                                 cartController.shippingId = directOrderResponse.shippingOption.value;
                                                 shippingPrice = product.value.toString();
                                                 double subtotal =
-                                                    double.parse(cartController.cartModel.subtotal.toString());
+                                                double.parse(cartController.cartModel.subtotal.toString());
                                                 double shipping = double.parse(shippingPrice);
                                                 total = subtotal + shipping;
                                                 cartController.formattedTotal = total.toStringAsFixed(3);
@@ -393,7 +393,7 @@ class _DirectCheckOutScreenState extends State<DirectCheckOutScreen> {
                                             children: [
                                               Text(product.name.toString().capitalize!.replaceAll('_', ' '),
                                                   style:
-                                                      GoogleFonts.poppins(fontWeight: FontWeight.w500, fontSize: 16)),
+                                                  GoogleFonts.poppins(fontWeight: FontWeight.w500, fontSize: 16)),
                                               3.spaceY,
                                               Text('kwd ${product.value.toString()}',
                                                   style: GoogleFonts.poppins(
@@ -416,135 +416,133 @@ class _DirectCheckOutScreenState extends State<DirectCheckOutScreen> {
                         ],
                       ),
                     if (selectedAddress.id != null &&
-                            directOrderResponse.prodcutData!.isShipping == true &&
-                            directOrderResponse.vendorCountryId != '117' ||
+                        directOrderResponse.prodcutData!.isShipping == true &&
+                        directOrderResponse.vendorCountryId != '117' ||
                         cartController.countryName.value != 'Kuwait')
                       selectedAddress.id != null
                           ? Column(
-                              children: [
-                                Container(
-                                  color: Colors.white,
-                                  child: Padding(
-                                    padding: const EdgeInsets.symmetric(horizontal: 24, vertical: 16),
-                                    child: Row(
-                                      crossAxisAlignment: CrossAxisAlignment.center,
-                                      children: [
-                                        Image.asset('assets/images/shipping_icon.png', height: 32, width: 32),
-                                        20.spaceX,
-                                        Text("Fedex Shipping Method".tr,
-                                            style: GoogleFonts.poppins(fontWeight: FontWeight.w500, fontSize: 18)),
-                                      ],
-                                    ),
-                                  ),
-                                ),
-                                Container(
-                                  color: Colors.white,
-                                  child: ListView.builder(
-                                    physics: const NeverScrollableScrollPhysics(),
+                        children: [
+                          Container(
+                            color: Colors.white,
+                            child: Padding(
+                              padding: const EdgeInsets.symmetric(horizontal: 24, vertical: 16),
+                              child: Row(
+                                crossAxisAlignment: CrossAxisAlignment.center,
+                                children: [
+                                  Image.asset('assets/images/shipping_icon.png', height: 32, width: 32),
+                                  20.spaceX,
+                                  Text("Fedex Shipping Method".tr,
+                                      style: GoogleFonts.poppins(fontWeight: FontWeight.w500, fontSize: 18)),
+                                ],
+                              ),
+                            ),
+                          ),
+                          Container(
+                            color: Colors.white,
+                            child: ListView.builder(
+                              physics: const NeverScrollableScrollPhysics(),
+                              shrinkWrap: true,
+                              itemCount: directOrderResponse.fedexShipping!.length,
+                              padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 15).copyWith(top: 0),
+                              itemBuilder: (context, ii) {
+                                return directOrderResponse.fedexShipping![ii].output != null
+                                    ? ListView.builder(
                                     shrinkWrap: true,
-                                    itemCount: directOrderResponse.fedexShipping!.length,
-                                    padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 15).copyWith(top: 0),
-                                    itemBuilder: (context, ii) {
-                                      return directOrderResponse.fedexShipping![ii].output != null
-                                          ? ListView.builder(
-                                              shrinkWrap: true,
-                                              physics: const NeverScrollableScrollPhysics(),
-                                              itemCount: directOrderResponse
-                                                  .fedexShipping![ii].output!.rateReplyDetails!.length,
-                                              itemBuilder: (context, index) {
-                                                var product = directOrderResponse
-                                                    .fedexShipping![ii].output!.rateReplyDetails![index];
-                                                return Obx(() {
-                                                  return directOrderResponse.fedexShipping![ii].output != null
-                                                      ? Column(
-                                                          children: [
-                                                            10.spaceY,
-                                                            index == 0
-                                                                ? 0.spaceY
-                                                                : const Divider(
-                                                                    color: Color(0xFFD9D9D9),
-                                                                    thickness: 0.8,
-                                                                  ),
-                                                            Row(
-                                                              children: [
-                                                                Radio(
-                                                                  value: product.serviceType.toString(),
-                                                                  groupValue:
-                                                                      directOrderResponse.fedexShippingOption.value,
-                                                                  visualDensity: const VisualDensity(horizontal: -4.0),
-                                                                  onChanged: (value) {
-                                                                    setState(() {
-                                                                      directOrderResponse.fedexShippingOption.value =
-                                                                          value.toString();
-                                                                      cartController.shippingTitle =
-                                                                          product.serviceName.toString();
-                                                                      cartController.shippingPrices = product
-                                                                          .ratedShipmentDetails![ii].totalNetCharge
-                                                                          .toString();
-                                                                      print(cartController.shippingTitle.toString());
-                                                                      // print(cartController.shippingTitle.toString());
-                                                                      print(cartController.shippingPrices.toString());
-                                                                      shippingPrice = product
-                                                                          .ratedShipmentDetails![ii].totalNetCharge
-                                                                          .toString();
-                                                                      double subtotal = double.parse(
-                                                                          directOrderResponse.subtotal.toString());
-                                                                      print(
-                                                                          'shipping price${shippingPrice.toString()}');
-                                                                      double shipping = double.parse(shippingPrice);
-                                                                      total = subtotal + shipping;
-                                                                      cartController.formattedTotal =
-                                                                          total.toStringAsFixed(3);
-                                                                      // cartController.shippingId =  directOrderResponse.shippingOption.value;
-                                                                      // log( directOrderResponse.shippingOption.value);
-                                                                      // log(cartController.shippingId);
-                                                                    });
-                                                                  },
-                                                                ),
-                                                                20.spaceX,
-                                                                Column(
-                                                                  crossAxisAlignment: CrossAxisAlignment.start,
-                                                                  children: [
-                                                                    Text(
-                                                                        product.serviceName
-                                                                            .toString()
-                                                                            .capitalize!
-                                                                            .replaceAll('_', ' '),
-                                                                        style: GoogleFonts.poppins(
-                                                                            fontWeight: FontWeight.w500, fontSize: 16)),
-                                                                    3.spaceY,
-                                                                    Text(
-                                                                        'kwd ${product.ratedShipmentDetails![ii].totalNetCharge.toString()}',
-                                                                        style: GoogleFonts.poppins(
-                                                                            fontWeight: FontWeight.w400,
-                                                                            fontSize: 16,
-                                                                            color: const Color(0xFF03a827))),
-                                                                    3.spaceY,
-                                                                    Text(
-                                                                        '${product.operationalDetail!.deliveryDay ?? ''}  ${product.operationalDetail!.deliveryDate ?? ''}',
-                                                                        style: GoogleFonts.poppins(
-                                                                            fontWeight: FontWeight.w400,
-                                                                            fontSize: 15,
-                                                                            fontStyle: FontStyle.italic,
-                                                                            color: const Color(0xFF000000))),
-                                                                  ],
-                                                                ),
-                                                                // Text(product.name.toString().capitalize!.replaceAll('_', ' '),
-                                                                //     style: GoogleFonts.poppins(fontWeight: FontWeight.w400, fontSize: 16)),
-                                                              ],
-                                                            ),
-                                                          ],
-                                                        )
-                                                      : const LoadingAnimation();
-                                                });
-                                              })
-                                          : const LoadingAnimation();
-                                      // : 0.spaceY,;
-                                    },
-                                  ),
-                                ),
-                              ],
-                            )
+                                    physics: const NeverScrollableScrollPhysics(),
+                                    itemCount: directOrderResponse
+                                        .fedexShipping![ii].output!.rateReplyDetails!.length,
+                                    itemBuilder: (context, index) {
+                                      var product = directOrderResponse
+                                          .fedexShipping![ii].output!.rateReplyDetails![index];
+                                      return Obx(() {
+                                        return directOrderResponse.fedexShipping![ii].output != null
+                                            ? Column(
+                                          children: [
+                                            10.spaceY,
+                                            index == 0
+                                                ? 0.spaceY
+                                                : const Divider(
+                                              color: Color(0xFFD9D9D9),
+                                              thickness: 0.8,
+                                            ),
+                                            Row(
+                                              children: [
+                                                Radio(
+                                                  value: product.serviceType.toString(),
+                                                  groupValue:
+                                                  directOrderResponse.fedexShippingOption.value,
+                                                  visualDensity: const VisualDensity(horizontal: -4.0),
+                                                  onChanged: (value) {
+                                                    setState(() {
+                                                      directOrderResponse.fedexShippingOption.value =
+                                                          value.toString();
+                                                      cartController.shippingTitle =
+                                                          product.serviceName.toString();
+                                                      cartController.shippingPrices = product
+                                                          .ratedShipmentDetails![ii].totalNetCharge
+                                                          .toString();
+                                                      log("tttttt${cartController.shippingTitle.toString()}");
+                                                      // print(cartController.shippingTitle.toString());
+                                                      print(cartController.shippingPrices.toString());
+                                                      shippingPrice = product.ratedShipmentDetails![ii].totalNetCharge.toString();
+                                                      double subtotal = double.parse(
+                                                          directOrderResponse.subtotal.toString());
+                                                      print(
+                                                          'shipping price${shippingPrice.toString()}');
+                                                      double shipping = double.parse(shippingPrice);
+                                                      total = subtotal + shipping;
+                                                      cartController.formattedTotal =
+                                                          total.toStringAsFixed(3);
+                                                      // cartController.shippingId =  directOrderResponse.shippingOption.value;
+                                                      // log( directOrderResponse.shippingOption.value);
+                                                      // log(cartController.shippingId);
+                                                    });
+                                                  },
+                                                ),
+                                                20.spaceX,
+                                                Column(
+                                                  crossAxisAlignment: CrossAxisAlignment.start,
+                                                  children: [
+                                                    Text(
+                                                        product.serviceName
+                                                            .toString()
+                                                            .capitalize!
+                                                            .replaceAll('_', ' '),
+                                                        style: GoogleFonts.poppins(
+                                                            fontWeight: FontWeight.w500, fontSize: 16)),
+                                                    3.spaceY,
+                                                    Text(
+                                                        'kwd ${product.ratedShipmentDetails![ii].totalNetCharge.toString()}',
+                                                        style: GoogleFonts.poppins(
+                                                            fontWeight: FontWeight.w400,
+                                                            fontSize: 16,
+                                                            color: const Color(0xFF03a827))),
+                                                    3.spaceY,
+                                                    Text(
+                                                        '${product.operationalDetail!.deliveryDay ?? ''}  ${product.operationalDetail!.deliveryDate ?? ''}',
+                                                        style: GoogleFonts.poppins(
+                                                            fontWeight: FontWeight.w400,
+                                                            fontSize: 15,
+                                                            fontStyle: FontStyle.italic,
+                                                            color: const Color(0xFF000000))),
+                                                  ],
+                                                ),
+                                                // Text(product.name.toString().capitalize!.replaceAll('_', ' '),
+                                                //     style: GoogleFonts.poppins(fontWeight: FontWeight.w400, fontSize: 16)),
+                                              ],
+                                            ),
+                                          ],
+                                        )
+                                            : const LoadingAnimation();
+                                      });
+                                    })
+                                    : const LoadingAnimation();
+                                // : 0.spaceY,;
+                              },
+                            ),
+                          ),
+                        ],
+                      )
                           : const SizedBox()
                   ],
                 )
@@ -664,7 +662,7 @@ class _DirectCheckOutScreenState extends State<DirectCheckOutScreen> {
                               Text(
                                 'Same As Shipping Address',
                                 style:
-                                    GoogleFonts.poppins(fontWeight: FontWeight.w500, fontSize: 16, color: Colors.black),
+                                GoogleFonts.poppins(fontWeight: FontWeight.w500, fontSize: 16, color: Colors.black),
                               ),
                               10.spaceX,
                               Transform.translate(
@@ -790,9 +788,9 @@ class _DirectCheckOutScreenState extends State<DirectCheckOutScreen> {
                               showAddressSelectorDialog(
                                   addressList: modelCountryList!.country!
                                       .map((e) => CommonAddressRelatedClass(
-                                          title: e.name.toString(),
-                                          addressId: e.id.toString(),
-                                          flagUrl: e.icon.toString()))
+                                      title: e.name.toString(),
+                                      addressId: e.id.toString(),
+                                      flagUrl: e.icon.toString()))
                                       .toList(),
                                   selectedAddressIdPicked: (String gg) {
                                     String previous = ((selectedCountry ?? Country()).id ?? "").toString();
@@ -840,13 +838,13 @@ class _DirectCheckOutScreenState extends State<DirectCheckOutScreen> {
                               showAddressSelectorDialog(
                                   addressList: profileController.selectedLAnguage.value == 'English'
                                       ? modelStateList!.state!
-                                          .map((e) => CommonAddressRelatedClass(
-                                              title: e.stateName.toString(), addressId: e.stateId.toString()))
-                                          .toList()
+                                      .map((e) => CommonAddressRelatedClass(
+                                      title: e.stateName.toString(), addressId: e.stateId.toString()))
+                                      .toList()
                                       : modelStateList!.state!
-                                          .map((e) => CommonAddressRelatedClass(
-                                              title: e.arabStateName.toString(), addressId: e.stateId.toString()))
-                                          .toList(),
+                                      .map((e) => CommonAddressRelatedClass(
+                                      title: e.arabStateName.toString(), addressId: e.stateId.toString()))
+                                      .toList(),
                                   selectedAddressIdPicked: (String gg) {
                                     String previous = ((selectedState ?? CountryState()).stateId ?? "").toString();
                                     selectedState = modelStateList!.state!
@@ -892,13 +890,13 @@ class _DirectCheckOutScreenState extends State<DirectCheckOutScreen> {
                               showAddressSelectorDialog(
                                   addressList: profileController.selectedLAnguage.value == 'English'
                                       ? modelCityList!.city!
-                                          .map((e) => CommonAddressRelatedClass(
-                                              title: e.cityName.toString(), addressId: e.cityId.toString()))
-                                          .toList()
+                                      .map((e) => CommonAddressRelatedClass(
+                                      title: e.cityName.toString(), addressId: e.cityId.toString()))
+                                      .toList()
                                       : modelCityList!.city!
-                                          .map((e) => CommonAddressRelatedClass(
-                                              title: e.arabCityName.toString(), addressId: e.cityId.toString()))
-                                          .toList(),
+                                      .map((e) => CommonAddressRelatedClass(
+                                      title: e.arabCityName.toString(), addressId: e.cityId.toString()))
+                                      .toList(),
                                   selectedAddressIdPicked: (String gg) {
                                     selectedCity =
                                         modelCityList!.city!.firstWhere((element) => element.cityId.toString() == gg);
@@ -1005,9 +1003,9 @@ class _DirectCheckOutScreenState extends State<DirectCheckOutScreen> {
                       Text("Total".tr, style: GoogleFonts.poppins(fontWeight: FontWeight.w500, fontSize: 18)),
                       total == 0.0
                           ? Text("KWD ${directOrderResponse.subtotal.toString()}",
-                              style: GoogleFonts.poppins(fontWeight: FontWeight.w500, fontSize: 18))
+                          style: GoogleFonts.poppins(fontWeight: FontWeight.w500, fontSize: 18))
                           : Text("KWD ${cartController.formattedTotal.toString()}",
-                              style: GoogleFonts.poppins(fontWeight: FontWeight.w500, fontSize: 18)),
+                          style: GoogleFonts.poppins(fontWeight: FontWeight.w500, fontSize: 18)),
                     ],
                   ),
                 ],
@@ -1088,7 +1086,7 @@ class _DirectCheckOutScreenState extends State<DirectCheckOutScreen> {
               child: StatefulBuilder(builder: (context, newState) {
                 String gg = searchController.text.trim().toLowerCase();
                 List<CommonAddressRelatedClass> filteredList =
-                    addressList.where((element) => element.title.toString().toLowerCase().contains(gg)).toList();
+                addressList.where((element) => element.title.toString().toLowerCase().contains(gg)).toList();
                 return Column(
                   mainAxisSize: MainAxisSize.min,
                   children: [
@@ -1123,29 +1121,29 @@ class _DirectCheckOutScreenState extends State<DirectCheckOutScreen> {
                                 },
                                 leading: filteredList[index].flagUrl != null
                                     ? SizedBox(
-                                        width: 30,
-                                        height: 30,
-                                        child: filteredList[index].flagUrl.toString().contains("svg")
-                                            ? SvgPicture.network(
-                                                filteredList[index].flagUrl.toString(),
-                                              )
-                                            : Image.network(
-                                                filteredList[index].flagUrl.toString(),
-                                                errorBuilder: (_, __, ___) => const SizedBox.shrink(),
-                                              ))
+                                    width: 30,
+                                    height: 30,
+                                    child: filteredList[index].flagUrl.toString().contains("svg")
+                                        ? SvgPicture.network(
+                                      filteredList[index].flagUrl.toString(),
+                                    )
+                                        : Image.network(
+                                      filteredList[index].flagUrl.toString(),
+                                      errorBuilder: (_, __, ___) => const SizedBox.shrink(),
+                                    ))
                                     : null,
                                 visualDensity: VisualDensity.compact,
                                 title: Text(filteredList[index].title),
                                 trailing: selectedAddressId == filteredList[index].addressId
                                     ? const Icon(
-                                        Icons.check,
-                                        color: Colors.purple,
-                                      )
+                                  Icons.check,
+                                  color: Colors.purple,
+                                )
                                     : Icon(
-                                        Icons.arrow_forward_ios_rounded,
-                                        size: 18,
-                                        color: Colors.grey.shade800,
-                                      ),
+                                  Icons.arrow_forward_ios_rounded,
+                                  size: 18,
+                                  color: Colors.grey.shade800,
+                                ),
                               );
                             }))
                   ],
@@ -1235,13 +1233,13 @@ class _DirectCheckOutScreenState extends State<DirectCheckOutScreen> {
                       isExpanded: true,
                       items: methods!.data!
                           .map((e) => DropdownMenuItem(
-                              value: e.paymentMethodId.toString(),
-                              child: Row(
-                                children: [
-                                  Expanded(child: Text(e.paymentMethodEn.toString())),
-                                  SizedBox(width: 35, height: 35, child: Image.network(e.imageUrl.toString()))
-                                ],
-                              )))
+                          value: e.paymentMethodId.toString(),
+                          child: Row(
+                            children: [
+                              Expanded(child: Text(e.paymentMethodEn.toString())),
+                              SizedBox(width: 35, height: 35, child: Image.network(e.imageUrl.toString()))
+                            ],
+                          )))
                           .toList(),
                       onChanged: (value) {
                         if (value == null) return;
@@ -1275,194 +1273,195 @@ class _DirectCheckOutScreenState extends State<DirectCheckOutScreen> {
         child: Obx(() {
           if (cartController.refreshInt.value > 0) {}
           return cartController.myDefaultAddressModel.value.defaultAddress != null && cartController.addressLoaded ||
-                  profileController.userLoggedIn == false
+              profileController.userLoggedIn == false
               ? Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    // Row(
-                    //   children: [
-                    //     Expanded(
-                    //         child:
-                    //         Text("Delivery to".tr, style: GoogleFonts.poppins(fontWeight: FontWeight.w500, fontSize: 18))),
-                    //     Radio<String>(
-                    //       value: "delivery",
-                    //       groupValue: cartController.deliveryOption1.value.isNotEmpty
-                    //           ? cartController.deliveryOption1.value
-                    //           : "delivery",
-                    //       visualDensity: VisualDensity.compact,
-                    //       // fillColor: cartController.deliveryOption1.value.isEmpty &&
-                    //       //     cartController.showValidation.value
-                    //       //     ? MaterialStateProperty.all(Colors.red)
-                    //       //     : null,
-                    //       onChanged: (value) {
-                    //         cartController.deliveryOption1.value = value!;
-                    //       },
-                    //     )
-                    //
-                    //   ],
-                    // ),
-                    const SizedBox(
-                      height: 15,
-                    ),
-                    // if (deliveryOption.value == "delivery") ...[
-                    //   Material(
-                    //     child: InkWell(
-                    //       onTap: () {
-                    //         if (userLoggedIn) {
-                    //           bottomSheetChangeAddress();
-                    //         } else {
-                    //           addAddressWithoutLogin(addressData: selectedAddress);
-                    //         }
-                    //       },
-                    //       child: DottedBorder(
-                    //         color: const Color(0xff014E70),
-                    //         strokeWidth: 1.2,
-                    //         dashPattern: const [6, 3, 0, 3],
-                    //         child: Container(
-                    //           // height: 50,
-                    //           padding: const EdgeInsets.symmetric(vertical: 8, horizontal: 10),
-                    //           width: size.width,
-                    //           alignment: Alignment.center,
-                    //           child: selectedAddress.id != null
-                    //               ? Text(selectedAddress.getShortAddress,
-                    //               style: GoogleFonts.poppins(fontWeight: FontWeight.w500, fontSize: 16))
-                    //               : Text("Select Address ".tr,
-                    //               style: GoogleFonts.poppins(fontWeight: FontWeight.w500, fontSize: 16)),
-                    //         ),
-                    //       ),
-                    //     ),
-                    //   ),
-                    //   const SizedBox(
-                    //     height: 15,
-                    //   ),
-                    //   if (selectedAddress.id != null)
-                    //     InkWell(
-                    //         onTap: () {
-                    //           if (userLoggedIn) {
-                    //             bottomSheetChangeAddress();
-                    //           } else {
-                    //             addAddressWithoutLogin(addressData: selectedAddress);
-                    //           }
-                    //         },
-                    //         child: Align(
-                    //             alignment: Alignment.topRight,
-                    //             child: Text("Change Address".tr,
-                    //                 style: GoogleFonts.poppins(fontSize: 14, fontWeight: FontWeight.w500)))),
-                    // ],
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              // Row(
+              //   children: [
+              //     Expanded(
+              //         child:
+              //         Text("Delivery to".tr, style: GoogleFonts.poppins(fontWeight: FontWeight.w500, fontSize: 18))),
+              //     Radio<String>(
+              //       value: "delivery",
+              //       groupValue: cartController.deliveryOption1.value.isNotEmpty
+              //           ? cartController.deliveryOption1.value
+              //           : "delivery",
+              //       visualDensity: VisualDensity.compact,
+              //       // fillColor: cartController.deliveryOption1.value.isEmpty &&
+              //       //     cartController.showValidation.value
+              //       //     ? MaterialStateProperty.all(Colors.red)
+              //       //     : null,
+              //       onChanged: (value) {
+              //         cartController.deliveryOption1.value = value!;
+              //       },
+              //     )
+              //
+              //   ],
+              // ),
+              const SizedBox(
+                height: 15,
+              ),
+              // if (deliveryOption.value == "delivery") ...[
+              //   Material(
+              //     child: InkWell(
+              //       onTap: () {
+              //         if (userLoggedIn) {
+              //           bottomSheetChangeAddress();
+              //         } else {
+              //           addAddressWithoutLogin(addressData: selectedAddress);
+              //         }
+              //       },
+              //       child: DottedBorder(
+              //         color: const Color(0xff014E70),
+              //         strokeWidth: 1.2,
+              //         dashPattern: const [6, 3, 0, 3],
+              //         child: Container(
+              //           // height: 50,
+              //           padding: const EdgeInsets.symmetric(vertical: 8, horizontal: 10),
+              //           width: size.width,
+              //           alignment: Alignment.center,
+              //           child: selectedAddress.id != null
+              //               ? Text(selectedAddress.getShortAddress,
+              //               style: GoogleFonts.poppins(fontWeight: FontWeight.w500, fontSize: 16))
+              //               : Text("Select Address ".tr,
+              //               style: GoogleFonts.poppins(fontWeight: FontWeight.w500, fontSize: 16)),
+              //         ),
+              //       ),
+              //     ),
+              //   ),
+              //   const SizedBox(
+              //     height: 15,
+              //   ),
+              //   if (selectedAddress.id != null)
+              //     InkWell(
+              //         onTap: () {
+              //           if (userLoggedIn) {
+              //             bottomSheetChangeAddress();
+              //           } else {
+              //             addAddressWithoutLogin(addressData: selectedAddress);
+              //           }
+              //         },
+              //         child: Align(
+              //             alignment: Alignment.topRight,
+              //             child: Text("Change Address".tr,
+              //                 style: GoogleFonts.poppins(fontSize: 14, fontWeight: FontWeight.w500)))),
+              // ],
 
-                    Material(
-                      child: InkWell(
-                        onTap: () {
-                          if (userLoggedIn) {
-                            if (selectedAddress.id == null) {
-                              bottomSheetChangeAddress();
-                            } else {
-                              showDialog<String>(
-                                  context: context,
-                                  builder: (BuildContext context) => AlertDialog(
-                                        title: Text('Change Address'.tr),
-                                        content: Text('Do You Want To Changed Your Address.'.tr),
-                                        actions: <Widget>[
-                                          TextButton(
-                                            onPressed: () => Get.back(),
-                                            child: Text('Cancel'.tr),
-                                          ),
-                                          TextButton(
-                                            onPressed: () async {
-                                              Get.back();
-                                              bottomSheetChangeAddress();
-                                            },
-                                            child: Text('Yes'.tr),
-                                          ),
-                                        ],
-                                      ));
-                            }
-                          } else {
-                            addAddressWithoutLogin(addressData: selectedAddress);
-                          }
-                        },
-                        child: DottedBorder(
-                          color: const Color(0xff014E70),
-                          strokeWidth: 1.2,
-                          dashPattern: const [6, 3, 0, 3],
-                          child: Container(
-                            // height: 50,
-                            padding: const EdgeInsets.symmetric(vertical: 8, horizontal: 10),
-                            width: size.width,
-                            alignment: Alignment.center,
-                            child: cartController.selectedAddress.id != null
-                                ? Text(cartController.selectedAddress.getShortAddress,
-                                    style: GoogleFonts.poppins(fontWeight: FontWeight.w500, fontSize: 16))
-                                : cartController.myDefaultAddressModel.value.defaultAddress!.isDefault == true
-                                    ? Text(cartController.myDefaultAddressModel.value.defaultAddress!.getShortAddress,
-                                        style: GoogleFonts.poppins(fontWeight: FontWeight.w500, fontSize: 16))
-                                    : Text("Choose Address".tr,
-                                        style: GoogleFonts.poppins(fontWeight: FontWeight.w500, fontSize: 16)),
-                          ),
-                        ),
-                      ),
-                    ),
-                    const SizedBox(
-                      height: 15,
-                    ),
-                    if (selectedAddress.id != null ||
-                        cartController.myDefaultAddressModel.value.defaultAddress!.isDefault == true)
-                      InkWell(
-                          onTap: () {
-                            if (userLoggedIn) {
-                              if (selectedAddress.id == null) {
-                                bottomSheetChangeAddress();
-                              } else {
-                                showDialog<String>(
-                                    context: context,
-                                    builder: (BuildContext context) => AlertDialog(
-                                          title: Text('Change Address'.tr),
-                                          content: Text('Do You Want To Changed Your Address.'.tr),
-                                          actions: <Widget>[
-                                            TextButton(
-                                              onPressed: () => Get.back(),
-                                              child: Text('No'.tr),
-                                            ),
-                                            TextButton(
-                                              onPressed: () async {
-                                                Get.back();
-                                                bottomSheetChangeAddress();
-                                              },
-                                              child: Text('Yes'.tr),
-                                            ),
-                                          ],
-                                        ));
-                              }
-                            } else {
-                              addAddressWithoutLogin(addressData: selectedAddress);
-                            }
-                          },
-                          child: Align(
-                              alignment: Alignment.topRight,
-                              child: Text("Change Address".tr,
-                                  style: GoogleFonts.poppins(fontSize: 14, fontWeight: FontWeight.w500)))),
+              Material(
+                child: InkWell(
+                  onTap: () {
+                    if (userLoggedIn) {
+                      if (selectedAddress.id == null) {
+                        bottomSheetChangeAddress();
+                      } else {
+                        showDialog<String>(
+                            context: context,
+                            builder: (BuildContext context) => AlertDialog(
+                              title: Text('Change Address'.tr),
+                              content: Text('Do You Want To Changed Your Address.'.tr),
+                              actions: <Widget>[
+                                TextButton(
+                                  onPressed: () => Get.back(),
+                                  child: Text('Cancel'.tr),
+                                ),
+                                TextButton(
+                                  onPressed: () async {
+                                    Get.back();
+                                    bottomSheetChangeAddress();
+                                  },
+                                  child: Text('Yes'.tr),
+                                ),
+                              ],
+                            ));
+                      }
+                    } else {
+                      addAddressWithoutLogin(addressData: selectedAddress);
+                    }
+                  },
+                  child: DottedBorder(
+                    color: const Color(0xff014E70),
+                    strokeWidth: 1.2,
+                    dashPattern: const [6, 3, 0, 3],
+                    child: Container(
+                      // height: 50,
+                      padding: const EdgeInsets.symmetric(vertical: 8, horizontal: 10),
+                      width: size.width,
+                      alignment: Alignment.center,
 
-                    // Row(
-                    //   children: [
-                    //     Expanded(
-                    //         child: Text("Pick Up".tr, style: GoogleFonts.poppins(fontWeight: FontWeight.w500, fontSize: 18))),
-                    //     Radio<String>(
-                    //         value: "pickup",
-                    //         groupValue: deliveryOption.value,
-                    //         visualDensity: VisualDensity.compact,
-                    //         fillColor: deliveryOption.value.isEmpty && showValidation.value
-                    //             ? MaterialStateProperty.all(Colors.red)
-                    //             : null,
-                    //         onChanged: (value) {
-                    //           deliveryOption.value = value!;
-                    //         })
-                    //   ],
-                    // ),
-                    const SizedBox(
-                      height: 10,
+                      child: cartController.selectedAddress.id != null
+                          ? Text(cartController.selectedAddress.getShortAddress,
+                          style: GoogleFonts.poppins(fontWeight: FontWeight.w500, fontSize: 16))
+                          : cartController.myDefaultAddressModel.value.defaultAddress!.isDefault == true
+          ? Text(cartController.myDefaultAddressModel.value.defaultAddress!.getShortAddress,
+                          style: GoogleFonts.poppins(fontWeight: FontWeight.w500, fontSize: 16))
+                          : Text("Choose Address".tr,
+                          style: GoogleFonts.poppins(fontWeight: FontWeight.w500, fontSize: 16)),
                     ),
-                  ],
-                )
+                  ),
+                ),
+              ),
+              const SizedBox(
+                height: 15,
+              ),
+              if (selectedAddress.id != null ||
+                  cartController.myDefaultAddressModel.value.defaultAddress!.isDefault == true)
+                InkWell(
+                    onTap: () {
+                      if (userLoggedIn) {
+                        if (selectedAddress.id == null) {
+                          bottomSheetChangeAddress();
+                        } else {
+                          showDialog<String>(
+                              context: context,
+                              builder: (BuildContext context) => AlertDialog(
+                                title: Text('Change Address'.tr),
+                                content: Text('Do You Want To Changed Your Address.'.tr),
+                                actions: <Widget>[
+                                  TextButton(
+                                    onPressed: () => Get.back(),
+                                    child: Text('No'.tr),
+                                  ),
+                                  TextButton(
+                                    onPressed: () async {
+                                      Get.back();
+                                      bottomSheetChangeAddress();
+                                    },
+                                    child: Text('Yes'.tr),
+                                  ),
+                                ],
+                              ));
+                        }
+                      } else {
+                        addAddressWithoutLogin(addressData: selectedAddress);
+                      }
+                    },
+                    child: Align(
+                        alignment: Alignment.topRight,
+                        child: Text("Change Address".tr,
+                            style: GoogleFonts.poppins(fontSize: 14, fontWeight: FontWeight.w500)))),
+
+              // Row(
+              //   children: [
+              //     Expanded(
+              //         child: Text("Pick Up".tr, style: GoogleFonts.poppins(fontWeight: FontWeight.w500, fontSize: 18))),
+              //     Radio<String>(
+              //         value: "pickup",
+              //         groupValue: deliveryOption.value,
+              //         visualDensity: VisualDensity.compact,
+              //         fillColor: deliveryOption.value.isEmpty && showValidation.value
+              //             ? MaterialStateProperty.all(Colors.red)
+              //             : null,
+              //         onChanged: (value) {
+              //           deliveryOption.value = value!;
+              //         })
+              //   ],
+              // ),
+              const SizedBox(
+                height: 10,
+              ),
+            ],
+          )
               : const LoadingAnimation();
         }),
       ),
@@ -1476,7 +1475,7 @@ class _DirectCheckOutScreenState extends State<DirectCheckOutScreen> {
     final TextEditingController lastNameController = TextEditingController(text: addressData.lastName ?? "");
     final TextEditingController phoneController = TextEditingController(text: addressData.phone ?? "");
     final TextEditingController alternatePhoneController =
-        TextEditingController(text: addressData.alternatePhone ?? "");
+    TextEditingController(text: addressData.alternatePhone ?? "");
     final TextEditingController addressController = TextEditingController(text: addressData.address ?? "");
     final TextEditingController address2Controller = TextEditingController(text: addressData.address2 ?? "");
     final TextEditingController cityController = TextEditingController(text: addressData.city ?? "");
@@ -1709,7 +1708,7 @@ class _DirectCheckOutScreenState extends State<DirectCheckOutScreen> {
                           showAddressSelectorDialog(
                               addressList: modelCountryList!.country!
                                   .map((e) => CommonAddressRelatedClass(
-                                      title: e.name.toString(), addressId: e.id.toString(), flagUrl: e.icon.toString()))
+                                  title: e.name.toString(), addressId: e.id.toString(), flagUrl: e.icon.toString()))
                                   .toList(),
                               selectedAddressIdPicked: (String gg) {
                                 String previous = ((selectedCountry ?? Country()).id ?? "").toString();
@@ -1729,7 +1728,7 @@ class _DirectCheckOutScreenState extends State<DirectCheckOutScreen> {
                               selectedAddressId: ((selectedCountry ?? Country()).id ?? "").toString());
                         },
                         controller:
-                            TextEditingController(text: (selectedCountry ?? Country()).name ?? countryController.text),
+                        TextEditingController(text: (selectedCountry ?? Country()).name ?? countryController.text),
                         validator: (v) {
                           if (v!.trim().isEmpty) {
                             return "Please select country";
@@ -1755,7 +1754,7 @@ class _DirectCheckOutScreenState extends State<DirectCheckOutScreen> {
                           showAddressSelectorDialog(
                               addressList: modelStateList!.state!
                                   .map((e) => CommonAddressRelatedClass(
-                                      title: e.stateName.toString(), addressId: e.stateId.toString()))
+                                  title: e.stateName.toString(), addressId: e.stateId.toString()))
                                   .toList(),
                               selectedAddressIdPicked: (String gg) {
                                 String previous = ((selectedState ?? CountryState()).stateId ?? "").toString();
@@ -1793,7 +1792,7 @@ class _DirectCheckOutScreenState extends State<DirectCheckOutScreen> {
                         title: 'City',
                         hintText: 'Select City',
                         controller:
-                            TextEditingController(text: (selectedCity ?? City()).cityName ?? cityController.text),
+                        TextEditingController(text: (selectedCity ?? City()).cityName ?? cityController.text),
                         onTap: () {
                           if (modelCityList == null && cityRefresh.value > 0) {
                             showToast("Select State First");
@@ -1806,7 +1805,7 @@ class _DirectCheckOutScreenState extends State<DirectCheckOutScreen> {
                           showAddressSelectorDialog(
                               addressList: modelCityList!.city!
                                   .map((e) => CommonAddressRelatedClass(
-                                      title: e.cityName.toString(), addressId: e.cityId.toString()))
+                                  title: e.cityName.toString(), addressId: e.cityId.toString()))
                                   .toList(),
                               selectedAddressIdPicked: (String gg) {
                                 selectedCity =
@@ -1908,12 +1907,12 @@ class _DirectCheckOutScreenState extends State<DirectCheckOutScreen> {
 
   List<Widget> fieldWithName(
       {required String title,
-      required String hintText,
-      required TextEditingController controller,
-      FormFieldValidator<String>? validator,
-      bool? readOnly,
-      VoidCallback? onTap,
-      Widget? suffixIcon}) {
+        required String hintText,
+        required TextEditingController controller,
+        FormFieldValidator<String>? validator,
+        bool? readOnly,
+        VoidCallback? onTap,
+        Widget? suffixIcon}) {
     return [
       Text(
         title,
@@ -1985,7 +1984,7 @@ class _DirectCheckOutScreenState extends State<DirectCheckOutScreen> {
                         width: 100,
                         height: 6,
                         decoration:
-                            BoxDecoration(color: Colors.grey.shade400, borderRadius: BorderRadius.circular(100)),
+                        BoxDecoration(color: Colors.grey.shade400, borderRadius: BorderRadius.circular(100)),
                       )
                     ],
                   ),
@@ -2035,162 +2034,162 @@ class _DirectCheckOutScreenState extends State<DirectCheckOutScreen> {
                           const SliverPadding(padding: EdgeInsets.only(top: 4)),
                           shippingAddress.isNotEmpty
                               ? SliverList(
-                                  delegate: SliverChildBuilderDelegate(
-                                  childCount: shippingAddress.length,
-                                  (context, index) {
-                                    final address = shippingAddress[index];
-                                    return GestureDetector(
-                                      behavior: HitTestBehavior.translucent,
-                                      onTap: () {
-                                        selectedAddress = address;
-                                        cartController.countryName.value = address.country.toString();
-                                        print('onTap is....${cartController.countryName.value}');
-                                        if (cartController.isDelivery.value == true) {
-                                          cartController.addressDeliFirstName.text = selectedAddress.getFirstName;
-                                          cartController.addressDeliLastName.text = selectedAddress.getLastName;
-                                          cartController.addressDeliEmail.text = selectedAddress.getEmail;
-                                          cartController.addressDeliPhone.text = selectedAddress.getPhone;
-                                          cartController.addressDeliAlternate.text = selectedAddress.getAlternate;
-                                          cartController.addressDeliAddress.text = selectedAddress.getAddress;
-                                          cartController.addressDeliZipCode.text = selectedAddress.getZipCode;
-                                          cartController.addressCountryController.text = selectedAddress.getCountry;
-                                          cartController.addressStateController.text = selectedAddress.getState;
-                                          cartController.addressCityController.text = selectedAddress.getCity;
-                                        }
-                                        Get.back();
-                                        setState(() {});
-                                      },
-                                      child: Container(
-                                        width: size.width,
-                                        margin: const EdgeInsets.only(bottom: 15),
-                                        padding: const EdgeInsets.all(15),
-                                        decoration: BoxDecoration(
-                                            borderRadius: BorderRadius.circular(10),
-                                            border: Border.all(color: const Color(0xffDCDCDC))),
-                                        child: IntrinsicHeight(
-                                          child: Row(
-                                            crossAxisAlignment: CrossAxisAlignment.start,
-                                            children: [
-                                              const Icon(Icons.location_on_rounded),
-                                              const SizedBox(
-                                                width: 10,
+                              delegate: SliverChildBuilderDelegate(
+                                childCount: shippingAddress.length,
+                                    (context, index) {
+                                  final address = shippingAddress[index];
+                                  return GestureDetector(
+                                    behavior: HitTestBehavior.translucent,
+                                    onTap: () {
+                                      selectedAddress = address;
+                                      cartController.countryName.value = address.country.toString();
+                                      print('onTap is....${cartController.countryName.value}');
+                                      if (cartController.isDelivery.value == true) {
+                                        cartController.addressDeliFirstName.text = selectedAddress.getFirstName;
+                                        cartController.addressDeliLastName.text = selectedAddress.getLastName;
+                                        cartController.addressDeliEmail.text = selectedAddress.getEmail;
+                                        cartController.addressDeliPhone.text = selectedAddress.getPhone;
+                                        cartController.addressDeliAlternate.text = selectedAddress.getAlternate;
+                                        cartController.addressDeliAddress.text = selectedAddress.getAddress;
+                                        cartController.addressDeliZipCode.text = selectedAddress.getZipCode;
+                                        cartController.addressCountryController.text = selectedAddress.getCountry;
+                                        cartController.addressStateController.text = selectedAddress.getState;
+                                        cartController.addressCityController.text = selectedAddress.getCity;
+                                      }
+                                      Get.back();
+                                      setState(() {});
+                                    },
+                                    child: Container(
+                                      width: size.width,
+                                      margin: const EdgeInsets.only(bottom: 15),
+                                      padding: const EdgeInsets.all(15),
+                                      decoration: BoxDecoration(
+                                          borderRadius: BorderRadius.circular(10),
+                                          border: Border.all(color: const Color(0xffDCDCDC))),
+                                      child: IntrinsicHeight(
+                                        child: Row(
+                                          crossAxisAlignment: CrossAxisAlignment.start,
+                                          children: [
+                                            const Icon(Icons.location_on_rounded),
+                                            const SizedBox(
+                                              width: 10,
+                                            ),
+                                            Expanded(
+                                              child: Text(
+                                                address.getCompleteAddressInFormat,
+                                                style: GoogleFonts.poppins(
+                                                    fontWeight: FontWeight.w500,
+                                                    fontSize: 15,
+                                                    color: const Color(0xff585858)),
                                               ),
-                                              Expanded(
-                                                child: Text(
-                                                  address.getCompleteAddressInFormat,
+                                            ),
+                                            Column(
+                                              children: [
+                                                PopupMenuButton(
+                                                    color: Colors.white,
+                                                    iconSize: 20,
+                                                    icon: const Icon(
+                                                      Icons.more_vert,
+                                                      color: Colors.black,
+                                                    ),
+                                                    padding: EdgeInsets.zero,
+                                                    onSelected: (value) {
+                                                      setState(() {});
+                                                      Navigator.pushNamed(context, value.toString());
+                                                    },
+                                                    itemBuilder: (ac) {
+                                                      return [
+                                                        PopupMenuItem(
+                                                          onTap: () {
+                                                            bottomSheet(addressData: address);
+                                                          },
+                                                          // value: '/Edit',
+                                                          child: Text("Edit".tr),
+                                                        ),
+                                                        PopupMenuItem(
+                                                          onTap: () {
+                                                            cartController.selectedAddress = address;
+                                                            cartController.countryName.value =
+                                                                address.country.toString();
+                                                            print('onTap is....${cartController.countryName.value}');
+                                                            print(
+                                                                'onTap is....${cartController.selectedAddress.id.toString()}');
+                                                            if (cartController.isDelivery.value == true) {
+                                                              cartController.addressDeliFirstName.text =
+                                                                  cartController.selectedAddress.getFirstName;
+                                                              cartController.addressDeliLastName.text =
+                                                                  cartController.selectedAddress.getLastName;
+                                                              cartController.addressDeliEmail.text =
+                                                                  cartController.selectedAddress.getEmail;
+                                                              cartController.addressDeliPhone.text =
+                                                                  cartController.selectedAddress.getPhone;
+                                                              cartController.addressDeliAlternate.text =
+                                                                  cartController.selectedAddress.getAlternate;
+                                                              cartController.addressDeliAddress.text =
+                                                                  cartController.selectedAddress.getAddress;
+                                                              cartController.addressDeliZipCode.text =
+                                                                  cartController.selectedAddress.getZipCode;
+                                                              cartController.addressCountryController.text =
+                                                                  cartController.selectedAddress.getCountry;
+                                                              cartController.addressStateController.text =
+                                                                  cartController.selectedAddress.getState;
+                                                              cartController.addressCityController.text =
+                                                                  cartController.selectedAddress.getCity;
+                                                            }
+
+                                                            cartController.defaultAddressApi(context: context);
+                                                            setState(() {});
+                                                          },
+                                                          // value: '/slotViewScreen',
+                                                          child: Text("Default Address".tr),
+                                                        ),
+                                                        PopupMenuItem(
+                                                          onTap: () {
+                                                            cartController
+                                                                .deleteAddress(
+                                                              context: context,
+                                                              id: address.id.toString(),
+                                                            )
+                                                                .then((value) {
+                                                              if (value == true) {
+                                                                cartController.addressListModel.address!.shipping!
+                                                                    .removeWhere((element) =>
+                                                                element.id.toString() ==
+                                                                    address.id.toString());
+                                                                cartController.updateUI();
+                                                              }
+                                                            });
+                                                          },
+                                                          // value: '/deactivate',
+                                                          child: Text("Delete".tr),
+                                                        )
+                                                      ];
+                                                    }),
+                                                address.isDefault == true
+                                                    ? Text(
+                                                  "Default",
                                                   style: GoogleFonts.poppins(
                                                       fontWeight: FontWeight.w500,
                                                       fontSize: 15,
                                                       color: const Color(0xff585858)),
-                                                ),
-                                              ),
-                                              Column(
-                                                children: [
-                                                  PopupMenuButton(
-                                                      color: Colors.white,
-                                                      iconSize: 20,
-                                                      icon: const Icon(
-                                                        Icons.more_vert,
-                                                        color: Colors.black,
-                                                      ),
-                                                      padding: EdgeInsets.zero,
-                                                      onSelected: (value) {
-                                                        setState(() {});
-                                                        Navigator.pushNamed(context, value.toString());
-                                                      },
-                                                      itemBuilder: (ac) {
-                                                        return [
-                                                          PopupMenuItem(
-                                                            onTap: () {
-                                                              bottomSheet(addressData: address);
-                                                            },
-                                                            // value: '/Edit',
-                                                            child: Text("Edit".tr),
-                                                          ),
-                                                          PopupMenuItem(
-                                                            onTap: () {
-                                                              cartController.selectedAddress = address;
-                                                              cartController.countryName.value =
-                                                                  address.country.toString();
-                                                              print('onTap is....${cartController.countryName.value}');
-                                                              print(
-                                                                  'onTap is....${cartController.selectedAddress.id.toString()}');
-                                                              if (cartController.isDelivery.value == true) {
-                                                                cartController.addressDeliFirstName.text =
-                                                                    cartController.selectedAddress.getFirstName;
-                                                                cartController.addressDeliLastName.text =
-                                                                    cartController.selectedAddress.getLastName;
-                                                                cartController.addressDeliEmail.text =
-                                                                    cartController.selectedAddress.getEmail;
-                                                                cartController.addressDeliPhone.text =
-                                                                    cartController.selectedAddress.getPhone;
-                                                                cartController.addressDeliAlternate.text =
-                                                                    cartController.selectedAddress.getAlternate;
-                                                                cartController.addressDeliAddress.text =
-                                                                    cartController.selectedAddress.getAddress;
-                                                                cartController.addressDeliZipCode.text =
-                                                                    cartController.selectedAddress.getZipCode;
-                                                                cartController.addressCountryController.text =
-                                                                    cartController.selectedAddress.getCountry;
-                                                                cartController.addressStateController.text =
-                                                                    cartController.selectedAddress.getState;
-                                                                cartController.addressCityController.text =
-                                                                    cartController.selectedAddress.getCity;
-                                                              }
-
-                                                              cartController.defaultAddressApi(context: context);
-                                                              setState(() {});
-                                                            },
-                                                            // value: '/slotViewScreen',
-                                                            child: Text("Default Address".tr),
-                                                          ),
-                                                          PopupMenuItem(
-                                                            onTap: () {
-                                                              cartController
-                                                                  .deleteAddress(
-                                                                context: context,
-                                                                id: address.id.toString(),
-                                                              )
-                                                                  .then((value) {
-                                                                if (value == true) {
-                                                                  cartController.addressListModel.address!.shipping!
-                                                                      .removeWhere((element) =>
-                                                                          element.id.toString() ==
-                                                                          address.id.toString());
-                                                                  cartController.updateUI();
-                                                                }
-                                                              });
-                                                            },
-                                                            // value: '/deactivate',
-                                                            child: Text("Delete".tr),
-                                                          )
-                                                        ];
-                                                      }),
-                                                  address.isDefault == true
-                                                      ? Text(
-                                                          "Default",
-                                                          style: GoogleFonts.poppins(
-                                                              fontWeight: FontWeight.w500,
-                                                              fontSize: 15,
-                                                              color: const Color(0xff585858)),
-                                                        )
-                                                      : SizedBox(),
-                                                ],
-                                              )
-                                            ],
-                                          ),
+                                                )
+                                                    : SizedBox(),
+                                              ],
+                                            )
+                                          ],
                                         ),
                                       ),
-                                    );
-                                  },
-                                ))
+                                    ),
+                                  );
+                                },
+                              ))
                               : SliverToBoxAdapter(
-                                  child: Text(
-                                    "No Shipping Address Added!".tr,
-                                    textAlign: TextAlign.center,
-                                    style: GoogleFonts.poppins(fontWeight: FontWeight.w500, fontSize: 16),
-                                  ),
-                                ),
+                            child: Text(
+                              "No Shipping Address Added!".tr,
+                              textAlign: TextAlign.center,
+                              style: GoogleFonts.poppins(fontWeight: FontWeight.w500, fontSize: 16),
+                            ),
+                          ),
                           SliverToBoxAdapter(
                             child: SizedBox(
                               height: MediaQuery.of(context).viewInsets.bottom,
@@ -2214,7 +2213,7 @@ class _DirectCheckOutScreenState extends State<DirectCheckOutScreen> {
     final TextEditingController lastNameController = TextEditingController(text: addressData.lastName ?? "");
     final TextEditingController phoneController = TextEditingController(text: addressData.phone ?? "");
     final TextEditingController alternatePhoneController =
-        TextEditingController(text: addressData.alternatePhone ?? "");
+    TextEditingController(text: addressData.alternatePhone ?? "");
     final TextEditingController addressController = TextEditingController(text: addressData.address ?? "");
     final TextEditingController address2Controller = TextEditingController(text: addressData.address2 ?? "");
     final TextEditingController cityController = TextEditingController(text: addressData.city ?? "");
@@ -2367,7 +2366,7 @@ class _DirectCheckOutScreenState extends State<DirectCheckOutScreen> {
                           showAddressSelectorDialog(
                               addressList: modelCountryList!.country!
                                   .map((e) => CommonAddressRelatedClass(
-                                      title: e.name.toString(), addressId: e.id.toString(), flagUrl: e.icon.toString()))
+                                  title: e.name.toString(), addressId: e.id.toString(), flagUrl: e.icon.toString()))
                                   .toList(),
                               selectedAddressIdPicked: (String gg) {
                                 String previous = ((selectedCountry ?? Country()).id ?? "").toString();
@@ -2388,7 +2387,7 @@ class _DirectCheckOutScreenState extends State<DirectCheckOutScreen> {
                               selectedAddressId: ((selectedCountry ?? Country()).id ?? "").toString());
                         },
                         controller:
-                            TextEditingController(text: (selectedCountry ?? Country()).name ?? countryController.text),
+                        TextEditingController(text: (selectedCountry ?? Country()).name ?? countryController.text),
                         validator: (v) {
                           if (v!.trim().isEmpty) {
                             return "Please select country";
@@ -2418,13 +2417,13 @@ class _DirectCheckOutScreenState extends State<DirectCheckOutScreen> {
                           showAddressSelectorDialog(
                               addressList: profileController.selectedLAnguage.value == 'English'
                                   ? modelStateList!.state!
-                                      .map((e) => CommonAddressRelatedClass(
-                                          title: e.stateName.toString(), addressId: e.stateId.toString()))
-                                      .toList()
+                                  .map((e) => CommonAddressRelatedClass(
+                                  title: e.stateName.toString(), addressId: e.stateId.toString()))
+                                  .toList()
                                   : modelStateList!.state!
-                                      .map((e) => CommonAddressRelatedClass(
-                                          title: e.arabStateName.toString(), addressId: e.stateId.toString()))
-                                      .toList(),
+                                  .map((e) => CommonAddressRelatedClass(
+                                  title: e.arabStateName.toString(), addressId: e.stateId.toString()))
+                                  .toList(),
                               selectedAddressIdPicked: (String gg) {
                                 String previous = ((selectedState ?? CountryState()).stateId ?? "").toString();
                                 selectedState =
@@ -2462,7 +2461,7 @@ class _DirectCheckOutScreenState extends State<DirectCheckOutScreen> {
                         title: 'City',
                         hintText: 'Select City',
                         controller:
-                            TextEditingController(text: (selectedCity ?? City()).cityName ?? cityController.text),
+                        TextEditingController(text: (selectedCity ?? City()).cityName ?? cityController.text),
                         onTap: () {
                           if (modelCityList == null && cityRefresh.value > 0) {
                             showToast("Select State First");
@@ -2475,13 +2474,13 @@ class _DirectCheckOutScreenState extends State<DirectCheckOutScreen> {
                           showAddressSelectorDialog(
                               addressList: profileController.selectedLAnguage.value == 'English'
                                   ? modelCityList!.city!
-                                      .map((e) => CommonAddressRelatedClass(
-                                          title: e.cityName.toString(), addressId: e.cityId.toString()))
-                                      .toList()
+                                  .map((e) => CommonAddressRelatedClass(
+                                  title: e.cityName.toString(), addressId: e.cityId.toString()))
+                                  .toList()
                                   : modelCityList!.city!
-                                      .map((e) => CommonAddressRelatedClass(
-                                          title: e.arabCityName.toString(), addressId: e.cityId.toString()))
-                                      .toList(),
+                                  .map((e) => CommonAddressRelatedClass(
+                                  title: e.arabCityName.toString(), addressId: e.cityId.toString()))
+                                  .toList(),
                               selectedAddressIdPicked: (String gg) {
                                 selectedCity =
                                     modelCityList!.city!.firstWhere((element) => element.cityId.toString() == gg);
