@@ -1,3 +1,4 @@
+import 'dart:async';
 import 'dart:io';
 
 import 'package:dirise/screens/home_pages/star_of_month.dart';
@@ -7,10 +8,14 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/scheduler.dart';
 import 'package:flutter_svg/flutter_svg.dart';
+import 'package:geocoding/geocoding.dart';
+import 'package:geolocator/geolocator.dart';
 import 'package:get/get.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:google_maps_flutter/google_maps_flutter.dart';
 import '../../controller/cart_controller.dart';
 import '../../controller/home_controller.dart';
+import '../../controller/location_controller.dart';
 import '../../controller/profile_controller.dart';
 import '../../language/app_strings.dart';
 import '../../vendor/authentication/vendor_plans_screen.dart';
@@ -24,6 +29,7 @@ import '../../widgets/cart_widget.dart';
 import '../auth_screens/login_screen.dart';
 import '../search_products.dart';
 import 'ad_banner.dart';
+import 'add-edit-address.dart';
 import 'authers.dart';
 import 'popular_products.dart';
 import 'category_items.dart';
@@ -40,7 +46,78 @@ class HomePage extends StatefulWidget {
 class _HomePageState extends State<HomePage> {
   final homeController = Get.put(TrendingProductsController());
   final cartController = Get.put(CartController());
+  final Completer<GoogleMapController> googleMapController = Completer();
+  GoogleMapController? mapController;
 
+  String? _address = "";
+  Position? _currentPosition;
+
+  Future<bool> _handleLocationPermission() async {
+    bool serviceEnabled;
+    LocationPermission permission;
+
+    serviceEnabled = await Geolocator.isLocationServiceEnabled();
+    if (!serviceEnabled) {
+      ScaffoldMessenger.of(context)
+          .showSnackBar(const SnackBar(content: Text('Location services are disabled. Please enable the services')));
+      return false;
+    }
+    permission = await Geolocator.checkPermission();
+    if (permission == LocationPermission.denied) {
+      permission = await Geolocator.requestPermission();
+      if (permission == LocationPermission.denied) {
+        ScaffoldMessenger.of(context).showSnackBar(const SnackBar(content: Text('Location permissions are denied')));
+        return false;
+      }
+    }
+    if (permission == LocationPermission.deniedForever) {
+      ScaffoldMessenger.of(context).showSnackBar(
+          const SnackBar(content: Text('Location permissions are permanently denied, we cannot request permissions.')));
+      return false;
+    }
+    return true;
+  }
+  Future<void> _getAddressFromLatLng(Position position) async {
+    List<Placemark> placemarks = await placemarkFromCoordinates(position.latitude, position.longitude);
+
+    if (placemarks != null && placemarks.isNotEmpty) {
+      Placemark placemark = placemarks[0];
+
+      setState(() {
+        locationController.street = placemark.street ?? '';
+        locationController.city = placemark.locality ?? '';
+        locationController.state = placemark.administrativeArea ?? '';
+        locationController.countryName = placemark.country ?? '';
+        locationController.zipcode = placemark.postalCode ?? '';
+        locationController.town = placemark.subAdministrativeArea ?? '';
+
+      });
+    }
+    await placemarkFromCoordinates(_currentPosition!.latitude, _currentPosition!.longitude)
+        .then((List<Placemark> placemarks) {
+      Placemark place = placemarks[0];
+      setState(() {
+        _address = '${place.subLocality}, ${place.subAdministrativeArea}, ${place.postalCode}';
+      });
+    }).catchError((e) {
+      debugPrint(e.toString());
+    });
+  }
+  Future<void> _getCurrentPosition() async {
+    final hasPermission = await _handleLocationPermission();
+    if (!hasPermission) return;
+    await Geolocator.getCurrentPosition(desiredAccuracy: LocationAccuracy.high).then((Position position) {
+      setState(() => _currentPosition = position);
+      _getAddressFromLatLng(_currentPosition!);
+      mapController!.animateCamera(CameraUpdate.newCameraPosition(
+          CameraPosition(target: LatLng(_currentPosition!.latitude, _currentPosition!.longitude), zoom: 15)));
+      // _onAddMarkerButtonPressed(LatLng(_currentPosition!.latitude, _currentPosition!.longitude), "current location");
+      setState(() {});
+      // location = _currentAddress!;
+    }).catchError((e) {
+      debugPrint(e.toString());
+    });
+  }
   Future getAllAsync() async {
     if (!mounted) return;
     homeController.homeData();
@@ -125,12 +202,17 @@ class _HomePageState extends State<HomePage> {
     BankDetailsScreen.route,
     WithdrawMoney.route,
   ];
+  final locationController = Get.put(LocationController());
   @override
   void initState() {
     super.initState();
+    locationController.checkGps(context);
     profileController.aboutUsData();
     SchedulerBinding.instance.addPostFrameCallback((timeStamp) {
       getAllAsync();
+    });
+    WidgetsBinding.instance.addPostFrameCallback((timeStamp) {
+      _getCurrentPosition();
     });
   }
   final profileController = Get.put(ProfileController());
@@ -239,7 +321,7 @@ class _HomePageState extends State<HomePage> {
           backgroundColor: AppTheme.buttonColor,
           surfaceTintColor: AppTheme.buttonColor,
           title: const Padding(
-            padding: EdgeInsets.only(left: 16),
+            padding: EdgeInsets.only(left: 0),
             child: SizedBox(
               height: kToolbarHeight - 14,
               child: Image(
@@ -268,6 +350,54 @@ class _HomePageState extends State<HomePage> {
                       const SizedBox(
                         height: 5,
                       ),
+                      Padding(
+                        padding: const EdgeInsets.symmetric(horizontal: 15),
+                        child: Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
+                            Text(
+                              'Address',
+                              style: GoogleFonts.poppins(
+                                color: Colors.white,
+                                fontSize: 18,
+                                fontWeight: FontWeight.w500,
+                              ),
+                            ),
+                            4.spaceY,
+                            GestureDetector(onTap: () {
+                              Get.to(() =>  HomeAddEditAddress(), arguments: 'home');
+                            }, child: Row(
+                              // mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                              children: [
+                                SvgPicture.asset(
+                                  'assets/images/location.svg',
+                                  height: 20,
+                                  color: Colors.white,
+                                ),
+                               5.spaceX,
+                                Flexible(
+                                  child: Text(
+                                   "${locationController.countryName.toString()} , ${locationController.city.toString()}",
+                                    style: GoogleFonts.poppins(
+                                      color: Colors.white,
+                                      fontSize: 14,
+                                      fontWeight: FontWeight.w400,
+                                    ),
+                                  ),
+                                ),
+                                5.spaceX,
+                                SvgPicture.asset(
+                                  'assets/images/pencilImg.svg',
+                                  height: 18,
+                                  color: Colors.white,
+                                ),
+                              ],
+                            )
+                            ),
+                          ],
+                        ),
+                      ),
+                      10.spaceY,
                       Hero(
                         tag: "search_tag",
                         child: Material(
