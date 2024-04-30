@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:google_fonts/google_fonts.dart';
 
+import '../addNewProduct/locationScreen.dart';
 import '../language/app_strings.dart';
 import '../newAddress/pickUpAddressScreen.dart';
 
@@ -22,7 +23,8 @@ class _TellUsAboutYourSelfState extends State<TellUsAboutYourSelf> {
     if (selectedRadio == 'sell') {
       Get.to(const WhichplantypedescribeyouScreen());
     } else if (selectedRadio == 'shop') {
-      Get.to( PickUpAddressScreen());
+      // Get.to( PickUpAddressScreen());
+      Get.to(ChooseAddress());
     }
   }
 
