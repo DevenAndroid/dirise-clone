@@ -794,7 +794,7 @@ class _DirectCheckOutScreenState extends State<DirectCheckOutScreen> {
                               }),
                           ...fieldWithName(
                             title: 'Country/Region',
-                            hintText: 'Select Country',
+                            hintText: 'United States',
                             readOnly: true,
                             onTap: () {
                               showAddressSelectorDialog(
