@@ -8,6 +8,8 @@ import 'package:flutter/scheduler.dart';
 import 'package:flutter_switch/flutter_switch.dart';
 import 'package:get/get.dart';
 import 'package:google_fonts/google_fonts.dart';
+import '../../addNewProduct/addProductScreen.dart';
+import '../../addNewProduct/myItemIsScreen.dart';
 import '../../controller/vendor_controllers/add_product_controller.dart';
 import '../../controller/vendor_controllers/products_controller.dart';
 import '../../widgets/common_colour.dart';
@@ -129,7 +131,7 @@ class _VendorProductScreenState extends State<VendorProductScreen> {
                     ),
                     GestureDetector(
                       onTap: () {
-                        Get.to(()=> const AddProductScreen());
+                        Get.to(()=> const MyItemISScreen());
                       },
                       child: Container(
                         height: AddSize.size20 * 2.5,

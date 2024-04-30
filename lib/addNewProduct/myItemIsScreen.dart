@@ -20,6 +20,14 @@ class MyItemISScreen extends StatefulWidget {
 class _MyItemISScreenState extends State<MyItemISScreen> {
   String selectedRadio = '';
 
+  List<String> itemTexts = [
+    'Giveaway',
+    'Product',
+    'Job',
+    'Service',
+    'Virtual',
+  ];
+
   void navigateNext() {
     if (selectedRadio == 'sell') {
       Get.to(const WhichplantypedescribeyouScreen());
@@ -64,7 +72,7 @@ class _MyItemISScreenState extends State<MyItemISScreen> {
         ),
       ),
       body: Container(
-        margin: EdgeInsets.only(left: 15,right: 15),
+        margin: EdgeInsets.only(left: 15, right: 15),
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.stretch,
           children: [
@@ -77,18 +85,16 @@ class _MyItemISScreenState extends State<MyItemISScreen> {
                   mainAxisExtent: 200,
                   childAspectRatio: 2, // Aspect ratio can be adjusted
                 ),
-                itemCount: 5, // Number of grid items
+                itemCount: itemTexts.length, // Number of grid items
                 itemBuilder: (BuildContext context, int index) {
-                  return buildStack(index == 0
-                      ? 'I want to add Single Product'.tr
-                      : 'I want to add Multiple Product'.tr);
+                  return buildStack(itemTexts[index]);
                 },
               ),
             ),
             Padding(
               padding: const EdgeInsets.all(8.0),
-              child:  GestureDetector(
-                onTap: (){
+              child: GestureDetector(
+                onTap: () {
                   Get.to(ItemDetailsScreens());
                 },
                 child: Container(
@@ -120,6 +126,7 @@ class _MyItemISScreenState extends State<MyItemISScreen> {
       ),
     );
   }
+
   Widget buildStack(String text) {
     return Stack(
       children: [
@@ -133,20 +140,20 @@ class _MyItemISScreenState extends State<MyItemISScreen> {
             mainAxisAlignment: MainAxisAlignment.center,
             crossAxisAlignment: CrossAxisAlignment.center,
             children: [
-
               Text(
-                'Giveaway',
+                text,
                 style: TextStyle(
                   fontSize: 28,
                   fontWeight: FontWeight.w500,
                   color: Colors.black, // Text color
                 ),
-              ),SizedBox(height: 10,),
+              ),
+              SizedBox(height: 10,),
               Center(
                 child: Padding(
                   padding: const EdgeInsets.symmetric(horizontal: 10),
                   child: Text(
-                    text,
+                    'Some other text',
                     style: GoogleFonts.poppins(
                       color: Colors.black,
                       fontWeight: FontWeight.w500,
