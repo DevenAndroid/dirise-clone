@@ -16,6 +16,7 @@ import '../newAddress/locationScreen.dart';
 import '../personalizeyourstore/personalizeAddressScreen.dart';
 import '../repository/repository.dart';
 import '../screens/auth_screens/otp_screen.dart';
+import '../screens/check_out/address/add_address.dart';
 import '../utils/api_constant.dart';
 import '../widgets/common_button.dart';
 import '../widgets/common_textfield.dart';
@@ -91,7 +92,7 @@ class _PersonalizeAddAddressScreenState extends State<PersonalizeAddAddressScree
       ModelCommonResponse response = ModelCommonResponse.fromJson(jsonDecode(value));
       showToast(response.message.toString());
       if (response.status == true) {
-        Get.to(PersonalizeAddressScreen());
+        Get.to(AddAddressScreen());
       }
     });
   }
