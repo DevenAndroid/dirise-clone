@@ -130,7 +130,7 @@ class _AddressScreenState extends State<AddressScreen> {
           padding: const EdgeInsets.symmetric(horizontal: 20),
           child: Obx(() {
             if (cartController.refreshInt.value > 0) {}
-            return cartController.myDefaultAddressModel.value.defaultAddress!= null ?
+            return
               Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
@@ -294,7 +294,7 @@ class _AddressScreenState extends State<AddressScreen> {
                       const SizedBox(
                         height: 5,
                       ),
-                      if (cartController.selectedAddress.id != null || cartController.myDefaultAddressModel.value.defaultAddress!.isDefault == true)
+                      if (cartController.selectedAddress.id != null)
                         InkWell(
                             onTap: () {
                               if (userLoggedIn) {
@@ -315,7 +315,7 @@ class _AddressScreenState extends State<AddressScreen> {
                         height: 10,
                       ),
                     ],
-                  ) : const LoadingAnimation();
+                  ) ;
           }),
         ),
       ),

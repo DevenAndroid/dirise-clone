@@ -22,6 +22,7 @@ import 'package:http/http.dart' as http;
 import '../addNewProduct/addProductScreen.dart';
 import '../addNewProduct/itemdetailsScreen.dart';
 import '../addNewProduct/pickUpAddressScreen.dart';
+import '../screens/auth_screens/newpasswordscreen.dart';
 
 class NewOtpScreen extends StatefulWidget {
   static String route = "/OtpScreen";
@@ -61,10 +62,11 @@ class _NewOtpScreenState extends State<NewOtpScreen> {
       if (response.status == true) {
         if (check == true) {
           repositories.saveLoginDetails(jsonEncode(response));
-          Get.to(const TellUsAboutYourSelf());
-          // Get.offAllNamed(TellUsAboutYourSelf.route);
+
+          // Get.to(AddProductPickUpAddressScreen());
+           Get.offAllNamed(TellUsAboutYourSelf.route);
         } else {
-          // Get.offNamed(NewPasswordScreen.route, arguments: [email]);
+           Get.offNamed(NewPasswordScreen.route, arguments: [email]);
         }
       }
     });

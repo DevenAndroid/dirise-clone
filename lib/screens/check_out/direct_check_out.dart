@@ -91,7 +91,19 @@ class _DirectCheckOutScreenState extends State<DirectCheckOutScreen> {
       stateRefresh.value = DateTime.now().millisecondsSinceEpoch;
     });
   }
-
+  defaultAddressApi() async {
+    Map<String, dynamic> map = {};
+    map['address_id'] = cartController.selectedAddress.id.toString();
+    repositories.postApi(url: ApiUrls.defaultAddressStatus, context: context, mapData: map).then((value) async {
+      ModelCommonResponse response = ModelCommonResponse.fromJson(jsonDecode(value));
+      if (response.status == true) {
+        showToast(response.message.toString());
+        Get.back();
+      }else{
+        showToast(response.message.toString());
+      }
+    });
+  }
   ModelCountryList? modelCountryList;
   Country? selectedCountry;
   RxInt cityRefresh = 2.obs;
@@ -1272,9 +1284,7 @@ class _DirectCheckOutScreenState extends State<DirectCheckOutScreen> {
         padding: const EdgeInsets.symmetric(horizontal: 20),
         child: Obx(() {
           if (cartController.refreshInt.value > 0) {}
-          return cartController.myDefaultAddressModel.value.defaultAddress != null && cartController.addressLoaded ||
-              profileController.userLoggedIn == false
-              ? Column(
+          return  Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               // Row(
@@ -1392,7 +1402,7 @@ class _DirectCheckOutScreenState extends State<DirectCheckOutScreen> {
                       child: cartController.selectedAddress.id != null
                           ? Text(cartController.selectedAddress.getShortAddress,
                           style: GoogleFonts.poppins(fontWeight: FontWeight.w500, fontSize: 16))
-                          : cartController.myDefaultAddressModel.value.defaultAddress!.isDefault == true
+                          : cartController.myDefaultAddressModel.value.defaultAddress?.isDefault == true
           ? Text(cartController.myDefaultAddressModel.value.defaultAddress!.getShortAddress,
                           style: GoogleFonts.poppins(fontWeight: FontWeight.w500, fontSize: 16))
                           : Text("Choose Address".tr,
@@ -1405,35 +1415,15 @@ class _DirectCheckOutScreenState extends State<DirectCheckOutScreen> {
                 height: 15,
               ),
               if (selectedAddress.id != null ||
-                  cartController.myDefaultAddressModel.value.defaultAddress!.isDefault == true)
+                  cartController.myDefaultAddressModel.value.defaultAddress?.isDefault == true)
                 InkWell(
                     onTap: () {
                       if (userLoggedIn) {
-                        if (selectedAddress.id == null) {
-                          bottomSheetChangeAddress();
-                        } else {
-                          showDialog<String>(
-                              context: context,
-                              builder: (BuildContext context) => AlertDialog(
-                                title: Text('Change Address'.tr),
-                                content: Text('Do You Want To Changed Your Address.'.tr),
-                                actions: <Widget>[
-                                  TextButton(
-                                    onPressed: () => Get.back(),
-                                    child: Text('No'.tr),
-                                  ),
-                                  TextButton(
-                                    onPressed: () async {
-                                      Get.back();
-                                      bottomSheetChangeAddress();
-                                    },
-                                    child: Text('Yes'.tr),
-                                  ),
-                                ],
-                              ));
-                        }
+                        bottomSheetChangeAddress();
                       } else {
-                        addAddressWithoutLogin(addressData: selectedAddress);
+                        Get.toNamed(
+                          LoginScreen.route,
+                        );
                       }
                     },
                     child: Align(
@@ -1461,8 +1451,8 @@ class _DirectCheckOutScreenState extends State<DirectCheckOutScreen> {
                 height: 10,
               ),
             ],
-          )
-              : const LoadingAnimation();
+          );
+
         }),
       ),
     );
@@ -1965,6 +1955,7 @@ class _DirectCheckOutScreenState extends State<DirectCheckOutScreen> {
 
   Future bottomSheetChangeAddress() {
     Size size = MediaQuery.of(context).size;
+    cartController.getAddress();
     return showModalBottomSheet(
         context: context,
         isScrollControlled: true,
@@ -1983,8 +1974,7 @@ class _DirectCheckOutScreenState extends State<DirectCheckOutScreen> {
                       Container(
                         width: 100,
                         height: 6,
-                        decoration:
-                        BoxDecoration(color: Colors.grey.shade400, borderRadius: BorderRadius.circular(100)),
+                        decoration: BoxDecoration(color: Colors.grey.shade400, borderRadius: BorderRadius.circular(100)),
                       )
                     ],
                   ),
@@ -1996,11 +1986,11 @@ class _DirectCheckOutScreenState extends State<DirectCheckOutScreen> {
                       // bottomSheet();
                     },
                     obSecure: false,
-                    hintText: '+ ${'Add Address'.tr}',
+                    hintText: '+ Add Address',
                   ),
                   Expanded(
                     child: Obx(() {
-                      if (cartController.refreshInt.value > 0) {}
+                      if (cartController.refreshInt11.value > 0) {}
                       List<AddressData> shippingAddress = cartController.addressListModel.address!.shipping ?? [];
 
                       return CustomScrollView(
@@ -2011,7 +2001,7 @@ class _DirectCheckOutScreenState extends State<DirectCheckOutScreen> {
                               children: [
                                 Expanded(
                                   child: Text(
-                                    "Shipping Address".tr,
+                                    "Shipping Address",
                                     style: GoogleFonts.poppins(fontWeight: FontWeight.w500, fontSize: 16),
                                   ),
                                 ),
@@ -2025,7 +2015,7 @@ class _DirectCheckOutScreenState extends State<DirectCheckOutScreen> {
                                       size: 20,
                                     ),
                                     label: Text(
-                                      "Add New".tr,
+                                      "Add New",
                                       style: GoogleFonts.poppins(fontSize: 15),
                                     ))
                               ],
@@ -2041,21 +2031,22 @@ class _DirectCheckOutScreenState extends State<DirectCheckOutScreen> {
                                   return GestureDetector(
                                     behavior: HitTestBehavior.translucent,
                                     onTap: () {
-                                      selectedAddress = address;
+                                      cartController.selectedAddress = address;
                                       cartController.countryName.value = address.country.toString();
                                       print('onTap is....${cartController.countryName.value}');
-                                      if (cartController.isDelivery.value == true) {
-                                        cartController.addressDeliFirstName.text = selectedAddress.getFirstName;
-                                        cartController.addressDeliLastName.text = selectedAddress.getLastName;
-                                        cartController.addressDeliEmail.text = selectedAddress.getEmail;
-                                        cartController.addressDeliPhone.text = selectedAddress.getPhone;
-                                        cartController.addressDeliAlternate.text = selectedAddress.getAlternate;
-                                        cartController.addressDeliAddress.text = selectedAddress.getAddress;
-                                        cartController.addressDeliZipCode.text = selectedAddress.getZipCode;
-                                        cartController.addressCountryController.text = selectedAddress.getCountry;
-                                        cartController.addressStateController.text = selectedAddress.getState;
-                                        cartController.addressCityController.text = selectedAddress.getCity;
+                                      if(cartController.isDelivery.value == true){
+                                        cartController.addressDeliFirstName.text = cartController.selectedAddress.getFirstName;
+                                        cartController.addressDeliLastName.text = cartController.selectedAddress.getLastName;
+                                        cartController.addressDeliEmail.text = cartController.selectedAddress.getEmail;
+                                        cartController.addressDeliPhone.text = cartController.selectedAddress.getPhone;
+                                        cartController.addressDeliAlternate.text = cartController.selectedAddress.getAlternate;
+                                        cartController.addressDeliAddress.text = cartController.selectedAddress.getAddress;
+                                        cartController.addressDeliZipCode.text = cartController.selectedAddress.getZipCode;
+                                        cartController.addressCountryController.text = cartController.selectedAddress.getCountry;
+                                        cartController.addressStateController.text = cartController.selectedAddress.getState;
+                                        cartController.addressCityController.text = cartController.selectedAddress.getCity;
                                       }
+                                      print('codeee isss${cartController.countryName.toString()}');
                                       Get.back();
                                       setState(() {});
                                     },
@@ -2085,6 +2076,7 @@ class _DirectCheckOutScreenState extends State<DirectCheckOutScreen> {
                                             ),
                                             Column(
                                               children: [
+
                                                 PopupMenuButton(
                                                     color: Colors.white,
                                                     iconSize: 20,
@@ -2094,7 +2086,9 @@ class _DirectCheckOutScreenState extends State<DirectCheckOutScreen> {
                                                     ),
                                                     padding: EdgeInsets.zero,
                                                     onSelected: (value) {
-                                                      setState(() {});
+                                                      setState(() {
+
+                                                      });
                                                       Navigator.pushNamed(context, value.toString());
                                                     },
                                                     itemBuilder: (ac) {
@@ -2109,36 +2103,27 @@ class _DirectCheckOutScreenState extends State<DirectCheckOutScreen> {
                                                         PopupMenuItem(
                                                           onTap: () {
                                                             cartController.selectedAddress = address;
-                                                            cartController.countryName.value =
-                                                                address.country.toString();
+                                                            cartController.countryName.value = address.country.toString();
                                                             print('onTap is....${cartController.countryName.value}');
-                                                            print(
-                                                                'onTap is....${cartController.selectedAddress.id.toString()}');
-                                                            if (cartController.isDelivery.value == true) {
-                                                              cartController.addressDeliFirstName.text =
-                                                                  cartController.selectedAddress.getFirstName;
-                                                              cartController.addressDeliLastName.text =
-                                                                  cartController.selectedAddress.getLastName;
-                                                              cartController.addressDeliEmail.text =
-                                                                  cartController.selectedAddress.getEmail;
-                                                              cartController.addressDeliPhone.text =
-                                                                  cartController.selectedAddress.getPhone;
-                                                              cartController.addressDeliAlternate.text =
-                                                                  cartController.selectedAddress.getAlternate;
-                                                              cartController.addressDeliAddress.text =
-                                                                  cartController.selectedAddress.getAddress;
-                                                              cartController.addressDeliZipCode.text =
-                                                                  cartController.selectedAddress.getZipCode;
-                                                              cartController.addressCountryController.text =
-                                                                  cartController.selectedAddress.getCountry;
-                                                              cartController.addressStateController.text =
-                                                                  cartController.selectedAddress.getState;
-                                                              cartController.addressCityController.text =
-                                                                  cartController.selectedAddress.getCity;
+                                                            print('onTap is....${cartController.selectedAddress.id.toString()}');
+                                                            if(cartController.isDelivery.value == true){
+                                                              cartController.addressDeliFirstName.text = cartController.selectedAddress.getFirstName;
+                                                              cartController.addressDeliLastName.text = cartController.selectedAddress.getLastName;
+                                                              cartController.addressDeliEmail.text = cartController.selectedAddress.getEmail;
+                                                              cartController.addressDeliPhone.text = cartController.selectedAddress.getPhone;
+                                                              cartController.addressDeliAlternate.text = cartController.selectedAddress.getAlternate;
+                                                              cartController.addressDeliAddress.text = cartController.selectedAddress.getAddress;
+                                                              cartController.addressDeliZipCode.text = cartController.selectedAddress.getZipCode;
+                                                              cartController.addressCountryController.text = cartController.selectedAddress.getCountry;
+                                                              cartController.addressStateController.text = cartController.selectedAddress.getState;
+                                                              cartController.addressCityController.text = cartController.selectedAddress.getCity;
                                                             }
 
-                                                            cartController.defaultAddressApi(context: context);
-                                                            setState(() {});
+
+                                                            defaultAddressApi();
+                                                            setState(() {
+
+                                                            });
                                                           },
                                                           // value: '/slotViewScreen',
                                                           child: Text("Default Address".tr),
@@ -2152,10 +2137,9 @@ class _DirectCheckOutScreenState extends State<DirectCheckOutScreen> {
                                                             )
                                                                 .then((value) {
                                                               if (value == true) {
-                                                                cartController.addressListModel.address!.shipping!
-                                                                    .removeWhere((element) =>
-                                                                element.id.toString() ==
-                                                                    address.id.toString());
+                                                                cartController.addressListModel.address!.shipping!.removeWhere(
+                                                                        (element) =>
+                                                                    element.id.toString() == address.id.toString());
                                                                 cartController.updateUI();
                                                               }
                                                             });
@@ -2165,15 +2149,16 @@ class _DirectCheckOutScreenState extends State<DirectCheckOutScreen> {
                                                         )
                                                       ];
                                                     }),
-                                                address.isDefault == true
-                                                    ? Text(
+                                                address.isDefault == true ?
+                                                Text(
                                                   "Default",
                                                   style: GoogleFonts.poppins(
                                                       fontWeight: FontWeight.w500,
                                                       fontSize: 15,
                                                       color: const Color(0xff585858)),
-                                                )
-                                                    : SizedBox(),
+                                                ) : SizedBox(),
+
+
                                               ],
                                             )
                                           ],
@@ -2185,7 +2170,7 @@ class _DirectCheckOutScreenState extends State<DirectCheckOutScreen> {
                               ))
                               : SliverToBoxAdapter(
                             child: Text(
-                              "No Shipping Address Added!".tr,
+                              "No Shipping Address Added!",
                               textAlign: TextAlign.center,
                               style: GoogleFonts.poppins(fontWeight: FontWeight.w500, fontSize: 16),
                             ),
