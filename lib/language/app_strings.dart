@@ -138,4 +138,7 @@ class AppStrings{
   static String loginFirst = "Login first";
   static String arabic = 'Arabic';
   static String english = 'English';
+  static String yourAddress = 'Your Address';
+  static String editAddress = 'Edit your address';
+  static String returnnPolicy = 'Return Policy';
 }
