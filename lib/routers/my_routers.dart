@@ -8,6 +8,7 @@ import 'package:dirise/screens/my_account_screens/return_policy_screen.dart';
 import 'package:dirise/screens/my_account_screens/termsconditions_screen.dart';
 import 'package:get/get.dart';
 import '../addNewProduct/pickUpAddressScreen.dart';
+import '../model/vendor_models/model_return_policy.dart';
 import '../newAuthScreens/newOtpScreen.dart';
 import '../newAuthScreens/signupScreen.dart';
 import '../posts/posts_ui.dart';
@@ -16,6 +17,8 @@ import '../screens/auth_screens/otp_screen.dart';
 import '../screens/calender.dart';
 import '../screens/categories/categories_screen.dart';
 import '../screens/check_out/add_bag_screen.dart';
+import '../screens/check_out/address/add_address.dart';
+import '../screens/check_out/address/edit_address_screen.dart';
 import '../screens/check_out/check_out_screen.dart';
 import '../screens/check_out/direct_check_out.dart';
 import '../screens/check_out/order_completed_screen.dart';
@@ -25,6 +28,7 @@ import '../screens/order_screens/my_orders_screen.dart';
 import '../screens/my_account_screens/privacy_policy_screen.dart';
 import '../screens/public_speaker_screen/publicspeaker_screen.dart';
 import '../screens/public_speaker_screen/single_public_speaker_screen.dart';
+import '../screens/return_policy.dart';
 import '../screens/school_nursery_category.dart';
 import '../screens/order_screens/selectd_order_screen.dart';
 import '../screens/virtual_assets/virtual_assets_screen.dart';
@@ -76,5 +80,8 @@ class MyRouters {
     GetPage(name: SelectedOrderScreen.route, page: () => const SelectedOrderScreen()),
     GetPage(name: DirectCheckOutScreen.route, page: () => const DirectCheckOutScreen()),
     GetPage(name: VendorProfileScreen.route, page: () => const VendorProfileScreen()),
+    GetPage(name: AddAddressScreen.route, page: () => const AddAddressScreen()),
+    GetPage(name: EditAddresss.route, page: () => const EditAddresss()),
+    GetPage(name: ReturnnPolicy.route, page: () => const ReturnnPolicy()),
   ];
 }

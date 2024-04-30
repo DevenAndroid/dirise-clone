@@ -938,6 +938,7 @@ class _CheckOutScreenState extends State<CheckOutScreen> {
                                                 )
                                               : const LoadingAnimation()
                                           : const SizedBox(),
+
                               ],
                             ))
                         .toList(),

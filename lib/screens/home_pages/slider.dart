@@ -3,9 +3,11 @@ import 'dart:convert';
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:card_swiper/card_swiper.dart';
 import 'package:dirise/language/app_strings.dart';
+import 'package:dirise/routers/my_routers.dart';
 import 'package:dirise/utils/helper.dart';
 import 'package:easy_image_viewer/easy_image_viewer.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/widgets.dart';
 import 'package:flutter_animate/flutter_animate.dart';
 import 'package:full_screen_image/full_screen_image.dart';
 import 'package:get/get.dart';
@@ -20,6 +22,7 @@ import '../../utils/api_constant.dart';
 import '../../widgets/common_colour.dart';
 import '../../widgets/dimension_screen.dart';
 import '../../widgets/loading_animation.dart';
+import '../check_out/address/add_address.dart';
 
 class SliderWidget extends StatefulWidget {
   const SliderWidget({super.key});
@@ -103,11 +106,16 @@ class _SliderWidgetState extends State<SliderWidget> {
                     padding: const EdgeInsets.only(left: 8.0, right: 8),
                     child: Row(
                       children: [
-                        Text(
-                          AppStrings.newsAndTrend.tr,
-                          style: GoogleFonts.poppins(
-                            color: AppTheme.buttonColor,
-                            fontWeight: FontWeight.w500,
+                        GestureDetector(
+                          onTap: (){
+                            Get.toNamed(AddAddressScreen.route);
+                          },
+                          child: Text(
+                            AppStrings.newsAndTrend.tr,
+                            style: GoogleFonts.poppins(
+                              color: AppTheme.buttonColor,
+                              fontWeight: FontWeight.w500,
+                            ),
                           ),
                         ),
                         const SizedBox(
