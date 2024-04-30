@@ -35,6 +35,9 @@ class _ItemDetailsScreensState extends State<ItemDetailsScreens> {
 
   final TextEditingController ProductNameController = TextEditingController();
 
+  int vendorID = 0;
+  int ProductID = 0;
+
 
   editAddressApi() {
     Map<String, dynamic> map = {};
@@ -53,6 +56,7 @@ class _ItemDetailsScreensState extends State<ItemDetailsScreens> {
   }
 
   ModelVendorCategory modelVendorCategory = ModelVendorCategory(usphone: []);
+  ProductCategoryModel productCategoryModel = ProductCategoryModel();
   Rx<RxStatus> vendorCategoryStatus = RxStatus.empty().obs;
   final GlobalKey categoryKey = GlobalKey();
   final GlobalKey subcategoryKey = GlobalKey();
@@ -83,7 +87,7 @@ class _ItemDetailsScreensState extends State<ItemDetailsScreens> {
   void fetchDataBasedOnId(int id) async {
     String apiUrl = 'https://dirise.eoxyslive.com/api/product-category?id=$id';
     await repositories.getApi(url: apiUrl).then((value) {
-      ProductCategoryModel productCategoryModel = ProductCategoryModel.fromJson(jsonDecode(value));
+      productCategoryModel = ProductCategoryModel.fromJson(jsonDecode(value));
       setState(() {
         fetchedDropdownItems = productCategoryModel.data ?? [];
       });
@@ -107,8 +111,8 @@ class _ItemDetailsScreensState extends State<ItemDetailsScreens> {
     // TODO: implement initState
     super.initState();
     getVendorCategories();
-    fetchDataBasedOnId(1);
-    fetchSubCategoryBasedOnId(1);
+    fetchDataBasedOnId(vendorID);
+    fetchSubCategoryBasedOnId(ProductID);
   }
 
   @override
@@ -211,7 +215,12 @@ class _ItemDetailsScreensState extends State<ItemDetailsScreens> {
                   onChanged: (value) {
                     // selectedCategory = value;
                     if (value != null) {
-                      fetchDataBasedOnId(value.id); // Fetch data based on selected ID
+
+                      fetchDataBasedOnId(value.id);
+                      setState(() {
+                        productCategoryModel.data!.clear();
+                      });
+                      vendorID = value.id;
                     }
                     if (value == null) return;
                     if (allSelectedCategory.isNotEmpty) return;
@@ -266,7 +275,10 @@ class _ItemDetailsScreensState extends State<ItemDetailsScreens> {
                   ),
                 ),
                 items: fetchedDropdownItems
-                    .map((e) => DropdownMenuItem(value: e, child: Text(e.title.toString())))
+                    .map((e) => DropdownMenuItem(
+                  value: e, // Ensure e is unique for each item
+                  child: Text(e.title.toString()),
+                ))
                     .toList(),
                 hint: Text('Search category to choose'.tr),
                 onChanged: (value) {
@@ -276,6 +288,7 @@ class _ItemDetailsScreensState extends State<ItemDetailsScreens> {
                   return null;
                 },
               ),
+
               const SizedBox(
                 height: 20,
               ),

@@ -18,7 +18,7 @@ import '../utils/api_constant.dart';
 import '../widgets/common_textfield.dart';
 
 
-class PickUpAddressScreenForSell extends StatefulWidget {
+class SellingPickupAddress extends StatefulWidget {
   final String? street;
   final String? city;
   final String? state;
@@ -27,7 +27,7 @@ class PickUpAddressScreenForSell extends StatefulWidget {
   final String? town;
 
 
-  PickUpAddressScreenForSell({
+  SellingPickupAddress({
     Key? key,
     this.street,
     this.city,
@@ -38,10 +38,10 @@ class PickUpAddressScreenForSell extends StatefulWidget {
   }) : super(key: key);
 
   @override
-  State<PickUpAddressScreenForSell> createState() => _PickUpAddressScreenForSellState();
+  State<SellingPickupAddress> createState() => _SellingPickupAddressState();
 }
 
-class _PickUpAddressScreenForSellState extends State<PickUpAddressScreenForSell> {
+class _SellingPickupAddressState extends State<SellingPickupAddress> {
   final TextEditingController streetController = TextEditingController();
   final TextEditingController cityController = TextEditingController();
   final TextEditingController stateController = TextEditingController();
@@ -87,6 +87,7 @@ class _PickUpAddressScreenForSellState extends State<PickUpAddressScreenForSell>
       ModelCommonResponse response = ModelCommonResponse.fromJson(jsonDecode(value));
       showToast(response.message.toString());
       if (response.status == true) {
+        showToast('message');
         Get.to(const PersonalizeyourstoreScreen());
       }
     });

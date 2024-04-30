@@ -247,6 +247,24 @@ class Helpers {
   Helpers.of(BuildContext context) {
     context = context;
   }
+  static Future<List<File>?> addMultiImagePicker({int imageQuality = 30}) async {
+    try {
+      final result = await FilePicker.platform.pickFiles(
+        allowMultiple: true,
+        type: FileType.custom,
+        allowedExtensions: ['jpg', 'png', 'jpeg', 'heic', 'mp4', 'mov', 'hevc'],
+      );
+
+      if (result == null) {
+        return null;
+      } else {
+        List<File> files = result.files.map((file) => File(file.path.toString())).toList();
+        return files;
+      }
+    } catch (e) {
+      throw Exception(e);
+    }
+  }
 
   static Future addImagePicker({ImageSource imageSource = ImageSource.gallery, int imageQuality = 100}) async {
     try {

@@ -1,9 +1,11 @@
 import 'package:dirise/iAmHereToSell/requiredDocumentsScreen.dart';
+import 'package:dirise/utils/api_constant.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:google_fonts/google_fonts.dart';
 
+import '../newAddress/customeraccountcreatedsuccessfullyScreen.dart';
 import '../widgets/common_button.dart';
 import '../widgets/dimension_screen.dart';
 
@@ -111,7 +113,12 @@ class _SecurityDetailsScreenState extends State<SecurityDetailsScreen> {
               CustomOutlineButton(
                 title: "Next".tr,
                 onPressed: () {
-                  Get.to(const RequiredDocumentsScreen());
+                  if(_isValue == true){
+                    Get.to(const CustomerAccountCreatedSuccessfullyScreen());
+                  }else{
+                    showToast('Please select security Details');
+                  }
+
                 },
               ),
             ],

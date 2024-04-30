@@ -2,6 +2,7 @@ import 'dart:async';
 import 'dart:convert';
 import 'dart:developer';
 import 'dart:io';
+import 'package:dirise/addNewProduct/internationalshippingdetailsScreem.dart';
 import 'package:dirise/language/app_strings.dart';
 import 'package:dirise/newAuthScreens/tellUsAboutYourself.dart';
 import 'package:dirise/repository/repository.dart';
@@ -61,6 +62,7 @@ class _NewOtpScreenState extends State<NewOtpScreen> {
       if (response.status == true) {
         if (check == true) {
           repositories.saveLoginDetails(jsonEncode(response));
+
           // Get.to(AddProductPickUpAddressScreen());
            Get.offAllNamed(TellUsAboutYourSelf.route);
         } else {

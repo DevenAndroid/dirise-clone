@@ -108,7 +108,7 @@ class _WhatdoyousellScreenState extends State<WhatdoyousellScreen> {
         SharedPreferences prefs = await SharedPreferences.getInstance();
         await prefs.setString('email', storeEmail.text.trim());
         vendorRegister = 'done';
-        showToast('User Register Successfully');
+        showToast('Otp send Successfully');
       }
     });
   }
@@ -137,7 +137,7 @@ class _WhatdoyousellScreenState extends State<WhatdoyousellScreen> {
     }
     FocusManager.instance.primaryFocus!.unfocus();
     Map<String, dynamic> map = {};
-    map['email'] = emailAddress;
+    map['email'] = storeEmail.text.trim();
     map['otp'] = _otpController.text.trim();
     map['fcm_token'] = Platform.isAndroid ? token.toString() : token1.toString();
     map['key'] = 'forget';
@@ -428,7 +428,7 @@ class _WhatdoyousellScreenState extends State<WhatdoyousellScreen> {
               GestureDetector(
                 onTap: () {
                 if(vendorRegister == 'done' && otpVerify == 'done' && _isValue == true){
-                  Get.to(PickUpAddressScreenForSell());
+                  Get.to(SellingPickupAddress());
                 }
                 else{
                   showToast('Please Done All Process Complete');
