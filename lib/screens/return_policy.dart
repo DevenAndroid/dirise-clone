@@ -18,6 +18,17 @@ class ReturnnPolicy extends StatefulWidget {
 class _ReturnnPolicyState extends State<ReturnnPolicy> {
   int _radioValue1 = 1;
 
+  // RxInt returnPolicyLoaded = 0.obs;
+  // ReturnPolicyModel? modelReturnPolicy;
+  // ReturnPolicy? selectedReturnPolicy;
+  // final Repositories repositories = Repositories();
+  // getReturnPolicyData() {
+  //   repositories.getApi(url: ApiUrls.returnPolicyUrl).then((value) {
+  //     modelReturnPolicy = ReturnPolicyModel.fromJson(jsonDecode(value));
+  //     returnPolicyLoaded.value = DateTime.now().millisecondsSinceEpoch;
+  //   });
+  // }
+
   @override
   Widget build(BuildContext context) {
     final size = MediaQuery.of(context).size;
