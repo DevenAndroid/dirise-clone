@@ -1,4 +1,5 @@
 import 'package:dirise/iAmHereToSell/requiredDocumentsScreen.dart';
+import 'package:dirise/iAmHereToSell/vendoraccountcreatedsuccessfullyScreen.dart';
 import 'package:dirise/utils/api_constant.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
@@ -114,7 +115,7 @@ class _SecurityDetailsScreenState extends State<SecurityDetailsScreen> {
                 title: "Next".tr,
                 onPressed: () {
                   if(_isValue == true){
-                    Get.to(const CustomerAccountCreatedSuccessfullyScreen());
+                    Get.to(const VendorAccountCreatedSuccessfullyScreen());
                   }else{
                     showToast('Please select security Details');
                   }

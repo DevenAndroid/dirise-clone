@@ -9,16 +9,16 @@ import '../../widgets/dimension_screen.dart';
 const String navigationBackUrl = "navigationbackUrlCode/navigationbackUrlCode";
 const String failureUrl = "navigationbackUrlCode/navigationbackUrlCode__failureUrl";
 
-class CustomerAccountCreatedSuccessfullyScreen extends StatefulWidget {
-  const CustomerAccountCreatedSuccessfullyScreen({
+class VendorAccountCreatedSuccessfullyScreen extends StatefulWidget {
+  const VendorAccountCreatedSuccessfullyScreen({
     Key? key,
   }) : super(key: key);
   // final PlanInfoData planInfoData;
   @override
-  State<CustomerAccountCreatedSuccessfullyScreen> createState() => _CustomerAccountCreatedSuccessfullyScreenState();
+  State<VendorAccountCreatedSuccessfullyScreen> createState() => _VendorAccountCreatedSuccessfullyScreenState();
 }
 
-class _CustomerAccountCreatedSuccessfullyScreenState extends State<CustomerAccountCreatedSuccessfullyScreen> {
+class _VendorAccountCreatedSuccessfullyScreenState extends State<VendorAccountCreatedSuccessfullyScreen> {
 
   @override
   void initState() {
@@ -53,7 +53,7 @@ class _CustomerAccountCreatedSuccessfullyScreenState extends State<CustomerAccou
                   height: 60,
                 ),
                 Text(
-                  "Customer account created successfully ".tr,
+                  "Vendor account created successfully ".tr,
                   textAlign: TextAlign.center,
                   style: Theme.of(context)
                       .textTheme

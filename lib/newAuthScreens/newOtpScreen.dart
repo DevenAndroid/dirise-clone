@@ -63,8 +63,7 @@ class _NewOtpScreenState extends State<NewOtpScreen> {
         if (check == true) {
           repositories.saveLoginDetails(jsonEncode(response));
 
-          // Get.to(AddProductPickUpAddressScreen());
-           Get.offAllNamed(TellUsAboutYourSelf.route);
+           Get.to(const TellUsAboutYourSelf());
         } else {
            Get.offNamed(NewPasswordScreen.route, arguments: [email]);
         }

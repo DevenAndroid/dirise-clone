@@ -2,6 +2,7 @@ import 'dart:convert';
 import 'dart:developer';
 
 import 'package:dirise/iAmHereToSell/personalizeyourstoreScreen.dart';
+import 'package:dirise/iAmHereToSell/vendorlocation.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
@@ -15,6 +16,7 @@ import '../newAddress/locationScreen.dart';
 import '../repository/repository.dart';
 import '../screens/auth_screens/otp_screen.dart';
 import '../utils/api_constant.dart';
+import '../widgets/common_button.dart';
 import '../widgets/common_textfield.dart';
 
 
@@ -55,7 +57,7 @@ class _SellingPickupAddressState extends State<SellingPickupAddress> {
   final Repositories repositories = Repositories();
   final formKey1 = GlobalKey<FormState>();
   String code = "+91";
-  editAddressApi() {
+  sellingPickupAddressApi() {
     Map<String, dynamic> map = {};
     if (widget.street != null &&
         widget.city != null &&
@@ -88,7 +90,7 @@ class _SellingPickupAddressState extends State<SellingPickupAddress> {
       showToast(response.message.toString());
       if (response.status == true) {
         showToast('message');
-        Get.to(const PersonalizeyourstoreScreen());
+       Get.to(const PersonalizeyourstoreScreen());
       }
     });
   }
@@ -124,7 +126,7 @@ class _SellingPickupAddressState extends State<SellingPickupAddress> {
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: [
             Text(
-              AppStrings.pickUpAddress.tr,
+              'Pick up address'.tr,
               style: GoogleFonts.poppins(color: Color(0xff292F45), fontWeight: FontWeight.w600, fontSize: 20),
             ),
           ],
@@ -151,7 +153,7 @@ class _SellingPickupAddressState extends State<SellingPickupAddress> {
                 ),
                 InkWell(
                   onTap: (){
-                    Get.to(ChooseAddress());
+                    Get.to(VendorLocation());
                   },
                   child: Align(
                     alignment: Alignment.center,
@@ -206,37 +208,16 @@ class _SellingPickupAddressState extends State<SellingPickupAddress> {
                 SizedBox(
                   height: size.height * .02,
                 ),
-                GestureDetector(
-                  onTap: (){
-
+                CustomOutlineButton(
+                  title: "Confirm Your Location".tr,
+                  borderRadius: 11,
+                  onPressed: () {
                     if (formKey1.currentState!.validate()) {
-                      editAddressApi();
+                      sellingPickupAddressApi();
                     }
                     setState(() {});
+
                   },
-                  child: Container(
-                    margin: const EdgeInsets.only(left: 20, right: 20),
-                    width: Get.width,
-                    height: 50,
-                    decoration: BoxDecoration(
-                      border: Border.all(
-                        color: Colors.black, // Border color
-                        width: 1.0, // Border width
-                      ),
-                      borderRadius: BorderRadius.circular(10), // Border radius
-                    ),
-                    padding: const EdgeInsets.all(10), // Padding inside the container
-                    child: const Center(
-                      child: Text(
-                        'Confirm Your Location',
-                        style: TextStyle(
-                          fontSize: 16,
-                          fontWeight: FontWeight.bold,
-                          color: Colors.black, // Text color
-                        ),
-                      ),
-                    ),
-                  ),
                 ),
                 SizedBox(
                   height: size.height * .02,

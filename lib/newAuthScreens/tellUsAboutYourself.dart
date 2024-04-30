@@ -23,8 +23,8 @@ class _TellUsAboutYourSelfState extends State<TellUsAboutYourSelf> {
     if (selectedRadio == 'sell') {
       Get.to(const WhichplantypedescribeyouScreen());
     } else if (selectedRadio == 'shop') {
-      // Get.to( PickUpAddressScreen());
-      Get.to(ChooseAddress());
+      Get.to( PickUpAddressScreen());
+      // Get.to(ChooseAddress());
     }
   }
 

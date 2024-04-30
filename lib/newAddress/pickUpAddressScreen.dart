@@ -87,7 +87,7 @@ class _PickUpAddressScreenState extends State<PickUpAddressScreen> {
       ModelCommonResponse response = ModelCommonResponse.fromJson(jsonDecode(value));
       showToast(response.message.toString());
       if (response.status == true) {
-        Get.to(const PersonalizeyourstoreScreen());
+        Get.to(const CustomerAccountCreatedSuccessfullyScreen());
       }
     });
   }
@@ -123,7 +123,7 @@ class _PickUpAddressScreenState extends State<PickUpAddressScreen> {
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: [
             Text(
-              AppStrings.pickUpAddress.tr,
+              'Pick up address'.tr,
               style: GoogleFonts.poppins(color: Color(0xff292F45), fontWeight: FontWeight.w600, fontSize: 20),
             ),
           ],

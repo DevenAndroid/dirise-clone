@@ -362,7 +362,7 @@ class _WhatdoyousellScreenState extends State<WhatdoyousellScreen> {
                 ),
                 onComplete: (output) {},
               ),
-              InkWell(
+              GestureDetector(
                 onTap: () {
                   verifyOtp();
                 },

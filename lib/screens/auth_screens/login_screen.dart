@@ -21,6 +21,7 @@ import 'package:sign_in_with_apple/sign_in_with_apple.dart';
 import '../../controller/profile_controller.dart';
 import '../../model/login_model.dart';
 import '../../model/social_login_model.dart';
+import '../../newAuthScreens/signupScreen.dart';
 import '../../repository/repository.dart';
 import '../../repository/social_login.dart';
 import '../../routers/my_routers.dart';
@@ -414,7 +415,7 @@ class _LoginScreenState extends State<LoginScreen> {
                               decoration: TextDecoration.underline),
                           recognizer: TapGestureRecognizer()
                             ..onTap = () {
-                              Get.toNamed(CreateAccountScreen.route);
+                              Get.to(const CreateAccountNewScreen());
                             },
                         ),
                       ],
