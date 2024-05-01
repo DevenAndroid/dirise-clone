@@ -141,4 +141,5 @@ class AppStrings{
   static String yourAddress = 'Your Address';
   static String editAddress = 'Edit your address';
   static String returnnPolicy = 'Return Policy';
+  static String Vendorinformation = 'Vendor Information';
 }
