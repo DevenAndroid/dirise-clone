@@ -4,6 +4,7 @@ import 'package:get/get_core/src/get_main.dart';
 import 'package:google_fonts/google_fonts.dart';
 
 import '../addNewProduct/pickUpAddressScreen.dart';
+import '../iAmHereToSell/PersonalizeAddAddressScreen.dart';
 import '../language/app_strings.dart';
 import '../widgets/common_colour.dart';
 import '../widgets/dimension_screen.dart';
@@ -34,6 +35,7 @@ class _VendorInformationState extends State<VendorInformation> {
             Get.back();
           },
           child: IconButton(
+
             icon: const Icon(
               Icons.arrow_back_ios_new,
               color: Color(0xff0D5877),
