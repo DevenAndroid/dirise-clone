@@ -1,25 +1,29 @@
 import 'dart:convert';
 import 'dart:developer';
 
-import 'package:dirise/addNewProduct/deliverySizeScreen.dart';
+import 'package:dirise/iAmHereToSell/personalizeyourstoreScreen.dart';
+import 'package:dirise/iAmHereToSell/vendorlocation.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
-import 'package:form_field_validator/form_field_validator.dart';
 import 'package:get/get.dart';
 import 'package:google_fonts/google_fonts.dart';
 
 import '../language/app_strings.dart';
 import '../model/common_modal.dart';
+import '../newAddress/customeraccountcreatedsuccessfullyScreen.dart';
+import '../newAddress/locationScreen.dart';
+import '../personalizeyourstore/personalizeAddressScreen.dart';
 import '../repository/repository.dart';
 import '../screens/auth_screens/otp_screen.dart';
+import '../screens/check_out/address/add_address.dart';
 import '../utils/api_constant.dart';
 import '../widgets/common_button.dart';
 import '../widgets/common_textfield.dart';
-import 'giveawaylocation.dart';
-import 'locationScreen.dart';
+import 'PersonalizeChooseLocationScreen.dart';
 
-class AddProductPickUpAddressScreen extends StatefulWidget {
+
+class PersonalizeAddAddressScreen extends StatefulWidget {
   final String? street;
   final String? city;
   final String? state;
@@ -27,7 +31,8 @@ class AddProductPickUpAddressScreen extends StatefulWidget {
   final String? zipcode;
   final String? town;
 
-  AddProductPickUpAddressScreen({
+
+  PersonalizeAddAddressScreen({
     Key? key,
     this.street,
     this.city,
@@ -38,13 +43,14 @@ class AddProductPickUpAddressScreen extends StatefulWidget {
   }) : super(key: key);
 
   @override
-  State<AddProductPickUpAddressScreen> createState() => _AddProductPickUpAddressScreenState();
+  State<PersonalizeAddAddressScreen> createState() => _PersonalizeAddAddressScreenState();
 }
 
-class _AddProductPickUpAddressScreenState extends State<AddProductPickUpAddressScreen> {
+class _PersonalizeAddAddressScreenState extends State<PersonalizeAddAddressScreen> {
   final TextEditingController streetController = TextEditingController();
   final TextEditingController cityController = TextEditingController();
   final TextEditingController stateController = TextEditingController();
+  final TextEditingController countryController = TextEditingController();
   final TextEditingController zipcodeController = TextEditingController();
   final TextEditingController townController = TextEditingController();
   final TextEditingController specialInstructionController = TextEditingController();
@@ -54,23 +60,26 @@ class _AddProductPickUpAddressScreenState extends State<AddProductPickUpAddressS
   final Repositories repositories = Repositories();
   final formKey1 = GlobalKey<FormState>();
   String code = "+91";
-  editAddressApi() {
+  sellingPickupAddressApi() {
     Map<String, dynamic> map = {};
     if (widget.street != null &&
         widget.city != null &&
         widget.state != null &&
+        widget.country != null &&
         widget.zipcode != null &&
         widget.town != null) {
+      map['address_type'] = 'Both';
       map['city'] = widget.city;
-      map['item_type'] = 'giveaway';
+      map['country'] = widget.country;
       map['state'] = widget.state;
       map['zip_code'] = widget.zipcode;
       map['town'] = widget.town;
       map['street'] = widget.street;
       map['special_instruction'] = specialInstructionController.text.trim();
-    } else {
+    }else{
+      map['address_type'] = 'Both';
       map['city'] = cityController.text.trim();
-      map['item_type'] = 'giveaway';
+      map['country'] = countryController.text.trim();
       map['state'] = stateController.text.trim();
       map['zip_code'] = zipcodeController.text.trim();
       map['town'] = townController.text.trim();
@@ -79,12 +88,11 @@ class _AddProductPickUpAddressScreenState extends State<AddProductPickUpAddressS
     }
 
     FocusManager.instance.primaryFocus!.unfocus();
-    repositories.postApi(url: ApiUrls.giveawayProductAddress, context: context, mapData: map).then((value) {
+    repositories.postApi(url: ApiUrls.editAddressUrl, context: context, mapData: map).then((value) {
       ModelCommonResponse response = ModelCommonResponse.fromJson(jsonDecode(value));
-      print('API Response Status Code: ${response.status}');
       showToast(response.message.toString());
       if (response.status == true) {
-        Get.to(DeliverySizeScreen());
+        Get.to(AddAddressScreen());
       }
     });
   }
@@ -97,11 +105,11 @@ class _AddProductPickUpAddressScreenState extends State<AddProductPickUpAddressS
       streetController.text = widget.street!;
       cityController.text = widget.city ?? '';
       stateController.text = widget.state ?? '';
+      countryController.text = widget.country ?? '';
       zipcodeController.text = widget.zipcode ?? '';
       townController.text = widget.town ?? '';
     }
   }
-
   @override
   Widget build(BuildContext context) {
     Size size = MediaQuery.of(context).size;
@@ -120,7 +128,7 @@ class _AddProductPickUpAddressScreenState extends State<AddProductPickUpAddressS
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: [
             Text(
-              AppStrings.pickUpAddress.tr,
+              'Edit your address'.tr,
               style: GoogleFonts.poppins(color: Color(0xff292F45), fontWeight: FontWeight.w600, fontSize: 20),
             ),
           ],
@@ -146,8 +154,8 @@ class _AddProductPickUpAddressScreenState extends State<AddProductPickUpAddressS
                   height: size.height * .02,
                 ),
                 InkWell(
-                  onTap: () {
-                    Get.to(ChooseAddressForGiveaway());
+                  onTap: (){
+                    Get.to(PersonalizeChooseLocation());
                   },
                   child: Align(
                     alignment: Alignment.center,
@@ -157,97 +165,60 @@ class _AddProductPickUpAddressScreenState extends State<AddProductPickUpAddressS
                     ),
                   ),
                 ),
-                SizedBox(height: 20,),
-                Text(
-                  "Street*".tr,
-                  style: GoogleFonts.poppins(color: Color(0xff044484), fontWeight: FontWeight.w600, fontSize: 14),
-                ),
-                SizedBox(height: 5,),
-                CommonTextField(
-                   controller: streetController,
-                    obSecure: false,
-                    hintText: 'Street'.tr,
-                    validator: MultiValidator([
-                      RequiredValidator(errorText: 'Street is required'),
-                    ])),
-                SizedBox(height: 10,),
-                Text(
-                  "City*".tr,
-                  style: GoogleFonts.poppins(color: Color(0xff044484), fontWeight: FontWeight.w600, fontSize: 14),
-                ),
-                SizedBox(height: 5,),
-                CommonTextField(
-                   controller: cityController,
-                    obSecure: false,
-                    hintText: 'city'.tr,
-                    validator: MultiValidator([
-                      RequiredValidator(errorText: 'city is required'),
-                    ])),
-                SizedBox(height: 10,),
-                Text(
-                  "State*".tr,
-                  style: GoogleFonts.poppins(color: Color(0xff044484), fontWeight: FontWeight.w600, fontSize: 14),
-                ),
-                SizedBox(height: 5,),
-                CommonTextField(
-                   controller: stateController,
-                    obSecure: false,
-                    hintText: 'State'.tr,
-                    validator: MultiValidator([
-                      RequiredValidator(errorText: 'State is required'),
-                    ])),
-                SizedBox(height: 10,),
-                Text(
-                  "Zip Code".tr,
-                  style: GoogleFonts.poppins(color: Color(0xff044484), fontWeight: FontWeight.w600, fontSize: 14),
-                ),
-                SizedBox(height: 5,),
-                CommonTextField(
-                   controller: zipcodeController,
-                    obSecure: false,
-                    hintText: 'Zip Code'.tr,
-                    validator: MultiValidator([
-                      RequiredValidator(errorText: 'Zip Code is required'),
-                    ])),
-                SizedBox(height: 10,),
-                Text(
-                  "Town*".tr,
-                  style: GoogleFonts.poppins(color: Color(0xff044484), fontWeight: FontWeight.w600, fontSize: 14),
-                ),
-                SizedBox(height: 5,),
-                CommonTextField(
-                   controller: townController,
-                    obSecure: false,
-                    hintText: 'Town'.tr,
-                    validator: MultiValidator([
-                      RequiredValidator(errorText: 'Town is required'),
-                    ])),
-                SizedBox(height: 10,),
-
-                Text(
-                  "Special instruction*".tr,
-                  style: GoogleFonts.poppins(color: Color(0xff044484), fontWeight: FontWeight.w600, fontSize: 14),
-                ),
-                SizedBox(height: 5,),
-                CommonTextField(
-                   controller: specialInstructionController,
-                    obSecure: false,
-                    hintText: 'Special instruction'.tr,
-                    validator: MultiValidator([
-                      RequiredValidator(errorText: 'Special instruction is required'),
-                    ])),
-                SizedBox(height: 10,),
+                ...commonField(
+                    hintText: "Street",
+                    textController: streetController,
+                    title: 'Street*',
+                    validator: (String? value) {},
+                    keyboardType: TextInputType.name),
+                ...commonField(
+                    hintText: "city",
+                    textController: cityController,
+                    title: 'City*',
+                    validator: (String? value) {},
+                    keyboardType: TextInputType.name),
+                ...commonField(
+                    hintText: "state",
+                    textController: stateController,
+                    title: 'State*',
+                    validator: (String? value) {},
+                    keyboardType: TextInputType.name),
+                ...commonField(
+                    hintText: "Country",
+                    textController: countryController,
+                    title: 'Country*',
+                    validator: (String? value) {},
+                    keyboardType: TextInputType.name),
+                ...commonField(
+                    hintText: "Zip Code",
+                    textController: zipcodeController,
+                    title: 'Zip Code*',
+                    validator: (String? value) {},
+                    keyboardType: TextInputType.number),
+                ...commonField(
+                    hintText: "Town",
+                    textController: townController,
+                    title: 'Town*',
+                    validator: (String? value) {},
+                    keyboardType: TextInputType.name),
+                ...commonField(
+                    hintText: "Special instruction",
+                    textController: specialInstructionController,
+                    title: 'Special instruction*',
+                    validator: (String? value) {},
+                    keyboardType: TextInputType.name),
                 SizedBox(
                   height: size.height * .02,
                 ),
                 CustomOutlineButton(
-                  title: 'Confirm Your Location',
+                  title: "Confirm Your Location".tr,
                   borderRadius: 11,
                   onPressed: () {
                     if (formKey1.currentState!.validate()) {
-                      editAddressApi();
+                      sellingPickupAddressApi();
                     }
                     setState(() {});
+
                   },
                 ),
                 SizedBox(
@@ -262,4 +233,30 @@ class _AddProductPickUpAddressScreenState extends State<AddProductPickUpAddressS
   }
 }
 
-
+List<Widget> commonField({
+  required TextEditingController textController,
+  required String title,
+  required String hintText,
+  required FormFieldValidator<String>? validator,
+  required TextInputType keyboardType,
+}) {
+  return [
+    const SizedBox(
+      height: 5,
+    ),
+    Text(
+      title.tr,
+      style: GoogleFonts.poppins(fontWeight: FontWeight.w500, fontSize: 16, color: const Color(0xff0D5877)),
+    ),
+    const SizedBox(
+      height: 8,
+    ),
+    CommonTextField(
+      controller: textController,
+      obSecure: false,
+      hintText: hintText.tr,
+      validator: validator,
+      keyboardType: keyboardType,
+    ),
+  ];
+}

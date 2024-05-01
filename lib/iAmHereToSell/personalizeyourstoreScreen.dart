@@ -23,6 +23,7 @@ import '../personalizeyourstore/personalizeAddressScreen.dart';
 import '../personalizeyourstore/socialMediaScreen.dart';
 import '../personalizeyourstore/vendorinformationScreen.dart';
 import '../repository/repository.dart';
+import '../screens/check_out/address/add_address.dart';
 import '../utils/api_constant.dart';
 import '../vendor/dashboard/store_open_time_screen.dart';
 import '../widgets/common_button.dart';
@@ -304,7 +305,7 @@ class _PersonalizeyourstoreScreenState extends State<PersonalizeyourstoreScreen>
               ),
               GestureDetector(
                 onTap: (){
-                  Get.to(PersonalizeAddressScreen());
+                  Get.to(AddAddressScreen());
                 },
                 child: Row(
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,

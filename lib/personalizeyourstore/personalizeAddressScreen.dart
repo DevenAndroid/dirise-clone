@@ -7,6 +7,7 @@ import 'package:flutter/widgets.dart';
 import 'package:get/get.dart';
 import 'package:google_fonts/google_fonts.dart';
 
+import '../iAmHereToSell/PersonalizeAddAddressScreen.dart';
 import '../language/app_strings.dart';
 import '../model/common_modal.dart';
 import '../model/model_address_list.dart';
@@ -136,8 +137,8 @@ class _PersonalizeAddressScreenState extends State<PersonalizeAddressScreen> {
             padding: const EdgeInsets.only(right: 10),
             child: GestureDetector(
                 onTap: (){
+Get.to(PersonalizeAddAddressScreen());
 
-                  check = true;
                   setState(() {
 
                   });

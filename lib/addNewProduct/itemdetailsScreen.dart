@@ -1,4 +1,5 @@
 import 'dart:convert';
+import 'dart:developer';
 
 import 'package:dirise/addNewProduct/pickUpAddressScreen.dart';
 import 'package:flutter/cupertino.dart';
@@ -16,6 +17,7 @@ import '../model/vendor_models/model_vendor_details.dart';
 import '../model/vendor_models/vendor_category_model.dart';
 import '../repository/repository.dart';
 import '../utils/api_constant.dart';
+import '../utils/helper.dart';
 import '../widgets/common_button.dart';
 import '../widgets/common_colour.dart';
 import '../widgets/common_textfield.dart';
@@ -32,12 +34,10 @@ class _ItemDetailsScreensState extends State<ItemDetailsScreens> {
   ProductCategoryData? selectedSubcategory;
   SubProductData? selectedProductSubcategory;
 
-
   final TextEditingController ProductNameController = TextEditingController();
 
   int vendorID = 0;
   int ProductID = 0;
-
 
   editAddressApi() {
     Map<String, dynamic> map = {};
@@ -92,7 +92,6 @@ class _ItemDetailsScreensState extends State<ItemDetailsScreens> {
         fetchedDropdownItems = productCategoryModel.data ?? [];
       });
     });
-
   }
 
   void fetchSubCategoryBasedOnId(int id1) async {
@@ -103,7 +102,6 @@ class _ItemDetailsScreensState extends State<ItemDetailsScreens> {
         subProductData = subproductCategoryModel.data ?? [];
       });
     });
-
   }
 
   @override
@@ -215,11 +213,13 @@ class _ItemDetailsScreensState extends State<ItemDetailsScreens> {
                   onChanged: (value) {
                     // selectedCategory = value;
                     if (value != null) {
-
                       fetchDataBasedOnId(value.id);
-                      setState(() {
-                        productCategoryModel.data!.clear();
-                      });
+                      // setState(() {
+                      //   if(productCategoryModel.data!.isEmpty){
+                      //     selectedSubcategory = null;
+                      //   }
+                      //   log("dsfgsdg"+productCategoryModel.data!.length.toString());
+                      // });
                       vendorID = value.id;
                     }
                     if (value == null) return;
@@ -276,9 +276,9 @@ class _ItemDetailsScreensState extends State<ItemDetailsScreens> {
                 ),
                 items: fetchedDropdownItems
                     .map((e) => DropdownMenuItem(
-                  value: e, // Ensure e is unique for each item
-                  child: Text(e.title.toString()),
-                ))
+                          value: e, // Ensure e is unique for each item
+                          child: Text(e.title.toString()),
+                        ))
                     .toList(),
                 hint: Text('Search category to choose'.tr),
                 onChanged: (value) {
@@ -288,7 +288,6 @@ class _ItemDetailsScreensState extends State<ItemDetailsScreens> {
                   return null;
                 },
               ),
-
               const SizedBox(
                 height: 20,
               ),
@@ -328,9 +327,7 @@ class _ItemDetailsScreensState extends State<ItemDetailsScreens> {
                     borderSide: BorderSide(color: AppTheme.secondaryColor),
                   ),
                 ),
-                items: subProductData
-                    .map((e) => DropdownMenuItem(value: e, child: Text(e.title.toString())))
-                    .toList(),
+                items: subProductData.map((e) => DropdownMenuItem(value: e, child: Text(e.title.toString()))).toList(),
                 hint: Text('Search category to choose'.tr),
                 onChanged: (value) {
                   selectedProductSubcategory = value;
@@ -346,7 +343,7 @@ class _ItemDetailsScreensState extends State<ItemDetailsScreens> {
                 title: 'Confirm',
                 borderRadius: 11,
                 onPressed: () {
-                  editAddressApi();
+                  Get.to(AddProductPickUpAddressScreen());
                 },
               ),
             ],

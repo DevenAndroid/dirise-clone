@@ -43,16 +43,17 @@ class _RewardScreenState extends State<RewardScreen> {
       ),
       body: SingleChildScrollView(
         child: Container(
-          margin: EdgeInsets.only(left: 15,right: 15),
+          margin: EdgeInsets.only(left: 25,right: 25),
           child: Column(
             mainAxisAlignment: MainAxisAlignment.center,
             crossAxisAlignment: CrossAxisAlignment.center,
             children: [
-              Image.asset('assets/images/newlogoo.png'),
+              Image.asset('assets/images/newlogoo.png',height: 200,width: 200,),
               Text(
                 'Congratulations'.tr,
                 style: GoogleFonts.poppins(color: const Color(0xff0D5877), fontWeight: FontWeight.w600, fontSize: 32),
               ),
+              const SizedBox(height: 20,),
               Text(
                 'Thank you for your donation, you will get 1000 Dicoins as a reward for your generosity'.tr,
                 style: GoogleFonts.poppins(color: Colors.black, fontWeight: FontWeight.w400, fontSize: 16),
@@ -74,11 +75,7 @@ class _RewardScreenState extends State<RewardScreen> {
                 style: GoogleFonts.poppins(color: Colors.black, fontWeight: FontWeight.w400, fontSize: 14),
               ),
               const SizedBox(height: 20,),
-              CustomOutlineButton(
-                title: 'Confirm',
-                borderRadius: 11,
-                onPressed: () {},
-              ),
+
             ],
           ),
         ),
