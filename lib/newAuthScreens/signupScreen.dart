@@ -400,7 +400,8 @@ class _CreateAccountNewScreenState extends State<CreateAccountNewScreen> {
                       ),
                     ),
                   ],
-                )
+                ),
+                const SizedBox(height: 20,),
               ],
             ),
           ),

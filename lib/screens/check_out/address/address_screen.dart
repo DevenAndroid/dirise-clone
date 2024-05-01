@@ -60,9 +60,7 @@ class _AddressScreenState extends State<AddressScreen> {
     final map = {'country_id': countryId};
     await repositories.postApi(url: ApiUrls.allStatesUrl, mapData: map).then((value) {
       modelStateList = ModelStateList.fromJson(jsonDecode(value));
-      setState(() {
-
-      });
+      setState(() {});
       stateRefresh.value = DateTime.now().millisecondsSinceEpoch;
     }).catchError((e) {
       stateRefresh.value = DateTime.now().millisecondsSinceEpoch;
@@ -70,18 +68,18 @@ class _AddressScreenState extends State<AddressScreen> {
   }
 
   defaultAddressApi() async {
-         Map<String, dynamic> map = {};
-      map['address_id'] = cartController.selectedAddress.id.toString();
-      repositories.postApi(url: ApiUrls.defaultAddressStatus, context: context, mapData: map).then((value) async {
+    Map<String, dynamic> map = {};
+    map['address_id'] = cartController.selectedAddress.id.toString();
+    repositories.postApi(url: ApiUrls.defaultAddressStatus, context: context, mapData: map).then((value) async {
       ModelCommonResponse response = ModelCommonResponse.fromJson(jsonDecode(value));
-        if (response.status == true) {
-          showToast(response.message.toString());
-          Get.back();
-        }else{
-          showToast(response.message.toString());
-        }
-      });
-    }
+      if (response.status == true) {
+        showToast(response.message.toString());
+        Get.back();
+      } else {
+        showToast(response.message.toString());
+      }
+    });
+  }
 
   RxInt cityRefresh = 2.obs;
   String stateIddd = '';
@@ -94,21 +92,20 @@ class _AddressScreenState extends State<AddressScreen> {
     final map = {'state_id': stateId};
     await repositories.postApi(url: ApiUrls.allCityUrl, mapData: map).then((value) {
       modelCityList = ModelCityList.fromJson(jsonDecode(value));
-      setState(() {
-
-      });
+      setState(() {});
       cityRefresh.value = DateTime.now().millisecondsSinceEpoch;
     }).catchError((e) {
       cityRefresh.value = DateTime.now().millisecondsSinceEpoch;
     });
   }
+
   getCountryList() {
     if (modelCountryList != null) return;
     repositories.getApi(url: ApiUrls.allCountriesUrl).then((value) {
       modelCountryList = ModelCountryList.fromString(value);
-
     });
   }
+
   String countryIddd = '';
   @override
   void initState() {
@@ -118,6 +115,7 @@ class _AddressScreenState extends State<AddressScreen> {
     getStateList(countryId: countryIddd.toString());
     getCityList(stateId: stateIddd.toString());
   }
+
   @override
   Widget build(BuildContext context) {
     return SliverToBoxAdapter(
@@ -130,197 +128,93 @@ class _AddressScreenState extends State<AddressScreen> {
           padding: const EdgeInsets.symmetric(horizontal: 20),
           child: Obx(() {
             if (cartController.refreshInt.value > 0) {}
-            return
-              Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      // Row(
-                      //   children: [
-                      //     Expanded(
-                      //         child: Text("Delivery to",
-                      //             style: GoogleFonts.poppins(fontWeight: FontWeight.w500, fontSize: 18))),
-                      //     // Radio<String>(
-                      //     //     value: "delivery",
-                      //     //     groupValue: cartController.deliveryOption1.value,
-                      //     //     visualDensity: VisualDensity.compact,
-                      //     //     fillColor: cartController.deliveryOption1.value.isEmpty && cartController.showValidation.value
-                      //     //         ? MaterialStateProperty.all(Colors.red)
-                      //     //         : null,
-                      //     //     onChanged: (value) {
-                      //     //       cartController.deliveryOption1.value = value!;
-                      //     //     })
-                      //
-                      //     Radio<String>(
-                      //       value: "delivery",
-                      //       groupValue: cartController.deliveryOption1.value.isNotEmpty
-                      //           ? cartController.deliveryOption1.value
-                      //           : "delivery",
-                      //
-                      //       visualDensity: VisualDensity.compact,
-                      //       // fillColor: cartController.deliveryOption1.value.isEmpty &&
-                      //       //     cartController.showValidation.value
-                      //       //     ? MaterialStateProperty.all(Colors.red)
-                      //       //     : null,
-                      //       onChanged: (value) {
-                      //         cartController.deliveryOption1.value = value!;
-                      //       },
-                      //     )
-                      //
-                      //   ],
-                      // ),
-
-                      const SizedBox(
-                        height: 20,
-                      ),
-                      // if (cartController.deliveryOption1.value == "delivery") ...[
-                      //   Material(
-                      //     child: InkWell(
-                      //       onTap: () {
-                      //         if (userLoggedIn) {
-                      //           bottomSheetChangeAddress();
-                      //         } else {
-                      //           addAddressWithoutLogin(addressData: cartController.selectedAddress);
-                      //         }
-                      //       },
-                      //       child: DottedBorder(
-                      //         color: const Color(0xff014E70),
-                      //         strokeWidth: 1.2,
-                      //         dashPattern: const [6, 3, 0, 3],
-                      //         child: Container(
-                      //           // height: 50,
-                      //           padding: const EdgeInsets.symmetric(vertical: 8, horizontal: 10),
-                      //           width: context.getSize.width,
-                      //           alignment: Alignment.center,
-                      //           child: cartController.selectedAddress.id != null
-                      //               ? Text(cartController.selectedAddress.getShortAddress,
-                      //                   style: GoogleFonts.poppins(fontWeight: FontWeight.w500, fontSize: 16))
-                      //               : Text("Select Address ",
-                      //                   style: GoogleFonts.poppins(fontWeight: FontWeight.w500, fontSize: 16)),
-                      //         ),
-                      //       ),
-                      //     ),
-                      //   ),
-                      //   const SizedBox(
-                      //     height: 5,
-                      //   ),
-                      //   if (cartController.selectedAddress.id != null)
-                      //     InkWell(
-                      //         onTap: () {
-                      //           if (userLoggedIn) {
-                      //             bottomSheetChangeAddress();
-                      //           } else {
-                      //             addAddressWithoutLogin(addressData: cartController.selectedAddress);
-                      //           }
-                      //         },
-                      //         child: Align(
-                      //             alignment: Alignment.topRight,
-                      //             child: Text("Change Address",
-                      //                 style: GoogleFonts.poppins(fontSize: 14, fontWeight: FontWeight.w500)))),
-                      // ],
-
-
-
-
-                      // Row(
-                      //   children: [
-                      //     Expanded(
-                      //         child: Text("Pick Up", style: GoogleFonts.poppins(fontWeight: FontWeight.w500, fontSize: 18))),
-                      //     Radio<String>(
-                      //         value: "pickup",
-                      //         groupValue: cartController.deliveryOption1.value,
-                      //         visualDensity: VisualDensity.compact,
-                      //         fillColor: cartController.deliveryOption1.value.isEmpty && cartController.showValidation.value
-                      //             ? MaterialStateProperty.all(Colors.red)
-                      //             : null,
-                      //         onChanged: (value) {
-                      //           cartController.deliveryOption1.value = value!;
-                      //         })
-                      //   ],
-                      // ),
-                      Material(
-                        child: InkWell(
-                          onTap: () {
-                            if (userLoggedIn) {
-                               if(cartController.selectedAddress.id == null){
-                                 bottomSheetChangeAddress();
-                               }
-                               else{
-                                 showDialog<String>(
-                                     context: context,
-                                     builder: (BuildContext context) => AlertDialog(
-                                       title:  Text('Change Address'.tr),
-                                       content:  Text('Do You Want To Changed Your Address.'.tr),
-                                       actions: <Widget>[
-                                         TextButton(
-                                           onPressed: () => Get.back(),
-                                           child:  Text('Cancel'.tr),
-                                         ),
-                                         TextButton(
-                                           onPressed: () async {
-                                             Get.back();
-                                             bottomSheetChangeAddress();
-                                           },
-                                           child:  Text('OK'.tr),
-                                         ),
-                                       ],
-                                     ));
-                               }
-                            } else {
-                              addAddressWithoutLogin(addressData: cartController.selectedAddress);
-                            }
-                          },
-                          child:
-                          DottedBorder(
-                            color: const Color(0xff014E70),
-                            strokeWidth: 1.2,
-                            dashPattern: const [6, 3, 0, 3],
-                            child: Container(
-                              // height: 50,
-                              padding: const EdgeInsets.symmetric(vertical: 8, horizontal: 10),
-                              width: context.getSize.width,
-                              alignment: Alignment.center,
-                              child: cartController.selectedAddress.id != null
-                                  ? Text(cartController.selectedAddress.getShortAddress,
+            return Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                const SizedBox(
+                  height: 20,
+                ),
+                Material(
+                  child: InkWell(
+                      onTap: () {
+                        if (userLoggedIn) {
+                          if (cartController.selectedAddress.id == null) {
+                            bottomSheetChangeAddress();
+                          } else {
+                            showDialog<String>(
+                                context: context,
+                                builder: (BuildContext context) => AlertDialog(
+                                      title: Text('Change Address'.tr),
+                                      content: Text('Do You Want To Changed Your Address.'.tr),
+                                      actions: <Widget>[
+                                        TextButton(
+                                          onPressed: () => Get.back(),
+                                          child: Text('Cancel'.tr),
+                                        ),
+                                        TextButton(
+                                          onPressed: () async {
+                                            Get.back();
+                                            bottomSheetChangeAddress();
+                                          },
+                                          child: Text('OK'.tr),
+                                        ),
+                                      ],
+                                    ));
+                          }
+                        } else {
+                          addAddressWithoutLogin(addressData: cartController.selectedAddress);
+                        }
+                      },
+                      child: DottedBorder(
+                        color: const Color(0xff014E70),
+                        strokeWidth: 1.2,
+                        dashPattern: const [6, 3, 0, 3],
+                        child: Container(
+                          // height: 50,
+                          padding: const EdgeInsets.symmetric(vertical: 8, horizontal: 10),
+                          width: context.getSize.width,
+                          alignment: Alignment.center,
+                          child: cartController.selectedAddress.id != null
+                              ? Text(cartController.selectedAddress.getShortAddress,
                                   style: GoogleFonts.poppins(fontWeight: FontWeight.w500, fontSize: 16))
-                                  :   cartController.myDefaultAddressModel.value.defaultAddress?.isDefault == true ?
-                              Text(cartController.myDefaultAddressModel.value.defaultAddress!.getShortAddress,
-                                  style: GoogleFonts.poppins(fontWeight: FontWeight.w500, fontSize: 16))
+                              : cartController.myDefaultAddressModel.value.defaultAddress?.isDefault == true
+                                  ? Text(cartController.myDefaultAddressModel.value.defaultAddress!.getShortAddress,
+                                      style: GoogleFonts.poppins(fontWeight: FontWeight.w500, fontSize: 16))
                                   : Text("Choose Address".tr,
-                                  style: GoogleFonts.poppins(fontWeight: FontWeight.w500, fontSize: 16)),
-                            ),
-                          )
+                                      style: GoogleFonts.poppins(fontWeight: FontWeight.w500, fontSize: 16)),
                         ),
-                      ),
-                      const SizedBox(
-                        height: 5,
-                      ),
-                      if (cartController.selectedAddress.id != null)
-                        InkWell(
-                            onTap: () {
-                              if (userLoggedIn) {
-                                bottomSheetChangeAddress();
-                              } else {
-                                // addAddressWithoutLogin(addressData: cartController.selectedAddress);
-                                Get.toNamed(
-                                  LoginScreen.route,
-                                );
-                              }
-                            },
-                            child: Align(
-                                alignment: Alignment.topRight,
-                                child: Text("Change Address",
-                                    style: GoogleFonts.poppins(fontSize: 14, fontWeight: FontWeight.w500)))),
-
-                      const SizedBox(
-                        height: 10,
-                      ),
-                    ],
-                  ) ;
+                      )),
+                ),
+                const SizedBox(
+                  height: 5,
+                ),
+                if (cartController.selectedAddress.id != null)
+                  InkWell(
+                      onTap: () {
+                        if (userLoggedIn) {
+                          bottomSheetChangeAddress();
+                        } else {
+                          // addAddressWithoutLogin(addressData: cartController.selectedAddress);
+                          Get.toNamed(
+                            LoginScreen.route,
+                          );
+                        }
+                      },
+                      child: Align(
+                          alignment: Alignment.topRight,
+                          child: Text("Change Address",
+                              style: GoogleFonts.poppins(fontSize: 14, fontWeight: FontWeight.w500)))),
+                const SizedBox(
+                  height: 10,
+                ),
+              ],
+            );
           }),
         ),
       ),
     );
   }
+
   showAddressSelectorDialog({
     required List<CommonAddressRelatedClass> addressList,
     required String selectedAddressId,
@@ -338,7 +232,7 @@ class _AddressScreenState extends State<AddressScreen> {
               child: StatefulBuilder(builder: (context, newState) {
                 String gg = searchController.text.trim().toLowerCase();
                 List<CommonAddressRelatedClass> filteredList =
-                addressList.where((element) => element.title.toString().toLowerCase().contains(gg)).toList();
+                    addressList.where((element) => element.title.toString().toLowerCase().contains(gg)).toList();
                 return Column(
                   mainAxisSize: MainAxisSize.min,
                   children: [
@@ -373,29 +267,29 @@ class _AddressScreenState extends State<AddressScreen> {
                                 },
                                 leading: filteredList[index].flagUrl != null
                                     ? SizedBox(
-                                    width: 30,
-                                    height: 30,
-                                    child: filteredList[index].flagUrl.toString().contains("svg")
-                                        ? SvgPicture.network(
-                                      filteredList[index].flagUrl.toString(),
-                                    )
-                                        : Image.network(
-                                      filteredList[index].flagUrl.toString(),
-                                      errorBuilder: (_, __, ___) => const SizedBox.shrink(),
-                                    ))
+                                        width: 30,
+                                        height: 30,
+                                        child: filteredList[index].flagUrl.toString().contains("svg")
+                                            ? SvgPicture.network(
+                                                filteredList[index].flagUrl.toString(),
+                                              )
+                                            : Image.network(
+                                                filteredList[index].flagUrl.toString(),
+                                                errorBuilder: (_, __, ___) => const SizedBox.shrink(),
+                                              ))
                                     : null,
                                 visualDensity: VisualDensity.compact,
                                 title: Text(filteredList[index].title),
                                 trailing: selectedAddressId == filteredList[index].addressId
                                     ? const Icon(
-                                  Icons.check,
-                                  color: Colors.purple,
-                                )
+                                        Icons.check,
+                                        color: Colors.purple,
+                                      )
                                     : Icon(
-                                  Icons.arrow_forward_ios_rounded,
-                                  size: 18,
-                                  color: Colors.grey.shade800,
-                                ),
+                                        Icons.arrow_forward_ios_rounded,
+                                        size: 18,
+                                        color: Colors.grey.shade800,
+                                      ),
                               );
                             }))
                   ],
@@ -405,13 +299,15 @@ class _AddressScreenState extends State<AddressScreen> {
           );
         });
   }
+
   Future addAddressWithoutLogin({required AddressData addressData}) {
     Size size = MediaQuery.of(context).size;
     final TextEditingController firstNameController = TextEditingController(text: addressData.firstName ?? "");
     final TextEditingController emailController = TextEditingController(text: addressData.email ?? "");
     final TextEditingController lastNameController = TextEditingController(text: addressData.lastName ?? "");
     final TextEditingController phoneController = TextEditingController(text: addressData.phone ?? "");
-    final TextEditingController alternatePhoneController = TextEditingController(text: addressData.alternatePhone ?? "");
+    final TextEditingController alternatePhoneController =
+        TextEditingController(text: addressData.alternatePhone ?? "");
     final TextEditingController addressController = TextEditingController(text: addressData.address ?? "");
     final TextEditingController address2Controller = TextEditingController(text: addressData.address2 ?? "");
     final TextEditingController cityController = TextEditingController(text: addressData.city ?? "");
@@ -509,15 +405,6 @@ class _AddressScreenState extends State<AddressScreen> {
                           hintText: "Enter your alternate phone number",
                           keyboardType: TextInputType.number,
                           validator: (value) {
-                            // if(value!.trim().isEmpty){
-                            //   return "Please enter phone number";
-                            // }
-                            // if(value.trim().length > 15){
-                            //   return "Please enter valid phone number";
-                            // }
-                            // if(value.trim().length < 8){
-                            //   return "Please enter valid phone number";
-                            // }
                             return null;
                           }),
                       ...commonField(
@@ -550,11 +437,12 @@ class _AddressScreenState extends State<AddressScreen> {
                           showAddressSelectorDialog(
                               addressList: modelCountryList!.country!
                                   .map((e) => CommonAddressRelatedClass(
-                                  title: e.name.toString(), addressId: e.id.toString(), flagUrl: e.icon.toString()))
+                                      title: e.name.toString(), addressId: e.id.toString(), flagUrl: e.icon.toString()))
                                   .toList(),
                               selectedAddressIdPicked: (String gg) {
                                 String previous = ((selectedCountry ?? Country()).id ?? "").toString();
-                                selectedCountry = modelCountryList!.country!.firstWhere((element) => element.id.toString() == gg);
+                                selectedCountry =
+                                    modelCountryList!.country!.firstWhere((element) => element.id.toString() == gg);
                                 cartController.countryCode = gg.toString();
                                 cartController.countryName.value = selectedCountry!.name.toString();
                                 print('countrrtr ${cartController.countryName.toString()}');
@@ -569,7 +457,8 @@ class _AddressScreenState extends State<AddressScreen> {
                               },
                               selectedAddressId: ((selectedCountry ?? Country()).id ?? "").toString());
                         },
-                        controller: TextEditingController(text: (selectedCountry ?? Country()).name ?? countryController.text),
+                        controller:
+                            TextEditingController(text: (selectedCountry ?? Country()).name ?? countryController.text),
                         validator: (v) {
                           if (v!.trim().isEmpty) {
                             return "Please select country";
@@ -580,10 +469,11 @@ class _AddressScreenState extends State<AddressScreen> {
                       ...fieldWithName(
                         title: 'State',
                         hintText: 'Select State',
-                        controller: TextEditingController(text: (selectedState ?? CountryState()).stateName ??  stateController.text),
+                        controller: TextEditingController(
+                            text: (selectedState ?? CountryState()).stateName ?? stateController.text),
                         readOnly: true,
                         onTap: () {
-                          if(countryIddd == 'null'){
+                          if (countryIddd == 'null') {
                             showToast("Select Country First");
                             return;
                           }
@@ -596,12 +486,19 @@ class _AddressScreenState extends State<AddressScreen> {
                           }
                           if (modelStateList!.state!.isEmpty) return;
                           showAddressSelectorDialog(
-                              addressList: profileController.selectedLAnguage.value == 'English' ?
-                              modelStateList!.state!.map((e) => CommonAddressRelatedClass(title: e.stateName.toString(), addressId: e.stateId.toString())).toList() :
-                              modelStateList!.state!.map((e) => CommonAddressRelatedClass(title: e.arabStateName.toString(), addressId: e.stateId.toString())).toList(),
+                              addressList: profileController.selectedLAnguage.value == 'English'
+                                  ? modelStateList!.state!
+                                      .map((e) => CommonAddressRelatedClass(
+                                          title: e.stateName.toString(), addressId: e.stateId.toString()))
+                                      .toList()
+                                  : modelStateList!.state!
+                                      .map((e) => CommonAddressRelatedClass(
+                                          title: e.arabStateName.toString(), addressId: e.stateId.toString()))
+                                      .toList(),
                               selectedAddressIdPicked: (String gg) {
                                 String previous = ((selectedState ?? CountryState()).stateId ?? "").toString();
-                                selectedState = modelStateList!.state!.firstWhere((element) => element.stateId.toString() == gg);
+                                selectedState =
+                                    modelStateList!.state!.firstWhere((element) => element.stateId.toString() == gg);
                                 cartController.stateCode = gg.toString();
                                 cartController.stateName.value = selectedState!.stateName.toString();
                                 print('state ${cartController.stateCode.toString()}');
@@ -630,70 +527,79 @@ class _AddressScreenState extends State<AddressScreen> {
                         },
                       ),
                       // if (modelCityList != null && modelCityList!.city!.isNotEmpty)
-                        ...fieldWithName(
-                          readOnly: true,
-                          title: 'City',
-                          hintText: 'Select City',
-                          controller: TextEditingController(text: (selectedCity ?? City()).cityName ?? cityController.text),
-                          onTap: () {
-                            if (modelCityList == null && cityRefresh.value > 0) {
-                              showToast("Select State First");
-                              return;
-                            }
-                            if (cityRefresh.value < 0) {
-                              return;
-                            }
-                            if (modelCityList!.city!.isEmpty) return;
-                            showAddressSelectorDialog(
-                                addressList:  profileController.selectedLAnguage.value == 'English' ? modelCityList!.city!.map((e) => CommonAddressRelatedClass(title: e.cityName.toString(), addressId: e.cityId.toString())).toList() :
-                                modelCityList!.city!.map((e) => CommonAddressRelatedClass(title: e.arabCityName.toString(), addressId: e.cityId.toString())).toList(),
-                                selectedAddressIdPicked: (String gg) {
-                                  selectedCity = modelCityList!.city!.firstWhere((element) => element.cityId.toString() == gg);
-                                  cartController.cityCode = gg.toString();
-                                  cartController.cityName.value = selectedCity!.cityName.toString();
-                                  print('state ${cartController.cityName.toString()}');
-                                  print('state Nameee ${cartController.cityCode.toString()}');
-                                  setState(() {});
-                                },
-                                selectedAddressId: ((selectedCity ?? City()).cityId ?? "").toString());
-                          },
-                          suffixIcon: Obx(() {
-                            if (cityRefresh.value > 0) {
-                              return const Icon(Icons.keyboard_arrow_down_rounded);
-                            }
-                            return const CupertinoActivityIndicator();
-                          }),
-                          validator: (v) {
-                            if (v!.trim().isEmpty) {
-                              return "Please select state";
-                            }
-                            return null;
-                          },
-                        ),
-                        if(cartController.countryName.value != 'Kuwait')
+                      ...fieldWithName(
+                        readOnly: true,
+                        title: 'City',
+                        hintText: 'Select City',
+                        controller:
+                            TextEditingController(text: (selectedCity ?? City()).cityName ?? cityController.text),
+                        onTap: () {
+                          if (modelCityList == null && cityRefresh.value > 0) {
+                            showToast("Select State First");
+                            return;
+                          }
+                          if (cityRefresh.value < 0) {
+                            return;
+                          }
+                          if (modelCityList!.city!.isEmpty) return;
+                          showAddressSelectorDialog(
+                              addressList: profileController.selectedLAnguage.value == 'English'
+                                  ? modelCityList!.city!
+                                      .map((e) => CommonAddressRelatedClass(
+                                          title: e.cityName.toString(), addressId: e.cityId.toString()))
+                                      .toList()
+                                  : modelCityList!.city!
+                                      .map((e) => CommonAddressRelatedClass(
+                                          title: e.arabCityName.toString(), addressId: e.cityId.toString()))
+                                      .toList(),
+                              selectedAddressIdPicked: (String gg) {
+                                selectedCity =
+                                    modelCityList!.city!.firstWhere((element) => element.cityId.toString() == gg);
+                                cartController.cityCode = gg.toString();
+                                cartController.cityName.value = selectedCity!.cityName.toString();
+                                print('state ${cartController.cityName.toString()}');
+                                print('state Nameee ${cartController.cityCode.toString()}');
+                                setState(() {});
+                              },
+                              selectedAddressId: ((selectedCity ?? City()).cityId ?? "").toString());
+                        },
+                        suffixIcon: Obx(() {
+                          if (cityRefresh.value > 0) {
+                            return const Icon(Icons.keyboard_arrow_down_rounded);
+                          }
+                          return const CupertinoActivityIndicator();
+                        }),
+                        validator: (v) {
+                          if (v!.trim().isEmpty) {
+                            return "Please select state";
+                          }
+                          return null;
+                        },
+                      ),
+                      if (cartController.countryName.value != 'Kuwait')
                         ...commonField(
-                          textController: zipCodeController,
-                          title: "Zip-Code*",
-                          hintText: "Enter location Zip-Code",
-                          keyboardType: TextInputType.number,
-                          validator: (value) {
-                            if (value!.trim().isEmpty) {
-                              return "Please enter Zip-Code*";
-                            }
-                            return null;
-                          }),
-                      if(cartController.countryName.value != 'Kuwait')
-                      ...commonField(
-                          textController: landmarkController,
-                          title: "Landmark",
-                          hintText: "Enter your nearby landmark",
-                          keyboardType: TextInputType.streetAddress,
-                          validator: (value) {
-                            // if(value!.trim().isEmpty){
-                            //   return "Please enter delivery address";
-                            // }
-                            return null;
-                          }),
+                            textController: zipCodeController,
+                            title: "Zip-Code*",
+                            hintText: "Enter location Zip-Code",
+                            keyboardType: TextInputType.number,
+                            validator: (value) {
+                              if (value!.trim().isEmpty) {
+                                return "Please enter Zip-Code*";
+                              }
+                              return null;
+                            }),
+                      if (cartController.countryName.value != 'Kuwait')
+                        ...commonField(
+                            textController: landmarkController,
+                            title: "Landmark",
+                            hintText: "Enter your nearby landmark",
+                            keyboardType: TextInputType.streetAddress,
+                            validator: (value) {
+                              // if(value!.trim().isEmpty){
+                              //   return "Please enter delivery address";
+                              // }
+                              return null;
+                            }),
                       const SizedBox(
                         height: 16,
                       ),
@@ -719,21 +625,6 @@ class _AddressScreenState extends State<AddressScreen> {
                             );
                             setState(() {});
                             Get.back();
-                            // cartController.updateAddressApi(
-                            //     context: context,
-                            //     firstName: firstNameController.text.trim(),
-                            //     title: titleController.text.trim(),
-                            //     lastName: lastNameController.text.trim(),
-                            //     state: stateController.text.trim(),
-                            //     country: countryController.text.trim(),
-                            //     city: cityController.text.trim(),
-                            //     address2: address2Controller.text.trim(),
-                            //     address: addressController.text.trim(),
-                            //     alternatePhone: alternatePhoneController.text.trim(),
-                            //     landmark: landmarkController.text.trim(),
-                            //     phone: phoneController.text.trim(),
-                            //     zipCode: zipCodeController.text.trim(),
-                            //     id: addressData.id);
                           }
                         },
                         child: Container(
@@ -743,8 +634,8 @@ class _AddressScreenState extends State<AddressScreen> {
                           child: Align(
                               alignment: Alignment.center,
                               child: Text("Save",
-                                  style:
-                                      GoogleFonts.poppins(fontWeight: FontWeight.w500, fontSize: 19, color: Colors.white))),
+                                  style: GoogleFonts.poppins(
+                                      fontWeight: FontWeight.w500, fontSize: 19, color: Colors.white))),
                         ),
                       ),
                       SizedBox(height: MediaQuery.of(context).viewInsets.bottom),
@@ -778,7 +669,8 @@ class _AddressScreenState extends State<AddressScreen> {
                       Container(
                         width: 100,
                         height: 6,
-                        decoration: BoxDecoration(color: Colors.grey.shade400, borderRadius: BorderRadius.circular(100)),
+                        decoration:
+                            BoxDecoration(color: Colors.grey.shade400, borderRadius: BorderRadius.circular(100)),
                       )
                     ],
                   ),
@@ -838,17 +730,27 @@ class _AddressScreenState extends State<AddressScreen> {
                                         cartController.selectedAddress = address;
                                         cartController.countryName.value = address.country.toString();
                                         print('onTap is....${cartController.countryName.value}');
-                                        if(cartController.isDelivery.value == true){
-                                          cartController.addressDeliFirstName.text = cartController.selectedAddress.getFirstName;
-                                          cartController.addressDeliLastName.text = cartController.selectedAddress.getLastName;
-                                          cartController.addressDeliEmail.text = cartController.selectedAddress.getEmail;
-                                          cartController.addressDeliPhone.text = cartController.selectedAddress.getPhone;
-                                          cartController.addressDeliAlternate.text = cartController.selectedAddress.getAlternate;
-                                          cartController.addressDeliAddress.text = cartController.selectedAddress.getAddress;
-                                          cartController.addressDeliZipCode.text = cartController.selectedAddress.getZipCode;
-                                          cartController.addressCountryController.text = cartController.selectedAddress.getCountry;
-                                          cartController.addressStateController.text = cartController.selectedAddress.getState;
-                                          cartController.addressCityController.text = cartController.selectedAddress.getCity;
+                                        if (cartController.isDelivery.value == true) {
+                                          cartController.addressDeliFirstName.text =
+                                              cartController.selectedAddress.getFirstName;
+                                          cartController.addressDeliLastName.text =
+                                              cartController.selectedAddress.getLastName;
+                                          cartController.addressDeliEmail.text =
+                                              cartController.selectedAddress.getEmail;
+                                          cartController.addressDeliPhone.text =
+                                              cartController.selectedAddress.getPhone;
+                                          cartController.addressDeliAlternate.text =
+                                              cartController.selectedAddress.getAlternate;
+                                          cartController.addressDeliAddress.text =
+                                              cartController.selectedAddress.getAddress;
+                                          cartController.addressDeliZipCode.text =
+                                              cartController.selectedAddress.getZipCode;
+                                          cartController.addressCountryController.text =
+                                              cartController.selectedAddress.getCountry;
+                                          cartController.addressStateController.text =
+                                              cartController.selectedAddress.getState;
+                                          cartController.addressCityController.text =
+                                              cartController.selectedAddress.getCity;
                                         }
                                         print('codeee isss${cartController.countryName.toString()}');
                                         Get.back();
@@ -880,7 +782,6 @@ class _AddressScreenState extends State<AddressScreen> {
                                               ),
                                               Column(
                                                 children: [
-
                                                   PopupMenuButton(
                                                       color: Colors.white,
                                                       iconSize: 20,
@@ -890,9 +791,7 @@ class _AddressScreenState extends State<AddressScreen> {
                                                       ),
                                                       padding: EdgeInsets.zero,
                                                       onSelected: (value) {
-                                                        setState(() {
-
-                                                        });
+                                                        setState(() {});
                                                         Navigator.pushNamed(context, value.toString());
                                                       },
                                                       itemBuilder: (ac) {
@@ -907,27 +806,36 @@ class _AddressScreenState extends State<AddressScreen> {
                                                           PopupMenuItem(
                                                             onTap: () {
                                                               cartController.selectedAddress = address;
-                                                              cartController.countryName.value = address.country.toString();
+                                                              cartController.countryName.value =
+                                                                  address.country.toString();
                                                               print('onTap is....${cartController.countryName.value}');
-                                                              print('onTap is....${cartController.selectedAddress.id.toString()}');
-                                                              if(cartController.isDelivery.value == true){
-                                                                cartController.addressDeliFirstName.text = cartController.selectedAddress.getFirstName;
-                                                                cartController.addressDeliLastName.text = cartController.selectedAddress.getLastName;
-                                                                cartController.addressDeliEmail.text = cartController.selectedAddress.getEmail;
-                                                                cartController.addressDeliPhone.text = cartController.selectedAddress.getPhone;
-                                                                cartController.addressDeliAlternate.text = cartController.selectedAddress.getAlternate;
-                                                                cartController.addressDeliAddress.text = cartController.selectedAddress.getAddress;
-                                                                cartController.addressDeliZipCode.text = cartController.selectedAddress.getZipCode;
-                                                                cartController.addressCountryController.text = cartController.selectedAddress.getCountry;
-                                                                cartController.addressStateController.text = cartController.selectedAddress.getState;
-                                                                cartController.addressCityController.text = cartController.selectedAddress.getCity;
+                                                              print(
+                                                                  'onTap is....${cartController.selectedAddress.id.toString()}');
+                                                              if (cartController.isDelivery.value == true) {
+                                                                cartController.addressDeliFirstName.text =
+                                                                    cartController.selectedAddress.getFirstName;
+                                                                cartController.addressDeliLastName.text =
+                                                                    cartController.selectedAddress.getLastName;
+                                                                cartController.addressDeliEmail.text =
+                                                                    cartController.selectedAddress.getEmail;
+                                                                cartController.addressDeliPhone.text =
+                                                                    cartController.selectedAddress.getPhone;
+                                                                cartController.addressDeliAlternate.text =
+                                                                    cartController.selectedAddress.getAlternate;
+                                                                cartController.addressDeliAddress.text =
+                                                                    cartController.selectedAddress.getAddress;
+                                                                cartController.addressDeliZipCode.text =
+                                                                    cartController.selectedAddress.getZipCode;
+                                                                cartController.addressCountryController.text =
+                                                                    cartController.selectedAddress.getCountry;
+                                                                cartController.addressStateController.text =
+                                                                    cartController.selectedAddress.getState;
+                                                                cartController.addressCityController.text =
+                                                                    cartController.selectedAddress.getCity;
                                                               }
 
-
                                                               defaultAddressApi();
-                                                              setState(() {
-
-                                                              });
+                                                              setState(() {});
                                                             },
                                                             // value: '/slotViewScreen',
                                                             child: Text("Default Address".tr),
@@ -941,9 +849,10 @@ class _AddressScreenState extends State<AddressScreen> {
                                                               )
                                                                   .then((value) {
                                                                 if (value == true) {
-                                                                  cartController.addressListModel.address!.shipping!.removeWhere(
-                                                                          (element) =>
-                                                                      element.id.toString() == address.id.toString());
+                                                                  cartController.addressListModel.address!.shipping!
+                                                                      .removeWhere((element) =>
+                                                                          element.id.toString() ==
+                                                                          address.id.toString());
                                                                   cartController.updateUI();
                                                                 }
                                                               });
@@ -953,16 +862,15 @@ class _AddressScreenState extends State<AddressScreen> {
                                                           )
                                                         ];
                                                       }),
-                                                  address.isDefault == true ?
-                                                 Text(
-                                                    "Default",
-                                                    style: GoogleFonts.poppins(
-                                                        fontWeight: FontWeight.w500,
-                                                        fontSize: 15,
-                                                        color: const Color(0xff585858)),
-                                                  ) : SizedBox(),
-
-
+                                                  address.isDefault == true
+                                                      ? Text(
+                                                          "Default",
+                                                          style: GoogleFonts.poppins(
+                                                              fontWeight: FontWeight.w500,
+                                                              fontSize: 15,
+                                                              color: const Color(0xff585858)),
+                                                        )
+                                                      : SizedBox(),
                                                 ],
                                               )
                                             ],
@@ -996,13 +904,14 @@ class _AddressScreenState extends State<AddressScreen> {
   }
 
   Future bottomSheet({required AddressData addressData}) {
-
     return showModalBottomSheet(
         context: context,
         isScrollControlled: true,
         backgroundColor: Colors.white,
         builder: (context12) {
-          return EditAddressSheet(addressData: addressData,);
+          return EditAddressSheet(
+            addressData: addressData,
+          );
         });
   }
 }

@@ -88,7 +88,7 @@ class _WhichplantypedescribeyouScreenState extends State<Whichplantypedescribeyo
             children: [
               Text(
                 'Individuals:'.tr,
-                style: GoogleFonts.poppins(color: const Color(0xff0D5877), fontWeight: FontWeight.w600, fontSize: 16),
+                style: GoogleFonts.poppins(color: const Color(0xff0D5877), fontWeight: FontWeight.w500, fontSize: 16),
               ),
               Text(
                 'Limited to advertising only, any payments will be done outside the platform.'.tr,
@@ -96,7 +96,7 @@ class _WhichplantypedescribeyouScreenState extends State<Whichplantypedescribeyo
               ),
               Text(
                 'Startups:'.tr,
-                style: GoogleFonts.poppins(color: const Color(0xff0D5877), fontWeight: FontWeight.w600, fontSize: 16),
+                style: GoogleFonts.poppins(color: const Color(0xff0D5877), fontWeight: FontWeight.w500, fontSize: 16),
               ),
               Text(
                 'For start ups that want to sell their products in the Dirise platform.'.tr,
@@ -104,7 +104,7 @@ class _WhichplantypedescribeyouScreenState extends State<Whichplantypedescribeyo
               ),
               Text(
                 'Enterprise:'.tr,
-                style: GoogleFonts.poppins(color: const Color(0xff0D5877), fontWeight: FontWeight.w600, fontSize: 16),
+                style: GoogleFonts.poppins(color: const Color(0xff0D5877), fontWeight: FontWeight.w500, fontSize: 16),
               ),
               Text(
                 'For companies with commercial license and corporate bank account.'.tr,
@@ -134,11 +134,11 @@ class _WhichplantypedescribeyouScreenState extends State<Whichplantypedescribeyo
                         children: [
                           Text(
                             'Individuals:'.tr,
-                            style: GoogleFonts.poppins(color: const Color(0xff0D5877), fontWeight: FontWeight.w600, fontSize: 16),
+                            style: GoogleFonts.poppins(color: const Color(0xff111727), fontWeight: FontWeight.w600, fontSize: 16),
                           ),
                           Text(
                             'Advertising only'.tr,
-                            style: GoogleFonts.poppins(color: const Color(0xff0D5877), fontWeight: FontWeight.w400, fontSize: 13),
+                            style: GoogleFonts.poppins(color: const Color(0xff111727), fontWeight: FontWeight.w400, fontSize: 13),
                           ),
                         ],
                       ),
@@ -298,11 +298,11 @@ class _WhichplantypedescribeyouScreenState extends State<Whichplantypedescribeyo
                         children: [
                           Text(
                             'Startup stores'.tr,
-                            style: GoogleFonts.poppins(color: const Color(0xff0D5877), fontWeight: FontWeight.w600, fontSize: 16),
+                            style: GoogleFonts.poppins(color: const Color(0xff111727), fontWeight: FontWeight.w600, fontSize: 16),
                           ),
                           Text(
                             'Just started the business journey'.tr,
-                            style: GoogleFonts.poppins(color: const Color(0xff0D5877), fontWeight: FontWeight.w400, fontSize: 13),
+                            style: GoogleFonts.poppins(color: const Color(0xff111727), fontWeight: FontWeight.w400, fontSize: 13),
                           ),
                         ],
                       ),
@@ -442,11 +442,11 @@ class _WhichplantypedescribeyouScreenState extends State<Whichplantypedescribeyo
                         children: [
                           Text(
                             'Enterprise stores:'.tr,
-                            style: GoogleFonts.poppins(color: const Color(0xff0D5877), fontWeight: FontWeight.w600, fontSize: 16),
+                            style: GoogleFonts.poppins(color: const Color(0xff111727), fontWeight: FontWeight.w600, fontSize: 16),
                           ),
                           Text(
                             'Advertising only'.tr,
-                            style: GoogleFonts.poppins(color: const Color(0xff0D5877), fontWeight: FontWeight.w400, fontSize: 13),
+                            style: GoogleFonts.poppins(color: const Color(0xff111727), fontWeight: FontWeight.w400, fontSize: 13),
                           ),
                         ],
                       ),
@@ -572,7 +572,7 @@ class _WhichplantypedescribeyouScreenState extends State<Whichplantypedescribeyo
                 alignment: Alignment.center,
                 child: Text(
                   'Our Plans'.tr,
-                  style: GoogleFonts.poppins(color: const Color(0xff014E70), fontWeight: FontWeight.w600, fontSize: 24),
+                  style: GoogleFonts.poppins(color: const Color(0xff014E70), fontWeight: FontWeight.w500, fontSize: 24),
                 ),
               ),
               const SizedBox(
@@ -583,8 +583,8 @@ class _WhichplantypedescribeyouScreenState extends State<Whichplantypedescribeyo
                 padding: const EdgeInsets.only(bottom: 10,top: 10),
                 margin: const EdgeInsets.only(left: 10, right: 10),
                 decoration: BoxDecoration(
-                  borderRadius: BorderRadius.circular(11),
-                  border: Border.all(color: const Color(0xff0D5877), width: 1.0),
+                  borderRadius: BorderRadius.circular(4),
+                  border: Border.all(color: const Color(0xff353A21), width: 1.0),
                 ),
                 child: Column(
                   mainAxisAlignment: MainAxisAlignment.start,
@@ -718,7 +718,7 @@ class _WhichplantypedescribeyouScreenState extends State<Whichplantypedescribeyo
 
 
 
-
+const SizedBox(height: 10,),
               Align(
                 alignment: Alignment.center,
                 child: Text(
@@ -751,8 +751,8 @@ class _WhichplantypedescribeyouScreenState extends State<Whichplantypedescribeyo
                   ),
                   Expanded(
                     child: Text(
-                      'I agree to DIRISE terms & conditions, privacy policy and DIRISE free program*'.tr,
-                      style: GoogleFonts.poppins(color: const Color(0xff7B7D7C), fontWeight: FontWeight.w500, fontSize: 13),
+                      'So i agree to DIRISE terms & condition, privacy policy and DIRISE free program*'.tr,
+                      style: GoogleFonts.poppins(color: const Color(0xff7B7D7C), fontWeight: FontWeight.w400, fontSize: 13),
                     ),
                   ),
                 ],

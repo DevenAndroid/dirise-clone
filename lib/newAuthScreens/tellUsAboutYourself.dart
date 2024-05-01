@@ -7,6 +7,7 @@ import 'package:google_fonts/google_fonts.dart';
 import '../addNewProduct/locationScreen.dart';
 import '../language/app_strings.dart';
 import '../newAddress/pickUpAddressScreen.dart';
+import '../utils/api_constant.dart';
 
 class TellUsAboutYourSelf extends StatefulWidget {
   static String route = "/TellUsAboutYourSelf";
@@ -24,7 +25,8 @@ class _TellUsAboutYourSelfState extends State<TellUsAboutYourSelf> {
       Get.to(const WhichplantypedescribeyouScreen());
     } else if (selectedRadio == 'shop') {
       Get.to( PickUpAddressScreen());
-      // Get.to(ChooseAddress());
+    }else{
+      showToast('Select type of product');
     }
   }
 

@@ -14,6 +14,7 @@ import 'package:flutter_svg/svg.dart';
 import 'package:get/get.dart';
 import 'package:google_fonts/google_fonts.dart';
 
+import '../controller/profile_controller.dart';
 import '../model/common_modal.dart';
 import '../model/vendor_models/model_vendor_details.dart';
 import '../newAddress/customeraccountcreatedsuccessfullyScreen.dart';
@@ -90,7 +91,7 @@ class _PersonalizeyourstoreScreenState extends State<PersonalizeyourstoreScreen>
         })
         .then((value) {
       if(detailsController.text.isNotEmpty){
-        Get.to(CustomerAccountCreatedSuccessfullyScreen());
+        Get.to(SecurityDetailsScreen());
       }
       else{
         showToast('please enter Details');
@@ -98,7 +99,12 @@ class _PersonalizeyourstoreScreenState extends State<PersonalizeyourstoreScreen>
 
     });
   }
-
+  final profileController = Get.put(ProfileController());
+ @override
+  void initState() {
+    super.initState();
+    profileController.getVendorDetails();
+  }
   @override
   Widget build(BuildContext context) {
     return Scaffold(

@@ -90,7 +90,7 @@ class _CustomerAccountCreatedSuccessfullyScreenState extends State<CustomerAccou
                   style: Theme.of(context)
                       .textTheme
                       .headlineSmall!
-                      .copyWith(fontWeight: FontWeight.w500, fontSize: 14, color: const Color(0xff262F33)),
+                      .copyWith(fontWeight: FontWeight.w500, fontSize: 14, color: const Color(0xff014E70)),
                 ),
                 Text(
                   "Customer Support".tr,
@@ -98,7 +98,7 @@ class _CustomerAccountCreatedSuccessfullyScreenState extends State<CustomerAccou
                   style: Theme.of(context)
                       .textTheme
                       .headlineSmall!
-                      .copyWith(fontWeight: FontWeight.w500, fontSize: 14, color: const Color(0xff262F33)),
+                      .copyWith(fontWeight: FontWeight.w500, fontSize: 14, color: const Color(0xff014E70)),
                 ),
                 Text(
                   "Call".tr,
@@ -106,7 +106,7 @@ class _CustomerAccountCreatedSuccessfullyScreenState extends State<CustomerAccou
                   style: Theme.of(context)
                       .textTheme
                       .headlineSmall!
-                      .copyWith(fontWeight: FontWeight.w500, fontSize: 14, color: const Color(0xff262F33)),
+                      .copyWith(fontWeight: FontWeight.w500, fontSize: 14, color: const Color(0xff014E70)),
                 ),
                 SizedBox(
                   height: AddSize.size10,

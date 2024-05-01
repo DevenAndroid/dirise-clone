@@ -213,7 +213,7 @@ class _WhatdoyousellScreenState extends State<WhatdoyousellScreen> {
             children: [
               Text(
                 'This is where your product will be shown. Category can’t be changed later.',
-                style: GoogleFonts.poppins(color: const Color(0xff111727), fontSize: 13),
+                style: GoogleFonts.poppins(color: const Color(0xff111727), fontSize: 13,fontWeight: FontWeight.w400),
               ),
               const SizedBox(
                 height: 20,
@@ -434,7 +434,26 @@ class _WhatdoyousellScreenState extends State<WhatdoyousellScreen> {
                   showToast('Please Done All Process Complete');
                 }
                 },
-                child: Container(
+                child: vendorRegister == 'done' && otpVerify == 'done' && _isValue == true ?  Container(
+                  width: Get.width,
+                  height: 50,
+                  decoration: BoxDecoration(
+                      color: const Color(0xff0D5877), // Border color
+
+                    borderRadius: BorderRadius.circular(2), // Border radius
+                  ),
+                  padding: const EdgeInsets.all(10), // Padding inside the container
+                  child: const Center(
+                    child: Text(
+                      'Next',
+                      style: TextStyle(
+                        fontSize: 16,
+                        fontWeight: FontWeight.bold,
+                        color: Colors.white, // Text color
+                      ),
+                    ),
+                  ),
+                ) : Container(
                   width: Get.width,
                   height: 50,
                   decoration: BoxDecoration(
