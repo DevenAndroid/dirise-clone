@@ -24,6 +24,7 @@ import '../personalizeyourstore/socialMediaScreen.dart';
 import '../personalizeyourstore/vendorinformationScreen.dart';
 import '../repository/repository.dart';
 import '../screens/check_out/address/add_address.dart';
+import '../screens/return_policy.dart';
 import '../utils/api_constant.dart';
 import '../vendor/dashboard/store_open_time_screen.dart';
 import '../widgets/common_button.dart';
@@ -363,7 +364,7 @@ class _PersonalizeyourstoreScreenState extends State<PersonalizeyourstoreScreen>
               ),
               GestureDetector(
                 onTap: (){
-                  Get.to(ReturnPolicyScreens());
+                  Get.to(ReturnnPolicyList());
                 },
                 child: Row(
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,

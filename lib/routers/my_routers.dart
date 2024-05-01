@@ -11,6 +11,7 @@ import '../addNewProduct/pickUpAddressScreen.dart';
 import '../model/vendor_models/model_return_policy.dart';
 import '../newAuthScreens/newOtpScreen.dart';
 import '../newAuthScreens/signupScreen.dart';
+import '../personalizeyourstore/returnpolicyScreen.dart';
 import '../posts/posts_ui.dart';
 import '../screens/auth_screens/createacc_screen.dart';
 import '../screens/auth_screens/otp_screen.dart';
@@ -85,5 +86,6 @@ class MyRouters {
     GetPage(name: EditAddresss.route, page: () => const EditAddresss()),
     GetPage(name: ReturnnPolicy.route, page: () => const ReturnnPolicy()),
     GetPage(name: VendorInformation.route, page: () => const VendorInformation()),
+
   ];
 }
