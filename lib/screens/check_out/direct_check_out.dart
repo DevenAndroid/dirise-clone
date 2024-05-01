@@ -523,6 +523,7 @@ class _DirectCheckOutScreenState extends State<DirectCheckOutScreen> {
                                                         style: GoogleFonts.poppins(
                                                             fontWeight: FontWeight.w500, fontSize: 16)),
                                                     3.spaceY,
+                                             if    (product.ratedShipmentDetails![ii].rateType=="ACCOUNT")
                                                     Text(
                                                         'kwd ${product.ratedShipmentDetails![ii].totalNetCharge.toString()}',
                                                         style: GoogleFonts.poppins(

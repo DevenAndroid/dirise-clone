@@ -1,3 +1,4 @@
+import 'package:dirise/screens/order_screens/my_orders_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:get/get_core/src/get_main.dart';
@@ -7,6 +8,7 @@ import '../../../language/app_strings.dart';
 import '../../../widgets/common_colour.dart';
 import '../../../widgets/dimension_screen.dart';
 import '../../return_policy.dart';
+import '../../vendorinformation_screen.dart';
 import 'edit_address_screen.dart';
 
 class AddAddressScreen extends StatefulWidget {
@@ -68,10 +70,14 @@ class _AddAddressScreenState extends State<AddAddressScreen> {
                 decoration: BoxDecoration(
                     borderRadius: BorderRadius.all(Radius.circular(15)),
                     border: Border.all(color: Color(0xffE4E2E2))),
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.center,
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  children: [Icon(Icons.add,size: 35,color: Color(0xffE4E2E2),), Text("Address",style: GoogleFonts.poppins(fontSize:32,fontWeight:FontWeight.w400,color:Color(0xffACACAC)))],
+                child: GestureDetector(onTap: (){
+                  Get.toNamed(VendorInformation.route);
+                },
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.center,
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: [Icon(Icons.add,size: 35,color: Color(0xffE4E2E2),), Text("Address",style: GoogleFonts.poppins(fontSize:32,fontWeight:FontWeight.w400,color:Color(0xffACACAC)))],
+                  ),
                 ),
               ),
               SizedBox(

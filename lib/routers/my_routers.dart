@@ -31,6 +31,7 @@ import '../screens/public_speaker_screen/single_public_speaker_screen.dart';
 import '../screens/return_policy.dart';
 import '../screens/school_nursery_category.dart';
 import '../screens/order_screens/selectd_order_screen.dart';
+import '../screens/vendorinformation_screen.dart';
 import '../screens/virtual_assets/virtual_assets_screen.dart';
 import '../vendor/authentication/verify_vendor_otp.dart';
 import '../vendor/dashboard/dashboard_screen.dart';
@@ -83,5 +84,6 @@ class MyRouters {
     GetPage(name: AddAddressScreen.route, page: () => const AddAddressScreen()),
     GetPage(name: EditAddresss.route, page: () => const EditAddresss()),
     GetPage(name: ReturnnPolicy.route, page: () => const ReturnnPolicy()),
+    GetPage(name: VendorInformation.route, page: () => const VendorInformation()),
   ];
 }
