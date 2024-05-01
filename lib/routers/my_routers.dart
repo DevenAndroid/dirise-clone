@@ -45,7 +45,7 @@ import '../vendor/profile/vendor_profile_screen.dart';
 
 class MyRouters {
   static var route = [
-    GetPage(name: '/', page: () => ReturnPolicyScreens()),
+    GetPage(name: '/', page: () => BottomNavbar()),
     GetPage(name: LoginScreen.route, page: () => const LoginScreen()),
     GetPage(name: VendorOTPVerification.route, page: () => const VendorOTPVerification()),
     GetPage(name: CreateAccountNewScreen.route, page: () => const CreateAccountNewScreen()),
@@ -83,6 +83,6 @@ class MyRouters {
     GetPage(name: VendorProfileScreen.route, page: () => const VendorProfileScreen()),
     GetPage(name: AddAddressScreen.route, page: () => const AddAddressScreen()),
     GetPage(name: EditAddresss.route, page: () => const EditAddresss()),
-    GetPage(name: ReturnnPolicy.route, page: () => const ReturnnPolicy()),
+    // GetPage(name: ReturnnPolicy.route, page: () => const ReturnnPolicy()),
   ];
 }
