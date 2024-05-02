@@ -79,10 +79,79 @@ class Cart {
 //   return data;
 // }
 }
+class ShippingPolicy {
+  int? id;
+  int? vendorId;
+  String? title;
+  int? days;
+  String? description;
+  String? createdAt;
+  String? updatedAt;
+
+  ShippingPolicy({this.id, this.vendorId, this.title, this.days, this.description, this.createdAt, this.updatedAt});
+
+  ShippingPolicy.fromJson(Map<String, dynamic> json) {
+    id = json['id'];
+    vendorId = json['vendor_id'];
+    title = json['title'];
+    days = json['days'];
+    description = json['description'];
+    createdAt = json['created_at'];
+    updatedAt = json['updated_at'];
+  }
+
+  Map<String, dynamic> toJson() {
+    final Map<String, dynamic> data = new Map<String, dynamic>();
+    data['id'] = this.id;
+    data['vendor_id'] = this.vendorId;
+    data['title'] = this.title;
+    data['days'] = this.days;
+    data['description'] = this.description;
+    data['created_at'] = this.createdAt;
+    data['updated_at'] = this.updatedAt;
+    return data;
+  }
+}
+class Shipping {
+  String? transactionId;
+  Output? output;
+  int? id;
+  String? name;
+  String? value;
+  int? vendorId;
+
+
+  Shipping({this.transactionId, this.output,this.id, this.name, this.value, this.vendorId});
+
+  Shipping.fromJson(Map<String, dynamic> json) {
+    transactionId = json['transactionId'];
+    output = json['output'] != null ? new Output.fromJson(json['output']) : null;
+    id = json['id'];
+    name = json['name'];
+    value = json['value'];
+    vendorId = json['vendor_id'];
+  }
+
+  Map<String, dynamic> toJson() {
+    final Map<String, dynamic> data = new Map<String, dynamic>();
+    data['transactionId'] = this.transactionId;
+    if (this.output != null) {
+      data['output'] = this.output!.toJson();
+    }
+    data['id'] = this.id;
+    data['name'] = this.name;
+    data['value'] = this.value;
+    data['vendor_id'] = this.vendorId;
+    return data;
+  }
+}
+
 
 class StoreData {
   List<Products>? products;
+  List<Shipping>? shipping;
   List<ShippingTypes>? shippingTypes;
+  bool? localShipping;
   FedexShipping? fedexShipping;
   String? fedexCommision;
   RxString fedexShippingOption = "".obs;
@@ -117,6 +186,7 @@ class StoreData {
       // You can initialize fedexShipping to a default value or handle the error accordingly
       fedexShipping = null; // For example, set it to null
     }
+    localShipping = json['local_shipping'];
 
   }
 
@@ -130,6 +200,7 @@ class StoreData {
           shippingTypes!.map((v) => v.toJson()).toList();
     }
     data['fedex_shipping'] = fedexShipping!.toJson();
+    data['local_shipping'] = this.localShipping;
     return data;
   }
 }

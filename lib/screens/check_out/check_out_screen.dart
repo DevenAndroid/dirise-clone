@@ -669,280 +669,672 @@ class _CheckOutScreenState extends State<CheckOutScreen> {
                                   },
                                 ),
                                 10.spaceY,
-                                if (e.value.products!.any((e) => e.vendorCountryId == '117' && e.isShipping == true) &&
-                                        cartController.countryName.value == 'Kuwait' ||
-                                    cartController.myDefaultAddressModel.value.defaultAddress!.country == 'Kuwait')
-                                  Container(
-                                    color: Colors.white,
-                                    child: Padding(
-                                      padding: const EdgeInsets.symmetric(horizontal: 24, vertical: 16),
-                                      child: Row(
-                                        crossAxisAlignment: CrossAxisAlignment.center,
-                                        children: [
-                                          Image.asset('assets/images/shipping_icon.png', height: 32, width: 32),
-                                          20.spaceX,
-                                          InkWell(
-                                            onTap: () {},
-                                            child: Text("Shipping Method".tr,
-                                                style: GoogleFonts.poppins(fontWeight: FontWeight.w500, fontSize: 18)),
-                                          ),
-                                        ],
-                                      ),
-                                    ),
-                                  ),
-                                if (e.value.products!.any((e) => e.vendorCountryId == '117' && e.isShipping == true) &&
-                                        cartController.countryName.value == 'Kuwait' ||
-                                    cartController.myDefaultAddressModel.value.defaultAddress!.country == 'Kuwait')
-                                  Container(
-                                    color: Colors.white,
-                                    child: ListView.builder(
-                                      physics: const NeverScrollableScrollPhysics(),
-                                      shrinkWrap: true,
-                                      itemCount: e.value.shippingTypes!.length,
-                                      padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 15).copyWith(top: 0),
-                                      itemBuilder: (context, ii) {
-                                        ShippingTypes product = e.value.shippingTypes![ii];
-                                        return Obx(() {
-                                          return Column(
-                                            children: [
-                                              10.spaceY,
-                                              ii == 0
-                                                  ? 0.spaceY
-                                                  : const Divider(
-                                                      color: Color(0xFFD9D9D9),
-                                                      thickness: 0.8,
-                                                    ),
-                                              Row(
-                                                children: [
-                                                  Radio(
-                                                    value: product.id.toString(),
-                                                    groupValue: e.value.shippingOption.value,
-                                                    visualDensity: const VisualDensity(horizontal: -4.0),
-                                                    fillColor: e.value.shippingOption.value.isEmpty
-                                                        ? MaterialStateProperty.all(Colors.red)
-                                                        : null,
-                                                    onChanged: (value) {
-                                                      setState(() {
-                                                        print("dsfasdfddddddddddddddddxc");
-                                                        e.value.shippingOption.value = value.toString();
-                                                        e.value.shippingId.value = e.value.shippingTypes![ii].id;
-                                                        e.value.vendorId.value = e.value.shippingTypes![ii].vendorId;
-                                                        e.value.shippingVendorName.value =
-                                                            e.value.shippingTypes![ii].name.toString();
-                                                        e.value.vendorPrice.value =
-                                                            e.value.shippingTypes![ii].value.toString();
-                                                        shippingPrice =
-                                                            double.parse(e.value.shippingTypes![ii].value.toString());
-                                                        double subtotal =
-                                                            double.parse(cartController.cartModel.subtotal.toString());
-                                                        double shipping = shippingPrice;
-                                                        print("shippingPrice${shippingPrice.toString()}");
-                                                        total = subtotal + shipping;
-                                                        cartController.formattedTotal = total.toStringAsFixed(3);
-                                                        e.value.sMethod =
-                                                            double.parse(e.value.shippingTypes![ii].value.toString());
-                                                        // double sPrice = 0.0;
-                                                        for (var item
-                                                            in cartController.cartModel.cart!.carsShowroom!.entries) {
-                                                          if (item.value.shippingOption.value.isNotEmpty) {
-                                                            sPrice1 = item.value.sMethod;
-
-                                                            // sPrice.toStringAsFixed(fractionDigits)
-                                                            // Update sPrice directly without reassigning
-                                                          }
-                                                          log("Final sPrice: $sPrice1");
-                                                        }
-                                                      });
-                                                    },
-                                                  ),
-                                                  20.spaceX,
-                                                  Column(
-                                                    crossAxisAlignment: CrossAxisAlignment.start,
-                                                    children: [
-                                                      Text(product.name.toString().capitalize!.replaceAll('_', ' '),
-                                                          style: GoogleFonts.poppins(
-                                                              fontWeight: FontWeight.w500, fontSize: 16)),
-                                                      3.spaceY,
-                                                      Text('kwd ${product.value.toString()}',
-                                                          style: GoogleFonts.poppins(
-                                                              fontWeight: FontWeight.w400,
-                                                              fontSize: 16,
-                                                              color: const Color(0xFF03a827))),
-                                                    ],
-                                                  ),
-                                                ],
-                                              ),
-                                            ],
-                                          );
-                                        });
-                                        // : 0.spaceY,;
-                                      },
-                                    ),
-                                  ),
-
-                                //fedx
-                                if (e.value.products!.any((e) => e.vendorCountryId != '117' && e.isShipping == true) ||
-                                    cartController.countryName.value != 'Kuwait' &&
-                                        cartController.myDefaultAddressModel.value.defaultAddress!.country != 'Kuwait')
-                                  cartController.selectedAddress.id != null ||
-                                          cartController.myDefaultAddressModel.value.defaultAddress != null
+                                cartController.myDefaultAddressModel.value
+                                                  .defaultAddress !=
+                                              null &&
+                                          e.value.localShipping != true
                                       ? Container(
                                           color: Colors.white,
-                                          child: Padding(
-                                            padding: const EdgeInsets.symmetric(horizontal: 24, vertical: 16),
-                                            child: Row(
-                                              crossAxisAlignment: CrossAxisAlignment.center,
-                                              children: [
-                                                Image.asset('assets/images/shipping_icon.png', height: 32, width: 32),
-                                                20.spaceX,
-                                                Text("Fedex Shipping Method".tr,
-                                                    style: GoogleFonts.poppins(fontWeight: FontWeight.w500, fontSize: 18)),
-                                              ],
-                                            ),
-                                          ),
-                                        )
-                                      : SizedBox(),
-
-                                if (e.value.products!.any((e) => e.vendorCountryId != '117' && e.isShipping == true) ||
-                                    cartController.countryName.value != 'Kuwait' &&
-                                        cartController.myDefaultAddressModel.value.defaultAddress!.country != 'Kuwait')
-                                  e.value.fedexShipping?.output == null
-                                      ? Padding(
-                                          padding: const EdgeInsets.symmetric(vertical: 15, horizontal: 10),
-                                          child: Text(
-                                            'This vendor does not do international shipping'.tr,
-                                            style: const TextStyle(fontSize: 17),
-                                          ),
-                                        )
-                                      : cartController.selectedAddress.id != null ||
-                                              cartController.myDefaultAddressModel.value.defaultAddress != null
-                                          ? e.value.fedexShipping!.output != null
-                                              ? Container(
-                                                  color: Colors.white,
-                                                  child: ListView.builder(
-                                                    physics: const NeverScrollableScrollPhysics(),
-                                                    shrinkWrap: true,
-                                                    itemCount: e.value.fedexShipping!.output!.rateReplyDetails!.length,
-                                                    padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 15)
+                                          child: Column(
+                                            children: [
+                                              Padding(
+                                                padding:
+                                                    const EdgeInsets.symmetric(
+                                                        horizontal: 24,
+                                                        vertical: 16),
+                                                child: Row(
+                                                  crossAxisAlignment:
+                                                      CrossAxisAlignment.center,
+                                                  children: [
+                                                    Image.asset(
+                                                        'assets/images/shipping_icon.png',
+                                                        height: 32,
+                                                        width: 32),
+                                                    20.spaceX,
+                                                    InkWell(
+                                                      onTap: () {},
+                                                      child: Text(
+                                                          "Shipping Method".tr,
+                                                          style: GoogleFonts
+                                                              .poppins(
+                                                                  fontWeight:
+                                                                      FontWeight
+                                                                          .w500,
+                                                                  fontSize:
+                                                                      18)),
+                                                    ),
+                                                  ],
+                                                ),
+                                              ),
+                                              ListView.builder(
+                                                physics:
+                                                    const NeverScrollableScrollPhysics(),
+                                                shrinkWrap: true,
+                                                itemCount:
+                                                    e.value.shipping?.length,
+                                                padding:
+                                                    const EdgeInsets.symmetric(
+                                                            horizontal: 20,
+                                                            vertical: 15)
                                                         .copyWith(top: 0),
-                                                    itemBuilder: (context, ii) {
-                                                      RateReplyDetails product =
-                                                          e.value.fedexShipping!.output!.rateReplyDetails![ii];
-                                                      return Obx(() {
-                                                        return Column(
+                                                itemBuilder: (context, ii) {
+                                                  Shipping? product =
+                                                      e.value.shipping?[ii];
+                                                  return Obx(() {
+                                                    return Column(
+                                                      children: [
+                                                        10.spaceY,
+                                                        ii == 0
+                                                            ? 0.spaceY
+                                                            : const Divider(
+                                                                color: Color(
+                                                                    0xFFD9D9D9),
+                                                                thickness: 0.8,
+                                                              ),
+                                                        Row(
                                                           children: [
-                                                            10.spaceY,
-                                                            ii == 0
-                                                                ? 0.spaceY
-                                                                : const Divider(
-                                                                    color: Color(0xFFD9D9D9),
-                                                                    thickness: 0.8,
-                                                                  ),
-                                                            Row(
-                                                              children: [
-                                                                Radio(
-                                                                  value: product.serviceType.toString(),
-                                                                  groupValue: e.value.fedexShippingOption.value,
-                                                                  visualDensity: const VisualDensity(horizontal: -4.0),
-                                                                  fillColor: e.value.fedexShippingOption.value.isEmpty
-                                                                      ? MaterialStateProperty.all(Colors.red)
-                                                                      : null,
-                                                                  onChanged: (value) {
-                                                                    setState(() {
-                                                                      e.value.fedexShippingOption.value = value.toString();
-                                                                      e.value.fedexShipping!.output!.rateReplyDetails![ii]
-                                                                              .shippingDate =
-                                                                          product.operationalDetail!.deliveryDate;
-                                                                      cartController.shippingTitle =
-                                                                          e.value.fedexShippingOption.value.toString();
-                                                                      cartController.shippingPrices = product
-                                                                          .ratedShipmentDetails![ii].totalNetCharge
+                                                            Radio(
+                                                              value: product!.id
+                                                                  .toString(),
+                                                              groupValue: e
+                                                                  .value
+                                                                  .shippingOption
+                                                                  .value,
+                                                              visualDensity: const VisualDensity(horizontal: -4.0),
+                                                              fillColor: e
+                                                                      .value
+                                                                      .shippingOption
+                                                                      .value
+                                                                      .isEmpty
+                                                                  ? MaterialStateProperty
+                                                                      .all(Colors
+                                                                          .red)
+                                                                  : null,
+                                                              onChanged:
+                                                                  (value) {
+                                                                setState(() {
+                                                                  print(
+                                                                      "dsfasdfddddddddddddddddxc");
+                                                                  e.value.shippingOption
+                                                                          .value =
+                                                                      value
                                                                           .toString();
-                                                                      log(e.value.fedexShippingOption.value.toString());
-                                                                      log(cartController.shippingTitle.toString());
-                                                                      log("shipped::${cartController.shippingPrices.toString()}");
-                                                                      log("shipped tit::${cartController.shippingTitle.toString()}");
-                                                                      shippingPrice =
-                                                                          product.ratedShipmentDetails![ii].totalNetCharge;
-                                                                      double subtotal = double.parse(
-                                                                          cartController.cartModel.subtotal.toString());
-                                                                      double shipping = shippingPrice;
-                                                                      cartController.formattedTotal =
-                                                                          (shippingPrice.toStringAsFixed(2));
-                                                                      log("shippingPrice::::::${shippingPrice.toString()}");
-                                                                      total = subtotal + shipping;
-                                                                      cartController.formattedTotal =
-                                                                          (total.toStringAsFixed(3));
-                                                                      // e.value.shippingId.value = e.value.shippingTypes![ii].id;
-                                                                      // e.value.vendorId.value = e.value.shippingTypes![ii].vendorId;
-                                                                      // e.value.shippingVendorName.value = e.value.shippingTypes![ii].name.toString();
-                                                                      // e.value.vendorPrice.value = e.value.shippingTypes![ii].value.toString();
-                                                                      e.value.sPrice =
-                                                                          product.ratedShipmentDetails![ii].totalNetCharge;
+                                                                  e.value.shippingId
+                                                                          .value =
+                                                                      e
+                                                                          .value
+                                                                          .shipping![
+                                                                              ii]
+                                                                          .id!;
+                                                                  e.value.vendorId.value = e
+                                                                      .value
+                                                                      .shipping![
+                                                                          ii]
+                                                                      .vendorId!;
+                                                                  e.value.shippingVendorName.value = e
+                                                                      .value
+                                                                      .shipping![
+                                                                          ii]
+                                                                      .name
+                                                                      .toString();
+                                                                  e.value.vendorPrice.value = e
+                                                                      .value
+                                                                      .shipping![
+                                                                          ii]
+                                                                      .value
+                                                                      .toString();
+                                                                  shippingPrice =
+                                                                      double.parse(e
+                                                                          .value
+                                                                          .shipping![
+                                                                              ii]
+                                                                          .value
+                                                                          .toString());
+                                                                  double
+                                                                      subtotal =
+                                                                      double.parse(cartController
+                                                                          .cartModel
+                                                                          .subtotal
+                                                                          .toString());
+                                                                  double
+                                                                      shipping =
+                                                                      shippingPrice;
+                                                                  print(
+                                                                      "shippingPrice${shippingPrice.toString()}");
+                                                                  total =
+                                                                      subtotal +
+                                                                          shipping;
+                                                                  cartController
+                                                                          .formattedTotal =
+                                                                      total.toStringAsFixed(
+                                                                          3);
+                                                                  e.value.sMethod =
+                                                                      double.parse(e
+                                                                          .value
+                                                                          .shipping![
+                                                                              ii]
+                                                                          .value
+                                                                          .toString());
+                                                                  // double sPrice = 0.0;
+                                                                  for (var item in cartController
+                                                                      .cartModel
+                                                                      .cart!
+                                                                      .carsShowroom!
+                                                                      .entries) {
+                                                                    if (item
+                                                                        .value
+                                                                        .shippingOption
+                                                                        .value
+                                                                        .isNotEmpty) {
+                                                                      sPrice1 = item
+                                                                          .value
+                                                                          .sMethod;
 
-                                                                      // Initialize sPrice before calculations start
-                                                                      log("Initial sPrice:$sPrice");
-
-                                                                      for (var item in cartController
-                                                                          .cartModel.cart!.carsShowroom!.entries) {
-                                                                        if (item
-                                                                            .value.fedexShippingOption.value.isNotEmpty) {
-                                                                          sPrice = item.value.sPrice;
-                                                                          // sPrice.toStringAsFixed(fractionDigits)
-                                                                          // Update sPrice directly without reassigning
-                                                                        }
-                                                                      }
-
-                                                                      log("Final sPrice: ${sPrice + (cartController.cartModel.cart!.carsShowroom!.entries.map((e) => e.value.fedexCommision))}");
-                                                                    });
-                                                                  },
-                                                                ),
-                                                                20.spaceX,
-                                                                Expanded(
-                                                                  child: Column(
-                                                                    crossAxisAlignment: CrossAxisAlignment.start,
-                                                                    children: [
-                                                                      Text(
-                                                                          product.serviceName
-                                                                              .toString()
-                                                                              .capitalize!
-                                                                              .replaceAll('_', ' '),
-                                                                          style: GoogleFonts.poppins(
-                                                                              fontWeight: FontWeight.w500, fontSize: 16)),
-                                                                      3.spaceY,
-                                                                      Text(
-                                                                          'kwd ${product.ratedShipmentDetails![ii].totalNetCharge.toString()}',
-                                                                          style: GoogleFonts.poppins(
-                                                                              fontWeight: FontWeight.w400,
-                                                                              fontSize: 16,
-                                                                              color: const Color(0xFF03a827))),
-                                                                      3.spaceY,
-                                                                      Text(
-                                                                          '${product.operationalDetail!.deliveryDay ?? ''}  ${product.operationalDetail!.deliveryDate ?? ''}',
-                                                                          style: GoogleFonts.poppins(
-                                                                              fontWeight: FontWeight.w400,
-                                                                              fontSize: 15,
-                                                                              fontStyle: FontStyle.italic,
-                                                                              color: const Color(0xFF000000))),
-                                                                    ],
-                                                                  ),
-                                                                ),
+                                                                      // sPrice.toStringAsFixed(fractionDigits)
+                                                                      // Update sPrice directly without reassigning
+                                                                    }
+                                                                    log("Final sPrice: $sPrice1");
+                                                                  }
+                                                                });
+                                                              },
+                                                            ),
+                                                            20.spaceX,
+                                                            Column(
+                                                              crossAxisAlignment:
+                                                                  CrossAxisAlignment
+                                                                      .start,
+                                                              children: [
+                                                                Text(
+                                                                    product.name
+                                                                        .toString()
+                                                                        .capitalize!
+                                                                        .replaceAll(
+                                                                            '_',
+                                                                            ' '),
+                                                                    style: GoogleFonts.poppins(
+                                                                        fontWeight:
+                                                                            FontWeight
+                                                                                .w500,
+                                                                        fontSize:
+                                                                            16)),
+                                                                3.spaceY,
+                                                                Text(
+                                                                    'kwd ${product.value.toString()}',
+                                                                    style: GoogleFonts.poppins(
+                                                                        fontWeight:
+                                                                            FontWeight
+                                                                                .w400,
+                                                                        fontSize:
+                                                                            16,
+                                                                        color: const Color(
+                                                                            0xFF03a827))),
                                                               ],
                                                             ),
                                                           ],
-                                                        );
-                                                      });
-                                                      // : 0.spaceY,;
-                                                    },
-                                                  ),
-                                                )
-                                              : const LoadingAnimation()
-                                          : const SizedBox(),
+                                                        ),
+                                                      ],
+                                                    );
+                                                  });
+                                                  // : 0.spaceY,;
+                                                },
+                                              ),
+                                            ],
+                                          ),
+                                        )
+                                      : ListView.builder(
+                                          physics:
+                                              const NeverScrollableScrollPhysics(),
+                                          shrinkWrap: true,
+                                          itemCount: e.value.shipping?.length,
+                                          padding: const EdgeInsets.symmetric(
+                                                  horizontal: 20, vertical: 15)
+                                              .copyWith(top: 0),
+                                          itemBuilder: (context, ii) {
+                                            RateReplyDetails product = e
+                                                .value
+                                                .fedexShipping!
+                                                .output!
+                                                .rateReplyDetails![ii];
+                                            return Obx(() {
+                                              return Column(
+                                                children: [
+                                                  10.spaceY,
+                                                  ii == 0
+                                                      ? 0.spaceY
+                                                      : const Divider(
+                                                          color:
+                                                              Color(0xFFD9D9D9),
+                                                          thickness: 0.8,
+                                                        ),
+                                                  Row(
+                                                    children: [
+                                                      Radio(
+                                                        value: product
+                                                            .serviceType
+                                                            .toString(),
+                                                        groupValue: e
+                                                            .value
+                                                            .fedexShippingOption
+                                                            .value,
+                                                        visualDensity:
+                                                            const VisualDensity(
+                                                                horizontal:
+                                                                    -4.0),
+                                                        fillColor: e
+                                                                .value
+                                                                .fedexShippingOption
+                                                                .value
+                                                                .isEmpty
+                                                            ? MaterialStateProperty
+                                                                .all(Colors.red)
+                                                            : null,
+                                                        onChanged: (value) {
+                                                          setState(() {
+                                                            e.value.fedexShippingOption
+                                                                    .value =
+                                                                value
+                                                                    .toString();
+                                                            e
+                                                                    .value
+                                                                    .fedexShipping!
+                                                                    .output!
+                                                                    .rateReplyDetails![
+                                                                        ii]
+                                                                    .shippingDate =
+                                                                product
+                                                                    .operationalDetail!
+                                                                    .deliveryDate;
+                                                            cartController
+                                                                    .shippingTitle =
+                                                                e
+                                                                    .value
+                                                                    .fedexShippingOption
+                                                                    .value
+                                                                    .toString();
+                                                            cartController
+                                                                    .shippingPrices =
+                                                                product
+                                                                    .ratedShipmentDetails![
+                                                                        ii]
+                                                                    .totalNetCharge
+                                                                    .toString();
+                                                            log(e
+                                                                .value
+                                                                .fedexShippingOption
+                                                                .value
+                                                                .toString());
+                                                            log(cartController
+                                                                .shippingTitle
+                                                                .toString());
+                                                            log("shipped::${cartController.shippingPrices.toString()}");
+                                                            log("shipped tit::${cartController.shippingTitle.toString()}");
+                                                            shippingPrice = product
+                                                                .ratedShipmentDetails![
+                                                                    ii]
+                                                                .totalNetCharge;
+                                                            double subtotal =
+                                                                double.parse(
+                                                                    cartController
+                                                                        .cartModel
+                                                                        .subtotal
+                                                                        .toString());
+                                                            double shipping =
+                                                                shippingPrice;
+                                                            cartController
+                                                                    .formattedTotal =
+                                                                (shippingPrice
+                                                                    .toStringAsFixed(
+                                                                        2));
+                                                            log("shippingPrice::::::${shippingPrice.toString()}");
+                                                            total = subtotal +
+                                                                shipping;
+                                                            cartController
+                                                                    .formattedTotal =
+                                                                (total
+                                                                    .toStringAsFixed(
+                                                                        3));
+                                                            // e.value.shippingId.value = e.value.shippingTypes![ii].id;
+                                                            // e.value.vendorId.value = e.value.shippingTypes![ii].vendorId;
+                                                            // e.value.shippingVendorName.value = e.value.shippingTypes![ii].name.toString();
+                                                            // e.value.vendorPrice.value = e.value.shippingTypes![ii].value.toString();
+                                                            e.value.sPrice = product
+                                                                .ratedShipmentDetails![
+                                                                    ii]
+                                                                .totalNetCharge;
 
-                              ],
-                            ))
-                        .toList(),
-                  ),
+                                                            // Initialize sPrice before calculations start
+                                                            log("Initial sPrice:$sPrice");
+
+                                                            for (var item
+                                                                in cartController
+                                                                    .cartModel
+                                                                    .cart!
+                                                                    .carsShowroom!
+                                                                    .entries) {
+                                                              if (item
+                                                                  .value
+                                                                  .fedexShippingOption
+                                                                  .value
+                                                                  .isNotEmpty) {
+                                                                sPrice = item
+                                                                    .value
+                                                                    .sPrice;
+                                                                // sPrice.toStringAsFixed(fractionDigits)
+                                                                // Update sPrice directly without reassigning
+                                                              }
+                                                            }
+
+                                                            log("Final sPrice: ${sPrice + (cartController.cartModel.cart!.carsShowroom!.entries.map((e) => e.value.fedexCommision))}");
+                                                          });
+                                                        },
+                                                      ),
+                                                      20.spaceX,
+                                                      Expanded(
+                                                        child: Column(
+                                                          crossAxisAlignment:
+                                                              CrossAxisAlignment
+                                                                  .start,
+                                                          children: [
+                                                            Text(
+                                                                product
+                                                                    .serviceName
+                                                                    .toString()
+                                                                    .capitalize!
+                                                                    .replaceAll(
+                                                                        '_',
+                                                                        ' '),
+                                                                style: GoogleFonts.poppins(
+                                                                    fontWeight:
+                                                                        FontWeight
+                                                                            .w500,
+                                                                    fontSize:
+                                                                        16)),
+                                                            3.spaceY,
+                                                            Text(
+                                                                'kwd ${product.ratedShipmentDetails![ii].totalNetCharge.toString()}',
+                                                                style: GoogleFonts.poppins(
+                                                                    fontWeight:
+                                                                        FontWeight
+                                                                            .w400,
+                                                                    fontSize:
+                                                                        16,
+                                                                    color: const Color(
+                                                                        0xFF03a827))),
+                                                            3.spaceY,
+                                                            Text(
+                                                                '${product.operationalDetail!.deliveryDay ?? ''}  ${product.operationalDetail!.deliveryDate ?? ''}',
+                                                                style: GoogleFonts.poppins(
+                                                                    fontWeight:
+                                                                        FontWeight
+                                                                            .w400,
+                                                                    fontSize:
+                                                                        15,
+                                                                    fontStyle:
+                                                                        FontStyle
+                                                                            .italic,
+                                                                    color: const Color(
+                                                                        0xFF000000))),
+                                                          ],
+                                                        ),
+                                                      ),
+                                                    ],
+                                                  ),
+                                                ],
+                                              );
+                                            });
+                                            // : 0.spaceY,;
+                                          },
+                                        ),
+                                  // child: ListView.builder(
+                                  //   physics: const NeverScrollableScrollPhysics(),
+                                  //   shrinkWrap: true,
+                                  //   itemCount: e.value.shipping!.length,
+                                  //   padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 15).copyWith(top: 0),
+                                  //   itemBuilder: (context, ii) {
+                                  //     Shipping product = e.value.shipping![ii];
+                                  //     return Obx(() {
+                                  //       return Column(
+                                  //         children: [
+                                  //           10.spaceY,
+                                  //           ii == 0
+                                  //               ? 0.spaceY
+                                  //               : const Divider(
+                                  //             color: Color(0xFFD9D9D9),
+                                  //             thickness: 0.8,
+                                  //           ),
+                                  //           Row(
+                                  //             children: [
+                                  //               Radio(
+                                  //                 value: product.id.toString(),
+                                  //                 groupValue: e.value.shippingOption.value,
+                                  //                 visualDensity: const VisualDensity(horizontal: -4.0),
+                                  //                 fillColor: e.value.shippingOption.value.isEmpty
+                                  //                     ? MaterialStateProperty.all(Colors.red)
+                                  //                     : null,
+                                  //                 onChanged: (value) {
+                                  //                   setState(() {
+                                  //                     print("dsfasdfddddddddddddddddxc");
+                                  //                     e.value.shippingOption.value = value.toString();
+                                  //                     e.value.shippingId.value = e.value.shipping![ii].id!;
+                                  //                     e.value.vendorId.value = e.value.shipping![ii].vendorId!;
+                                  //                     e.value.shippingVendorName.value =
+                                  //                         e.value.shipping![ii].name.toString();
+                                  //                     e.value.vendorPrice.value =
+                                  //                         e.value.shipping![ii].value.toString();
+                                  //                     shippingPrice =
+                                  //                         double.parse(e.value.shipping![ii].value.toString());
+                                  //                     double subtotal =
+                                  //                     double.parse(cartController.cartModel.subtotal.toString());
+                                  //                     double shipping = shippingPrice;
+                                  //                     print("shippingPrice${shippingPrice.toString()}");
+                                  //                     total = subtotal + shipping;
+                                  //                     cartController.formattedTotal = total.toStringAsFixed(3);
+                                  //                     e.value.sMethod =
+                                  //                         double.parse(e.value.shipping![ii].value.toString());
+                                  //                     // double sPrice = 0.0;
+                                  //                     for (var item
+                                  //                     in cartController.cartModel.cart!.carsShowroom!.entries) {
+                                  //                       if (item.value.shippingOption.value.isNotEmpty) {
+                                  //                         sPrice1 = item.value.sMethod;
+                                  //
+                                  //                         // sPrice.toStringAsFixed(fractionDigits)
+                                  //                         // Update sPrice directly without reassigning
+                                  //                       }
+                                  //                       log("Final sPrice: $sPrice1");
+                                  //                     }
+                                  //                   });
+                                  //                 },
+                                  //               ),
+                                  //               20.spaceX,
+                                  //               Column(
+                                  //                 crossAxisAlignment: CrossAxisAlignment.start,
+                                  //                 children: [
+                                  //                   Text(product.name.toString().capitalize!.replaceAll('_', ' '),
+                                  //                       style: GoogleFonts.poppins(
+                                  //                           fontWeight: FontWeight.w500, fontSize: 16)),
+                                  //                   3.spaceY,
+                                  //                   Text('kwd ${product.value.toString()}',
+                                  //                       style: GoogleFonts.poppins(
+                                  //                           fontWeight: FontWeight.w400,
+                                  //                           fontSize: 16,
+                                  //                           color: const Color(0xFF03a827))),
+                                  //                 ],
+                                  //               ),
+                                  //             ],
+                                  //           ),
+                                  //         ],
+                                  //       );
+                                  //     });
+                                  //     // : 0.spaceY,;
+                                  //   },
+                                  // ),
+
+                                  // Text("giosdfghjoidfghdoifgh"),
+                                  // if (
+                                  //     cartController.myDefaultAddressModel.value.defaultAddress!.country == 'Kuwait')
+                                  //
+                                  //
+                                  // //fedx
+                                  // if (e.value.products!.any((e) => e.vendorCountryId != '117' && e.isShipping == true) ||
+                                  //     cartController.countryName.value != 'Kuwait' &&
+                                  //         cartController.myDefaultAddressModel.value.defaultAddress!.country != 'Kuwait')
+                                  //   cartController.selectedAddress.id != null ||
+                                  //           cartController.myDefaultAddressModel.value.defaultAddress != null
+                                  //       ? Container(
+                                  //           color: Colors.white,
+                                  //           child: Padding(
+                                  //             padding: const EdgeInsets.symmetric(horizontal: 24, vertical: 16),
+                                  //             child: Row(
+                                  //               crossAxisAlignment: CrossAxisAlignment.center,
+                                  //               children: [
+                                  //                 Image.asset('assets/images/shipping_icon.png', height: 32, width: 32),
+                                  //                 20.spaceX,
+                                  //                 Text("Fedex Shipping Method".tr,
+                                  //                     style: GoogleFonts.poppins(fontWeight: FontWeight.w500, fontSize: 18)),
+                                  //               ],
+                                  //             ),
+                                  //           ),
+                                  //         )
+                                  //       : SizedBox(),
+
+                                  // if (e.value.products!.any((e) => e.vendorCountryId != '117' && e.isShipping == true) ||
+                                  //     cartController.countryName.value != 'Kuwait' &&
+                                  //         cartController.myDefaultAddressModel.value.defaultAddress!.country != 'Kuwait')
+                                  //   e.value.fedexShipping?.output == null
+                                  //       ? Padding(
+                                  //           padding: const EdgeInsets.symmetric(vertical: 15, horizontal: 10),
+                                  //           child: Text(
+                                  //             'This vendor does not do international shipping'.tr,
+                                  //             style: const TextStyle(fontSize: 17),
+                                  //           ),
+                                  //         )
+                                  //       : cartController.selectedAddress.id != null ||
+                                  //               cartController.myDefaultAddressModel.value.defaultAddress != null
+                                  //           ? e.value.fedexShipping!.output != null
+                                  //               ? Container(
+                                  //                   color: Colors.white,
+                                  //                   child: ListView.builder(
+                                  //                     physics: const NeverScrollableScrollPhysics(),
+                                  //                     shrinkWrap: true,
+                                  //                     itemCount: e.value.fedexShipping!.output!.rateReplyDetails!.length,
+                                  //                     padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 15)
+                                  //                         .copyWith(top: 0),
+                                  //                     itemBuilder: (context, ii) {
+                                  //                       RateReplyDetails product =
+                                  //                           e.value.fedexShipping!.output!.rateReplyDetails![ii];
+                                  //                       return Obx(() {
+                                  //                         return Column(
+                                  //                           children: [
+                                  //                             10.spaceY,
+                                  //                             ii == 0
+                                  //                                 ? 0.spaceY
+                                  //                                 : const Divider(
+                                  //                                     color: Color(0xFFD9D9D9),
+                                  //                                     thickness: 0.8,
+                                  //                                   ),
+                                  //                             Row(
+                                  //                               children: [
+                                  //                                 Radio(
+                                  //                                   value: product.serviceType.toString(),
+                                  //                                   groupValue: e.value.fedexShippingOption.value,
+                                  //                                   visualDensity: const VisualDensity(horizontal: -4.0),
+                                  //                                   fillColor: e.value.fedexShippingOption.value.isEmpty
+                                  //                                       ? MaterialStateProperty.all(Colors.red)
+                                  //                                       : null,
+                                  //                                   onChanged: (value) {
+                                  //                                     setState(() {
+                                  //                                       e.value.fedexShippingOption.value = value.toString();
+                                  //                                       e.value.fedexShipping!.output!.rateReplyDetails![ii]
+                                  //                                               .shippingDate =
+                                  //                                           product.operationalDetail!.deliveryDate;
+                                  //                                       cartController.shippingTitle =
+                                  //                                           e.value.fedexShippingOption.value.toString();
+                                  //                                       cartController.shippingPrices = product
+                                  //                                           .ratedShipmentDetails![ii].totalNetCharge
+                                  //                                           .toString();
+                                  //                                       log(e.value.fedexShippingOption.value.toString());
+                                  //                                       log(cartController.shippingTitle.toString());
+                                  //                                       log("shipped::${cartController.shippingPrices.toString()}");
+                                  //                                       log("shipped tit::${cartController.shippingTitle.toString()}");
+                                  //                                       shippingPrice =
+                                  //                                           product.ratedShipmentDetails![ii].totalNetCharge;
+                                  //                                       double subtotal = double.parse(
+                                  //                                           cartController.cartModel.subtotal.toString());
+                                  //                                       double shipping = shippingPrice;
+                                  //                                       cartController.formattedTotal =
+                                  //                                           (shippingPrice.toStringAsFixed(2));
+                                  //                                       log("shippingPrice::::::${shippingPrice.toString()}");
+                                  //                                       total = subtotal + shipping;
+                                  //                                       cartController.formattedTotal =
+                                  //                                           (total.toStringAsFixed(3));
+                                  //                                       // e.value.shippingId.value = e.value.shippingTypes![ii].id;
+                                  //                                       // e.value.vendorId.value = e.value.shippingTypes![ii].vendorId;
+                                  //                                       // e.value.shippingVendorName.value = e.value.shippingTypes![ii].name.toString();
+                                  //                                       // e.value.vendorPrice.value = e.value.shippingTypes![ii].value.toString();
+                                  //                                       e.value.sPrice =
+                                  //                                           product.ratedShipmentDetails![ii].totalNetCharge;
+                                  //
+                                  //                                       // Initialize sPrice before calculations start
+                                  //                                       log("Initial sPrice:$sPrice");
+                                  //
+                                  //                                       for (var item in cartController
+                                  //                                           .cartModel.cart!.carsShowroom!.entries) {
+                                  //                                         if (item
+                                  //                                             .value.fedexShippingOption.value.isNotEmpty) {
+                                  //                                           sPrice = item.value.sPrice;
+                                  //                                           // sPrice.toStringAsFixed(fractionDigits)
+                                  //                                           // Update sPrice directly without reassigning
+                                  //                                         }
+                                  //                                       }
+                                  //
+                                  //                                       log("Final sPrice: ${sPrice + (cartController.cartModel.cart!.carsShowroom!.entries.map((e) => e.value.fedexCommision))}");
+                                  //                                     });
+                                  //                                   },
+                                  //                                 ),
+                                  //                                 20.spaceX,
+                                  //                                 Expanded(
+                                  //                                   child: Column(
+                                  //                                     crossAxisAlignment: CrossAxisAlignment.start,
+                                  //                                     children: [
+                                  //                                       Text(
+                                  //                                           product.serviceName
+                                  //                                               .toString()
+                                  //                                               .capitalize!
+                                  //                                               .replaceAll('_', ' '),
+                                  //                                           style: GoogleFonts.poppins(
+                                  //                                               fontWeight: FontWeight.w500, fontSize: 16)),
+                                  //                                       3.spaceY,
+                                  //                                       Text(
+                                  //                                           'kwd ${product.ratedShipmentDetails![ii].totalNetCharge.toString()}',
+                                  //                                           style: GoogleFonts.poppins(
+                                  //                                               fontWeight: FontWeight.w400,
+                                  //                                               fontSize: 16,
+                                  //                                               color: const Color(0xFF03a827))),
+                                  //                                       3.spaceY,
+                                  //                                       Text(
+                                  //                                           '${product.operationalDetail!.deliveryDay ?? ''}  ${product.operationalDetail!.deliveryDate ?? ''}',
+                                  //                                           style: GoogleFonts.poppins(
+                                  //                                               fontWeight: FontWeight.w400,
+                                  //                                               fontSize: 15,
+                                  //                                               fontStyle: FontStyle.italic,
+                                  //                                               color: const Color(0xFF000000))),
+                                  //                                     ],
+                                  //                                   ),
+                                  //                                 ),
+                                  //                               ],
+                                  //                             ),
+                                  //                           ],
+                                  //                         );
+                                  //                       });
+                                  //                       // : 0.spaceY,;
+                                  //                     },
+                                  //                   ),
+                                  //                 )
+                                  //               : const LoadingAnimation()
+                                  //           : const SizedBox(),
+                                ],
+                              ))
+                          .toList()),
                 )
               : const SizedBox.shrink();
           // CustomScrollView(

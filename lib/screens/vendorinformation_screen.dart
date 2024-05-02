@@ -8,9 +8,13 @@ import 'package:get/get_core/src/get_main.dart';
 import 'package:google_fonts/google_fonts.dart';
 
 import '../addNewProduct/pickUpAddressScreen.dart';
+
+import '../iAmHereToSell/PersonalizeAddAddressScreen.dart';
+
 import '../controller/profile_controller.dart';
 import '../iAmHereToSell/PersonalizeAddAddressScreen.dart';
 import '../iAmHereToSell/personalizeyourstoreScreen.dart';
+
 import '../language/app_strings.dart';
 import '../model/common_modal.dart';
 import '../model/vendor_models/model_vendor_details.dart';
@@ -106,6 +110,8 @@ class _VendorInformationState extends State<VendorInformation> {
             Get.back();
             // Handle back button press
           },
+
+          
         ),
         titleSpacing: 0,
         title: Row(

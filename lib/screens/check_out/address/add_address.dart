@@ -2,6 +2,7 @@ import 'dart:convert';
 
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/widgets.dart';
 import 'package:get/get.dart';
 import 'package:get/get_core/src/get_main.dart';
 import 'package:google_fonts/google_fonts.dart';
@@ -333,11 +334,15 @@ class _AddAddressScreenState extends State<AddAddressScreen> {
                                   ),
                                   Row(
                                     children: [
-                                      Text("Edit",
-                                          style: GoogleFonts.poppins(
-                                              fontSize: 18,
-                                              fontWeight: FontWeight.w300,
-                                              color: const Color(0xff014E70))),
+                                      GestureDetector(onTap:(){
+                                        Get.toNamed(EditAddresss.route);
+                                      },
+                                        child: Text("Edit",
+                                            style: GoogleFonts.poppins(
+                                                fontSize: 18,
+                                                fontWeight: FontWeight.w300,
+                                                color: const Color(0xff014E70))),
+                                      ),
                                       Text("|Remove",
                                           style: GoogleFonts.poppins(
                                               fontSize: 18,
