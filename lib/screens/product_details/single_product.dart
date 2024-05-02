@@ -418,6 +418,33 @@ class _SingleProductDetailsState extends State<SingleProductDetails> {
                             const SizedBox(
                               height: 20,
                             ),
+                            if(modelSingleProduct.product!.shippingDate!=null)
+                            Text(
+                              'shippingDate (${modelSingleProduct.product!.shippingDate.toString()})'
+                                  .tr,
+                              style: GoogleFonts.poppins(
+                                shadows: [const Shadow(color: Colors.black, offset: Offset(0, -4))],
+                                color: Colors.transparent,
+                                fontSize: 18,
+                                fontWeight: FontWeight.w500,
+                                decoration: TextDecoration.underline,
+                              ),
+                            ),
+                            const SizedBox(
+                              height: 20,
+                            ),
+                            if(modelSingleProduct.product!.lowestDeliveryPrice!=null)
+                            Text(
+                              'DeliveryPrice (${modelSingleProduct.product!.lowestDeliveryPrice.toString()})'
+                                  .tr,
+                              style: GoogleFonts.poppins(
+                                shadows: [const Shadow(color: Colors.black, offset: Offset(0, -4))],
+                                color: Colors.transparent,
+                                fontSize: 18,
+                                fontWeight: FontWeight.w500,
+                                decoration: TextDecoration.underline,
+                              ),
+                            ),
                             Align(
                               alignment: Alignment.topLeft,
                               child: Text(
