@@ -132,25 +132,25 @@ class _HomeAddEditAddressState extends State<HomeAddEditAddress> {
                 SizedBox(
                   height: size.height * .02,
                 ),
-                Text(
-                  "Where do you want to receive your orders".tr,
-                  style: GoogleFonts.poppins(color: Color(0xff292F45), fontWeight: FontWeight.w600, fontSize: 16),
-                ),
-                SizedBox(
-                  height: size.height * .02,
-                ),
-                InkWell(
-                  onTap: (){
-                    Get.to(ChooseAddressHome());
-                  },
-                  child: Align(
-                    alignment: Alignment.center,
-                    child: Text(
-                      "Select your location on the map".tr,
-                      style: GoogleFonts.poppins(color: Color(0xff044484), fontWeight: FontWeight.w400, fontSize: 14),
-                    ),
-                  ),
-                ),
+                // Text(
+                //   "Where do you want to receive your orders".tr,
+                //   style: GoogleFonts.poppins(color: Color(0xff292F45), fontWeight: FontWeight.w600, fontSize: 16),
+                // ),
+                // SizedBox(
+                //   height: size.height * .02,
+                // ),
+                // InkWell(
+                //   onTap: (){
+                //     Get.to(ChooseAddressHome());
+                //   },
+                //   child: Align(
+                //     alignment: Alignment.center,
+                //     child: Text(
+                //       "Select your location on the map".tr,
+                //       style: GoogleFonts.poppins(color: Color(0xff044484), fontWeight: FontWeight.w400, fontSize: 14),
+                //     ),
+                //   ),
+                // ),
                 ...commonField(
                     hintText: "Street",
                     textController: locationController.streetController,

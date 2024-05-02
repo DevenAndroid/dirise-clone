@@ -229,6 +229,7 @@ class _ChooseAddressHomeState extends State<ChooseAddressHome> {
                             final geometry = detail.result.geometry!;
                             final lat = geometry.location.lat;
                             final lang = geometry.location.lng;
+                            print('new  lat long...${lat.toString()}');
                             var newlatlang = LatLng(lat, lang);
                             setState(() {
                               _address = place.description.toString();

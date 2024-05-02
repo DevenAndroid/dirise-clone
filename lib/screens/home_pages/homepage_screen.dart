@@ -1,4 +1,5 @@
 import 'dart:async';
+import 'dart:convert';
 import 'dart:io';
 
 import 'package:dirise/screens/home_pages/star_of_month.dart';
@@ -18,6 +19,9 @@ import '../../controller/home_controller.dart';
 import '../../controller/location_controller.dart';
 import '../../controller/profile_controller.dart';
 import '../../language/app_strings.dart';
+import '../../model/common_modal.dart';
+import '../../repository/repository.dart';
+import '../../utils/api_constant.dart';
 import '../../vendor/authentication/vendor_plans_screen.dart';
 import '../../vendor/dashboard/dashboard_screen.dart';
 import '../../vendor/dashboard/store_open_time_screen.dart';
@@ -30,6 +34,7 @@ import '../auth_screens/login_screen.dart';
 import '../search_products.dart';
 import 'ad_banner.dart';
 import 'add-edit-address.dart';
+import 'addedit_withlogin.dart';
 import 'authers.dart';
 import 'popular_products.dart';
 import 'category_items.dart';
@@ -203,6 +208,8 @@ class _HomePageState extends State<HomePage> {
     WithdrawMoney.route,
   ];
   final locationController = Get.put(LocationController());
+  final Repositories repositories = Repositories();
+
   @override
   void initState() {
     super.initState();
@@ -350,6 +357,56 @@ class _HomePageState extends State<HomePage> {
                       const SizedBox(
                         height: 5,
                       ),
+                      profileController.userLoggedIn ?
+                      locationController.zipcode.isNotEmpty ?
+                      Padding(
+                        padding: const EdgeInsets.symmetric(horizontal: 15),
+                        child: Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
+                            Text(
+                              'Address',
+                              style: GoogleFonts.poppins(
+                                color: Colors.white,
+                                fontSize: 18,
+                                fontWeight: FontWeight.w500,
+                              ),
+                            ),
+                            4.spaceY,
+                            GestureDetector(onTap: () {
+                              Get.to(() =>  HomeAddEditAddressLogin(), arguments: 'home');
+                            }, child: Row(
+                              // mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                              children: [
+                                SvgPicture.asset(
+                                  'assets/images/location.svg',
+                                  height: 20,
+                                  color: Colors.white,
+                                ),
+                                5.spaceX,
+                                Flexible(
+                                  child: Text(
+                                    "Deliver to ${locationController.city.toString()} , ${locationController.zipcode.toString()}",
+                                    style: GoogleFonts.poppins(
+                                      color: Colors.white,
+                                      fontSize: 14,
+                                      fontWeight: FontWeight.w400,
+                                    ),
+                                  ),
+                                ),
+                                5.spaceX,
+                                SvgPicture.asset(
+                                  'assets/images/pencilImg.svg',
+                                  height: 18,
+                                  color: Colors.white,
+                                ),
+                              ],
+                            )
+                            ),
+                          ],
+                        ),
+                      ) : const SizedBox.shrink() :
+                        locationController.zipcode.isNotEmpty ?
                       Padding(
                         padding: const EdgeInsets.symmetric(horizontal: 15),
                         child: Column(
@@ -377,7 +434,7 @@ class _HomePageState extends State<HomePage> {
                                5.spaceX,
                                 Flexible(
                                   child: Text(
-                                   "${locationController.countryName.toString()} , ${locationController.city.toString()}",
+                                   "Deliver to ${locationController.city.toString()} , ${locationController.zipcode.toString()}",
                                     style: GoogleFonts.poppins(
                                       color: Colors.white,
                                       fontSize: 14,
@@ -396,7 +453,7 @@ class _HomePageState extends State<HomePage> {
                             ),
                           ],
                         ),
-                      ),
+                      ) : const SizedBox.shrink(),
                       10.spaceY,
                       Hero(
                         tag: "search_tag",

@@ -1,4 +1,5 @@
 import 'dart:async';
+import 'dart:convert';
 import 'dart:developer';
 import 'package:dirise/utils/api_constant.dart';
 import 'package:flutter/material.dart';
@@ -6,6 +7,9 @@ import 'package:geocoding/geocoding.dart';
 import 'package:geolocator/geolocator.dart';
 import 'package:get/get.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
+
+import '../model/common_modal.dart';
+import '../repository/repository.dart';
 
 class LocationController extends GetxController {
   RxBool servicestatus = false.obs;
@@ -24,12 +28,12 @@ class LocationController extends GetxController {
   var locality = 'No location set'.obs;
   var country = 'Getting Country..'.obs;
   late StreamSubscription<Position> positionStream;
-  String? street;
+  String street = '';
   String city = '';
-  String? state;
+  String state = '';
   String countryName = '';
-  String? zipcode;
-  String? town;
+  String zipcode = '';
+  String town = '';
   checkGps(context) async {
     servicestatus.value = await Geolocator.isLocationServiceEnabled();
     if (servicestatus.value) {
@@ -45,6 +49,7 @@ class LocationController extends GetxController {
 
       if (haspermission.value) {
         getLocation();
+        editAddressApi();
       }
     } else {
       showDialog(
@@ -81,6 +86,7 @@ class LocationController extends GetxController {
 
                     if (haspermission.value) {
                       getLocation();
+                      editAddressApi();
                     }
                   }
                 },
@@ -88,6 +94,36 @@ class LocationController extends GetxController {
             ],
           ));
     }
+  }
+  final Repositories repositories = Repositories();
+  editAddressApi() {
+    Map<String, dynamic> map = {};
+    if (countryName.isNotEmpty &&
+        street.isNotEmpty &&
+        city.isNotEmpty &&
+        state.isNotEmpty &&
+        zipcode.isNotEmpty &&
+        town.isNotEmpty) {
+      map['city'] =  city;
+      map['country'] = countryName;
+      map['state'] =  state;
+      map['zip_code'] =  zipcode;
+      map['town'] =  town;
+      map['street'] =  street;
+    }else{
+      map['city'] = cityController.text.trim();
+      map['country'] = countryController.text.trim();
+      map['state'] = stateController.text.trim();
+      map['zip_code'] = zipcodeController.text.trim();
+      map['town'] = townController.text.trim();
+      map['street'] = streetController.text.trim();
+    }
+    print(map.toString());
+    repositories.postApi(url: ApiUrls.addCurrentAddress, mapData: map).then((value) {
+      ModelCommonResponse response = ModelCommonResponse.fromJson(jsonDecode(value));
+      print('user login details is....${response.message.toString()}');
+      // showToast(response.message.toString());
+    });
   }
   Future<bool> _handleLocationPermission() async {
     bool serviceEnabled;
