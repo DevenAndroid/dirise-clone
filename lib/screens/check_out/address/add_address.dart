@@ -228,8 +228,6 @@ class _AddAddressScreenState extends State<AddAddressScreen> {
                               child: Column(
                                 crossAxisAlignment: CrossAxisAlignment.start,
                                 children: [
-                                  Text('first name - ${addressList.firstName.toString()}' ?? ""),
-                                  Text('last name - ${addressList.lastName.toString()}' ?? ""),
                                   Text('City - ${addressList.city.toString()}'),
                                   Text('state - ${addressList.state.toString()}'),
                                   Text('country - ${addressList.country.toString()}'),
@@ -319,8 +317,6 @@ class _AddAddressScreenState extends State<AddAddressScreen> {
                               child: Column(
                                 crossAxisAlignment: CrossAxisAlignment.start,
                                 children: [
-                                  Text('first name - ${shippingAddressList.firstName.toString()}' ?? ""),
-                                  Text('last name - ${shippingAddressList.lastName.toString()}' ?? ""),
                                   Text('City - ${shippingAddressList.city.toString()}'),
                                   Text('state - ${shippingAddressList.state.toString()}'),
                                   Text('country - ${shippingAddressList.country.toString()}'),

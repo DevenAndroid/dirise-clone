@@ -1,6 +1,4 @@
 import 'dart:convert';
-import 'dart:developer';
-
 import 'package:dirise/addNewProduct/pickUpAddressScreen.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/foundation.dart';
@@ -8,7 +6,6 @@ import 'package:flutter/material.dart';
 import 'package:form_field_validator/form_field_validator.dart';
 import 'package:get/get.dart';
 import 'package:google_fonts/google_fonts.dart';
-
 import '../controller/vendor_controllers/vendor_profile_controller.dart';
 import '../model/common_modal.dart';
 import '../model/getSubCategoryModel.dart';
@@ -17,11 +14,9 @@ import '../model/vendor_models/model_vendor_details.dart';
 import '../model/vendor_models/vendor_category_model.dart';
 import '../repository/repository.dart';
 import '../utils/api_constant.dart';
-import '../utils/helper.dart';
 import '../widgets/common_button.dart';
 import '../widgets/common_colour.dart';
 import '../widgets/common_textfield.dart';
-import 'package:http/http.dart' as http;
 
 class ItemDetailsScreens extends StatefulWidget {
   const ItemDetailsScreens({super.key});
@@ -291,54 +286,7 @@ class _ItemDetailsScreensState extends State<ItemDetailsScreens> {
               const SizedBox(
                 height: 20,
               ),
-              const Text(
-                'Select Product Sub Category',
-                style: TextStyle(fontWeight: FontWeight.bold),
-              ),
-              DropdownButtonFormField<SubProductData>(
-                key: productsubcategoryKey,
-                autovalidateMode: AutovalidateMode.onUserInteraction,
-                icon: const Icon(Icons.keyboard_arrow_down_rounded),
-                iconSize: 30,
-                iconDisabledColor: const Color(0xff97949A),
-                iconEnabledColor: const Color(0xff97949A),
-                value: selectedProductSubcategory,
-                style: GoogleFonts.poppins(color: Colors.black, fontSize: 16),
-                decoration: InputDecoration(
-                  border: InputBorder.none,
-                  filled: true,
-                  fillColor: const Color(0xffE2E2E2).withOpacity(.35),
-                  contentPadding: const EdgeInsets.symmetric(horizontal: 15, vertical: 10).copyWith(right: 8),
-                  focusedErrorBorder: const OutlineInputBorder(
-                      borderRadius: BorderRadius.all(Radius.circular(8)),
-                      borderSide: BorderSide(color: AppTheme.secondaryColor)),
-                  errorBorder: const OutlineInputBorder(
-                      borderRadius: BorderRadius.all(Radius.circular(8)),
-                      borderSide: BorderSide(color: Color(0xffE2E2E2))),
-                  focusedBorder: const OutlineInputBorder(
-                      borderRadius: BorderRadius.all(Radius.circular(8)),
-                      borderSide: BorderSide(color: AppTheme.secondaryColor)),
-                  disabledBorder: const OutlineInputBorder(
-                    borderRadius: BorderRadius.all(Radius.circular(8)),
-                    borderSide: BorderSide(color: AppTheme.secondaryColor),
-                  ),
-                  enabledBorder: const OutlineInputBorder(
-                    borderRadius: BorderRadius.all(Radius.circular(8)),
-                    borderSide: BorderSide(color: AppTheme.secondaryColor),
-                  ),
-                ),
-                items: subProductData.map((e) => DropdownMenuItem(value: e, child: Text(e.title.toString()))).toList(),
-                hint: Text('Search category to choose'.tr),
-                onChanged: (value) {
-                  selectedProductSubcategory = value;
-                },
-                validator: (value) {
-                  return null;
-                },
-              ),
-              const SizedBox(
-                height: 30,
-              ),
+
               CustomOutlineButton(
                 title: 'Confirm',
                 borderRadius: 11,

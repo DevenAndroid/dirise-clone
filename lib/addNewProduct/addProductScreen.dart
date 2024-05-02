@@ -1,5 +1,6 @@
 import 'package:dirise/addNewProduct/addImagesProductScreen.dart';
 import 'package:dirise/iAmHereToSell/whichplantypedescribeyouScreen.dart';
+import 'package:dirise/utils/api_constant.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
@@ -22,10 +23,12 @@ class _NewAddProductScreenState extends State<NewAddProductScreen> {
   String selectedRadio = '';
 
   void navigateNext() {
-    if (selectedRadio == 'sell') {
+    if (selectedRadio == 'single') {
       Get.to(const WhichplantypedescribeyouScreen());
-    } else if (selectedRadio == 'shop') {
-      Get.to( PickUpAddressScreen());
+    } else if (selectedRadio == 'multiple') {
+      Get.to(PickUpAddressScreen());
+    }else{
+      showToast('Select type of product');
     }
   }
 
@@ -36,7 +39,7 @@ class _NewAddProductScreenState extends State<NewAddProductScreen> {
         backgroundColor: Colors.white,
         elevation: 0,
         leading: GestureDetector(
-          onTap: (){
+          onTap: () {
             Get.back();
           },
           child: IconButton(
@@ -53,7 +56,6 @@ class _NewAddProductScreenState extends State<NewAddProductScreen> {
         titleSpacing: 0,
         title: Row(
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
-
           children: [
             Text(
               'Add Product'.tr,
@@ -64,20 +66,19 @@ class _NewAddProductScreenState extends State<NewAddProductScreen> {
       ),
       body: SingleChildScrollView(
         child: Container(
-          margin: EdgeInsets.only(left: 20,right: 20),
+          margin: EdgeInsets.only(left: 20, right: 20),
           child: Column(
             children: [
               Stack(
                 children: [
                   Container(
                     height: 250,
-                    margin: const EdgeInsets.only(top: 20,bottom: 20),
+                    margin: const EdgeInsets.only(top: 20, bottom: 20),
                     decoration: BoxDecoration(borderRadius: BorderRadius.circular(11), color: Colors.grey.shade100),
                     child: Column(
                       mainAxisAlignment: MainAxisAlignment.center,
                       crossAxisAlignment: CrossAxisAlignment.center,
                       children: [
-
                         Padding(
                           padding: const EdgeInsets.only(left: 60, right: 60),
                           child: Text(
@@ -92,7 +93,7 @@ class _NewAddProductScreenState extends State<NewAddProductScreen> {
                     top: 25,
                     right: 30,
                     child: Radio(
-                      value: 'sell',
+                      value: 'single',
                       groupValue: selectedRadio,
                       onChanged: (value) {
                         setState(() {
@@ -107,13 +108,12 @@ class _NewAddProductScreenState extends State<NewAddProductScreen> {
                 children: [
                   Container(
                     height: 250,
-                    margin: const EdgeInsets.only(top: 20,bottom: 20),
+                    margin: const EdgeInsets.only(top: 20, bottom: 20),
                     decoration: BoxDecoration(borderRadius: BorderRadius.circular(11), color: Colors.grey.shade100),
                     child: Column(
                       mainAxisAlignment: MainAxisAlignment.center,
                       crossAxisAlignment: CrossAxisAlignment.center,
                       children: [
-
                         Padding(
                           padding: const EdgeInsets.only(left: 60, right: 60),
                           child: Text(
@@ -128,7 +128,7 @@ class _NewAddProductScreenState extends State<NewAddProductScreen> {
                     top: 25,
                     right: 30,
                     child: Radio(
-                      value: 'sell',
+                      value: 'multiple',
                       groupValue: selectedRadio,
                       onChanged: (value) {
                         setState(() {
@@ -143,8 +143,7 @@ class _NewAddProductScreenState extends State<NewAddProductScreen> {
                 title: 'Upload',
                 borderRadius: 11,
                 onPressed: () {
-Get.to(AddImagesProductScreen());
-
+                  navigateNext();
                 },
               ),
             ],

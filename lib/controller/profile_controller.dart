@@ -9,6 +9,7 @@ import '../model/customer_profile/model_city_list.dart';
 import '../model/customer_profile/model_country_list.dart';
 import '../model/customer_profile/model_state_list.dart';
 import '../model/profile_model.dart';
+import '../model/vendor_models/model_vendor_details.dart';
 import '../repository/repository.dart';
 import '../utils/api_constant.dart';
 
@@ -36,6 +37,13 @@ class ProfileController extends GetxController {
 
   ModelCityList? modelCityList;
   City? selectedCity;
+
+  Rx<ModelVendorDetails> modelVendorProfile = ModelVendorDetails().obs;
+  getVendorDetails()  {
+    repositories.getApi(url: ApiUrls.getVendorDetailUrl).then((value) {
+      modelVendorProfile.value = ModelVendorDetails.fromJson(jsonDecode(value));
+    });
+  }
 
   getCountryList() {
     if(modelCountryList != null)return;

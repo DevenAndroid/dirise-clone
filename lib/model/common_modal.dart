@@ -1,6 +1,6 @@
 class ModelCommonResponse {
-  bool? status;
-  String? message;
+  dynamic status;
+  dynamic message;
   dynamic otp;
   dynamic uRL;
 

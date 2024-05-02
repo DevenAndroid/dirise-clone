@@ -1,6 +1,7 @@
 import 'dart:convert';
 import 'dart:io';
 
+import 'package:dirise/iAmHereToSell/personalizeyourstoreScreen.dart';
 import 'package:dirise/utils/helper.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
@@ -54,6 +55,7 @@ class _BannersScreenState extends State<BannersScreen> {
 
         })
         .then((value) {
+          Get.to(const PersonalizeyourstoreScreen());
           showToast('Add Banner successfully');
     });
   }

@@ -1,12 +1,20 @@
+import 'dart:convert';
+
 import 'package:dirise/addNewProduct/optionalScreen.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
+import 'package:form_field_validator/form_field_validator.dart';
 import 'package:get/get.dart';
 import 'package:google_fonts/google_fonts.dart';
 
+import '../iAmHereToSell/personalizeyourstoreScreen.dart';
+import '../model/common_modal.dart';
+import '../repository/repository.dart';
+import '../utils/api_constant.dart';
 import '../widgets/common_button.dart';
 import '../widgets/common_colour.dart';
+import '../widgets/common_textfield.dart';
 
 class InternationalshippingdetailsScreen extends StatefulWidget {
   const InternationalshippingdetailsScreen({super.key});
@@ -16,15 +24,61 @@ class InternationalshippingdetailsScreen extends StatefulWidget {
 }
 
 class _InternationalshippingdetailsScreenState extends State<InternationalshippingdetailsScreen> {
-  String selectedItem = 'Item 1'; // Default selected item
+   // Default selected item\
+  TextEditingController weightController = TextEditingController();
+  TextEditingController dimensionController = TextEditingController();
 
-  List<String> itemList = [
-    'Item 1',
-    'Item 2',
-    'Item 3',
-    'Item 4',
-    'Item 5',
+  String unitOfMeasure = 'cm/kg';
+  List<String> unitOfMeasureList = [
+    'cm/kg',
+    'lb/inch',
   ];
+
+  String selectNumberOfPackages  = '1';
+  List<String> selectNumberOfPackagesList = List.generate(30, (index) => (index + 1).toString());
+
+  String selectTypeMaterial   = 'plastic';
+  List<String> selectTypeMaterialList = [
+    'plastic',
+    'glass',
+    'iron',
+  ];
+
+  String selectTypeOfPackaging   = 'fedex 10kg box';
+  List<String> selectTypeOfPackagingList = [
+    'fedex 10kg box',
+    'fedex 25kg box',
+    'fedex box',
+    'fedex Envelop',
+    'fedex pak',
+    'fedex Tube',
+  ];
+
+  RxBool hide = true.obs;
+  RxBool hide1 = true.obs;
+  bool showValidation = false;
+  bool? _isValue = false;
+  final Repositories repositories = Repositories();
+  String code = "+91";
+  shippingDetailsApi() {
+    Map<String, dynamic> map = {};
+    map['weight_unit'] = unitOfMeasure;
+    map['weight'] = weightController.text.trim();
+    map['number_of_package'] = selectNumberOfPackages;
+    map['material'] = selectTypeMaterial;
+    map['box_dimension'] = dimensionController.text.trim();
+    map['type_of_packages'] = selectTypeOfPackaging;
+
+    FocusManager.instance.primaryFocus!.unfocus();
+    repositories.postApi(url: ApiUrls.giveawayProductAddress, context: context, mapData: map).then((value) {
+      ModelCommonResponse response = ModelCommonResponse.fromJson(jsonDecode(value));
+      showToast(response.message.toString());
+      if (response.status == true) {
+        Get.to(const OptionalScreen());
+      }
+    });
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -57,19 +111,36 @@ class _InternationalshippingdetailsScreenState extends State<Internationalshippi
         child: Container(
           margin: const EdgeInsets.only(left: 15, right: 15),
           child: Column(
+            mainAxisAlignment: MainAxisAlignment.start,
+            crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               SizedBox(height: 40,),
+              Text(
+                'Int. Shipping details (Optional)'.tr,
+                style: GoogleFonts.poppins(color: const Color(0xff292F45), fontWeight: FontWeight.w500, fontSize: 18),
+              ),
+              const SizedBox(height: 5),
+              Text(
+                'This information will be used to calculate your shipment shipping price. You can skip it, however your shipment will be limited to local shipping.'.tr,
+                style: GoogleFonts.poppins(color: const Color(0xff292F45), fontWeight: FontWeight.w400, fontSize: 13),
+              ),
+              const SizedBox(height: 5),
+              Text(
+                'Unit of measure'.tr,
+                style: GoogleFonts.poppins(color: const Color(0xff292F45), fontWeight: FontWeight.w500, fontSize: 18),
+              ),
+              const SizedBox(height: 5),
               DropdownButtonFormField<String>(
-                value: selectedItem,
+                value: unitOfMeasure,
                 onChanged: (String? newValue) {
                   setState(() {
-                    selectedItem = newValue!;
+                    unitOfMeasure = newValue!;
                   });
                 },
-                items: itemList.map<DropdownMenuItem<String>>((String value) {
+                items: unitOfMeasureList.map<DropdownMenuItem<String>>((String value) {
                   return DropdownMenuItem<String>(
                     value: value,
-                    child: Text('Weight'),
+                    child: Text(value),
                   );
                 }).toList(),
                 decoration: InputDecoration(
@@ -102,15 +173,32 @@ class _InternationalshippingdetailsScreenState extends State<Internationalshippi
                   return null;
                 },
               ),
-              const SizedBox(height: 20),
+              const SizedBox(height: 15),
+              Text(
+                'Size & Weight'.tr,
+                style: GoogleFonts.poppins(color: const Color(0xff292F45), fontWeight: FontWeight.w500, fontSize: 18),
+              ),
+              const SizedBox(height: 5),
+              Text(
+                'Be as accurate as you can and always round up. Your shipping courier will always round up and charges you based on their weight.',
+                style: GoogleFonts.poppins(color: const Color(0xff292F45), fontWeight: FontWeight.w400, fontSize: 13),
+              ),
+              const SizedBox(height: 10),
+              CommonTextField(
+                  controller: weightController,
+                  obSecure: false,
+                  hintText: 'Weight Of the Item ',
+                  validator: MultiValidator([
+                    RequiredValidator(errorText: 'Product Name is required'.tr),
+                  ])),
               DropdownButtonFormField<String>(
-                value: selectedItem,
+                value: selectNumberOfPackages,
                 onChanged: (String? newValue) {
                   setState(() {
-                    selectedItem = newValue!;
+                    selectNumberOfPackages = newValue!;
                   });
                 },
-                items: itemList.map<DropdownMenuItem<String>>((String value) {
+                items: selectNumberOfPackagesList.map<DropdownMenuItem<String>>((String value) {
                   return DropdownMenuItem<String>(
                     value: value,
                     child: Text('Material'),
@@ -146,15 +234,15 @@ class _InternationalshippingdetailsScreenState extends State<Internationalshippi
                   return null;
                 },
               ),
-              const SizedBox(height: 20),
+              const SizedBox(height: 10),
               DropdownButtonFormField<String>(
-                value: selectedItem,
+                value: selectTypeMaterial,
                 onChanged: (String? newValue) {
                   setState(() {
-                    selectedItem = newValue!;
+                    selectTypeMaterial = newValue!;
                   });
                 },
-                items: itemList.map<DropdownMenuItem<String>>((String value) {
+                items: selectTypeMaterialList.map<DropdownMenuItem<String>>((String value) {
                   return DropdownMenuItem<String>(
                     value: value,
                     child: Text('Box dimension'),
@@ -190,15 +278,22 @@ class _InternationalshippingdetailsScreenState extends State<Internationalshippi
                   return null;
                 },
               ),
-              const SizedBox(height: 20),
+              const SizedBox(height: 10),
+              CommonTextField(
+                  controller: dimensionController,
+                  obSecure: false,
+                  hintText: 'Length X Width X Height ',
+                  validator: MultiValidator([
+                    RequiredValidator(errorText: 'Product Name is required'.tr),
+                  ])),
               DropdownButtonFormField<String>(
-                value: selectedItem,
+                value: selectTypeOfPackaging,
                 onChanged: (String? newValue) {
                   setState(() {
-                    selectedItem = newValue!;
+                    selectTypeOfPackaging = newValue!;
                   });
                 },
-                items: itemList.map<DropdownMenuItem<String>>((String value) {
+                items: selectTypeOfPackagingList.map<DropdownMenuItem<String>>((String value) {
                   return DropdownMenuItem<String>(
                     value: value,
                     child: Text('Type of packages'),
@@ -234,47 +329,7 @@ class _InternationalshippingdetailsScreenState extends State<Internationalshippi
                   return null;
                 },
               ),
-              const SizedBox(height: 20),
-              TextFormField(
-                maxLines: 2,
-                minLines: 2,
-                decoration: InputDecoration(
-                  counterStyle: GoogleFonts.poppins(
-                    color: AppTheme.primaryColor,
-                    fontSize: 25,
-                  ),
-                  counter: const Offstage(),
-
-                  errorMaxLines: 2,
-                  contentPadding: const EdgeInsets.all(15),
-                  fillColor: Colors.grey.shade100,
-                  hintText: 'Long Description(optional)',
-                  hintStyle: GoogleFonts.poppins(
-                    color: AppTheme.primaryColor,
-                    fontSize: 15,
-                  ),
-
-                  border: InputBorder.none,
-                  focusedErrorBorder: const OutlineInputBorder(
-                      borderRadius: BorderRadius.all(Radius.circular(8)),
-                      borderSide: BorderSide(color: AppTheme.secondaryColor)),
-                  errorBorder: const OutlineInputBorder(
-                      borderRadius: BorderRadius.all(Radius.circular(8)),
-                      borderSide: BorderSide(color: AppTheme.secondaryColor)),
-                  focusedBorder: const OutlineInputBorder(
-                      borderRadius: BorderRadius.all(Radius.circular(8)),
-                      borderSide: BorderSide(color: AppTheme.secondaryColor)),
-                  disabledBorder: const OutlineInputBorder(
-                    borderRadius: BorderRadius.all(Radius.circular(8)),
-                    borderSide: BorderSide(color: AppTheme.secondaryColor),
-                  ),
-                  enabledBorder: const OutlineInputBorder(
-                    borderRadius: BorderRadius.all(Radius.circular(8)),
-                    borderSide: BorderSide(color: AppTheme.secondaryColor),
-                  ),
-                ),
-              ),
-              const SizedBox(height: 20),
+              const SizedBox(height: 10),
               CustomOutlineButton(
                 title: 'Confirm',
                 borderRadius: 11,
@@ -285,7 +340,7 @@ class _InternationalshippingdetailsScreenState extends State<Internationalshippi
               const SizedBox(height: 20),
               GestureDetector(
                 onTap: (){
-                  Get.to(OptionalScreen());
+                  shippingDetailsApi();
                 },
                 child: Container(
                   width: Get.width,

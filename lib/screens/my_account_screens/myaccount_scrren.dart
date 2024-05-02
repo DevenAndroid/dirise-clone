@@ -15,6 +15,8 @@ import 'package:get/get.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:intl_phone_field/intl_phone_field.dart';
 import 'package:shared_preferences/shared_preferences.dart';
+import '../../addNewProduct/addProductScreen.dart';
+import '../../addNewProduct/myItemIsScreen.dart';
 import '../../controller/cart_controller.dart';
 import '../../controller/home_controller.dart';
 import '../../controller/profile_controller.dart';
@@ -1938,7 +1940,8 @@ List<Widget> vendorPartner() {
                                             if(profileController.model.user!.subscriptionStatus == 'success'){
                                               Get.toNamed(vendorRoutes[index]);
                                             }else if(vendor[index] == 'Dashboard'){
-                                             Get.toNamed( VendorDashBoardScreen.route);
+                                              Get.to(const MyItemISScreen());
+                                             // Get.toNamed( VendorDashBoardScreen.route);
                                             }else{
                                                showToast('Your payment is not successfull'.tr);
                                             }

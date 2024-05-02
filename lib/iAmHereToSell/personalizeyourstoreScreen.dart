@@ -14,6 +14,7 @@ import 'package:flutter_svg/svg.dart';
 import 'package:get/get.dart';
 import 'package:google_fonts/google_fonts.dart';
 
+import '../controller/profile_controller.dart';
 import '../model/common_modal.dart';
 import '../model/vendor_models/model_vendor_details.dart';
 import '../newAddress/customeraccountcreatedsuccessfullyScreen.dart';
@@ -25,6 +26,7 @@ import '../personalizeyourstore/vendorinformationScreen.dart';
 import '../repository/repository.dart';
 import '../screens/check_out/address/add_address.dart';
 import '../screens/return_policy.dart';
+import '../screens/vendorinformation_screen.dart';
 import '../utils/api_constant.dart';
 import '../vendor/dashboard/store_open_time_screen.dart';
 import '../widgets/common_button.dart';
@@ -44,11 +46,13 @@ class _PersonalizeyourstoreScreenState extends State<PersonalizeyourstoreScreen>
   Rx<List<File>> images = Rx<List<File>>([]);
   Rx<File> categoryFile = File("").obs;
   String? categoryValue;
+  File image = File("");
   void showActionSheet(BuildContext context) async {
-    List<File>? selectedImages = await Helpers.addMultiImagePicker();
-    if (selectedImages != null && selectedImages.isNotEmpty) {
-      images.value = selectedImages.map((image) => File(image.path)).toList();
-      setState(() {});
+    File? selectedImage = await Helpers.addImagePicker();
+    if (selectedImage != null) {
+      setState(() {
+        image = selectedImage;
+      });
     }
   }
 
@@ -70,11 +74,11 @@ class _PersonalizeyourstoreScreenState extends State<PersonalizeyourstoreScreen>
   RxInt refreshInt = 0.obs;
 
   get updateUI => refreshInt.value = DateTime.now().millisecondsSinceEpoch;
-  File storeBanner = File("");
+
   Map<String, File> picture = {};
   void updateProfile() {
     Map<String, String> map = {};
-    picture["banner_profile"] = storeBanner;
+    picture["banner_profile"] = image;
 
     repositories
         .multiPartApi(
@@ -86,12 +90,21 @@ class _PersonalizeyourstoreScreenState extends State<PersonalizeyourstoreScreen>
 
         })
         .then((value) {
-      showToast('Add Banner successfully');
+      if(detailsController.text.isNotEmpty){
+        Get.to(SecurityDetailsScreen());
+      }
+      else{
+        showToast('please enter Details');
+      }
+
     });
   }
-
-
-  File image = File("");
+  final profileController = Get.put(ProfileController());
+ @override
+  void initState() {
+    super.initState();
+    profileController.getVendorDetails();
+  }
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -163,8 +176,14 @@ class _PersonalizeyourstoreScreenState extends State<PersonalizeyourstoreScreen>
                                 color: AppTheme.primaryColor,
                               ),
                               child: ClipOval(
-                                child:
-                                CachedNetworkImage(
+                                child: image.path.isNotEmpty
+                                    ? Image.file(
+                                  image,
+                                  width: 120,
+                                  height: 120,
+                                  fit: BoxFit.cover,
+                                )
+                                    : CachedNetworkImage(
                                   width: 120,
                                   height: 120,
                                   fit: BoxFit.cover,
@@ -277,7 +296,7 @@ class _PersonalizeyourstoreScreenState extends State<PersonalizeyourstoreScreen>
               ),
               GestureDetector(
                 onTap: (){
-                  Get.to(const VendorInformationScreen());
+                  Get.to(const VendorInformation());
                 },
                 child: Row(
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -386,12 +405,8 @@ class _PersonalizeyourstoreScreenState extends State<PersonalizeyourstoreScreen>
               ),
               InkWell(
                 onTap: (){
-                  if(detailsController.text.isNotEmpty){
-                    Get.to(CustomerAccountCreatedSuccessfullyScreen());
-                  }
-                  else{
-                    showToast('please enter Details');
-                  }
+                  updateProfile();
+
                 },
                 child: Container(
                   width: Get.width,
