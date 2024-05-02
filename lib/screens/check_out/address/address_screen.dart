@@ -728,6 +728,8 @@ class _AddressScreenState extends State<AddressScreen> {
                                       behavior: HitTestBehavior.translucent,
                                       onTap: () {
                                         cartController.selectedAddress = address;
+                                        cartController.countryId = address.getCountryId.toString();
+                                        cartController.getCart();
                                         cartController.countryName.value = address.country.toString();
                                         print('onTap is....${cartController.countryName.value}');
                                         if (cartController.isDelivery.value == true) {
@@ -752,7 +754,10 @@ class _AddressScreenState extends State<AddressScreen> {
                                           cartController.addressCityController.text =
                                               cartController.selectedAddress.getCity;
                                         }
+
+
                                         print('codeee isss${cartController.countryName.toString()}');
+                                        print('codeee isss${cartController.countryId.toString()}');
                                         Get.back();
                                         setState(() {});
                                       },
@@ -808,6 +813,8 @@ class _AddressScreenState extends State<AddressScreen> {
                                                               cartController.selectedAddress = address;
                                                               cartController.countryName.value =
                                                                   address.country.toString();
+                                                              cartController.countryId = address.getCountryId.toString();
+                                                              cartController.getCart();
                                                               print('onTap is....${cartController.countryName.value}');
                                                               print(
                                                                   'onTap is....${cartController.selectedAddress.id.toString()}');

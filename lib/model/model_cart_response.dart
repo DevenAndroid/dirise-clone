@@ -79,92 +79,23 @@ class Cart {
 //   return data;
 // }
 }
-class ShippingPolicy {
-  int? id;
-  int? vendorId;
-  String? title;
-  int? days;
-  String? description;
-  String? createdAt;
-  String? updatedAt;
-
-  ShippingPolicy({this.id, this.vendorId, this.title, this.days, this.description, this.createdAt, this.updatedAt});
-
-  ShippingPolicy.fromJson(Map<String, dynamic> json) {
-    id = json['id'];
-    vendorId = json['vendor_id'];
-    title = json['title'];
-    days = json['days'];
-    description = json['description'];
-    createdAt = json['created_at'];
-    updatedAt = json['updated_at'];
-  }
-
-  Map<String, dynamic> toJson() {
-    final Map<String, dynamic> data = new Map<String, dynamic>();
-    data['id'] = this.id;
-    data['vendor_id'] = this.vendorId;
-    data['title'] = this.title;
-    data['days'] = this.days;
-    data['description'] = this.description;
-    data['created_at'] = this.createdAt;
-    data['updated_at'] = this.updatedAt;
-    return data;
-  }
-}
-class Shipping {
-  String? transactionId;
-  Output? output;
-  int? id;
-  String? name;
-  String? value;
-  int? vendorId;
-
-
-  Shipping({this.transactionId, this.output,this.id, this.name, this.value, this.vendorId});
-
-  Shipping.fromJson(Map<String, dynamic> json) {
-    transactionId = json['transactionId'];
-    output = json['output'] != null ? new Output.fromJson(json['output']) : null;
-    id = json['id'];
-    name = json['name'];
-    value = json['value'];
-    vendorId = json['vendor_id'];
-  }
-
-  Map<String, dynamic> toJson() {
-    final Map<String, dynamic> data = new Map<String, dynamic>();
-    data['transactionId'] = this.transactionId;
-    if (this.output != null) {
-      data['output'] = this.output!.toJson();
-    }
-    data['id'] = this.id;
-    data['name'] = this.name;
-    data['value'] = this.value;
-    data['vendor_id'] = this.vendorId;
-    return data;
-  }
-}
-
 
 class StoreData {
   List<Products>? products;
-  List<Shipping>? shipping;
-  List<ShippingTypes>? shippingTypes;
+  dynamic fedexCommision;
   bool? localShipping;
-  FedexShipping? fedexShipping;
-  String? fedexCommision;
+  List<Shipping>? shipping;
+  // List<ShippingTypes>? shippingTypes;
+  // FedexShipping? fedexShipping;
   RxString fedexShippingOption = "".obs;
-  List<ShippingTypes>? selectedContacts;
+  // List<ShippingTypes>? selectedContacts;
   RxString shippingOption = "".obs;
-  RxInt shippingId = 0.obs;
+  RxString shippingId = '0'.obs;
   RxString shippingVendorName = "".obs;
   RxString vendorPrice = "".obs;
-  double sPrice = 0.0;
-  double sMethod = 0.0;
   RxInt vendorId = 0.obs;
 
-  StoreData({this.products, this.shippingTypes,this.fedexCommision,});
+  StoreData({this.products, this.shipping,this.fedexCommision,this.localShipping});
 
   StoreData.fromJson(Map<String, dynamic> json) {
     if (json['products'] != null) {
@@ -173,21 +104,19 @@ class StoreData {
         products!.add(Products.fromJson(v));
       });
     }
-    if (json['shipping_types'] != null) {
-      shippingTypes = <ShippingTypes>[];
-      json['shipping_types'].forEach((v) {
-        shippingTypes!.add(ShippingTypes.fromJson(v));
-      });
+    if (json['shipping'] != null) {
+      shipping = <Shipping>[];
+      json['shipping'].forEach((v) { shipping!.add( Shipping.fromJson(v)); });
     }
-    if (json['fedex_shipping'] != null && json['fedex_shipping'] is Map<String, dynamic>) {
-      fedexShipping = FedexShipping.fromJson(json['fedex_shipping']);
-    } else {
-      // Handle the case where 'fedex_shipping' is not a valid JSON object
-      // You can initialize fedexShipping to a default value or handle the error accordingly
-      fedexShipping = null; // For example, set it to null
-    }
+    // if (json['shipping_types'] != null) {
+    //   shippingTypes = <ShippingTypes>[];
+    //   json['shipping_types'].forEach((v) {
+    //     shippingTypes!.add(ShippingTypes.fromJson(v));
+    //   });
+    // }
+    // fedexShipping = json['fedex_shipping'] != null ? FedexShipping.fromJson(json['fedex_shipping']) : null;
+    fedexCommision = json['fedex_commision'];
     localShipping = json['local_shipping'];
-
   }
 
   Map<String, dynamic> toJson() {
@@ -195,15 +124,53 @@ class StoreData {
     if (products != null) {
       data['products'] = products!.map((v) => v.toJson()).toList();
     }
-    if (shippingTypes != null) {
-      data['shipping_types'] =
-          shippingTypes!.map((v) => v.toJson()).toList();
+    // if (shippingTypes != null) {
+    //   data['shipping_types'] =
+    //       shippingTypes!.map((v) => v.toJson()).toList();
+    // }
+    // data['fedex_shipping'] = fedexShipping!.toJson();
+    if (shipping != null) {
+      data['shipping'] = shipping!.map((v) => v.toJson()).toList();
     }
-    data['fedex_shipping'] = fedexShipping!.toJson();
-    data['local_shipping'] = this.localShipping;
+    data['fedex_commision'] = fedexCommision;
+    data['local_shipping'] = localShipping;
     return data;
   }
 }
+
+class Shipping {
+  dynamic id;
+  dynamic name;
+  dynamic value;
+  dynamic vendorId;
+  dynamic transactionId;
+  Output? output;
+
+  Shipping({this.id, this.name, this.value, this.vendorId,this.output,this.transactionId});
+
+  Shipping.fromJson(Map<String, dynamic> json) {
+    id = json['id'];
+    name = json['name'];
+    value = json['value'];
+    vendorId = json['vendor_id'];
+    transactionId = json['transactionId'];
+    output = json['output'] != null ?  Output.fromJson(json['output']) : null;
+  }
+
+  Map<String, dynamic> toJson() {
+    final Map<String, dynamic> data =  Map<String, dynamic>();
+    data['id'] = id;
+    data['name'] = name;
+    data['value'] = value;
+    data['vendor_id'] = vendorId;
+    data['transactionId'] = transactionId;
+    if (output != null) {
+      data['output'] = output!.toJson();
+    }
+    return data;
+  }
+}
+
 
 class FedexShipping {
   dynamic transactionId;
@@ -683,7 +650,7 @@ class OperationalDetail {
   List<String>? destinationLocationIds;
   List<int>? destinationLocationNumbers;
   List<String>? destinationServiceAreas;
-  List<String>? destinationLocationStateOrProvinceCodes;
+  // List<String>? destinationLocationStateOrProvinceCodes;
   dynamic ineligibleForMoneyBackGuarantee;
   dynamic astraDescription;
   List<String>? originPostalCodes;
@@ -694,7 +661,9 @@ class OperationalDetail {
   dynamic serviceCode;
   dynamic destinationPostalCode;
 
-  OperationalDetail({this.originLocationIds, this.deliveryDate,this.deliveryDay,this.originLocationNumbers, this.originServiceAreas, this.destinationLocationIds, this.destinationLocationNumbers, this.destinationServiceAreas, this.destinationLocationStateOrProvinceCodes, this.ineligibleForMoneyBackGuarantee, this.astraDescription, this.originPostalCodes, this.countryCodes, this.airportId, this.serviceCode, this.destinationPostalCode});
+  OperationalDetail({this.originLocationIds, this.deliveryDate,this.deliveryDay,this.originLocationNumbers, this.originServiceAreas, this.destinationLocationIds, this.destinationLocationNumbers, this.destinationServiceAreas,
+    // this.destinationLocationStateOrProvinceCodes,
+    this.ineligibleForMoneyBackGuarantee, this.astraDescription, this.originPostalCodes, this.countryCodes, this.airportId, this.serviceCode, this.destinationPostalCode});
 
   OperationalDetail.fromJson(Map<String, dynamic> json) {
     originLocationIds = json['originLocationIds'].cast<String>();
@@ -703,7 +672,7 @@ class OperationalDetail {
     destinationLocationIds = json['destinationLocationIds'].cast<String>();
     destinationLocationNumbers = json['destinationLocationNumbers'].cast<int>();
     destinationServiceAreas = json['destinationServiceAreas'].cast<String>();
-    destinationLocationStateOrProvinceCodes = json['destinationLocationStateOrProvinceCodes'].cast<String>();
+    // destinationLocationStateOrProvinceCodes = json['destinationLocationStateOrProvinceCodes'].cast<String>();
     ineligibleForMoneyBackGuarantee = json['ineligibleForMoneyBackGuarantee'];
     astraDescription = json['astraDescription'];
     originPostalCodes = json['originPostalCodes'].cast<String>();
@@ -723,7 +692,7 @@ class OperationalDetail {
     data['destinationLocationIds'] = destinationLocationIds;
     data['destinationLocationNumbers'] = destinationLocationNumbers;
     data['destinationServiceAreas'] = destinationServiceAreas;
-    data['destinationLocationStateOrProvinceCodes'] = destinationLocationStateOrProvinceCodes;
+    // data['destinationLocationStateOrProvinceCodes'] = destinationLocationStateOrProvinceCodes;
     data['ineligibleForMoneyBackGuarantee'] = ineligibleForMoneyBackGuarantee;
     data['astraDescription'] = astraDescription;
     data['originPostalCodes'] = originPostalCodes;

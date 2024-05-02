@@ -36,7 +36,7 @@ class _CheckOutScreenState extends State<CheckOutScreen> {
   final cartController = Get.put(CartController());
   final profileController = Get.put(ProfileController());
   final _formKey = GlobalKey<FormState>();
-  double shippingPrice = 0;
+  String shippingPrice = '0';
   String couponApplied = "";
   String appliedCode = "";
   String paymentMethod1 = "";
@@ -169,6 +169,7 @@ class _CheckOutScreenState extends State<CheckOutScreen> {
     });
   }
 
+  double shippingTotal = 0;
   @override
   Widget build(BuildContext context) {
     Size size = MediaQuery.of(context).size;
@@ -252,6 +253,7 @@ class _CheckOutScreenState extends State<CheckOutScreen> {
                 showToast("Please select shipping Method".tr);
                 return;
               }
+
             }
             // for (var item in cartController.cartModel.cart!.carsShowroom!.entries) {
             //   var showroom = item.value;
@@ -274,21 +276,22 @@ class _CheckOutScreenState extends State<CheckOutScreen> {
             }
 
             //fedx shipping date
-            if (cartController.cartModel.cart != null && cartController.cartModel.cart!.carsShowroom != null) {
-              cartController.shippingDate.clear();
-              for (var item in cartController.cartModel.cart!.carsShowroom!.entries) {
-                if (item.value.fedexShipping != null &&
-                    item.value.fedexShipping!.output != null &&
-                    item.value.fedexShipping!.output!.rateReplyDetails != null) {
-                  cartController.shippingDate.clear();
-                  for (var item1 in item.value.fedexShipping!.output!.rateReplyDetails!) {
-                    if (item1.operationalDetail != null && item1.operationalDetail!.deliveryDate != null) {
-                      cartController.shippingDate.add(item1.shippingDate);
-                    }
-                  }
-                }
-              }
-            }
+            // if (cartController.cartModel.cart != null && cartController.cartModel.cart!.carsShowroom != null) {
+            //   cartController.shippingDate.clear();
+            //   for (var item in cartController.cartModel.cart!.carsShowroom!.entries) {
+            //     if (item.value.shipping != null &&
+            //         item.value.shipping!.output != null &&
+            //         item.value.shipping!.output!.rateReplyDetails != null) {
+            //       cartController.shippingDate.clear();
+            //       for (var item1 in item.value.shipping!.output!.rateReplyDetails!) {
+            //         if (item1.operationalDetail != null && item1.operationalDetail!.deliveryDate != null) {
+            //           cartController.shippingDate.add(item1.shippingDate);
+            //         }
+            //       }
+            //     }
+            //   }
+            // }
+
 
             cartController.placeOrder(
               context: context,
@@ -391,7 +394,7 @@ class _CheckOutScreenState extends State<CheckOutScreen> {
             children: [
               Text("Shipping Fees".tr,
                   style: GoogleFonts.poppins(fontWeight: FontWeight.w400, color: const Color(0xff949495))),
-              Text("KWD ${sPrice1.toString()}",
+              Text("KWD ${shippingPrice.toString()}",
                   style: GoogleFonts.poppins(fontWeight: FontWeight.w400, color: const Color(0xff949495))),
             ],
           ),
@@ -481,862 +484,425 @@ class _CheckOutScreenState extends State<CheckOutScreen> {
       children: [
         Obx(() {
           if (cartController.refreshInt.value > 0) {}
-          return cartController.myDefaultAddressModel.value.defaultAddress != null
-              ? SingleChildScrollView(
-                  child: Column(
-                    children: cartController.cartModel.cart!.carsShowroom!.entries
-                        .map((e) => Column(
+          return
+            // cartController.myDefaultAddressModel.value.defaultAddress!= null ?
+          SingleChildScrollView(
+            child: Column(
+              children: cartController.cartModel.cart!.carsShowroom!.entries
+                  .map((e) =>
+                  Column(
+                    children: [
+                      ListView.builder(
+                        physics: const NeverScrollableScrollPhysics(),
+                        shrinkWrap: true,
+                        itemCount: e.value.products!.length,
+                        itemBuilder: (context, ii) {
+                          Products product = e.value.products![ii];
+                          cartController.storeIdShipping = product.id.toString();
+                          cartController.storeNameShipping = e.key;
+                          return Container(
+                            decoration: const BoxDecoration(
+                              color: Colors.white,
+                              //   border: ii != product.length - 1
+                              //       ? const Border(bottom: BorderSide(color: Color(0xffD9D9D9)))
+                              //       : null,
+                            ),
+                            margin: EdgeInsets.only(top: ii == 0 ? 16 : 0),
+                            padding: const EdgeInsets.symmetric(horizontal: 24, vertical: 16),
+                            child: Column(
+                              crossAxisAlignment: CrossAxisAlignment.start,
                               children: [
-                                ListView.builder(
-                                  physics: const NeverScrollableScrollPhysics(),
-                                  shrinkWrap: true,
-                                  itemCount: e.value.products!.length,
-                                  itemBuilder: (context, ii) {
-                                    Products product = e.value.products![ii];
-                                    cartController.storeIdShipping = product.id.toString();
-                                    cartController.storeNameShipping = e.key;
-                                    return Container(
-                                      decoration: const BoxDecoration(
-                                        color: Colors.white,
-                                        //   border: ii != product.length - 1
-                                        //       ? const Border(bottom: BorderSide(color: Color(0xffD9D9D9)))
-                                        //       : null,
-                                      ),
-                                      margin: EdgeInsets.only(top: ii == 0 ? 16 : 0),
-                                      padding: const EdgeInsets.symmetric(horizontal: 24, vertical: 16),
-                                      child: Column(
-                                        crossAxisAlignment: CrossAxisAlignment.start,
-                                        children: [
-                                          if (ii == 0)
-                                            Padding(
-                                              padding: const EdgeInsets.only(bottom: 16),
-                                              child: Text(
-                                                "${'Sold By'.tr} ${e.key}",
-                                                style: titleStyle,
-                                              ),
-                                            ),
-                                          IntrinsicHeight(
-                                            child: Row(
-                                              crossAxisAlignment: CrossAxisAlignment.start,
-                                              children: [
-                                                Container(
-                                                  width: 75,
-                                                  height: 75,
-                                                  decoration: BoxDecoration(
-                                                    borderRadius: BorderRadius.circular(12),
-                                                  ),
-                                                  child: ClipRRect(
-                                                    borderRadius: BorderRadius.circular(12),
-                                                    child: Image.network(product.featuredImage.toString(),
-                                                        fit: BoxFit.contain,
-                                                        errorBuilder: (_, __, ___) =>
-                                                            Image.asset('assets/images/new_logo.png')),
-                                                  ),
-                                                ),
-                                                const SizedBox(
-                                                  width: 16,
-                                                ),
-                                                Expanded(
-                                                  child: Column(
-                                                    crossAxisAlignment: CrossAxisAlignment.start,
-                                                    // mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                                                    children: [
-                                                      Text(
-                                                        product.pname.toString(),
-                                                        style: titleStyle.copyWith(fontWeight: FontWeight.w400),
-                                                        textAlign: TextAlign.start,
-                                                      ),
-                                                      const SizedBox(
-                                                        height: 6,
-                                                      ),
-                                                      Text(
-                                                        'KWD ${product.sPrice}',
-                                                        style:
-                                                            GoogleFonts.poppins(fontSize: 15, fontWeight: FontWeight.w400),
-                                                      ),
-                                                      const SizedBox(
-                                                        height: 4,
-                                                      ),
-                                                      // IntrinsicHeight(
-                                                      //   child: Row(
-                                                      //     children: [
-                                                      //       product.qty!= '1' ? IconButton(
-                                                      //           onPressed: () {
-                                                      //             if (product.qty
-                                                      //                 .toString()
-                                                      //                 .toNum > 1) {
-                                                      //               cartController.updateCartQuantity(
-                                                      //                   context: context,
-                                                      //                   productId: product.id.toString(),
-                                                      //                   quantity: (product.qty
-                                                      //                       .toString()
-                                                      //                       .toNum - 1).toString());
-                                                      //             } else {
-                                                      //               cartController.removeItemFromCart(
-                                                      //                   productId: product.id.toString(), context: context);
-                                                      //             }
-                                                      //           },
-                                                      //           style: IconButton.styleFrom(
-                                                      //             shape: RoundedRectangleBorder(
-                                                      //                 borderRadius: BorderRadius.circular(2)),
-                                                      //             backgroundColor: AppTheme.buttonColor,
-                                                      //           ),
-                                                      //           constraints: const BoxConstraints(minHeight: 0),
-                                                      //           padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 12),
-                                                      //           visualDensity: VisualDensity.compact,
-                                                      //           icon: const Icon(
-                                                      //             Icons.remove,
-                                                      //             color: Colors.white,
-                                                      //             size: 20,
-                                                      //           )) : IconButton(
-                                                      //           onPressed: () {},
-                                                      //           style: IconButton.styleFrom(
-                                                      //             shape: RoundedRectangleBorder(
-                                                      //                 borderRadius: BorderRadius.circular(2)),
-                                                      //             backgroundColor: AppTheme.primaryColor,
-                                                      //           ),
-                                                      //           constraints: const BoxConstraints(minHeight: 0),
-                                                      //           padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 12),
-                                                      //           visualDensity: VisualDensity.compact,
-                                                      //           icon: const Icon(
-                                                      //             Icons.remove,
-                                                      //             color: Colors.white,
-                                                      //             size: 20,
-                                                      //           )),
-                                                      //       5.spaceX,
-                                                      //       Container(
-                                                      //         decoration: BoxDecoration(
-                                                      //             borderRadius: BorderRadius.circular(2),
-                                                      //             // color: Colors.grey,
-                                                      //             border: Border.all(color: Colors.grey.shade800)),
-                                                      //         margin: const EdgeInsets.symmetric(vertical: 6),
-                                                      //         padding: const EdgeInsets.symmetric(horizontal: 15),
-                                                      //         alignment: Alignment.center,
-                                                      //         child: Text(
-                                                      //           product.qty.toString(),
-                                                      //           style: normalStyle,
-                                                      //         ),
-                                                      //       ),
-                                                      //       5.spaceX,
-                                                      //       IconButton(
-                                                      //           onPressed: () {
-                                                      //                 if (product.qty.toString().toNum <
-                                                      //                     product.inStock.toString().toNum) {
-                                                      //                   cartController.updateCartQuantity(
-                                                      //                       context: context,
-                                                      //                       productId: product.id.toString(),
-                                                      //                       quantity: (product.qty.toString().toNum + 1).toString());
-                                                      //                 }else{
-                                                      //                   showToastCenter("Out Of Stock".tr);
-                                                      //                 }
-                                                      //           },
-                                                      //           style: IconButton.styleFrom(
-                                                      //             shape: RoundedRectangleBorder(
-                                                      //                 borderRadius: BorderRadius.circular(2)),
-                                                      //             backgroundColor: AppTheme.buttonColor,
-                                                      //           ),
-                                                      //           constraints: const BoxConstraints(minHeight: 0),
-                                                      //           padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 12),
-                                                      //           visualDensity: VisualDensity.compact,
-                                                      //           icon: const Icon(
-                                                      //             Icons.add,
-                                                      //             color: Colors.white,
-                                                      //             size: 20,
-                                                      //           )),
-                                                      //     ],
-                                                      //   ),
-                                                      // )
-                                                    ],
-                                                  ),
-                                                ),
-                                                // IconButton(
-                                                //     onPressed: () {
-                                                //       cartController.removeItemFromCart(
-                                                //           productId: product.id.toString(), context: context);
-                                                //     },
-                                                //     visualDensity: VisualDensity.compact,
-                                                //     icon: SvgPicture.asset(
-                                                //       "assets/svgs/delete.svg",
-                                                //       height: 18,
-                                                //       width: 18,
-                                                //     ))
-                                              ],
-                                            ),
+                                if (ii == 0)
+                                  Padding(
+                                    padding: const EdgeInsets.only(bottom: 16),
+                                    child: Text(
+                                      "${'Sold By'.tr} ${e.key}",
+                                      style: titleStyle,
+                                    ),
+                                  ),
+                                IntrinsicHeight(
+                                  child: Row(
+                                    crossAxisAlignment: CrossAxisAlignment.start,
+                                    children: [
+                                      Container(
+                                        width: 75,
+                                        height: 75,
+                                        decoration: BoxDecoration(
+                                          borderRadius: BorderRadius.circular(12),
+                                        ),
+                                        child: ClipRRect(
+                                          borderRadius: BorderRadius.circular(12),
+                                          child: Image.network(
+                                              product.featuredImage.toString(),
+                                              fit: BoxFit.contain,
+                                              errorBuilder: (_, __, ___) =>  Image.asset(
+                                                  'assets/images/new_logo.png'
+                                              )
                                           ),
-                                        ],
+                                        ),
                                       ),
-                                    );
-                                  },
+                                      const SizedBox(
+                                        width: 16,
+                                      ),
+                                      Expanded(
+                                        child: Column(
+                                          crossAxisAlignment: CrossAxisAlignment.start,
+                                          // mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                                          children: [
+                                            Text(
+                                              product.pname.toString(),
+                                              style: titleStyle.copyWith(fontWeight: FontWeight.w400),
+                                              textAlign: TextAlign.start,
+                                            ),
+                                            const SizedBox(
+                                              height: 6,
+                                            ),
+                                            Text(
+                                              'KWD ${product.sPrice}',
+                                              style: GoogleFonts.poppins(fontSize: 15, fontWeight: FontWeight.w400),
+                                            ),
+                                            const SizedBox(
+                                              height: 4,
+                                            ),
+                                            // IntrinsicHeight(
+                                            //   child: Row(
+                                            //     children: [
+                                            //       product.qty!= '1' ? IconButton(
+                                            //           onPressed: () {
+                                            //             if (product.qty
+                                            //                 .toString()
+                                            //                 .toNum > 1) {
+                                            //               cartController.updateCartQuantity(
+                                            //                   context: context,
+                                            //                   productId: product.id.toString(),
+                                            //                   quantity: (product.qty
+                                            //                       .toString()
+                                            //                       .toNum - 1).toString());
+                                            //             } else {
+                                            //               cartController.removeItemFromCart(
+                                            //                   productId: product.id.toString(), context: context);
+                                            //             }
+                                            //           },
+                                            //           style: IconButton.styleFrom(
+                                            //             shape: RoundedRectangleBorder(
+                                            //                 borderRadius: BorderRadius.circular(2)),
+                                            //             backgroundColor: AppTheme.buttonColor,
+                                            //           ),
+                                            //           constraints: const BoxConstraints(minHeight: 0),
+                                            //           padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 12),
+                                            //           visualDensity: VisualDensity.compact,
+                                            //           icon: const Icon(
+                                            //             Icons.remove,
+                                            //             color: Colors.white,
+                                            //             size: 20,
+                                            //           )) : IconButton(
+                                            //           onPressed: () {},
+                                            //           style: IconButton.styleFrom(
+                                            //             shape: RoundedRectangleBorder(
+                                            //                 borderRadius: BorderRadius.circular(2)),
+                                            //             backgroundColor: AppTheme.primaryColor,
+                                            //           ),
+                                            //           constraints: const BoxConstraints(minHeight: 0),
+                                            //           padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 12),
+                                            //           visualDensity: VisualDensity.compact,
+                                            //           icon: const Icon(
+                                            //             Icons.remove,
+                                            //             color: Colors.white,
+                                            //             size: 20,
+                                            //           )),
+                                            //       5.spaceX,
+                                            //       Container(
+                                            //         decoration: BoxDecoration(
+                                            //             borderRadius: BorderRadius.circular(2),
+                                            //             // color: Colors.grey,
+                                            //             border: Border.all(color: Colors.grey.shade800)),
+                                            //         margin: const EdgeInsets.symmetric(vertical: 6),
+                                            //         padding: const EdgeInsets.symmetric(horizontal: 15),
+                                            //         alignment: Alignment.center,
+                                            //         child: Text(
+                                            //           product.qty.toString(),
+                                            //           style: normalStyle,
+                                            //         ),
+                                            //       ),
+                                            //       5.spaceX,
+                                            //       IconButton(
+                                            //           onPressed: () {
+                                            //                 if (product.qty.toString().toNum <
+                                            //                     product.inStock.toString().toNum) {
+                                            //                   cartController.updateCartQuantity(
+                                            //                       context: context,
+                                            //                       productId: product.id.toString(),
+                                            //                       quantity: (product.qty.toString().toNum + 1).toString());
+                                            //                 }else{
+                                            //                   showToastCenter("Out Of Stock".tr);
+                                            //                 }
+                                            //           },
+                                            //           style: IconButton.styleFrom(
+                                            //             shape: RoundedRectangleBorder(
+                                            //                 borderRadius: BorderRadius.circular(2)),
+                                            //             backgroundColor: AppTheme.buttonColor,
+                                            //           ),
+                                            //           constraints: const BoxConstraints(minHeight: 0),
+                                            //           padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 12),
+                                            //           visualDensity: VisualDensity.compact,
+                                            //           icon: const Icon(
+                                            //             Icons.add,
+                                            //             color: Colors.white,
+                                            //             size: 20,
+                                            //           )),
+                                            //     ],
+                                            //   ),
+                                            // )
+                                          ],
+                                        ),
+                                      ),
+                                      // IconButton(
+                                      //     onPressed: () {
+                                      //       cartController.removeItemFromCart(
+                                      //           productId: product.id.toString(), context: context);
+                                      //     },
+                                      //     visualDensity: VisualDensity.compact,
+                                      //     icon: SvgPicture.asset(
+                                      //       "assets/svgs/delete.svg",
+                                      //       height: 18,
+                                      //       width: 18,
+                                      //     ))
+                                    ],
+                                  ),
                                 ),
-                                10.spaceY,
-                                cartController.myDefaultAddressModel.value
-                                                  .defaultAddress !=
-                                              null &&
-                                          e.value.localShipping != true
-                                      ? Container(
-                                          color: Colors.white,
-                                          child: Column(
-                                            children: [
-                                              Padding(
-                                                padding:
-                                                    const EdgeInsets.symmetric(
-                                                        horizontal: 24,
-                                                        vertical: 16),
-                                                child: Row(
-                                                  crossAxisAlignment:
-                                                      CrossAxisAlignment.center,
-                                                  children: [
-                                                    Image.asset(
-                                                        'assets/images/shipping_icon.png',
-                                                        height: 32,
-                                                        width: 32),
-                                                    20.spaceX,
-                                                    InkWell(
-                                                      onTap: () {},
-                                                      child: Text(
-                                                          "Shipping Method".tr,
-                                                          style: GoogleFonts
-                                                              .poppins(
-                                                                  fontWeight:
-                                                                      FontWeight
-                                                                          .w500,
-                                                                  fontSize:
-                                                                      18)),
-                                                    ),
-                                                  ],
-                                                ),
-                                              ),
-                                              ListView.builder(
-                                                physics:
-                                                    const NeverScrollableScrollPhysics(),
-                                                shrinkWrap: true,
-                                                itemCount:
-                                                    e.value.shipping?.length,
-                                                padding:
-                                                    const EdgeInsets.symmetric(
-                                                            horizontal: 20,
-                                                            vertical: 15)
-                                                        .copyWith(top: 0),
-                                                itemBuilder: (context, ii) {
-                                                  Shipping? product =
-                                                      e.value.shipping?[ii];
-                                                  return Obx(() {
-                                                    return Column(
-                                                      children: [
-                                                        10.spaceY,
-                                                        ii == 0
-                                                            ? 0.spaceY
-                                                            : const Divider(
-                                                                color: Color(
-                                                                    0xFFD9D9D9),
-                                                                thickness: 0.8,
-                                                              ),
-                                                        Row(
-                                                          children: [
-                                                            Radio(
-                                                              value: product!.id
-                                                                  .toString(),
-                                                              groupValue: e
-                                                                  .value
-                                                                  .shippingOption
-                                                                  .value,
-                                                              visualDensity: const VisualDensity(horizontal: -4.0),
-                                                              fillColor: e
-                                                                      .value
-                                                                      .shippingOption
-                                                                      .value
-                                                                      .isEmpty
-                                                                  ? MaterialStateProperty
-                                                                      .all(Colors
-                                                                          .red)
-                                                                  : null,
-                                                              onChanged:
-                                                                  (value) {
-                                                                setState(() {
-                                                                  print(
-                                                                      "dsfasdfddddddddddddddddxc");
-                                                                  e.value.shippingOption
-                                                                          .value =
-                                                                      value
-                                                                          .toString();
-                                                                  e.value.shippingId
-                                                                          .value =
-                                                                      e
-                                                                          .value
-                                                                          .shipping![
-                                                                              ii]
-                                                                          .id!;
-                                                                  e.value.vendorId.value = e
-                                                                      .value
-                                                                      .shipping![
-                                                                          ii]
-                                                                      .vendorId!;
-                                                                  e.value.shippingVendorName.value = e
-                                                                      .value
-                                                                      .shipping![
-                                                                          ii]
-                                                                      .name
-                                                                      .toString();
-                                                                  e.value.vendorPrice.value = e
-                                                                      .value
-                                                                      .shipping![
-                                                                          ii]
-                                                                      .value
-                                                                      .toString();
-                                                                  shippingPrice =
-                                                                      double.parse(e
-                                                                          .value
-                                                                          .shipping![
-                                                                              ii]
-                                                                          .value
-                                                                          .toString());
-                                                                  double
-                                                                      subtotal =
-                                                                      double.parse(cartController
-                                                                          .cartModel
-                                                                          .subtotal
-                                                                          .toString());
-                                                                  double
-                                                                      shipping =
-                                                                      shippingPrice;
-                                                                  print(
-                                                                      "shippingPrice${shippingPrice.toString()}");
-                                                                  total =
-                                                                      subtotal +
-                                                                          shipping;
-                                                                  cartController
-                                                                          .formattedTotal =
-                                                                      total.toStringAsFixed(
-                                                                          3);
-                                                                  e.value.sMethod =
-                                                                      double.parse(e
-                                                                          .value
-                                                                          .shipping![
-                                                                              ii]
-                                                                          .value
-                                                                          .toString());
-                                                                  // double sPrice = 0.0;
-                                                                  for (var item in cartController
-                                                                      .cartModel
-                                                                      .cart!
-                                                                      .carsShowroom!
-                                                                      .entries) {
-                                                                    if (item
-                                                                        .value
-                                                                        .shippingOption
-                                                                        .value
-                                                                        .isNotEmpty) {
-                                                                      sPrice1 = item
-                                                                          .value
-                                                                          .sMethod;
+                              ],
+                            ),
+                          );
+                        },
+                      ),
+                      10.spaceY,
+                      // if ( e.value.products!.any((e) =>
+                      // e.vendorCountryId == '117' && e.isShipping == true) && cartController.countryName.value == 'Kuwait' ||  cartController.myDefaultAddressModel.value.defaultAddress!.country == 'Kuwait')
+                      if(e.value.localShipping == true)
+                        Container(
+                          color: Colors.white,
+                          child: Padding(
+                            padding: const EdgeInsets.symmetric(horizontal: 24, vertical: 16),
+                            child: Row(
+                              crossAxisAlignment: CrossAxisAlignment.center,
+                              children: [
+                                Image.asset('assets/images/shipping_icon.png', height: 32, width: 32),
+                                20.spaceX,
+                                Text("Shipping Method".tr,
+                                    style: GoogleFonts.poppins(fontWeight: FontWeight.w500, fontSize: 18)),
+                              ],
+                            ),
+                          ),
+                        ),
+                      // if ( e.value.products!.any((e) =>
+                      // e.vendorCountryId == '117' && e.isShipping == true) && cartController.countryName.value == 'Kuwait' ||   cartController.myDefaultAddressModel.value.defaultAddress!.country == 'Kuwait')
+                      if(e.value.localShipping == true)
+                        Container(
+                          color: Colors.white,
+                          child: ListView.builder(
+                            physics: const NeverScrollableScrollPhysics(),
+                            shrinkWrap: true,
+                            itemCount: e.value.shipping!.length,
+                            padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 15).copyWith(top: 0),
+                            itemBuilder: (context, ii) {
+                              Shipping product = e.value.shipping![ii];
+                              return Obx(() {
+                                return Column(
+                                  children: [
+                                    10.spaceY,
+                                    ii == 0
+                                        ? 0.spaceY
+                                        : const Divider(
+                                      color: Color(0xFFD9D9D9),
+                                      thickness: 0.8,
+                                    ),
 
-                                                                      // sPrice.toStringAsFixed(fractionDigits)
-                                                                      // Update sPrice directly without reassigning
-                                                                    }
-                                                                    log("Final sPrice: $sPrice1");
-                                                                  }
-                                                                });
-                                                              },
-                                                            ),
-                                                            20.spaceX,
-                                                            Column(
-                                                              crossAxisAlignment:
-                                                                  CrossAxisAlignment
-                                                                      .start,
-                                                              children: [
-                                                                Text(
-                                                                    product.name
-                                                                        .toString()
-                                                                        .capitalize!
-                                                                        .replaceAll(
-                                                                            '_',
-                                                                            ' '),
-                                                                    style: GoogleFonts.poppins(
-                                                                        fontWeight:
-                                                                            FontWeight
-                                                                                .w500,
-                                                                        fontSize:
-                                                                            16)),
-                                                                3.spaceY,
-                                                                Text(
-                                                                    'kwd ${product.value.toString()}',
-                                                                    style: GoogleFonts.poppins(
-                                                                        fontWeight:
-                                                                            FontWeight
-                                                                                .w400,
-                                                                        fontSize:
-                                                                            16,
-                                                                        color: const Color(
-                                                                            0xFF03a827))),
-                                                              ],
-                                                            ),
-                                                          ],
-                                                        ),
-                                                      ],
-                                                    );
-                                                  });
-                                                  // : 0.spaceY,;
-                                                },
-                                              ),
-                                            ],
-                                          ),
-                                        )
-                                      : ListView.builder(
-                                          physics:
-                                              const NeverScrollableScrollPhysics(),
-                                          shrinkWrap: true,
-                                          itemCount: e.value.shipping?.length,
-                                          padding: const EdgeInsets.symmetric(
-                                                  horizontal: 20, vertical: 15)
-                                              .copyWith(top: 0),
-                                          itemBuilder: (context, ii) {
-                                            RateReplyDetails product = e
-                                                .value
-                                                .fedexShipping!
-                                                .output!
-                                                .rateReplyDetails![ii];
-                                            return Obx(() {
-                                              return Column(
-                                                children: [
-                                                  10.spaceY,
-                                                  ii == 0
-                                                      ? 0.spaceY
-                                                      : const Divider(
-                                                          color:
-                                                              Color(0xFFD9D9D9),
-                                                          thickness: 0.8,
-                                                        ),
-                                                  Row(
-                                                    children: [
-                                                      Radio(
-                                                        value: product
-                                                            .serviceType
-                                                            .toString(),
-                                                        groupValue: e
-                                                            .value
-                                                            .fedexShippingOption
-                                                            .value,
-                                                        visualDensity:
-                                                            const VisualDensity(
-                                                                horizontal:
-                                                                    -4.0),
-                                                        fillColor: e
-                                                                .value
-                                                                .fedexShippingOption
-                                                                .value
-                                                                .isEmpty
-                                                            ? MaterialStateProperty
-                                                                .all(Colors.red)
-                                                            : null,
-                                                        onChanged: (value) {
-                                                          setState(() {
-                                                            e.value.fedexShippingOption
-                                                                    .value =
-                                                                value
-                                                                    .toString();
-                                                            e
-                                                                    .value
-                                                                    .fedexShipping!
-                                                                    .output!
-                                                                    .rateReplyDetails![
-                                                                        ii]
-                                                                    .shippingDate =
-                                                                product
-                                                                    .operationalDetail!
-                                                                    .deliveryDate;
-                                                            cartController
-                                                                    .shippingTitle =
-                                                                e
-                                                                    .value
-                                                                    .fedexShippingOption
-                                                                    .value
-                                                                    .toString();
-                                                            cartController
-                                                                    .shippingPrices =
-                                                                product
-                                                                    .ratedShipmentDetails![
-                                                                        ii]
-                                                                    .totalNetCharge
-                                                                    .toString();
-                                                            log(e
-                                                                .value
-                                                                .fedexShippingOption
-                                                                .value
-                                                                .toString());
-                                                            log(cartController
-                                                                .shippingTitle
-                                                                .toString());
-                                                            log("shipped::${cartController.shippingPrices.toString()}");
-                                                            log("shipped tit::${cartController.shippingTitle.toString()}");
-                                                            shippingPrice = product
-                                                                .ratedShipmentDetails![
-                                                                    ii]
-                                                                .totalNetCharge;
-                                                            double subtotal =
-                                                                double.parse(
-                                                                    cartController
-                                                                        .cartModel
-                                                                        .subtotal
-                                                                        .toString());
-                                                            double shipping =
-                                                                shippingPrice;
-                                                            cartController
-                                                                    .formattedTotal =
-                                                                (shippingPrice
-                                                                    .toStringAsFixed(
-                                                                        2));
-                                                            log("shippingPrice::::::${shippingPrice.toString()}");
-                                                            total = subtotal +
-                                                                shipping;
-                                                            cartController
-                                                                    .formattedTotal =
-                                                                (total
-                                                                    .toStringAsFixed(
-                                                                        3));
-                                                            // e.value.shippingId.value = e.value.shippingTypes![ii].id;
-                                                            // e.value.vendorId.value = e.value.shippingTypes![ii].vendorId;
-                                                            // e.value.shippingVendorName.value = e.value.shippingTypes![ii].name.toString();
-                                                            // e.value.vendorPrice.value = e.value.shippingTypes![ii].value.toString();
-                                                            e.value.sPrice = product
-                                                                .ratedShipmentDetails![
-                                                                    ii]
-                                                                .totalNetCharge;
+                                    Row(
+                                      children: [
+                                        Radio(
+                                          value: product.id.toString(),
+                                          groupValue: e.value.shippingOption.value,
+                                          visualDensity: const VisualDensity(horizontal: -4.0),
+                                          fillColor: e.value.shippingOption.value.isEmpty
+                                              ? MaterialStateProperty.all(Colors.red)
+                                              : null,
+                                          onChanged: (value) {
+                                            setState(() {
+                                              e.value.shippingOption.value = value.toString();
+                                              e.value.shippingId.value = e.value.shipping![ii].id.toString();
+                                              e.value.vendorId.value = e.value.shipping![ii].vendorId!;
+                                              e.value.shippingVendorName.value = e.value.shipping![ii].name.toString();
+                                              e.value.vendorPrice.value = e.value.shipping![ii].value.toString();
+                                              shippingPrice = e.value.shipping![ii].value.toString();
 
-                                                            // Initialize sPrice before calculations start
-                                                            log("Initial sPrice:$sPrice");
+                                              double subtotal = double.parse(cartController.cartModel.subtotal.toString());
+                                              double shipping = double.parse(shippingPrice);
+                                              total = subtotal + shipping;
+                                              cartController.formattedTotal = total.toStringAsFixed(3);
 
-                                                            for (var item
-                                                                in cartController
-                                                                    .cartModel
-                                                                    .cart!
-                                                                    .carsShowroom!
-                                                                    .entries) {
-                                                              if (item
-                                                                  .value
-                                                                  .fedexShippingOption
-                                                                  .value
-                                                                  .isNotEmpty) {
-                                                                sPrice = item
-                                                                    .value
-                                                                    .sPrice;
-                                                                // sPrice.toStringAsFixed(fractionDigits)
-                                                                // Update sPrice directly without reassigning
-                                                              }
-                                                            }
-
-                                                            log("Final sPrice: ${sPrice + (cartController.cartModel.cart!.carsShowroom!.entries.map((e) => e.value.fedexCommision))}");
-                                                          });
-                                                        },
-                                                      ),
-                                                      20.spaceX,
-                                                      Expanded(
-                                                        child: Column(
-                                                          crossAxisAlignment:
-                                                              CrossAxisAlignment
-                                                                  .start,
-                                                          children: [
-                                                            Text(
-                                                                product
-                                                                    .serviceName
-                                                                    .toString()
-                                                                    .capitalize!
-                                                                    .replaceAll(
-                                                                        '_',
-                                                                        ' '),
-                                                                style: GoogleFonts.poppins(
-                                                                    fontWeight:
-                                                                        FontWeight
-                                                                            .w500,
-                                                                    fontSize:
-                                                                        16)),
-                                                            3.spaceY,
-                                                            Text(
-                                                                'kwd ${product.ratedShipmentDetails![ii].totalNetCharge.toString()}',
-                                                                style: GoogleFonts.poppins(
-                                                                    fontWeight:
-                                                                        FontWeight
-                                                                            .w400,
-                                                                    fontSize:
-                                                                        16,
-                                                                    color: const Color(
-                                                                        0xFF03a827))),
-                                                            3.spaceY,
-                                                            Text(
-                                                                '${product.operationalDetail!.deliveryDay ?? ''}  ${product.operationalDetail!.deliveryDate ?? ''}',
-                                                                style: GoogleFonts.poppins(
-                                                                    fontWeight:
-                                                                        FontWeight
-                                                                            .w400,
-                                                                    fontSize:
-                                                                        15,
-                                                                    fontStyle:
-                                                                        FontStyle
-                                                                            .italic,
-                                                                    color: const Color(
-                                                                        0xFF000000))),
-                                                          ],
-                                                        ),
-                                                      ),
-                                                    ],
-                                                  ),
-                                                ],
-                                              );
                                             });
-                                            // : 0.spaceY,;
                                           },
                                         ),
-                                  // child: ListView.builder(
-                                  //   physics: const NeverScrollableScrollPhysics(),
-                                  //   shrinkWrap: true,
-                                  //   itemCount: e.value.shipping!.length,
-                                  //   padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 15).copyWith(top: 0),
-                                  //   itemBuilder: (context, ii) {
-                                  //     Shipping product = e.value.shipping![ii];
-                                  //     return Obx(() {
-                                  //       return Column(
-                                  //         children: [
-                                  //           10.spaceY,
-                                  //           ii == 0
-                                  //               ? 0.spaceY
-                                  //               : const Divider(
-                                  //             color: Color(0xFFD9D9D9),
-                                  //             thickness: 0.8,
-                                  //           ),
-                                  //           Row(
-                                  //             children: [
-                                  //               Radio(
-                                  //                 value: product.id.toString(),
-                                  //                 groupValue: e.value.shippingOption.value,
-                                  //                 visualDensity: const VisualDensity(horizontal: -4.0),
-                                  //                 fillColor: e.value.shippingOption.value.isEmpty
-                                  //                     ? MaterialStateProperty.all(Colors.red)
-                                  //                     : null,
-                                  //                 onChanged: (value) {
-                                  //                   setState(() {
-                                  //                     print("dsfasdfddddddddddddddddxc");
-                                  //                     e.value.shippingOption.value = value.toString();
-                                  //                     e.value.shippingId.value = e.value.shipping![ii].id!;
-                                  //                     e.value.vendorId.value = e.value.shipping![ii].vendorId!;
-                                  //                     e.value.shippingVendorName.value =
-                                  //                         e.value.shipping![ii].name.toString();
-                                  //                     e.value.vendorPrice.value =
-                                  //                         e.value.shipping![ii].value.toString();
-                                  //                     shippingPrice =
-                                  //                         double.parse(e.value.shipping![ii].value.toString());
-                                  //                     double subtotal =
-                                  //                     double.parse(cartController.cartModel.subtotal.toString());
-                                  //                     double shipping = shippingPrice;
-                                  //                     print("shippingPrice${shippingPrice.toString()}");
-                                  //                     total = subtotal + shipping;
-                                  //                     cartController.formattedTotal = total.toStringAsFixed(3);
-                                  //                     e.value.sMethod =
-                                  //                         double.parse(e.value.shipping![ii].value.toString());
-                                  //                     // double sPrice = 0.0;
-                                  //                     for (var item
-                                  //                     in cartController.cartModel.cart!.carsShowroom!.entries) {
-                                  //                       if (item.value.shippingOption.value.isNotEmpty) {
-                                  //                         sPrice1 = item.value.sMethod;
-                                  //
-                                  //                         // sPrice.toStringAsFixed(fractionDigits)
-                                  //                         // Update sPrice directly without reassigning
-                                  //                       }
-                                  //                       log("Final sPrice: $sPrice1");
-                                  //                     }
-                                  //                   });
-                                  //                 },
-                                  //               ),
-                                  //               20.spaceX,
-                                  //               Column(
-                                  //                 crossAxisAlignment: CrossAxisAlignment.start,
-                                  //                 children: [
-                                  //                   Text(product.name.toString().capitalize!.replaceAll('_', ' '),
-                                  //                       style: GoogleFonts.poppins(
-                                  //                           fontWeight: FontWeight.w500, fontSize: 16)),
-                                  //                   3.spaceY,
-                                  //                   Text('kwd ${product.value.toString()}',
-                                  //                       style: GoogleFonts.poppins(
-                                  //                           fontWeight: FontWeight.w400,
-                                  //                           fontSize: 16,
-                                  //                           color: const Color(0xFF03a827))),
-                                  //                 ],
-                                  //               ),
-                                  //             ],
-                                  //           ),
-                                  //         ],
-                                  //       );
-                                  //     });
-                                  //     // : 0.spaceY,;
-                                  //   },
-                                  // ),
+                                        20.spaceX,
+                                        Column(
+                                          crossAxisAlignment: CrossAxisAlignment.start,
+                                          children: [
+                                            Text(product.name
+                                                .toString()
+                                                .capitalize!
+                                                .replaceAll('_', ' '),
+                                                style: GoogleFonts.poppins(fontWeight: FontWeight.w500, fontSize: 16)),
+                                            3.spaceY,
+                                            Text('kwd ${product.value.toString()}',
+                                                style: GoogleFonts.poppins(fontWeight: FontWeight.w400,
+                                                    fontSize: 16,
+                                                    color: const Color(0xFF03a827))),
+                                          ],
+                                        ),
+                                      ],
+                                    ),
+                                  ],
+                                );
+                              });
+                              // : 0.spaceY,;
+                            },
+                          ),
+                        ),
 
-                                  // Text("giosdfghjoidfghdoifgh"),
-                                  // if (
-                                  //     cartController.myDefaultAddressModel.value.defaultAddress!.country == 'Kuwait')
-                                  //
-                                  //
-                                  // //fedx
-                                  // if (e.value.products!.any((e) => e.vendorCountryId != '117' && e.isShipping == true) ||
-                                  //     cartController.countryName.value != 'Kuwait' &&
-                                  //         cartController.myDefaultAddressModel.value.defaultAddress!.country != 'Kuwait')
-                                  //   cartController.selectedAddress.id != null ||
-                                  //           cartController.myDefaultAddressModel.value.defaultAddress != null
-                                  //       ? Container(
-                                  //           color: Colors.white,
-                                  //           child: Padding(
-                                  //             padding: const EdgeInsets.symmetric(horizontal: 24, vertical: 16),
-                                  //             child: Row(
-                                  //               crossAxisAlignment: CrossAxisAlignment.center,
-                                  //               children: [
-                                  //                 Image.asset('assets/images/shipping_icon.png', height: 32, width: 32),
-                                  //                 20.spaceX,
-                                  //                 Text("Fedex Shipping Method".tr,
-                                  //                     style: GoogleFonts.poppins(fontWeight: FontWeight.w500, fontSize: 18)),
-                                  //               ],
-                                  //             ),
-                                  //           ),
-                                  //         )
-                                  //       : SizedBox(),
 
-                                  // if (e.value.products!.any((e) => e.vendorCountryId != '117' && e.isShipping == true) ||
-                                  //     cartController.countryName.value != 'Kuwait' &&
-                                  //         cartController.myDefaultAddressModel.value.defaultAddress!.country != 'Kuwait')
-                                  //   e.value.fedexShipping?.output == null
-                                  //       ? Padding(
-                                  //           padding: const EdgeInsets.symmetric(vertical: 15, horizontal: 10),
-                                  //           child: Text(
-                                  //             'This vendor does not do international shipping'.tr,
-                                  //             style: const TextStyle(fontSize: 17),
-                                  //           ),
-                                  //         )
-                                  //       : cartController.selectedAddress.id != null ||
-                                  //               cartController.myDefaultAddressModel.value.defaultAddress != null
-                                  //           ? e.value.fedexShipping!.output != null
-                                  //               ? Container(
-                                  //                   color: Colors.white,
-                                  //                   child: ListView.builder(
-                                  //                     physics: const NeverScrollableScrollPhysics(),
-                                  //                     shrinkWrap: true,
-                                  //                     itemCount: e.value.fedexShipping!.output!.rateReplyDetails!.length,
-                                  //                     padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 15)
-                                  //                         .copyWith(top: 0),
-                                  //                     itemBuilder: (context, ii) {
-                                  //                       RateReplyDetails product =
-                                  //                           e.value.fedexShipping!.output!.rateReplyDetails![ii];
-                                  //                       return Obx(() {
-                                  //                         return Column(
-                                  //                           children: [
-                                  //                             10.spaceY,
-                                  //                             ii == 0
-                                  //                                 ? 0.spaceY
-                                  //                                 : const Divider(
-                                  //                                     color: Color(0xFFD9D9D9),
-                                  //                                     thickness: 0.8,
-                                  //                                   ),
-                                  //                             Row(
-                                  //                               children: [
-                                  //                                 Radio(
-                                  //                                   value: product.serviceType.toString(),
-                                  //                                   groupValue: e.value.fedexShippingOption.value,
-                                  //                                   visualDensity: const VisualDensity(horizontal: -4.0),
-                                  //                                   fillColor: e.value.fedexShippingOption.value.isEmpty
-                                  //                                       ? MaterialStateProperty.all(Colors.red)
-                                  //                                       : null,
-                                  //                                   onChanged: (value) {
-                                  //                                     setState(() {
-                                  //                                       e.value.fedexShippingOption.value = value.toString();
-                                  //                                       e.value.fedexShipping!.output!.rateReplyDetails![ii]
-                                  //                                               .shippingDate =
-                                  //                                           product.operationalDetail!.deliveryDate;
-                                  //                                       cartController.shippingTitle =
-                                  //                                           e.value.fedexShippingOption.value.toString();
-                                  //                                       cartController.shippingPrices = product
-                                  //                                           .ratedShipmentDetails![ii].totalNetCharge
-                                  //                                           .toString();
-                                  //                                       log(e.value.fedexShippingOption.value.toString());
-                                  //                                       log(cartController.shippingTitle.toString());
-                                  //                                       log("shipped::${cartController.shippingPrices.toString()}");
-                                  //                                       log("shipped tit::${cartController.shippingTitle.toString()}");
-                                  //                                       shippingPrice =
-                                  //                                           product.ratedShipmentDetails![ii].totalNetCharge;
-                                  //                                       double subtotal = double.parse(
-                                  //                                           cartController.cartModel.subtotal.toString());
-                                  //                                       double shipping = shippingPrice;
-                                  //                                       cartController.formattedTotal =
-                                  //                                           (shippingPrice.toStringAsFixed(2));
-                                  //                                       log("shippingPrice::::::${shippingPrice.toString()}");
-                                  //                                       total = subtotal + shipping;
-                                  //                                       cartController.formattedTotal =
-                                  //                                           (total.toStringAsFixed(3));
-                                  //                                       // e.value.shippingId.value = e.value.shippingTypes![ii].id;
-                                  //                                       // e.value.vendorId.value = e.value.shippingTypes![ii].vendorId;
-                                  //                                       // e.value.shippingVendorName.value = e.value.shippingTypes![ii].name.toString();
-                                  //                                       // e.value.vendorPrice.value = e.value.shippingTypes![ii].value.toString();
-                                  //                                       e.value.sPrice =
-                                  //                                           product.ratedShipmentDetails![ii].totalNetCharge;
-                                  //
-                                  //                                       // Initialize sPrice before calculations start
-                                  //                                       log("Initial sPrice:$sPrice");
-                                  //
-                                  //                                       for (var item in cartController
-                                  //                                           .cartModel.cart!.carsShowroom!.entries) {
-                                  //                                         if (item
-                                  //                                             .value.fedexShippingOption.value.isNotEmpty) {
-                                  //                                           sPrice = item.value.sPrice;
-                                  //                                           // sPrice.toStringAsFixed(fractionDigits)
-                                  //                                           // Update sPrice directly without reassigning
-                                  //                                         }
-                                  //                                       }
-                                  //
-                                  //                                       log("Final sPrice: ${sPrice + (cartController.cartModel.cart!.carsShowroom!.entries.map((e) => e.value.fedexCommision))}");
-                                  //                                     });
-                                  //                                   },
-                                  //                                 ),
-                                  //                                 20.spaceX,
-                                  //                                 Expanded(
-                                  //                                   child: Column(
-                                  //                                     crossAxisAlignment: CrossAxisAlignment.start,
-                                  //                                     children: [
-                                  //                                       Text(
-                                  //                                           product.serviceName
-                                  //                                               .toString()
-                                  //                                               .capitalize!
-                                  //                                               .replaceAll('_', ' '),
-                                  //                                           style: GoogleFonts.poppins(
-                                  //                                               fontWeight: FontWeight.w500, fontSize: 16)),
-                                  //                                       3.spaceY,
-                                  //                                       Text(
-                                  //                                           'kwd ${product.ratedShipmentDetails![ii].totalNetCharge.toString()}',
-                                  //                                           style: GoogleFonts.poppins(
-                                  //                                               fontWeight: FontWeight.w400,
-                                  //                                               fontSize: 16,
-                                  //                                               color: const Color(0xFF03a827))),
-                                  //                                       3.spaceY,
-                                  //                                       Text(
-                                  //                                           '${product.operationalDetail!.deliveryDay ?? ''}  ${product.operationalDetail!.deliveryDate ?? ''}',
-                                  //                                           style: GoogleFonts.poppins(
-                                  //                                               fontWeight: FontWeight.w400,
-                                  //                                               fontSize: 15,
-                                  //                                               fontStyle: FontStyle.italic,
-                                  //                                               color: const Color(0xFF000000))),
-                                  //                                     ],
-                                  //                                   ),
-                                  //                                 ),
-                                  //                               ],
-                                  //                             ),
-                                  //                           ],
-                                  //                         );
-                                  //                       });
-                                  //                       // : 0.spaceY,;
-                                  //                     },
-                                  //                   ),
-                                  //                 )
-                                  //               : const LoadingAnimation()
-                                  //           : const SizedBox(),
-                                ],
-                              ))
-                          .toList()),
-                )
-              : const SizedBox.shrink();
+                      // fedx
+                      // if (e.value.products!.any((e) =>
+                      // e.vendorCountryId != '117'  && e.isShipping == true) || cartController.countryName.value != 'Kuwait' && cartController.myDefaultAddressModel.value.defaultAddress!.country != 'Kuwait')
+                      //   cartController.selectedAddress.id != null ||
+                      //       cartController.myDefaultAddressModel.value.defaultAddress != null?
+                        if(e.value.localShipping != true)
+                        Container(
+                          color: Colors.white,
+                          child: Padding(
+                            padding: const EdgeInsets.symmetric(horizontal: 24, vertical: 16),
+                            child: Row(
+                              crossAxisAlignment: CrossAxisAlignment.center,
+                              children: [
+                                Image.asset('assets/images/shipping_icon.png', height: 32, width: 32),
+                                20.spaceX,
+                                Text("Fedex Shipping Method".tr,
+                                    style: GoogleFonts.poppins(fontWeight: FontWeight.w500, fontSize: 18)),
+                              ],
+                            ),
+                          ),
+                        ),
+                      //       : const SizedBox(),
+
+                      // if (e.value.products!.any((e) =>
+                      // e.vendorCountryId != '117'  && e.isShipping == true) || cartController.countryName.value != 'Kuwait' &&  cartController.myDefaultAddressModel.value.defaultAddress!.country != 'Kuwait'
+                      // )
+                        if( e.value.localShipping != true && e.value.shipping!.any((element) => element.output == null))
+                          Padding(
+                            padding: const EdgeInsets.all(8.0),
+                            child: Text('FedEx service is not currently available to this origin / destination combination. Enter new information or contact FedEx Customer Service.'.tr,style: const TextStyle(
+                              fontSize: 17
+                                                    ),),
+                          ),
+                      //   cartController.selectedAddress.id != null || cartController.myDefaultAddressModel.value.defaultAddress != null ?
+                      //   e.value.fedexShipping!.output !=null ?
+                      if(e.value.localShipping != true &&
+                          e.value.shipping!.any((element) => element.output != null)
+                      )
+                        Container(
+                          color: Colors.white,
+                          child: ListView.builder(
+                            physics: const NeverScrollableScrollPhysics(),
+                            shrinkWrap: true,
+                            itemCount: e.value.shipping!.length,
+                            padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 15).copyWith(top: 0),
+                            itemBuilder: (context, ii) {
+                              return e.value.shipping![ii].output!= null ?
+                                  ListView.builder(
+                                    shrinkWrap: true,
+                                    physics: const NeverScrollableScrollPhysics(),
+                                    itemCount: e.value.shipping![ii].output!.rateReplyDetails!.length,
+                                      itemBuilder: (context, index) {
+                                        RateReplyDetails product = e.value.shipping![ii].output!.rateReplyDetails![index];
+                                        return Obx(() {
+                                          return Column(
+                                            children: [
+                                              10.spaceY,
+                                              index == 0
+                                                  ? 0.spaceY
+                                                  : const Divider(
+                                                color: Color(0xFFD9D9D9),
+                                                thickness: 0.8,
+                                              ),
+
+                                              Row(
+                                                children: [
+                                                  Radio(
+                                                    value: product.serviceType.toString(),
+                                                    groupValue:  e.value.fedexShippingOption.value,
+                                                    visualDensity: const VisualDensity(horizontal: -4.0),
+                                                    fillColor: e.value.fedexShippingOption.value.isEmpty
+                                                        ? MaterialStateProperty.all(Colors.red)
+                                                        : null,
+                                                    onChanged: (value) {
+                                                      setState(() {
+                                                        e.value.fedexShippingOption.value = value.toString();
+                                                        // e.value.shipping![ii].output!.rateReplyDetails![index].shippingDate = product.operationalDetail!.deliveryDate;
+                                                        cartController.shippingTitle = e.value.fedexShippingOption.value.toString();
+                                                        cartController.shippingPrices = product.ratedShipmentDetails![ii].totalNetCharge.toString();
+                                                        print(e.value.fedexShippingOption.value.toString());
+                                                        print(cartController.shippingTitle.toString());
+                                                        print(cartController.shippingPrices.toString());
+                                                        shippingPrice =  product.ratedShipmentDetails![ii].totalNetCharge.toString();
+                                                        double subtotal = double.parse(cartController.cartModel.subtotal.toString());
+                                                        double shipping = double.parse(shippingPrice);
+                                                        total = subtotal + shipping;
+                                                        cartController.formattedTotal = total.toStringAsFixed(3);
+                                                        e.value.shippingId.value = e.value.shipping![ii].id.toString();
+                                                        // e.value.vendorId.value = e.value.shipping![ii].vendorId!;
+                                                        e.value.shippingVendorName.value = e.value.shipping![ii].name.toString();
+                                                        e.value.vendorPrice.value = e.value.shipping![ii].value.toString();
+                                                      });
+                                                    },
+                                                  ),
+                                                  20.spaceX,
+                                                  Expanded(
+                                                    child: Column(
+                                                      crossAxisAlignment: CrossAxisAlignment.start,
+                                                      children: [
+                                                        Text(product.serviceName.toString().capitalize!.replaceAll('_', ' '),
+                                                            style: GoogleFonts.poppins(fontWeight: FontWeight.w500, fontSize: 16)),
+                                                        3.spaceY,
+                                                        Text('kwd ${product.ratedShipmentDetails![ii].totalNetCharge.toString()}',
+                                                            style: GoogleFonts.poppins(fontWeight: FontWeight.w400,
+                                                                fontSize: 16,
+                                                                color: const Color(0xFF03a827))),
+                                                        3.spaceY,
+                                                        Text('${product.operationalDetail!.deliveryDay ?? ''}  ${product.operationalDetail!.deliveryDate ?? ''}',
+                                                            style: GoogleFonts.poppins(fontWeight: FontWeight.w400,
+                                                                fontSize: 15,
+                                                                fontStyle: FontStyle.italic,
+                                                                color: const Color(0xFF000000))),
+                                                      ],
+                                                    ),
+                                                  ),
+                                                ],
+                                              ),
+                                            ],
+                                          );
+                                        });
+                                      },
+                                  )
+                                  : const LoadingAnimation();
+                              // : 0.spaceY,;
+                            },
+                          ),
+                      //   )  : const LoadingAnimation() : const SizedBox(),
+                        )
+                    ],
+                  )).toList(),
+            ),
+          );
+          // : const SizedBox.shrink();
           // CustomScrollView(
           //   shrinkWrap: true,
           //   physics: const NeverScrollableScrollPhysics(),

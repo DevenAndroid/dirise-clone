@@ -64,7 +64,7 @@ class CartController extends GetxController {
   RxInt countDown = 30.obs;
   Timer? _timer;
   String formattedTotal = '';
-  List<int> shippingList = [];
+  List<String> shippingList = [];
   List<String> shippingDate = [];
   List<int> shippingVendorId = [];
   List<String> shippingVendorName = [];
@@ -464,6 +464,7 @@ class CartController extends GetxController {
     repositories.postApi(url: ApiUrls.addressListUrl).then((value) {
       addressLoaded = true;
       addressListModel = ModelUserAddressList.fromJson(jsonDecode(value));
+      log('address iss....${addressListModel.address!.toJson()}');
       updateUIAdd();
     });
   }
@@ -480,6 +481,7 @@ class CartController extends GetxController {
       getCart();
     });
   }
+  String countryId = '';
 
   Future getCart() async {
     // if (cartModel.cart != null) {
@@ -489,7 +491,8 @@ class CartController extends GetxController {
     // }
     Map<String, dynamic> map = {};
     map["key"] = 'fedexRate';
-    map["country_id"]=profileController.model.user!.country_id;
+    map["country_id"]= profileController.model.user!= null && countryId.isEmpty ? profileController.model.user!.country_id : countryId.toString();
+    map["zip_code"]= '99999';
 
     log("mappppppp::::::$map");
     await repositories.postApi(url: ApiUrls.cartListUrl,mapData: map ).then((value) {
