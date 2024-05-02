@@ -1,4 +1,5 @@
 import 'dart:convert';
+import 'dart:developer';
 
 import 'package:dirise/addNewProduct/reviewPublishScreen.dart';
 import 'package:flutter/cupertino.dart';
@@ -9,6 +10,7 @@ import 'package:get/get.dart';
 import 'package:google_fonts/google_fonts.dart';
 
 import '../model/common_modal.dart';
+import '../model/reviewAndPublishResponseodel.dart';
 import '../repository/repository.dart';
 import '../utils/api_constant.dart';
 import '../widgets/common_button.dart';
@@ -35,6 +37,7 @@ class _OptionalScreenState extends State<OptionalScreen> {
   final Repositories repositories = Repositories();
   final formKey1 = GlobalKey<FormState>();
   String code = "+91";
+  String? productID;
   optionalApi() {
     Map<String, dynamic> map = {};
 
@@ -47,12 +50,14 @@ class _OptionalScreenState extends State<OptionalScreen> {
 
     FocusManager.instance.primaryFocus!.unfocus();
     repositories.postApi(url: ApiUrls.giveawayProductAddress, context: context, mapData: map).then((value) {
-      ModelCommonResponse response = ModelCommonResponse.fromJson(jsonDecode(value));
+      ReviewAndPublishResponseModel response = ReviewAndPublishResponseModel.fromJson(jsonDecode(value));
       print('API Response Status Code: ${response.status}');
       showToast(response.message.toString());
       if (response.status == true) {
+        productID = response.productDetails!.product!.id.toString();
+        log('ffff'+response.productDetails!.product!.id.toString());
         if(formKey1.currentState!.validate()){
-          Get.to(ReviewPublishScreen());
+          Get.to(ReviewPublishScreen(productID: productID,));
         }
 
       }

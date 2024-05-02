@@ -1,4 +1,5 @@
 import 'dart:convert';
+import 'dart:io';
 import 'dart:ui';
 import 'package:flutter/foundation.dart';
 import 'package:get/get.dart';
@@ -25,6 +26,8 @@ class ProfileController extends GetxController {
   ModelCountryList? modelCountryList;
   Country? selectedCountry;
   Rx<AboutUsmodel> aboutusModal = AboutUsmodel().obs;
+  String planID = '';
+  String selectedPlan = '';
   Future aboutUsData() async {
     Map<String, dynamic> map = {};
     map["id"] = 12;
@@ -138,6 +141,8 @@ class ProfileController extends GetxController {
       updateUI();
     }
   }
+
+
 }
 
 

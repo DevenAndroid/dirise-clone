@@ -26,268 +26,273 @@ class _AddProductImageAndVirtualFileState extends State<AddProductImageAndVirtua
   @override
   Widget build(BuildContext context) {
     var height = MediaQuery.of(context).size.height;
-    return Card(
-        color: Colors.white,
-        surfaceTintColor: Colors.white,
-        elevation: 3,
-        child: Padding(
-            padding: const EdgeInsets.all(16),
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                Obx(() {
-                  if (controller.refreshInt.value > 0) {}
-                  return Row(
-                    children: [
-                      Flexible(
-                        child: Text(
-                          "Upload Image".tr,
-                          style:
-                              GoogleFonts.poppins(fontWeight: FontWeight.w500, color: const Color(0xff2F2F2F), fontSize: 18),
-                        ),
-                      ),
-                      if (controller.showValidations && controller.productImage.path.isEmpty)
-                        Padding(
-                          padding: const EdgeInsets.only(left: 5, top: 2),
-                          child: Icon(
-                            Icons.error_outline_rounded,
-                            color: Theme.of(context).colorScheme.error,
-                            size: 21,
+    return Column(
+      children: [
+        Card(
+            color: Colors.white,
+            surfaceTintColor: Colors.white,
+            elevation: 3,
+            child: Padding(
+                padding: const EdgeInsets.all(16),
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    Obx(() {
+                      if (controller.refreshInt.value > 0) {}
+                      return Row(
+                        children: [
+                          Flexible(
+                            child: Text(
+                              "Upload Image".tr,
+                              style:
+                                  GoogleFonts.poppins(fontWeight: FontWeight.w500, color: const Color(0xff2F2F2F), fontSize: 18),
+                            ),
                           ),
-                        ),
-                    ],
-                  );
-                }),
-                6.spaceY,
-                productImageWidget(context, height),
-                Obx(() {
-                  if (controller.refreshInt.value > 0) {}
-                  if (controller.virtualRefreshInt.value > 0) {}
-                  return controller.productType == "Virtual Product"
-                      ? Column(
-                          children: [
-                            6.spaceY,
-                            Row(
-                              children: [
-                                Expanded(
-                                  child: Row(
-                                    children: [
-                                      Flexible(
-                                        child: Text(
-                                          "Upload Digital Reader".tr,
-                                          style: GoogleFonts.poppins(
-                                              fontWeight: FontWeight.w500, color: const Color(0xff2F2F2F), fontSize: 18),
-                                        ),
-                                      ),
-                                      if (controller.showValidations && controller.pdfFile.path.isEmpty)
-                                        Padding(
-                                          padding: const EdgeInsets.only(left: 5, top: 1),
-                                          child: Icon(
-                                            Icons.error_outline_rounded,
-                                            color: Theme.of(context).colorScheme.error,
-                                            size: 22,
-                                          ),
-                                        ),
-                                    ],
-                                  ),
-                                ),
-                                Checkbox(
-                                    value: controller.productFileType.value == "pdf",
-                                    onChanged: (value) {
-                                      if (value == true) {
-                                        controller.productFileType.value = "pdf";
-                                      } else {
-                                        controller.productFileType.value = "";
-                                      }
-                                    })
-                              ],
-                            ),
-                            6.spaceY,
-                            if (controller.productFileType.value == "pdf") ...[
-                              GestureDetector(
-                                onTap: () {
-                                  controller.pickPDFFile().then((value) {
-                                    setState(() {});
-                                  });
-                                },
-                                child: DottedBorder(
-                                  radius: const Radius.circular(10),
-                                  borderType: BorderType.RRect,
-                                  dashPattern: const [3, 5],
-                                  color: Colors.grey.shade500,
-                                  strokeWidth: 1,
-                                  child: Container(
-                                    padding:
-                                        EdgeInsets.symmetric(horizontal: AddSize.padding16, vertical: AddSize.padding16),
-                                    width: AddSize.screenWidth,
-                                    decoration: BoxDecoration(
-                                      color: Colors.grey.shade50,
-                                      borderRadius: BorderRadius.circular(10),
-                                    ),
-                                    child: controller.pdfFile.path.isNotEmpty
-                                        ? Column(
-                                            children: [
-                                              Center(
-                                                child: Text(
-                                                  controller.pdfFile.path.split("/").last,
-                                                  style: GoogleFonts.poppins(fontWeight: FontWeight.w500, fontSize: 16),
-                                                ),
-                                              ),
-                                              // TextButton(
-                                              //     onPressed: () {
-                                              //       OpenFilex.open(controller.pdfFile.path);
-                                              //     },
-                                              //     child: const Text("View"))
-                                            ],
-                                          )
-                                        : Column(
-                                            children: [
-                                              const Image(
-                                                height: 30,
-                                                image: AssetImage(
-                                                  'assets/icons/pdfdownload.png',
-                                                ),
-                                              ),
-                                              const SizedBox(
-                                                height: 15,
-                                              ),
-                                              Text(
-                                                "Upload PDF File".tr,
-                                                style: GoogleFonts.poppins(
-                                                    fontWeight: FontWeight.w300,
-                                                    color: const Color(0xff463B57),
-                                                    fontSize: AddSize.font16),
-                                              ),
-                                              SizedBox(
-                                                height: height * .01,
-                                              ),
-                                            ],
-                                          ),
-                                  ),
-                                ),
+                          if (controller.showValidations && controller.productImage.path.isEmpty)
+                            Padding(
+                              padding: const EdgeInsets.only(left: 5, top: 2),
+                              child: Icon(
+                                Icons.error_outline_rounded,
+                                color: Theme.of(context).colorScheme.error,
+                                size: 21,
                               ),
-                              4.spaceY,
-                            ],
-                            Row(
-                              children: [
-                                Expanded(
-                                  child: Row(
-                                    children: [
-                                      Flexible(
-                                        child: Text(
-                                          "Upload Voice".tr,
-                                          style: GoogleFonts.poppins(
-                                              fontWeight: FontWeight.w500, color: const Color(0xff2F2F2F), fontSize: 18),
-                                        ),
-                                      ),
-                                      if (controller.showValidations && controller.pdfFile.path.isEmpty)
-                                        Padding(
-                                          padding: const EdgeInsets.only(left: 5, top: 1),
-                                          child: Icon(
-                                            Icons.error_outline_rounded,
-                                            color: Theme.of(context).colorScheme.error,
-                                            size: 22,
-                                          ),
-                                        ),
-                                    ],
-                                  ),
-                                ),
-                                Checkbox(
-                                    value: controller.productFileType.value == "voice",
-                                    onChanged: (value) {
-                                      if (value == true) {
-                                        controller.productFileType.value = "voice";
-                                      } else {
-                                        controller.productFileType.value = "";
-                                      }
-                                    })
-                              ],
                             ),
-                            8.spaceY,
-                            VendorCommonTextfield(
-                                controller: controller.languageController,
-                                //key: controller.stockController.getKey,
-                                keyboardType: TextInputType.text,
-                                hintText: "Language".tr,
-                                validator: (value) {
-                                  if (value!.trim().isEmpty) {
-                                    return "Language is required".tr;
-                                  }
-                                /*  if ((num.tryParse(value.trim()) ?? 0) < 1) {
-                                    return "Enter valid Language";
-                                  }*/
-                                  return null;
-                                }),
-                            8.spaceY,
-                            if (controller.productFileType.value == "voice") ...[
-                              4.spaceY,
-                              GestureDetector(
-                                onTap: () {
-                                  controller.pickAudioFile();
-                                },
-                                child: DottedBorder(
-                                  radius: const Radius.circular(10),
-                                  borderType: BorderType.RRect,
-                                  dashPattern: const [3, 5],
-                                  color: Colors.grey.shade500,
-                                  strokeWidth: 1,
-                                  child: Container(
-                                    padding:
-                                        EdgeInsets.symmetric(horizontal: AddSize.padding16, vertical: AddSize.padding16),
-                                    width: AddSize.screenWidth,
-                                    decoration: BoxDecoration(
-                                      color: Colors.grey.shade50,
-                                      borderRadius: BorderRadius.circular(10),
-                                    ),
-                                    child: controller.voiceFile.path.isNotEmpty
-                                        ? Column(
-                                            children: [
-                                              Center(
-                                                child: Text(
-                                                  controller.voiceFile.path.split("/").last,
-                                                  style: GoogleFonts.poppins(fontWeight: FontWeight.w500, fontSize: 16),
-                                                ),
-                                              ),
-                                              // TextButton(
-                                              //     onPressed: () {
-                                              //       OpenFilex.open(controller.voiceFile.path);
-                                              //     },
-                                              //     child: const Text("View"))
-                                            ],
-                                          )
-                                        : Column(
-                                            children: [
-                                              const Image(
-                                                height: 30,
-                                                image: AssetImage(
-                                                  'assets/icons/pdfdownload.png',
-                                                ),
-                                              ),
-                                              const SizedBox(
-                                                height: 15,
-                                              ),
-                                              Text(
-                                                "Upload Voice".tr,
-                                                style: GoogleFonts.poppins(
-                                                    fontWeight: FontWeight.w300,
-                                                    color: const Color(0xff463B57),
-                                                    fontSize: AddSize.font16),
-                                              ),
-                                              SizedBox(
-                                                height: height * .01,
-                                              ),
-                                            ],
+                        ],
+                      );
+                    }),
+                    6.spaceY,
+                    productImageWidget(context, height),
+                    Obx(() {
+                      if (controller.refreshInt.value > 0) {}
+                      if (controller.virtualRefreshInt.value > 0) {}
+                      return controller.productType == "Virtual Product"
+                          ? Column(
+                              children: [
+                                6.spaceY,
+                                Row(
+                                  children: [
+                                    Expanded(
+                                      child: Row(
+                                        children: [
+                                          Flexible(
+                                            child: Text(
+                                              "Upload Digital Reader".tr,
+                                              style: GoogleFonts.poppins(
+                                                  fontWeight: FontWeight.w500, color: const Color(0xff2F2F2F), fontSize: 18),
+                                            ),
                                           ),
-                                  ),
+                                          if (controller.showValidations && controller.pdfFile.path.isEmpty)
+                                            Padding(
+                                              padding: const EdgeInsets.only(left: 5, top: 1),
+                                              child: Icon(
+                                                Icons.error_outline_rounded,
+                                                color: Theme.of(context).colorScheme.error,
+                                                size: 22,
+                                              ),
+                                            ),
+                                        ],
+                                      ),
+                                    ),
+                                    Checkbox(
+                                        value: controller.productFileType.value == "pdf",
+                                        onChanged: (value) {
+                                          if (value == true) {
+                                            controller.productFileType.value = "pdf";
+                                          } else {
+                                            controller.productFileType.value = "";
+                                          }
+                                        })
+                                  ],
                                 ),
-                              )
-                            ],
-                          ],
-                        )
-                      : const SizedBox.shrink();
-                }),
-              ],
-            )));
+                                6.spaceY,
+                                if (controller.productFileType.value == "pdf") ...[
+                                  GestureDetector(
+                                    onTap: () {
+                                      controller.pickPDFFile().then((value) {
+                                        setState(() {});
+                                      });
+                                    },
+                                    child: DottedBorder(
+                                      radius: const Radius.circular(10),
+                                      borderType: BorderType.RRect,
+                                      dashPattern: const [3, 5],
+                                      color: Colors.grey.shade500,
+                                      strokeWidth: 1,
+                                      child: Container(
+                                        padding:
+                                            EdgeInsets.symmetric(horizontal: AddSize.padding16, vertical: AddSize.padding16),
+                                        width: AddSize.screenWidth,
+                                        decoration: BoxDecoration(
+                                          color: Colors.grey.shade50,
+                                          borderRadius: BorderRadius.circular(10),
+                                        ),
+                                        child: controller.pdfFile.path.isNotEmpty
+                                            ? Column(
+                                                children: [
+                                                  Center(
+                                                    child: Text(
+                                                      controller.pdfFile.path.split("/").last,
+                                                      style: GoogleFonts.poppins(fontWeight: FontWeight.w500, fontSize: 16),
+                                                    ),
+                                                  ),
+                                                  // TextButton(
+                                                  //     onPressed: () {
+                                                  //       OpenFilex.open(controller.pdfFile.path);
+                                                  //     },
+                                                  //     child: const Text("View"))
+                                                ],
+                                              )
+                                            : Column(
+                                                children: [
+                                                  const Image(
+                                                    height: 30,
+                                                    image: AssetImage(
+                                                      'assets/icons/pdfdownload.png',
+                                                    ),
+                                                  ),
+                                                  const SizedBox(
+                                                    height: 15,
+                                                  ),
+                                                  Text(
+                                                    "Upload PDF File".tr,
+                                                    style: GoogleFonts.poppins(
+                                                        fontWeight: FontWeight.w300,
+                                                        color: const Color(0xff463B57),
+                                                        fontSize: AddSize.font16),
+                                                  ),
+                                                  SizedBox(
+                                                    height: height * .01,
+                                                  ),
+                                                ],
+                                              ),
+                                      ),
+                                    ),
+                                  ),
+                                  4.spaceY,
+                                ],
+                                Row(
+                                  children: [
+                                    Expanded(
+                                      child: Row(
+                                        children: [
+                                          Flexible(
+                                            child: Text(
+                                              "Upload Voice".tr,
+                                              style: GoogleFonts.poppins(
+                                                  fontWeight: FontWeight.w500, color: const Color(0xff2F2F2F), fontSize: 18),
+                                            ),
+                                          ),
+                                          if (controller.showValidations && controller.pdfFile.path.isEmpty)
+                                            Padding(
+                                              padding: const EdgeInsets.only(left: 5, top: 1),
+                                              child: Icon(
+                                                Icons.error_outline_rounded,
+                                                color: Theme.of(context).colorScheme.error,
+                                                size: 22,
+                                              ),
+                                            ),
+                                        ],
+                                      ),
+                                    ),
+                                    Checkbox(
+                                        value: controller.productFileType.value == "voice",
+                                        onChanged: (value) {
+                                          if (value == true) {
+                                            controller.productFileType.value = "voice";
+                                          } else {
+                                            controller.productFileType.value = "";
+                                          }
+                                        })
+                                  ],
+                                ),
+                                8.spaceY,
+                                VendorCommonTextfield(
+                                    controller: controller.languageController,
+                                    //key: controller.stockController.getKey,
+                                    keyboardType: TextInputType.text,
+                                    hintText: "Language".tr,
+                                    validator: (value) {
+                                      if (value!.trim().isEmpty) {
+                                        return "Language is required".tr;
+                                      }
+                                    /*  if ((num.tryParse(value.trim()) ?? 0) < 1) {
+                                        return "Enter valid Language";
+                                      }*/
+                                      return null;
+                                    }),
+                                8.spaceY,
+                                if (controller.productFileType.value == "voice") ...[
+                                  4.spaceY,
+                                  GestureDetector(
+                                    onTap: () {
+                                      controller.pickAudioFile();
+                                    },
+                                    child: DottedBorder(
+                                      radius: const Radius.circular(10),
+                                      borderType: BorderType.RRect,
+                                      dashPattern: const [3, 5],
+                                      color: Colors.grey.shade500,
+                                      strokeWidth: 1,
+                                      child: Container(
+                                        padding:
+                                            EdgeInsets.symmetric(horizontal: AddSize.padding16, vertical: AddSize.padding16),
+                                        width: AddSize.screenWidth,
+                                        decoration: BoxDecoration(
+                                          color: Colors.grey.shade50,
+                                          borderRadius: BorderRadius.circular(10),
+                                        ),
+                                        child: controller.voiceFile.path.isNotEmpty
+                                            ? Column(
+                                                children: [
+                                                  Center(
+                                                    child: Text(
+                                                      controller.voiceFile.path.split("/").last,
+                                                      style: GoogleFonts.poppins(fontWeight: FontWeight.w500, fontSize: 16),
+                                                    ),
+                                                  ),
+                                                  // TextButton(
+                                                  //     onPressed: () {
+                                                  //       OpenFilex.open(controller.voiceFile.path);
+                                                  //     },
+                                                  //     child: const Text("View"))
+                                                ],
+                                              )
+                                            : Column(
+                                                children: [
+                                                  const Image(
+                                                    height: 30,
+                                                    image: AssetImage(
+                                                      'assets/icons/pdfdownload.png',
+                                                    ),
+                                                  ),
+                                                  const SizedBox(
+                                                    height: 15,
+                                                  ),
+                                                  Text(
+                                                    "Upload Voice".tr,
+                                                    style: GoogleFonts.poppins(
+                                                        fontWeight: FontWeight.w300,
+                                                        color: const Color(0xff463B57),
+                                                        fontSize: AddSize.font16),
+                                                  ),
+                                                  SizedBox(
+                                                    height: height * .01,
+                                                  ),
+                                                ],
+                                              ),
+                                      ),
+                                    ),
+                                  )
+                                ],
+                              ],
+                            )
+                          : const SizedBox.shrink();
+                    }),
+                  ],
+                ))),
+
+      ],
+    );
   }
   void showActionSheet(BuildContext context) {
     showCupertinoModalPopup<void>(

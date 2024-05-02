@@ -6,6 +6,7 @@ import 'package:google_fonts/google_fonts.dart';
 import 'package:intl_phone_field/intl_phone_field.dart';
 
 import '../widgets/common_colour.dart';
+import 'listofquestionScreen.dart';
 
 class VerificationTimeScreen extends StatefulWidget {
   const VerificationTimeScreen({super.key});
@@ -212,25 +213,30 @@ class _VerificationTimeScreenState extends State<VerificationTimeScreen> {
               ),
               SizedBox(height: 20,),
 
-              Container(
-                margin: EdgeInsets.only(left: 15,right: 15),
-                width: Get.width,
-                height: 50,
-                decoration: BoxDecoration(
-                  border: Border.all(
-                    color: const Color(0xff0D5877), // Border color
-                    width: 1.0, // Border width
+              InkWell(
+                onTap: (){
+                  Get.to(ListOfQuestionsScreen());
+                },
+                child: Container(
+                  margin: EdgeInsets.only(left: 15,right: 15),
+                  width: Get.width,
+                  height: 50,
+                  decoration: BoxDecoration(
+                    border: Border.all(
+                      color: const Color(0xff0D5877), // Border color
+                      width: 1.0, // Border width
+                    ),
+                    borderRadius: BorderRadius.circular(2), // Border radius
                   ),
-                  borderRadius: BorderRadius.circular(2), // Border radius
-                ),
-                padding: const EdgeInsets.all(10), // Padding inside the container
-                child: const Center(
-                  child: Text(
-                    'Next',
-                    style: TextStyle(
-                      fontSize: 16,
-                      fontWeight: FontWeight.bold,
-                      color: Colors.black, // Text color
+                  padding: const EdgeInsets.all(10), // Padding inside the container
+                  child: const Center(
+                    child: Text(
+                      'Next',
+                      style: TextStyle(
+                        fontSize: 16,
+                        fontWeight: FontWeight.bold,
+                        color: Colors.black, // Text color
+                      ),
                     ),
                   ),
                 ),
