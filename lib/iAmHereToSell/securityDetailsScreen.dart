@@ -20,6 +20,7 @@ class SecurityDetailsScreen extends StatefulWidget {
 class _SecurityDetailsScreenState extends State<SecurityDetailsScreen> {
   bool showValidation = false;
   bool? _isValue = false;
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -115,6 +116,7 @@ class _SecurityDetailsScreenState extends State<SecurityDetailsScreen> {
                 title: "Next".tr,
                 onPressed: () {
                   if(_isValue == true){
+
                     Get.to(const VendorAccountCreatedSuccessfullyScreen());
                   }else{
                     showToast('Please select security Details');

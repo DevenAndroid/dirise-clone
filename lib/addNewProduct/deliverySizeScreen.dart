@@ -95,13 +95,14 @@ class _DeliverySizeScreenState extends State<DeliverySizeScreen> {
                 title: 'Next',
                 borderRadius: 11,
                 onPressed: () {
-                  // Call API based on the selected radio button
                   if (selectedRadio == 1) {
                     deliverySizeApi('small_car');
                   } else if (selectedRadio == 2) {
                     deliverySizeApi('need_truck');
                   } else if (selectedRadio == 3) {
                     deliverySizeApi('freight_cargo');
+                  }else{
+                    showToast('Select delivery size');
                   }
 
                 },
