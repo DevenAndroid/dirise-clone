@@ -59,6 +59,7 @@ class _CreateAccountNewScreenState extends State<CreateAccountNewScreen> {
       ModelCommonResponse response = ModelCommonResponse.fromJson(jsonDecode(value));
       showToast(response.message.toString());
       if (response.status == true) {
+        print(response.otp.toString());
         Get.toNamed(NewOtpScreen.route, arguments: [_emailController.text, true, map]);
       }
     });
