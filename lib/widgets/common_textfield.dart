@@ -95,7 +95,7 @@ class _CommonTextFieldState extends State<CommonTextField> {
           suffixIcon: widget.suffixIcon,
           hintStyle: GoogleFonts.poppins(
             color: AppTheme.primaryColor,
-            fontSize: 15,
+            fontSize: 13,
           ),
 
           border: InputBorder.none,

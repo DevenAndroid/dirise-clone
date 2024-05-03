@@ -418,33 +418,47 @@ class _SingleProductDetailsState extends State<SingleProductDetails> {
                             const SizedBox(
                               height: 20,
                             ),
-                            if(modelSingleProduct.product!.shippingDate!=null)
-                            Text(
-                              'shippingDate (${modelSingleProduct.product!.shippingDate.toString()})'
-                                  .tr,
-                              style: GoogleFonts.poppins(
-                                shadows: [const Shadow(color: Colors.black, offset: Offset(0, -4))],
-                                color: Colors.transparent,
-                                fontSize: 18,
-                                fontWeight: FontWeight.w500,
-                                decoration: TextDecoration.underline,
-                              ),
-                            ),
-                            const SizedBox(
-                              height: 20,
-                            ),
-                            if(modelSingleProduct.product!.lowestDeliveryPrice!=null)
-                            Text(
-                              'DeliveryPrice (${modelSingleProduct.product!.lowestDeliveryPrice.toString()})'
-                                  .tr,
-                              style: GoogleFonts.poppins(
-                                shadows: [const Shadow(color: Colors.black, offset: Offset(0, -4))],
-                                color: Colors.transparent,
-                                fontSize: 18,
-                                fontWeight: FontWeight.w500,
-                                decoration: TextDecoration.underline,
-                              ),
-                            ),
+                           modelSingleProduct.product?.shippingDate!="No Internation Shipping Available"?
+                         Column(crossAxisAlignment: CrossAxisAlignment.start,
+                           children: [
+                             modelSingleProduct.product?.shippingDate!=null&&modelSingleProduct.product!=null?
+                             Text('DeliveryDate : ${modelSingleProduct.product!.shippingDate.toString()}'
+                                   .tr,
+                               style: GoogleFonts.poppins(
+                                 shadows: [const Shadow(color: Colors.black, offset: Offset(0, -4))],
+                                 color: Colors.transparent,
+                                 fontSize: 18,
+                                 fontWeight: FontWeight.w500,
+                                 decoration: TextDecoration.underline,
+                               ),
+                             ):const CircularProgressIndicator(),
+                             const SizedBox(
+                               height: 20,
+                             ),
+                             if(modelSingleProduct.product?.lowestDeliveryPrice!=null)
+                               Row(
+                                 children: [
+                                   Text('DeliveryCharge : KWD ${modelSingleProduct.product!.lowestDeliveryPrice.toString()}'
+                                         .tr,
+                                     style: GoogleFonts.poppins(
+                                       shadows: [const Shadow(color: Colors.black, offset: Offset(0, -4))],
+                                       color: Colors.transparent,
+                                       fontSize: 18,
+                                       fontWeight: FontWeight.w500,
+                                       decoration: TextDecoration.underline,
+                                     ),
+                                   ),
+                                 ],
+                               ),
+                           ],
+                         ):Text("No Internation Shipping Available",     style: GoogleFonts.poppins(
+                             shadows: [const Shadow(color: Colors.black, offset: Offset(0, -4))],
+                             color: Colors.transparent,
+                             fontSize: 18,
+                             fontWeight: FontWeight.w500,
+                             decoration: TextDecoration.underline,
+                           ),),
+                            SizedBox(height: 15,),
                             Align(
                               alignment: Alignment.topLeft,
                               child: Text(
