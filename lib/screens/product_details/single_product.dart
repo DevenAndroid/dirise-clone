@@ -438,7 +438,7 @@ class _SingleProductDetailsState extends State<SingleProductDetails> {
                              if(modelSingleProduct.product?.lowestDeliveryPrice!=null)
                                Row(
                                  children: [
-                                   Text('DeliveryCharge : KWD ${modelSingleProduct.product!.lowestDeliveryPrice.toString()}'
+                                   Text('KWD ${modelSingleProduct.product!.lowestDeliveryPrice.toString()}'
                                          .tr,
                                      style: GoogleFonts.poppins(
                                        shadows: [const Shadow(color: Colors.black, offset: Offset(0, -4))],
