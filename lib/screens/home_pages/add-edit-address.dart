@@ -59,26 +59,7 @@ class _HomeAddEditAddressState extends State<HomeAddEditAddress> {
   final locationController = Get.put(LocationController());
   RxBool isSelect = false.obs;
   final TextEditingController zipcodeController = TextEditingController();
-  @override
-  void initState() {
-    // TODO: implement initState
-    super.initState();
-    if (widget.city != null) {
-      locationController.streetController.text = widget.street ?? '';
-      locationController.cityController.text = widget.city ?? '';
-      locationController.stateController.text = widget.state ?? '';
-      locationController.countryController.text = widget.country ?? '';
-      locationController.zipcodeController.text = widget.zipcode ?? '';
-      locationController.townController.text = widget.town ?? '';
-    }else if(widget.street == null ){
-      locationController.streetController.text = locationController.street!;
-      locationController.cityController.text = locationController.city ?? '';
-      locationController.stateController.text = locationController.state ?? '';
-      locationController.countryController.text = locationController.countryName ?? '';
-      locationController.zipcodeController.text = locationController.zipcode ?? '';
-      locationController.townController.text = locationController.town ?? '';
-    }
-  }
+
   @override
   Widget build(BuildContext context) {
     Size size = MediaQuery.of(context).size;
@@ -141,7 +122,7 @@ class _HomeAddEditAddressState extends State<HomeAddEditAddress> {
                 if( isSelect.value == true )
                   ...commonField(
                       hintText: "Zip Code",
-                      textController: zipcodeController,
+                      textController: locationController.zipcodeController,
                       title: 'Zip Code*',
                       validator: (String? value) {},
                       keyboardType: TextInputType.number),
@@ -153,6 +134,7 @@ class _HomeAddEditAddressState extends State<HomeAddEditAddress> {
                   GestureDetector(
                     onTap: () {
                       if (formKey1.currentState!.validate()) {
+                        locationController.editAddressApi(context);
                       }
                       setState(() {});
                     },

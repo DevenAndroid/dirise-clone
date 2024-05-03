@@ -394,7 +394,7 @@ class _CheckOutScreenState extends State<CheckOutScreen> {
             children: [
               Text("Shipping Fees".tr,
                   style: GoogleFonts.poppins(fontWeight: FontWeight.w400, color: const Color(0xff949495))),
-              Text("KWD ${shippingPrice.toString()}",
+              Text("KWD ${sPrice1.toString()}",
                   style: GoogleFonts.poppins(fontWeight: FontWeight.w400, color: const Color(0xff949495))),
             ],
           ),
@@ -735,11 +735,24 @@ class _CheckOutScreenState extends State<CheckOutScreen> {
                                               e.value.vendorPrice.value = e.value.shipping![ii].value.toString();
                                               shippingPrice = e.value.shipping![ii].value.toString();
 
-                                              double subtotal = double.parse(cartController.cartModel.subtotal.toString());
                                               double shipping = double.parse(shippingPrice);
-                                              total = subtotal + shipping;
+                                              double subtotal = double.parse(cartController.cartModel.subtotal.toString());
+                                              // total = subtotal + shipping;
                                               cartController.formattedTotal = total.toStringAsFixed(3);
-
+                                              e.value.sMethod = double.parse(e.value.shipping![ii].value.toString());
+                                              // double sPrice = 0.0;
+                                              sPrice1 = 0.0;
+                                              for (var item in cartController.cartModel.cart!.carsShowroom!.entries) {
+                                                if (item.value.shippingOption.value.isNotEmpty) {
+                                                  sPrice1 = sPrice1 + item.value.sMethod;
+                                                  // sPrice.toStringAsFixed(fractionDigits)
+                                                  // Update sPrice directly without reassigning
+                                                }
+                                                total = subtotal + sPrice1;
+                                                cartController.formattedTotal = total.toStringAsFixed(3);
+                                                log("Final sPrice::::::: $sPrice1");
+                                                log("Final sPrice:::Total:::: $total");
+                                              }
                                             });
                                           },
                                         ),
@@ -861,6 +874,23 @@ class _CheckOutScreenState extends State<CheckOutScreen> {
                                                         // e.value.vendorId.value = e.value.shipping![ii].vendorId!;
                                                         e.value.shippingVendorName.value = e.value.shipping![ii].name.toString();
                                                         e.value.vendorPrice.value = e.value.shipping![ii].value.toString();
+
+                                                        e.value.sPrice = product.ratedShipmentDetails![ii].totalNetCharge;
+
+                                                        log("Initial sPrice:$sPrice1");
+
+                                                        for (var item in cartController
+                                                            .cartModel.cart!.carsShowroom!.entries) {
+                                                          if (item
+                                                              .value.fedexShippingOption.value.isNotEmpty) {
+                                                            sPrice1 = sPrice1 + item.value.sPrice;
+                                                            // sPrice.toStringAsFixed(fractionDigits)
+                                                            // Update sPrice directly without reassigning
+                                                          }
+                                                          total = subtotal + sPrice1;
+                                                          cartController.formattedTotal = total.toStringAsFixed(3);
+                                                        }
+
                                                       });
                                                     },
                                                   ),

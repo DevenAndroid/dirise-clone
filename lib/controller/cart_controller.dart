@@ -64,6 +64,7 @@ class CartController extends GetxController {
   RxInt countDown = 30.obs;
   Timer? _timer;
   String formattedTotal = '';
+  double formattedTotal1 = 0.0;
   List<String> shippingList = [];
   List<String> shippingDate = [];
   List<int> shippingVendorId = [];

@@ -11,6 +11,7 @@ import 'package:google_maps_flutter/google_maps_flutter.dart';
 import '../model/add_current_address_model.dart';
 import '../model/common_modal.dart';
 import '../repository/repository.dart';
+import 'cart_controller.dart';
 
 class LocationController extends GetxController {
   RxBool servicestatus = false.obs;
@@ -31,12 +32,13 @@ class LocationController extends GetxController {
   late StreamSubscription<Position> positionStream;
   String street = '';
   // RxString city = ''.obs;
-  String city = '';
+  RxString city = ''.obs;
   String state = '';
   String countryName = '';
   // RxString zipcode = ''.obs;
-  String zipcode = '';
+  RxString zipcode = ''.obs;
   String town = '';
+  RxString cityHome = ''.obs;
   checkGps(context) async {
     servicestatus.value = await Geolocator.isLocationServiceEnabled();
     if (servicestatus.value) {
@@ -98,16 +100,20 @@ class LocationController extends GetxController {
           ));
     }
   }
+  final cartController = Get.put(CartController());
   final Repositories repositories = Repositories();
   Rx<AddCurrentAddressModel> addCurrentAddress = AddCurrentAddressModel().obs;
   editAddressApi(context) {
     Map<String, dynamic> map = {};
-      map['zip_code'] =  zipcode;
+      map['zip_code'] =  zipcodeController.text;
     print(map.toString());
     repositories.postApi(url: ApiUrls.addCurrentAddress, mapData: map,context: context).then((value) {
       addCurrentAddress.value = AddCurrentAddressModel.fromJson(jsonDecode(value));
       showToast(addCurrentAddress.value.message.toString());
-
+      city.value = addCurrentAddress.value.data!.city;
+      zipcode.value = addCurrentAddress.value.data!.state;
+      cartController.countryId =  addCurrentAddress.value.data!.countryId.toString();
+      cartController.getCart();
       zipcodeController.clear();
       Get.back();
     });
@@ -163,10 +169,10 @@ class LocationController extends GetxController {
 
       // setState(() {
         street = placemark.street ?? '';
-        city = placemark.locality ?? '';
+        city.value = placemark.locality ?? '';
         state = placemark.administrativeArea ?? '';
         countryName = placemark.country ?? '';
-        zipcode = placemark.postalCode ?? '';
+        zipcode.value = placemark.postalCode ?? '';
         town = placemark.subAdministrativeArea ?? '';
     print('object ${street.toString()}');
       // });

@@ -91,10 +91,10 @@ class _HomePageState extends State<HomePage> {
 
       setState(() {
         locationController.street = placemark.street ?? '';
-        locationController.city = placemark.locality ?? '';
+        locationController.city.value = placemark.locality ?? '';
         locationController.state = placemark.administrativeArea ?? '';
         locationController.countryName = placemark.country ?? '';
-        locationController.zipcode = placemark.postalCode ?? '';
+        locationController.zipcode.value = placemark.postalCode ?? '';
         locationController.town = placemark.subAdministrativeArea ?? '';
       });
     }
@@ -392,15 +392,17 @@ class _HomePageState extends State<HomePage> {
                                 ),
                                 5.spaceX,
                                 Flexible(
-                                  child: Text(
-                                    "Deliver to ${locationController.city.toString()} , ${locationController.zipcode ??
-                                        ''}",
-                                    style: GoogleFonts.poppins(
-                                      color: Colors.white,
-                                      fontSize: 14,
-                                      fontWeight: FontWeight.w400,
-                                    ),
-                                  )
+                                    child: Obx(() {
+                                      return Text(
+                                        "Deliver to ${locationController.city.toString()} , ${locationController.zipcode ??
+                                            ''}",
+                                        style: GoogleFonts.poppins(
+                                          color: Colors.white,
+                                          fontSize: 14,
+                                          fontWeight: FontWeight.w400,
+                                        ),
+                                      );
+                                    })
                                 ),
                                 5.spaceX,
                                 SvgPicture.asset(
@@ -441,15 +443,17 @@ class _HomePageState extends State<HomePage> {
                                 ),
                                 5.spaceX,
                                 Flexible(
-                                  child: Text(
-                                    "Deliver to ${locationController.city.toString()} , ${locationController.zipcode
-                                        .toString()}",
-                                    style: GoogleFonts.poppins(
-                                      color: Colors.white,
-                                      fontSize: 14,
-                                      fontWeight: FontWeight.w400,
-                                    ),
-                                  ),
+                                  child: Obx(() {
+                                    return Text(
+                                      "Deliver to ${locationController.city.toString()} , ${locationController.zipcode
+                                          .toString()}",
+                                      style: GoogleFonts.poppins(
+                                        color: Colors.white,
+                                        fontSize: 14,
+                                        fontWeight: FontWeight.w400,
+                                      ),
+                                    );
+                                  }),
                                 ),
                                 5.spaceX,
                                 SvgPicture.asset(

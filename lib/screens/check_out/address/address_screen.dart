@@ -169,7 +169,7 @@ class _AddressScreenState extends State<AddressScreen> {
                         color: const Color(0xff014E70),
                         strokeWidth: 1.2,
                         dashPattern: const [6, 3, 0, 3],
-                        child: Container(
+                        child:  profileController.userLoggedIn ? Container(
                           // height: 50,
                           padding: const EdgeInsets.symmetric(vertical: 8, horizontal: 10),
                           width: context.getSize.width,
@@ -182,6 +182,17 @@ class _AddressScreenState extends State<AddressScreen> {
                                       style: GoogleFonts.poppins(fontWeight: FontWeight.w500, fontSize: 16))
                                   : Text("Choose Address".tr,
                                       style: GoogleFonts.poppins(fontWeight: FontWeight.w500, fontSize: 16)),
+                        ) :
+                        Container(
+                          // height: 50,
+                          padding: const EdgeInsets.symmetric(vertical: 8, horizontal: 10),
+                          width: context.getSize.width,
+                          alignment: Alignment.center,
+                          child: cartController.selectedAddress.id != null
+                              ? Text(cartController.selectedAddress.getShortAddress,
+                              style: GoogleFonts.poppins(fontWeight: FontWeight.w500, fontSize: 16))
+                              : Text("Choose Address".tr,
+                              style: GoogleFonts.poppins(fontWeight: FontWeight.w500, fontSize: 16)),
                         ),
                       )),
                 ),

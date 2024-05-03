@@ -94,6 +94,8 @@ class StoreData {
   RxString shippingVendorName = "".obs;
   RxString vendorPrice = "".obs;
   RxInt vendorId = 0.obs;
+  double sPrice = 0.0;
+  double sMethod = 0.0;
 
   StoreData({this.products, this.shipping,this.fedexCommision,this.localShipping});
 

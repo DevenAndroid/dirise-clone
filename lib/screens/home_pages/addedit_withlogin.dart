@@ -198,9 +198,11 @@ class _HomeAddEditAddressLoginState extends State<HomeAddEditAddressLogin> {
                     final address = shippingAddress[index];
                     return GestureDetector(
                       onTap: (){
-                        locationController.city = address.getCity.toString();
-                        locationController.zipcode = address.state.toString();
+                        locationController.city.value = address.getCity.toString();
+                        locationController.zipcode.value = address.state.toString();
                         print('vava ${locationController.zipcode.toString()}');
+                        cartController.countryId =  address.countryId.toString();
+                        cartController.getCart();
                         Get.back();
                       },
                       child: Container(
