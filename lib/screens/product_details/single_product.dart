@@ -157,10 +157,10 @@ class _SingleProductDetailsState extends State<SingleProductDetails> {
   }
 
   getProductDetails() {
-    repositories.postApi(url: ApiUrls.singleProductUrl, mapData: {"id": productDetails.id.toString()}).then((value) {
+    repositories.postApi(url: ApiUrls.singleProductUrl, mapData: {"id": productDetails.id.toString(),"key":'fedexRate'}).then((value) {
       modelSingleProduct = ModelSingleProduct.fromJson(jsonDecode(value));
       if (modelSingleProduct.product != null) {
-        log("modelSingleProduct.product!.toJson().....      ${modelSingleProduct.product!.toJson()}");
+        log("modelSingleProduct.product!.toJson().....${modelSingleProduct.product!.toJson()}");
         productElement = modelSingleProduct.product!;
         imagesList.addAll(modelSingleProduct.product!.galleryImage ?? []);
         imagesList = imagesList.toSet().toList();
@@ -451,14 +451,14 @@ class _SingleProductDetailsState extends State<SingleProductDetails> {
                                  ],
                                ),
                            ],
-                         ):Text("No Internation Shipping Available",     style: GoogleFonts.poppins(
+                         ):Text("No Internation Shipping Available",style: GoogleFonts.poppins(
                              shadows: [const Shadow(color: Colors.black, offset: Offset(0, -4))],
                              color: Colors.transparent,
                              fontSize: 18,
                              fontWeight: FontWeight.w500,
                              decoration: TextDecoration.underline,
                            ),),
-                            SizedBox(height: 15,),
+                            const SizedBox(height: 15,),
                             Align(
                               alignment: Alignment.topLeft,
                               child: Text(

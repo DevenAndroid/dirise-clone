@@ -93,8 +93,6 @@ class ProductElement {
     this.virtualProductFile,
     this.virtualProductFileType,
     this.pPrice,
-    this.lowestDeliveryPrice,
-    this.shippingDate,
     this.sPrice,
     this.commission,
     this.productNew,
@@ -145,6 +143,8 @@ class ProductElement {
     this.serviceTimeSloat,
     this.productAvailability,
     this.variants,
+    this.lowestDeliveryPrice,
+    this.shippingDate,
     this.bidStatus,
   });
 
