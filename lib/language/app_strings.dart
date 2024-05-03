@@ -12,6 +12,7 @@ class AppStrings{
   static String renewPlan = "Renew Plan";
   static String upgradePlan = "Upgrade Plan";
   static String searchFieldText = "Search in Dirise";
+  static String searchVendorFieldText = "Search My Shipping Policy";
   static String newsAndTrend = "News & Trends";
   static String artificialIntelligence = "Artificial Intelligence Gains a Foot Hold In Writing";
   static String shopByAuthor = "Explore our partners stores";

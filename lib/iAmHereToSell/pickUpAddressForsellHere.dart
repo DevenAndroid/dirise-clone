@@ -89,7 +89,7 @@ class _SellingPickupAddressState extends State<SellingPickupAddress> {
       ModelCommonResponse response = ModelCommonResponse.fromJson(jsonDecode(value));
       showToast(response.message.toString());
       if (response.status == true) {
-        showToast('message');
+        showToast(response.message.toString());
        Get.to(const PersonalizeyourstoreScreen());
       }
     });

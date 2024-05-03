@@ -1,3 +1,4 @@
+import 'package:dirise/iAmHereToSell/paymentMethodScreen.dart';
 import 'package:dirise/iAmHereToSell/requiredDocumentsScreen.dart';
 import 'package:dirise/iAmHereToSell/vendoraccountcreatedsuccessfullyScreen.dart';
 import 'package:dirise/utils/api_constant.dart';
@@ -6,7 +7,8 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:google_fonts/google_fonts.dart';
 
-import '../newAddress/customeraccountcreatedsuccessfullyScreen.dart';
+import '../controller/cart_controller.dart';
+import '../controller/profile_controller.dart';
 import '../widgets/common_button.dart';
 import '../widgets/dimension_screen.dart';
 
@@ -20,6 +22,7 @@ class SecurityDetailsScreen extends StatefulWidget {
 class _SecurityDetailsScreenState extends State<SecurityDetailsScreen> {
   bool showValidation = false;
   bool? _isValue = false;
+
 
   @override
   Widget build(BuildContext context) {
@@ -44,6 +47,7 @@ class _SecurityDetailsScreenState extends State<SecurityDetailsScreen> {
           ],
         ),
       ),
+
       body: SingleChildScrollView(
         child: Container(
           padding: const EdgeInsets.only(left: 20,right: 20),
@@ -116,8 +120,7 @@ class _SecurityDetailsScreenState extends State<SecurityDetailsScreen> {
                 title: "Next".tr,
                 onPressed: () {
                   if(_isValue == true){
-
-                    Get.to(const VendorAccountCreatedSuccessfullyScreen());
+                    Get.to(const PaymentMethodScreen());
                   }else{
                     showToast('Please select security Details');
                   }

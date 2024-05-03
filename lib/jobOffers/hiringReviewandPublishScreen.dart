@@ -7,7 +7,7 @@ import 'package:google_fonts/google_fonts.dart';
 import '../widgets/common_button.dart';
 import '../widgets/common_colour.dart';
 
-class JobReviewPublishScreen extends StatefulWidget {
+class HiringReviewPublishScreen extends StatefulWidget {
   String? jobcat;
   String? jobtype;
   String? jobmodel;
@@ -16,13 +16,13 @@ class JobReviewPublishScreen extends StatefulWidget {
   String? experince;
   String? salery;
 
-  JobReviewPublishScreen({super.key,this.jobcat,this.salery,this.experince,this.linkedIN,this.jobdesc,this.jobmodel,this.jobtype});
+  HiringReviewPublishScreen({super.key,this.jobcat,this.salery,this.experince,this.linkedIN,this.jobdesc,this.jobmodel,this.jobtype});
 
   @override
-  State<JobReviewPublishScreen> createState() => _JobReviewPublishScreenState();
+  State<HiringReviewPublishScreen> createState() => _HiringReviewPublishScreenState();
 }
 
-class _JobReviewPublishScreenState extends State<JobReviewPublishScreen> {
+class _HiringReviewPublishScreenState extends State<HiringReviewPublishScreen> {
   bool isItemDetailsVisible = false;
   bool isItemDetailsVisible1 = false;
 

@@ -19,6 +19,7 @@ import '../../model/model_news_trend.dart';
 import '../../posts/post_ui_player.dart';
 import '../../repository/repository.dart';
 import '../../utils/api_constant.dart';
+import '../../vendor/shipping_policy.dart';
 import '../../widgets/common_colour.dart';
 import '../../widgets/dimension_screen.dart';
 import '../../widgets/loading_animation.dart';
@@ -108,7 +109,8 @@ class _SliderWidgetState extends State<SliderWidget> {
                       children: [
                         GestureDetector(
                           onTap: (){
-                            Get.toNamed(AddAddressScreen.route);
+                            Get.toNamed(ShippingPolicyScreen.route);
+                             // Get.toNamed(AddAddressScreen.route);
                           },
                           child: Text(
                             AppStrings.newsAndTrend.tr,
