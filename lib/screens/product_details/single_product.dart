@@ -142,8 +142,8 @@ class _SingleProductDetailsState extends State<SingleProductDetails> {
     Map<String, dynamic> map = {};
     map["product_id"] = productDetails.id.toString();
     map["quantity"] = productQuantity.value.toString();
-    map["key"] = 'fedexRate';
-    map["country_id"]=profileController.model.user!.country_id;
+    // map["key"] = 'fedexRate';
+    // map["country_id"]=profileController.model.user!.country_id;
 
     if (isBookingProduct) {
       map["start_date"] = selectedDate.text.trim();

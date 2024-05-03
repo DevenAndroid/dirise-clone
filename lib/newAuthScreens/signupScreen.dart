@@ -13,6 +13,7 @@ import 'package:intl_phone_field/intl_phone_field.dart';
 import 'package:url_launcher/url_launcher.dart';
 import '../../widgets/common_button.dart';
 import '../../widgets/common_textfield.dart';
+import '../controller/profile_controller.dart';
 import '../model/common_modal.dart';
 import '../repository/repository.dart';
 import '../screens/auth_screens/otp_screen.dart';
@@ -43,6 +44,7 @@ class _CreateAccountNewScreenState extends State<CreateAccountNewScreen> {
   bool showValidation = false;
   bool? _isValue = false;
   final Repositories repositories = Repositories();
+  final profileController = Get.put(ProfileController());
   String code = "+91";
   registerApi() {
     if (_isValue == false) return;
@@ -179,43 +181,84 @@ class _CreateAccountNewScreenState extends State<CreateAccountNewScreen> {
                   height: size.height * .01,
                 ),
                 IntlPhoneField(
-                  dropdownIcon: const Icon(Icons.arrow_drop_down_rounded, color: Colors.black),
+                  key: ValueKey(profileController.code),
                   flagsButtonPadding: const EdgeInsets.all(8),
                   dropdownIconPosition: IconPosition.trailing,
-                  controller: phoneNumberController,
-                  style: const TextStyle(color: Colors.black),
-                  validator: MultiValidator([
-                    RequiredValidator(errorText: 'Please enter your phone number'.tr),
-                  ]).call,
-                  dropdownTextStyle: const TextStyle(color: Colors.black),
-                  decoration: InputDecoration(
-                    hintText: 'Enter your Mobile number'.tr,
-                    hintStyle: const TextStyle(color: AppTheme.secondaryColor),
-                    filled: true,
-                    enabled: true,
-                    enabledBorder: const OutlineInputBorder(borderSide: BorderSide(color: AppTheme.secondaryColor)),
-                    focusedBorder: const OutlineInputBorder(borderSide: BorderSide(color: AppTheme.secondaryColor)),
-                    iconColor: Colors.black,
-                    errorBorder: const OutlineInputBorder(borderSide: BorderSide(width: 1)),
-                    fillColor: const Color(0x63ffffff).withOpacity(.2),
-                    border: OutlineInputBorder(
-                      borderRadius: BorderRadius.circular(5),
-                      borderSide: const BorderSide(width: 1, color: Colors.black),
-                    ),
-                    disabledBorder: const OutlineInputBorder(borderSide: BorderSide(color: AppTheme.secondaryColor)),
-                  ),
-                  onCountryChanged: (Country phone) {
-                    setState(() {
-                      code = "+${phone.dialCode}";
-                      if (kDebugMode) {
-                        print(code.toString());
-                      }
-                    });
-                  },
-                  initialCountryCode: 'IE',
+                  showDropdownIcon: true,
                   cursorColor: Colors.black,
-                  keyboardType: TextInputType.number,
+                  textInputAction: TextInputAction.next,
+                  dropdownTextStyle: const TextStyle(color: Colors.black),
+                  style: const TextStyle(
+                      color: AppTheme.textColor
+                  ),
+                  controller: phoneNumberController,
+                  decoration: const InputDecoration(
+                      contentPadding: EdgeInsets.zero,
+                      hintStyle: TextStyle(color: AppTheme.textColor),
+                      hintText: 'Phone Number',
+                      labelStyle: TextStyle(color: AppTheme.textColor),
+                      border: OutlineInputBorder(
+                        borderSide: BorderSide(),
+                      ),
+                      enabledBorder: OutlineInputBorder(borderSide: BorderSide(color: AppTheme.shadowColor)),
+                      focusedBorder: OutlineInputBorder(borderSide: BorderSide(color: AppTheme.shadowColor))),
+                  initialCountryCode: profileController.code.toString(),
+                  languageCode: '+91',
+                  onCountryChanged: (phone) {
+                    profileController.code = phone.code;
+                    print(phone.code);
+                    print(profileController.code.toString());
+                  },
+                  validator: (value) {
+                    if (value == null || phoneNumberController.text.isEmpty) {
+                      return AppStrings.pleaseenterphonenumber.tr;
+                    }
+                    return null;
+                  },
+                  onChanged: (phone) {
+                    profileController.code = phone.countryISOCode.toString();
+                    print(phone.countryCode);
+                    print(profileController.code.toString());
+                  },
                 ),
+                // IntlPhoneField(
+                //   dropdownIcon: const Icon(Icons.arrow_drop_down_rounded, color: Colors.black),
+                //   flagsButtonPadding: const EdgeInsets.all(8),
+                //   dropdownIconPosition: IconPosition.trailing,
+                //   controller: phoneNumberController,
+                //   style: const TextStyle(color: Colors.black),
+                //   validator: MultiValidator([
+                //     RequiredValidator(errorText: 'Please enter your phone number'.tr),
+                //   ]).call,
+                //   dropdownTextStyle: const TextStyle(color: Colors.black),
+                //   decoration: InputDecoration(
+                //     hintText: 'Enter your Mobile number'.tr,
+                //     hintStyle: const TextStyle(color: AppTheme.secondaryColor),
+                //     filled: true,
+                //     enabled: true,
+                //     enabledBorder: const OutlineInputBorder(borderSide: BorderSide(color: AppTheme.secondaryColor)),
+                //     focusedBorder: const OutlineInputBorder(borderSide: BorderSide(color: AppTheme.secondaryColor)),
+                //     iconColor: Colors.black,
+                //     errorBorder: const OutlineInputBorder(borderSide: BorderSide(width: 1)),
+                //     fillColor: const Color(0x63ffffff).withOpacity(.2),
+                //     border: OutlineInputBorder(
+                //       borderRadius: BorderRadius.circular(5),
+                //       borderSide: const BorderSide(width: 1, color: Colors.black),
+                //     ),
+                //     disabledBorder: const OutlineInputBorder(borderSide: BorderSide(color: AppTheme.secondaryColor)),
+                //   ),
+                //   onCountryChanged: (Country phone) {
+                //     setState(() {
+                //       code = "+${phone.dialCode}";
+                //       if (kDebugMode) {
+                //         print(code.toString());
+                //       }
+                //     });
+                //   },
+                //   initialCountryCode: 'IE',
+                //   cursorColor: Colors.black,
+                //   keyboardType: TextInputType.number,
+                // ),
                 SizedBox(
                   height: size.height * .01,
                 ),

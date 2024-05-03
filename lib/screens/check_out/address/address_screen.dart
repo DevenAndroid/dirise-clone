@@ -169,7 +169,7 @@ class _AddressScreenState extends State<AddressScreen> {
                         color: const Color(0xff014E70),
                         strokeWidth: 1.2,
                         dashPattern: const [6, 3, 0, 3],
-                        child: Container(
+                        child:  profileController.userLoggedIn ? Container(
                           // height: 50,
                           padding: const EdgeInsets.symmetric(vertical: 8, horizontal: 10),
                           width: context.getSize.width,
@@ -182,6 +182,17 @@ class _AddressScreenState extends State<AddressScreen> {
                                       style: GoogleFonts.poppins(fontWeight: FontWeight.w500, fontSize: 16))
                                   : Text("Choose Address".tr,
                                       style: GoogleFonts.poppins(fontWeight: FontWeight.w500, fontSize: 16)),
+                        ) :
+                        Container(
+                          // height: 50,
+                          padding: const EdgeInsets.symmetric(vertical: 8, horizontal: 10),
+                          width: context.getSize.width,
+                          alignment: Alignment.center,
+                          child: cartController.selectedAddress.id != null
+                              ? Text(cartController.selectedAddress.getShortAddress,
+                              style: GoogleFonts.poppins(fontWeight: FontWeight.w500, fontSize: 16))
+                              : Text("Choose Address".tr,
+                              style: GoogleFonts.poppins(fontWeight: FontWeight.w500, fontSize: 16)),
                         ),
                       )),
                 ),
@@ -728,6 +739,8 @@ class _AddressScreenState extends State<AddressScreen> {
                                       behavior: HitTestBehavior.translucent,
                                       onTap: () {
                                         cartController.selectedAddress = address;
+                                        cartController.countryId = address.getCountryId.toString();
+                                        cartController.getCart();
                                         cartController.countryName.value = address.country.toString();
                                         print('onTap is....${cartController.countryName.value}');
                                         if (cartController.isDelivery.value == true) {
@@ -752,7 +765,10 @@ class _AddressScreenState extends State<AddressScreen> {
                                           cartController.addressCityController.text =
                                               cartController.selectedAddress.getCity;
                                         }
+
+
                                         print('codeee isss${cartController.countryName.toString()}');
+                                        print('codeee isss${cartController.countryId.toString()}');
                                         Get.back();
                                         setState(() {});
                                       },
@@ -808,6 +824,8 @@ class _AddressScreenState extends State<AddressScreen> {
                                                               cartController.selectedAddress = address;
                                                               cartController.countryName.value =
                                                                   address.country.toString();
+                                                              cartController.countryId = address.getCountryId.toString();
+                                                              cartController.getCart();
                                                               print('onTap is....${cartController.countryName.value}');
                                                               print(
                                                                   'onTap is....${cartController.selectedAddress.id.toString()}');

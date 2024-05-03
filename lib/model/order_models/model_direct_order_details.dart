@@ -15,7 +15,8 @@ class ModelDirectOrderResponse {
   dynamic vendorCountryId;
   ReturnData? returnData;
   ProductElement? prodcutData;
-  List<FedexShipping>? fedexShipping;
+  bool? localShipping;
+  // List<FedexShipping>? fedexShipping;
   RxString fedexShippingOption = "".obs;
 
   ModelDirectOrderResponse(
@@ -24,7 +25,8 @@ class ModelDirectOrderResponse {
       this.subtotal,
       this.shipping,
       this.total,
-      this.fedexShipping,
+      this.localShipping,
+      // this.fedexShipping,
       this.discount,
       this.vendorCountryId,
       this.returnData,
@@ -40,6 +42,7 @@ class ModelDirectOrderResponse {
     discount = json['discount'];
     shipping = json['shipping'];
     vendorCountryId = json['vendor_country_id'];
+    localShipping = json['local_shipping'];
     // if (json['shipping_types'] != null) {
     //   shippingType = <ShippingType>[];
     //   json['shipping_types'].forEach((v) {
@@ -50,10 +53,10 @@ class ModelDirectOrderResponse {
       shippingType = <ShippingType>[];
       json['shipping_type'].forEach((v) { shippingType!.add(ShippingType.fromJson(v)); });
     }
-    if (json['fedex_shipping'] != null) {
-      fedexShipping = <FedexShipping>[];
-      json['fedex_shipping'].forEach((v) { fedexShipping!.add(FedexShipping.fromJson(v)); });
-    }
+    // if (json['fedex_shipping'] != null) {
+    //   fedexShipping = <FedexShipping>[];
+    //   json['fedex_shipping'].forEach((v) { fedexShipping!.add(FedexShipping.fromJson(v)); });
+    // }
     returnData = json['return_data'] != null ? ReturnData.fromJson(json['return_data']) : null;
     prodcutData = json['prodcut_data'] != null ? ProductElement.fromJson(json['prodcut_data']) : null;
   }
@@ -67,12 +70,13 @@ class ModelDirectOrderResponse {
     data['total'] = total;
     data['discount'] = discount;
     data['vendor_country_id'] = vendorCountryId;
+    data['local_shipping'] = localShipping;
     if (shippingType != null) {
       data['shipping_type'] = shippingType!.map((v) => v.toJson()).toList();
     }
-    if (fedexShipping != null) {
-      data['fedex_shipping'] = fedexShipping!.map((v) => v.toJson()).toList();
-    }
+    // if (fedexShipping != null) {
+    //   data['fedex_shipping'] = fedexShipping!.map((v) => v.toJson()).toList();
+    // }
     if (returnData != null) {
       data['return_data'] = returnData!.toJson();
     }
@@ -690,23 +694,31 @@ class ShippingType {
   dynamic name;
   dynamic value;
  dynamic vendorId;
+  dynamic transactionId;
+ Output? output;
 
 
-  ShippingType({this.id, this.name, this.value, this.vendorId});
+  ShippingType({this.id, this.name, this.value, this.vendorId,this.output,this.transactionId});
 
   ShippingType.fromJson(Map<String, dynamic> json) {
     id = json['id'];
     name = json['name'];
     value = json['value'];
     vendorId = json['vendor_id'];
+    transactionId = json['transactionId'];
+    output = json['output'] != null ?  Output.fromJson(json['output']) : null;
   }
 
   Map<String, dynamic> toJson() {
-    final Map<String, dynamic> data = new Map<String, dynamic>();
+    final Map<String, dynamic> data =  Map<String, dynamic>();
     data['id'] = id;
     data['name'] = name;
     data['value'] = value;
     data['vendor_id'] = vendorId;
+    data['transactionId'] = transactionId;
+    if (output != null) {
+      data['output'] = output!.toJson();
+    }
     return data;
   }
 }

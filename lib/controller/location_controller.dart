@@ -8,8 +8,10 @@ import 'package:geolocator/geolocator.dart';
 import 'package:get/get.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 
+import '../model/add_current_address_model.dart';
 import '../model/common_modal.dart';
 import '../repository/repository.dart';
+import 'cart_controller.dart';
 
 class LocationController extends GetxController {
   RxBool servicestatus = false.obs;
@@ -29,11 +31,14 @@ class LocationController extends GetxController {
   var country = 'Getting Country..'.obs;
   late StreamSubscription<Position> positionStream;
   String street = '';
-  String city = '';
+  // RxString city = ''.obs;
+  RxString city = ''.obs;
   String state = '';
   String countryName = '';
-  String zipcode = '';
+  // RxString zipcode = ''.obs;
+  RxString zipcode = ''.obs;
   String town = '';
+  RxString cityHome = ''.obs;
   checkGps(context) async {
     servicestatus.value = await Geolocator.isLocationServiceEnabled();
     if (servicestatus.value) {
@@ -49,7 +54,7 @@ class LocationController extends GetxController {
 
       if (haspermission.value) {
         getLocation();
-        editAddressApi();
+        // editAddressApi();
       }
     } else {
       showDialog(
@@ -86,7 +91,7 @@ class LocationController extends GetxController {
 
                     if (haspermission.value) {
                       getLocation();
-                      editAddressApi();
+                      // editAddressApi();
                     }
                   }
                 },
@@ -95,34 +100,22 @@ class LocationController extends GetxController {
           ));
     }
   }
+  final cartController = Get.put(CartController());
   final Repositories repositories = Repositories();
-  editAddressApi() {
+  Rx<AddCurrentAddressModel> addCurrentAddress = AddCurrentAddressModel().obs;
+  editAddressApi(context) {
     Map<String, dynamic> map = {};
-    if (countryName.isNotEmpty &&
-        street.isNotEmpty &&
-        city.isNotEmpty &&
-        state.isNotEmpty &&
-        zipcode.isNotEmpty &&
-        town.isNotEmpty) {
-      map['city'] =  city;
-      map['country'] = countryName;
-      map['state'] =  state;
-      map['zip_code'] =  zipcode;
-      map['town'] =  town;
-      map['street'] =  street;
-    }else{
-      map['city'] = cityController.text.trim();
-      map['country'] = countryController.text.trim();
-      map['state'] = stateController.text.trim();
-      map['zip_code'] = zipcodeController.text.trim();
-      map['town'] = townController.text.trim();
-      map['street'] = streetController.text.trim();
-    }
+      map['zip_code'] =  zipcodeController.text;
     print(map.toString());
-    repositories.postApi(url: ApiUrls.addCurrentAddress, mapData: map).then((value) {
-      ModelCommonResponse response = ModelCommonResponse.fromJson(jsonDecode(value));
-      print('user login details is....${response.message.toString()}');
-      // showToast(response.message.toString());
+    repositories.postApi(url: ApiUrls.addCurrentAddress, mapData: map,context: context).then((value) {
+      addCurrentAddress.value = AddCurrentAddressModel.fromJson(jsonDecode(value));
+      showToast(addCurrentAddress.value.message.toString());
+      city.value = addCurrentAddress.value.data!.city;
+      zipcode.value = addCurrentAddress.value.data!.state;
+      cartController.countryId =  addCurrentAddress.value.data!.countryId.toString();
+      cartController.getCart();
+      zipcodeController.clear();
+      Get.back();
     });
   }
   Future<bool> _handleLocationPermission() async {
@@ -176,10 +169,10 @@ class LocationController extends GetxController {
 
       // setState(() {
         street = placemark.street ?? '';
-        city = placemark.locality ?? '';
+        city.value = placemark.locality ?? '';
         state = placemark.administrativeArea ?? '';
         countryName = placemark.country ?? '';
-        zipcode = placemark.postalCode ?? '';
+        zipcode.value = placemark.postalCode ?? '';
         town = placemark.subAdministrativeArea ?? '';
     print('object ${street.toString()}');
       // });

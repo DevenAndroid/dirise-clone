@@ -44,6 +44,7 @@ class _HomeAddEditAddressLoginState extends State<HomeAddEditAddressLogin> {
     // TODO: implement initState
     super.initState();
     getAddress();
+
   }
 
   Rx<ModelUserAddressList> addressListModel = ModelUserAddressList().obs;
@@ -61,7 +62,7 @@ class _HomeAddEditAddressLoginState extends State<HomeAddEditAddressLogin> {
       ModelCommonResponse response = ModelCommonResponse.fromJson(jsonDecode(value));
       if (response.status == true) {
         showToast(response.message.toString());
-
+        Get.back();
       }else{
         showToast(response.message.toString());
       }
@@ -136,7 +137,7 @@ class _HomeAddEditAddressLoginState extends State<HomeAddEditAddressLogin> {
               if( isSelect.value == true )
                 ...commonField(
                     hintText: "Zip Code",
-                    textController: zipcodeController,
+                    textController: locationController.zipcodeController,
                     title: 'Zip Code*',
                     validator: (String? value) {},
                     keyboardType: TextInputType.number),
@@ -147,9 +148,9 @@ class _HomeAddEditAddressLoginState extends State<HomeAddEditAddressLogin> {
               if( isSelect.value == true)
                 GestureDetector(
                   onTap: () {
-                    if (formKey1.currentState!.validate()) {
-                    }
-                    setState(() {});
+                      locationController.editAddressApi(context);
+                     // Get.back();
+                    // setState(() {});
                   },
                   child: Container(
                     margin: const EdgeInsets.only(left: 20, right: 20),
@@ -197,10 +198,12 @@ class _HomeAddEditAddressLoginState extends State<HomeAddEditAddressLogin> {
                     final address = shippingAddress[index];
                     return GestureDetector(
                       onTap: (){
-                        setState(() {
-                          locationController.city = address.getCity.toString();
-                        });
-                        print('vava ${locationController.city.toString()}');
+                        locationController.city.value = address.getCity.toString();
+                        locationController.zipcode.value = address.state.toString();
+                        print('vava ${locationController.zipcode.toString()}');
+                        cartController.countryId =  address.countryId.toString();
+                        cartController.getCart();
+                        Get.back();
                       },
                       child: Container(
                         width: size.width,
@@ -267,25 +270,25 @@ class _HomeAddEditAddressLoginState extends State<HomeAddEditAddressLogin> {
                                           // value: '/slotViewScreen',
                                           child: Text("Default Address".tr),
                                         ),
-                                        PopupMenuItem(
-                                          onTap: () {
-                                            cartController
-                                                .deleteAddress(
-                                              context: context,
-                                              id: address.id.toString(),
-                                            )
-                                                .then((value) {
-                                              if (value == true) {
-                                                cartController.addressListModel.address!.shipping!.removeWhere(
-                                                        (element) =>
-                                                    element.id.toString() == address.id.toString());
-                                                cartController.updateUI();
-                                              }
-                                            });
-                                          },
-                                          // value: '/deactivate',
-                                          child: Text("Delete".tr),
-                                        )
+                                        // PopupMenuItem(
+                                        //   onTap: () {
+                                        //     cartController
+                                        //         .deleteAddress(
+                                        //       context: context,
+                                        //       id: address.id.toString(),
+                                        //     )
+                                        //         .then((value) {
+                                        //       if (value == true) {
+                                        //         cartController.addressListModel.address!.shipping!.removeWhere(
+                                        //                 (element) =>
+                                        //             element.id.toString() == address.id.toString());
+                                        //         cartController.updateUI();
+                                        //       }
+                                        //     });
+                                        //   },
+                                        //   // value: '/deactivate',
+                                        //   child: Text("Delete".tr),
+                                        // )
                                       ];
                                     }),
                               ),

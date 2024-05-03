@@ -48,26 +48,7 @@ class _HomeAddEditAddressState extends State<HomeAddEditAddress> {
   String code = "+91";
   editAddressApi() {
     Map<String, dynamic> map = {};
-    if (widget.street != null &&
-        widget.city != null &&
-        widget.state != null &&
-        widget.country != null &&
-        widget.zipcode != null &&
-        widget.town != null) {
-      map['city'] = widget.city;
-      map['country'] = widget.country;
-      map['state'] = widget.state;
-      map['zip_code'] = widget.zipcode;
-      map['town'] = widget.town;
-      map['street'] = widget.street;
-    }else{
-      map['city'] = locationController.cityController.text.trim();
-      map['country'] = locationController.countryController.text.trim();
-      map['state'] = locationController.stateController.text.trim();
-      map['zip_code'] = locationController.zipcodeController.text.trim();
-      map['town'] = locationController.townController.text.trim();
-      map['street'] = locationController.streetController.text.trim();
-    }
+    map['zip_code'] = zipcodeController.text.trim();
     print(map.toString());
     FocusManager.instance.primaryFocus!.unfocus();
     repositories.postApi(url: ApiUrls.addCurrentAddress, context: context, mapData: map).then((value) {
@@ -76,26 +57,9 @@ class _HomeAddEditAddressState extends State<HomeAddEditAddress> {
     });
   }
   final locationController = Get.put(LocationController());
-  @override
-  void initState() {
-    // TODO: implement initState
-    super.initState();
-    if (widget.city != null) {
-      locationController.streetController.text = widget.street ?? '';
-      locationController.cityController.text = widget.city ?? '';
-      locationController.stateController.text = widget.state ?? '';
-      locationController.countryController.text = widget.country ?? '';
-      locationController.zipcodeController.text = widget.zipcode ?? '';
-      locationController.townController.text = widget.town ?? '';
-    }else if(widget.street == null ){
-      locationController.streetController.text = locationController.street!;
-      locationController.cityController.text = locationController.city ?? '';
-      locationController.stateController.text = locationController.state ?? '';
-      locationController.countryController.text = locationController.countryName ?? '';
-      locationController.zipcodeController.text = locationController.zipcode ?? '';
-      locationController.townController.text = locationController.town ?? '';
-    }
-  }
+  RxBool isSelect = false.obs;
+  final TextEditingController zipcodeController = TextEditingController();
+
   @override
   Widget build(BuildContext context) {
     Size size = MediaQuery.of(context).size;
@@ -132,99 +96,150 @@ class _HomeAddEditAddressState extends State<HomeAddEditAddress> {
                 SizedBox(
                   height: size.height * .02,
                 ),
-                // Text(
-                //   "Where do you want to receive your orders".tr,
-                //   style: GoogleFonts.poppins(color: Color(0xff292F45), fontWeight: FontWeight.w600, fontSize: 16),
-                // ),
-                // SizedBox(
-                //   height: size.height * .02,
-                // ),
-                // InkWell(
-                //   onTap: (){
-                //     Get.to(ChooseAddressHome());
-                //   },
-                //   child: Align(
-                //     alignment: Alignment.center,
-                //     child: Text(
-                //       "Select your location on the map".tr,
-                //       style: GoogleFonts.poppins(color: Color(0xff044484), fontWeight: FontWeight.w400, fontSize: 14),
-                //     ),
-                //   ),
-                // ),
-                ...commonField(
-                    hintText: "Street",
-                    textController: locationController.streetController,
-                    title: 'Street*',
-                    validator: (String? value) {},
-                    keyboardType: TextInputType.name),
-                ...commonField(
-                    hintText: "city",
-                    textController: locationController.cityController,
-                    title: 'City*',
-                    validator: (String? value) {},
-                    keyboardType: TextInputType.name),
-                ...commonField(
-                    hintText: "state",
-                    textController: locationController.stateController,
-                    title: 'State*',
-                    validator: (String? value) {},
-                    keyboardType: TextInputType.name),
-                ...commonField(
-                    hintText: "Country",
-                    textController: locationController.countryController,
-                    title: 'Country*',
-                    validator: (String? value) {},
-                    keyboardType: TextInputType.name),
-                ...commonField(
-                    hintText: "Zip Code",
-                    textController: locationController.zipcodeController,
-                    title: 'Zip Code*',
-                    validator: (String? value) {},
-                    keyboardType: TextInputType.number),
-                ...commonField(
-                    hintText: "Town",
-                    textController: locationController.townController,
-                    title: 'Town*',
-                    validator: (String? value) {},
-                    keyboardType: TextInputType.name),
+                Text(
+                  "Where do you want to receive your orders".tr,
+                  style: GoogleFonts.poppins(color: Color(0xff292F45), fontWeight: FontWeight.w600, fontSize: 16),
+                ),
                 SizedBox(
                   height: size.height * .02,
                 ),
-                GestureDetector(
-                  onTap: (){
 
-                    if (formKey1.currentState!.validate()) {
-                      editAddressApi();
-                    }
-                    setState(() {});
+                InkWell(
+                  onTap: () {
+                    setState(() {
+                      isSelect.value = !isSelect.value;
+                    });
                   },
-                  child: Container(
-                    margin: const EdgeInsets.only(left: 20, right: 20),
-                    width: Get.width,
-                    height: 50,
-                    decoration: BoxDecoration(
-                      border: Border.all(
-                        color: Colors.black, // Border color
-                        width: 1.0, // Border width
+                  child: Text(
+                    "Enter an zip code".tr,
+                    style: GoogleFonts.poppins(color: const Color(0xff044484), fontWeight: FontWeight.w400, fontSize: 14),
+                  ),
+                ),
+                isSelect.value == true ?
+                SizedBox(
+                  height: size.height * .02,
+                ) : const SizedBox.shrink(),
+                if( isSelect.value == true )
+                  ...commonField(
+                      hintText: "Zip Code",
+                      textController: locationController.zipcodeController,
+                      title: 'Zip Code*',
+                      validator: (String? value) {},
+                      keyboardType: TextInputType.number),
+                isSelect.value == true ?
+                SizedBox(
+                  height: size.height * .02,
+                ) : const SizedBox.shrink(),
+                if( isSelect.value == true)
+                  GestureDetector(
+                    onTap: () {
+                      if (formKey1.currentState!.validate()) {
+                        locationController.editAddressApi(context);
+                      }
+                      setState(() {});
+                    },
+                    child: Container(
+                      margin: const EdgeInsets.only(left: 20, right: 20),
+                      width: Get.width,
+                      height: 50,
+                      decoration: BoxDecoration(
+                        border: Border.all(
+                          color: Colors.black, // Border color
+                          width: 1.0, // Border width
+                        ),
+                        borderRadius: BorderRadius.circular(10), // Border radius
                       ),
-                      borderRadius: BorderRadius.circular(10), // Border radius
-                    ),
-                    padding: const EdgeInsets.all(10), // Padding inside the container
-                    child: const Center(
-                      child: Text(
-                        'Confirm Your Location',
-                        style: TextStyle(
-                          fontSize: 16,
-                          fontWeight: FontWeight.bold,
-                          color: Colors.black, // Text color
+                      padding: const EdgeInsets.all(10),
+                      // Padding inside the container
+                      child: const Center(
+                        child: Text(
+                          'Confirm Your Location',
+                          style: TextStyle(
+                            fontSize: 16,
+                            fontWeight: FontWeight.bold,
+                            color: Colors.black, // Text color
+                          ),
                         ),
                       ),
                     ),
                   ),
-                ),
-                SizedBox(
-                  height: size.height * .02,
-                ),
+                // SizedBox(
+                //   height: size.height * .02,
+                // ),
+                // ...commonField(
+                //     hintText: "Street",
+                //     textController: locationController.streetController,
+                //     title: 'Street*',
+                //     validator: (String? value) {},
+                //     keyboardType: TextInputType.name),
+                // ...commonField(
+                //     hintText: "city",
+                //     textController: locationController.cityController,
+                //     title: 'City*',
+                //     validator: (String? value) {},
+                //     keyboardType: TextInputType.name),
+                // ...commonField(
+                //     hintText: "state",
+                //     textController: locationController.stateController,
+                //     title: 'State*',
+                //     validator: (String? value) {},
+                //     keyboardType: TextInputType.name),
+                // ...commonField(
+                //     hintText: "Country",
+                //     textController: locationController.countryController,
+                //     title: 'Country*',
+                //     validator: (String? value) {},
+                //     keyboardType: TextInputType.name),
+                // ...commonField(
+                //     hintText: "Zip Code",
+                //     textController: locationController.zipcodeController,
+                //     title: 'Zip Code*',
+                //     validator: (String? value) {},
+                //     keyboardType: TextInputType.number),
+                // ...commonField(
+                //     hintText: "Town",
+                //     textController: locationController.townController,
+                //     title: 'Town*',
+                //     validator: (String? value) {},
+                //     keyboardType: TextInputType.name),
+                // SizedBox(
+                //   height: size.height * .02,
+                // ),
+                // GestureDetector(
+                //   onTap: (){
+                //
+                //     if (formKey1.currentState!.validate()) {
+                //       editAddressApi();
+                //     }
+                //     setState(() {});
+                //   },
+                //   child: Container(
+                //     margin: const EdgeInsets.only(left: 20, right: 20),
+                //     width: Get.width,
+                //     height: 50,
+                //     decoration: BoxDecoration(
+                //       border: Border.all(
+                //         color: Colors.black, // Border color
+                //         width: 1.0, // Border width
+                //       ),
+                //       borderRadius: BorderRadius.circular(10), // Border radius
+                //     ),
+                //     padding: const EdgeInsets.all(10), // Padding inside the container
+                //     child: const Center(
+                //       child: Text(
+                //         'Confirm Your Location',
+                //         style: TextStyle(
+                //           fontSize: 16,
+                //           fontWeight: FontWeight.bold,
+                //           color: Colors.black, // Text color
+                //         ),
+                //       ),
+                //     ),
+                //   ),
+                // ),
+                // SizedBox(
+                //   height: size.height * .02,
+                // ),
               ],
             ),
           ),

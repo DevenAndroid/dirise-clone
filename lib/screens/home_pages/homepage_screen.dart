@@ -82,6 +82,7 @@ class _HomePageState extends State<HomePage> {
     }
     return true;
   }
+
   Future<void> _getAddressFromLatLng(Position position) async {
     List<Placemark> placemarks = await placemarkFromCoordinates(position.latitude, position.longitude);
 
@@ -90,12 +91,11 @@ class _HomePageState extends State<HomePage> {
 
       setState(() {
         locationController.street = placemark.street ?? '';
-        locationController.city = placemark.locality ?? '';
+        locationController.city.value = placemark.locality ?? '';
         locationController.state = placemark.administrativeArea ?? '';
         locationController.countryName = placemark.country ?? '';
-        locationController.zipcode = placemark.postalCode ?? '';
+        locationController.zipcode.value = placemark.postalCode ?? '';
         locationController.town = placemark.subAdministrativeArea ?? '';
-
       });
     }
     await placemarkFromCoordinates(_currentPosition!.latitude, _currentPosition!.longitude)
@@ -108,6 +108,7 @@ class _HomePageState extends State<HomePage> {
       debugPrint(e.toString());
     });
   }
+
   Future<void> _getCurrentPosition() async {
     final hasPermission = await _handleLocationPermission();
     if (!hasPermission) return;
@@ -123,6 +124,7 @@ class _HomePageState extends State<HomePage> {
       debugPrint(e.toString());
     });
   }
+
   Future getAllAsync() async {
     if (!mounted) return;
     homeController.homeData();
@@ -136,6 +138,7 @@ class _HomePageState extends State<HomePage> {
     homeController.authorData();
     if (!mounted) return;
   }
+
   showVendorDialog() {
     if (Platform.isAndroid) {
       showDialog(
@@ -163,7 +166,7 @@ class _HomePageState extends State<HomePage> {
                             LoginScreen.route,
                           );
                         },
-                        child:  Text(AppStrings.createAccount))
+                        child: Text(AppStrings.createAccount))
                   ],
                 ),
               ),
@@ -190,13 +193,14 @@ class _HomePageState extends State<HomePage> {
                         LoginScreen.route,
                       );
                     },
-                    child:  Text("Create Account".tr))
+                    child: Text("Create Account".tr))
               ],
             );
           });
       return;
     }
   }
+
   final RxBool _isValue = false.obs;
   var vendor = ['Dashboard', 'Order', 'Products', 'Store open time', 'Bank Details', 'Earnings'];
   var vendorRoutes = [
@@ -222,7 +226,9 @@ class _HomePageState extends State<HomePage> {
       _getCurrentPosition();
     });
   }
+
   final profileController = Get.put(ProfileController());
+
   List<Widget> vendorPartner() {
     return [
       GestureDetector(
@@ -242,19 +248,19 @@ class _HomePageState extends State<HomePage> {
           _isValue.value = !_isValue.value;
           setState(() {});
         },
-        child : Container(
-        alignment: Alignment.center,
-          padding: const EdgeInsets.symmetric(vertical: 5,horizontal: 5),
-        height: 40,
-        decoration: BoxDecoration(
-        borderRadius: BorderRadius.circular(8),
-        color: Colors.white
-        ),
+        child: Container(
+          alignment: Alignment.center,
+          padding: const EdgeInsets.symmetric(vertical: 5, horizontal: 5),
+          height: 40,
+          decoration: BoxDecoration(
+              borderRadius: BorderRadius.circular(8),
+              color: Colors.white
+          ),
           child: Row(
             crossAxisAlignment: CrossAxisAlignment.center,
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
-               SvgPicture.asset('assets/icons/plus_icon.svg',height: 25,color: AppTheme.buttonColor),
+              SvgPicture.asset('assets/icons/plus_icon.svg', height: 25, color: AppTheme.buttonColor),
               const SizedBox(
                 width: 6,
               ),
@@ -320,6 +326,7 @@ class _HomePageState extends State<HomePage> {
       //     : const SizedBox(),
     ];
   }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -338,7 +345,7 @@ class _HomePageState extends State<HomePage> {
                   )),
             ),
           ),
-          actions:  [
+          actions: [
             ...vendorPartner(),
             const CartBagCard(),
           ],
@@ -374,7 +381,7 @@ class _HomePageState extends State<HomePage> {
                             ),
                             4.spaceY,
                             GestureDetector(onTap: () {
-                              Get.to(() =>  HomeAddEditAddressLogin(), arguments: 'home');
+                              Get.to(() => const HomeAddEditAddressLogin(), arguments: 'home');
                             }, child: Row(
                               // mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                               children: [
@@ -385,14 +392,17 @@ class _HomePageState extends State<HomePage> {
                                 ),
                                 5.spaceX,
                                 Flexible(
-                                  child: Text(
-                                    "Deliver to ${locationController.city.toString()} , ${locationController.zipcode.toString()}",
-                                    style: GoogleFonts.poppins(
-                                      color: Colors.white,
-                                      fontSize: 14,
-                                      fontWeight: FontWeight.w400,
-                                    ),
-                                  ),
+                                    child: Obx(() {
+                                      return Text(
+                                        "Deliver to ${locationController.city.toString()} , ${locationController.zipcode ??
+                                            ''}",
+                                        style: GoogleFonts.poppins(
+                                          color: Colors.white,
+                                          fontSize: 14,
+                                          fontWeight: FontWeight.w400,
+                                        ),
+                                      );
+                                    })
                                 ),
                                 5.spaceX,
                                 SvgPicture.asset(
@@ -406,7 +416,7 @@ class _HomePageState extends State<HomePage> {
                           ],
                         ),
                       ) : const SizedBox.shrink() :
-                        locationController.zipcode.isNotEmpty ?
+                      locationController.zipcode.isNotEmpty ?
                       Padding(
                         padding: const EdgeInsets.symmetric(horizontal: 15),
                         child: Column(
@@ -422,7 +432,7 @@ class _HomePageState extends State<HomePage> {
                             ),
                             4.spaceY,
                             GestureDetector(onTap: () {
-                              Get.to(() =>  HomeAddEditAddress(), arguments: 'home');
+                              Get.to(() => HomeAddEditAddress(), arguments: 'home');
                             }, child: Row(
                               // mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                               children: [
@@ -431,16 +441,19 @@ class _HomePageState extends State<HomePage> {
                                   height: 20,
                                   color: Colors.white,
                                 ),
-                               5.spaceX,
+                                5.spaceX,
                                 Flexible(
-                                  child: Text(
-                                   "Deliver to ${locationController.city.toString()} , ${locationController.zipcode.toString()}",
-                                    style: GoogleFonts.poppins(
-                                      color: Colors.white,
-                                      fontSize: 14,
-                                      fontWeight: FontWeight.w400,
-                                    ),
-                                  ),
+                                  child: Obx(() {
+                                    return Text(
+                                      "Deliver to ${locationController.city.toString()} , ${locationController.zipcode
+                                          .toString()}",
+                                      style: GoogleFonts.poppins(
+                                        color: Colors.white,
+                                        fontSize: 14,
+                                        fontWeight: FontWeight.w400,
+                                      ),
+                                    );
+                                  }),
                                 ),
                                 5.spaceX,
                                 SvgPicture.asset(
@@ -467,7 +480,8 @@ class _HomePageState extends State<HomePage> {
                               style: GoogleFonts.poppins(fontSize: 16),
                               textInputAction: TextInputAction.search,
                               onSubmitted: (vb) {
-                                Get.to(() => SearchProductsScreen(
+                                Get.to(() =>
+                                    SearchProductsScreen(
                                       searchText: vb,
                                     ));
                               },
@@ -494,7 +508,7 @@ class _HomePageState extends State<HomePage> {
                                   contentPadding: const EdgeInsets.all(15),
                                   hintText: AppStrings.searchFieldText.tr,
                                   hintStyle:
-                                      GoogleFonts.poppins(color: AppTheme.buttonColor, fontWeight: FontWeight.w400)),
+                                  GoogleFonts.poppins(color: AppTheme.buttonColor, fontWeight: FontWeight.w400)),
                             ),
                           ),
                         ),
@@ -510,17 +524,17 @@ class _HomePageState extends State<HomePage> {
                     color: Colors.white,
                     child: const SingleChildScrollView(
                         child: Column(children: [
-                      SliderWidget(),
-                      CategoryItems(),
-                      TrendingProducts(),
-                      AdBannerUI(),
-                      PopularProducts(),
-                      StarOfMonthScreen(),
-                      AuthorScreen(),
-                      SizedBox(
-                        height: 30,
-                      ),
-                    ])),
+                          SliderWidget(),
+                          CategoryItems(),
+                          TrendingProducts(),
+                          AdBannerUI(),
+                          PopularProducts(),
+                          StarOfMonthScreen(),
+                          AuthorScreen(),
+                          SizedBox(
+                            height: 30,
+                          ),
+                        ])),
                   ),
                 ),
               ],

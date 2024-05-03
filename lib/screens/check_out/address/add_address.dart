@@ -1,4 +1,5 @@
 import 'dart:convert';
+import 'dart:developer';
 
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
@@ -101,6 +102,7 @@ class _AddAddressScreenState extends State<AddAddressScreen> {
   Future getAddressDetails() async {
     await repositories.getApi(url: ApiUrls.addressListUrl).then((value) {
       addressListModel = ModelUserAddressList.fromJson(jsonDecode(value));
+      log('address iss....${addressListModel.address!.toJson()}');
       setState(() {
       });
     });
