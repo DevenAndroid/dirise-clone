@@ -13,6 +13,7 @@ import '../controller/vendor_controllers/vendor_profile_controller.dart';
 import '../model/common_modal.dart';
 import '../model/getSubCategoryModel.dart';
 import '../model/productCategoryModel.dart';
+import '../model/vendor_models/model_add_product_category.dart';
 import '../model/vendor_models/model_vendor_details.dart';
 import '../model/vendor_models/vendor_category_model.dart';
 import '../repository/repository.dart';
@@ -86,7 +87,7 @@ class _SingleProductItemDetailsScreensState extends State<SingleProductItemDetai
     await repositories.getApi(url: apiUrl).then((value) {
       ProductCategoryModel productCategoryModel = ProductCategoryModel.fromJson(jsonDecode(value));
       setState(() {
-        fetchedDropdownItems = productCategoryModel.data ?? [];
+        fetchedDropdownItems = productCategoryModel.productdata ?? [];
       });
     });
 

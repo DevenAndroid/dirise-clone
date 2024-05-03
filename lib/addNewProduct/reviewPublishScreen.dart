@@ -1,4 +1,5 @@
 import 'dart:convert';
+import 'dart:developer';
 
 import 'package:dirise/addNewProduct/rewardScreen.dart';
 import 'package:dirise/utils/api_constant.dart';
@@ -15,8 +16,57 @@ import '../widgets/common_colour.dart';
 
 class ReviewPublishScreen extends StatefulWidget {
   String? productID;
+  String? productname;
+  String? productPrice;
+  String? productType;
+  String? shortDes;
 
-  ReviewPublishScreen({super.key, this.productID});
+  String? town;
+  String? city;
+  String? state;
+  String? address;
+  String? zip_code;
+
+  String? deliverySize;
+
+  String? Unitofmeasure;
+  String? WeightOftheItem;
+  String? SelectNumberOfPackages;
+  String? SelectTypeMaterial;
+  String? LengthWidthHeight;
+  String? SelectTypeOfPackaging;
+
+  String? LongDescription;
+  String? MetaTitle;
+  String? MetaDescription;
+  String? SerialNumber;
+  String? Productnumber;
+
+  ReviewPublishScreen(
+      {super.key,
+      this.productID,
+      this.productname,
+      this.productType,
+      this.productPrice,
+      this.shortDes,
+      this.town,
+      this.address,
+      this.state,
+      this.city,
+      this.zip_code,
+      this.deliverySize,
+      this.LengthWidthHeight,
+      this.SelectNumberOfPackages,
+      this.SelectTypeMaterial,
+      this.SelectTypeOfPackaging,
+      this.Unitofmeasure,
+      this.WeightOftheItem,
+        this.LongDescription,
+        this.MetaDescription,
+        this.MetaTitle,
+        this.Productnumber,
+        this.SerialNumber
+      });
 
   @override
   State<ReviewPublishScreen> createState() => _ReviewPublishScreenState();
@@ -32,31 +82,18 @@ class _ReviewPublishScreenState extends State<ReviewPublishScreen> {
     'Item 4',
     'Item 5',
   ];
-  RxBool isItemDetailsVisible = false.obs;
+  bool isItemDetailsVisible = false;
+  bool isItemDetailsVisible1 = false;
+  bool isItemDetailsVisible2 = false;
+  bool isItemDetailsVisible3 = false;
+  bool isItemDetailsVisible4 = false;
   final Repositories repositories = Repositories();
   String productId = "";
-  Rx<ReviewAndPublishModel> productDetails = Rx<ReviewAndPublishModel>(ReviewAndPublishModel());
-
-
-  Future getProductDetails() async {
-    productDetails.value = ReviewAndPublishModel();
-    if (widget.productID != null) {
-      productId = widget.productID!;
-    } else {
-      productId = "";
-    }
-    if (productId.isEmpty) {} else {
-      await repositories.getApi(url: ApiUrls.getProductDetailsUrl + productId).then((value) {
-        productDetails.value = ReviewAndPublishModel.fromJson(jsonDecode(value));
-      });
-    }
-  }
 
   @override
   void initState() {
     // TODO: implement initState
     super.initState();
-    getProductDetails();
   }
 
   @override
@@ -81,7 +118,7 @@ class _ReviewPublishScreenState extends State<ReviewPublishScreen> {
             padding: const EdgeInsets.only(right: 10),
             child: Text(
               'Skip',
-              style: GoogleFonts.poppins(color: Color(0xff0D5877), fontWeight: FontWeight.w400, fontSize: 18),
+              style: GoogleFonts.poppins(color: const Color(0xff0D5877), fontWeight: FontWeight.w400, fontSize: 18),
             ),
           )
         ],
@@ -98,19 +135,17 @@ class _ReviewPublishScreenState extends State<ReviewPublishScreen> {
       ),
       body: SingleChildScrollView(
         child: Container(
-            margin: EdgeInsets.only(left: 15, right: 15),
+            margin: const EdgeInsets.only(left: 15, right: 15),
             child: Column(
               children: [
                 const SizedBox(height: 20),
                 GestureDetector(
                   onTap: () {
-                    isItemDetailsVisible.toggle();
-                    setState(() {
-
-                    });
+                    isItemDetailsVisible = !isItemDetailsVisible;
+                    setState(() {});
                   },
                   child: Container(
-                    padding: EdgeInsets.all(10),
+                    padding: const EdgeInsets.all(10),
                     height: 50,
                     decoration: BoxDecoration(
                         color: Colors.grey.shade200,
@@ -122,91 +157,190 @@ class _ReviewPublishScreenState extends State<ReviewPublishScreen> {
                     ),
                   ),
                 ),
-                Obx(() {
-                  return Visibility(
-                      visible: isItemDetailsVisible.value,
-                      child:
-                      ListView.builder(
-                        shrinkWrap: true,
-                        physics: AlwaysScrollableScrollPhysics(),
-                        itemCount: 5,
-                        itemBuilder: (context, index) {
-                          return Container(
-                            padding: EdgeInsets.all(10),
-                            margin: EdgeInsets.symmetric(vertical: 5),
-                            decoration: BoxDecoration(
-                                color: Colors.grey.shade200,
-                                borderRadius: BorderRadius.circular(10),
-                                border: Border.all(color: Colors.grey.shade400, width: 1)),
-                            child: Text(itemList[index]),
-                          );
-                        },
-                      )
-                  );
-                }),
+                Visibility(
+                    visible: isItemDetailsVisible,
+                    child: Container(
+                      margin: EdgeInsets.only(top: 10),
+                      width: Get.width,
+                      padding: EdgeInsets.all(10),
+                      decoration: BoxDecoration(color: Colors.grey.shade200, borderRadius: BorderRadius.circular(11)),
+                      child: Column(
+                        mainAxisAlignment: MainAxisAlignment.start,
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          Text('product name: ${widget.productname.toString()}'),
+                          Text('product Price: ${widget.productPrice.toString()}'),
+                          Text('product Type: ${widget.productType.toString()}'),
+                          Text('product ID: ${widget.productID.toString()}'),
+                          Text('short Des: ${widget.shortDes.toString()}'),
+                        ],
+                      ),
+                    )),
                 const SizedBox(height: 20),
-                Container(
-                  padding: EdgeInsets.all(10),
-                  height: 50,
-                  decoration: BoxDecoration(
-                      color: Colors.grey.shade200,
-                      borderRadius: BorderRadius.circular(10),
-                      border: Border.all(color: Colors.grey.shade400, width: 1)),
-                  child: const Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                    children: [Text('Pickup address'), Icon(Icons.arrow_drop_down_sharp)],
+                GestureDetector(
+                  onTap: () {
+                    isItemDetailsVisible1 = !isItemDetailsVisible1;
+                    setState(() {});
+                  },
+                  child: Container(
+                    padding: const EdgeInsets.all(10),
+                    height: 50,
+                    decoration: BoxDecoration(
+                        color: Colors.grey.shade200,
+                        borderRadius: BorderRadius.circular(10),
+                        border: Border.all(color: Colors.grey.shade400, width: 1)),
+                    child: const Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      children: [Text('Pickup address'), Icon(Icons.arrow_drop_down_sharp)],
+                    ),
                   ),
                 ),
-                const SizedBox(height: 20),
-                Container(
-                  padding: EdgeInsets.all(10),
-                  height: 50,
-                  decoration: BoxDecoration(
-                      color: Colors.grey.shade200,
-                      borderRadius: BorderRadius.circular(10),
-                      border: Border.all(color: Colors.grey.shade400, width: 1)),
-                  child: const Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                    children: [Text('Delivery Size'), Icon(Icons.arrow_drop_down_sharp)],
+                const SizedBox(height: 10),
+                Visibility(
+                    visible: isItemDetailsVisible1,
+                    child: Container(
+                      margin: EdgeInsets.only(top: 10),
+                      width: Get.width,
+                      padding: EdgeInsets.all(10),
+                      decoration: BoxDecoration(color: Colors.grey.shade200, borderRadius: BorderRadius.circular(11)),
+                      child: Column(
+                        mainAxisAlignment: MainAxisAlignment.start,
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          Text('Town: ${widget.town.toString()}'),
+                          Text('city: ${widget.city.toString()}'),
+                          Text('state: ${widget.state.toString()}'),
+                          Text('address: ${widget.address.toString()}'),
+                          Text('zip code: ${widget.zip_code.toString()}'),
+                        ],
+                      ),
+                    )),
+                const SizedBox(height: 10),
+                GestureDetector(
+                  onTap: () {
+                    isItemDetailsVisible2 = !isItemDetailsVisible2;
+                    setState(() {});
+                  },
+                  child: Container(
+                    padding: const EdgeInsets.all(10),
+                    height: 50,
+                    decoration: BoxDecoration(
+                        color: Colors.grey.shade200,
+                        borderRadius: BorderRadius.circular(10),
+                        border: Border.all(color: Colors.grey.shade400, width: 1)),
+                    child: const Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      children: [Text('Delivery Size'), Icon(Icons.arrow_drop_down_sharp)],
+                    ),
                   ),
                 ),
-                const SizedBox(height: 20),
-                Container(
-                  padding: EdgeInsets.all(10),
-                  height: 50,
-                  decoration: BoxDecoration(
-                      color: Colors.grey.shade200,
-                      borderRadius: BorderRadius.circular(10),
-                      border: Border.all(color: Colors.grey.shade400, width: 1)),
-                  child: const Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                    children: [Text('International Shipping Details'), Icon(Icons.arrow_drop_down_sharp)],
+                const SizedBox(height: 10),
+                Visibility(
+                    visible: isItemDetailsVisible2,
+                    child: Container(
+                      margin: EdgeInsets.only(top: 10),
+                      width: Get.width,
+                      padding: EdgeInsets.all(10),
+                      decoration: BoxDecoration(color: Colors.grey.shade200, borderRadius: BorderRadius.circular(11)),
+                      child: Column(
+                        mainAxisAlignment: MainAxisAlignment.start,
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          Text('delivery Size: ${widget.deliverySize.toString()}'),
+                        ],
+                      ),
+                    )),
+                const SizedBox(height: 10),
+                GestureDetector(
+                  onTap: (){
+                    isItemDetailsVisible3 = !isItemDetailsVisible3;
+                    setState(() {});
+                  },
+                  child: Container(
+                    padding: const EdgeInsets.all(10),
+                    height: 50,
+                    decoration: BoxDecoration(
+                        color: Colors.grey.shade200,
+                        borderRadius: BorderRadius.circular(10),
+                        border: Border.all(color: Colors.grey.shade400, width: 1)),
+                    child: const Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      children: [Text('International Shipping Details'), Icon(Icons.arrow_drop_down_sharp)],
+                    ),
                   ),
                 ),
-                const SizedBox(height: 20),
-                Container(
-                  padding: EdgeInsets.all(10),
-                  height: 50,
-                  decoration: BoxDecoration(
-                      color: Colors.grey.shade200,
-                      borderRadius: BorderRadius.circular(10),
-                      border: Border.all(color: Colors.grey.shade400, width: 1)),
-                  child: const Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                    children: [Text('Optional'), Icon(Icons.arrow_drop_down_sharp)],
+                const SizedBox(height: 10),
+
+                Visibility(
+                    visible: isItemDetailsVisible3,
+                    child: Container(
+                      margin: EdgeInsets.only(top: 10),
+                      width: Get.width,
+                      padding: EdgeInsets.all(10),
+                      decoration: BoxDecoration(color: Colors.grey.shade200, borderRadius: BorderRadius.circular(11)),
+                      child: Column(
+                        mainAxisAlignment: MainAxisAlignment.start,
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          Text('Unit of measure: ${widget.Unitofmeasure.toString()}'),
+                          Text('Weight Of the Item: ${widget.WeightOftheItem.toString()}'),
+                          Text('Select Number Of Packages: ${widget.SelectNumberOfPackages.toString()}'),
+                          Text('Select Type Material: ${widget.SelectTypeMaterial.toString()}'),
+                          Text('Select Type Of Packaging: ${widget.SelectTypeOfPackaging .toString()}'),
+                          Text('Length X Width X Height: ${widget.LengthWidthHeight.toString()}'),
+                        ],
+                      ),
+                    )),
+                const SizedBox(height: 10),
+                GestureDetector(
+                  onTap: (){
+                    isItemDetailsVisible4 = !isItemDetailsVisible4;
+                    setState(() {});
+                  },
+                  child: Container(
+                    padding: const EdgeInsets.all(10),
+                    height: 50,
+                    decoration: BoxDecoration(
+                        color: Colors.grey.shade200,
+                        borderRadius: BorderRadius.circular(10),
+                        border: Border.all(color: Colors.grey.shade400, width: 1)),
+                    child: const Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      children: [Text('Optional'), Icon(Icons.arrow_drop_down_sharp)],
+                    ),
                   ),
                 ),
+                const SizedBox(height: 10),
+
+                Visibility(
+                    visible: isItemDetailsVisible4,
+                    child: Container(
+                      margin: EdgeInsets.only(top: 10),
+                      width: Get.width,
+                      padding: EdgeInsets.all(10),
+                      decoration: BoxDecoration(color: Colors.grey.shade200, borderRadius: BorderRadius.circular(11)),
+                      child: Column(
+                        mainAxisAlignment: MainAxisAlignment.start,
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          Text('Long Description: ${widget.LongDescription.toString()}'),
+                          Text('Meta Title: ${widget.MetaTitle.toString()}'),
+                          Text('Meta Description: ${widget.MetaDescription.toString()}'),
+                          Text('Serial Number: ${widget.SerialNumber.toString()}'),
+                          Text('Product number: ${widget.Productnumber .toString()}'),
+                        ],
+                      ),
+                    )),
                 const SizedBox(height: 20),
                 CustomOutlineButton(
                   title: 'Confirm',
                   borderRadius: 11,
                   onPressed: () {
-                    Get.to(RewardScreen());
+                    Get.to(const RewardScreen());
                   },
                 ),
               ],
-            )
-        ),
+            )),
       ),
     );
   }

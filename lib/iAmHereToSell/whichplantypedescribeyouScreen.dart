@@ -782,7 +782,7 @@ const SizedBox(height: 10,),
                       showToast("Please select a plan first");
                     }
                   } else {
-                    showToast("Select Plan and Agree terms and Conditions");
+                    showToast("Agree terms and Conditions");
                   }
                 },
                 child: Container(
@@ -807,6 +807,9 @@ const SizedBox(height: 10,),
                     ),
                   ),
                 ),
+              ),
+              const SizedBox(
+                height: 20,
               ),
             ],
           ),

@@ -32,13 +32,17 @@ class ProductDetails {
   ProductDetails({this.product, this.address, this.productDimentions});
 
   ProductDetails.fromJson(Map<String, dynamic> json) {
-    product =
-    json['product'] != null ? new Product.fromJson(json['product']) : null;
-    address =
-    json['address'] != null ? new Address.fromJson(json['address']) : null;
-    productDimentions = json['product_dimentions'] != null
-        ? new ProductDimentions.fromJson(json['product_dimentions'])
-        : null;
+    product = json['product'] != null ? Product.fromJson(json['product']) : null;
+    address = json['address'] != null ? Address.fromJson(json['address']) : null;
+    if (json['product_dimentions'] != null) {
+      if (json['product_dimentions'] is List) {
+        // Handle list case
+        // You can either iterate through the list and create ProductDimentions objects
+        // Or handle it according to your data structure
+      } else {
+        productDimentions = ProductDimentions.fromJson(json['product_dimentions']);
+      }
+    }
   }
 
   Map<String, dynamic> toJson() {
@@ -156,8 +160,8 @@ class Product {
     shortDescription = json['short_description'];
     longDescription = json['long_description'];
     featuredImage = json['featured_image'];
-    galleryImage = json['gallery_image'].cast<String>();
-    galleryTempData = json['galleryTempData'].cast<String>();
+    galleryImage = json['gallery_image'] != null ? List<String>.from(json['gallery_image']) : null;
+    galleryTempData = json['galleryTempData'] != null ? List<String>.from(json['galleryTempData']) : null;
     virtualProductFile = json['virtual_product_file'];
     virtualProductFileType = json['virtual_product_file_type'];
     virtualProductFileLanguage = json['virtual_product_file_language'];
@@ -174,20 +178,10 @@ class Product {
     productNumber = json['product_number'];
     time = json['time'];
     timePeriod = json['time_period'];
-    // if (json['serviceTimeSloat'] != null) {
-    //   serviceTimeSloat = <Null>[];
-    //   json['serviceTimeSloat'].forEach((v) {
-    //     serviceTimeSloat!.add(Null.fromJson(v));
-    //   });
-    // }
+    serviceTimeSloat = json['serviceTimeSloat'] != null ? List<dynamic>.from(json['serviceTimeSloat']) : null;
     productAvailability = json['productAvailability'];
     returnDays = json['return_days'];
-    // if (json['variant_data'] != null) {
-    //   variantData = <Null>[];
-    //   json['variant_data'].forEach((v) {
-    //     variantData!.add(new Null.fromJson(v));
-    //   });
-    // }
+    variantData = json['variant_data'] != null ? List<dynamic>.from(json['variant_data']) : null;
   }
 
   Map<String, dynamic> toJson() {

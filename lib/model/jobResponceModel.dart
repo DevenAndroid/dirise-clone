@@ -1,12 +1,11 @@
-class ReviewAndPublishResponseModel {
+class JobResponceModel {
   bool? status;
   String? message;
   ProductDetails? productDetails;
 
-  ReviewAndPublishResponseModel(
-      {this.status, this.message, this.productDetails});
+  JobResponceModel({this.status, this.message, this.productDetails});
 
-  ReviewAndPublishResponseModel.fromJson(Map<String, dynamic> json) {
+  JobResponceModel.fromJson(Map<String, dynamic> json) {
     status = json['status'];
     message = json['message'];
     productDetails = json['product_details'] != null
@@ -138,7 +137,7 @@ class Product {
   Null? stockAlert;
   String? keyword;
   Null? bookingProductType;
-  dynamic deliverySize;
+  Null? deliverySize;
   Null? serialNumber;
   Null? productNumber;
   Null? metaTitle;
