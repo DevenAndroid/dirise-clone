@@ -1,4 +1,5 @@
 import 'dart:convert';
+import 'dart:developer';
 
 import 'package:dirise/addNewProduct/reviewPublishScreen.dart';
 import 'package:flutter/cupertino.dart';
@@ -9,6 +10,7 @@ import 'package:get/get.dart';
 import 'package:google_fonts/google_fonts.dart';
 
 import '../model/common_modal.dart';
+import '../model/reviewAndPublishResponseodel.dart';
 import '../repository/repository.dart';
 import '../utils/api_constant.dart';
 import '../widgets/common_button.dart';
@@ -23,7 +25,6 @@ class OptionalScreen extends StatefulWidget {
 }
 
 class _OptionalScreenState extends State<OptionalScreen> {
-
   final TextEditingController metaTitleController = TextEditingController();
   final TextEditingController metaDescriptionController = TextEditingController();
   final TextEditingController longDescriptionController = TextEditingController();
@@ -35,29 +36,108 @@ class _OptionalScreenState extends State<OptionalScreen> {
   final Repositories repositories = Repositories();
   final formKey1 = GlobalKey<FormState>();
   String code = "+91";
+  String? productID;
+  String? productName;
+  String? productPrice;
+  String? productType;
+  String? shortDes;
+
+  String? town;
+  String? city;
+  String? state;
+  String? address;
+  String? zip_code;
+
+  String? deliverySize;
+
+  String? Unitofmeasure;
+  String? WeightOftheItem;
+  String? SelectNumberOfPackages;
+  String? SelectTypeMaterial;
+  String? LengthWidthHeight;
+  String? SelectTypeOfPackaging;
+
+        String? LongDescription;
+        String? MetaTitle;
+        String? MetaDescription;
+        String? SerialNumber;
+        String? Productnumber;
+
+
+
   optionalApi() {
     Map<String, dynamic> map = {};
 
-      map['meta_title'] = metaTitleController.text.trim();
-      map['item_type'] = 'giveaway';
-      map['meta_description'] = metaDescriptionController.text.trim();
-      map['long_description'] = longDescriptionController.text.trim();
-      map['serial_number'] = serialNumberController.text.trim();
-      map['product_number'] = productNumberController.text.trim();
+    map['meta_title'] = metaTitleController.text.trim();
+    map['item_type'] = 'giveaway';
+    map['meta_description'] = metaDescriptionController.text.trim();
+    map['long_description'] = longDescriptionController.text.trim();
+    map['serial_number'] = serialNumberController.text.trim();
+    map['product_number'] = productNumberController.text.trim();
 
     FocusManager.instance.primaryFocus!.unfocus();
     repositories.postApi(url: ApiUrls.giveawayProductAddress, context: context, mapData: map).then((value) {
-      ModelCommonResponse response = ModelCommonResponse.fromJson(jsonDecode(value));
+      ReviewAndPublishResponseModel response = ReviewAndPublishResponseModel.fromJson(jsonDecode(value));
       print('API Response Status Code: ${response.status}');
       showToast(response.message.toString());
       if (response.status == true) {
-        if(formKey1.currentState!.validate()){
-          Get.to(ReviewPublishScreen());
-        }
+        productName = response.productDetails!.product!.pname.toString();
+        productID = response.productDetails!.product!.id.toString();
+        productPrice = response.productDetails!.product!.pPrice.toString();
+        productType = response.productDetails!.product!.productType.toString();
+        shortDes = response.productDetails!.product!.shortDescription.toString();
 
+        town =     response.productDetails!.address!.town.toString();
+        city =     response.productDetails!.address!.city.toString();
+        state =    response.productDetails!.address!.state.toString();
+        address =  response.productDetails!.address!.address.toString();
+        zip_code = response.productDetails!.address!.zipCode.toString();
+
+        Unitofmeasure = response.productDetails!.internaionalShipping!.units.toString();
+        WeightOftheItem = response.productDetails!.internaionalShipping!.weight.toString();
+        SelectNumberOfPackages = response.productDetails!.internaionalShipping!.numberOfPackage.toString();
+        SelectTypeMaterial = response.productDetails!.internaionalShipping!.material.toString();
+        LengthWidthHeight = response.productDetails!.internaionalShipping!.boxDimension.toString();
+        SelectTypeOfPackaging = response.productDetails!.internaionalShipping!.typeOfPackages.toString();
+
+        LongDescription =response.productDetails!.product!.longDescription.toString();
+        MetaTitle = response.productDetails!.product!.metaTitle.toString();
+        MetaDescription = response.productDetails!.product!.metaDescription.toString();
+        SerialNumber = response.productDetails!.product!.serialNumber.toString();
+        Productnumber = response.productDetails!.product!.productNumber.toString();
+
+        deliverySize = response.productDetails!.product!.deliverySize.toString();
+        log('ddddddd' + response.productDetails!.product!.vendorId.toString());
+        if (formKey1.currentState!.validate()) {
+          Get.to(ReviewPublishScreen(
+            productID: productID,
+            productname: productName,
+            productPrice: productPrice,
+            productType: productType,
+            shortDes: shortDes,
+            town: town,
+            state: state,
+            city: city,
+            address: address,
+            deliverySize: deliverySize,
+             LengthWidthHeight: LengthWidthHeight,
+            LongDescription: LongDescription,
+            MetaDescription: MetaDescription,
+            MetaTitle: MetaTitle,
+            Productnumber: Productnumber,
+            SelectNumberOfPackages: SelectNumberOfPackages,
+            SelectTypeMaterial: SelectTypeMaterial,
+            SelectTypeOfPackaging: SelectTypeOfPackaging,
+            SerialNumber: SerialNumber,
+            Unitofmeasure: Unitofmeasure,
+             WeightOftheItem: WeightOftheItem,
+            zip_code: zip_code,
+          ));
+        }
       }
     });
   }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -88,7 +168,7 @@ class _OptionalScreenState extends State<OptionalScreen> {
       ),
       body: SingleChildScrollView(
         child: Container(
-          margin: EdgeInsets.only(left: 15,right: 15),
+          margin: EdgeInsets.only(left: 15, right: 15),
           child: Form(
             key: formKey1,
             child: Column(
@@ -102,7 +182,6 @@ class _OptionalScreenState extends State<OptionalScreen> {
                       fontSize: 25,
                     ),
                     counter: const Offstage(),
-
                     errorMaxLines: 2,
                     contentPadding: const EdgeInsets.all(15),
                     fillColor: Colors.grey.shade100,
@@ -111,7 +190,6 @@ class _OptionalScreenState extends State<OptionalScreen> {
                       color: AppTheme.primaryColor,
                       fontSize: 15,
                     ),
-
                     border: InputBorder.none,
                     focusedErrorBorder: const OutlineInputBorder(
                         borderRadius: BorderRadius.all(Radius.circular(8)),
@@ -148,7 +226,6 @@ class _OptionalScreenState extends State<OptionalScreen> {
                       fontSize: 25,
                     ),
                     counter: const Offstage(),
-
                     errorMaxLines: 2,
                     contentPadding: const EdgeInsets.all(15),
                     fillColor: Colors.grey.shade100,
@@ -157,7 +234,6 @@ class _OptionalScreenState extends State<OptionalScreen> {
                       color: AppTheme.primaryColor,
                       fontSize: 15,
                     ),
-
                     border: InputBorder.none,
                     focusedErrorBorder: const OutlineInputBorder(
                         borderRadius: BorderRadius.all(Radius.circular(8)),
@@ -179,14 +255,14 @@ class _OptionalScreenState extends State<OptionalScreen> {
                   ),
                 ),
                 CommonTextField(
-                  // controller: _referralEmailController,
+                    // controller: _referralEmailController,
                     obSecure: false,
                     hintText: 'Serial Number'.tr,
                     validator: MultiValidator([
                       RequiredValidator(errorText: 'Serial Number is required'),
                     ])),
                 CommonTextField(
-                  // controller: _referralEmailController,
+                    // controller: _referralEmailController,
                     obSecure: false,
                     hintText: 'Product number'.tr,
                     validator: MultiValidator([
@@ -202,7 +278,7 @@ class _OptionalScreenState extends State<OptionalScreen> {
                 ),
                 const SizedBox(height: 20),
                 GestureDetector(
-                  onTap: (){
+                  onTap: () {
                     Get.to(ReviewPublishScreen());
                   },
                   child: Container(

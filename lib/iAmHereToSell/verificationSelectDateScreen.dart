@@ -1,3 +1,4 @@
+import 'package:dirise/iAmHereToSell/listofquestionScreen.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
@@ -165,25 +166,30 @@ class _VerificationSelectDateScreenState extends State<VerificationSelectDateScr
               const SizedBox(
                 height: 20,
               ),
-              Container(
-                margin: const EdgeInsets.only(left: 15, right: 15),
-                width: Get.width,
-                height: 50,
-                decoration: BoxDecoration(
-                  border: Border.all(
-                    color: const Color(0xff0D5877), // Border color
-                    width: 1.0, // Border width
+              InkWell(
+                onTap: (){
+                  Get.to(ListOfQuestionsScreen());
+                },
+                child: Container(
+                  margin: const EdgeInsets.only(left: 15, right: 15),
+                  width: Get.width,
+                  height: 50,
+                  decoration: BoxDecoration(
+                    border: Border.all(
+                      color: const Color(0xff0D5877), // Border color
+                      width: 1.0, // Border width
+                    ),
+                    borderRadius: BorderRadius.circular(2), // Border radius
                   ),
-                  borderRadius: BorderRadius.circular(2), // Border radius
-                ),
-                padding: const EdgeInsets.all(10), // Padding inside the container
-                child: const Center(
-                  child: Text(
-                    'Next',
-                    style: TextStyle(
-                      fontSize: 16,
-                      fontWeight: FontWeight.bold,
-                      color: Colors.black, // Text color
+                  padding: const EdgeInsets.all(10), // Padding inside the container
+                  child: const Center(
+                    child: Text(
+                      'Next',
+                      style: TextStyle(
+                        fontSize: 16,
+                        fontWeight: FontWeight.bold,
+                        color: Colors.black, // Text color
+                      ),
                     ),
                   ),
                 ),

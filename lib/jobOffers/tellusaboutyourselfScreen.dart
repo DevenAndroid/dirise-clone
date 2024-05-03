@@ -1,3 +1,4 @@
+import 'dart:convert';
 import 'dart:io';
 
 import 'package:dirise/addNewProduct/addImagesProductScreen.dart';
@@ -9,8 +10,12 @@ import 'package:get/get.dart';
 import 'package:google_fonts/google_fonts.dart';
 
 import '../language/app_strings.dart';
+import '../model/common_modal.dart';
 import '../newAddress/pickUpAddressScreen.dart';
+import '../repository/repository.dart';
+import '../utils/api_constant.dart';
 import '../widgets/common_button.dart';
+import 'hiringJobDetailsScreen.dart';
 import 'jobDetailsScreen.dart';
 
 class JobTellusaboutyourselfScreen extends StatefulWidget {
@@ -25,13 +30,28 @@ class _JobTellusaboutyourselfScreenState extends State<JobTellusaboutyourselfScr
   String selectedRadio = '';
 
   void navigateNext() {
-    if (selectedRadio == 'sell') {
-      Get.to(const WhichplantypedescribeyouScreen());
-    } else if (selectedRadio == 'shop') {
-      Get.to( PickUpAddressScreen());
+    if (selectedRadio == 'job_seeking') {
+      Get.to(const JobDetailsScreen());
+    } else if (selectedRadio == 'job_hiring') {
+      Get.to(const  HiringJobDetailsScreen());
     }
   }
+  jobTypeApi(String jobType) {
+    Map<String, dynamic> map = {};
+    map['jobseeking_or_offering'] = jobType;
+    map['item_type'] = 'job';
 
+    final Repositories repositories = Repositories();
+    FocusManager.instance.primaryFocus!.unfocus();
+    repositories.postApi(url: ApiUrls.giveawayProductAddress, context: context, mapData: map).then((value) {
+      ModelCommonResponse response = ModelCommonResponse.fromJson(jsonDecode(value));
+      print('API Response Status Code: ${response.status}');
+      showToast(response.message.toString());
+      if (response.status == true) {
+        navigateNext();
+      }
+    });
+  }
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -89,7 +109,7 @@ class _JobTellusaboutyourselfScreenState extends State<JobTellusaboutyourselfScr
                     top: 25,
                     right: 30,
                     child: Radio(
-                      value: 'sell',
+                      value: 'job_seeking',
                       groupValue: selectedRadio,
                       onChanged: (value) {
                         setState(() {
@@ -125,7 +145,7 @@ class _JobTellusaboutyourselfScreenState extends State<JobTellusaboutyourselfScr
                     top: 25,
                     right: 30,
                     child: Radio(
-                      value: 'sell',
+                      value: 'job_hiring',
                       groupValue: selectedRadio,
                       onChanged: (value) {
                         setState(() {
@@ -140,7 +160,13 @@ class _JobTellusaboutyourselfScreenState extends State<JobTellusaboutyourselfScr
                 title: 'Next',
                 borderRadius: 11,
                 onPressed: () {
-                  Get.to(JobDetailsScreen());
+                  if (selectedRadio == 'job_seeking') {
+                    jobTypeApi('job_seeking');
+                  } else if (selectedRadio == 'job_hiring') {
+                    jobTypeApi('job_hiring');
+                  }else{
+                    showToast('Select delivery size');
+                  }
 
                 },
               ),

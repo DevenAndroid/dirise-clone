@@ -337,10 +337,13 @@ class _DirectCheckOutScreenState extends State<DirectCheckOutScreen> {
                       ),
                     ),
                     10.spaceY,
-                    if (selectedAddress.id != null &&
-                        directOrderResponse.prodcutData!.isShipping == true &&
-                        directOrderResponse.vendorCountryId == '117' &&
-                        cartController.countryName.value == 'Kuwait')
+                    if (
+                    // selectedAddress.id != null &&
+                        // directOrderResponse.prodcutData!.isShipping == true &&
+                        // directOrderResponse.vendorCountryId == '117' &&
+                        // cartController.countryName.value == 'Kuwait'
+                    directOrderResponse.localShipping == true
+                    )
                       Column(
                         children: [
                           Container(
@@ -427,12 +430,16 @@ class _DirectCheckOutScreenState extends State<DirectCheckOutScreen> {
                           ),
                         ],
                       ),
-                    if (selectedAddress.id != null &&
-                        directOrderResponse.prodcutData!.isShipping == true &&
-                        directOrderResponse.vendorCountryId != '117' ||
-                        cartController.countryName.value != 'Kuwait')
-                      selectedAddress.id != null
-                          ? Column(
+                    if (
+                    // selectedAddress.id != null &&
+                    //     directOrderResponse.prodcutData!.isShipping == true &&
+                    //     directOrderResponse.vendorCountryId != '117' ||
+                    //     cartController.countryName.value != 'Kuwait'
+                    directOrderResponse.localShipping != true
+                    )
+                      // selectedAddress.id != null
+                      //     ?
+                 Column(
                         children: [
                           Container(
                             color: Colors.white,
@@ -449,105 +456,106 @@ class _DirectCheckOutScreenState extends State<DirectCheckOutScreen> {
                               ),
                             ),
                           ),
+                          if(directOrderResponse.localShipping != true && directOrderResponse.shippingType!.any((element) => element.output == null))
+                            Padding(
+                              padding: const EdgeInsets.all(8.0),
+                              child: Text('FedEx service is not currently available to this origin / destination combination. Enter new information or contact FedEx Customer Service.'.tr,style: const TextStyle(
+                                  fontSize: 17
+                              ),),),
                           Container(
                             color: Colors.white,
                             child: ListView.builder(
                               physics: const NeverScrollableScrollPhysics(),
                               shrinkWrap: true,
-                              itemCount: directOrderResponse.fedexShipping!.length,
+                              itemCount: directOrderResponse.shippingType!.length,
                               padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 15).copyWith(top: 0),
                               itemBuilder: (context, ii) {
-                                return directOrderResponse.fedexShipping![ii].output != null
+                                return directOrderResponse.shippingType![ii].output != null
                                     ? ListView.builder(
                                     shrinkWrap: true,
                                     physics: const NeverScrollableScrollPhysics(),
                                     itemCount: directOrderResponse
-                                        .fedexShipping![ii].output!.rateReplyDetails!.length,
+                                        .shippingType![ii].output!.rateReplyDetails!.length,
                                     itemBuilder: (context, index) {
-                                      var product = directOrderResponse
-                                          .fedexShipping![ii].output!.rateReplyDetails![index];
-                                      return Obx(() {
-                                        return directOrderResponse.fedexShipping![ii].output != null
-                                            ? Column(
-                                          children: [
-                                            10.spaceY,
-                                            index == 0
-                                                ? 0.spaceY
-                                                : const Divider(
-                                              color: Color(0xFFD9D9D9),
-                                              thickness: 0.8,
-                                            ),
-                                            Row(
-                                              children: [
-                                                Radio(
-                                                  value: product.serviceType.toString(),
-                                                  groupValue:
-                                                  directOrderResponse.fedexShippingOption.value,
-                                                  visualDensity: const VisualDensity(horizontal: -4.0),
-                                                  onChanged: (value) {
-                                                    setState(() {
-                                                      directOrderResponse.fedexShippingOption.value =
-                                                          value.toString();
-                                                      cartController.shippingTitle =
-                                                          product.serviceName.toString();
-                                                      cartController.shippingPrices = product
-                                                          .ratedShipmentDetails![ii].totalNetCharge
-                                                          .toString();
-                                                      log("tttttt${cartController.shippingTitle.toString()}");
-                                                      // print(cartController.shippingTitle.toString());
-                                                      print(cartController.shippingPrices.toString());
-                                                      shippingPrice = product.ratedShipmentDetails![ii].totalNetCharge.toString();
-                                                      double subtotal = double.parse(
-                                                          directOrderResponse.subtotal.toString());
-                                                      print(
-                                                          'shipping price${shippingPrice.toString()}');
-                                                      double shipping = double.parse(shippingPrice);
-                                                      total = subtotal + shipping;
-                                                      cartController.formattedTotal =
-                                                          total.toStringAsFixed(3);
-                                                      // cartController.shippingId =  directOrderResponse.shippingOption.value;
-                                                      // log( directOrderResponse.shippingOption.value);
-                                                      // log(cartController.shippingId);
-                                                    });
-                                                  },
-                                                ),
-                                                20.spaceX,
-                                                Column(
-                                                  crossAxisAlignment: CrossAxisAlignment.start,
-                                                  children: [
-                                                    Text(
-                                                        product.serviceName
-                                                            .toString()
-                                                            .capitalize!
-                                                            .replaceAll('_', ' '),
-                                                        style: GoogleFonts.poppins(
-                                                            fontWeight: FontWeight.w500, fontSize: 16)),
-                                                    3.spaceY,
-                                             if    (product.ratedShipmentDetails![ii].rateType=="ACCOUNT")
+                                      var product = directOrderResponse.shippingType![ii].output!.rateReplyDetails![index];
+                                      return Column(
+                                        children: [
+                                          10.spaceY,
+                                          index == 0
+                                              ? 0.spaceY
+                                              : const Divider(
+                                            color: Color(0xFFD9D9D9),
+                                            thickness: 0.8,
+                                          ),
+                                          Row(
+                                            children: [
+                                              Radio(
+                                                value: product.serviceType.toString(),
+                                                groupValue:
+                                                directOrderResponse.fedexShippingOption.value,
+                                                visualDensity: const VisualDensity(horizontal: -4.0),
+                                                onChanged: (value) {
+                                                  setState(() {
+                                                    directOrderResponse.fedexShippingOption.value =
+                                                        value.toString();
+                                                    cartController.shippingTitle =
+                                                        product.serviceName.toString();
+                                                    cartController.shippingPrices = product
+                                                        .ratedShipmentDetails![ii].totalNetCharge
+                                                        .toString();
+                                                    log("tttttt${cartController.shippingTitle.toString()}");
+                                                    // print(cartController.shippingTitle.toString());
+                                                    print(cartController.shippingPrices.toString());
+                                                    shippingPrice = product.ratedShipmentDetails![ii].totalNetCharge.toString();
+                                                    double subtotal = double.parse(
+                                                        directOrderResponse.subtotal.toString());
+                                                    print(
+                                                        'shipping price${shippingPrice.toString()}');
+                                                    double shipping = double.parse(shippingPrice);
+                                                    total = subtotal + shipping;
+                                                    cartController.formattedTotal =
+                                                        total.toStringAsFixed(3);
+                                                    // cartController.shippingId =  directOrderResponse.shippingOption.value;
+                                                    // log( directOrderResponse.shippingOption.value);
+                                                    // log(cartController.shippingId);
+                                                  });
+                                                },
+                                              ),
+                                              20.spaceX,
+                                              Column(
+                                                crossAxisAlignment: CrossAxisAlignment.start,
+                                                children: [
+                                                  Text(
+                                                      product.serviceName
+                                                          .toString()
+                                                          .capitalize!
+                                                          .replaceAll('_', ' '),
+                                                      style: GoogleFonts.poppins(
+                                                          fontWeight: FontWeight.w500, fontSize: 16)),
+                                                  3.spaceY,
+                                                  if    (product.ratedShipmentDetails![ii].rateType=="ACCOUNT")
                                                     Text(
                                                         'kwd ${product.ratedShipmentDetails![ii].totalNetCharge.toString()}',
                                                         style: GoogleFonts.poppins(
                                                             fontWeight: FontWeight.w400,
                                                             fontSize: 16,
                                                             color: const Color(0xFF03a827))),
-                                                    3.spaceY,
-                                                    Text(
-                                                        '${product.operationalDetail!.deliveryDay ?? ''}  ${product.operationalDetail!.deliveryDate ?? ''}',
-                                                        style: GoogleFonts.poppins(
-                                                            fontWeight: FontWeight.w400,
-                                                            fontSize: 15,
-                                                            fontStyle: FontStyle.italic,
-                                                            color: const Color(0xFF000000))),
-                                                  ],
-                                                ),
-                                                // Text(product.name.toString().capitalize!.replaceAll('_', ' '),
-                                                //     style: GoogleFonts.poppins(fontWeight: FontWeight.w400, fontSize: 16)),
-                                              ],
-                                            ),
-                                          ],
-                                        )
-                                            : const LoadingAnimation();
-                                      });
+                                                  3.spaceY,
+                                                  Text(
+                                                      '${product.operationalDetail!.deliveryDay ?? ''}  ${product.operationalDetail!.deliveryDate ?? ''}',
+                                                      style: GoogleFonts.poppins(
+                                                          fontWeight: FontWeight.w400,
+                                                          fontSize: 15,
+                                                          fontStyle: FontStyle.italic,
+                                                          color: const Color(0xFF000000))),
+                                                ],
+                                              ),
+                                              // Text(product.name.toString().capitalize!.replaceAll('_', ' '),
+                                              //     style: GoogleFonts.poppins(fontWeight: FontWeight.w400, fontSize: 16)),
+                                            ],
+                                          ),
+                                        ],
+                                      );
                                     })
                                     : const LoadingAnimation();
                                 // : 0.spaceY,;
@@ -556,7 +564,7 @@ class _DirectCheckOutScreenState extends State<DirectCheckOutScreen> {
                           ),
                         ],
                       )
-                          : const SizedBox()
+                          // : const SizedBox()
                   ],
                 )
               ],
@@ -2033,6 +2041,8 @@ class _DirectCheckOutScreenState extends State<DirectCheckOutScreen> {
                                     behavior: HitTestBehavior.translucent,
                                     onTap: () {
                                       cartController.selectedAddress = address;
+                                      cartController.countryId = address.getCountryId.toString();
+                                      cartController.getCart();
                                       cartController.countryName.value = address.country.toString();
                                       print('onTap is....${cartController.countryName.value}');
                                       if(cartController.isDelivery.value == true){

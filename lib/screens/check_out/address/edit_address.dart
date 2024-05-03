@@ -467,6 +467,8 @@ class _EditAddressSheetState extends State<EditAddressSheet> {
                           print('countrrtr ${cartController.countryCode.toString()}');
                           if (previous != selectedCountry!.id.toString()) {
                             countryIddd = gg.toString();
+                            cartController.countryId = gg.toString();
+                            print('country idd changed...${cartController.countryId.toString()}');
                             getStateList(countryId: countryIddd.toString(), reset: true).then((value) {
                               setState(() {});
                             });

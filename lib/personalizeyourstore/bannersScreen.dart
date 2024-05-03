@@ -39,11 +39,11 @@ class _BannersScreenState extends State<BannersScreen> {
   RxInt refreshInt = 0.obs;
 
   get updateUI => refreshInt.value = DateTime.now().millisecondsSinceEpoch;
-  File storeBanner = File("");
+
   Map<String, File> images = {};
   void updateProfile() {
     Map<String, String> map = {};
-    images["banner_profile"] = storeBanner;
+    images["banner_profile"] = idProof;
 
     repositories
         .multiPartApi(

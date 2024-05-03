@@ -5,6 +5,7 @@ import 'package:get/get.dart';
 import 'package:google_fonts/google_fonts.dart';
 
 import '../iAmHereToSell/whichplantypedescribeyouScreen.dart';
+import '../jobOffers/tellusaboutyourselfScreen.dart';
 import '../language/app_strings.dart';
 import '../newAddress/pickUpAddressScreen.dart';
 import '../widgets/common_button.dart';
@@ -29,9 +30,18 @@ class _MyItemISScreenState extends State<MyItemISScreen> {
   ];
 
   void navigateNext() {
-    if (selectedRadio == 'sell') {
-      Get.to(const WhichplantypedescribeyouScreen());
-    } else if (selectedRadio == 'shop') {
+    if (selectedRadio == 'Giveaway') {
+      Get.to(const ItemDetailsScreens());
+    } else if (selectedRadio == 'Product') {
+      Get.to(PickUpAddressScreen());
+    }
+    else if (selectedRadio == 'Job') {
+      Get.to(JobTellusaboutyourselfScreen());
+    }
+    else if (selectedRadio == 'Service') {
+      Get.to(PickUpAddressScreen());
+    }
+    else if (selectedRadio == 'Virtual') {
       Get.to(PickUpAddressScreen());
     }
   }
@@ -95,7 +105,7 @@ class _MyItemISScreenState extends State<MyItemISScreen> {
               padding: const EdgeInsets.all(8.0),
               child: GestureDetector(
                 onTap: () {
-                  Get.to(ItemDetailsScreens());
+                  navigateNext();
                 },
                 child: Container(
                   width: Get.width,
