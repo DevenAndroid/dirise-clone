@@ -422,7 +422,7 @@ class _SingleProductDetailsState extends State<SingleProductDetails> {
                          Column(crossAxisAlignment: CrossAxisAlignment.start,
                            children: [
                              modelSingleProduct.product?.shippingDate!=null&&modelSingleProduct.product!=null?
-                             Text('DeliveryDate : ${modelSingleProduct.product!.shippingDate.toString()}'
+                             Text('Shipping : ${modelSingleProduct.product!.shippingDate.toString()}'
                                    .tr,
                                style: GoogleFonts.poppins(
                                  shadows: [const Shadow(color: Colors.black, offset: Offset(0, -4))],
