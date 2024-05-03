@@ -753,16 +753,14 @@ class _CheckOutScreenState extends State<CheckOutScreen> {
                                                               onChanged:
                                                                   (value) {
                                                                 setState(() {
-                                                                  print(
-                                                                      "dsfasdfddddddddddddddddxc");
+                                                                  print("dsfasdfddddddddddddddddxc");
                                                                   e.value.shippingOption
                                                                           .value =
                                                                       value
                                                                           .toString();
                                                                   e.value.shippingId
                                                                           .value =
-                                                                      e
-                                                                          .value
+                                                                      e.value
                                                                           .shipping![
                                                                               ii]
                                                                           .id!;

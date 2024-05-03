@@ -21,6 +21,7 @@ class CommonTextField extends StatefulWidget {
   final String? errorText;
   final String? labelText;
   final String? hintText;
+  final dynamic contentPadding;
   final Widget? suffixIcon;
   final Widget? prefix;
 
@@ -32,6 +33,9 @@ class CommonTextField extends StatefulWidget {
     this.validator,
     this.keyboardType = TextInputType.text,
     this.obSecure,
+    this.contentPadding,
+
+
     this.onTap,
     this.isMulti = false,
     this.readOnly = false,
@@ -82,7 +86,7 @@ class _CommonTextFieldState extends State<CommonTextField> {
 
           errorMaxLines: 2,
           enabled: widget.enabled,
-          contentPadding: const EdgeInsets.all(15),
+          contentPadding: widget.contentPadding,
           //   fillColor: Colors.transparent,
           hintText: widget.hintText,
           errorText: widget.errorText,
@@ -91,7 +95,7 @@ class _CommonTextFieldState extends State<CommonTextField> {
           suffixIcon: widget.suffixIcon,
           hintStyle: GoogleFonts.poppins(
             color: AppTheme.primaryColor,
-            fontSize: 15,
+            fontSize: 13,
           ),
 
           border: InputBorder.none,
