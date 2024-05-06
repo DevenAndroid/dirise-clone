@@ -18,6 +18,7 @@ import '../../controller/profile_controller.dart';
 import '../../model/model_news_trend.dart';
 import '../../posts/post_ui_player.dart';
 import '../../repository/repository.dart';
+import '../../tellaboutself/ExtraInformation.dart';
 import '../../utils/api_constant.dart';
 import '../../vendor/shipping_policy.dart';
 import '../../widgets/common_colour.dart';
@@ -109,7 +110,8 @@ class _SliderWidgetState extends State<SliderWidget> {
                       children: [
                         GestureDetector(
                           onTap: (){
-                            Get.toNamed(ShippingPolicyScreen.route);
+                            Get.toNamed(ExtraInformation.route);
+                             // Get.toNamed(ShippingPolicyScreen.route);
                              // Get.toNamed(AddAddressScreen.route);
                           },
                           child: Text(

@@ -35,6 +35,7 @@ import '../screens/school_nursery_category.dart';
 import '../screens/order_screens/selectd_order_screen.dart';
 import '../screens/vendorinformation_screen.dart';
 import '../screens/virtual_assets/virtual_assets_screen.dart';
+import '../tellaboutself/ExtraInformation.dart';
 import '../vendor/authentication/verify_vendor_otp.dart';
 import '../vendor/dashboard/dashboard_screen.dart';
 import '../vendor/dashboard/store_open_time_screen.dart';
@@ -86,6 +87,7 @@ class MyRouters {
     GetPage(name: VendorProfileScreen.route, page: () => const VendorProfileScreen()),
     GetPage(name: AddAddressScreen.route, page: () => const AddAddressScreen()),
     GetPage(name: ShippingPolicyScreen.route, page: () => const ShippingPolicyScreen()),
+    GetPage(name: ExtraInformation.route, page: () => const ExtraInformation()),
     GetPage(name: EditAddresss.route, page: () => const EditAddresss()),
     // GetPage(name: ReturnnPolicy.route, page: () => const ReturnnPolicy()),
     GetPage(name: VendorInformation.route, page: () => const VendorInformation()),
