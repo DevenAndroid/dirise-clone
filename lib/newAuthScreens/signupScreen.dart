@@ -97,9 +97,7 @@ class _CreateAccountNewScreenState extends State<CreateAccountNewScreen> {
 
   @override
   Widget build(BuildContext context) {
-    Size size = MediaQuery
-        .of(context)
-        .size;
+    Size size = MediaQuery.of(context).size;
     return Scaffold(
       backgroundColor: Colors.white,
       appBar: AppBar(
@@ -137,24 +135,31 @@ class _CreateAccountNewScreenState extends State<CreateAccountNewScreen> {
                   height: size.height * .08,
                 ),
                 CommonTextField(
-                    controller: firstNameController,
-                    obSecure: false,
-                    // hintText: 'Name',
-                    hintText: AppStrings.firstName.tr,
-                    validator: MultiValidator([
-                      RequiredValidator(errorText: 'First Name is required'.tr),
-                    ])),
+                  controller: firstNameController,
+                  obSecure: false,
+                  hintText: AppStrings.firstName.tr,
+                  validator: (value) {
+                    if (value!.trim().isEmpty) {
+                      return 'Please enter your first name';
+                    }
+                    return null; // Return null if validation passes
+                  },
+                ),
                 SizedBox(
                   height: size.height * .01,
                 ),
                 CommonTextField(
-                    controller: lastNameController,
-                    obSecure: false,
-                    // hintText: 'Name',
-                    hintText: AppStrings.lastName.tr,
-                    validator: MultiValidator([
-                      RequiredValidator(errorText: 'Last Name is required'.tr),
-                    ])),
+                  controller: lastNameController,
+                  obSecure: false,
+                  // hintText: 'Name',
+                  hintText: AppStrings.lastName.tr,
+                  validator: (value) {
+                    if (value!.trim().isEmpty) {
+                      return 'Last Name is required';
+                    }
+                    return null; // Return null if validation passes
+                  },
+                ),
                 SizedBox(
                   height: size.height * .01,
                 ),
@@ -163,10 +168,15 @@ class _CreateAccountNewScreenState extends State<CreateAccountNewScreen> {
                     obSecure: false,
                     // hintText: 'Name',
                     hintText: AppStrings.email.tr,
-                    validator: MultiValidator([
-                      RequiredValidator(errorText: 'Email is required'.tr),
-                      EmailValidator(errorText: 'Please enter valid email address'.tr),
-                    ])),
+                  validator: (value) {
+                    if (value!.trim().isEmpty) {
+                      return 'Email is required';
+                    }
+                    EmailValidator(errorText: 'Please enter valid email address'.tr);
+                    return null; // Return null if validation passes
+                  },
+                ),
+
                 SizedBox(
                   height: size.height * .01,
                 ),
@@ -263,16 +273,20 @@ class _CreateAccountNewScreenState extends State<CreateAccountNewScreen> {
                       },
                       icon: hide.value ? const Icon(Icons.visibility_off) : const Icon(Icons.visibility),
                     ),
-                    validator: MultiValidator([
-                      RequiredValidator(errorText: 'Please enter your password'.tr),
+                    validator: (value) {
+                      if (value!.trim().isEmpty) {
+                        return 'Password is required';
+                      }
                       MinLengthValidator(8,
                           errorText:
-                          'Password must be at least 8 characters, with 1 special character & 1 numerical'.tr),
+                          'Password must be at least 8 characters, with 1 special character & 1 numerical'.tr);
                       // MaxLengthValidator(16, errorText: "Password maximum length is 16"),
                       PatternValidator(r"(?=.*\W)(?=.*?[#?!@()$%^&*-_])(?=.*[0-9])",
-                          errorText:
-                          "Password must be at least 8 characters, with 1 special character & 1 numerical".tr),
-                    ]),
+                      errorText:
+                      "Password must be at least 8 characters, with 1 special character & 1 numerical".tr);
+                      return null; // Return null if validation passes
+                    },
+
                   );
                 }),
                 SizedBox(
@@ -308,10 +322,9 @@ class _CreateAccountNewScreenState extends State<CreateAccountNewScreen> {
                     obSecure: false,
                     // hintText: 'Name',
                     hintText: 'Referral Point (Optional)'.tr,
-                    validator: MultiValidator([
-                      //RequiredValidator(errorText: 'Referral email is required'),
-                      EmailValidator(errorText: 'Please enter valid Referral Point'.tr),
-                    ])),
+
+
+                ),
                 SizedBox(
                   height: size.height * .01,
                 ),
@@ -410,7 +423,6 @@ class _CreateAccountNewScreenState extends State<CreateAccountNewScreen> {
                 ),
                 Row(
                   mainAxisAlignment: MainAxisAlignment.center,
-
                   children: [
                     Container(
                       height: 62,
@@ -445,7 +457,9 @@ class _CreateAccountNewScreenState extends State<CreateAccountNewScreen> {
                     ),
                   ],
                 ),
-                const SizedBox(height: 20,),
+                const SizedBox(
+                  height: 20,
+                ),
               ],
             ),
           ),

@@ -69,6 +69,8 @@ class ProductElement {
   ProductAvailability? productAvailability;
   // List<Attributes>? attributes;
   List<Variants>? variants;
+  dynamic lowestDeliveryPrice;
+  dynamic shippingDate;
   dynamic bidStatus;
 
   ProductElement({
@@ -136,10 +138,13 @@ class ProductElement {
     this.minBidPrice,
     this.stepPrice,
     this.currentBid,
+
     // this.attributes,
     this.serviceTimeSloat,
     this.productAvailability,
     this.variants,
+    this.lowestDeliveryPrice,
+    this.shippingDate,
     this.bidStatus,
   });
 
@@ -212,6 +217,8 @@ class ProductElement {
     minBidPrice = json["min_bid_price"];
     stepPrice = json["step_price"];
     currentBid = json["current_bid"];
+    lowestDeliveryPrice = json['lowestDeliveryPrice'];
+    shippingDate = json['shipping_date'];
     if (json['serviceTimeSloat'] != null) {
       serviceTimeSloat = <ServiceTimeSloat>[];
       json['serviceTimeSloat'].forEach((v) {

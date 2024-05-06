@@ -68,6 +68,7 @@ class _InternationalshippingdetailsScreenState extends State<Internationalshippi
     map['material'] = selectTypeMaterial;
     map['box_dimension'] = dimensionController.text.trim();
     map['type_of_packages'] = selectTypeOfPackaging;
+    map['item_type'] = 'giveaway';
 
     FocusManager.instance.primaryFocus!.unfocus();
     repositories.postApi(url: ApiUrls.giveawayProductAddress, context: context, mapData: map).then((value) {
@@ -201,7 +202,7 @@ class _InternationalshippingdetailsScreenState extends State<Internationalshippi
                 items: selectNumberOfPackagesList.map<DropdownMenuItem<String>>((String value) {
                   return DropdownMenuItem<String>(
                     value: value,
-                    child: Text('Material'),
+                    child: Text(value),
                   );
                 }).toList(),
                 decoration: InputDecoration(
@@ -245,7 +246,7 @@ class _InternationalshippingdetailsScreenState extends State<Internationalshippi
                 items: selectTypeMaterialList.map<DropdownMenuItem<String>>((String value) {
                   return DropdownMenuItem<String>(
                     value: value,
-                    child: Text('Box dimension'),
+                    child: Text(value),
                   );
                 }).toList(),
                 decoration: InputDecoration(
@@ -296,7 +297,7 @@ class _InternationalshippingdetailsScreenState extends State<Internationalshippi
                 items: selectTypeOfPackagingList.map<DropdownMenuItem<String>>((String value) {
                   return DropdownMenuItem<String>(
                     value: value,
-                    child: Text('Type of packages'),
+                    child: Text(value),
                   );
                 }).toList(),
                 decoration: InputDecoration(
@@ -334,7 +335,7 @@ class _InternationalshippingdetailsScreenState extends State<Internationalshippi
                 title: 'Confirm',
                 borderRadius: 11,
                 onPressed: () {
-                  Get.to(OptionalScreen());
+                  shippingDetailsApi();
                 },
               ),
               const SizedBox(height: 20),

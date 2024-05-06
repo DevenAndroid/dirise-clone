@@ -1,6 +1,7 @@
 import 'dart:convert';
 import 'dart:developer';
 
+import 'package:dirise/controller/profile_controller.dart';
 import 'package:dirise/iAmHereToSell/whatdoyousellScreen.dart';
 import 'package:dirise/model/vendor_models/newVendorPlanlist.dart';
 import 'package:flutter/cupertino.dart';
@@ -26,6 +27,7 @@ class _WhichplantypedescribeyouScreenState extends State<Whichplantypedescribeyo
   bool showValidation = false;
   bool? _isValue = false;
   int _selectedOption = 0;
+  final  profileController = Get.put(ProfileController());
 
   final Repositories repositories = Repositories();
   ModelPlansList? modelPlansList;
@@ -47,6 +49,7 @@ class _WhichplantypedescribeyouScreenState extends State<Whichplantypedescribeyo
     super.initState();
 
     getPlansList();
+
 
   }
   @override
@@ -149,6 +152,7 @@ class _WhichplantypedescribeyouScreenState extends State<Whichplantypedescribeyo
                       onChanged: (value) {
                         setState(() {
                           _selectedOption = 1; // Update selected option
+                          profileController.selectedPlan = value.toString();
                         });
                       },
                     ),
@@ -248,6 +252,7 @@ class _WhichplantypedescribeyouScreenState extends State<Whichplantypedescribeyo
                                       const VisualDensity(horizontal: -4, vertical: -2),
                                       onChanged: (value) {
                                         selectedPlan = value;
+                                        profileController.planID = value!.id.toString();
                                         if (selectedPlan == null) return;
                                         setState(() {});
                                       }),
@@ -313,6 +318,7 @@ class _WhichplantypedescribeyouScreenState extends State<Whichplantypedescribeyo
                       onChanged: (value) {
                         setState(() {
                           _selectedOption = 2; // Update selected option
+                          profileController.selectedPlan = value.toString();
                         });
                       },
                     ),
@@ -397,6 +403,7 @@ class _WhichplantypedescribeyouScreenState extends State<Whichplantypedescribeyo
                                     const VisualDensity(horizontal: -4, vertical: -2),
                                     onChanged: (value) {
                                       selectedPlan1 = value;
+                                      profileController.planID = value!.id.toString();
                                       if (selectedPlan == null) return;
                                       setState(() {});
                                     }),
@@ -456,7 +463,9 @@ class _WhichplantypedescribeyouScreenState extends State<Whichplantypedescribeyo
                       groupValue: _selectedOption,
                       onChanged: (value) {
                         setState(() {
-                          _selectedOption = 3; // Update selected option
+                          _selectedOption = value!; // Update selected option
+                          profileController.selectedPlan = value.toString();
+
                         });
                       },
                     ),
@@ -484,7 +493,7 @@ class _WhichplantypedescribeyouScreenState extends State<Whichplantypedescribeyo
                             child: Align(
                               alignment: Alignment.center,
                               child: Text(
-                                'Individuals'.tr,
+                                'Enterprise stores'.tr,
                                 style: GoogleFonts.raleway(
                                   color: const Color(0xff0D5877),
                                   fontWeight: FontWeight.w500,
@@ -541,6 +550,9 @@ class _WhichplantypedescribeyouScreenState extends State<Whichplantypedescribeyo
                                     const VisualDensity(horizontal: -4, vertical: -2),
                                     onChanged: (value) {
                                       selectedPlan2 = value;
+                                      profileController.planID = value!.id.toString();
+                                      log('message'+profileController.planID.toString());
+                                      log('message34343'+value.id.toString());
                                       if (selectedPlan == null) return;
                                       setState(() {});
                                     }),
@@ -770,7 +782,7 @@ const SizedBox(height: 10,),
                       showToast("Please select a plan first");
                     }
                   } else {
-                    showToast("Select Plan and Agree terms and Conditions");
+                    showToast("Agree terms and Conditions");
                   }
                 },
                 child: Container(
@@ -795,6 +807,9 @@ const SizedBox(height: 10,),
                     ),
                   ),
                 ),
+              ),
+              const SizedBox(
+                height: 20,
               ),
             ],
           ),

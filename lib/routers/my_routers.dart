@@ -9,6 +9,7 @@ import 'package:dirise/screens/my_account_screens/termsconditions_screen.dart';
 import 'package:get/get.dart';
 import '../Services/whatServiceDoYouProvide.dart';
 import '../addNewProduct/pickUpAddressScreen.dart';
+import '../model/model_cart_response.dart';
 import '../model/vendor_models/model_return_policy.dart';
 import '../newAuthScreens/newOtpScreen.dart';
 import '../newAuthScreens/signupScreen.dart';
@@ -44,6 +45,7 @@ import '../vendor/payment_info/withdrawal_screen.dart';
 import '../vendor/products/add_product/add_product_screen.dart';
 import '../vendor/products/all_product_screen.dart';
 import '../vendor/profile/vendor_profile_screen.dart';
+import '../vendor/shipping_policy.dart';
 
 class MyRouters {
   static var route = [
@@ -84,6 +86,7 @@ class MyRouters {
     GetPage(name: DirectCheckOutScreen.route, page: () => const DirectCheckOutScreen()),
     GetPage(name: VendorProfileScreen.route, page: () => const VendorProfileScreen()),
     GetPage(name: AddAddressScreen.route, page: () => const AddAddressScreen()),
+    GetPage(name: ShippingPolicyScreen.route, page: () => const ShippingPolicyScreen()),
     GetPage(name: EditAddresss.route, page: () => const EditAddresss()),
     // GetPage(name: ReturnnPolicy.route, page: () => const ReturnnPolicy()),
     GetPage(name: VendorInformation.route, page: () => const VendorInformation()),

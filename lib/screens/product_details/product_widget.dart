@@ -148,6 +148,29 @@ class _ProductUIState extends State<ProductUI> {
                       fontSize: 13,
                       fontWeight: FontWeight.w500),
                 ),
+                Text(
+                  'shipping',
+                  style: GoogleFonts.poppins(
+                      color: const Color(0xff858484),
+                      fontSize: 13,
+                      fontWeight: FontWeight.w500),
+                ),
+                if(widget.productElement.lowestDeliveryPrice!=null)
+                Text(
+                  'KWD${widget.productElement.lowestDeliveryPrice.toString()}',
+                  style: GoogleFonts.poppins(
+                      color: const Color(0xff858484),
+                      fontSize: 13,
+                      fontWeight: FontWeight.w500),
+                ),
+                if(widget.productElement.shippingDate!=null)
+                Text(
+                  '${widget.productElement.shippingDate.toString()}',
+                  style: GoogleFonts.poppins(
+                      color: const Color(0xff858484),
+                      fontSize: 13,
+                      fontWeight: FontWeight.w500),
+                ),
               ],
             ),
             Positioned(

@@ -157,10 +157,10 @@ class _SingleProductDetailsState extends State<SingleProductDetails> {
   }
 
   getProductDetails() {
-    repositories.postApi(url: ApiUrls.singleProductUrl, mapData: {"id": productDetails.id.toString()}).then((value) {
+    repositories.postApi(url: ApiUrls.singleProductUrl, mapData: {"id": productDetails.id.toString(),"key":'fedexRate'}).then((value) {
       modelSingleProduct = ModelSingleProduct.fromJson(jsonDecode(value));
       if (modelSingleProduct.product != null) {
-        log("modelSingleProduct.product!.toJson().....      ${modelSingleProduct.product!.toJson()}");
+        log("modelSingleProduct.product!.toJson().....${modelSingleProduct.product!.toJson()}");
         productElement = modelSingleProduct.product!;
         imagesList.addAll(modelSingleProduct.product!.galleryImage ?? []);
         imagesList = imagesList.toSet().toList();
@@ -418,6 +418,47 @@ class _SingleProductDetailsState extends State<SingleProductDetails> {
                             const SizedBox(
                               height: 20,
                             ),
+                           modelSingleProduct.product?.shippingDate!="No Internation Shipping Available"?
+                         Column(crossAxisAlignment: CrossAxisAlignment.start,
+                           children: [
+                             modelSingleProduct.product?.shippingDate!=null&&modelSingleProduct.product!=null?
+                             Text('Shipping : ${modelSingleProduct.product!.shippingDate.toString()}'
+                                   .tr,
+                               style: GoogleFonts.poppins(
+                                 shadows: [const Shadow(color: Colors.black, offset: Offset(0, -4))],
+                                 color: Colors.transparent,
+                                 fontSize: 18,
+                                 fontWeight: FontWeight.w500,
+                                 decoration: TextDecoration.underline,
+                               ),
+                             ):const CircularProgressIndicator(),
+                             const SizedBox(
+                               height: 20,
+                             ),
+                             if(modelSingleProduct.product?.lowestDeliveryPrice!=null)
+                               Row(
+                                 children: [
+                                   Text('DeliveryCharge : KWD ${modelSingleProduct.product!.lowestDeliveryPrice.toString()}'
+                                         .tr,
+                                     style: GoogleFonts.poppins(
+                                       shadows: [const Shadow(color: Colors.black, offset: Offset(0, -4))],
+                                       color: Colors.transparent,
+                                       fontSize: 18,
+                                       fontWeight: FontWeight.w500,
+                                       decoration: TextDecoration.underline,
+                                     ),
+                                   ),
+                                 ],
+                               ),
+                           ],
+                         ):Text("No Internation Shipping Available",style: GoogleFonts.poppins(
+                             shadows: [const Shadow(color: Colors.black, offset: Offset(0, -4))],
+                             color: Colors.transparent,
+                             fontSize: 18,
+                             fontWeight: FontWeight.w500,
+                             decoration: TextDecoration.underline,
+                           ),),
+                            const SizedBox(height: 15,),
                             Align(
                               alignment: Alignment.topLeft,
                               child: Text(

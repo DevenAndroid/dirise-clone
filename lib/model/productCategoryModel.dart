@@ -1,17 +1,19 @@
+import 'package:dirise/model/vendor_models/model_add_product_category.dart';
+
 class ProductCategoryModel {
   bool? status;
   String? message;
-  List<ProductCategoryData>? data;
+  List<ProductCategoryData>? productdata = [];
 
-  ProductCategoryModel({this.status, this.message, this.data});
+  ProductCategoryModel({this.status, this.message, this.productdata});
 
   ProductCategoryModel.fromJson(Map<String, dynamic> json) {
     status = json['status'];
     message = json['message'];
     if (json['data'] != null) {
-      data = <ProductCategoryData>[];
+      productdata = <ProductCategoryData>[];
       json['data'].forEach((v) {
-        data!.add(new ProductCategoryData.fromJson(v));
+        productdata!.add(new ProductCategoryData.fromJson(v));
       });
     }
   }
@@ -20,14 +22,14 @@ class ProductCategoryModel {
     final Map<String, dynamic> data = new Map<String, dynamic>();
     data['status'] = this.status;
     data['message'] = this.message;
-    if (this.data != null) {
-      data['data'] = this.data!.map((v) => v.toJson()).toList();
+    if (this.productdata != null) {
+      data['data'] = this.productdata!.map((v) => v.toJson()).toList();
     }
     return data;
   }
 }
 
-class ProductCategoryData {
+class productdata {
   dynamic id;
   dynamic title;
   dynamic parentId;
@@ -38,7 +40,7 @@ class ProductCategoryData {
   dynamic  arabDescription;
   dynamic categoryImage;
 
-  ProductCategoryData(
+  productdata(
       {this.id,
         this.title,
         this.parentId,
@@ -49,7 +51,7 @@ class ProductCategoryData {
         this.arabDescription,
         this.categoryImage});
 
-  ProductCategoryData.fromJson(Map<String, dynamic> json) {
+  productdata.fromJson(Map<String, dynamic> json) {
     id = json['id'];
     title = json['title'];
     parentId = json['parent_id'];
