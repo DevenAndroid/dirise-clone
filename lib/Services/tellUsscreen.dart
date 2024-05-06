@@ -1,3 +1,6 @@
+import 'dart:convert';
+
+import 'package:dirise/Services/servicesReturnPolicyScreen.dart';
 import 'package:dirise/singleproductScreen/singleProductReturnPolicy.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
@@ -6,6 +9,10 @@ import 'package:form_field_validator/form_field_validator.dart';
 import 'package:get/get.dart';
 import 'package:google_fonts/google_fonts.dart';
 
+import '../controller/service_controller.dart';
+import '../model/common_modal.dart';
+import '../repository/repository.dart';
+import '../utils/api_constant.dart';
 import '../widgets/common_colour.dart';
 import '../widgets/common_textfield.dart';
 
@@ -17,6 +24,29 @@ class TellUsScreen extends StatefulWidget {
 }
 
 class _TellUsScreenState extends State<TellUsScreen> {
+  final serviceController = Get.put(ServiceController());
+
+
+  serviceApi() {
+    Map<String, dynamic> map = {};
+    map['short_description'] = serviceController.shortDescriptionController.text.trim();
+    map['item_type'] = 'service';
+    map['in_stock'] = serviceController.inStockController.text.trim();
+    map['stock_alert'] = serviceController.stockAlertController.text.trim();
+    map['seo_tags'] = serviceController.writeTagsController.text.trim();
+
+
+    final Repositories repositories = Repositories();
+    FocusManager.instance.primaryFocus!.unfocus();
+    repositories.postApi(url: ApiUrls.giveawayProductAddress, context: context, mapData: map).then((value) {
+      ModelCommonResponse response = ModelCommonResponse.fromJson(jsonDecode(value));
+      print('API Response Status Code: ${response.status}');
+      // showToast(response.message.toString());
+      if (response.status == true) {
+        Get.to(const ServicesReturnPolicy());
+      }
+    });
+  }
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -58,6 +88,7 @@ class _TellUsScreenState extends State<TellUsScreen> {
               TextFormField(
                 maxLines: 2,
                 minLines: 2,
+                controller: serviceController.shortDescriptionController,
                 decoration: InputDecoration(
                   counterStyle: GoogleFonts.poppins(
                     color: AppTheme.primaryColor,
@@ -68,7 +99,7 @@ class _TellUsScreenState extends State<TellUsScreen> {
                   contentPadding: const EdgeInsets.all(15),
                   filled: true,
                   fillColor: Colors.grey.shade100,
-                  hintText: 'Long Description(optional)',
+                  hintText: 'Description',
                   hintStyle: GoogleFonts.poppins(
                     color: AppTheme.primaryColor,
                     fontSize: 15,
@@ -103,13 +134,15 @@ class _TellUsScreenState extends State<TellUsScreen> {
                 style: GoogleFonts.poppins(color: const Color(0xff292F45), fontWeight: FontWeight.w600, fontSize: 14),
               ),
               CommonTextField(
-                // controller: priceController,
+                controller: serviceController.inStockController,
                   obSecure: false,
                   // hintText: 'Name',
+                  keyboardType: TextInputType.number,
                   hintText: 'Stock number'.tr,
-                  validator: MultiValidator([
-                    RequiredValidator(errorText: 'Stock number is required'.tr),
-                  ])),
+                  // validator: MultiValidator([
+                  //   RequiredValidator(errorText: 'Stock number is required'.tr),
+                  // ])
+              ),
               const SizedBox(
                 height: 20,
               ),
@@ -120,7 +153,7 @@ class _TellUsScreenState extends State<TellUsScreen> {
                 child: Align(
                   alignment: Alignment.bottomCenter,
                   child: Text(
-                    'Stock quantity *'.tr,
+                    'Item doesn’t need stock number'.tr,
                     style:
                     GoogleFonts.poppins(color: const Color(0xff514949), fontWeight: FontWeight.w400, fontSize: 13),
                   ),
@@ -135,8 +168,9 @@ class _TellUsScreenState extends State<TellUsScreen> {
                 style: GoogleFonts.poppins(color: const Color(0xff292F45), fontWeight: FontWeight.w600, fontSize: 14),
               ),
               CommonTextField(
-                // controller: priceController,
+                controller: serviceController.stockAlertController,
                   obSecure: false,
+                  keyboardType: TextInputType.number,
                   // hintText: 'Name',
                   hintText: 'Get notification on your stock quantity'.tr,
                   validator: MultiValidator([
@@ -160,7 +194,7 @@ class _TellUsScreenState extends State<TellUsScreen> {
                 height: 5,
               ),
               CommonTextField(
-                // controller: priceController,
+                controller: serviceController.writeTagsController,
                   obSecure: false,
                   // hintText: 'Name',
                   hintText: 'Write Tags'.tr,
@@ -256,7 +290,7 @@ class _TellUsScreenState extends State<TellUsScreen> {
               ),
               GestureDetector(
                 onTap: (){
-                  Get.to(const SingleProductReturnPolicy());
+                  serviceApi();
                 },
                 child: Container(
                   width: Get.width,

@@ -7,6 +7,7 @@ import 'package:dirise/screens/my_account_screens/profile_screen.dart';
 import 'package:dirise/screens/my_account_screens/return_policy_screen.dart';
 import 'package:dirise/screens/my_account_screens/termsconditions_screen.dart';
 import 'package:get/get.dart';
+import '../Services/whatServiceDoYouProvide.dart';
 import '../addNewProduct/pickUpAddressScreen.dart';
 import '../model/vendor_models/model_return_policy.dart';
 import '../newAuthScreens/newOtpScreen.dart';
@@ -46,7 +47,7 @@ import '../vendor/profile/vendor_profile_screen.dart';
 
 class MyRouters {
   static var route = [
-    GetPage(name: '/', page: () => BottomNavbar()),
+    GetPage(name: '/', page: () => whatServiceDoYouProvide()),
     GetPage(name: LoginScreen.route, page: () => const LoginScreen()),
     GetPage(name: VendorOTPVerification.route, page: () => const VendorOTPVerification()),
     GetPage(name: CreateAccountNewScreen.route, page: () => const CreateAccountNewScreen()),
