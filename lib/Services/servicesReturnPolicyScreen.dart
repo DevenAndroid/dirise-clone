@@ -482,6 +482,7 @@ class _ServicesReturnPolicyState extends State<ServicesReturnPolicy> {
                     borderSide: BorderSide(color: AppTheme.secondaryColor),
                   ),
                 ),
+              )
               ],
             ),
           ),
