@@ -24,7 +24,6 @@ class ChooseAddressForGiveaway extends StatefulWidget {
     super.key,
   });
   static var chooseAddressScreen = "/chooseAddressScreen";
-
   @override
   State<ChooseAddressForGiveaway> createState() => _ChooseAddressForGiveawayState();
 }
