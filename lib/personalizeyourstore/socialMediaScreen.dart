@@ -1,6 +1,7 @@
 import 'dart:convert';
 import 'dart:developer';
 
+import 'package:dirise/iAmHereToSell/personalizeyourstoreScreen.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
@@ -52,6 +53,7 @@ class _SocialMediaStoreState extends State<SocialMediaStore> {
       showToast(response.message.toString());
       if (response.status == true) {
         showToast(response.message.toString());
+        Get.to(PersonalizeyourstoreScreen());
       }
     });
   }
@@ -69,6 +71,7 @@ class _SocialMediaStoreState extends State<SocialMediaStore> {
   void initState() {
     super.initState();
     getSocialMedia();
+    log('fffffff'+socialMediaModel.message.toString());
   }
 
   bool check = false;
@@ -89,18 +92,18 @@ class _SocialMediaStoreState extends State<SocialMediaStore> {
             size: 16,
           ),
         ),
-        actions: [
-          GestureDetector(
-              onTap: () {
-                check = true;
-                setState(() {});
-                print(check.toString());
-              },
-              child: const Padding(
-                padding: EdgeInsets.only(right: 10),
-                child: Icon(Icons.add_circle_outline),
-              ))
-        ],
+        // actions: [
+        //   GestureDetector(
+        //       onTap: () {
+        //         check = true;
+        //         setState(() {});
+        //         print(check.toString());
+        //       },
+        //       child: const Padding(
+        //         padding: EdgeInsets.only(right: 10),
+        //         child: Icon(Icons.add_circle_outline),
+        //       ))
+        // ],
         titleSpacing: 0,
         title: Row(
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -117,20 +120,30 @@ class _SocialMediaStoreState extends State<SocialMediaStore> {
           margin: EdgeInsets.only(left: 20, right: 20),
           child: Column(
             children: [
+              socialMediaModel.socialMedia != null ?
               Column(
+                mainAxisAlignment: MainAxisAlignment.start,
+                crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  socialMediaModel.socialMedia != null
-                      ? ListView.builder(
-                          shrinkWrap: true,
-                          itemCount: socialMediaModel.socialMedia!.length,
-                          physics: NeverScrollableScrollPhysics(),
-                          itemBuilder: (context, index) {
-                            var socialMedia = socialMediaModel.socialMedia![index];
-                            return Text('${socialMedia.name} :- ${socialMedia.value}');
-                          })
-                      : const Center(child: CircularProgressIndicator())
+                  Text('Instagram :- ${socialMediaModel.socialMedia!.instagram.toString() ?? ""}'),
+                  const SizedBox(height: 10,),
+                  Text('Linkedin :- ${socialMediaModel.socialMedia!.linkedin.toString() ?? ""}'),
+                  const SizedBox(height: 10,),
+                  Text('Pinterest :- ${socialMediaModel.socialMedia!.pinterest.toString() ?? ""}'),
+                  const SizedBox(height: 10,),
+                  Text('Snapchat :- ${socialMediaModel.socialMedia!.snapchat.toString() ?? ""}'),
+                  const SizedBox(height: 10,),
+                  Text('Threads :- ${socialMediaModel.socialMedia!.threads.toString() ?? ""}'),
+                  const SizedBox(height: 10,),
+                  Text('Twitter :- ${socialMediaModel.socialMedia!.twitter.toString() ?? ""}'),
+                  const SizedBox(height: 10,),
+                  Text('Tiktok :- ${socialMediaModel.socialMedia!.tiktok.toString() ?? ""}'),
+                  const SizedBox(height: 10,),
+                  Text('Youtube :- ${socialMediaModel.socialMedia!.youtube.toString() ?? ""}'),
+
+
                 ],
-              ),
+              ) : CircularProgressIndicator(),
               const SizedBox(
                 height: 20,
               ),

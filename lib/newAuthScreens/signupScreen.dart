@@ -169,11 +169,14 @@ class _CreateAccountNewScreenState extends State<CreateAccountNewScreen> {
                     // hintText: 'Name',
                     hintText: AppStrings.email.tr,
                   validator: (value) {
-                    if (value!.trim().isEmpty) {
-                      return 'Email is required';
+                    if (value!.isEmpty) {
+                      return 'Please enter email address';
                     }
-                    EmailValidator(errorText: 'Please enter valid email address'.tr);
-                    return null; // Return null if validation passes
+                    final emailValidator = EmailValidator(errorText: 'Please enter valid email address');
+                    if (!emailValidator.isValid(value)) {
+                      return emailValidator.errorText;
+                    }
+                    return null;
                   },
                 ),
 
@@ -274,17 +277,16 @@ class _CreateAccountNewScreenState extends State<CreateAccountNewScreen> {
                       icon: hide.value ? const Icon(Icons.visibility_off) : const Icon(Icons.visibility),
                     ),
                     validator: (value) {
-                      if (value!.trim().isEmpty) {
+                      if (value!.isEmpty) {
                         return 'Password is required';
                       }
-                      MinLengthValidator(8,
-                          errorText:
-                          'Password must be at least 8 characters, with 1 special character & 1 numerical'.tr);
-                      // MaxLengthValidator(16, errorText: "Password maximum length is 16"),
-                      PatternValidator(r"(?=.*\W)(?=.*?[#?!@()$%^&*-_])(?=.*[0-9])",
-                      errorText:
-                      "Password must be at least 8 characters, with 1 special character & 1 numerical".tr);
-                      return null; // Return null if validation passes
+                      if (value.length < 8) {
+                        return 'Password must be at least 8 characters long';
+                      }
+                      if (!RegExp(r"(?=.*\W)(?=.*?[#?!@()$%^&*-_])(?=.*[0-9])").hasMatch(value)) {
+                        return 'Password must contain at least 1 special character and 1 numerical';
+                      }
+                      return null;
                     },
 
                   );

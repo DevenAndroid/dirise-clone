@@ -6,6 +6,7 @@ import 'package:dirise/iAmHereToSell/vendorlocation.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
+import 'package:form_field_validator/form_field_validator.dart';
 import 'package:get/get.dart';
 import 'package:google_fonts/google_fonts.dart';
 
@@ -127,7 +128,7 @@ class _SellingPickupAddressState extends State<SellingPickupAddress> {
           children: [
             Text(
               'Pick up address'.tr,
-              style: GoogleFonts.poppins(color: Color(0xff292F45), fontWeight: FontWeight.w600, fontSize: 20),
+              style: GoogleFonts.poppins(color: const Color(0xff292F45), fontWeight: FontWeight.w600, fontSize: 20),
             ),
           ],
         ),
@@ -146,7 +147,7 @@ class _SellingPickupAddressState extends State<SellingPickupAddress> {
                 ),
                 Text(
                   "Where do you want to receive your orders".tr,
-                  style: GoogleFonts.poppins(color: Color(0xff292F45), fontWeight: FontWeight.w600, fontSize: 16),
+                  style: GoogleFonts.poppins(color: const Color(0xff292F45), fontWeight: FontWeight.w600, fontSize: 16),
                 ),
                 SizedBox(
                   height: size.height * .02,
@@ -159,52 +160,111 @@ class _SellingPickupAddressState extends State<SellingPickupAddress> {
                     alignment: Alignment.center,
                     child: Text(
                       "Select your location on the map".tr,
-                      style: GoogleFonts.poppins(color: Color(0xff044484), fontWeight: FontWeight.w400, fontSize: 14),
+                      style: GoogleFonts.poppins(color: const Color(0xff044484), fontWeight: FontWeight.w400, fontSize: 14),
                     ),
                   ),
                 ),
-                ...commonField(
-                    hintText: "Street",
-                    textController: streetController,
-                    title: 'Street*',
-                    validator: (String? value) {},
-                    keyboardType: TextInputType.name),
-                ...commonField(
-                    hintText: "city",
-                    textController: cityController,
-                    title: 'City*',
-                    validator: (String? value) {},
-                    keyboardType: TextInputType.name),
-                ...commonField(
-                    hintText: "state",
-                    textController: stateController,
-                    title: 'State*',
-                    validator: (String? value) {},
-                    keyboardType: TextInputType.name),
-                ...commonField(
-                    hintText: "Country",
-                    textController: countryController,
-                    title: 'Country*',
-                    validator: (String? value) {},
-                    keyboardType: TextInputType.name),
-                ...commonField(
-                    hintText: "Zip Code",
-                    textController: zipcodeController,
-                    title: 'Zip Code*',
-                    validator: (String? value) {},
-                    keyboardType: TextInputType.number),
-                ...commonField(
-                    hintText: "Town",
-                    textController: townController,
-                    title: 'Town*',
-                    validator: (String? value) {},
-                    keyboardType: TextInputType.name),
-                ...commonField(
-                    hintText: "Special instruction",
-                    textController: specialInstructionController,
-                    title: 'Special instruction*',
-                    validator: (String? value) {},
-                    keyboardType: TextInputType.name),
+                const SizedBox(height: 20,),
+                Text(
+                  "Street*".tr,
+                  style: GoogleFonts.poppins(color: const Color(0xff044484), fontWeight: FontWeight.w600, fontSize: 14),
+                ),
+                const SizedBox(height: 5,),
+                CommonTextField(
+                    controller: streetController,
+                    obSecure: false,
+                    hintText: 'Street'.tr,
+                    validator: (value) {
+                      if (value!.trim().isEmpty) {
+                        return 'Street is required';
+                      }
+                      return null; // Return null if validation passes
+                    },
+
+                ),
+                const SizedBox(height: 10,),
+                Text(
+                  "City*".tr,
+                  style: GoogleFonts.poppins(color: const Color(0xff044484), fontWeight: FontWeight.w600, fontSize: 14),
+                ),
+                const SizedBox(height: 5,),
+                CommonTextField(
+                    controller: cityController,
+                    obSecure: false,
+                    hintText: 'city'.tr,
+                    validator: (value) {
+                      if (value!.trim().isEmpty) {
+                        return 'city is required';
+                      }
+                      return null; // Return null if validation passes
+                    },
+                   ),
+                const SizedBox(height: 10,),
+                Text(
+                  "State*".tr,
+                  style: GoogleFonts.poppins(color: const Color(0xff044484), fontWeight: FontWeight.w600, fontSize: 14),
+                ),
+                const SizedBox(height: 5,),
+                CommonTextField(
+                    controller: stateController,
+                    obSecure: false,
+                    hintText: 'State'.tr,
+                    validator: (value) {
+                      if (value!.trim().isEmpty) {
+                        return 'State is required';
+                      }
+                      return null; // Return null if validation passes
+                    },
+
+                ),
+                const SizedBox(height: 10,),
+                Text(
+                  "Zip Code".tr,
+                  style: GoogleFonts.poppins(color: const Color(0xff044484), fontWeight: FontWeight.w600, fontSize: 14),
+                ),
+                const SizedBox(height: 5,),
+                CommonTextField(
+                    controller: zipcodeController,
+                    obSecure: false,
+                    hintText: 'Zip Code'.tr,
+                    validator: (value) {
+                      if (value!.trim().isEmpty) {
+                        return 'Zip Code is required';
+                      }
+                      return null; // Return null if validation passes
+                    },
+                   ),
+                const SizedBox(height: 10,),
+                Text(
+                  "Town*".tr,
+                  style: GoogleFonts.poppins(color: const Color(0xff044484), fontWeight: FontWeight.w600, fontSize: 14),
+                ),
+                const SizedBox(height: 5,),
+                CommonTextField(
+                    controller: townController,
+                    obSecure: false,
+                    hintText: 'Town'.tr,
+                    validator: (value) {
+                      if (value!.trim().isEmpty) {
+                        return 'Town is required';
+                      }
+                      return null; // Return null if validation passes
+                    },
+                    ),
+                const SizedBox(height: 10,),
+
+                Text(
+                  "Special instruction*".tr,
+                  style: GoogleFonts.poppins(color: const Color(0xff044484), fontWeight: FontWeight.w600, fontSize: 14),
+                ),
+                const SizedBox(height: 5,),
+                CommonTextField(
+                    controller: specialInstructionController,
+                    obSecure: false,
+                    hintText: 'Special instruction'.tr,
+
+                  ),
+                const SizedBox(height: 10,),
                 SizedBox(
                   height: size.height * .02,
                 ),
@@ -231,30 +291,3 @@ class _SellingPickupAddressState extends State<SellingPickupAddress> {
   }
 }
 
-List<Widget> commonField({
-  required TextEditingController textController,
-  required String title,
-  required String hintText,
-  required FormFieldValidator<String>? validator,
-  required TextInputType keyboardType,
-}) {
-  return [
-    const SizedBox(
-      height: 5,
-    ),
-    Text(
-      title.tr,
-      style: GoogleFonts.poppins(fontWeight: FontWeight.w500, fontSize: 16, color: const Color(0xff0D5877)),
-    ),
-    const SizedBox(
-      height: 8,
-    ),
-    CommonTextField(
-      controller: textController,
-      obSecure: false,
-      hintText: hintText.tr,
-      validator: validator,
-      keyboardType: keyboardType,
-    ),
-  ];
-}

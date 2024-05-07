@@ -412,6 +412,7 @@ class _ServicesReturnPolicyState extends State<ServicesReturnPolicy> {
                 const SizedBox(
                   height: 15,
                 ),
+
                 CustomOutlineButton(
                   title: 'Next',
                   borderRadius: 11,
@@ -420,6 +421,66 @@ class _ServicesReturnPolicyState extends State<ServicesReturnPolicy> {
                       returnPolicyApi();
                     }
                   },
+
+              ),
+              SizedBox(
+                height: 20,
+              ),
+              Text(
+                'My Policies Details*'.tr,
+                style: GoogleFonts.poppins(color: Color(0xff292F45), fontWeight: FontWeight.w600, fontSize: 18),
+              ),
+
+              CommonTextField(
+                  // controller: ProductNameController,
+                  obSecure: false,
+                  hintText: 'DIRISE standard Policy',
+                  validator: MultiValidator([
+                    RequiredValidator(errorText: 'DIRISE standard Policy is required'.tr),
+                  ])
+              ),
+              SizedBox(
+                height: 10,
+              ),
+              Text(
+                'Create New Return Policy'.tr,
+                style: GoogleFonts.poppins(color: Color(0xff292F45), fontWeight: FontWeight.w600, fontSize: 18),
+              ),
+              TextFormField(
+                maxLines: 2,
+                minLines: 2,
+                decoration: InputDecoration(
+                  counterStyle: GoogleFonts.poppins(
+                    color: AppTheme.primaryColor,
+                    fontSize: 25,
+                  ),
+                  counter: const Offstage(),
+                  errorMaxLines: 2,
+                  contentPadding: const EdgeInsets.all(15),
+                  fillColor: Colors.grey.shade100,
+                  hintText: 'Long Description(optional)',
+                  hintStyle: GoogleFonts.poppins(
+                    color: AppTheme.primaryColor,
+                    fontSize: 15,
+                  ),
+                  border: InputBorder.none,
+                  focusedErrorBorder: const OutlineInputBorder(
+                      borderRadius: BorderRadius.all(Radius.circular(8)),
+                      borderSide: BorderSide(color: AppTheme.secondaryColor)),
+                  errorBorder: const OutlineInputBorder(
+                      borderRadius: BorderRadius.all(Radius.circular(8)),
+                      borderSide: BorderSide(color: AppTheme.secondaryColor)),
+                  focusedBorder: const OutlineInputBorder(
+                      borderRadius: BorderRadius.all(Radius.circular(8)),
+                      borderSide: BorderSide(color: AppTheme.secondaryColor)),
+                  disabledBorder: const OutlineInputBorder(
+                    borderRadius: BorderRadius.all(Radius.circular(8)),
+                    borderSide: BorderSide(color: AppTheme.secondaryColor),
+                  ),
+                  enabledBorder: const OutlineInputBorder(
+                    borderRadius: BorderRadius.all(Radius.circular(8)),
+                    borderSide: BorderSide(color: AppTheme.secondaryColor),
+                  ),
                 ),
               ],
             ),

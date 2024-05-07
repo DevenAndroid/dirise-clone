@@ -66,8 +66,7 @@ class _PersonalizeAddAddressScreenState extends State<PersonalizeAddAddressScree
         widget.city != null &&
         widget.state != null &&
         widget.country != null &&
-        widget.zipcode != null &&
-        widget.town != null) {
+        widget.zipcode != null ) {
       map['address_type'] = 'Both';
       map['city'] = widget.city;
       map['country'] = widget.country;
@@ -99,16 +98,15 @@ class _PersonalizeAddAddressScreenState extends State<PersonalizeAddAddressScree
 
   @override
   void initState() {
-    // TODO: implement initState
     super.initState();
-    if (widget.street != null) {
-      streetController.text = widget.street!;
+    if (widget.city != null) {
       cityController.text = widget.city ?? '';
       stateController.text = widget.state ?? '';
       countryController.text = widget.country ?? '';
       zipcodeController.text = widget.zipcode ?? '';
       townController.text = widget.town ?? '';
     }
+    log('ffffff'+widget.city.toString());
   }
   @override
   Widget build(BuildContext context) {

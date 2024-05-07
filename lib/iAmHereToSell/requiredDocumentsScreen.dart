@@ -2,6 +2,7 @@ import 'dart:convert';
 import 'dart:io';
 
 import 'package:dirise/iAmHereToSell/requiredInformationImageScreen.dart';
+import 'package:dirise/iAmHereToSell/securityDetailsScreen.dart';
 import 'package:dirise/iAmHereToSell/verificationOptiionScreen.dart';
 import 'package:dotted_border/dotted_border.dart';
 import 'package:flutter/cupertino.dart';
@@ -131,7 +132,7 @@ class _RequiredDocumentsScreenState extends State<RequiredDocumentsScreen> {
                 children: [
                   ImageWidget(
                     // key: paymentReceiptCertificateKey,
-                    title: "Banner".tr,
+                    title: "Documents".tr,
                     file: commercial_license,
                     validation: checkValidation(showValidation.value, commercial_license.path.isEmpty),
                     filePicked: (File g) {
@@ -140,7 +141,7 @@ class _RequiredDocumentsScreenState extends State<RequiredDocumentsScreen> {
                   ),
                   ImageWidget(
                     // key: paymentReceiptCertificateKey,
-                    title: "Banner".tr,
+                    title: "Documents".tr,
                     file: memorandum_of_association,
                     validation: checkValidation(showValidation.value, memorandum_of_association.path.isEmpty),
                     filePicked: (File g) {
@@ -149,7 +150,7 @@ class _RequiredDocumentsScreenState extends State<RequiredDocumentsScreen> {
                   ),
                   ImageWidget(
                     // key: paymentReceiptCertificateKey,
-                    title: "Banner".tr,
+                    title: "Documents".tr,
                     file: ministy_of_commerce,
                     validation: checkValidation(showValidation.value, ministy_of_commerce.path.isEmpty),
                     filePicked: (File g) {
@@ -158,7 +159,7 @@ class _RequiredDocumentsScreenState extends State<RequiredDocumentsScreen> {
                   ),
                   ImageWidget(
                     // key: paymentReceiptCertificateKey,
-                    title: "Banner".tr,
+                    title: "Documents".tr,
                     file: original_civil_information,
                     validation: checkValidation(showValidation.value, original_civil_information.path.isEmpty),
                     filePicked: (File g) {
@@ -167,7 +168,7 @@ class _RequiredDocumentsScreenState extends State<RequiredDocumentsScreen> {
                   ),
                   ImageWidget(
                     // key: paymentReceiptCertificateKey,
-                    title: "Banner".tr,
+                    title: "Documents".tr,
                     file: signature_approval,
                     validation: checkValidation(showValidation.value, signature_approval.path.isEmpty),
                     filePicked: (File g) {
@@ -176,7 +177,7 @@ class _RequiredDocumentsScreenState extends State<RequiredDocumentsScreen> {
                   ),
                   ImageWidget(
                     // key: paymentReceiptCertificateKey,
-                    title: "Banner".tr,
+                    title: "Documents".tr,
                     file: company_bank_account,
                     validation: checkValidation(showValidation.value, company_bank_account.path.isEmpty),
                     filePicked: (File g) {
@@ -189,7 +190,7 @@ class _RequiredDocumentsScreenState extends State<RequiredDocumentsScreen> {
               profileController.selectedPlan == '2' ?
               ImageWidget(
                 // key: paymentReceiptCertificateKey,
-                title: "Banner".tr,
+                title: "Documents".tr,
                 file: payment_certificate,
                 validation: checkValidation(showValidation.value, payment_certificate.path.isEmpty),
                 filePicked: (File g) {
@@ -200,7 +201,7 @@ class _RequiredDocumentsScreenState extends State<RequiredDocumentsScreen> {
               profileController.selectedPlan == '3' ?
               ImageWidget(
                 // key: paymentReceiptCertificateKey,
-                title: "Banner".tr,
+                title: "Documents".tr,
                 file: payment_certificate,
                 validation: checkValidation(showValidation.value, payment_certificate.path.isEmpty),
                 filePicked: (File g) {
@@ -222,7 +223,7 @@ class _RequiredDocumentsScreenState extends State<RequiredDocumentsScreen> {
               ),
               GestureDetector(
                 onTap: () {
-                  Get.to(const VerificationOptionScreen());
+                  Get.to(const SecurityDetailsScreen());
                 },
                 child: Container(
                   width: Get.width,

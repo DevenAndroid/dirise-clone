@@ -1,4 +1,5 @@
 import 'dart:convert';
+import 'dart:developer';
 import 'dart:io';
 
 import 'package:dirise/iAmHereToSell/personalizeyourstoreScreen.dart';
@@ -30,6 +31,7 @@ class _BannersScreenState extends State<BannersScreen> {
       return false;
     }
   }
+
   ModelVendorDetails model = ModelVendorDetails();
   final _formKey = GlobalKey<FormState>();
   final GlobalKey categoryKey = GlobalKey();
@@ -47,28 +49,20 @@ class _BannersScreenState extends State<BannersScreen> {
 
     repositories
         .multiPartApi(
-        mapData: map,
-        images: images,
-        context: context,
-        url: ApiUrls.editVendorDetailsUrl,
-        onProgress: (int bytes, int totalBytes) {
-
-        })
+            mapData: map,
+            images: images,
+            context: context,
+            url: ApiUrls.editVendorDetailsUrl,
+            onProgress: (int bytes, int totalBytes) {})
         .then((value) {
-          Get.to(const PersonalizeyourstoreScreen());
-          showToast('Add Banner successfully');
+      Get.to(const PersonalizeyourstoreScreen());
+      showToast('Add Banner successfully');
     });
   }
 
   Future getVendorDetails() async {
     await repositories.getApi(url: ApiUrls.getVendorDetailUrl).then((value) {
       model = ModelVendorDetails.fromJson(jsonDecode(value));
-      if (model.user != null) {
-        apiLoaded = true;
-      } else {
-        apiLoaded = false;
-      }
-      updateUI;
     });
   }
 
@@ -77,7 +71,9 @@ class _BannersScreenState extends State<BannersScreen> {
     // TODO: implement initState
     super.initState();
     getVendorDetails();
+
   }
+
   RxBool showValidation = false.obs;
   @override
   Widget build(BuildContext context) {
@@ -103,39 +99,32 @@ class _BannersScreenState extends State<BannersScreen> {
         ),
       ),
       body: SingleChildScrollView(
-        child:Container(
+        child: Container(
           margin: EdgeInsets.all(10),
           child: Column(
-          children: [
-            ImageWidget(
-              // key: paymentReceiptCertificateKey,
-              title: "Banner".tr,
-              file: idProof,
-              validation: checkValidation(showValidation.value, idProof.path.isEmpty),
-              filePicked: (File g) {
-                idProof = g;
-              },
-            ),
-            CustomOutlineButton(
-              title: 'Add Banners',
-              onPressed: () {
-                updateProfile();
-              },
-            ),
-
-            ListView.builder(
-              itemCount: images.length,
-                shrinkWrap: true,
-                physics: NeverScrollableScrollPhysics(),
-                itemBuilder: (context,index){
-                  File file = images.values.elementAt(index);
-
-                  // Return an Image widget for each file
-                  return Image.file(file);
-            })
-          ],
-                ),
-        ),),
+            children: [
+              ImageWidget(
+                // key: paymentReceiptCertificateKey,
+                title: "Banner".tr,
+                file: idProof,
+                validation: checkValidation(showValidation.value, idProof.path.isEmpty),
+                filePicked: (File g) {
+                  idProof = g;
+                },
+              ),
+              CustomOutlineButton(
+                title: 'Add Banners',
+                onPressed: () {
+                  updateProfile();
+                },
+              ),
+          SizedBox(height: 30,),
+          Image.network(model.user!.bannerProfile ?? "",
+            height: 200,width: Get.width,)
+            ],
+          ),
+        ),
+      ),
     );
   }
 }

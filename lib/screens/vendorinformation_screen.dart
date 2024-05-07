@@ -75,23 +75,7 @@ class _VendorInformationState extends State<VendorInformation> {
   void initState() {
     super.initState();
     profileController.getVendorDetails();
-    if (profileController.modelVendorProfile.value.user != null) {
-      companyNameController.text =
-          profileController.modelVendorProfile.value.user!.vendorProfile!.companyName.toString();
-      companyNumberController.text =
-          profileController.modelVendorProfile.value.user!.phone.toString();
-      storeUrlController.text = profileController.modelVendorProfile.value.user!.storeUrl.toString();
-      workEmailController.text = profileController.modelVendorProfile.value.user!.vendorProfile!.workEmail.toString();
-      workAddressController.text =
-          profileController.modelVendorProfile.value.user!.vendorProfile!.workAddress.toString();
-      bankNameController.text = profileController.modelVendorProfile.value.user!.vendorProfile!.bankName.toString();
-      bankAccountHolderNameController.text =
-          profileController.modelVendorProfile.value.user!.vendorProfile!.accountHolderName.toString();
-      bankAccountNumberController.text =
-          profileController.modelVendorProfile.value.user!.vendorProfile!.accountNumber.toString();
-      ibanNumberController.text =
-          profileController.modelVendorProfile.value.user!.vendorProfile!.ibnNumber.toString();
-    }
+
   }
 
   @override

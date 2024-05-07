@@ -1,4 +1,5 @@
 import 'dart:convert';
+import 'dart:developer';
 import 'package:dirise/screens/return_policy.dart';
 import 'package:dirise/utils/api_constant.dart';
 import 'package:flutter/cupertino.dart';
@@ -27,7 +28,12 @@ class _ReturnPolicyScreensState extends State<ReturnPolicyScreens> {
   final formKey1 = GlobalKey<FormState>();
 
   String selectedItem = '1';
-
+  String daysItem = 'days';
+  List<String> daysList = [
+    'days',
+    'hours',
+    'minutes'
+  ];
   List<String> itemList = List.generate(30, (index) => (index + 1).toString());
 
   RxInt returnPolicyLoaded = 0.obs;
@@ -37,11 +43,14 @@ class _ReturnPolicyScreensState extends State<ReturnPolicyScreens> {
     repositories.getApi(url: ApiUrls.returnPolicyUrl).then((value) {
       setState(() {
         modelReturnPolicy = ReturnPolicyModel.fromJson(jsonDecode(value));
+        log("Return Policy Data: ${modelReturnPolicy!.returnPolicy![0].id.toString()}");
       });
-      print("Return Policy Data: $modelReturnPolicy"); // Print the fetched data
+       // Print the fetched data
       returnPolicyLoaded.value = DateTime.now().millisecondsSinceEpoch;
     });
   }
+
+
 
   bool? noReturn;
   bool noReturnSelected = false;
@@ -54,6 +63,8 @@ class _ReturnPolicyScreensState extends State<ReturnPolicyScreens> {
     map['policy_description'] = descController.text.trim();
     map['return_shipping_fees'] = radioButtonValue == true ? 'Buyer pays' : 'Seller pays';
     map['no_return'] = radioButtonValue;
+    map['unit'] = daysItem;
+    map['is_default'] = 1;
 
     FocusManager.instance.primaryFocus!.unfocus();
     repositories.postApi(url: ApiUrls.returnPolicyUrl, context: context, mapData: map).then((value) {
@@ -263,16 +274,16 @@ class _ReturnPolicyScreensState extends State<ReturnPolicyScreens> {
                         ),
                         Expanded(
                           child: DropdownButtonFormField<String>(
-                            value: selectedItem,
+                            value: daysItem,
                             onChanged: (String? newValue) {
                               setState(() {
-                                selectedItem = newValue!;
+                                daysItem = newValue!;
                               });
                             },
-                            items: itemList.map<DropdownMenuItem<String>>((String value) {
+                            items: daysList.map<DropdownMenuItem<String>>((String value) {
                               return DropdownMenuItem<String>(
                                 value: value,
-                                child: const Text('days'),
+                                child: Text(value),
                               );
                             }).toList(),
                             decoration: InputDecoration(

@@ -77,8 +77,14 @@ class _AddSocialMediaScreenState extends State<AddSocialMediaScreen> {
                     borderRadius: BorderRadius.circular(11),
                     color: Colors.white,
                     border: Border.all(color: Color(0xff014E70))),
-                child: Center(child: Image.asset('assets/images/newlogoo.png',height: 40,width: 40,)),
-              ), SizedBox(
+                child: Center(
+                    child: Image.asset(
+                  'assets/images/newlogoo.png',
+                  height: 40,
+                  width: 40,
+                )),
+              ),
+              SizedBox(
                 height: 10,
               ),
               Container(
@@ -106,7 +112,6 @@ class _AddSocialMediaScreenState extends State<AddSocialMediaScreen> {
               SizedBox(
                 height: 10,
               ),
-
             ],
           ),
         ),
