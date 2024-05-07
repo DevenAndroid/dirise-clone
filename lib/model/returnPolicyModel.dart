@@ -8,9 +8,9 @@ class ReturnPolicyModel {
   ReturnPolicyModel.fromJson(Map<String, dynamic> json) {
     status = json['status'];
     message = json['message'];
-    if (json['Return Policy'] != null) {
+    if (json['return_policy'] != null) {
       returnPolicy = <ReturnPolicy>[];
-      json['Return Policy'].forEach((v) {
+      json['return_policy'].forEach((v) {
         returnPolicy!.add(new ReturnPolicy.fromJson(v));
       });
     }
@@ -21,7 +21,7 @@ class ReturnPolicyModel {
     data['status'] = this.status;
     data['message'] = this.message;
     if (this.returnPolicy != null) {
-      data['Return Policy'] =
+      data['return_policy'] =
           this.returnPolicy!.map((v) => v.toJson()).toList();
     }
     return data;
@@ -35,7 +35,9 @@ class ReturnPolicy {
   dynamic days;
   dynamic policyDiscreption;
   dynamic returnShippingFees;
-  dynamic noReturn;
+  dynamic  noReturn;
+  dynamic   unit;
+  dynamic  isDefault;
 
   ReturnPolicy(
       {this.id,
@@ -44,7 +46,9 @@ class ReturnPolicy {
         this.days,
         this.policyDiscreption,
         this.returnShippingFees,
-        this.noReturn});
+        this.noReturn,
+        this.unit,
+        this.isDefault});
 
   ReturnPolicy.fromJson(Map<String, dynamic> json) {
     id = json['id'];
@@ -54,6 +58,8 @@ class ReturnPolicy {
     policyDiscreption = json['policy_discreption'];
     returnShippingFees = json['return_shipping_fees'];
     noReturn = json['no_return'];
+    unit = json['unit'];
+    isDefault = json['is_default'];
   }
 
   Map<String, dynamic> toJson() {
@@ -65,6 +71,8 @@ class ReturnPolicy {
     data['policy_discreption'] = this.policyDiscreption;
     data['return_shipping_fees'] = this.returnShippingFees;
     data['no_return'] = this.noReturn;
+    data['unit'] = this.unit;
+    data['is_default'] = this.isDefault;
     return data;
   }
 }

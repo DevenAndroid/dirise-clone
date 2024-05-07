@@ -92,7 +92,7 @@ class _PersonalizeyourstoreScreenState extends State<PersonalizeyourstoreScreen>
         })
         .then((value) {
       if(detailsController.text.isNotEmpty){
-        Get.to(SecurityDetailsScreen());
+        Get.to(RequiredDocumentsScreen());
       }
       else{
         showToast('please enter Details');

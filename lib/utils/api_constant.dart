@@ -87,6 +87,7 @@ class ApiUrls {
   static const String withdrawalListUrl = "${baseUrl}withdrawal-list";
   static const String withdrawalRequestUrl= "${baseUrl}withdraw-request";
   static const String deleteProductUrl= "${baseUrl}delete-product";
+  static const String deleteReturnPolicy= "${baseUrl}remove-return-policy";
   static const String returnPolicyUrl= "${baseUrl}return-policy";
   static const String productCategoriesListUrl = "${baseUrl}categries";
   static const String categoryListUrl = "${baseUrl}categories-list?category_id=";

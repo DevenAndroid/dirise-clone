@@ -131,7 +131,8 @@ Tags and labels not removed
                   hintText: 'DIRISE standard Policy',
                   validator: MultiValidator([
                     RequiredValidator(errorText: 'DIRISE standard Policy is required'.tr),
-                  ])),
+                  ])
+              ),
               SizedBox(
                 height: 10,
               ),

@@ -846,7 +846,6 @@ class _CheckOutScreenState extends State<CheckOutScreen> {
                                                 color: Color(0xFFD9D9D9),
                                                 thickness: 0.8,
                                               ),
-
                                               Row(
                                                 children: [
                                                   Radio(

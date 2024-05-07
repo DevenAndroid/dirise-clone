@@ -1,11 +1,14 @@
 import 'dart:convert';
+import 'dart:developer';
 
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/widgets.dart';
 import 'package:get/get.dart';
 import 'package:google_fonts/google_fonts.dart';
 
 import '../language/app_strings.dart';
+import '../model/common_modal.dart';
 import '../model/returnPolicyModel.dart';
 import '../personalizeyourstore/returnpolicyScreen.dart';
 import '../repository/repository.dart';
@@ -34,6 +37,7 @@ class _ReturnnPolicyListState extends State<ReturnnPolicyList> {
   getReturnPolicyData() {
     repositories.getApi(url: ApiUrls.returnPolicyUrl).then((value) {
       modelReturnPolicy.value = ReturnPolicyModel.fromJson(jsonDecode(value));
+      log('dadaaaada${modelReturnPolicy.value.returnPolicy![0].id.toString()}');
       returnPolicyLoaded.value = DateTime.now().millisecondsSinceEpoch;
     });
   }
@@ -193,11 +197,24 @@ class _ReturnnPolicyListState extends State<ReturnnPolicyList> {
                                                   fontSize: 18,
                                                   fontWeight: FontWeight.w300,
                                                   color: const Color(0xff014E70))),
-                                          Text("|Remove",
-                                              style: GoogleFonts.poppins(
-                                                  fontSize: 18,
-                                                  fontWeight: FontWeight.w300,
-                                                  color: const Color(0xff014E70))),
+                                          GestureDetector(
+                                            onTap: (){
+                                              repositories.postApi(url: ApiUrls.deleteReturnPolicy, context: context, mapData: {
+                                                'product_id': returnpolicy.id,
+                                              }).then((value) {
+                                                ModelCommonResponse modelCommonResponse = ModelCommonResponse.fromJson(jsonDecode(value));
+                                                showToast(modelCommonResponse.message.toString());
+                                                if (modelCommonResponse.status == true) {
+
+                                                }
+                                              });
+                                            },
+                                            child: Text("|Remove",
+                                                style: GoogleFonts.poppins(
+                                                    fontSize: 18,
+                                                    fontWeight: FontWeight.w300,
+                                                    color: const Color(0xff014E70))),
+                                          ),
                                         ],
                                       ),
                                     ],
@@ -208,13 +225,15 @@ class _ReturnnPolicyListState extends State<ReturnnPolicyList> {
                           ),
                         );
                       }) : CircularProgressIndicator(),
-              
+
                   const SizedBox(
                     height: 13,
                   ),
                   GestureDetector(
                     onTap: () {
-                      Get.to(const ReturnPolicyScreens());
+                      Get.to(const ReturnPolicyScreens(
+
+                      ));
                     },
                     child: const Row(
                       mainAxisAlignment: MainAxisAlignment.end,
@@ -226,32 +245,8 @@ class _ReturnnPolicyListState extends State<ReturnnPolicyList> {
                       ],
                     ),
                   ),
-                  const SizedBox(
-                    height: 13,
-                  ),
-                  Text("DIRISE standard Policy", style: GoogleFonts.poppins(fontSize: 13, fontWeight: FontWeight.w500)),
-                  const SizedBox(
-                    height: 13,
-                  ),
-              
-                  ListView.builder(
-                    shrinkWrap: true,
-                    itemCount: modelReturnPolicy.value.returnPolicy?.length ?? 0,
-                    itemBuilder: (context, index) {
-                      var returnPolicy = modelReturnPolicy.value.returnPolicy?[index];
-                      return Column(
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        children: [
-                          Text(returnPolicy?.title ?? "", style: GoogleFonts.poppins(
-                              fontSize: 20, fontWeight: FontWeight.w500)),
-                          // Display other information about the return policy here
-                          const SizedBox(height: 8),
-                          const Divider(),
-                        ],
-                      );
-                    },
-                  ),
-              
+
+
                   const SizedBox(
                     height: 25,
                   ),

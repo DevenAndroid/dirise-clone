@@ -8,6 +8,7 @@ import 'package:get/get.dart';
 import 'package:get/get_core/src/get_main.dart';
 import 'package:google_fonts/google_fonts.dart';
 
+import '../../../controller/cart_controller.dart';
 import '../../../iAmHereToSell/PersonalizeAddAddressScreen.dart';
 import '../../../iAmHereToSell/personalizeyourstoreScreen.dart';
 import '../../../language/app_strings.dart';
@@ -22,19 +23,9 @@ import '../../return_policy.dart';
 import 'edit_address_screen.dart';
 
 class AddAddressScreen extends StatefulWidget {
-  final String? street;
-  final String? city;
-  final String? state;
-  final String? country;
-  final String? zipcode;
-  final String? town;
+
   const AddAddressScreen({super.key,
-    this.street,
-    this.city,
-    this.state,
-    this.country,
-    this.zipcode,
-    this.town,
+
 
   });
 
@@ -60,42 +51,20 @@ class _AddAddressScreenState extends State<AddAddressScreen> {
   final Repositories repositories = Repositories();
   final formKey1 = GlobalKey<FormState>();
   String code = "+91";
-  editAddressApi() {
+  final cartController = Get.put(CartController());
+  defaultAddressApi(String id) async {
     Map<String, dynamic> map = {};
-    if (widget.street != null &&
-        widget.city != null &&
-        widget.state != null &&
-        widget.country != null &&
-        widget.zipcode != null &&
-        widget.town != null) {
-      map['address_type'] = 'Both';
-      map['city'] = widget.city;
-      map['country'] = widget.country;
-      map['state'] = widget.state;
-      map['zip_code'] = widget.zipcode;
-      map['town'] = widget.town;
-      map['street'] = widget.street;
-      map['special_instruction'] = specialInstructionController.text.trim();
-    }else{
-      map['address_type'] = 'Both';
-      map['city'] = cityController.text.trim();
-      map['country'] = countryController.text.trim();
-      map['state'] = stateController.text.trim();
-      map['zip_code'] = zipcodeController.text.trim();
-      map['town'] = townController.text.trim();
-      map['street'] = streetController.text.trim();
-      map['special_instruction'] = specialInstructionController.text.trim();
-    }
-
-    FocusManager.instance.primaryFocus!.unfocus();
-    repositories.postApi(url: ApiUrls.editAddressUrl, context: context, mapData: map).then((value) {
+    map['address_id'] = id;
+    repositories.postApi(url: ApiUrls.defaultAddressStatus, context: context, mapData: map).then((value) async {
       ModelCommonResponse response = ModelCommonResponse.fromJson(jsonDecode(value));
-      showToast(response.message.toString());
       if (response.status == true) {
-        Get.to( PersonalizeAddressScreen());
+        showToast(response.message.toString());
+      }else{
+        showToast(response.message.toString());
       }
     });
   }
+
 
   ModelUserAddressList addressListModel = ModelUserAddressList();
 
@@ -108,20 +77,31 @@ class _AddAddressScreenState extends State<AddAddressScreen> {
     });
   }
 
+  Future<bool> deleteAddress({required BuildContext context, required String id}) async {
+    Map<String, dynamic> map = {};
+    map["id"] = id;
+
+    await repositories.postApi(url: ApiUrls.deleteAddressUrl, context: context, mapData: map).then((value) {
+      ModelCommonResponse response = ModelCommonResponse.fromJson(jsonDecode(value));
+      showToast(response.message.toString());
+      if (response.status == true) {
+        getAddressDetails();
+        return true;
+        // Get.back();
+      }
+    }).catchError((e) {
+      return false;
+    });
+    return false;
+  }
 
   @override
   void initState() {
     // TODO: implement initState
     super.initState();
-    if (widget.street != null) {
-      streetController.text = widget.street!;
-      cityController.text = widget.city ?? '';
-      stateController.text = widget.state ?? '';
-      countryController.text = widget.country ?? '';
-      zipcodeController.text = widget.zipcode ?? '';
-      townController.text = widget.town ?? '';
-    }
     getAddressDetails();
+
+
   }
   @override
   Widget build(BuildContext context) {
@@ -130,20 +110,16 @@ class _AddAddressScreenState extends State<AddAddressScreen> {
       appBar: AppBar(
         backgroundColor: Colors.white,
         elevation: 0,
-        leading: GestureDetector(
-          onTap: () {
-            Get.back();
-          },
-          child: IconButton(
-            icon: const Icon(
-              Icons.arrow_back_ios_new,
-              color: Color(0xff0D5877),
-              size: 16,
-            ),
-            onPressed: () {
-              // Handle back button press
-            },
+        leading: IconButton(
+          icon: const Icon(
+            Icons.arrow_back_ios_new,
+            color: Color(0xff0D5877),
+            size: 16,
           ),
+          onPressed: () {
+            Get.back();
+            // Handle back button press
+          },
         ),
         titleSpacing: 0,
         title: Row(
@@ -211,7 +187,9 @@ class _AddAddressScreenState extends State<AddAddressScreen> {
                             SizedBox(height: 10,),
                             Padding(
                               padding: const EdgeInsets.symmetric(horizontal: 13),
-                              child: Row(
+                              child:
+                                  addressList.isDefault == true ?
+                              Row(
                                 children: [
                                   Text("Default:",
                                       style: GoogleFonts.poppins(fontSize: 20, fontWeight: FontWeight.w500)),
@@ -220,7 +198,7 @@ class _AddAddressScreenState extends State<AddAddressScreen> {
                                   ),
                                   const Image(image: AssetImage("assets/icons/tempImageYRVRjh 1.png"))
                                 ],
-                              ),
+                              ) : const SizedBox()
                             ),
                             const Divider(
                               thickness: 1,
@@ -247,114 +225,44 @@ class _AddAddressScreenState extends State<AddAddressScreen> {
                                   ),
                                   Row(
                                     children: [
-                                      Text("Edit",
-                                          style: GoogleFonts.poppins(
-                                              fontSize: 18,
-                                              fontWeight: FontWeight.w300,
-                                              color: const Color(0xff014E70))),
-                                      Text("|Remove",
-                                          style: GoogleFonts.poppins(
-                                              fontSize: 18,
-                                              fontWeight: FontWeight.w300,
-                                              color: const Color(0xff014E70))),
-                                      Text("|Set as default",
-                                          style: GoogleFonts.poppins(
-                                              fontSize: 18,
-                                              fontWeight: FontWeight.w300,
-                                              color: const Color(0xff014E70))),
-                                    ],
-                                  ),
-                                  const SizedBox(
-                                    height: 20,
-                                  )
-                                ],
-                              ),
-                            )
-                          ],
-                        ),
-                      ),
-                      const SizedBox(
-                        height: 15,
-                      ),
-                    ],
-                  );
-                },
-              ) : const Center(child: CircularProgressIndicator()),
-              addressListModel.address?.shipping != null ?
-              ListView.builder(
-                physics: NeverScrollableScrollPhysics(),
-                itemCount: addressListModel.address!.shipping!.length,
-                shrinkWrap: true,
-                itemBuilder: (context,index){
-                  var shippingAddressList = addressListModel.address!.shipping![index];
-                  return Column(
-                    children: [
-                      Container(
-                        width: size.width,
-                        decoration: BoxDecoration(
-                            borderRadius: const BorderRadius.all(Radius.circular(15)),
-                            border: Border.all(color: const Color(0xffE4E2E2))),
-                        child: Column(
-                          crossAxisAlignment: CrossAxisAlignment.start,
-                          children: [
-                            SizedBox(height: 10,),
-                            Padding(
-                              padding: const EdgeInsets.symmetric(horizontal: 13),
-                              child: Row(
-                                children: [
-                                  Text("Default:",
-                                      style: GoogleFonts.poppins(fontSize: 20, fontWeight: FontWeight.w500)),
-                                  const SizedBox(
-                                    width: 15,
-                                  ),
-                                  const Image(image: AssetImage("assets/icons/tempImageYRVRjh 1.png"))
-                                ],
-                              ),
-                            ),
-                            const Divider(
-                              thickness: 1,
-                            ),
-                            Padding(
-                              padding: const EdgeInsets.symmetric(horizontal: 13),
-                              child: Column(
-                                crossAxisAlignment: CrossAxisAlignment.start,
-                                children: [
-                                  Text('City - ${shippingAddressList.city.toString()}'),
-                                  Text('state - ${shippingAddressList.state.toString()}'),
-                                  Text('country - ${shippingAddressList.country.toString()}'),
-                                  Text('zip code - ${shippingAddressList.zipCode.toString()}'),
-                                  const SizedBox(
-                                    height: 8,
-                                  ),
-                                  Text(
-                                    "Add delivery instructions",
-                                    style: GoogleFonts.poppins(
-                                        fontSize: 18, fontWeight: FontWeight.w500, color: const Color(0xff014E70)),
-                                  ),
-                                  const SizedBox(
-                                    height: 30,
-                                  ),
-                                  Row(
-                                    children: [
-                                      GestureDetector(onTap:(){
-                                        Get.toNamed(EditAddresss.route);
-                                      },
+
+                                      InkWell(
+                                        onTap:(){
+                                          Get.to(PersonalizeAddAddressScreen(
+                                            street: addressList.landmark,
+                                            city: addressList.city,
+                                            state: addressList.state,
+                                            zipcode: addressList.zipCode,
+                                            country: addressList.country,
+                                          ));
+                                        },
                                         child: Text("Edit",
                                             style: GoogleFonts.poppins(
                                                 fontSize: 18,
                                                 fontWeight: FontWeight.w300,
                                                 color: const Color(0xff014E70))),
                                       ),
-                                      Text("|Remove",
-                                          style: GoogleFonts.poppins(
-                                              fontSize: 18,
-                                              fontWeight: FontWeight.w300,
-                                              color: const Color(0xff014E70))),
-                                      Text("|Set as default",
-                                          style: GoogleFonts.poppins(
-                                              fontSize: 18,
-                                              fontWeight: FontWeight.w300,
-                                              color: const Color(0xff014E70))),
+
+                                      InkWell(
+                                        onTap:(){
+                                          deleteAddress(context: context, id: addressList.id.toString());
+                                        },
+                                        child: Text("|Remove",
+                                            style: GoogleFonts.poppins(
+                                                fontSize: 18,
+                                                fontWeight: FontWeight.w300,
+                                                color: const Color(0xff014E70))),
+                                      ),
+                                      InkWell(
+                                        onTap:(){
+                                          defaultAddressApi(addressList.id.toString());
+                                        },
+                                        child: Text("|Set as default",
+                                            style: GoogleFonts.poppins(
+                                                fontSize: 18,
+                                                fontWeight: FontWeight.w300,
+                                                color: const Color(0xff014E70))),
+                                      ),
                                     ],
                                   ),
                                   const SizedBox(
@@ -372,7 +280,100 @@ class _AddAddressScreenState extends State<AddAddressScreen> {
                     ],
                   );
                 },
-              ) : const Center(child: CircularProgressIndicator()),
+              ) : const Center(child: SizedBox()),
+              // addressListModel.address?.shipping != null ?
+              // ListView.builder(
+              //   physics: NeverScrollableScrollPhysics(),
+              //   itemCount: addressListModel.address!.shipping!.length,
+              //   shrinkWrap: true,
+              //   itemBuilder: (context,index){
+              //     var shippingAddressList = addressListModel.address!.shipping![index];
+              //     return Column(
+              //       children: [
+              //         Container(
+              //           width: size.width,
+              //           decoration: BoxDecoration(
+              //               borderRadius: const BorderRadius.all(Radius.circular(15)),
+              //               border: Border.all(color: const Color(0xffE4E2E2))),
+              //           child: Column(
+              //             crossAxisAlignment: CrossAxisAlignment.start,
+              //             children: [
+              //               SizedBox(height: 10,),
+              //               Padding(
+              //                 padding: const EdgeInsets.symmetric(horizontal: 13),
+              //                 child: Row(
+              //                   children: [
+              //                     Text("Default:",
+              //                         style: GoogleFonts.poppins(fontSize: 20, fontWeight: FontWeight.w500)),
+              //                     const SizedBox(
+              //                       width: 15,
+              //                     ),
+              //                     const Image(image: AssetImage("assets/icons/tempImageYRVRjh 1.png"))
+              //                   ],
+              //                 ),
+              //               ),
+              //               const Divider(
+              //                 thickness: 1,
+              //               ),
+              //               Padding(
+              //                 padding: const EdgeInsets.symmetric(horizontal: 13),
+              //                 child: Column(
+              //                   crossAxisAlignment: CrossAxisAlignment.start,
+              //                   children: [
+              //                     Text('City - ${shippingAddressList.city.toString()}'),
+              //                     Text('state - ${shippingAddressList.state.toString()}'),
+              //                     Text('country - ${shippingAddressList.country.toString()}'),
+              //                     Text('zip code - ${shippingAddressList.zipCode.toString()}'),
+              //                     const SizedBox(
+              //                       height: 8,
+              //                     ),
+              //                     Text(
+              //                       "Add delivery instructions",
+              //                       style: GoogleFonts.poppins(
+              //                           fontSize: 18, fontWeight: FontWeight.w500, color: const Color(0xff014E70)),
+              //                     ),
+              //                     const SizedBox(
+              //                       height: 30,
+              //                     ),
+              //                     Row(
+              //                       children: [
+              //                         GestureDetector(onTap:(){
+              //                           Get.toNamed(EditAddresss.route);
+              //                         },
+              //                           child: Text("Edit",
+              //                               style: GoogleFonts.poppins(
+              //                                   fontSize: 18,
+              //                                   fontWeight: FontWeight.w300,
+              //                                   color: const Color(0xff014E70))),
+              //                         ),
+              //                         Text("|Remove",
+              //                             style: GoogleFonts.poppins(
+              //                                 fontSize: 18,
+              //                                 fontWeight: FontWeight.w300,
+              //                                 color: const Color(0xff014E70))),
+              //                         Text("|Set as default",
+              //                             style: GoogleFonts.poppins(
+              //                                 fontSize: 18,
+              //                                 fontWeight: FontWeight.w300,
+              //                                 color: const Color(0xff014E70))),
+              //                       ],
+              //                     ),
+              //                     const SizedBox(
+              //                       height: 20,
+              //                     )
+              //                   ],
+              //                 ),
+              //               )
+              //             ],
+              //           ),
+              //         ),
+              //         const SizedBox(
+              //           height: 15,
+              //         ),
+              //       ],
+              //     );
+              //   },
+              // ) : const Center(child: CircularProgressIndicator()),
 
               ElevatedButton(
                   onPressed: () {

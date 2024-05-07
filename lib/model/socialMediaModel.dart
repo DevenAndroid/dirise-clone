@@ -1,19 +1,16 @@
 class SocialMediaModel {
   bool? status;
   String? message;
-  List<SocialMedia>? socialMedia;
+  SocialMedia? socialMedia;
 
   SocialMediaModel({this.status, this.message, this.socialMedia});
 
   SocialMediaModel.fromJson(Map<String, dynamic> json) {
     status = json['status'];
     message = json['message'];
-    if (json['social_media'] != null) {
-      socialMedia = <SocialMedia>[];
-      json['social_media'].forEach((v) {
-        socialMedia!.add(new SocialMedia.fromJson(v));
-      });
-    }
+    socialMedia = json['social_media'] != null
+        ? new SocialMedia.fromJson(json['social_media'])
+        : null;
   }
 
   Map<String, dynamic> toJson() {
@@ -21,33 +18,57 @@ class SocialMediaModel {
     data['status'] = this.status;
     data['message'] = this.message;
     if (this.socialMedia != null) {
-      data['social_media'] = this.socialMedia!.map((v) => v.toJson()).toList();
+      data['social_media'] = this.socialMedia!.toJson();
     }
     return data;
   }
 }
 
 class SocialMedia {
-  dynamic id;
-  dynamic vendorId;
-  dynamic name;
-  dynamic value;
+  String? instagram;
+  String? facebook;
+  String? youtube;
+  String? twitter;
+  String? pinterest;
+  String? linkedin;
+  String? snapchat;
+  String? tiktok;
+  String? threads;
 
-  SocialMedia({this.id, this.vendorId, this.name, this.value});
+  SocialMedia(
+      {this.instagram,
+        this.facebook,
+        this.youtube,
+        this.twitter,
+        this.pinterest,
+        this.linkedin,
+        this.snapchat,
+        this.tiktok,
+        this.threads});
 
   SocialMedia.fromJson(Map<String, dynamic> json) {
-    id = json['id'];
-    vendorId = json['vendor_id'];
-    name = json['name'];
-    value = json['value'];
+    instagram = json['instagram'];
+    facebook = json['facebook'];
+    youtube = json['youtube'];
+    twitter = json['twitter'];
+    pinterest = json['pinterest'];
+    linkedin = json['linkedin'];
+    snapchat = json['snapchat'];
+    tiktok = json['tiktok'];
+    threads = json['threads'];
   }
 
   Map<String, dynamic> toJson() {
     final Map<String, dynamic> data = new Map<String, dynamic>();
-    data['id'] = this.id;
-    data['vendor_id'] = this.vendorId;
-    data['name'] = this.name;
-    data['value'] = this.value;
+    data['instagram'] = this.instagram;
+    data['facebook'] = this.facebook;
+    data['youtube'] = this.youtube;
+    data['twitter'] = this.twitter;
+    data['pinterest'] = this.pinterest;
+    data['linkedin'] = this.linkedin;
+    data['snapchat'] = this.snapchat;
+    data['tiktok'] = this.tiktok;
+    data['threads'] = this.threads;
     return data;
   }
 }

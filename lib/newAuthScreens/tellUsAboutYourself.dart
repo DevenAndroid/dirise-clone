@@ -26,7 +26,7 @@ class _TellUsAboutYourSelfState extends State<TellUsAboutYourSelf> {
     } else if (selectedRadio == 'shop') {
       Get.to( PickUpAddressScreen());
     }else{
-      showToast('Select type of product');
+      showToast('Select type of Account');
     }
   }
 

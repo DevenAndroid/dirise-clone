@@ -332,11 +332,14 @@ class _WhatdoyousellScreenState extends State<WhatdoyousellScreen> {
                   hintText: 'Store Email*',
                   controller: storeEmail,
                   validator: (value) {
-                    if (value!.trim().isEmpty) {
-                      return 'Please enter valid store Email';
+                    if (value!.isEmpty) {
+                      return 'Please enter email address';
                     }
-                    EmailValidator(errorText: 'Please enter valid email address'.tr);
-                    return null; // Return null if validation passes
+                    final emailValidator = EmailValidator(errorText: 'Please enter valid email address');
+                    if (!emailValidator.isValid(value)) {
+                      return emailValidator.errorText;
+                    }
+                    return null;
                   },
                 ),
                 const SizedBox(
@@ -523,8 +526,13 @@ class _WhatdoyousellScreenState extends State<WhatdoyousellScreen> {
                 ),
                 GestureDetector(
                   onTap: () {
-                    if (vendorRegister == 'done' && otpVerify == 'done' && _isValue == true) {
-                      Get.to(SellingPickupAddress());
+                    if (vendorRegister == 'done' && otpVerify == 'done') {
+                      if(_isValue == true){
+                        Get.to(SellingPickupAddress());
+                      }else{
+                        showToast('please accept Terms and Condition');
+                      }
+                   
                     }
                   },
                   child: vendorRegister == 'done' && otpVerify == 'done' && _isValue == true ?
@@ -573,6 +581,7 @@ class _WhatdoyousellScreenState extends State<WhatdoyousellScreen> {
                     ),
                   ),
                 ),
+                const SizedBox(height: 20,),
               ],
             ),
           ),
