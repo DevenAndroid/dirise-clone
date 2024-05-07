@@ -8,6 +8,7 @@ import '../iAmHereToSell/whichplantypedescribeyouScreen.dart';
 import '../jobOffers/tellusaboutyourselfScreen.dart';
 import '../language/app_strings.dart';
 import '../newAddress/pickUpAddressScreen.dart';
+import '../singleproductScreen/product_information_screen.dart';
 import '../widgets/common_button.dart';
 
 class MyItemISScreen extends StatefulWidget {
@@ -33,7 +34,7 @@ class _MyItemISScreenState extends State<MyItemISScreen> {
     if (selectedRadio == 'Giveaway') {
       Get.to(const ItemDetailsScreens());
     } else if (selectedRadio == 'Product') {
-      Get.to(PickUpAddressScreen());
+      Get.to(ProductInformationScreens());
     }
     else if (selectedRadio == 'Job') {
       Get.to(JobTellusaboutyourselfScreen());

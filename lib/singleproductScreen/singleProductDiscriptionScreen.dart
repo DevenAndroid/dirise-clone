@@ -1,3 +1,5 @@
+import 'dart:convert';
+
 import 'package:dirise/singleproductScreen/singleProductReturnPolicy.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
@@ -6,6 +8,10 @@ import 'package:form_field_validator/form_field_validator.dart';
 import 'package:get/get.dart';
 import 'package:google_fonts/google_fonts.dart';
 
+import '../controller/vendor_controllers/add_product_controller.dart';
+import '../model/vendor_models/add_product_model.dart';
+import '../repository/repository.dart';
+import '../utils/api_constant.dart';
 import '../widgets/common_colour.dart';
 import '../widgets/common_textfield.dart';
 
@@ -17,6 +23,33 @@ class SingleProductDiscriptionScreen extends StatefulWidget {
 }
 
 class _SingleProductDiscriptionScreenState extends State<SingleProductDiscriptionScreen> {
+  final addProductController = Get.put(AddProductController());
+  TextEditingController inStockController = TextEditingController();
+  TextEditingController shortController = TextEditingController();
+  TextEditingController alertDiscount = TextEditingController();
+  TextEditingController tagDiscount = TextEditingController();
+  deliverySizeApi() {
+    Map<String, dynamic> map = {};
+    map['in_stock'] = inStockController.text.toString();
+    map['short_description'] = shortController.text.toString();
+    map['stock_alert'] = alertDiscount.text.toString().trim();
+    map['seo_tags'] = tagDiscount.text.toString();
+    map['item_type'] = 'product';
+    map['id'] = addProductController.idProduct.value.toString();
+
+    final Repositories repositories = Repositories();
+    FocusManager.instance.primaryFocus!.unfocus();
+    repositories.postApi(url: ApiUrls.giveawayProductAddress, context: context, mapData: map).then((value) {
+      AddProductModel response = AddProductModel.fromJson(jsonDecode(value));
+      print('API Response Status Code: ${response.status}');
+      showToast(response.message.toString());
+      if (response.status == true) {
+        // addProductController.idProduct.value = response.productDetails!.product!.id.toString();
+        print(addProductController.idProduct.value.toString());
+        Get.to(const SingleProductReturnPolicy());
+      }
+    });
+  }
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -55,14 +88,17 @@ class _SingleProductDiscriptionScreenState extends State<SingleProductDiscriptio
                 height: 5,
               ),
               TextFormField(
+                controller: shortController,
                 maxLines: 2,
                 minLines: 2,
                 decoration: InputDecoration(
+
                   counterStyle: GoogleFonts.poppins(
                     color: AppTheme.primaryColor,
                     fontSize: 25,
                   ),
                   counter: const Offstage(),
+
                   errorMaxLines: 2,
                   contentPadding: const EdgeInsets.all(15),
                   fillColor: Colors.grey.shade100,
@@ -90,6 +126,7 @@ class _SingleProductDiscriptionScreenState extends State<SingleProductDiscriptio
                     borderSide: BorderSide(color: AppTheme.secondaryColor),
                   ),
                 ),
+
               ),
               const SizedBox(
                 height: 20,
@@ -115,7 +152,7 @@ class _SingleProductDiscriptionScreenState extends State<SingleProductDiscriptio
                 style: GoogleFonts.poppins(color: const Color(0xff292F45), fontWeight: FontWeight.w600, fontSize: 14),
               ),
               CommonTextField(
-                  // controller: priceController,
+              controller: inStockController,
                   obSecure: false,
                   // hintText: 'Name',
                   hintText: 'Stock number'.tr,
@@ -130,6 +167,7 @@ class _SingleProductDiscriptionScreenState extends State<SingleProductDiscriptio
                 style: GoogleFonts.poppins(color: const Color(0xff292F45), fontWeight: FontWeight.w600, fontSize: 14),
               ),
               CommonTextField(
+                controller: alertDiscount,
                   // controller: priceController,
                   obSecure: false,
                   // hintText: 'Name',
@@ -155,6 +193,7 @@ class _SingleProductDiscriptionScreenState extends State<SingleProductDiscriptio
                 height: 5,
               ),
               CommonTextField(
+                controller: tagDiscount,
                   // controller: priceController,
                   obSecure: false,
                   // hintText: 'Name',
@@ -251,7 +290,7 @@ class _SingleProductDiscriptionScreenState extends State<SingleProductDiscriptio
               ),
               GestureDetector(
                 onTap: (){
-                  Get.to(const SingleProductReturnPolicy());
+               deliverySizeApi();
                 },
                 child: Container(
                   width: Get.width,

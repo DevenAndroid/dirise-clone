@@ -172,7 +172,7 @@ class AddProductController extends GetxController {
   final TextEditingController languageController = TextEditingController();
   String weightUnit = "";
   final GlobalKey weightUnitKey = GlobalKey();
-
+RxString idProduct = "".obs;
   RxString productFileType = "".obs;
   File productImage = File("");
   RxInt virtualRefreshInt = 0.obs;
