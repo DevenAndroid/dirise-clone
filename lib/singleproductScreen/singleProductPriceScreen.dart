@@ -1,3 +1,5 @@
+import 'dart:convert';
+
 import 'package:dirise/singleproductScreen/singleProductDiscriptionScreen.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
@@ -6,7 +8,11 @@ import 'package:form_field_validator/form_field_validator.dart';
 import 'package:get/get.dart';
 import 'package:google_fonts/google_fonts.dart';
 
+import '../controller/vendor_controllers/add_product_controller.dart';
 import '../language/app_strings.dart';
+import '../model/vendor_models/add_product_model.dart';
+import '../repository/repository.dart';
+import '../utils/api_constant.dart';
 import '../widgets/common_button.dart';
 import '../widgets/common_textfield.dart';
 
@@ -19,6 +25,30 @@ class SingleProductPriceScreen extends StatefulWidget {
 
 class _SingleProductPriceScreenState extends State<SingleProductPriceScreen> {
   TextEditingController priceController = TextEditingController();
+  TextEditingController discountPrecrnt = TextEditingController();
+  TextEditingController fixedDiscount = TextEditingController();
+  final addProductController = Get.put(AddProductController());
+  deliverySizeApi() {
+    Map<String, dynamic> map = {};
+    map['discount_percent'] = discountPrecrnt.text.toString();
+    map['fixed_discount_price'] = fixedDiscount.text.toString().trim();
+    map['p_price'] = priceController.text.toString();
+    map['item_type'] = 'product';
+    map['id'] = addProductController.idProduct.value.toString();
+
+    final Repositories repositories = Repositories();
+    FocusManager.instance.primaryFocus!.unfocus();
+    repositories.postApi(url: ApiUrls.giveawayProductAddress, context: context, mapData: map).then((value) {
+      AddProductModel response = AddProductModel.fromJson(jsonDecode(value));
+      print('API Response Status Code: ${response.status}');
+      showToast(response.message.toString());
+      if (response.status == true) {
+        // addProductController.idProduct.value = response.productDetails!.product!.id.toString();
+        print(addProductController.idProduct.value.toString());
+        Get.to(const SingleProductDiscriptionScreen());
+      }
+    });
+  }
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -80,13 +110,14 @@ class _SingleProductPriceScreenState extends State<SingleProductPriceScreen> {
                 style: GoogleFonts.poppins(color: const Color(0xff292F45), fontWeight: FontWeight.w400, fontSize: 14),
               ),
               CommonTextField(
-                  controller: priceController,
+                  controller: fixedDiscount,
                   obSecure: false,
                   // hintText: 'Name',
                   hintText: 'Discount Price'.tr,
-                  validator: MultiValidator([
-                    RequiredValidator(errorText: 'Discount Price is required'.tr),
-                  ])),
+                  // validator: MultiValidator([
+                  //   RequiredValidator(errorText: 'Discount Price is required'.tr),
+                  // ])
+              ),
               const SizedBox(height: 10,),
               Align(
                 alignment: Alignment.center,
@@ -101,13 +132,14 @@ class _SingleProductPriceScreenState extends State<SingleProductPriceScreen> {
                 style: GoogleFonts.poppins(color: const Color(0xff292F45), fontWeight: FontWeight.w400, fontSize: 14),
               ),
               CommonTextField(
-                  controller: priceController,
+                  controller: discountPrecrnt,
                   obSecure: false,
                   // hintText: 'Name',
                   hintText: 'Percentage'.tr,
-                  validator: MultiValidator([
-                    RequiredValidator(errorText: 'Discount Price is required'.tr),
-                  ])),
+                  // validator: MultiValidator([
+                  //   RequiredValidator(errorText: 'Discount Price is required'.tr),
+                  // ])
+              ),
               const SizedBox(height: 10,),
               Text(
                 'Calculated price'.tr,
@@ -213,7 +245,8 @@ class _SingleProductPriceScreenState extends State<SingleProductPriceScreen> {
                 title: 'Next',
                 borderRadius: 11,
                 onPressed: () {
-                  Get.to(const SingleProductDiscriptionScreen());
+                  deliverySizeApi();
+
                 },
               ),
               const SizedBox(height: 20,),

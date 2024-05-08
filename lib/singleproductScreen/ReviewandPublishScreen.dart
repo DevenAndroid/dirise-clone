@@ -1,4 +1,5 @@
 import 'package:dirise/addNewProduct/rewardScreen.dart';
+import 'package:dirise/controller/vendor_controllers/add_product_controller.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
@@ -16,7 +17,7 @@ class ReviewandPublishScreen extends StatefulWidget {
 
 class _ReviewandPublishScreenState extends State<ReviewandPublishScreen> {
   String selectedItem = 'Item 1'; // Default selected item
-
+final addProductController = Get.put(AddProductController());
   List<String> itemList = [
     'Item 1',
     'Item 2',
@@ -596,7 +597,7 @@ class _ReviewandPublishScreenState extends State<ReviewandPublishScreen> {
                 title: 'Confirm',
                 borderRadius: 11,
                 onPressed: () {
-                  Get.to(RewardScreen());
+                  Get.to(addProductController.addProduct(context: context));
                 },
               ),
 

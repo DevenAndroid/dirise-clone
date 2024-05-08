@@ -120,7 +120,12 @@ class _BannersScreenState extends State<BannersScreen> {
               CustomOutlineButton(
                 title: 'Add Banners',
                 onPressed: () {
-                  updateProfile();
+                  if(idProof.path.isEmpty){
+                    showToast('Please select Banner');
+                  }else{
+                    updateProfile();
+                  }
+                  
                 },
               ),
           SizedBox(height: 30,),

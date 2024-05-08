@@ -1888,7 +1888,7 @@ List<Widget> vendorPartner() {
             return;
           }
           if (profileController.model.user!.isVendor != true) {
-            Get.to(() => const VendorPlansScreen());
+            Get.to(() => const MyItemISScreen());
             return;
           }
           _isValue.value = !_isValue.value;

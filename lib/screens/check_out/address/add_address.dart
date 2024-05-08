@@ -230,11 +230,12 @@ class _AddAddressScreenState extends State<AddAddressScreen> {
                                         onTap:(){
                                           Get.to(PersonalizeAddAddressScreen(
                                             id: addressList.id,
-                                            street: addressList.landmark,
+                                            street: addressList.address,
                                             city: addressList.city,
                                             state: addressList.state,
                                             zipcode: addressList.zipCode,
                                             country: addressList.country,
+                                            town: addressList.town,
                                           ));
                                         },
                                         child: Text("Edit",

@@ -1,11 +1,11 @@
-class JobResponceModel {
+class AddProductModel {
   bool? status;
   String? message;
   ProductDetails? productDetails;
 
-  JobResponceModel({this.status, this.message, this.productDetails});
+  AddProductModel({this.status, this.message, this.productDetails});
 
-  JobResponceModel.fromJson(Map<String, dynamic> json) {
+  AddProductModel.fromJson(Map<String, dynamic> json) {
     status = json['status'];
     message = json['message'];
     productDetails = json['product_details'] != null
@@ -58,14 +58,14 @@ class ProductDetails {
 
 class Address {
   int? userId;
- dynamic address;
+  dynamic address;
   dynamic city;
   dynamic state;
   dynamic zipCode;
   dynamic town;
   dynamic instruction;
-  dynamic updatedAt;
-  dynamic createdAt;
+  String? updatedAt;
+  String? createdAt;
   int? id;
 
   Address(
@@ -110,51 +110,66 @@ class Address {
 }
 
 class Product {
-  dynamic vendorId;
-  dynamic addressId;
-  dynamic pname;
-  dynamic productType;
-  dynamic itemType;
-  dynamic virtualProductType;
+  int? vendorId;
+  int? addressId;
+  String? pname;
+  String? productType;
+  String? itemType;
+  String? virtualProductType;
   dynamic skuId;
   dynamic catId;
   dynamic catId2;
   dynamic pPrice;
-  dynamic sPrice;
+  int? sPrice;
+  String? virtualProductFileType;
+  String? virtualProductFileLanguage;
   dynamic returnDays;
-  dynamic  returnPolicyDesc;
-  dynamic  shortDescription;
-  dynamic  longDescription;
-  dynamic  inStock;
-  dynamic  weight;
-  dynamic  weightUnit;
-  dynamic  time;
-  dynamic  timePeriod;
-  dynamic  isPublish;
-  dynamic   brandSlug;
-  dynamic   taxApply;
-  dynamic    taxType;
-  dynamic   stockAlert;
-  dynamic    keyword;
-  dynamic    bookingProductType;
-  dynamic    deliverySize;
-  dynamic    serialNumber;
-  dynamic    productNumber;
-  dynamic    metaTitle;
-  dynamic    metaDescription;
-  dynamic    jobseekingOrOffering;
-  dynamic    jobType;
-  dynamic    jobModel;
-  dynamic    linkdinUrl;
-  dynamic    experience;
-  dynamic    salary;
-  dynamic    jobHours;
-  dynamic    uploadCv;
-  dynamic    jobCat;
-  dynamic    describeJobRole;
-  dynamic    updatedAt;
-  dynamic    createdAt;
-  int? id;
+  dynamic returnPolicyDesc;
+  dynamic shortDescription;
+  dynamic longDescription;
+  dynamic inStock;
+  dynamic weight;
+  String? weightUnit;
+  String? time;
+  dynamic timePeriod;
+  dynamic isPublish;
+  dynamic brandSlug;
+  dynamic taxApply;
+  dynamic taxType;
+  dynamic stockAlert;
+  dynamic keyword;
+  dynamic bookingProductType;
+  dynamic deliverySize;
+  dynamic serialNumber;
+  dynamic productNumber;
+  dynamic metaTitle;
+  dynamic metaDescription;
+  dynamic jobseekingOrOffering;
+  dynamic jobType;
+  dynamic jobModel;
+  dynamic linkdinUrl;
+  dynamic experience;
+  dynamic salary;
+  dynamic jobHours;
+  dynamic uploadCv;
+  dynamic jobCat;
+  dynamic describeJobRole;
+  dynamic isOnsale;
+ dynamic discountPercent;
+ dynamic fixedDiscountPrice;
+ dynamic seoTags;
+ dynamic metaTags;
+ dynamic productCode;
+ dynamic promotionCode;
+ dynamic packageDetail;
+ dynamic shippingPay;
+ dynamic slug;
+ dynamic updatedAt;
+ dynamic createdAt;
+ dynamic id;
+ dynamic featureImageApp;
+ dynamic featureImageWeb;
+ dynamic discountPrice;
 
   Product(
       {this.vendorId,
@@ -168,6 +183,8 @@ class Product {
         this.catId2,
         this.pPrice,
         this.sPrice,
+        this.virtualProductFileType,
+        this.virtualProductFileLanguage,
         this.returnDays,
         this.returnPolicyDesc,
         this.shortDescription,
@@ -199,9 +216,22 @@ class Product {
         this.uploadCv,
         this.jobCat,
         this.describeJobRole,
+        this.isOnsale,
+        this.discountPercent,
+        this.fixedDiscountPrice,
+        this.seoTags,
+        this.metaTags,
+        this.productCode,
+        this.promotionCode,
+        this.packageDetail,
+        this.shippingPay,
+        this.slug,
         this.updatedAt,
         this.createdAt,
-        this.id});
+        this.id,
+        this.featureImageApp,
+        this.featureImageWeb,
+        this.discountPrice});
 
   Product.fromJson(Map<String, dynamic> json) {
     vendorId = json['vendor_id'];
@@ -215,6 +245,8 @@ class Product {
     catId2 = json['cat_id_2'];
     pPrice = json['p_price'];
     sPrice = json['s_price'];
+    virtualProductFileType = json['virtual_product_file_type'];
+    virtualProductFileLanguage = json['virtual_product_file_language'];
     returnDays = json['return_days'];
     returnPolicyDesc = json['return_policy_desc'];
     shortDescription = json['short_description'];
@@ -246,9 +278,22 @@ class Product {
     uploadCv = json['upload_cv'];
     jobCat = json['job_cat'];
     describeJobRole = json['describe_job_role'];
+    isOnsale = json['is_onsale'];
+    discountPercent = json['discount_percent'];
+    fixedDiscountPrice = json['fixed_discount_price'];
+    seoTags = json['seo_tags'];
+    metaTags = json['meta_tags'];
+    productCode = json['product_code'];
+    promotionCode = json['promotion_code'];
+    packageDetail = json['package_detail'];
+    shippingPay = json['shipping_pay'];
+    slug = json['slug'];
     updatedAt = json['updated_at'];
     createdAt = json['created_at'];
     id = json['id'];
+    featureImageApp = json['feature_image_app'];
+    featureImageWeb = json['feature_image_web'];
+    discountPrice = json['discount_price'];
   }
 
   Map<String, dynamic> toJson() {
@@ -264,6 +309,8 @@ class Product {
     data['cat_id_2'] = this.catId2;
     data['p_price'] = this.pPrice;
     data['s_price'] = this.sPrice;
+    data['virtual_product_file_type'] = this.virtualProductFileType;
+    data['virtual_product_file_language'] = this.virtualProductFileLanguage;
     data['return_days'] = this.returnDays;
     data['return_policy_desc'] = this.returnPolicyDesc;
     data['short_description'] = this.shortDescription;
@@ -295,23 +342,36 @@ class Product {
     data['upload_cv'] = this.uploadCv;
     data['job_cat'] = this.jobCat;
     data['describe_job_role'] = this.describeJobRole;
+    data['is_onsale'] = this.isOnsale;
+    data['discount_percent'] = this.discountPercent;
+    data['fixed_discount_price'] = this.fixedDiscountPrice;
+    data['seo_tags'] = this.seoTags;
+    data['meta_tags'] = this.metaTags;
+    data['product_code'] = this.productCode;
+    data['promotion_code'] = this.promotionCode;
+    data['package_detail'] = this.packageDetail;
+    data['shipping_pay'] = this.shippingPay;
+    data['slug'] = this.slug;
     data['updated_at'] = this.updatedAt;
     data['created_at'] = this.createdAt;
     data['id'] = this.id;
+    data['feature_image_app'] = this.featureImageApp;
+    data['feature_image_web'] = this.featureImageWeb;
+    data['discount_price'] = this.discountPrice;
     return data;
   }
 }
 
 class InternaionalShipping {
   int? productId;
-  Null? weight;
-  Null? weightUnit;
-  Null? material;
-  Null? typeOfPackages;
-  Null? description;
-  Null? boxDimension;
-  Null? numberOfPackage;
-  Null? units;
+  dynamic weight;
+  String? weightUnit;
+  String? material;
+  String? typeOfPackages;
+  dynamic description;
+  String? boxDimension;
+  String? numberOfPackage;
+  String? units;
   String? updatedAt;
   String? createdAt;
   int? id;

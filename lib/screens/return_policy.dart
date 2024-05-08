@@ -28,8 +28,8 @@ class ReturnnPolicyList extends StatefulWidget {
 }
 
 class _ReturnnPolicyListState extends State<ReturnnPolicyList> {
-  int _radioValue1 = 1;
-
+  bool? _radioValue1;
+  String? _shippingFeesValue;
   RxInt returnPolicyLoaded = 0.obs;
   Rx<ReturnPolicyModel> modelReturnPolicy = ReturnPolicyModel().obs;
   // ReturnPolicyModel? modelReturnPolicy;
@@ -95,6 +95,7 @@ class _ReturnnPolicyListState extends State<ReturnnPolicyList> {
                       physics: const NeverScrollableScrollPhysics(),
                       itemBuilder: (context, index) {
                         var returnpolicy = modelReturnPolicy.value.returnPolicy![index];
+                        _shippingFeesValue = returnpolicy.returnShippingFees;
                         return Container(
                           margin: EdgeInsets.only(bottom: 20),
                           width: size.width,
@@ -111,8 +112,10 @@ class _ReturnnPolicyListState extends State<ReturnnPolicyList> {
                                   child: Row(
                                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                                     children: [
-                                      Text("My Default Policy:",
-                                          style: GoogleFonts.poppins(fontSize: 20, fontWeight: FontWeight.w500)),
+                                      Expanded(
+                                        child: Text("My Default Policy: ${returnpolicy.title}",
+                                            style: GoogleFonts.poppins(fontSize: 20, fontWeight: FontWeight.w500)),
+                                      ),
                                       const Image(image: AssetImage("assets/icons/tempImageYRVRjh 1.png"))
                                     ],
                                   ),
@@ -154,26 +157,26 @@ class _ReturnnPolicyListState extends State<ReturnnPolicyList> {
                                             child: Text("Days",
                                                 style: GoogleFonts.poppins(fontSize: 14, fontWeight: FontWeight.w500)),
                                           ),
-                                          Radio(
-                                            value: 0,
-                                            groupValue: _radioValue1,
-                                            onChanged: (value) {
+                                          Radio<String>(
+                                            value: 'buyer_pays',
+                                            groupValue: _shippingFeesValue,
+                                            onChanged: (String? value) {
                                               setState(() {
-                                                _radioValue1 = value!;
+                                                _shippingFeesValue = value;
                                               });
                                             },
                                           ),
+
                                           Text('Buyer Pays',
-                                              style: GoogleFonts.poppins(fontSize: 14, fontWeight: FontWeight.w500)),
-                                          Radio(
-                                            // Visual Density passed here
+                                              style: GoogleFonts.poppins(fontSize: 14, fontWeight: FontWeight.w500)) ,
+                                          Radio<String>(
                                             visualDensity: const VisualDensity(horizontal: -2.0),
                                             materialTapTargetSize: MaterialTapTargetSize.shrinkWrap,
-                                            value: 1,
-                                            groupValue: _radioValue1,
-                                            onChanged: (value) {
+                                            value: 'seller_pays',
+                                            groupValue: _shippingFeesValue,
+                                            onChanged: (String? value) {
                                               setState(() {
-                                                _radioValue1 = value!;
+                                                _shippingFeesValue = value;
                                               });
                                             },
                                           ),
@@ -200,6 +203,7 @@ class _ReturnnPolicyListState extends State<ReturnnPolicyList> {
                                                 days: returnpolicy.days,
                                                 id: returnpolicy.id,
                                                 descController: returnpolicy.policyDiscreption,
+                                                radiobutton: returnpolicy.returnShippingFees,
                                                 // noReturn: returnpolicy.noReturn,
                                                 titleController: returnpolicy.title ,
                                               ));

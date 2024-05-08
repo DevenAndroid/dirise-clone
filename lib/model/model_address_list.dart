@@ -88,6 +88,7 @@ class AddressData {
   dynamic updatedAt;
   dynamic countryId;
   dynamic phoneCountryCode;
+  dynamic town;
 
   AddressData(
       {this.id,
@@ -114,6 +115,7 @@ class AddressData {
       this.cityId,
       this.stateId,
       this.phoneCountryCode,
+        this.town,
       this.updatedAt});
 
   String get getCompleteAddressInFormat {
@@ -263,6 +265,7 @@ class AddressData {
     createdAt = json['created_at'];
     updatedAt = json['updated_at'];
     countryId = json['country_id'];
+    town = json['town'];
     stateId = json['state_id'];
     cityId = json['city_id'];
     phoneCountryCode = json['phone_country_code'];
@@ -290,6 +293,7 @@ class AddressData {
     data['zip_code'] = zipCode;
     data['landmark'] = landmark;
     data['created_at'] = createdAt;
+    data['town'] = createdAt;
     data['updated_at'] = updatedAt;
     data['country_id'] = countryId;
     data['state_id'] = stateId;
