@@ -95,26 +95,38 @@ class _whatServiceDoYouProvideState extends State<whatServiceDoYouProvide> {
                   controller: serviceController.serviceNameController,
                     obSecure: false,
                     hintText: 'Service Name'.tr,
-                    validator: MultiValidator([
-                      RequiredValidator(errorText: 'Service Name is required'),
-                    ])),
+                    validator: (value) {
+                      if (value!.trim().isEmpty) {
+                        return 'Service Name is required';
+                      }
+                      return null; // Return null if validation passes
+                    },
+                ),
                 CommonTextField(
                   controller: serviceController.priceController,
                     obSecure: false,
                     hintText: 'Price'.tr,
                     keyboardType: TextInputType.number,
-                    validator: MultiValidator([
-                      RequiredValidator(errorText: 'Price is required'),
-                    ])),
+                    validator: (value) {
+                      if (value!.trim().isEmpty) {
+                        return 'Price is required';
+                      }
+                      return null; // Return null if validation passes
+                    },
+                   ),
                 if(isDelivery.value == false)
                 CommonTextField(
                     controller: serviceController.percentageController,
                     obSecure: false,
                     keyboardType: TextInputType.number,
                     hintText: 'Percentage'.tr,
-                    validator: MultiValidator([
-                      RequiredValidator(errorText: 'Enter percentage here.'),
-                    ])),
+                    validator: (value) {
+                      if (value!.trim().isEmpty) {
+                        return 'Enter percentage here.';
+                      }
+                      return null; // Return null if validation passes
+                    },
+                   ),
                 Container(
                   padding: const EdgeInsets.symmetric(vertical: 12,horizontal: 12),
                   decoration: BoxDecoration(
@@ -273,9 +285,13 @@ class _whatServiceDoYouProvideState extends State<whatServiceDoYouProvide> {
                         showToastCenter('After sell price cannot be higher than normal price');
                       }
                     },
-                    validator: MultiValidator([
-                      RequiredValidator(errorText: 'Fixed after sale price'),
-                    ])),
+                    validator: (value) {
+                      if (value!.trim().isEmpty) {
+                        return 'Fixed after sale price';
+                      }
+                      return null; // Return null if validation passes
+                    },
+                   ),
                 const SizedBox(height: 10,),
                 Text(
                   'Calculated price'.tr,

@@ -2,6 +2,8 @@ import 'dart:convert';
 
 import 'package:dirise/Services/service_discrptions_screen.dart';
 import 'package:dirise/addNewProduct/optionalScreen.dart';
+import 'package:dirise/iAmHereToSell/PersonalizeAddAddressScreen.dart';
+import 'package:dirise/utils/helper.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
@@ -68,7 +70,9 @@ class _ServiceInternationalShippingServiceState extends State<ServiceInternation
     map['weight'] = serviceController.weightController.text.trim();
     map['number_of_package'] = selectNumberOfPackages;
     map['material'] = selectTypeMaterial;
-    map['box_dimension'] = serviceController.dimensionController.text.trim();
+    map['box_length'] = serviceController.dimensionController.text.trim();
+    map['box_width'] = serviceController.dimensionWidthController.text.trim();
+    map['box_length'] = serviceController.dimensionController.text.trim();
     map['type_of_packages'] = selectTypeOfPackaging;
 
     FocusManager.instance.primaryFocus!.unfocus();
@@ -147,6 +151,7 @@ class _ServiceInternationalShippingServiceState extends State<ServiceInternation
                       child: Text(value),
                     );
                   }).toList(),
+
                   decoration: InputDecoration(
                     border: InputBorder.none,
                     filled: true,
@@ -192,6 +197,7 @@ class _ServiceInternationalShippingServiceState extends State<ServiceInternation
                     controller: serviceController.weightController,
                     obSecure: false,
                     hintText: 'Weight Of the Item ',
+                    keyboardType: TextInputType.number,
                     validator: MultiValidator([
                       RequiredValidator(errorText: 'Product Name is required'.tr),
                     ])),
@@ -288,13 +294,38 @@ class _ServiceInternationalShippingServiceState extends State<ServiceInternation
                   style: GoogleFonts.poppins(color: const Color(0xff292F45), fontWeight: FontWeight.w500, fontSize: 18),
                 ),
                 const SizedBox(height: 10),
-                CommonTextField(
-                    controller: serviceController.dimensionController,
-                    obSecure: false,
-                    hintText: 'Length X Width X Height ',
-                    validator: MultiValidator([
-                      RequiredValidator(errorText: 'Product Name is required'.tr),
-                    ])),
+
+                Row(
+                  children: [
+                    Expanded(child: CommonTextField(
+                        controller: serviceController.dimensionController,
+                        obSecure: false,
+                        keyboardType: TextInputType.number,
+                        hintText: 'Length X ',
+                        validator: MultiValidator([
+                          RequiredValidator(errorText: 'Product length is required'.tr),
+                        ]))
+                    ),
+                    10.spaceX,
+                    Expanded(child:   CommonTextField(
+                        controller: serviceController.dimensionWidthController,
+                        obSecure: false,
+                        hintText: 'Width X',
+                        keyboardType: TextInputType.number,
+                        validator: MultiValidator([
+                          RequiredValidator(errorText: 'Product Width is required'.tr),
+                        ]))),
+                    10.spaceX,
+                    Expanded(child:   CommonTextField(
+                        controller: serviceController.dimensionHeightController,
+                        obSecure: false,
+                        hintText: 'Height X',
+                        keyboardType: TextInputType.number,
+                        validator: MultiValidator([
+                          RequiredValidator(errorText: 'Product Height is required'.tr),
+                        ]))),
+                  ],
+                ),
                 DropdownButtonFormField<String>(
                   value: selectTypeOfPackaging,
                   onChanged: (String? newValue) {
