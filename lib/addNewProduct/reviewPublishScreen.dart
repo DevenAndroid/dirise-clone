@@ -9,6 +9,8 @@ import 'package:flutter/widgets.dart';
 import 'package:get/get.dart';
 import 'package:google_fonts/google_fonts.dart';
 
+import '../controller/vendor_controllers/add_product_controller.dart';
+import '../model/product_details.dart';
 import '../model/reviewAndPublishModel.dart';
 import '../repository/repository.dart';
 import '../widgets/common_button.dart';
@@ -88,12 +90,27 @@ class _ReviewPublishScreenState extends State<ReviewPublishScreen> {
   bool isItemDetailsVisible3 = false;
   bool isItemDetailsVisible4 = false;
   final Repositories repositories = Repositories();
-  String productId = "";
 
+  final addProductController = Get.put(AddProductController());
+  String productId = "";
+  ModelProductDetails productDetailsModel = ModelProductDetails();
+  Rx<RxStatus> vendorCategoryStatus = RxStatus.empty().obs;
+
+  void getVendorCategories(id) {
+    vendorCategoryStatus.value = RxStatus.loading();
+    repositories.getApi(url: ApiUrls.getProductDetailsUrl+id, showResponse: false).then((value) {
+      productDetailsModel = ModelProductDetails.fromJson(jsonDecode(value));
+      vendorCategoryStatus.value = RxStatus.success();
+      setState(() {});
+    }).catchError((e) {
+      vendorCategoryStatus.value = RxStatus.error();
+    });
+  }
   @override
   void initState() {
     // TODO: implement initState
     super.initState();
+    getVendorCategories(addProductController.idProduct.value.toString());
   }
 
   @override

@@ -58,7 +58,7 @@ class _ItemDetailsScreensState extends State<ItemDetailsScreens> {
     map['category_id'] = id.value.toString();
     map['product_name'] = ProductNameController.text.toString();
     map['item_type'] = 'giveaway';
-    map['id'] = 'giveaway';
+    map['id'] = addProductController.idProduct.value.toString();
     /////please change this when image ui is done
 
     final Repositories repositories = Repositories();

@@ -8,6 +8,7 @@ import 'package:form_field_validator/form_field_validator.dart';
 import 'package:get/get.dart';
 import 'package:google_fonts/google_fonts.dart';
 
+import '../controller/vendor_controllers/add_product_controller.dart';
 import '../iAmHereToSell/personalizeyourstoreScreen.dart';
 import '../model/common_modal.dart';
 import '../repository/repository.dart';
@@ -24,7 +25,7 @@ class InternationalshippingdetailsScreen extends StatefulWidget {
 }
 
 class _InternationalshippingdetailsScreenState extends State<InternationalshippingdetailsScreen> {
-   // Default selected item\
+  // Default selected item\
   TextEditingController weightController = TextEditingController();
   TextEditingController dimensionController = TextEditingController();
 
@@ -34,17 +35,17 @@ class _InternationalshippingdetailsScreenState extends State<Internationalshippi
     'lb/inch',
   ];
 
-  String selectNumberOfPackages  = '1';
+  String selectNumberOfPackages = '1';
   List<String> selectNumberOfPackagesList = List.generate(30, (index) => (index + 1).toString());
 
-  String selectTypeMaterial   = 'plastic';
+  String selectTypeMaterial = 'plastic';
   List<String> selectTypeMaterialList = [
     'plastic',
     'glass',
     'iron',
   ];
   final formKey2 = GlobalKey<FormState>();
-  String selectTypeOfPackaging   = 'fedex 10kg box';
+  String selectTypeOfPackaging = 'fedex 10kg box';
   List<String> selectTypeOfPackagingList = [
     'fedex 10kg box',
     'fedex 25kg box',
@@ -53,7 +54,7 @@ class _InternationalshippingdetailsScreenState extends State<Internationalshippi
     'fedex pak',
     'fedex Tube',
   ];
-
+  final addProductController = Get.put(AddProductController());
   RxBool hide = true.obs;
   RxBool hide1 = true.obs;
   bool showValidation = false;
@@ -69,6 +70,7 @@ class _InternationalshippingdetailsScreenState extends State<Internationalshippi
     map['box_dimension'] = dimensionController.text.trim();
     map['type_of_packages'] = selectTypeOfPackaging;
     map['item_type'] = 'giveaway';
+    map['id'] = addProductController.idProduct.value.toString();
 
     FocusManager.instance.primaryFocus!.unfocus();
     repositories.postApi(url: ApiUrls.giveawayProductAddress, context: context, mapData: map).then((value) {
@@ -112,19 +114,22 @@ class _InternationalshippingdetailsScreenState extends State<Internationalshippi
         child: Container(
           margin: const EdgeInsets.only(left: 15, right: 15),
           child: Form(
-          key: formKey2,
+            key: formKey2,
             child: Column(
               mainAxisAlignment: MainAxisAlignment.start,
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                SizedBox(height: 40,),
+                SizedBox(
+                  height: 40,
+                ),
                 Text(
                   'Int. Shipping details (Optional)'.tr,
                   style: GoogleFonts.poppins(color: const Color(0xff292F45), fontWeight: FontWeight.w500, fontSize: 18),
                 ),
                 const SizedBox(height: 5),
                 Text(
-                  'This information will be used to calculate your shipment shipping price. You can skip it, however your shipment will be limited to local shipping.'.tr,
+                  'This information will be used to calculate your shipment shipping price. You can skip it, however your shipment will be limited to local shipping.'
+                      .tr,
                   style: GoogleFonts.poppins(color: const Color(0xff292F45), fontWeight: FontWeight.w400, fontSize: 13),
                 ),
                 const SizedBox(height: 5),
@@ -337,13 +342,16 @@ class _InternationalshippingdetailsScreenState extends State<Internationalshippi
                   title: 'Confirm',
                   borderRadius: 11,
                   onPressed: () {
-                if (formKey2.currentState!.validate()) {
-                    shippingDetailsApi();}
+                    if (formKey2.currentState!.validate()) {
+
+                      shippingDetailsApi();
+                      
+                    }
                   },
                 ),
                 const SizedBox(height: 20),
                 GestureDetector(
-                  onTap: (){
+                  onTap: () {
                     shippingDetailsApi();
                   },
                   child: Container(
@@ -369,6 +377,9 @@ class _InternationalshippingdetailsScreenState extends State<Internationalshippi
                     ),
                   ),
                 ),
+                const SizedBox(
+                  height: 20,
+                )
               ],
             ),
           ),
