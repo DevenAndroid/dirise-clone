@@ -46,7 +46,7 @@ class _OptionalColloectionScreenState extends State<OptionalColloectionScreen> {
       showToast(response.message.toString());
       if (response.status == true) {
         if(formKey1.currentState!.validate()){
-          Get.to(const ReviewPublishScreen());
+          Get.to(ReviewPublishScreen());
         }
 
       }

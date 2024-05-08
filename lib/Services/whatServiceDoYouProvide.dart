@@ -106,6 +106,7 @@ class _whatServiceDoYouProvideState extends State<whatServiceDoYouProvide> {
                     validator: MultiValidator([
                       RequiredValidator(errorText: 'Price is required'),
                     ])),
+                if(isDelivery.value == false)
                 CommonTextField(
                     controller: serviceController.percentageController,
                     obSecure: false,
@@ -257,6 +258,21 @@ class _whatServiceDoYouProvideState extends State<whatServiceDoYouProvide> {
                     obSecure: false,
                     keyboardType: TextInputType.number,
                     hintText: 'Fixed after sale price'.tr,
+                    onChanged: (value){
+                      double sellingPrice = double.tryParse(value) ?? 0.0;
+                      double purchasePrice = double.tryParse(serviceController.priceController.text) ?? 0.0;
+                      if (serviceController.priceController.text.isEmpty) {
+                        FocusManager.instance.primaryFocus!.unfocus();
+                        serviceController.fixedPriceController.clear();
+                        showToastCenter('Enter normal price first');
+                        return;
+                      }
+                      if (sellingPrice > purchasePrice) {
+                        FocusManager.instance.primaryFocus!.unfocus();
+                        serviceController.fixedPriceController.clear();
+                        showToastCenter('After sell price cannot be higher than normal price');
+                      }
+                    },
                     validator: MultiValidator([
                       RequiredValidator(errorText: 'Fixed after sale price'),
                     ])),

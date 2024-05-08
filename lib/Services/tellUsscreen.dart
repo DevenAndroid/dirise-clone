@@ -25,6 +25,7 @@ class TellUsScreen extends StatefulWidget {
 
 class _TellUsScreenState extends State<TellUsScreen> {
   final serviceController = Get.put(ServiceController());
+  String enteredText = '';
 
 
   serviceApi() {
@@ -171,7 +172,21 @@ class _TellUsScreenState extends State<TellUsScreen> {
                 controller: serviceController.stockAlertController,
                   obSecure: false,
                   keyboardType: TextInputType.number,
-                  // hintText: 'Name',
+                  onChanged: (value){
+                    double sellingPrice = double.tryParse(value) ?? 0.0;
+                    double purchasePrice = double.tryParse(serviceController.inStockController.text) ?? 0.0;
+                    if (serviceController.inStockController.text.isEmpty) {
+                      FocusManager.instance.primaryFocus!.unfocus();
+                      serviceController.stockAlertController.clear();
+                      showToastCenter('Enter stock quantity first');
+                      return;
+                    }
+                    if (sellingPrice > purchasePrice) {
+                      FocusManager.instance.primaryFocus!.unfocus();
+                      serviceController.stockAlertController.clear();
+                      showToastCenter('Stock alert cannot be higher than stock quantity');
+                    }
+                  },
                   hintText: 'Get notification on your stock quantity'.tr,
                   validator: MultiValidator([
                     RequiredValidator(errorText: 'Set stock alert is required'.tr),
@@ -196,6 +211,12 @@ class _TellUsScreenState extends State<TellUsScreen> {
               CommonTextField(
                 controller: serviceController.writeTagsController,
                   obSecure: false,
+                  textInputAction: TextInputAction.done,
+                  onChanged: (text){
+                    setState(() {
+                      enteredText = text;
+                    });
+                  },
                   // hintText: 'Name',
                   hintText: 'Write Tags'.tr,
                   validator: MultiValidator([
@@ -208,74 +229,30 @@ class _TellUsScreenState extends State<TellUsScreen> {
                   children: [
                     Row(
                       children: [
-                        Container(
+                        enteredText != '' ? Container(
                           padding: const EdgeInsets.only(left: 10, right: 10),
                           height: 40,
                           decoration: BoxDecoration(color: Colors.white, borderRadius: BorderRadius.circular(5)),
-                          child: const Row(
+                          child:  Row(
                             children: [
-                              Text('Books'),
-                              SizedBox(
+                              Text(enteredText.toString()),
+                              const SizedBox(
                                 width: 10,
                               ),
-                              Icon(Icons.cancel_outlined)
+
+                              GestureDetector(
+                                  onTap: (){
+                                    setState(() {
+                                      serviceController.writeTagsController.clear();
+                                      enteredText = '';
+                                    });
+                                  },
+                                  child: const Icon(Icons.cancel_outlined))
                             ],
                           ),
-                        ),
+                        ): const SizedBox.shrink(),
                         const SizedBox(
                           width: 30,
-                        ),
-                        Container(
-                          padding: const EdgeInsets.only(left: 10, right: 10),
-                          height: 40,
-                          decoration: BoxDecoration(color: Colors.white, borderRadius: BorderRadius.circular(5)),
-                          child: const Row(
-                            children: [
-                              Text('Electronics'),
-                              SizedBox(
-                                width: 10,
-                              ),
-                              Icon(Icons.cancel_outlined)
-                            ],
-                          ),
-                        ),
-                      ],
-                    ),
-                    const SizedBox(
-                      height: 10,
-                    ),
-                    Row(
-                      children: [
-                        Container(
-                          padding: const EdgeInsets.only(left: 10, right: 10),
-                          height: 40,
-                          decoration: BoxDecoration(color: Colors.white, borderRadius: BorderRadius.circular(5)),
-                          child: const Row(
-                            children: [
-                              Text('Writer'),
-                              SizedBox(
-                                width: 10,
-                              ),
-                              Icon(Icons.cancel_outlined)
-                            ],
-                          ),
-                        ),
-                        const SizedBox(
-                          width: 30,
-                        ),
-                        Container(
-                          padding: const EdgeInsets.only(left: 10, right: 10),
-                          height: 40,
-                          decoration: BoxDecoration(color: Colors.white, borderRadius: BorderRadius.circular(5)),
-                          child: const Row(
-                            children: [
-                              Text('Teachers'),
-                              SizedBox(
-                                width: 10,
-                              ),
-                              Icon(Icons.cancel_outlined)
-                            ],
-                          ),
                         ),
                       ],
                     ),
