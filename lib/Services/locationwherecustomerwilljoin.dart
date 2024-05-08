@@ -1,4 +1,6 @@
+import 'package:dirise/Services/service_international_shipping_details.dart';
 import 'package:dirise/singleproductScreen/singleProductReturnPolicy.dart';
+import 'package:dirise/utils/helper.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
@@ -6,6 +8,7 @@ import 'package:form_field_validator/form_field_validator.dart';
 import 'package:get/get.dart';
 import 'package:google_fonts/google_fonts.dart';
 
+import '../widgets/common_button.dart';
 import '../widgets/common_colour.dart';
 import '../widgets/common_textfield.dart';
 
@@ -56,10 +59,12 @@ class _LocationwherecustomerwilljoinState extends State<Locationwherecustomerwil
             mainAxisAlignment: MainAxisAlignment.start,
             crossAxisAlignment: CrossAxisAlignment.start,
             children:[
+              20.spaceY,
               Text(
                 'Write address or choose*'.tr,
                 style: GoogleFonts.poppins(color: Colors.black, fontWeight: FontWeight.w600, fontSize: 18),
               ),
+              20.spaceY,
               DropdownButtonFormField<String>(
                 value: selectedItem,
                 onChanged: (String? newValue) {
@@ -70,7 +75,7 @@ class _LocationwherecustomerwilljoinState extends State<Locationwherecustomerwil
                 items: itemList.map<DropdownMenuItem<String>>((String value) {
                   return DropdownMenuItem<String>(
                     value: value,
-                    child: Text('Write Address',style: TextStyle(fontSize: 15,color: Colors.grey),),
+                    child: const Text('Write Address',style: TextStyle(fontSize: 15,color: Colors.grey),),
                   );
                 }).toList(),
                 decoration: InputDecoration(
@@ -101,6 +106,14 @@ class _LocationwherecustomerwilljoinState extends State<Locationwherecustomerwil
                     return 'Please select an item';
                   }
                   return null;
+                },
+              ),
+              60.spaceY,
+              CustomOutlineButton(
+                title: 'Next',
+                borderRadius: 11,
+                onPressed: () {
+                  Get.to(()=> const ServiceInternationalShippingService());
                 },
               ),
             ]

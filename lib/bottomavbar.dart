@@ -1,8 +1,14 @@
 import 'dart:async';
+import 'package:dirise/addNewProduct/internationalshippingdetailsScreem.dart';
 import 'package:dirise/language/app_strings.dart';
+import 'package:dirise/routers/my_routers.dart';
 import 'package:dirise/screens/home_pages/homepage_screen.dart';
+import 'package:dirise/screens/return_policy.dart';
 import 'package:dirise/screens/wishlist/whishlist_screen.dart';
 import 'package:dirise/utils/api_constant.dart';
+import 'package:dirise/vendor/authentication/vendor_registration_screen.dart';
+import 'package:dirise/vendor/dashboard/dashboard_screen.dart';
+import 'package:dirise/vendor/shipping_policy.dart';
 import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
@@ -13,6 +19,7 @@ import 'package:shared_preferences/shared_preferences.dart';
 import 'controller/cart_controller.dart';
 import 'controller/homepage_controller.dart';
 import 'controller/profile_controller.dart';
+import 'newAuthScreens/signupScreen.dart';
 import 'screens/categories/categories_screen.dart';
 import 'widgets/common_colour.dart';
 import 'screens/my_account_screens/myaccount_scrren.dart';
@@ -38,7 +45,7 @@ class _BottomNavbarState extends State<BottomNavbar> {
     const MyAccountScreen(),
   ];
 
-
+  bool isLoggedIn = false;
 
   bool allowExitApp = false;
 
@@ -76,6 +83,26 @@ class _BottomNavbarState extends State<BottomNavbar> {
     stopTimer();
   }
 
+  checkUser() async {
+    SharedPreferences preferences = await SharedPreferences.getInstance();
+    if (preferences.getString('user_details') != null) {
+      isLoggedIn = true;
+    } else {
+      isLoggedIn = false;
+    }
+    if(mounted){
+      setState(() {
+
+      });
+    }
+  }
+  @override
+  void initState() {
+    // TODO: implement initState
+    super.initState();
+    checkUser();
+  }
+
   @override
   Widget build(BuildContext context) {
     // FirebaseMessaging.instance.getToken().then((value) {
@@ -92,10 +119,46 @@ class _BottomNavbarState extends State<BottomNavbar> {
       },
       child: Obx(() {
         return Scaffold(
-          body: pages[bottomController.pageIndex.value],
-          backgroundColor: Colors.white,
-          bottomNavigationBar: buildMyNavBar(),
-        );
+            body: pages[bottomController.pageIndex.value],
+            backgroundColor: Colors.white,
+            bottomNavigationBar: buildMyNavBar(),
+            floatingActionButtonLocation:
+                FloatingActionButtonLocation.centerDocked,
+            floatingActionButton: Visibility(
+              child: GestureDetector(
+                onTap: () {
+                  if (isLoggedIn) {
+                    Get.toNamed(VendorDashBoardScreen.route);
+                  } else {
+                    Get.toNamed(CreateAccountNewScreen.route);
+                  }
+                },
+                child: Container(
+                  height: 55,
+                  width: 55,
+                  decoration: BoxDecoration(
+                      color: AppTheme.buttonColor,
+                      borderRadius: BorderRadius.circular(30),
+                      border: Border.all(color: AppTheme.shadowColor, width: 2)),
+                  child: GestureDetector(
+                    onTap: () {
+                      if (isLoggedIn) {
+                        Get.toNamed(VendorDashBoardScreen.route);
+                      } else {
+                        Get.toNamed(CreateAccountNewScreen.route);
+                      }
+                    },
+                    child: Center(
+                        child: SvgPicture.asset(
+                          'assets/svgs/Group.svg',
+                          color: Colors.white,
+                          height: 30,
+                        ),
+                    ),
+                  ),
+                ),
+              ),
+            ));
       }),
     );
   }

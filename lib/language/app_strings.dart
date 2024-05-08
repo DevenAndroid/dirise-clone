@@ -4,6 +4,7 @@ class AppStrings{
   static String home = "Home";
   static String register = "Register";
   static String categories = "Categories";
+  static String SELLBETTER = "SELL BETTER";
   static String favorite = "Favourite";
   static String profile = "Profile";
   static String otpHasBeenSent = "OPT has been sent to your given email address.\nVerify email to place order.";
