@@ -36,9 +36,14 @@ class _ServicesReturnPolicyState extends State<ServicesReturnPolicy> {
   final formKey1 = GlobalKey<FormState>();
 
   String selectedItem = '1';
+  String selectedItemDay = 'days';
 
   List<String> itemList = List.generate(30, (index) => (index + 1).toString());
-
+  List<String> daysList = [
+    'days',
+    'week',
+    'year'
+  ];
   RxInt returnPolicyLoaded = 0.obs;
   ReturnPolicyModel? modelReturnPolicy;
   ReturnPolicy? selectedReturnPolicy;
@@ -272,16 +277,17 @@ class _ServicesReturnPolicyState extends State<ServicesReturnPolicy> {
                         ),
                         Expanded(
                           child: DropdownButtonFormField<String>(
-                            value: selectedItem,
+                            value: selectedItemDay,
                             onChanged: (String? newValue) {
                               setState(() {
-                                selectedItem = newValue!;
+                                selectedItemDay = newValue!;
                               });
                             },
-                            items: itemList.map<DropdownMenuItem<String>>((String value) {
+                            items: <String>['days', 'Week', 'Year']
+                                .map<DropdownMenuItem<String>>((String value) {
                               return DropdownMenuItem<String>(
                                 value: value,
-                                child: const Text('days'),
+                                child: Text(value),
                               );
                             }).toList(),
                             decoration: InputDecoration(
@@ -423,66 +429,6 @@ class _ServicesReturnPolicyState extends State<ServicesReturnPolicy> {
                   },
 
               ),
-              SizedBox(
-                height: 20,
-              ),
-              Text(
-                'My Policies Details*'.tr,
-                style: GoogleFonts.poppins(color: Color(0xff292F45), fontWeight: FontWeight.w600, fontSize: 18),
-              ),
-
-              CommonTextField(
-                  // controller: ProductNameController,
-                  obSecure: false,
-                  hintText: 'DIRISE standard Policy',
-                  validator: MultiValidator([
-                    RequiredValidator(errorText: 'DIRISE standard Policy is required'.tr),
-                  ])
-              ),
-              SizedBox(
-                height: 10,
-              ),
-              Text(
-                'Create New Return Policy'.tr,
-                style: GoogleFonts.poppins(color: Color(0xff292F45), fontWeight: FontWeight.w600, fontSize: 18),
-              ),
-              TextFormField(
-                maxLines: 2,
-                minLines: 2,
-                decoration: InputDecoration(
-                  counterStyle: GoogleFonts.poppins(
-                    color: AppTheme.primaryColor,
-                    fontSize: 25,
-                  ),
-                  counter: const Offstage(),
-                  errorMaxLines: 2,
-                  contentPadding: const EdgeInsets.all(15),
-                  fillColor: Colors.grey.shade100,
-                  hintText: 'Long Description(optional)',
-                  hintStyle: GoogleFonts.poppins(
-                    color: AppTheme.primaryColor,
-                    fontSize: 15,
-                  ),
-                  border: InputBorder.none,
-                  focusedErrorBorder: const OutlineInputBorder(
-                      borderRadius: BorderRadius.all(Radius.circular(8)),
-                      borderSide: BorderSide(color: AppTheme.secondaryColor)),
-                  errorBorder: const OutlineInputBorder(
-                      borderRadius: BorderRadius.all(Radius.circular(8)),
-                      borderSide: BorderSide(color: AppTheme.secondaryColor)),
-                  focusedBorder: const OutlineInputBorder(
-                      borderRadius: BorderRadius.all(Radius.circular(8)),
-                      borderSide: BorderSide(color: AppTheme.secondaryColor)),
-                  disabledBorder: const OutlineInputBorder(
-                    borderRadius: BorderRadius.all(Radius.circular(8)),
-                    borderSide: BorderSide(color: AppTheme.secondaryColor),
-                  ),
-                  enabledBorder: const OutlineInputBorder(
-                    borderRadius: BorderRadius.all(Radius.circular(8)),
-                    borderSide: BorderSide(color: AppTheme.secondaryColor),
-                  ),
-                ),
-              )
               ],
             ),
           ),

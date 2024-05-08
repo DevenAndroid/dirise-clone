@@ -7,6 +7,11 @@ import 'package:dirise/screens/my_account_screens/profile_screen.dart';
 import 'package:dirise/screens/my_account_screens/return_policy_screen.dart';
 import 'package:dirise/screens/my_account_screens/termsconditions_screen.dart';
 import 'package:get/get.dart';
+import '../Services/choose_map_service.dart';
+import '../Services/locationwherecustomerwilljoin.dart';
+import '../Services/pick_up_address_service.dart';
+import '../Services/servicesReturnPolicyScreen.dart';
+import '../Services/tellUsscreen.dart';
 import '../Services/whatServiceDoYouProvide.dart';
 import '../addNewProduct/pickUpAddressScreen.dart';
 import '../model/model_cart_response.dart';
@@ -51,7 +56,7 @@ import '../vendor/shipping_policy.dart';
 class MyRouters {
   static var route = [
 
-    GetPage(name: '/', page: () => const whatServiceDoYouProvide()),
+    GetPage(name: '/', page: () => const BottomNavbar()),
 
     GetPage(name: LoginScreen.route, page: () => const LoginScreen()),
     GetPage(name: VendorOTPVerification.route, page: () => const VendorOTPVerification()),
@@ -94,6 +99,8 @@ class MyRouters {
     GetPage(name: EditAddresss.route, page: () => const EditAddresss()),
     // GetPage(name: ReturnnPolicy.route, page: () => const ReturnnPolicy()),
     GetPage(name: VendorInformation.route, page: () => const VendorInformation()),
+    GetPage(name: ChooseAddressService.route, page: () =>  ChooseAddressService()),
+    GetPage(name: PickUpAddressService.route, page: () =>  PickUpAddressService()),
 
   ];
 }
