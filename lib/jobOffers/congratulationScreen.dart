@@ -72,6 +72,12 @@ class _CongratulationScreenState extends State<CongratulationScreen> {
                 style: GoogleFonts.poppins(color: Colors.black, fontWeight: FontWeight.w400, fontSize: 14),
               ),
               const SizedBox(height: 20,),
+              CustomOutlineButton(
+                title: 'Continue',
+                borderRadius: 11,
+                onPressed: () {
+                },
+              ),
 
             ],
           ),

@@ -57,7 +57,7 @@ class _ItemDetailsScreensState extends State<ItemDetailsScreens> {
     Map<String, dynamic> map = {};
     map['category_id'] = id.value.toString();
     map['product_name'] = ProductNameController.text.toString();
-    map['item_type'] = 'product';
+    map['item_type'] = 'giveaway';
     map['id'] = 'giveaway';
     /////please change this when image ui is done
 
