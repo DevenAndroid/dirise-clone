@@ -165,7 +165,7 @@ class _JobTellusaboutyourselfScreenState extends State<JobTellusaboutyourselfScr
                   } else if (selectedRadio == 'job_hiring') {
                     jobTypeApi('job_hiring');
                   }else{
-                    showToast('Select delivery size');
+                    showToast('Select Job Type');
                   }
 
                 },

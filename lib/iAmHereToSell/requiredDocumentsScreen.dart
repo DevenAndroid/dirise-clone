@@ -215,7 +215,15 @@ class _RequiredDocumentsScreenState extends State<RequiredDocumentsScreen> {
               CustomOutlineButton(
                 title: "Upload".tr,
                 onPressed: () {
-                  updateProfile();
+                  if(payment_certificate.path.isEmpty &&
+                      commercial_license.path.isEmpty &&
+                      memorandum_of_association.path.isEmpty){
+                    showToast('Please select Required Documents');
+                  }else
+                  {
+                    updateProfile();
+                  }
+
                 },
               ),
               const SizedBox(
@@ -223,6 +231,7 @@ class _RequiredDocumentsScreenState extends State<RequiredDocumentsScreen> {
               ),
               GestureDetector(
                 onTap: () {
+
                   Get.to(const VerificationOptionScreen());
                 },
                 child: Container(
