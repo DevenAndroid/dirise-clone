@@ -3,7 +3,7 @@ import 'dart:convert';
 class ModelCountryList {
   bool? status;
   dynamic message;
-  List<Country>? country;
+  List<Country>? country = [];
 
   ModelCountryList({this.status, this.message, this.country});
 
