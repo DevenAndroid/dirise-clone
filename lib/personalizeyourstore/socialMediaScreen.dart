@@ -24,15 +24,15 @@ class SocialMediaStore extends StatefulWidget {
 }
 
 class _SocialMediaStoreState extends State<SocialMediaStore> {
-  TextEditingController instagramController = TextEditingController();
-  TextEditingController youtubeController = TextEditingController();
-  TextEditingController twitterController = TextEditingController();
-  TextEditingController linkedinController = TextEditingController();
-  TextEditingController facebookController = TextEditingController();
-  TextEditingController snapchatController = TextEditingController();
-  TextEditingController pinterestController = TextEditingController();
-  TextEditingController tiktokController = TextEditingController();
-  TextEditingController threadsController = TextEditingController();
+  TextEditingController instagramController  = TextEditingController();
+  TextEditingController youtubeController   = TextEditingController();
+  TextEditingController twitterController   = TextEditingController();
+  TextEditingController linkedinController  = TextEditingController();
+  TextEditingController facebookController   = TextEditingController();
+  TextEditingController snapchatController   = TextEditingController();
+  TextEditingController pinterestController   = TextEditingController();
+  TextEditingController tiktokController     = TextEditingController();
+  TextEditingController threadsController   = TextEditingController();
 
   final Repositories repositories = Repositories();
   socialMediaApi() {
@@ -63,6 +63,18 @@ class _SocialMediaStoreState extends State<SocialMediaStore> {
   Future getSocialMedia() async {
     await repositories.getApi(url: ApiUrls.getSocialMediaUrl).then((value) {
       socialMediaModel = SocialMediaModel.fromJson(jsonDecode(value));
+      log('ffffff ${socialMediaModel.socialMedia!.toJson()}');
+      if(socialMediaModel.socialMedia != null){
+        instagramController.text = socialMediaModel.socialMedia!.instagram ?? "";
+        youtubeController.text = socialMediaModel.socialMedia!.youtube ?? "";
+        twitterController.text = socialMediaModel.socialMedia!.twitter ?? "";
+        linkedinController.text = socialMediaModel.socialMedia!.linkedin ?? "";
+        facebookController.text = socialMediaModel.socialMedia!.facebook ?? "";
+        snapchatController.text = socialMediaModel.socialMedia!.snapchat ?? "";
+        pinterestController.text  = socialMediaModel.socialMedia!.pinterest ?? "";
+        tiktokController.text = socialMediaModel.socialMedia!.tiktok ?? "";
+        threadsController.text = socialMediaModel.socialMedia!.threads ?? "";
+      }
       setState(() {});
     });
   }
@@ -71,7 +83,7 @@ class _SocialMediaStoreState extends State<SocialMediaStore> {
   void initState() {
     super.initState();
     getSocialMedia();
-    log('fffffff'+socialMediaModel.message.toString());
+
   }
 
   bool check = false;
@@ -120,39 +132,15 @@ class _SocialMediaStoreState extends State<SocialMediaStore> {
           margin: EdgeInsets.only(left: 20, right: 20),
           child: Column(
             children: [
-              socialMediaModel.socialMedia != null ?
-              Column(
-                mainAxisAlignment: MainAxisAlignment.start,
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  Text('Instagram :- ${socialMediaModel.socialMedia!.instagram.toString() ?? ""}'),
-                  const SizedBox(height: 10,),
-                  Text('Linkedin :- ${socialMediaModel.socialMedia!.linkedin.toString() ?? ""}'),
-                  const SizedBox(height: 10,),
-                  Text('Pinterest :- ${socialMediaModel.socialMedia!.pinterest.toString() ?? ""}'),
-                  const SizedBox(height: 10,),
-                  Text('Snapchat :- ${socialMediaModel.socialMedia!.snapchat.toString() ?? ""}'),
-                  const SizedBox(height: 10,),
-                  Text('Threads :- ${socialMediaModel.socialMedia!.threads.toString() ?? ""}'),
-                  const SizedBox(height: 10,),
-                  Text('Twitter :- ${socialMediaModel.socialMedia!.twitter.toString() ?? ""}'),
-                  const SizedBox(height: 10,),
-                  Text('Tiktok :- ${socialMediaModel.socialMedia!.tiktok.toString() ?? ""}'),
-                  const SizedBox(height: 10,),
-                  Text('Youtube :- ${socialMediaModel.socialMedia!.youtube.toString() ?? ""}'),
-
-
-                ],
-              ) : CircularProgressIndicator(),
               const SizedBox(
                 height: 20,
               ),
-              check == true
-                  ? Column(
+              Column(
                       children: [
                         CommonTextField(
                             controller: instagramController,
                             obSecure: false,
+                            prefix: Image.asset('assets/images/instagram.png'),
                             // hintText: 'Name',
                             hintText: 'Enter Your Instagram Username'.tr,
                             validator: MultiValidator([
@@ -161,6 +149,7 @@ class _SocialMediaStoreState extends State<SocialMediaStore> {
                         CommonTextField(
                             controller: youtubeController,
                             obSecure: false,
+                            prefix: Image.network('https://img.icons8.com/color/48/youtube-play'),
                             // hintText: 'Name',
                             hintText: 'Enter Your youtube Username'.tr,
                             validator: MultiValidator([
@@ -169,6 +158,7 @@ class _SocialMediaStoreState extends State<SocialMediaStore> {
                         CommonTextField(
                             controller: twitterController,
                             obSecure: false,
+                            prefix: Image.network('https://img.icons8.com/fluency/48/twitter.png'),
                             // hintText: 'Name',
                             hintText: 'Enter Your twitter Username'.tr,
                             validator: MultiValidator([
@@ -177,6 +167,7 @@ class _SocialMediaStoreState extends State<SocialMediaStore> {
                         CommonTextField(
                             controller: linkedinController,
                             obSecure: false,
+                            prefix: Image.network('https://img.icons8.com/fluency/48/linkedin.png'),
                             // hintText: 'Name',
                             hintText: 'Enter Your linkedin Username'.tr,
                             validator: MultiValidator([
@@ -185,6 +176,7 @@ class _SocialMediaStoreState extends State<SocialMediaStore> {
                         CommonTextField(
                             controller: facebookController,
                             obSecure: false,
+                            prefix: Image.network('https://img.icons8.com/color/48/facebook-new.png'),
                             // hintText: 'Name',
                             hintText: 'Enter Your facebook Username'.tr,
                             validator: MultiValidator([
@@ -193,6 +185,7 @@ class _SocialMediaStoreState extends State<SocialMediaStore> {
                         CommonTextField(
                             controller: snapchatController,
                             obSecure: false,
+                            prefix: Image.network('https://img.icons8.com/parakeet/48/snapchat.png'),
                             // hintText: 'Name',
                             hintText: 'Enter Your snapchat Username'.tr,
                             validator: MultiValidator([
@@ -201,6 +194,7 @@ class _SocialMediaStoreState extends State<SocialMediaStore> {
                         CommonTextField(
                             controller: pinterestController,
                             obSecure: false,
+                            prefix: Image.network('https://img.icons8.com/color/48/pinterest--v1.png'),
                             // hintText: 'Name',
                             hintText: 'Enter Your pinterest Username'.tr,
                             validator: MultiValidator([
@@ -209,6 +203,7 @@ class _SocialMediaStoreState extends State<SocialMediaStore> {
                         CommonTextField(
                             controller: tiktokController,
                             obSecure: false,
+                            prefix: Image.network('https://img.icons8.com/color-glass/48/tiktok.png'),
                             // hintText: 'Name',
                             hintText: 'Enter Your tiktok Username'.tr,
                             validator: MultiValidator([
@@ -217,6 +212,7 @@ class _SocialMediaStoreState extends State<SocialMediaStore> {
                         CommonTextField(
                             controller: threadsController,
                             obSecure: false,
+                            prefix: Image.network('https://img.icons8.com/color/48/clew.png'),
                             // hintText: 'Name',
                             hintText: 'Enter Your threads Username'.tr,
                             validator: MultiValidator([
@@ -230,7 +226,7 @@ class _SocialMediaStoreState extends State<SocialMediaStore> {
                         ),
                       ],
                     )
-                  : const SizedBox()
+
             ],
           ),
         ),

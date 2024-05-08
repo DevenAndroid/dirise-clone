@@ -229,6 +229,7 @@ class _AddAddressScreenState extends State<AddAddressScreen> {
                                       InkWell(
                                         onTap:(){
                                           Get.to(PersonalizeAddAddressScreen(
+                                            id: addressList.id,
                                             street: addressList.landmark,
                                             city: addressList.city,
                                             state: addressList.state,
@@ -281,99 +282,6 @@ class _AddAddressScreenState extends State<AddAddressScreen> {
                   );
                 },
               ) : const Center(child: SizedBox()),
-              // addressListModel.address?.shipping != null ?
-              // ListView.builder(
-              //   physics: NeverScrollableScrollPhysics(),
-              //   itemCount: addressListModel.address!.shipping!.length,
-              //   shrinkWrap: true,
-              //   itemBuilder: (context,index){
-              //     var shippingAddressList = addressListModel.address!.shipping![index];
-              //     return Column(
-              //       children: [
-              //         Container(
-              //           width: size.width,
-              //           decoration: BoxDecoration(
-              //               borderRadius: const BorderRadius.all(Radius.circular(15)),
-              //               border: Border.all(color: const Color(0xffE4E2E2))),
-              //           child: Column(
-              //             crossAxisAlignment: CrossAxisAlignment.start,
-              //             children: [
-              //               SizedBox(height: 10,),
-              //               Padding(
-              //                 padding: const EdgeInsets.symmetric(horizontal: 13),
-              //                 child: Row(
-              //                   children: [
-              //                     Text("Default:",
-              //                         style: GoogleFonts.poppins(fontSize: 20, fontWeight: FontWeight.w500)),
-              //                     const SizedBox(
-              //                       width: 15,
-              //                     ),
-              //                     const Image(image: AssetImage("assets/icons/tempImageYRVRjh 1.png"))
-              //                   ],
-              //                 ),
-              //               ),
-              //               const Divider(
-              //                 thickness: 1,
-              //               ),
-              //               Padding(
-              //                 padding: const EdgeInsets.symmetric(horizontal: 13),
-              //                 child: Column(
-              //                   crossAxisAlignment: CrossAxisAlignment.start,
-              //                   children: [
-              //                     Text('City - ${shippingAddressList.city.toString()}'),
-              //                     Text('state - ${shippingAddressList.state.toString()}'),
-              //                     Text('country - ${shippingAddressList.country.toString()}'),
-              //                     Text('zip code - ${shippingAddressList.zipCode.toString()}'),
-              //                     const SizedBox(
-              //                       height: 8,
-              //                     ),
-              //                     Text(
-              //                       "Add delivery instructions",
-              //                       style: GoogleFonts.poppins(
-              //                           fontSize: 18, fontWeight: FontWeight.w500, color: const Color(0xff014E70)),
-              //                     ),
-              //                     const SizedBox(
-              //                       height: 30,
-              //                     ),
-              //                     Row(
-              //                       children: [
-              //                         GestureDetector(onTap:(){
-              //                           Get.toNamed(EditAddresss.route);
-              //                         },
-              //                           child: Text("Edit",
-              //                               style: GoogleFonts.poppins(
-              //                                   fontSize: 18,
-              //                                   fontWeight: FontWeight.w300,
-              //                                   color: const Color(0xff014E70))),
-              //                         ),
-              //                         Text("|Remove",
-              //                             style: GoogleFonts.poppins(
-              //                                 fontSize: 18,
-              //                                 fontWeight: FontWeight.w300,
-              //                                 color: const Color(0xff014E70))),
-              //                         Text("|Set as default",
-              //                             style: GoogleFonts.poppins(
-              //                                 fontSize: 18,
-              //                                 fontWeight: FontWeight.w300,
-              //                                 color: const Color(0xff014E70))),
-              //                       ],
-              //                     ),
-              //                     const SizedBox(
-              //                       height: 20,
-              //                     )
-              //                   ],
-              //                 ),
-              //               )
-              //             ],
-              //           ),
-              //         ),
-              //         const SizedBox(
-              //           height: 15,
-              //         ),
-              //       ],
-              //     );
-              //   },
-              // ) : const Center(child: CircularProgressIndicator()),
 
               ElevatedButton(
                   onPressed: () {

@@ -379,7 +379,8 @@ class _SetTimeScreenState extends State<SetTimeScreen> {
                   style: GoogleFonts.poppins(fontSize: 18, fontWeight: FontWeight.w600, color: Colors.white),
                 ),
               ),
-            )
+            ),
+            SizedBox(height: 20,),
           ],
         )
             : const LoadingAnimation();

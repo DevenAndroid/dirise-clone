@@ -1,4 +1,5 @@
 import 'package:dirise/addNewProduct/itemdetailsScreen.dart';
+import 'package:dirise/utils/api_constant.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
@@ -105,7 +106,12 @@ class _MyItemISScreenState extends State<MyItemISScreen> {
               padding: const EdgeInsets.all(8.0),
               child: GestureDetector(
                 onTap: () {
-                  navigateNext();
+                  if(selectedRadio.isNotEmpty){
+                    navigateNext();
+                  }
+                 else{
+                   showToast('Please select any item type');
+                  }
                 },
                 child: Container(
                   width: Get.width,

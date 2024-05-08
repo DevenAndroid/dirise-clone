@@ -151,7 +151,7 @@ class _WhichplantypedescribeyouScreenState extends State<Whichplantypedescribeyo
                       groupValue: _selectedOption,
                       onChanged: (value) {
                         setState(() {
-                          _selectedOption = 1; // Update selected option
+                          _selectedOption = value!; // Update selected option
                           profileController.selectedPlan = value.toString();
                         });
                       },
@@ -189,11 +189,7 @@ class _WhichplantypedescribeyouScreenState extends State<Whichplantypedescribeyo
                               ),
                             ),
                           ),
-                          const Radio(
-                            value: 1,
-                            groupValue: 1,
-                            onChanged: null,
-                          ),
+
                         ],
                       ),
                       const Divider(thickness: 1,color: Colors.grey,),
@@ -317,7 +313,7 @@ class _WhichplantypedescribeyouScreenState extends State<Whichplantypedescribeyo
                       groupValue: _selectedOption,
                       onChanged: (value) {
                         setState(() {
-                          _selectedOption = 2; // Update selected option
+                          _selectedOption = value!; // Update selected option
                           profileController.selectedPlan = value.toString();
                         });
                       },
@@ -346,7 +342,7 @@ class _WhichplantypedescribeyouScreenState extends State<Whichplantypedescribeyo
                             child: Align(
                               alignment: Alignment.center,
                               child: Text(
-                                'Individuals'.tr,
+                                'Startup stores'.tr,
                                 style: GoogleFonts.raleway(
                                   color: const Color(0xff0D5877),
                                   fontWeight: FontWeight.w500,
@@ -402,10 +398,13 @@ class _WhichplantypedescribeyouScreenState extends State<Whichplantypedescribeyo
                                     visualDensity:
                                     const VisualDensity(horizontal: -4, vertical: -2),
                                     onChanged: (value) {
-                                      selectedPlan1 = value;
-                                      profileController.planID = value!.id.toString();
-                                      if (selectedPlan == null) return;
-                                      setState(() {});
+                                      setState(() {
+                                        selectedPlan1 = value;
+                                        profileController.planID = value!.id.toString();
+                                        if (selectedPlan == null) return;
+                                      });
+
+
                                     }),
                                 const SizedBox(
                                   width: 5,
@@ -549,13 +548,13 @@ class _WhichplantypedescribeyouScreenState extends State<Whichplantypedescribeyo
                                     visualDensity:
                                     const VisualDensity(horizontal: -4, vertical: -2),
                                     onChanged: (value) {
-                                      selectedPlan2 = value;
-                                      profileController.planID = value!.id.toString();
-                                      log('message'+profileController.planID.toString());
-                                      log('message34343'+value.id.toString());
-                                      if (selectedPlan == null) return;
-                                      setState(() {});
-                                    }),
+                                      setState(() {
+                                        selectedPlan2 = value;
+                                        profileController.planID = value!.id.toString();
+                                        if (value == null) return;
+                                      });
+                                    },
+                                ),
                                 const SizedBox(
                                   width: 5,
                                 ),

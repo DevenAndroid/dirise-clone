@@ -391,7 +391,11 @@ class _CreateAccountNewScreenState extends State<CreateAccountNewScreen> {
                   onPressed: () {
                     showValidation = true;
                     if (formKey1.currentState!.validate()) {
-                      registerApi();
+                      if (_isValue == null || !_isValue!) {
+                        showToast('Please accept Terms and Condition');
+                      } else {
+                        registerApi();
+                      }
                     }
                     setState(() {});
                   },

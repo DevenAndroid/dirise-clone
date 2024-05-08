@@ -7,12 +7,14 @@ import 'package:dirise/screens/my_account_screens/profile_screen.dart';
 import 'package:dirise/screens/my_account_screens/return_policy_screen.dart';
 import 'package:dirise/screens/my_account_screens/termsconditions_screen.dart';
 import 'package:get/get.dart';
+
 import '../Services/choose_map_service.dart';
 import '../Services/locationwherecustomerwilljoin.dart';
 import '../Services/pick_up_address_service.dart';
 import '../Services/servicesReturnPolicyScreen.dart';
 import '../Services/tellUsscreen.dart';
 import '../Services/whatServiceDoYouProvide.dart';
+
 import '../addNewProduct/pickUpAddressScreen.dart';
 import '../model/model_cart_response.dart';
 import '../model/vendor_models/model_return_policy.dart';
@@ -41,7 +43,6 @@ import '../screens/school_nursery_category.dart';
 import '../screens/order_screens/selectd_order_screen.dart';
 import '../screens/vendorinformation_screen.dart';
 import '../screens/virtual_assets/virtual_assets_screen.dart';
-import '../tellaboutself/ExtraInformation.dart';
 import '../vendor/authentication/verify_vendor_otp.dart';
 import '../vendor/dashboard/dashboard_screen.dart';
 import '../vendor/dashboard/store_open_time_screen.dart';
@@ -56,7 +57,9 @@ import '../vendor/shipping_policy.dart';
 class MyRouters {
   static var route = [
 
+
     GetPage(name: '/', page: () => const BottomNavbar()),
+
 
     GetPage(name: LoginScreen.route, page: () => const LoginScreen()),
     GetPage(name: VendorOTPVerification.route, page: () => const VendorOTPVerification()),
@@ -95,7 +98,6 @@ class MyRouters {
     GetPage(name: VendorProfileScreen.route, page: () => const VendorProfileScreen()),
     GetPage(name: AddAddressScreen.route, page: () => const AddAddressScreen()),
     GetPage(name: ShippingPolicyScreen.route, page: () => const ShippingPolicyScreen()),
-    GetPage(name: ExtraInformation.route, page: () => const ExtraInformation()),
     GetPage(name: EditAddresss.route, page: () => const EditAddresss()),
     // GetPage(name: ReturnnPolicy.route, page: () => const ReturnnPolicy()),
     GetPage(name: VendorInformation.route, page: () => const VendorInformation()),

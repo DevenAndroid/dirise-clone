@@ -223,7 +223,7 @@ class _RequiredDocumentsScreenState extends State<RequiredDocumentsScreen> {
               ),
               GestureDetector(
                 onTap: () {
-                  Get.to(const SecurityDetailsScreen());
+                  Get.to(const VerificationOptionScreen());
                 },
                 child: Container(
                   width: Get.width,
