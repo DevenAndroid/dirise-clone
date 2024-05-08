@@ -32,6 +32,7 @@ class SubProductData {
   dynamic title;
   dynamic  parentId;
   dynamic discription;
+  bool selected = false;
   dynamic status;
   dynamic slug;
   dynamic  arabTitle;
