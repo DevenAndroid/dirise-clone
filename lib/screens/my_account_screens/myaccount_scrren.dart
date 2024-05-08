@@ -29,6 +29,7 @@ import '../../model/model_address_list.dart';
 import '../../model/model_user_delete.dart';
 import '../../posts/posts_ui.dart';
 import '../../repository/repository.dart';
+import '../../singleproductScreen/itemdetailsScreen.dart';
 import '../../utils/api_constant.dart';
 import '../../vendor/authentication/vendor_plans_screen.dart';
 import '../../vendor/dashboard/dashboard_screen.dart';
@@ -1939,7 +1940,8 @@ List<Widget> vendorPartner() {
                                         child: TextButton(
                                           onPressed: () {
                                             if(profileController.model.user!.subscriptionStatus == 'success'){
-                                              Get.toNamed(vendorRoutes[index]);
+                                              // Get.toNamed(vendorRoutes[index]);
+                                              Get.to(SingleProductItemDetailsScreens());
                                             }else if(vendor[index] == 'Dashboard'){
                                               Get.to(const MyItemISScreen());
                                              // Get.toNamed( VendorDashBoardScreen.route);

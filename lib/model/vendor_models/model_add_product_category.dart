@@ -34,6 +34,7 @@ class ProductCategoryData {
   dynamic vendorId;
   dynamic parentId;
   dynamic level;
+  bool selected = false;
   dynamic commision;
   dynamic categoryImage;
   dynamic categoryImageBanner;
