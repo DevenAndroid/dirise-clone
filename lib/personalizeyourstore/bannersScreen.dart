@@ -2,6 +2,7 @@ import 'dart:convert';
 import 'dart:developer';
 import 'dart:io';
 
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:dirise/iAmHereToSell/personalizeyourstoreScreen.dart';
 import 'package:dirise/utils/helper.dart';
 import 'package:flutter/cupertino.dart';
@@ -63,6 +64,9 @@ class _BannersScreenState extends State<BannersScreen> {
   Future getVendorDetails() async {
     await repositories.getApi(url: ApiUrls.getVendorDetailUrl).then((value) {
       model = ModelVendorDetails.fromJson(jsonDecode(value));
+      setState(() {
+
+      });
     });
   }
 
@@ -71,6 +75,7 @@ class _BannersScreenState extends State<BannersScreen> {
     // TODO: implement initState
     super.initState();
     getVendorDetails();
+
 
   }
 
@@ -119,8 +124,13 @@ class _BannersScreenState extends State<BannersScreen> {
                 },
               ),
           SizedBox(height: 30,),
-          Image.network(model.user!.bannerProfile ?? "",
-            height: 200,width: Get.width,)
+          model.user != null ?
+         CachedNetworkImage(
+            imageUrl: model.user!.bannerProfile.toString(),
+            errorWidget: (context, url, error) {
+              return SizedBox.shrink();
+            },
+            height: 200,width: Get.width,) : SizedBox()
             ],
           ),
         ),

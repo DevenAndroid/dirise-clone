@@ -14,7 +14,19 @@ import '../widgets/common_colour.dart';
 import '../widgets/vendor_common_textfield.dart';
 
 class ReturnPolicyScreens extends StatefulWidget {
-  const ReturnPolicyScreens({super.key});
+  String? titleController;
+  String? descController;
+  String? days;
+  int? id;
+
+
+  ReturnPolicyScreens(
+      {super.key,
+      this.titleController,
+      this.descController,
+        this.days,
+        this.id
+      });
 
   @override
   State<ReturnPolicyScreens> createState() => _ReturnPolicyScreensState();
@@ -22,18 +34,13 @@ class ReturnPolicyScreens extends StatefulWidget {
 
 class _ReturnPolicyScreensState extends State<ReturnPolicyScreens> {
   TextEditingController titleController = TextEditingController();
-  TextEditingController daysController = TextEditingController();
   TextEditingController descController = TextEditingController();
   final Repositories repositories = Repositories();
   final formKey1 = GlobalKey<FormState>();
 
   String selectedItem = '1';
   String daysItem = 'days';
-  List<String> daysList = [
-    'days',
-    'hours',
-    'minutes'
-  ];
+  List<String> daysList = ['days'];
   List<String> itemList = List.generate(30, (index) => (index + 1).toString());
 
   RxInt returnPolicyLoaded = 0.obs;
@@ -45,12 +52,10 @@ class _ReturnPolicyScreensState extends State<ReturnPolicyScreens> {
         modelReturnPolicy = ReturnPolicyModel.fromJson(jsonDecode(value));
         log("Return Policy Data: ${modelReturnPolicy!.returnPolicy![0].id.toString()}");
       });
-       // Print the fetched data
+      // Print the fetched data
       returnPolicyLoaded.value = DateTime.now().millisecondsSinceEpoch;
     });
   }
-
-
 
   bool? noReturn;
   bool noReturnSelected = false;
@@ -58,11 +63,22 @@ class _ReturnPolicyScreensState extends State<ReturnPolicyScreens> {
   returnPolicyApi() {
     Map<String, dynamic> map = {};
 
+    if(widget.id != null){
+      map['title'] = titleController.text.trim();
+      map['days'] = selectedItem;
+      map['policy_description'] = descController.text.trim();
+      map['return_shipping_fees'] = radioButtonValue;
+      map['no_return'] = noReturnSelected;
+      map['unit'] = daysItem;
+      map['is_default'] = 1;
+      map['id'] = widget.id;
+    }
+
     map['title'] = titleController.text.trim();
     map['days'] = selectedItem;
     map['policy_description'] = descController.text.trim();
-    map['return_shipping_fees'] = radioButtonValue == true ? 'Buyer pays' : 'Seller pays';
-    map['no_return'] = radioButtonValue;
+    map['return_shipping_fees'] = radioButtonValue;
+    map['no_return'] = noReturnSelected;
     map['unit'] = daysItem;
     map['is_default'] = 1;
 
@@ -71,7 +87,9 @@ class _ReturnPolicyScreensState extends State<ReturnPolicyScreens> {
       ModelCommonResponse response = ModelCommonResponse.fromJson(jsonDecode(value));
       showToast(response.message.toString());
       if (response.status == true) {
-        Get.to(ReturnnPolicyList(noreturnPolicy: noReturnSelected,));
+        Get.to(ReturnnPolicyList(
+          noreturnPolicy: noReturnSelected,
+        ));
         showToast(response.message.toString());
       }
     });
@@ -82,6 +100,12 @@ class _ReturnPolicyScreensState extends State<ReturnPolicyScreens> {
     // TODO: implement initState
     super.initState();
     getReturnPolicyData();
+    if(widget.titleController != null){
+      titleController.text = widget.titleController ?? "";
+      descController.text = widget.titleController ?? "";
+      selectedItem = widget.days!;
+      // daysItem = widget.daysItem ?? "";
+    }
   }
 
   @override
@@ -92,7 +116,7 @@ class _ReturnPolicyScreensState extends State<ReturnPolicyScreens> {
         surfaceTintColor: Colors.white,
         elevation: 0,
         leading: GestureDetector(
-          onTap: (){
+          onTap: () {
             Get.back();
           },
           child: const Icon(
@@ -123,7 +147,6 @@ class _ReturnPolicyScreensState extends State<ReturnPolicyScreens> {
               children: [
                 Row(
                   children: [
-
                     Checkbox(
                       value: noReturnSelected,
                       onChanged: (value) {
@@ -134,121 +157,275 @@ class _ReturnPolicyScreensState extends State<ReturnPolicyScreens> {
                     ),
                     Text(
                       'No return'.tr,
-                      style: GoogleFonts.poppins(color: const Color(0xff292F45), fontWeight: FontWeight.w400, fontSize: 15),
+                      style: GoogleFonts.poppins(
+                          color: const Color(0xff292F45), fontWeight: FontWeight.w400, fontSize: 15),
                     ),
                   ],
                 ),
                 const SizedBox(
                   height: 10,
                 ),
-
-                noReturnSelected == false ?
-                Column(
-                  mainAxisAlignment: MainAxisAlignment.start,
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    Text(
-                      'Select Your Return Policy*'.tr,
-                      style: GoogleFonts.poppins(color: const Color(0xff292F45), fontWeight: FontWeight.w500, fontSize: 18),
-                    ),
-                    const SizedBox(
-                      height: 5,
-                    ),
-                    if (modelReturnPolicy?.returnPolicy != null)
-                      DropdownButtonFormField<ReturnPolicy>(
-                        value: selectedReturnPolicy,
-                        hint: const Text("Select a Return Policy"),
-                        decoration: InputDecoration(
-                          border: InputBorder.none,
-                          filled: true,
-                          fillColor: const Color(0xffE2E2E2).withOpacity(.35),
-                          contentPadding: const EdgeInsets.symmetric(horizontal: 15, vertical: 10).copyWith(right: 8),
-                          focusedErrorBorder: const OutlineInputBorder(
-                              borderRadius: BorderRadius.all(Radius.circular(8)),
-                              borderSide: BorderSide(color: AppTheme.secondaryColor)),
-                          errorBorder: const OutlineInputBorder(
-                              borderRadius: BorderRadius.all(Radius.circular(8)),
-                              borderSide: BorderSide(color: Color(0xffE2E2E2))),
-                          focusedBorder: const OutlineInputBorder(
-                              borderRadius: BorderRadius.all(Radius.circular(8)),
-                              borderSide: BorderSide(color: AppTheme.secondaryColor)),
-                          disabledBorder: const OutlineInputBorder(
-                            borderRadius: BorderRadius.all(Radius.circular(8)),
-                            borderSide: BorderSide(color: AppTheme.secondaryColor),
+                noReturnSelected == false
+                    ? Column(
+                        mainAxisAlignment: MainAxisAlignment.start,
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          Text(
+                            'Select Your Return Policy*'.tr,
+                            style: GoogleFonts.poppins(
+                                color: const Color(0xff292F45), fontWeight: FontWeight.w500, fontSize: 18),
                           ),
-                          enabledBorder: const OutlineInputBorder(
-                            borderRadius: BorderRadius.all(Radius.circular(8)),
-                            borderSide: BorderSide(color: AppTheme.secondaryColor),
+                          const SizedBox(
+                            height: 5,
                           ),
-                        ),
-                        onChanged: (value) {
-                          setState(() {
-                            selectedReturnPolicy = value;
-                          });
-                        },
-                        items: modelReturnPolicy!.returnPolicy!.map((policy) {
-                          return DropdownMenuItem<ReturnPolicy>(
-                            value: policy,
-                            child: Text(policy.title), // Assuming 'title' is a property in ReturnPolicy
-                          );
-                        }).toList(),
-                      ),
-                    const SizedBox(
-                      height: 20,
-                    ),
-                    Text(
-                      'Policy Name'.tr,
-                      style: GoogleFonts.poppins(color: const Color(0xff292F45), fontWeight: FontWeight.w500, fontSize: 18),
-                    ),
-                    const SizedBox(
-                      height: 5,
-                    ),
-                    VendorCommonTextfield(
-                        controller: titleController,
-                        hintText: "DIRISE standard Policy".tr,
-                        validator: (value) {
-                          if (value!.trim().isEmpty) {
-                            return "DIRISE standard Policy".tr;
-                          }
-                          return null;
-                        }),
-                    const SizedBox(
-                      height: 20,
-                    ),
-                    Row(
-                      children: [
-                        Text(
-                          'Return Within'.tr,
-                          style: GoogleFonts.poppins(color: const Color(0xff292F45), fontWeight: FontWeight.w500, fontSize: 18),
-                        ),
-                        const SizedBox(
-                          width: 20,
-                        ),
-                        Expanded(
-                          child: DropdownButtonFormField<String>(
-                            value: selectedItem,
-                            onChanged: (String? newValue) {
-                              setState(() {
-                                selectedItem = newValue!;
-                              });
-                            },
-                            items: itemList.map<DropdownMenuItem<String>>((String value) {
-                              return DropdownMenuItem<String>(
-                                value: value,
-                                child: Text(value),
-                              );
-                            }).toList(),
+                          if (modelReturnPolicy?.returnPolicy != null)
+                            DropdownButtonFormField<ReturnPolicy>(
+                              value: selectedReturnPolicy,
+                              hint: const Text("Select a Return Policy"),
+                              decoration: InputDecoration(
+                                border: InputBorder.none,
+                                filled: true,
+                                fillColor: const Color(0xffE2E2E2).withOpacity(.35),
+                                contentPadding:
+                                    const EdgeInsets.symmetric(horizontal: 15, vertical: 10).copyWith(right: 8),
+                                focusedErrorBorder: const OutlineInputBorder(
+                                    borderRadius: BorderRadius.all(Radius.circular(8)),
+                                    borderSide: BorderSide(color: AppTheme.secondaryColor)),
+                                errorBorder: const OutlineInputBorder(
+                                    borderRadius: BorderRadius.all(Radius.circular(8)),
+                                    borderSide: BorderSide(color: Color(0xffE2E2E2))),
+                                focusedBorder: const OutlineInputBorder(
+                                    borderRadius: BorderRadius.all(Radius.circular(8)),
+                                    borderSide: BorderSide(color: AppTheme.secondaryColor)),
+                                disabledBorder: const OutlineInputBorder(
+                                  borderRadius: BorderRadius.all(Radius.circular(8)),
+                                  borderSide: BorderSide(color: AppTheme.secondaryColor),
+                                ),
+                                enabledBorder: const OutlineInputBorder(
+                                  borderRadius: BorderRadius.all(Radius.circular(8)),
+                                  borderSide: BorderSide(color: AppTheme.secondaryColor),
+                                ),
+                              ),
+                              onChanged: (value) {
+                                setState(() {
+                                  selectedReturnPolicy = value;
+                                });
+                              },
+                              items: modelReturnPolicy!.returnPolicy!.map((policy) {
+                                return DropdownMenuItem<ReturnPolicy>(
+                                  value: policy,
+                                  child: Text(policy.title), // Assuming 'title' is a property in ReturnPolicy
+                                );
+                              }).toList(),
+                            ),
+                          const SizedBox(
+                            height: 20,
+                          ),
+                          Text(
+                            'Policy Name'.tr,
+                            style: GoogleFonts.poppins(
+                                color: const Color(0xff292F45), fontWeight: FontWeight.w500, fontSize: 18),
+                          ),
+                          const SizedBox(
+                            height: 5,
+                          ),
+                          VendorCommonTextfield(
+                              controller: titleController,
+                              hintText: "DIRISE standard Policy".tr,
+                              validator: (value) {
+                                if (value!.trim().isEmpty) {
+                                  return "DIRISE standard Policy".tr;
+                                }
+                                return null;
+                              }),
+                          const SizedBox(
+                            height: 20,
+                          ),
+                          Row(
+                            children: [
+                              Text(
+                                'Return Within'.tr,
+                                style: GoogleFonts.poppins(
+                                    color: const Color(0xff292F45), fontWeight: FontWeight.w500, fontSize: 18),
+                              ),
+                              const SizedBox(
+                                width: 20,
+                              ),
+                              Expanded(
+                                child: DropdownButtonFormField<String>(
+                                  value: selectedItem,
+                                  onChanged: (String? newValue) {
+                                    setState(() {
+                                      selectedItem = newValue!;
+                                    });
+                                  },
+                                  items: itemList.map<DropdownMenuItem<String>>((String value) {
+                                    return DropdownMenuItem<String>(
+                                      value: value,
+                                      child: Text(value),
+                                    );
+                                  }).toList(),
+                                  decoration: InputDecoration(
+                                    border: InputBorder.none,
+                                    filled: true,
+                                    fillColor: const Color(0xffE2E2E2).withOpacity(.35),
+                                    contentPadding:
+                                        const EdgeInsets.symmetric(horizontal: 15, vertical: 10).copyWith(right: 8),
+                                    focusedErrorBorder: const OutlineInputBorder(
+                                        borderRadius: BorderRadius.all(Radius.circular(8)),
+                                        borderSide: BorderSide(color: AppTheme.secondaryColor)),
+                                    errorBorder: const OutlineInputBorder(
+                                        borderRadius: BorderRadius.all(Radius.circular(8)),
+                                        borderSide: BorderSide(color: Color(0xffE2E2E2))),
+                                    focusedBorder: const OutlineInputBorder(
+                                        borderRadius: BorderRadius.all(Radius.circular(8)),
+                                        borderSide: BorderSide(color: AppTheme.secondaryColor)),
+                                    disabledBorder: const OutlineInputBorder(
+                                      borderRadius: BorderRadius.all(Radius.circular(8)),
+                                      borderSide: BorderSide(color: AppTheme.secondaryColor),
+                                    ),
+                                    enabledBorder: const OutlineInputBorder(
+                                      borderRadius: BorderRadius.all(Radius.circular(8)),
+                                      borderSide: BorderSide(color: AppTheme.secondaryColor),
+                                    ),
+                                  ),
+                                  validator: (value) {
+                                    if (value == null || value.isEmpty) {
+                                      return 'Please select an item';
+                                    }
+                                    return null;
+                                  },
+                                ),
+                              ),
+                              const SizedBox(
+                                width: 5,
+                              ),
+                              Expanded(
+                                child: DropdownButtonFormField<String>(
+                                  value: daysItem,
+                                  onChanged: (String? newValue) {
+                                    setState(() {
+                                      daysItem = newValue!;
+                                    });
+                                  },
+                                  items: daysList.map<DropdownMenuItem<String>>((String value) {
+                                    return DropdownMenuItem<String>(
+                                      value: value,
+                                      child: Text(value,style: TextStyle(fontSize: 15),),
+                                    );
+                                  }).toList(),
+                                  decoration: InputDecoration(
+                                    border: InputBorder.none,
+                                    filled: true,
+                                    fillColor: const Color(0xffE2E2E2).withOpacity(.35),
+                                    contentPadding:
+                                        const EdgeInsets.symmetric(horizontal: 15, vertical: 10).copyWith(right: 8),
+                                    focusedErrorBorder: const OutlineInputBorder(
+                                        borderRadius: BorderRadius.all(Radius.circular(8)),
+                                        borderSide: BorderSide(color: AppTheme.secondaryColor)),
+                                    errorBorder: const OutlineInputBorder(
+                                        borderRadius: BorderRadius.all(Radius.circular(8)),
+                                        borderSide: BorderSide(color: Color(0xffE2E2E2))),
+                                    focusedBorder: const OutlineInputBorder(
+                                        borderRadius: BorderRadius.all(Radius.circular(8)),
+                                        borderSide: BorderSide(color: AppTheme.secondaryColor)),
+                                    disabledBorder: const OutlineInputBorder(
+                                      borderRadius: BorderRadius.all(Radius.circular(8)),
+                                      borderSide: BorderSide(color: AppTheme.secondaryColor),
+                                    ),
+                                    enabledBorder: const OutlineInputBorder(
+                                      borderRadius: BorderRadius.all(Radius.circular(8)),
+                                      borderSide: BorderSide(color: AppTheme.secondaryColor),
+                                    ),
+                                  ),
+                                  validator: (value) {
+                                    if (value == null || value.isEmpty) {
+                                      return 'Please select an item';
+                                    }
+                                    return null;
+                                  },
+                                ),
+                              ),
+                            ],
+                          ),
+                          const SizedBox(
+                            height: 20,
+                          ),
+                          Text(
+                            'Return Shipping Fees'.tr,
+                            style: GoogleFonts.poppins(
+                                color: const Color(0xff292F45), fontWeight: FontWeight.w500, fontSize: 18),
+                          ),
+                          Row(
+                            children: [
+                              Radio(
+                                  value: true,
+                                  groupValue: radioButtonValue,
+                                  onChanged: (value) {
+                                    setState(() {
+                                      radioButtonValue = value;
+                                    });
+                                  }),
+                              Text(
+                                'Buyer Pays Return Shipping'.tr,
+                                style: GoogleFonts.poppins(
+                                    color: const Color(0xff292F45), fontWeight: FontWeight.w400, fontSize: 15),
+                              ),
+                            ],
+                          ),
+                          Row(
+                            children: [
+                              Radio(
+                                  value: false,
+                                  groupValue: radioButtonValue,
+                                  onChanged: (value) {
+                                    setState(() {
+                                      radioButtonValue = value;
+                                    });
+                                  }),
+                              Text(
+                                'Seller Pays Return Shipping'.tr,
+                                style: GoogleFonts.poppins(
+                                    color: const Color(0xff292F45), fontWeight: FontWeight.w400, fontSize: 15),
+                              ),
+                            ],
+                          ),
+                          const SizedBox(
+                            height: 15,
+                          ),
+                          Text(
+                            'Return Policy Description'.tr,
+                            style: GoogleFonts.poppins(
+                                color: const Color(0xff292F45), fontWeight: FontWeight.w500, fontSize: 18),
+                          ),
+                          const SizedBox(
+                            height: 5,
+                          ),
+                          TextFormField(
+                            maxLines: 4,
+                            minLines: 4,
+                            controller: descController,
                             decoration: InputDecoration(
+                              counterStyle: GoogleFonts.poppins(
+                                color: AppTheme.primaryColor,
+                                fontSize: 25,
+                              ),
+                              counter: const Offstage(),
+                              errorMaxLines: 2,
+                              contentPadding: const EdgeInsets.all(15),
+                              fillColor: Colors.grey.shade100,
+                              hintText: 'policy description',
+                              hintStyle: GoogleFonts.poppins(
+                                color: AppTheme.primaryColor,
+                                fontSize: 15,
+                              ),
                               border: InputBorder.none,
-                              filled: true,
-                              fillColor: const Color(0xffE2E2E2).withOpacity(.35),
-                              contentPadding: const EdgeInsets.symmetric(horizontal: 15, vertical: 10).copyWith(right: 8),
                               focusedErrorBorder: const OutlineInputBorder(
                                   borderRadius: BorderRadius.all(Radius.circular(8)),
                                   borderSide: BorderSide(color: AppTheme.secondaryColor)),
                               errorBorder: const OutlineInputBorder(
                                   borderRadius: BorderRadius.all(Radius.circular(8)),
-                                  borderSide: BorderSide(color: Color(0xffE2E2E2))),
+                                  borderSide: BorderSide(color: AppTheme.secondaryColor)),
                               focusedBorder: const OutlineInputBorder(
                                   borderRadius: BorderRadius.all(Radius.circular(8)),
                                   borderSide: BorderSide(color: AppTheme.secondaryColor)),
@@ -261,150 +438,10 @@ class _ReturnPolicyScreensState extends State<ReturnPolicyScreens> {
                                 borderSide: BorderSide(color: AppTheme.secondaryColor),
                               ),
                             ),
-                            validator: (value) {
-                              if (value == null || value.isEmpty) {
-                                return 'Please select an item';
-                              }
-                              return null;
-                            },
                           ),
-                        ),
-                        const SizedBox(
-                          width: 20,
-                        ),
-                        Expanded(
-                          child: DropdownButtonFormField<String>(
-                            value: daysItem,
-                            onChanged: (String? newValue) {
-                              setState(() {
-                                daysItem = newValue!;
-                              });
-                            },
-                            items: daysList.map<DropdownMenuItem<String>>((String value) {
-                              return DropdownMenuItem<String>(
-                                value: value,
-                                child: Text(value),
-                              );
-                            }).toList(),
-                            decoration: InputDecoration(
-                              border: InputBorder.none,
-                              filled: true,
-                              fillColor: const Color(0xffE2E2E2).withOpacity(.35),
-                              contentPadding: const EdgeInsets.symmetric(horizontal: 15, vertical: 10).copyWith(right: 8),
-                              focusedErrorBorder: const OutlineInputBorder(
-                                  borderRadius: BorderRadius.all(Radius.circular(8)),
-                                  borderSide: BorderSide(color: AppTheme.secondaryColor)),
-                              errorBorder: const OutlineInputBorder(
-                                  borderRadius: BorderRadius.all(Radius.circular(8)),
-                                  borderSide: BorderSide(color: Color(0xffE2E2E2))),
-                              focusedBorder: const OutlineInputBorder(
-                                  borderRadius: BorderRadius.all(Radius.circular(8)),
-                                  borderSide: BorderSide(color: AppTheme.secondaryColor)),
-                              disabledBorder: const OutlineInputBorder(
-                                borderRadius: BorderRadius.all(Radius.circular(8)),
-                                borderSide: BorderSide(color: AppTheme.secondaryColor),
-                              ),
-                              enabledBorder: const OutlineInputBorder(
-                                borderRadius: BorderRadius.all(Radius.circular(8)),
-                                borderSide: BorderSide(color: AppTheme.secondaryColor),
-                              ),
-                            ),
-                            validator: (value) {
-                              if (value == null || value.isEmpty) {
-                                return 'Please select an item';
-                              }
-                              return null;
-                            },
-                          ),
-                        ),
-                      ],
-                    ),
-                    const SizedBox(
-                      height: 20,
-                    ),
-                    Text(
-                      'Return Shipping Fees'.tr,
-                      style: GoogleFonts.poppins(color: const Color(0xff292F45), fontWeight: FontWeight.w500, fontSize: 18),
-                    ),
-                    Row(
-                      children: [
-                        Radio(value: true, groupValue: radioButtonValue, onChanged: (value) {
-                          setState(() {
-                            radioButtonValue = value;
-                          });
-
-                        }),
-                        Text(
-                          'Buyer Pays Return Shipping'.tr,
-                          style: GoogleFonts.poppins(color: const Color(0xff292F45), fontWeight: FontWeight.w400, fontSize: 15),
-                        ),
-                      ],
-                    ),
-                    Row(
-                      children: [
-                        Radio(value: false, groupValue: radioButtonValue, onChanged: (value) {
-                          setState(() {
-                            radioButtonValue = value;
-                          });
-
-                        }),
-                        Text(
-                          'Seller Pays Return Shipping'.tr,
-                          style: GoogleFonts.poppins(color: const Color(0xff292F45), fontWeight: FontWeight.w400, fontSize: 15),
-                        ),
-                      ],
-                    ),
-                    const SizedBox(
-                      height: 15,
-                    ),
-                    Text(
-                      'Return Policy Description'.tr,
-                      style: GoogleFonts.poppins(color: const Color(0xff292F45), fontWeight: FontWeight.w500, fontSize: 18),
-                    ),
-                    const SizedBox(
-                      height: 5,
-                    ),
-                    TextFormField(
-                      maxLines: 4,
-                      minLines: 4,
-                      controller: descController,
-                      decoration: InputDecoration(
-                        counterStyle: GoogleFonts.poppins(
-                          color: AppTheme.primaryColor,
-                          fontSize: 25,
-                        ),
-                        counter: const Offstage(),
-                        errorMaxLines: 2,
-                        contentPadding: const EdgeInsets.all(15),
-                        fillColor: Colors.grey.shade100,
-                        hintText: 'policy description',
-                        hintStyle: GoogleFonts.poppins(
-                          color: AppTheme.primaryColor,
-                          fontSize: 15,
-                        ),
-                        border: InputBorder.none,
-                        focusedErrorBorder: const OutlineInputBorder(
-                            borderRadius: BorderRadius.all(Radius.circular(8)),
-                            borderSide: BorderSide(color: AppTheme.secondaryColor)),
-                        errorBorder: const OutlineInputBorder(
-                            borderRadius: BorderRadius.all(Radius.circular(8)),
-                            borderSide: BorderSide(color: AppTheme.secondaryColor)),
-                        focusedBorder: const OutlineInputBorder(
-                            borderRadius: BorderRadius.all(Radius.circular(8)),
-                            borderSide: BorderSide(color: AppTheme.secondaryColor)),
-                        disabledBorder: const OutlineInputBorder(
-                          borderRadius: BorderRadius.all(Radius.circular(8)),
-                          borderSide: BorderSide(color: AppTheme.secondaryColor),
-                        ),
-                        enabledBorder: const OutlineInputBorder(
-                          borderRadius: BorderRadius.all(Radius.circular(8)),
-                          borderSide: BorderSide(color: AppTheme.secondaryColor),
-                        ),
-                      ),
-                    ),
-                  ],
-                ) : SizedBox(),
-
+                        ],
+                      )
+                    : SizedBox(),
                 const SizedBox(
                   height: 15,
                 ),
@@ -412,9 +449,21 @@ class _ReturnPolicyScreensState extends State<ReturnPolicyScreens> {
                   title: 'Next',
                   borderRadius: 11,
                   onPressed: () {
-                    if (formKey1.currentState!.validate()) {
-                      returnPolicyApi();
+                    
+                    if(noReturnSelected == true){
+                      Get.to(ReturnnPolicyList());
+                    }else{
+                      if (formKey1.currentState!.validate()) {
+                        if(radioButtonValue == true){
+                          returnPolicyApi();
+                        }else{
+                          showToast('Please select Return Shipping Fees');
+                        }
+
+                      }
                     }
+                    
+                    
                   },
                 ),
               ],

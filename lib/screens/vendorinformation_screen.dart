@@ -6,6 +6,7 @@ import 'package:form_field_validator/form_field_validator.dart';
 import 'package:get/get.dart';
 import 'package:get/get_core/src/get_main.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 import '../addNewProduct/pickUpAddressScreen.dart';
 
@@ -71,10 +72,23 @@ class _VendorInformationState extends State<VendorInformation> {
     });
   }
 
+
   @override
   void initState() {
     super.initState();
     profileController.getVendorDetails();
+    if(profileController.modelVendorProfile.value.user != null){
+      companyNameController.text = profileController.modelVendorProfile.value.user!.vendorProfile!.companyName ?? '';
+      companyNumberController.text = profileController.modelVendorProfile.value.user!.phone ?? '';
+      storeUrlController.text = profileController.modelVendorProfile.value.user!.storeUrl ?? '';
+      workEmailController.text = profileController.modelVendorProfile.value.user!.vendorProfile!.workEmail ?? '';
+      workAddressController.text = profileController.modelVendorProfile.value.user!.vendorProfile!.workAddress ?? '';
+      bankNameController.text = profileController.modelVendorProfile.value.user!.vendorProfile!.bankName ?? '';
+      bankAccountHolderNameController.text = profileController.modelVendorProfile.value.user!.vendorProfile!.accountHolderName ?? '';
+      bankAccountNumberController.text = profileController.modelVendorProfile.value.user!.vendorProfile!.accountNumber ?? '';
+      ibanNumberController.text = profileController.modelVendorProfile.value.user!.vendorProfile!.ibnNumber ?? '';
+    }
+
 
   }
 
@@ -128,9 +142,13 @@ class _VendorInformationState extends State<VendorInformation> {
                     controller: companyNameController,
                     obSecure: false,
                     hintText: 'Company Name'.tr,
-                    validator: MultiValidator([
-                      RequiredValidator(errorText: 'Company Name is required'),
-                    ])),
+                    validator: (value) {
+                      if (value!.trim().isEmpty) {
+                        return 'Company Name is required';
+                      }
+                      return null; // Return null if validation passes
+                    },
+                ),
                 const SizedBox(
                   height: 10,
                 ),
@@ -145,9 +163,14 @@ class _VendorInformationState extends State<VendorInformation> {
                     controller: companyNumberController,
                     obSecure: false,
                     hintText: 'Company Number'.tr,
-                    validator: MultiValidator([
-                      RequiredValidator(errorText: 'Company Number is required'),
-                    ])),
+                    validator: (value) {
+                      if (value!.trim().isEmpty) {
+                        return 'Company Number is required';
+                      }
+                      return null; // Return null if validation passes
+                    },
+
+                ),
                 const SizedBox(
                   height: 10,
                 ),
@@ -162,9 +185,13 @@ class _VendorInformationState extends State<VendorInformation> {
                     controller: storeUrlController,
                     obSecure: false,
                     hintText: 'Store URL'.tr,
-                    validator: MultiValidator([
-                      RequiredValidator(errorText: 'Store URL is required'),
-                    ])),
+                    validator: (value) {
+                      if (value!.trim().isEmpty) {
+                        return 'Store URL is required';
+                      }
+                      return null; // Return null if validation passes
+                    },
+                    ),
                 const SizedBox(
                   height: 10,
                 ),
@@ -179,9 +206,17 @@ class _VendorInformationState extends State<VendorInformation> {
                     controller: workEmailController,
                     obSecure: false,
                     hintText: 'Work Email'.tr,
-                    validator: MultiValidator([
-                      RequiredValidator(errorText: 'Work Email is required'),
-                    ])),
+                  validator: (value) {
+                    if (value!.isEmpty) {
+                      return 'Please enter email address';
+                    }
+                    final emailValidator = EmailValidator(errorText: 'Please enter valid email address');
+                    if (!emailValidator.isValid(value)) {
+                      return emailValidator.errorText;
+                    }
+                    return null;
+                  },
+                   ),
                 const SizedBox(
                   height: 10,
                 ),
@@ -196,9 +231,14 @@ class _VendorInformationState extends State<VendorInformation> {
                     controller: workAddressController,
                     obSecure: false,
                     hintText: 'Work Address'.tr,
-                    validator: MultiValidator([
-                      RequiredValidator(errorText: 'Work Address is required'),
-                    ])),
+                    validator: (value) {
+                      if (value!.trim().isEmpty) {
+                        return 'Work Address is required';
+                      }
+                      return null; // Return null if validation passes
+                    },
+
+                ),
                 const SizedBox(
                   height: 13,
                 ),
@@ -221,9 +261,13 @@ class _VendorInformationState extends State<VendorInformation> {
                     controller: bankNameController,
                     obSecure: false,
                     hintText: 'Bank Name'.tr,
-                    validator: MultiValidator([
-                      RequiredValidator(errorText: 'Bank Name is required'),
-                    ])),
+                    validator: (value) {
+                      if (value!.trim().isEmpty) {
+                        return 'Bank Name is required';
+                      }
+                      return null; // Return null if validation passes
+                    },
+                  ),
                 const SizedBox(
                   height: 10,
                 ),
@@ -238,9 +282,13 @@ class _VendorInformationState extends State<VendorInformation> {
                     controller: bankAccountHolderNameController,
                     obSecure: false,
                     hintText: 'Bank Account Holder Name'.tr,
-                    validator: MultiValidator([
-                      RequiredValidator(errorText: 'Bank Account Holder Name is required'),
-                    ])),
+                    validator: (value) {
+                      if (value!.trim().isEmpty) {
+                        return 'Bank Account Holder Name is required';
+                      }
+                      return null; // Return null if validation passes
+                    },
+                   ),
                 const SizedBox(
                   height: 10,
                 ),
@@ -255,9 +303,13 @@ class _VendorInformationState extends State<VendorInformation> {
                     controller: bankAccountNumberController,
                     obSecure: false,
                     hintText: 'Bank Account Number'.tr,
-                    validator: MultiValidator([
-                      RequiredValidator(errorText: 'Bank Account Number is required'),
-                    ])),
+                    validator: (value) {
+                      if (value!.trim().isEmpty) {
+                        return 'Bank Account Number is required';
+                      }
+                      return null; // Return null if validation passes
+                    },
+                  ),
                 const SizedBox(
                   height: 10,
                 ),
@@ -272,9 +324,13 @@ class _VendorInformationState extends State<VendorInformation> {
                     controller: ibanNumberController,
                     obSecure: false,
                     hintText: 'IBAN Number'.tr,
-                    validator: MultiValidator([
-                      RequiredValidator(errorText: 'IBAN Number is required'),
-                    ])),
+                    validator: (value) {
+                      if (value!.trim().isEmpty) {
+                        return 'IBAN Number is required';
+                      }
+                      return null; // Return null if validation passes
+                    },
+                  ),
                 const SizedBox(
                   height: 10,
                 ),
