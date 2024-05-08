@@ -23,6 +23,8 @@ class ServiceController extends GetxController {
   //international shipping
   TextEditingController weightController = TextEditingController();
   TextEditingController dimensionController = TextEditingController();
+  TextEditingController dimensionWidthController = TextEditingController();
+  TextEditingController dimensionHeightController = TextEditingController();
 
   //optional Des
   final TextEditingController metaTitleController = TextEditingController();

@@ -189,6 +189,12 @@ class _ServicesReturnPolicyState extends State<ServicesReturnPolicy> {
                             selectedReturnPolicy = value;
                           });
                         },
+                        validator: (value){
+                          if (value == null) {
+                            return 'Please select a return policy';
+                          }
+                          return null;
+                        },
                         items: modelReturnPolicy!.returnPolicy!.map((policy) {
                           return DropdownMenuItem<ReturnPolicy>(
                             value: policy,

@@ -50,9 +50,9 @@ class _ServiceClassificationScreenState extends State<ServiceClassificationScree
       print('API Response Status Code: ${response.status}');
       showToast(response.message.toString());
       if (response.status == true) {
-        if(formKey1.currentState!.validate()){
+        // if(formKey1.currentState!.validate()){
           Get.to(()=> const ReviewPublishServiceScreen());
-        }
+        // }
 
       }
     });
@@ -88,121 +88,118 @@ class _ServiceClassificationScreenState extends State<ServiceClassificationScree
       body: SingleChildScrollView(
         child: Container(
           margin: EdgeInsets.only(left: 15,right: 15),
-          child: Form(
-            key: formKey1,
-            child: Column(
-              children: [
+          child: Column(
+            children: [
 
-                CommonTextField(
-                    controller: serviceController.serialNumber1Controller,
-                    obSecure: false,
-                    hintText: 'Serial Number'.tr,
-                    validator: MultiValidator([
-                      RequiredValidator(errorText: 'Serial Number is required'),
-                    ])),
-                CommonTextField(
-                    controller: serviceController.productNumber1Controller,
-                    obSecure: false,
-                    hintText: 'Product number'.tr,
-                    validator: MultiValidator([
-                      RequiredValidator(errorText: 'Product number is required'),
-                    ])),
-                CommonTextField(
-                    controller: serviceController.productCode1Controller,
-                    obSecure: false,
-                    hintText: 'Product Code'.tr,
-                    keyboardType: TextInputType.number,
-                    validator: MultiValidator([
-                      RequiredValidator(errorText: 'Product Code is required'),
-                    ])),
-                CommonTextField(
-                    controller: serviceController.promotionCode1Controller,
-                    obSecure: false,
-                    hintText: 'Promotion Code'.tr,
-                    keyboardType: TextInputType.number,
-                    validator: MultiValidator([
-                      RequiredValidator(errorText: 'Promotion Code is required'),
-                    ])),
-                TextFormField(
-                  controller: serviceController.packageDetails1Controller,
-                  maxLines: 2,
-                  minLines: 2,
-                  decoration: InputDecoration(
-                    counterStyle: GoogleFonts.poppins(
-                      color: AppTheme.primaryColor,
-                      fontSize: 25,
-                    ),
-                    counter: const Offstage(),
+              CommonTextField(
+                  controller: serviceController.serialNumber1Controller,
+                  obSecure: false,
+                  hintText: 'Serial Number'.tr,
+                  validator: MultiValidator([
+                    RequiredValidator(errorText: 'Serial Number is required'),
+                  ])),
+              CommonTextField(
+                  controller: serviceController.productNumber1Controller,
+                  obSecure: false,
+                  hintText: 'Product number'.tr,
+                  validator: MultiValidator([
+                    RequiredValidator(errorText: 'Product number is required'),
+                  ])),
+              CommonTextField(
+                  controller: serviceController.productCode1Controller,
+                  obSecure: false,
+                  hintText: 'Product Code'.tr,
+                  keyboardType: TextInputType.number,
+                  validator: MultiValidator([
+                    RequiredValidator(errorText: 'Product Code is required'),
+                  ])),
+              CommonTextField(
+                  controller: serviceController.promotionCode1Controller,
+                  obSecure: false,
+                  hintText: 'Promotion Code'.tr,
+                  keyboardType: TextInputType.number,
+                  validator: MultiValidator([
+                    RequiredValidator(errorText: 'Promotion Code is required'),
+                  ])),
+              TextFormField(
+                controller: serviceController.packageDetails1Controller,
+                maxLines: 2,
+                minLines: 2,
+                decoration: InputDecoration(
+                  counterStyle: GoogleFonts.poppins(
+                    color: AppTheme.primaryColor,
+                    fontSize: 25,
+                  ),
+                  counter: const Offstage(),
 
-                    errorMaxLines: 2,
-                    contentPadding: const EdgeInsets.all(15),
-                    fillColor: Colors.grey.shade100,
-                    hintText: 'Package details',
-                    hintStyle: GoogleFonts.poppins(
-                      color: AppTheme.primaryColor,
-                      fontSize: 15,
-                    ),
+                  errorMaxLines: 2,
+                  contentPadding: const EdgeInsets.all(15),
+                  fillColor: Colors.grey.shade100,
+                  hintText: 'Package details',
+                  hintStyle: GoogleFonts.poppins(
+                    color: AppTheme.primaryColor,
+                    fontSize: 15,
+                  ),
 
-                    border: InputBorder.none,
-                    focusedErrorBorder: const OutlineInputBorder(
-                        borderRadius: BorderRadius.all(Radius.circular(8)),
-                        borderSide: BorderSide(color: AppTheme.secondaryColor)),
-                    errorBorder: const OutlineInputBorder(
-                        borderRadius: BorderRadius.all(Radius.circular(8)),
-                        borderSide: BorderSide(color: AppTheme.secondaryColor)),
-                    focusedBorder: const OutlineInputBorder(
-                        borderRadius: BorderRadius.all(Radius.circular(8)),
-                        borderSide: BorderSide(color: AppTheme.secondaryColor)),
-                    disabledBorder: const OutlineInputBorder(
+                  border: InputBorder.none,
+                  focusedErrorBorder: const OutlineInputBorder(
                       borderRadius: BorderRadius.all(Radius.circular(8)),
-                      borderSide: BorderSide(color: AppTheme.secondaryColor),
-                    ),
-                    enabledBorder: const OutlineInputBorder(
+                      borderSide: BorderSide(color: AppTheme.secondaryColor)),
+                  errorBorder: const OutlineInputBorder(
                       borderRadius: BorderRadius.all(Radius.circular(8)),
-                      borderSide: BorderSide(color: AppTheme.secondaryColor),
-                    ),
+                      borderSide: BorderSide(color: AppTheme.secondaryColor)),
+                  focusedBorder: const OutlineInputBorder(
+                      borderRadius: BorderRadius.all(Radius.circular(8)),
+                      borderSide: BorderSide(color: AppTheme.secondaryColor)),
+                  disabledBorder: const OutlineInputBorder(
+                    borderRadius: BorderRadius.all(Radius.circular(8)),
+                    borderSide: BorderSide(color: AppTheme.secondaryColor),
+                  ),
+                  enabledBorder: const OutlineInputBorder(
+                    borderRadius: BorderRadius.all(Radius.circular(8)),
+                    borderSide: BorderSide(color: AppTheme.secondaryColor),
                   ),
                 ),
-                const SizedBox(height: 20),
-                CustomOutlineButton(
-                  title: 'Next',
-                  borderRadius: 11,
-                  onPressed: () {
-                    if(formKey1.currentState!.validate()){
-                      optionalApi();
-                    }
-                  },
-                ),
-                const SizedBox(height: 20),
-                GestureDetector(
-                  onTap: (){
-                    Get.to(()=> const ReviewPublishServiceScreen());
-                  },
-                  child: Container(
-                    width: Get.width,
-                    height: 55,
-                    decoration: BoxDecoration(
-                      border: Border.all(
-                        color: Colors.black, // Border color
-                        width: 1.0, // Border width
-                      ),
-                      borderRadius: BorderRadius.circular(10), // Border radius
+              ),
+              const SizedBox(height: 20),
+              CustomOutlineButton(
+                title: 'Next',
+                borderRadius: 11,
+                onPressed: () {
+                  // if(formKey1.currentState!.validate()){
+                    optionalApi();
+                  // }
+                },
+              ),
+              const SizedBox(height: 20),
+              GestureDetector(
+                onTap: (){
+                  Get.to(()=> const ReviewPublishServiceScreen());
+                },
+                child: Container(
+                  width: Get.width,
+                  height: 55,
+                  decoration: BoxDecoration(
+                    border: Border.all(
+                      color: Colors.black, // Border color
+                      width: 1.0, // Border width
                     ),
-                    padding: const EdgeInsets.all(10), // Padding inside the container
-                    child: const Center(
-                      child: Text(
-                        'Skip',
-                        style: TextStyle(
-                          fontSize: 16,
-                          fontWeight: FontWeight.bold,
-                          color: Colors.black, // Text color
-                        ),
+                    borderRadius: BorderRadius.circular(10), // Border radius
+                  ),
+                  padding: const EdgeInsets.all(10), // Padding inside the container
+                  child: const Center(
+                    child: Text(
+                      'Skip',
+                      style: TextStyle(
+                        fontSize: 16,
+                        fontWeight: FontWeight.bold,
+                        color: Colors.black, // Text color
                       ),
                     ),
                   ),
                 ),
-              ],
-            ),
+              ),
+            ],
           ),
         ),
       ),
