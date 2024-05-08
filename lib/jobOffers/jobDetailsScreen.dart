@@ -114,7 +114,6 @@ class _JobDetailsScreenState extends State<JobDetailsScreen> {
             onProgress: (int bytes, int totalBytes) {})
         .then((value) {
       JobResponceModel response = JobResponceModel.fromJson(jsonDecode(value));
-      showToast(response.message.toString());
 
       jobcat = response.productDetails!.product!.jobCat.toString();
       jobtype = response.productDetails!.product!.jobType.toString();

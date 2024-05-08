@@ -45,8 +45,7 @@ class _JobTellusaboutyourselfScreenState extends State<JobTellusaboutyourselfScr
     FocusManager.instance.primaryFocus!.unfocus();
     repositories.postApi(url: ApiUrls.giveawayProductAddress, context: context, mapData: map).then((value) {
       ModelCommonResponse response = ModelCommonResponse.fromJson(jsonDecode(value));
-      print('API Response Status Code: ${response.status}');
-      showToast(response.message.toString());
+
       if (response.status == true) {
         navigateNext();
       }

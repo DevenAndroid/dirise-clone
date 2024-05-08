@@ -92,7 +92,6 @@ class _HiringJobDetailsScreenState extends State<HiringJobDetailsScreen> {
 
     repositories.postApi(url: ApiUrls.giveawayProductAddress, context: context, mapData: map).then((value) {
       JobResponceModel response = JobResponceModel.fromJson(jsonDecode(value));
-      showToast(response.message.toString());
       jobcat = response.productDetails!.product!.jobCat.toString();
       jobtype = response.productDetails!.product!.jobType.toString();
       jobmodel = response.productDetails!.product!.jobModel.toString();
@@ -372,7 +371,7 @@ class _HiringJobDetailsScreenState extends State<HiringJobDetailsScreen> {
                           controller: experienceController,
                           validator: (value) {
                             if (value!.trim().isEmpty) {
-                              return 'Minimum Exper is required';
+                              return 'Minimum Experience is required';
                             }
                             return null; // Return null if validation passes
                           },
@@ -421,6 +420,12 @@ class _HiringJobDetailsScreenState extends State<HiringJobDetailsScreen> {
                           maxLines: 2,
                           minLines: 2,
                           controller: hoursperweekController,
+                          validator: (value) {
+                            if (value!.trim().isEmpty) {
+                              return 'Hours per week is required';
+                            }
+                            return null; // Return null if validation passes
+                          },
                           decoration: InputDecoration(
                             counterStyle: GoogleFonts.poppins(
                               color: AppTheme.primaryColor,
@@ -467,6 +472,12 @@ class _HiringJobDetailsScreenState extends State<HiringJobDetailsScreen> {
                     maxLines: 2,
                     minLines: 2,
                     controller: salaryController,
+                    validator: (value) {
+                      if (value!.trim().isEmpty) {
+                        return 'Salary range';
+                      }
+                      return null; // Return null if validation passes
+                    },
                     decoration: InputDecoration(
                       counterStyle: GoogleFonts.poppins(
                         color: AppTheme.primaryColor,
@@ -509,7 +520,10 @@ class _HiringJobDetailsScreenState extends State<HiringJobDetailsScreen> {
                     title: 'Confirm',
                     borderRadius: 11,
                     onPressed: () {
-                      updateProfile();
+                      if(formKey1.currentState!.validate()){
+                        updateProfile();
+                      }
+
                     },
                   ),
                 ],

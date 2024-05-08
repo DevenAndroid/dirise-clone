@@ -6,6 +6,7 @@ import 'package:google_fonts/google_fonts.dart';
 
 import '../widgets/common_button.dart';
 import '../widgets/common_colour.dart';
+import 'congratulationScreen.dart';
 
 class JobReviewPublishScreen extends StatefulWidget {
   String? jobcat;
@@ -161,7 +162,7 @@ class _JobReviewPublishScreenState extends State<JobReviewPublishScreen> {
                 title: 'Confirm',
                 borderRadius: 11,
                 onPressed: () {
-                  Get.to(RewardScreen());
+                  Get.to(CongratulationScreen());
                 },
               ),
 
