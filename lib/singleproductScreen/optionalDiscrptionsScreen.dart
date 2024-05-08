@@ -295,7 +295,8 @@ class _OptionalDiscrptionsScreenState extends State<OptionalDiscrptionsScreen> {
                   title: 'Next',
                   borderRadius: 11,
                   onPressed: () {
-                    Get.to(OptionalClassificationScreen());
+    if (formKey1.currentState!.validate()) {
+                    Get.to(OptionalClassificationScreen());}
                     // optionalApi();
                   },
                 ),

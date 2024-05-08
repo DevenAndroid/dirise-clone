@@ -52,7 +52,7 @@ class _AddProductPickUpAddressScreenState extends State<AddProductPickUpAddressS
   RxBool hide1 = true.obs;
   bool showValidation = false;
   final Repositories repositories = Repositories();
-  final formKey1 = GlobalKey<FormState>();
+    final formKey1 = GlobalKey<FormState>();
   String code = "+91";
   editAddressApi() {
     Map<String, dynamic> map = {};
@@ -167,9 +167,13 @@ class _AddProductPickUpAddressScreenState extends State<AddProductPickUpAddressS
                    controller: streetController,
                     obSecure: false,
                     hintText: 'Street'.tr,
-                    validator: MultiValidator([
-                      RequiredValidator(errorText: 'Street is required'),
-                    ])),
+                    validator: (value) {
+                      if (value!.trim().isEmpty) {
+                        return 'Street is required'.tr;
+                      }
+                      return null; // Return null if validation passes
+                    },
+                 ),
                 SizedBox(height: 10,),
                 Text(
                   "City*".tr,
@@ -180,9 +184,13 @@ class _AddProductPickUpAddressScreenState extends State<AddProductPickUpAddressS
                    controller: cityController,
                     obSecure: false,
                     hintText: 'city'.tr,
-                    validator: MultiValidator([
-                      RequiredValidator(errorText: 'city is required'),
-                    ])),
+                    validator: (value) {
+                      if (value!.trim().isEmpty) {
+                        return 'city is required'.tr;
+                      }
+                      return null; // Return null if validation passes
+                    },
+                    ),
                 SizedBox(height: 10,),
                 Text(
                   "State*".tr,
@@ -193,9 +201,14 @@ class _AddProductPickUpAddressScreenState extends State<AddProductPickUpAddressS
                    controller: stateController,
                     obSecure: false,
                     hintText: 'State'.tr,
-                    validator: MultiValidator([
-                      RequiredValidator(errorText: 'State is required'),
-                    ])),
+                    validator: (value) {
+                      if (value!.trim().isEmpty) {
+                        return 'State is required'.tr;
+                      }
+                      return null; // Return null if validation passes
+                    },
+
+                ),
                 SizedBox(height: 10,),
                 Text(
                   "Zip Code".tr,
@@ -206,9 +219,13 @@ class _AddProductPickUpAddressScreenState extends State<AddProductPickUpAddressS
                    controller: zipcodeController,
                     obSecure: false,
                     hintText: 'Zip Code'.tr,
-                    validator: MultiValidator([
-                      RequiredValidator(errorText: 'Zip Code is required'),
-                    ])),
+                    validator: (value) {
+                      if (value!.trim().isEmpty) {
+                        return 'Zip Code is required'.tr;
+                      }
+                      return null; // Return null if validation passes
+                    },
+                   ),
                 SizedBox(height: 10,),
                 Text(
                   "Town*".tr,
@@ -219,9 +236,13 @@ class _AddProductPickUpAddressScreenState extends State<AddProductPickUpAddressS
                    controller: townController,
                     obSecure: false,
                     hintText: 'Town'.tr,
-                    validator: MultiValidator([
-                      RequiredValidator(errorText: 'Town is required'),
-                    ])),
+                    validator: (value) {
+                      if (value!.trim().isEmpty) {
+                        return 'Town is required'.tr;
+                      }
+                      return null; // Return null if validation passes
+                    },
+                    ),
                 SizedBox(height: 10,),
 
                 Text(
@@ -233,9 +254,13 @@ class _AddProductPickUpAddressScreenState extends State<AddProductPickUpAddressS
                    controller: specialInstructionController,
                     obSecure: false,
                     hintText: 'Special instruction'.tr,
-                    validator: MultiValidator([
-                      RequiredValidator(errorText: 'Special instruction is required'),
-                    ])),
+                    validator: (value) {
+                      if (value!.trim().isEmpty) {
+                        return 'Special instruction is required'.tr;
+                      }
+                      return null; // Return null if validation passes
+                    },
+                    ),
                 SizedBox(height: 10,),
                 SizedBox(
                   height: size.height * .02,

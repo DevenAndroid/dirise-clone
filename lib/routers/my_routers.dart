@@ -11,6 +11,7 @@ import 'package:get/get.dart';
 import '../Services/choose_map_service.dart';
 import '../Services/locationwherecustomerwilljoin.dart';
 import '../Services/pick_up_address_service.dart';
+import '../Services/service_international_shipping_details.dart';
 import '../Services/servicesReturnPolicyScreen.dart';
 import '../Services/tellUsscreen.dart';
 import '../Services/whatServiceDoYouProvide.dart';
@@ -59,8 +60,8 @@ class MyRouters {
 
 
 
-    GetPage(name: '/', page: () => const BottomNavbar()),
 
+    GetPage(name: '/', page: () => const BottomNavbar()),
     GetPage(name: LoginScreen.route, page: () => const LoginScreen()),
     GetPage(name: VendorOTPVerification.route, page: () => const VendorOTPVerification()),
     GetPage(name: CreateAccountNewScreen.route, page: () => const CreateAccountNewScreen()),

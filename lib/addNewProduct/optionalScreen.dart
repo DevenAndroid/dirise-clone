@@ -214,12 +214,22 @@ class _OptionalScreenState extends State<OptionalScreen> {
                     // controller: _referralEmailController,
                     obSecure: false,
                     hintText: 'Meta Title'.tr,
-                    validator: MultiValidator([
-                      RequiredValidator(errorText: 'Meta Title is required'),
-                    ])),
+                    validator: (value) {
+                      if (value!.trim().isEmpty) {
+                        return 'Meta Title is required'.tr;
+                      }
+                      return null; // Return null if validation passes
+                    },
+                    ),
                 TextFormField(
                   maxLines: 2,
                   minLines: 2,
+                  validator: (value) {
+                    if (value!.trim().isEmpty) {
+                      return 'Meta description is required'.tr;
+                    }
+                    return null; // Return null if validation passes
+                  },
                   decoration: InputDecoration(
                     counterStyle: GoogleFonts.poppins(
                       color: AppTheme.primaryColor,
@@ -258,16 +268,24 @@ class _OptionalScreenState extends State<OptionalScreen> {
                     // controller: _referralEmailController,
                     obSecure: false,
                     hintText: 'Serial Number'.tr,
-                    validator: MultiValidator([
-                      RequiredValidator(errorText: 'Serial Number is required'),
-                    ])),
+                    validator: (value) {
+                      if (value!.trim().isEmpty) {
+                        return 'Serial Number is required'.tr;
+                      }
+                      return null; // Return null if validation passes
+                    },
+                    ),
                 CommonTextField(
                     // controller: _referralEmailController,
                     obSecure: false,
                     hintText: 'Product number'.tr,
-                    validator: MultiValidator([
-                      RequiredValidator(errorText: 'Product number is required'),
-                    ])),
+                    validator: (value) {
+                      if (value!.trim().isEmpty) {
+                        return 'Product number is required'.tr;
+                      }
+                      return null; // Return null if validation passes
+                    },
+                    ),
                 const SizedBox(height: 20),
                 CustomOutlineButton(
                   title: 'Next',
@@ -279,7 +297,8 @@ class _OptionalScreenState extends State<OptionalScreen> {
                 const SizedBox(height: 20),
                 GestureDetector(
                   onTap: () {
-                    Get.to(ReviewPublishScreen());
+    if (formKey1.currentState!.validate()) {
+                    Get.to(ReviewPublishScreen());}
                   },
                   child: Container(
                     width: Get.width,

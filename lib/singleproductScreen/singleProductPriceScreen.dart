@@ -49,6 +49,7 @@ class _SingleProductPriceScreenState extends State<SingleProductPriceScreen> {
       }
     });
   }
+  final formKey1 = GlobalKey<FormState>();
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -75,182 +76,202 @@ class _SingleProductPriceScreenState extends State<SingleProductPriceScreen> {
       body: SingleChildScrollView(
         child: Container(
           margin: const EdgeInsets.only(left: 15, right: 15),
-          child: Column(
-            mainAxisAlignment: MainAxisAlignment.start,
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              Text(
-                'Price*'.tr,
-                style: GoogleFonts.poppins(color: const Color(0xff292F45), fontWeight: FontWeight.w400, fontSize: 14),
-              ),
-              CommonTextField(
-                  controller: priceController,
-                  obSecure: false,
-                  // hintText: 'Name',
-                  hintText: 'Price'.tr,
-                  suffixIcon: const Text(
-                    'KWD',
-                  ),
-                  validator: MultiValidator([
-                    RequiredValidator(errorText: 'Price is required'.tr),
-                  ])),
-              Row(
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                children: [
-                  Text(
-                    'I want to show this item on sale'.tr,
-                    style: GoogleFonts.poppins(color: Colors.black, fontWeight: FontWeight.w600, fontSize: 14),
-                  ),
-                  Radio(value: 1, groupValue: 1, onChanged: (value) {}),
-                ],
-              ),
-              const SizedBox(height: 10,),
-              Text(
-                'Fixed Discounted Price'.tr,
-                style: GoogleFonts.poppins(color: const Color(0xff292F45), fontWeight: FontWeight.w400, fontSize: 14),
-              ),
-              CommonTextField(
-                  controller: fixedDiscount,
-                  obSecure: false,
-                  // hintText: 'Name',
-                  hintText: 'Discount Price'.tr,
-                  // validator: MultiValidator([
-                  //   RequiredValidator(errorText: 'Discount Price is required'.tr),
-                  // ])
-              ),
-              const SizedBox(height: 10,),
-              Align(
-                alignment: Alignment.center,
-                child: Text(
-                  'OR'.tr,
-                  style: GoogleFonts.poppins(color: Colors.red, fontWeight: FontWeight.w400, fontSize: 14),
+          child: Form(
+            key: formKey1,
+            child: Column(
+              mainAxisAlignment: MainAxisAlignment.start,
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                Text(
+                  'Price*'.tr,
+                  style: GoogleFonts.poppins(color: const Color(0xff292F45), fontWeight: FontWeight.w400, fontSize: 14),
                 ),
-              ),
-              const SizedBox(height: 10,),
-              Text(
-                'Discount Percentage'.tr,
-                style: GoogleFonts.poppins(color: const Color(0xff292F45), fontWeight: FontWeight.w400, fontSize: 14),
-              ),
-              CommonTextField(
-                  controller: discountPrecrnt,
-                  obSecure: false,
-                  // hintText: 'Name',
-                  hintText: 'Percentage'.tr,
-                  // validator: MultiValidator([
-                  //   RequiredValidator(errorText: 'Discount Price is required'.tr),
-                  // ])
-              ),
-              const SizedBox(height: 10,),
-              Text(
-                'Calculated price'.tr,
-                style: GoogleFonts.inter(color: const Color(0xff292F45), fontWeight: FontWeight.w500, fontSize: 14),
-              ),
-              const SizedBox(height: 10,),
-              Text(
-                'This is what your customer will see after DIRISE fees.'.tr,
-                style: GoogleFonts.inter(color: const Color(0xff514949), fontWeight: FontWeight.w400, fontSize: 12),
-              ),
-              const SizedBox(height: 10,),
-               Container(
-                 padding: EdgeInsets.all(15),
-                 decoration: BoxDecoration(
-                   borderRadius: BorderRadius.circular(11),
-                   color: Colors.grey.shade200
-                 ),
-                 child: Row(
-                   children: [
-                     Column(
-                       mainAxisAlignment: MainAxisAlignment.start,
-                       crossAxisAlignment: CrossAxisAlignment.start,
-                       children: [
-                         Row(
-                           mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                           children: [
-                             Text(
-                               'Real Price'.tr,
-                               style: GoogleFonts.poppins(color: const Color(0xff014E70), fontWeight: FontWeight.w600, fontSize: 12),
-                             ),
-                             SizedBox(width: 20,),
-                             Text(
-                               'KD 12.700'.tr,
-                               style: GoogleFonts.poppins(color: const Color(0xff014E70), fontWeight: FontWeight.w400, fontSize: 10),
-                             ),
-                           ],
-                         ),
-                         SizedBox(height: 20,),
-                         Row(
-                           mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                           children: [
-                             Text(
-                               'Discounted'.tr,
-                               style: GoogleFonts.poppins(color: const Color(0xff014E70), fontWeight: FontWeight.w600, fontSize: 12),
-                             ),
-                             SizedBox(width: 20,),
-                             Text(
-                               'KD 6.350 '.tr,
-                               style: GoogleFonts.poppins(color: const Color(0xff014E70), fontWeight: FontWeight.w400, fontSize: 10),
-                             ),
-                           ],
-                         ),
-                         SizedBox(height: 20,),
-                         Row(
-                           mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                           children: [
-                             Text(
-                               'Sale'.tr,
-                               style: GoogleFonts.poppins(color: const Color(0xff014E70), fontWeight: FontWeight.w600, fontSize: 12),
-                             ),
-                             SizedBox(width: 20,),
-                             Text(
-                               '50% off'.tr,
-                               style: GoogleFonts.poppins(color: const Color(0xff014E70), fontWeight: FontWeight.w400, fontSize: 10),
-                             ),
-                           ],
-                         ),
-                         SizedBox(height: 20,),
-                       ],
-                     ),
-                     Column(
-                       children: [
-                         Stack(
-                           children: [
-                             Container(
-                               margin: EdgeInsets.only(left: 15,right: 15,bottom: 15),
-                               padding: EdgeInsets.all(15),
-                               height: 150,
-                               width: 130,
-                               decoration: BoxDecoration(
-                                   borderRadius: BorderRadius.circular(11),
-                                   color: Colors.white
+                CommonTextField(
+                    controller: priceController,
+                    obSecure: false,
+                    // hintText: 'Name',
+                    hintText: 'Price'.tr,
+                    suffixIcon: const Text(
+                      'KWD',
+                    ),
+                    validator: (value) {
+                      if (value!.trim().isEmpty) {
+                        return 'Price is required'.tr;
+                      }
+                      return null; // Return null if validation passes
+                    },
+                   ),
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  children: [
+                    Text(
+                      'I want to show this item on sale'.tr,
+                      style: GoogleFonts.poppins(color: Colors.black, fontWeight: FontWeight.w600, fontSize: 14),
+                    ),
+                    Radio(value: 1, groupValue: 1, onChanged: (value) {}),
+                  ],
+                ),
+                const SizedBox(height: 10,),
+                Text(
+                  'Fixed Discounted Price'.tr,
+                  style: GoogleFonts.poppins(color: const Color(0xff292F45), fontWeight: FontWeight.w400, fontSize: 14),
+                ),
+                CommonTextField(
+                    controller: fixedDiscount,
+                    obSecure: false,
+                    // hintText: 'Name',
+                  validator: (value) {
+                    if (value!.trim().isEmpty) {
+                      return 'Discount Price is required'.tr;
+                    }
+                    return null; // Return null if validation passes
+                  },
+                    hintText: 'Discount Price'.tr,
+                    // validator: MultiValidator([
+                    //   RequiredValidator(errorText: 'Discount Price is required'.tr),
+                    // ])
+                ),
+                const SizedBox(height: 10,),
+                Align(
+                  alignment: Alignment.center,
+                  child: Text(
+                    'OR'.tr,
+                    style: GoogleFonts.poppins(color: Colors.red, fontWeight: FontWeight.w400, fontSize: 14),
+                  ),
+                ),
+                const SizedBox(height: 10,),
+                Text(
+                  'Discount Percentage'.tr,
+                  style: GoogleFonts.poppins(color: const Color(0xff292F45), fontWeight: FontWeight.w400, fontSize: 14),
+                ),
+                CommonTextField(
+                    controller: discountPrecrnt,
+                    obSecure: false,
+                    // hintText: 'Name',
+                    hintText: 'Percentage'.tr,
+                  validator: (value) {
+                    if (value!.trim().isEmpty) {
+                      return 'Percentage is required'.tr;
+                    }
+                    return null; // Return null if validation passes
+                  },
+                    // validator: MultiValidator([
+                    //   RequiredValidator(errorText: 'Discount Price is required'.tr),
+                    // ])
+                ),
+                const SizedBox(height: 10,),
+                Text(
+                  'Calculated price'.tr,
+                  style: GoogleFonts.inter(color: const Color(0xff292F45), fontWeight: FontWeight.w500, fontSize: 14),
+                ),
+                const SizedBox(height: 10,),
+                Text(
+                  'This is what your customer will see after DIRISE fees.'.tr,
+                  style: GoogleFonts.inter(color: const Color(0xff514949), fontWeight: FontWeight.w400, fontSize: 12),
+                ),
+                const SizedBox(height: 10,),
+                 Container(
+                   padding: EdgeInsets.all(15),
+                   decoration: BoxDecoration(
+                     borderRadius: BorderRadius.circular(11),
+                     color: Colors.grey.shade200
+                   ),
+                   child: Row(
+                     children: [
+                       Column(
+                         mainAxisAlignment: MainAxisAlignment.start,
+                         crossAxisAlignment: CrossAxisAlignment.start,
+                         children: [
+                           Row(
+                             mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                             children: [
+                               Text(
+                                 'Real Price'.tr,
+                                 style: GoogleFonts.poppins(color: const Color(0xff014E70), fontWeight: FontWeight.w600, fontSize: 12),
                                ),
-                               child: Image.asset('assets/images/newlogoo.png'),
-                             ),
-                             Positioned(
-                               right: 20,
-                                 top: 10,
-                                 child: Icon(Icons.delete,color: Color(0xff014E70),))
-                           ],
-                         ),
-                         Text(
-                           'Product.'.tr,
-                           style: GoogleFonts.inter(color: const Color(0xff014E70), fontWeight: FontWeight.w600, fontSize: 12),
-                         ),
-                       ],
-                     )
-                   ],
+                               SizedBox(width: 20,),
+                               Text(
+                                 'KD 12.700'.tr,
+                                 style: GoogleFonts.poppins(color: const Color(0xff014E70), fontWeight: FontWeight.w400, fontSize: 10),
+                               ),
+                             ],
+                           ),
+                           SizedBox(height: 20,),
+                           Row(
+                             mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                             children: [
+                               Text(
+                                 'Discounted'.tr,
+                                 style: GoogleFonts.poppins(color: const Color(0xff014E70), fontWeight: FontWeight.w600, fontSize: 12),
+                               ),
+                               SizedBox(width: 20,),
+                               Text(
+                                 'KD 6.350 '.tr,
+                                 style: GoogleFonts.poppins(color: const Color(0xff014E70), fontWeight: FontWeight.w400, fontSize: 10),
+                               ),
+                             ],
+                           ),
+                           SizedBox(height: 20,),
+                           Row(
+                             mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                             children: [
+                               Text(
+                                 'Sale'.tr,
+                                 style: GoogleFonts.poppins(color: const Color(0xff014E70), fontWeight: FontWeight.w600, fontSize: 12),
+                               ),
+                               SizedBox(width: 20,),
+                               Text(
+                                 '50% off'.tr,
+                                 style: GoogleFonts.poppins(color: const Color(0xff014E70), fontWeight: FontWeight.w400, fontSize: 10),
+                               ),
+                             ],
+                           ),
+                           SizedBox(height: 20,),
+                         ],
+                       ),
+                       Column(
+                         children: [
+                           Stack(
+                             children: [
+                               Container(
+                                 margin: EdgeInsets.only(left: 15,right: 15,bottom: 15),
+                                 padding: EdgeInsets.all(15),
+                                 height: 150,
+                                 width: 130,
+                                 decoration: BoxDecoration(
+                                     borderRadius: BorderRadius.circular(11),
+                                     color: Colors.white
+                                 ),
+                                 child: Image.asset('assets/images/newlogoo.png'),
+                               ),
+                               Positioned(
+                                 right: 20,
+                                   top: 10,
+                                   child: Icon(Icons.delete,color: Color(0xff014E70),))
+                             ],
+                           ),
+                           Text(
+                             'Product.'.tr,
+                             style: GoogleFonts.inter(color: const Color(0xff014E70), fontWeight: FontWeight.w600, fontSize: 12),
+                           ),
+                         ],
+                       )
+                     ],
+                   ),
                  ),
-               ),
-              const SizedBox(height: 20,),
-              CustomOutlineButton(
-                title: 'Next',
-                borderRadius: 11,
-                onPressed: () {
-                  deliverySizeApi();
-
-                },
-              ),
-              const SizedBox(height: 20,),
-            ],
+                const SizedBox(height: 20,),
+                CustomOutlineButton(
+                  title: 'Next',
+                  borderRadius: 11,
+                  onPressed: () {
+    if (formKey1.currentState!.validate()) {
+      deliverySizeApi();
+    }
+                  },
+                ),
+                const SizedBox(height: 20,),
+              ],
+            ),
           ),
         ),
       ),

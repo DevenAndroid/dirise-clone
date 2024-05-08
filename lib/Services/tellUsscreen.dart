@@ -26,7 +26,7 @@ class TellUsScreen extends StatefulWidget {
 class _TellUsScreenState extends State<TellUsScreen> {
   final serviceController = Get.put(ServiceController());
   String enteredText = '';
-
+  final formKey = GlobalKey<FormState>();
 
   serviceApi() {
     Map<String, dynamic> map = {};
@@ -74,225 +74,251 @@ class _TellUsScreenState extends State<TellUsScreen> {
       body: SingleChildScrollView(
         child: Container(
           margin: const EdgeInsets.only(left: 15, right: 15),
-          child: Column(
-            mainAxisAlignment: MainAxisAlignment.start,
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              Text(
-                'Short Description*'.tr,
-                style: GoogleFonts.poppins(color: Colors.black, fontWeight: FontWeight.w600, fontSize: 18),
-              ),
-              const SizedBox(
-                height: 5,
-              ),
-
-              TextFormField(
-                maxLines: 2,
-                minLines: 2,
-                controller: serviceController.shortDescriptionController,
-                decoration: InputDecoration(
-                  counterStyle: GoogleFonts.poppins(
-                    color: AppTheme.primaryColor,
-                    fontSize: 25,
-                  ),
-                  counter: const Offstage(),
-                  errorMaxLines: 2,
-                  contentPadding: const EdgeInsets.all(15),
-                  filled: true,
-                  fillColor: Colors.grey.shade100,
-                  hintText: 'Description',
-                  hintStyle: GoogleFonts.poppins(
-                    color: AppTheme.primaryColor,
-                    fontSize: 15,
-                  ),
-                  border: InputBorder.none,
-                  focusedErrorBorder: const OutlineInputBorder(
-                      borderRadius: BorderRadius.all(Radius.circular(8)),
-                      borderSide: BorderSide(color: AppTheme.secondaryColor)),
-                  errorBorder: const OutlineInputBorder(
-                      borderRadius: BorderRadius.all(Radius.circular(8)),
-                      borderSide: BorderSide(color: AppTheme.secondaryColor)),
-                  focusedBorder: const OutlineInputBorder(
-                      borderRadius: BorderRadius.all(Radius.circular(8)),
-                      borderSide: BorderSide(color: AppTheme.secondaryColor)),
-                  disabledBorder: const OutlineInputBorder(
-                    borderRadius: BorderRadius.all(Radius.circular(8)),
-                    borderSide: BorderSide(color: AppTheme.secondaryColor),
-                  ),
-                  enabledBorder: const OutlineInputBorder(
-                    borderRadius: BorderRadius.all(Radius.circular(8)),
-                    borderSide: BorderSide(color: AppTheme.secondaryColor),
-                  ),
+          child: Form(
+            key: formKey,
+            child: Column(
+              mainAxisAlignment: MainAxisAlignment.start,
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                Text(
+                  'Short Description*'.tr,
+                  style: GoogleFonts.poppins(color: Colors.black, fontWeight: FontWeight.w600, fontSize: 18),
                 ),
-              ),
-
-              const SizedBox(
-                height: 20,
-              ),
-
-              Text(
-                'Stock quantity *'.tr,
-                style: GoogleFonts.poppins(color: const Color(0xff292F45), fontWeight: FontWeight.w600, fontSize: 14),
-              ),
-              CommonTextField(
-                controller: serviceController.inStockController,
-                  obSecure: false,
-                  // hintText: 'Name',
-                  keyboardType: TextInputType.number,
-                  hintText: 'Stock number'.tr,
-                  // validator: MultiValidator([
-                  //   RequiredValidator(errorText: 'Stock number is required'.tr),
-                  // ])
-              ),
-              const SizedBox(
-                height: 20,
-              ),
-              Container(
-                height: 40,
-                width: Get.width,
-                decoration: BoxDecoration(borderRadius: BorderRadius.circular(11), color: Colors.grey.shade200),
-                child: Align(
-                  alignment: Alignment.bottomCenter,
-                  child: Text(
-                    'Item doesn’t need stock number'.tr,
-                    style:
-                    GoogleFonts.poppins(color: const Color(0xff514949), fontWeight: FontWeight.w400, fontSize: 13),
-                  ),
+                const SizedBox(
+                  height: 5,
                 ),
-              ),
 
-              const SizedBox(
-                height: 20,
-              ),
-              Text(
-                'Set stock alert *'.tr,
-                style: GoogleFonts.poppins(color: const Color(0xff292F45), fontWeight: FontWeight.w600, fontSize: 14),
-              ),
-              CommonTextField(
-                controller: serviceController.stockAlertController,
-                  obSecure: false,
-                  keyboardType: TextInputType.number,
-                  onChanged: (value){
-                    double sellingPrice = double.tryParse(value) ?? 0.0;
-                    double purchasePrice = double.tryParse(serviceController.inStockController.text) ?? 0.0;
-                    if (serviceController.inStockController.text.isEmpty) {
-                      FocusManager.instance.primaryFocus!.unfocus();
-                      serviceController.stockAlertController.clear();
-                      showToastCenter('Enter stock quantity first');
-                      return;
-                    }
-                    if (sellingPrice > purchasePrice) {
-                      FocusManager.instance.primaryFocus!.unfocus();
-                      serviceController.stockAlertController.clear();
-                      showToastCenter('Stock alert cannot be higher than stock quantity');
-                    }
-                  },
-                  hintText: 'Get notification on your stock quantity'.tr,
-                  validator: MultiValidator([
-                    RequiredValidator(errorText: 'Set stock alert is required'.tr),
-                  ])),
-              const SizedBox(
-                height: 20,
-              ),
-              Text(
-                'SEO Tags*'.tr,
-                style: GoogleFonts.poppins(color: const Color(0xff292F45), fontWeight: FontWeight.w600, fontSize: 14),
-              ),
-              const SizedBox(
-                height: 5,
-              ),
-              Text(
-                'Add Tags separated by commas”,”'.tr,
-                style: GoogleFonts.poppins(color: const Color(0xff292F45), fontWeight: FontWeight.w400, fontSize: 13),
-              ),
-              const SizedBox(
-                height: 5,
-              ),
-              CommonTextField(
-                controller: serviceController.writeTagsController,
-                  obSecure: false,
-                  textInputAction: TextInputAction.done,
-                  onChanged: (text){
-                    setState(() {
-                      enteredText = text;
-                    });
-                  },
-                  // hintText: 'Name',
-                  hintText: 'Write Tags'.tr,
-                  validator: MultiValidator([
-                    RequiredValidator(errorText: 'Write Tags is required'.tr),
-                  ])),
-              Container(
-                padding: const EdgeInsets.all(15),
-                decoration: BoxDecoration(borderRadius: BorderRadius.circular(11), color: Colors.grey.shade200),
-                child: Column(
-                  children: [
-                    Row(
-                      children: [
-                        enteredText != '' ? Container(
-                          padding: const EdgeInsets.only(left: 10, right: 10),
-                          height: 40,
-                          decoration: BoxDecoration(color: Colors.white, borderRadius: BorderRadius.circular(5)),
-                          child:  Row(
-                            children: [
-                              Text(enteredText.toString()),
-                              const SizedBox(
-                                width: 10,
-                              ),
-
-                              GestureDetector(
-                                  onTap: (){
-                                    setState(() {
-                                      serviceController.writeTagsController.clear();
-                                      enteredText = '';
-                                    });
-                                  },
-                                  child: const Icon(Icons.cancel_outlined))
-                            ],
-                          ),
-                        ): const SizedBox.shrink(),
-                        const SizedBox(
-                          width: 30,
-                        ),
-                      ],
+                TextFormField(
+                  maxLines: 2,
+                  minLines: 2,
+                  controller: serviceController.shortDescriptionController,
+                  decoration: InputDecoration(
+                    counterStyle: GoogleFonts.poppins(
+                      color: AppTheme.primaryColor,
+                      fontSize: 25,
                     ),
-                    const SizedBox(
-                      height: 20,
+                    counter: const Offstage(),
+                    errorMaxLines: 2,
+                    contentPadding: const EdgeInsets.all(15),
+                    filled: true,
+                    fillColor: Colors.grey.shade100,
+                    hintText: 'Description',
+                    hintStyle: GoogleFonts.poppins(
+                      color: AppTheme.primaryColor,
+                      fontSize: 15,
                     ),
-                  ],
+                    border: InputBorder.none,
+                    focusedErrorBorder: const OutlineInputBorder(
+                        borderRadius: BorderRadius.all(Radius.circular(8)),
+                        borderSide: BorderSide(color: AppTheme.secondaryColor)),
+                    errorBorder: const OutlineInputBorder(
+                        borderRadius: BorderRadius.all(Radius.circular(8)),
+                        borderSide: BorderSide(color: AppTheme.secondaryColor)),
+                    focusedBorder: const OutlineInputBorder(
+                        borderRadius: BorderRadius.all(Radius.circular(8)),
+                        borderSide: BorderSide(color: AppTheme.secondaryColor)),
+                    disabledBorder: const OutlineInputBorder(
+                      borderRadius: BorderRadius.all(Radius.circular(8)),
+                      borderSide: BorderSide(color: AppTheme.secondaryColor),
+                    ),
+                    enabledBorder: const OutlineInputBorder(
+                      borderRadius: BorderRadius.all(Radius.circular(8)),
+                      borderSide: BorderSide(color: AppTheme.secondaryColor),
+                    ),
+                  ),
+                  validator: (value) {
+                    if (value!.trim().isEmpty) {
+                      return 'Enter short description';
+                    }
+                    return null; // Return null if validation passes
+                  },
+
                 ),
-              ),
-              const SizedBox(
-                height: 30,
-              ),
-              GestureDetector(
-                onTap: (){
-                  serviceApi();
-                },
-                child: Container(
+
+                const SizedBox(
+                  height: 20,
+                ),
+
+                Text(
+                  'Stock quantity *'.tr,
+                  style: GoogleFonts.poppins(color: const Color(0xff292F45), fontWeight: FontWeight.w600, fontSize: 14),
+                ),
+                CommonTextField(
+                  controller: serviceController.inStockController,
+                    obSecure: false,
+                    // hintText: 'Name',
+                    keyboardType: TextInputType.number,
+                    hintText: 'Stock quantity'.tr,
+                  validator: (value) {
+                    if (value!.trim().isEmpty) {
+                      return 'Stock number is required'.tr;
+                    }
+                    return null; // Return null if validation passes
+                  },
+                    // validator: MultiValidator([
+                    //   RequiredValidator(errorText: 'Stock number is required'.tr),
+                    // ])
+                ),
+                const SizedBox(
+                  height: 20,
+                ),
+                Container(
+                  height: 40,
                   width: Get.width,
-                  height: 55,
-                  decoration: BoxDecoration(
-                    border: Border.all(
-                      color: Colors.black, // Border color
-                      width: 1.0, // Border width
-                    ),
-                    borderRadius: BorderRadius.circular(10), // Border radius
-                  ),
-                  padding: const EdgeInsets.all(10), // Padding inside the container
-                  child: const Center(
+                  decoration: BoxDecoration(borderRadius: BorderRadius.circular(11), color: Colors.grey.shade200),
+                  child: Align(
+                    alignment: Alignment.bottomCenter,
                     child: Text(
-                      'Continue',
-                      style: TextStyle(
-                        fontSize: 16,
-                        fontWeight: FontWeight.bold,
-                        color: Colors.black, // Text color
+                      'Item doesn’t need stock number'.tr,
+                      style:
+                      GoogleFonts.poppins(color: const Color(0xff514949), fontWeight: FontWeight.w400, fontSize: 13),
+                    ),
+                  ),
+                ),
+
+                const SizedBox(
+                  height: 20,
+                ),
+                Text(
+                  'Set stock alert *'.tr,
+                  style: GoogleFonts.poppins(color: const Color(0xff292F45), fontWeight: FontWeight.w600, fontSize: 14),
+                ),
+                CommonTextField(
+                  controller: serviceController.stockAlertController,
+                    obSecure: false,
+                    keyboardType: TextInputType.number,
+                    onChanged: (value){
+                      double sellingPrice = double.tryParse(value) ?? 0.0;
+                      double purchasePrice = double.tryParse(serviceController.inStockController.text) ?? 0.0;
+                      if (serviceController.inStockController.text.isEmpty) {
+                        FocusManager.instance.primaryFocus!.unfocus();
+                        serviceController.stockAlertController.clear();
+                        showToastCenter('Enter stock quantity first');
+                        return;
+                      }
+                      if (sellingPrice > purchasePrice) {
+                        FocusManager.instance.primaryFocus!.unfocus();
+                        serviceController.stockAlertController.clear();
+                        showToastCenter('Stock alert cannot be higher than stock quantity');
+                      }
+                    },
+                    hintText: 'Get notification on your stock quantity'.tr,
+                    validator: (value) {
+                      if (value!.trim().isEmpty) {
+                        return 'Set stock alert is required';
+                      }
+                      return null; // Return null if validation passes
+                    },
+                   ),
+                const SizedBox(
+                  height: 20,
+                ),
+                Text(
+                  'SEO Tags*'.tr,
+                  style: GoogleFonts.poppins(color: const Color(0xff292F45), fontWeight: FontWeight.w600, fontSize: 14),
+                ),
+                const SizedBox(
+                  height: 5,
+                ),
+                Text(
+                  'Add Tags separated by commas”,”'.tr,
+                  style: GoogleFonts.poppins(color: const Color(0xff292F45), fontWeight: FontWeight.w400, fontSize: 13),
+                ),
+                const SizedBox(
+                  height: 5,
+                ),
+                CommonTextField(
+                  controller: serviceController.writeTagsController,
+                    obSecure: false,
+                    textInputAction: TextInputAction.done,
+                    onChanged: (text){
+                      setState(() {
+                        enteredText = text;
+                      });
+                    },
+                    // hintText: 'Name',
+                    hintText: 'Write Tags'.tr,
+                    validator: (value) {
+                    if (value!.trim().isEmpty) {
+                      return 'Write Tags is required'.tr;
+                    }
+                    return null; // Return null if validation passes
+                  },
+                ),
+                Container(
+                  padding: const EdgeInsets.all(15),
+                  decoration: BoxDecoration(borderRadius: BorderRadius.circular(11), color: Colors.grey.shade200),
+                  child: Column(
+                    children: [
+                      Row(
+                        children: [
+                          enteredText != '' ? Container(
+                            padding: const EdgeInsets.only(left: 10, right: 10),
+                            height: 40,
+                            decoration: BoxDecoration(color: Colors.white, borderRadius: BorderRadius.circular(5)),
+                            child:  Row(
+                              children: [
+                                Text(enteredText.toString()),
+                                const SizedBox(
+                                  width: 10,
+                                ),
+
+                                GestureDetector(
+                                    onTap: (){
+                                      setState(() {
+                                        serviceController.writeTagsController.clear();
+                                        enteredText = '';
+                                      });
+                                    },
+                                    child: const Icon(Icons.cancel_outlined))
+                              ],
+                            ),
+                          ): const SizedBox.shrink(),
+                          const SizedBox(
+                            width: 30,
+                          ),
+                        ],
+                      ),
+                      const SizedBox(
+                        height: 20,
+                      ),
+                    ],
+                  ),
+                ),
+                const SizedBox(
+                  height: 30,
+                ),
+                GestureDetector(
+                  onTap: (){
+                    if(formKey.currentState!.validate()){
+                      serviceApi();
+                    }
+                  },
+                  child: Container(
+                    width: Get.width,
+                    height: 55,
+                    decoration: BoxDecoration(
+                      border: Border.all(
+                        color: Colors.black, // Border color
+                        width: 1.0, // Border width
+                      ),
+                      borderRadius: BorderRadius.circular(10), // Border radius
+                    ),
+                    padding: const EdgeInsets.all(10), // Padding inside the container
+                    child: const Center(
+                      child: Text(
+                        'Continue',
+                        style: TextStyle(
+                          fontSize: 16,
+                          fontWeight: FontWeight.bold,
+                          color: Colors.black, // Text color
+                        ),
                       ),
                     ),
                   ),
                 ),
-              ),
-            ],
+              ],
+            ),
           ),
         ),
       ),
