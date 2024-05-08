@@ -80,6 +80,7 @@ class VendorUser {
   dynamic vendorType;
   dynamic subscription_status;
   dynamic taxNumber;
+  dynamic companyName;
   dynamic vendorPublishStatus;
   dynamic activePlanId;
   dynamic planStartDate;
@@ -96,6 +97,7 @@ class VendorUser {
       {this.id,
         this.name,
         this.firstName,
+        this.companyName,
         this.country_id,
         this.subscription_status,
         this.lastName,
@@ -177,6 +179,7 @@ class VendorUser {
     storeName = json['store_name'];
     storeBusinessId = json['store_business_id'];
     storeAboutUs = json['store_about_us'];
+    companyName = json['company_name'];
     storeAboutMe = json['store_about_me'];
     storeAddress = json['store_address'];
     storeLogo = json['store_logo'];
@@ -258,6 +261,7 @@ class VendorUser {
     data['email'] = email;
     data['dob'] = dob;
     data['country_code'] = countryCode;
+    data['company_name'] = companyName;
     data['earned_balance'] = earnedBalance;
     data['phone'] = phone;
     data['store_name'] = storeName;

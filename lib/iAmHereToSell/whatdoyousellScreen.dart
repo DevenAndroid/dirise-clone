@@ -1,3 +1,4 @@
+import 'dart:async';
 import 'dart:convert';
 import 'dart:developer';
 import 'dart:io';
@@ -181,13 +182,48 @@ class _WhatdoyousellScreenState extends State<WhatdoyousellScreen> {
       }
     });
   }
+  late Timer _resendTimer;
+  int _secondsRemaining = 30;
+  bool _resendEnabled = true;
 
+  void _startTimer() {
+    _resendTimer = Timer.periodic(Duration(seconds: 1), (timer) {
+      setState(() {
+        if (_secondsRemaining > 0) {
+          _secondsRemaining--;
+        } else {
+          _resendEnabled = true; // Enable the resend button after 30 seconds
+          _resendTimer.cancel();
+        }
+      });
+    });
+  }
+
+  void _resendOTP() {
+    if (_resendEnabled) {
+      // Call vendorregister() only if the resend button is enabled
+      vendorregister();
+      setState(() {
+        _resendEnabled = false; // Disable the resend button
+        _secondsRemaining = 30; // Reset the timer
+      });
+      _startTimer(); // Restart the timer
+    }
+  }
   @override
   void initState() {
     // TODO: implement initState
     super.initState();
     getVendorCategories();
     getEmailFromSharedPreferences();
+    _startTimer();
+  }
+
+  @override
+  void dispose() {
+    // TODO: implement dispose
+    super.dispose();
+    _resendTimer.cancel();
   }
 
   final defaultPinTheme = PinTheme(
@@ -473,22 +509,27 @@ class _WhatdoyousellScreenState extends State<WhatdoyousellScreen> {
                 const SizedBox(
                   height: 10,
                 ),
+                response.value.message ==
+                    'You are successfully registered as a seller , Please check your mail for verify your account.' ?
                 RichText(
                   text: TextSpan(
-                    text: 'If you dont receive a code',
+                    text: 'If you don\'t receive a code, ',
                     style: TextStyle(fontFamily: 'Your App Font Family', color: Colors.black),
                     children: [
-                      TextSpan(
-                        text: ' Resend',
-                        recognizer: TapGestureRecognizer()
-                          ..onTap = () {
-                            vendorregister();
-                          },
-                        style: TextStyle(fontWeight: FontWeight.w500, color: Color(0xff014E70)),
-                      ),
+                      if (_secondsRemaining > 0)
+                        TextSpan(
+                          text: 'Wait $_secondsRemaining seconds to resend',
+                          style: TextStyle(fontWeight: FontWeight.w500, color: Color(0xff014E70)),
+                        )
+                      else
+                        TextSpan(
+                          text: 'Resend',
+                          recognizer: TapGestureRecognizer()..onTap = _resendOTP,
+                          style: TextStyle(fontWeight: FontWeight.w500, color: Color(0xff014E70)),
+                        ),
                     ],
                   ),
-                ),
+                ) : SizedBox(),
                 const SizedBox(
                   height: 10,
                 ),

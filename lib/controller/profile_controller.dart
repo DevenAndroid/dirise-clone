@@ -1,6 +1,8 @@
 import 'dart:convert';
+import 'dart:developer';
 import 'dart:io';
 import 'dart:ui';
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/foundation.dart';
 import 'package:get/get.dart';
 import 'package:image_picker/image_picker.dart';
@@ -45,6 +47,8 @@ class ProfileController extends GetxController {
   getVendorDetails()  {
     repositories.getApi(url: ApiUrls.getVendorDetailUrl).then((value) {
       modelVendorProfile.value = ModelVendorDetails.fromJson(jsonDecode(value));
+      log('proooooooo${modelVendorProfile.value.toJson()}');
+
     });
   }
 

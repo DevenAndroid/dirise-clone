@@ -12,6 +12,7 @@ class CommonTextField extends StatefulWidget {
   final VoidCallback? onTap;
   final VoidCallback? onEditingCompleted;
   final TextInputType? keyboardType;
+  final TextInputAction? textInputAction;
   final ValueChanged<String>? onChanged;
   final FormFieldSetter<String>? onSaved;
   final ValueChanged<String>? onFieldSubmitted;
@@ -34,8 +35,7 @@ class CommonTextField extends StatefulWidget {
     this.keyboardType = TextInputType.text,
     this.obSecure,
     this.contentPadding,
-
-
+    this.textInputAction,
     this.onTap,
     this.isMulti = false,
     this.readOnly = false,
@@ -64,7 +64,7 @@ class _CommonTextFieldState extends State<CommonTextField> {
         style: GoogleFonts.poppins(),
         autofocus: false,
         autovalidateMode: AutovalidateMode.onUserInteraction,
-        textInputAction: TextInputAction.next,
+        textInputAction: widget.textInputAction,
         onFieldSubmitted: widget.onFieldSubmitted,
         inputFormatters: widget.inputFormatters,
         onChanged: widget.onChanged,

@@ -33,14 +33,14 @@ class ReturnPolicyModel {
 
 class ReturnPolicy {
   dynamic id;
-  dynamic userId;
+  dynamic   userId;
   dynamic title;
   dynamic days;
   dynamic policyDiscreption;
-  dynamic returnShippingFees;
-  dynamic  noReturn;
-  dynamic   unit;
-  dynamic  isDefault;
+  String? returnShippingFees;
+  bool? noReturn;
+  dynamic unit;
+  bool? isDefault;
 
   ReturnPolicy(
       {this.id,

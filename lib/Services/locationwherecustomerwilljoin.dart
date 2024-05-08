@@ -1,3 +1,4 @@
+import 'package:dirise/Services/pick_up_address_service.dart';
 import 'package:dirise/Services/service_international_shipping_details.dart';
 import 'package:dirise/singleproductScreen/singleProductReturnPolicy.dart';
 import 'package:dirise/utils/helper.dart';
@@ -21,7 +22,7 @@ class Locationwherecustomerwilljoin extends StatefulWidget {
 
 class _LocationwherecustomerwilljoinState extends State<Locationwherecustomerwilljoin> {
   String selectedItem = 'Item 1'; // Default selected item
-
+  RxBool isServiceProvide = false.obs;
   List<String> itemList = [
     'Item 1',
     'Item 2',
@@ -65,49 +66,51 @@ class _LocationwherecustomerwilljoinState extends State<Locationwherecustomerwil
                 style: GoogleFonts.poppins(color: Colors.black, fontWeight: FontWeight.w600, fontSize: 18),
               ),
               20.spaceY,
-              DropdownButtonFormField<String>(
-                value: selectedItem,
-                onChanged: (String? newValue) {
+              GestureDetector(
+                onTap: (){
                   setState(() {
-                    selectedItem = newValue!;
+                    isServiceProvide.toggle();
                   });
                 },
-                items: itemList.map<DropdownMenuItem<String>>((String value) {
-                  return DropdownMenuItem<String>(
-                    value: value,
-                    child: const Text('Write Address',style: TextStyle(fontSize: 15,color: Colors.grey),),
-                  );
-                }).toList(),
-                decoration: InputDecoration(
-                  border: InputBorder.none,
-                  filled: true,
-                  fillColor: const Color(0xffE2E2E2).withOpacity(.35),
-                  contentPadding: const EdgeInsets.symmetric(horizontal: 15, vertical: 10).copyWith(right: 8),
-                  focusedErrorBorder: const OutlineInputBorder(
-                      borderRadius: BorderRadius.all(Radius.circular(8)),
-                      borderSide: BorderSide(color: AppTheme.secondaryColor)),
-                  errorBorder: const OutlineInputBorder(
-                      borderRadius: BorderRadius.all(Radius.circular(8)),
-                      borderSide: BorderSide(color: Color(0xffE2E2E2))),
-                  focusedBorder: const OutlineInputBorder(
-                      borderRadius: BorderRadius.all(Radius.circular(8)),
-                      borderSide: BorderSide(color: AppTheme.secondaryColor)),
-                  disabledBorder: const OutlineInputBorder(
-                    borderRadius: BorderRadius.all(Radius.circular(8)),
-                    borderSide: BorderSide(color: AppTheme.secondaryColor),
+                child: Container(
+                  padding: const EdgeInsets.symmetric(vertical: 12,horizontal: 12),
+                  decoration: BoxDecoration(
+                      color: Colors.white,
+                      borderRadius: BorderRadius.circular(8),
+                      border: Border.all(color: AppTheme.secondaryColor)
                   ),
-                  enabledBorder: const OutlineInputBorder(
-                    borderRadius: BorderRadius.all(Radius.circular(8)),
-                    borderSide: BorderSide(color: AppTheme.secondaryColor),
+                  child: Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    children: [
+                      Text('Write Address',style: GoogleFonts.poppins(
+                        color: AppTheme.primaryColor,
+                        fontSize: 15,
+                      ),),
+                      GestureDetector(
+                        child: isServiceProvide.value == true ? const Icon(Icons.keyboard_arrow_up_rounded) : const Icon(Icons.keyboard_arrow_down_outlined),
+                        onTap: (){
+                          setState(() {
+                            isServiceProvide.toggle();
+                          });
+                        },
+                      ),
+                    ],
                   ),
                 ),
-                validator: (value) {
-                  if (value == null || value.isEmpty) {
-                    return 'Please select an item';
-                  }
-                  return null;
-                },
               ),
+              20.spaceY,
+              isServiceProvide.value == true ?  Padding(
+                padding: const EdgeInsets.symmetric(horizontal: 12),
+                child: TextButton(
+                  onPressed: (){
+                    Get.toNamed(PickUpAddressService.route);
+                  },
+                  child: Text('Choose my default shipping address',style: GoogleFonts.poppins(
+                    color: AppTheme.primaryColor,
+                    fontSize: 15,
+                  ),),
+                ),
+              ): const SizedBox.shrink(),
               60.spaceY,
               CustomOutlineButton(
                 title: 'Next',

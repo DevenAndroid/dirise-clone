@@ -43,4 +43,13 @@ class ServiceController extends GetxController {
   final TextEditingController productCode1Controller = TextEditingController();
   final TextEditingController promotionCode1Controller = TextEditingController();
   final TextEditingController packageDetails1Controller = TextEditingController();
+
+  //location class
+  final TextEditingController streetController = TextEditingController();
+  final TextEditingController cityController = TextEditingController();
+  final TextEditingController stateController = TextEditingController();
+  final TextEditingController countryController = TextEditingController();
+  final TextEditingController zipcodeController = TextEditingController();
+  final TextEditingController townController = TextEditingController();
+  final TextEditingController specialInstructionController = TextEditingController();
 }

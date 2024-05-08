@@ -30,6 +30,7 @@ class PersonalizeAddAddressScreen extends StatefulWidget {
   final String? country;
   final String? zipcode;
   final String? town;
+  final int? id;
 
 
   PersonalizeAddAddressScreen({
@@ -40,6 +41,7 @@ class PersonalizeAddAddressScreen extends StatefulWidget {
     this.country,
     this.zipcode,
     this.town,
+    this.id
   }) : super(key: key);
 
   @override
@@ -60,22 +62,9 @@ class _PersonalizeAddAddressScreenState extends State<PersonalizeAddAddressScree
   final Repositories repositories = Repositories();
   final formKey1 = GlobalKey<FormState>();
   String code = "+91";
-  sellingPickupAddressApi() {
+  void sellingPickupAddressApi() {
     Map<String, dynamic> map = {};
-    if (widget.street != null &&
-        widget.city != null &&
-        widget.state != null &&
-        widget.country != null &&
-        widget.zipcode != null ) {
-      map['address_type'] = 'Both';
-      map['city'] = widget.city;
-      map['country'] = widget.country;
-      map['state'] = widget.state;
-      map['zip_code'] = widget.zipcode;
-      map['town'] = widget.town;
-      map['street'] = widget.street;
-      map['special_instruction'] = specialInstructionController.text.trim();
-    }else{
+    if (widget.id != null) {
       map['address_type'] = 'Both';
       map['city'] = cityController.text.trim();
       map['country'] = countryController.text.trim();
@@ -84,7 +73,16 @@ class _PersonalizeAddAddressScreenState extends State<PersonalizeAddAddressScree
       map['town'] = townController.text.trim();
       map['street'] = streetController.text.trim();
       map['special_instruction'] = specialInstructionController.text.trim();
+      map['id'] = widget.id;
     }
+    map['address_type'] = 'Both';
+    map['city'] = cityController.text.trim();
+    map['country'] = countryController.text.trim();
+    map['state'] = stateController.text.trim();
+    map['zip_code'] = zipcodeController.text.trim();
+    map['town'] = townController.text.trim();
+    map['street'] = streetController.text.trim();
+    map['special_instruction'] = specialInstructionController.text.trim();
 
     FocusManager.instance.primaryFocus!.unfocus();
     repositories.postApi(url: ApiUrls.editAddressUrl, context: context, mapData: map).then((value) {
@@ -96,10 +94,12 @@ class _PersonalizeAddAddressScreenState extends State<PersonalizeAddAddressScree
     });
   }
 
+
   @override
   void initState() {
     super.initState();
     if (widget.city != null) {
+      streetController.text = widget.street ?? "";
       cityController.text = widget.city ?? '';
       stateController.text = widget.state ?? '';
       countryController.text = widget.country ?? '';
@@ -163,48 +163,107 @@ class _PersonalizeAddAddressScreenState extends State<PersonalizeAddAddressScree
                     ),
                   ),
                 ),
-                ...commonField(
-                    hintText: "Street",
-                    textController: streetController,
-                    title: 'Street*',
-                    validator: (String? value) {},
-                    keyboardType: TextInputType.name),
-                ...commonField(
-                    hintText: "city",
-                    textController: cityController,
-                    title: 'City*',
-                    validator: (String? value) {},
-                    keyboardType: TextInputType.name),
-                ...commonField(
-                    hintText: "state",
-                    textController: stateController,
-                    title: 'State*',
-                    validator: (String? value) {},
-                    keyboardType: TextInputType.name),
-                ...commonField(
-                    hintText: "Country",
-                    textController: countryController,
-                    title: 'Country*',
-                    validator: (String? value) {},
-                    keyboardType: TextInputType.name),
-                ...commonField(
-                    hintText: "Zip Code",
-                    textController: zipcodeController,
-                    title: 'Zip Code*',
-                    validator: (String? value) {},
-                    keyboardType: TextInputType.number),
-                ...commonField(
-                    hintText: "Town",
-                    textController: townController,
-                    title: 'Town*',
-                    validator: (String? value) {},
-                    keyboardType: TextInputType.name),
-                ...commonField(
-                    hintText: "Special instruction",
-                    textController: specialInstructionController,
-                    title: 'Special instruction*',
-                    validator: (String? value) {},
-                    keyboardType: TextInputType.name),
+                const SizedBox(height: 20,),
+                Text(
+                  "Street*".tr,
+                  style: GoogleFonts.poppins(color: const Color(0xff044484), fontWeight: FontWeight.w600, fontSize: 14),
+                ),
+                const SizedBox(height: 5,),
+                CommonTextField(
+                  controller: streetController,
+                  obSecure: false,
+                  hintText: 'Street'.tr,
+                  validator: (value) {
+                    if (value!.trim().isEmpty) {
+                      return 'Street is required';
+                    }
+                    return null; // Return null if validation passes
+                  },
+
+                ),
+                const SizedBox(height: 10,),
+                Text(
+                  "City*".tr,
+                  style: GoogleFonts.poppins(color: const Color(0xff044484), fontWeight: FontWeight.w600, fontSize: 14),
+                ),
+                const SizedBox(height: 5,),
+                CommonTextField(
+                  controller: cityController,
+                  obSecure: false,
+                  hintText: 'city'.tr,
+                  validator: (value) {
+                    if (value!.trim().isEmpty) {
+                      return 'city is required';
+                    }
+                    return null; // Return null if validation passes
+                  },
+                ),
+                const SizedBox(height: 10,),
+                Text(
+                  "State*".tr,
+                  style: GoogleFonts.poppins(color: const Color(0xff044484), fontWeight: FontWeight.w600, fontSize: 14),
+                ),
+                const SizedBox(height: 5,),
+                CommonTextField(
+                  controller: stateController,
+                  obSecure: false,
+                  hintText: 'State'.tr,
+                  validator: (value) {
+                    if (value!.trim().isEmpty) {
+                      return 'State is required';
+                    }
+                    return null; // Return null if validation passes
+                  },
+
+                ),
+                const SizedBox(height: 10,),
+                Text(
+                  "Zip Code".tr,
+                  style: GoogleFonts.poppins(color: const Color(0xff044484), fontWeight: FontWeight.w600, fontSize: 14),
+                ),
+                const SizedBox(height: 5,),
+                CommonTextField(
+                  controller: zipcodeController,
+                  obSecure: false,
+                  hintText: 'Zip Code'.tr,
+                  validator: (value) {
+                    if (value!.trim().isEmpty) {
+                      return 'Zip Code is required';
+                    }
+                    return null; // Return null if validation passes
+                  },
+                ),
+                const SizedBox(height: 10,),
+                Text(
+                  "Town*".tr,
+                  style: GoogleFonts.poppins(color: const Color(0xff044484), fontWeight: FontWeight.w600, fontSize: 14),
+                ),
+                const SizedBox(height: 5,),
+                CommonTextField(
+                  controller: townController,
+                  obSecure: false,
+                  hintText: 'Town'.tr,
+                  validator: (value) {
+                    if (value!.trim().isEmpty) {
+                      return 'Town is required';
+                    }
+                    return null; // Return null if validation passes
+                  },
+                ),
+                const SizedBox(height: 10,),
+
+                Text(
+                  "Special instruction*".tr,
+                  style: GoogleFonts.poppins(color: const Color(0xff044484), fontWeight: FontWeight.w600, fontSize: 14),
+                ),
+                const SizedBox(height: 5,),
+                CommonTextField(
+                  controller: specialInstructionController,
+                  obSecure: false,
+                  hintText: 'Special instruction'.tr,
+
+                ),
+                const SizedBox(height: 10,),
                 SizedBox(
                   height: size.height * .02,
                 ),
@@ -213,6 +272,7 @@ class _PersonalizeAddAddressScreenState extends State<PersonalizeAddAddressScree
                   borderRadius: 11,
                   onPressed: () {
                     if (formKey1.currentState!.validate()) {
+
                       sellingPickupAddressApi();
                     }
                     setState(() {});

@@ -1,6 +1,7 @@
 import 'dart:convert';
 import 'dart:developer';
 
+import 'package:dirise/iAmHereToSell/personalizeyourstoreScreen.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
@@ -192,20 +193,35 @@ class _ReturnnPolicyListState extends State<ReturnnPolicyList> {
                                       ),
                                       Row(
                                         children: [
-                                          Text("Edit",
-                                              style: GoogleFonts.poppins(
-                                                  fontSize: 18,
-                                                  fontWeight: FontWeight.w300,
-                                                  color: const Color(0xff014E70))),
+                                          InkWell(
+                                            onTap:(){
+                                              Get.to(ReturnPolicyScreens(
+                                                // daysItem: returnpolicy.days,
+                                                days: returnpolicy.days,
+                                                id: returnpolicy.id,
+                                                descController: returnpolicy.policyDiscreption,
+                                                // noReturn: returnpolicy.noReturn,
+                                                titleController: returnpolicy.title ,
+                                              ));
+
+                                            },
+                                            child: Text("Edit",
+                                                style: GoogleFonts.poppins(
+                                                    fontSize: 18,
+                                                    fontWeight: FontWeight.w300,
+                                                    color: const Color(0xff014E70))),
+                                          ),
                                           GestureDetector(
                                             onTap: (){
                                               repositories.postApi(url: ApiUrls.deleteReturnPolicy, context: context, mapData: {
-                                                'product_id': returnpolicy.id,
+                                                'id': returnpolicy.id,
                                               }).then((value) {
                                                 ModelCommonResponse modelCommonResponse = ModelCommonResponse.fromJson(jsonDecode(value));
                                                 showToast(modelCommonResponse.message.toString());
                                                 if (modelCommonResponse.status == true) {
-
+                                                    setState(() {
+                                                      Get.to(const PersonalizeyourstoreScreen());
+                                                    });
                                                 }
                                               });
                                             },
@@ -231,7 +247,8 @@ class _ReturnnPolicyListState extends State<ReturnnPolicyList> {
                   ),
                   GestureDetector(
                     onTap: () {
-                      Get.to(const ReturnPolicyScreens(
+                      Get.to(ReturnPolicyScreens(
+
 
                       ));
                     },
@@ -251,7 +268,9 @@ class _ReturnnPolicyListState extends State<ReturnnPolicyList> {
                     height: 25,
                   ),
                   ElevatedButton(
-                      onPressed: () {},
+                      onPressed: () {
+                        Get.to(const PersonalizeyourstoreScreen());
+                      },
                       style: ElevatedButton.styleFrom(
                           backgroundColor: const Color(0xffF5F2F2),
                           minimumSize: const Size(double.maxFinite, 60),
@@ -269,7 +288,9 @@ class _ReturnnPolicyListState extends State<ReturnnPolicyList> {
                     height: 15,
                   ),
                   ElevatedButton(
-                      onPressed: () {},
+                      onPressed: () {
+                        Get.to(const PersonalizeyourstoreScreen());
+                      },
                       style: ElevatedButton.styleFrom(
                           minimumSize: const Size(double.maxFinite, 60),
                           elevation: 0,

@@ -1,5 +1,6 @@
 import 'package:dirise/iAmHereToSell/securityDetailsScreen.dart';
 import 'package:dirise/iAmHereToSell/timeVerificationScreen.dart';
+import 'package:dirise/iAmHereToSell/vendoraccountcreatedsuccessfullyScreen.dart';
 import 'package:dirise/iAmHereToSell/verificationSelectDateScreen.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
@@ -32,7 +33,7 @@ class _VerificationOptionScreenState extends State<VerificationOptionScreen> {
       Get.to(VerificationTimeScreen());
     }
     else if (selectedRadio == 'skip') {
-      Get.to(SecurityDetailsScreen());
+      Get.to(VendorAccountCreatedSuccessfullyScreen());
     }else{
       showToast('Select type of product');
     }
@@ -345,6 +346,7 @@ class _VerificationOptionScreenState extends State<VerificationOptionScreen> {
                 ),
               ),
             ),
+            const SizedBox(height: 20,)
           ],
         ),
       ),
