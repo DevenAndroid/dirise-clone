@@ -1,6 +1,6 @@
 class ReviewAndPublishResponseModel {
   bool? status;
-  String? message;
+ dynamic message;
   ProductDetails? productDetails;
 
   ReviewAndPublishResponseModel(
@@ -58,16 +58,16 @@ class ProductDetails {
 }
 
 class Address {
-  int? userId;
-  Null? address;
-  Null? city;
-  Null? state;
-  Null? zipCode;
-  Null? town;
-  Null? instruction;
-  String? updatedAt;
-  String? createdAt;
-  int? id;
+  dynamic userId;
+  dynamic address;
+  dynamic city;
+  dynamic state;
+  dynamic zipCode;
+  dynamic town;
+  dynamic instruction;
+ dynamic updatedAt;
+ dynamic createdAt;
+  dynamic id;
 
   Address(
       {this.userId,
@@ -111,51 +111,51 @@ class Address {
 }
 
 class Product {
-  int? vendorId;
-  String? addressId;
-  Null? pname;
-  Null? productType;
-  String? itemType;
-  String? virtualProductType;
-  Null? skuId;
-  Null? catId;
-  Null? catId2;
-  int? pPrice;
-  int? sPrice;
-  Null? returnDays;
-  String? returnPolicyDesc;
-  Null? shortDescription;
-  Null? longDescription;
-  Null? inStock;
-  Null? weight;
-  Null? weightUnit;
-  String? time;
-  Null? timePeriod;
-  int? isPublish;
-  String? brandSlug;
-  String? taxApply;
-  String? taxType;
-  Null? stockAlert;
-  String? keyword;
-  Null? bookingProductType;
+  dynamic vendorId;
+ dynamic addressId;
+  dynamic pname;
+  dynamic productType;
+ dynamic itemType;
+ dynamic virtualProductType;
+  dynamic skuId;
+  dynamic catId;
+  dynamic catId2;
+  dynamic pPrice;
+  dynamic sPrice;
+  dynamic returnDays;
+ dynamic returnPolicyDesc;
+  dynamic shortDescription;
+  dynamic longDescription;
+  dynamic inStock;
+  dynamic weight;
+  dynamic weightUnit;
+ dynamic time;
+  dynamic timePeriod;
+  dynamic isPublish;
+ dynamic brandSlug;
+ dynamic taxApply;
+ dynamic taxType;
+  dynamic stockAlert;
+ dynamic keyword;
+  dynamic bookingProductType;
   dynamic deliverySize;
-  Null? serialNumber;
-  Null? productNumber;
-  Null? metaTitle;
-  Null? metaDescription;
-  String? jobseekingOrOffering;
-  String? jobType;
-  String? jobModel;
-  String? linkdinUrl;
-  String? experience;
-  String? salary;
-  String? jobHours;
-  Null? uploadCv;
-  String? jobCat;
-  String? describeJobRole;
-  String? updatedAt;
-  String? createdAt;
-  int? id;
+  dynamic serialNumber;
+  dynamic productNumber;
+  dynamic metaTitle;
+  dynamic metaDescription;
+ dynamic jobseekingOrOffering;
+ dynamic jobType;
+ dynamic jobModel;
+ dynamic linkdinUrl;
+ dynamic experience;
+ dynamic salary;
+ dynamic jobHours;
+  dynamic uploadCv;
+ dynamic jobCat;
+ dynamic describeJobRole;
+ dynamic updatedAt;
+ dynamic createdAt;
+  dynamic id;
 
   Product(
       {this.vendorId,
@@ -304,18 +304,18 @@ class Product {
 }
 
 class InternaionalShipping {
-  int? productId;
-  Null? weight;
-  Null? weightUnit;
-  Null? material;
-  Null? typeOfPackages;
-  Null? description;
-  Null? boxDimension;
-  Null? numberOfPackage;
-  Null? units;
-  String? updatedAt;
-  String? createdAt;
-  int? id;
+  dynamic productId;
+  dynamic weight;
+  dynamic weightUnit;
+  dynamic material;
+  dynamic typeOfPackages;
+  dynamic description;
+  dynamic boxDimension;
+  dynamic numberOfPackage;
+  dynamic units;
+ dynamic updatedAt;
+ dynamic createdAt;
+  dynamic id;
 
   InternaionalShipping(
       {this.productId,

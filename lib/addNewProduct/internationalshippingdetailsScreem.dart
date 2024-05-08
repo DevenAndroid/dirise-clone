@@ -43,7 +43,7 @@ class _InternationalshippingdetailsScreenState extends State<Internationalshippi
     'glass',
     'iron',
   ];
-
+  final formKey2 = GlobalKey<FormState>();
   String selectTypeOfPackaging   = 'fedex 10kg box';
   List<String> selectTypeOfPackagingList = [
     'fedex 10kg box',
@@ -111,262 +111,266 @@ class _InternationalshippingdetailsScreenState extends State<Internationalshippi
       body: SingleChildScrollView(
         child: Container(
           margin: const EdgeInsets.only(left: 15, right: 15),
-          child: Column(
-            mainAxisAlignment: MainAxisAlignment.start,
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              SizedBox(height: 40,),
-              Text(
-                'Int. Shipping details (Optional)'.tr,
-                style: GoogleFonts.poppins(color: const Color(0xff292F45), fontWeight: FontWeight.w500, fontSize: 18),
-              ),
-              const SizedBox(height: 5),
-              Text(
-                'This information will be used to calculate your shipment shipping price. You can skip it, however your shipment will be limited to local shipping.'.tr,
-                style: GoogleFonts.poppins(color: const Color(0xff292F45), fontWeight: FontWeight.w400, fontSize: 13),
-              ),
-              const SizedBox(height: 5),
-              Text(
-                'Unit of measure'.tr,
-                style: GoogleFonts.poppins(color: const Color(0xff292F45), fontWeight: FontWeight.w500, fontSize: 18),
-              ),
-              const SizedBox(height: 5),
-              DropdownButtonFormField<String>(
-                value: unitOfMeasure,
-                onChanged: (String? newValue) {
-                  setState(() {
-                    unitOfMeasure = newValue!;
-                  });
-                },
-                items: unitOfMeasureList.map<DropdownMenuItem<String>>((String value) {
-                  return DropdownMenuItem<String>(
-                    value: value,
-                    child: Text(value),
-                  );
-                }).toList(),
-                decoration: InputDecoration(
-                  border: InputBorder.none,
-                  filled: true,
-                  fillColor: const Color(0xffE2E2E2).withOpacity(.35),
-                  contentPadding: const EdgeInsets.symmetric(horizontal: 15, vertical: 10).copyWith(right: 8),
-                  focusedErrorBorder: const OutlineInputBorder(
-                      borderRadius: BorderRadius.all(Radius.circular(8)),
-                      borderSide: BorderSide(color: AppTheme.secondaryColor)),
-                  errorBorder: const OutlineInputBorder(
-                      borderRadius: BorderRadius.all(Radius.circular(8)),
-                      borderSide: BorderSide(color: Color(0xffE2E2E2))),
-                  focusedBorder: const OutlineInputBorder(
-                      borderRadius: BorderRadius.all(Radius.circular(8)),
-                      borderSide: BorderSide(color: AppTheme.secondaryColor)),
-                  disabledBorder: const OutlineInputBorder(
-                    borderRadius: BorderRadius.all(Radius.circular(8)),
-                    borderSide: BorderSide(color: AppTheme.secondaryColor),
-                  ),
-                  enabledBorder: const OutlineInputBorder(
-                    borderRadius: BorderRadius.all(Radius.circular(8)),
-                    borderSide: BorderSide(color: AppTheme.secondaryColor),
-                  ),
+          child: Form(
+          key: formKey2,
+            child: Column(
+              mainAxisAlignment: MainAxisAlignment.start,
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                SizedBox(height: 40,),
+                Text(
+                  'Int. Shipping details (Optional)'.tr,
+                  style: GoogleFonts.poppins(color: const Color(0xff292F45), fontWeight: FontWeight.w500, fontSize: 18),
                 ),
-                validator: (value) {
-                  if (value == null || value.isEmpty) {
-                    return 'Please select an item';
-                  }
-                  return null;
-                },
-              ),
-              const SizedBox(height: 15),
-              Text(
-                'Size & Weight'.tr,
-                style: GoogleFonts.poppins(color: const Color(0xff292F45), fontWeight: FontWeight.w500, fontSize: 18),
-              ),
-              const SizedBox(height: 5),
-              Text(
-                'Be as accurate as you can and always round up. Your shipping courier will always round up and charges you based on their weight.',
-                style: GoogleFonts.poppins(color: const Color(0xff292F45), fontWeight: FontWeight.w400, fontSize: 13),
-              ),
-              const SizedBox(height: 10),
-              CommonTextField(
-                  controller: weightController,
-                  obSecure: false,
-                  hintText: 'Weight Of the Item ',
-                  validator: MultiValidator([
-                    RequiredValidator(errorText: 'Product Name is required'.tr),
-                  ])),
-              DropdownButtonFormField<String>(
-                value: selectNumberOfPackages,
-                onChanged: (String? newValue) {
-                  setState(() {
-                    selectNumberOfPackages = newValue!;
-                  });
-                },
-                items: selectNumberOfPackagesList.map<DropdownMenuItem<String>>((String value) {
-                  return DropdownMenuItem<String>(
-                    value: value,
-                    child: Text(value),
-                  );
-                }).toList(),
-                decoration: InputDecoration(
-                  border: InputBorder.none,
-                  filled: true,
-                  fillColor: const Color(0xffE2E2E2).withOpacity(.35),
-                  contentPadding: const EdgeInsets.symmetric(horizontal: 15, vertical: 10).copyWith(right: 8),
-                  focusedErrorBorder: const OutlineInputBorder(
-                      borderRadius: BorderRadius.all(Radius.circular(8)),
-                      borderSide: BorderSide(color: AppTheme.secondaryColor)),
-                  errorBorder: const OutlineInputBorder(
-                      borderRadius: BorderRadius.all(Radius.circular(8)),
-                      borderSide: BorderSide(color: Color(0xffE2E2E2))),
-                  focusedBorder: const OutlineInputBorder(
-                      borderRadius: BorderRadius.all(Radius.circular(8)),
-                      borderSide: BorderSide(color: AppTheme.secondaryColor)),
-                  disabledBorder: const OutlineInputBorder(
-                    borderRadius: BorderRadius.all(Radius.circular(8)),
-                    borderSide: BorderSide(color: AppTheme.secondaryColor),
-                  ),
-                  enabledBorder: const OutlineInputBorder(
-                    borderRadius: BorderRadius.all(Radius.circular(8)),
-                    borderSide: BorderSide(color: AppTheme.secondaryColor),
-                  ),
+                const SizedBox(height: 5),
+                Text(
+                  'This information will be used to calculate your shipment shipping price. You can skip it, however your shipment will be limited to local shipping.'.tr,
+                  style: GoogleFonts.poppins(color: const Color(0xff292F45), fontWeight: FontWeight.w400, fontSize: 13),
                 ),
-                validator: (value) {
-                  if (value == null || value.isEmpty) {
-                    return 'Please select an item';
-                  }
-                  return null;
-                },
-              ),
-              const SizedBox(height: 10),
-              DropdownButtonFormField<String>(
-                value: selectTypeMaterial,
-                onChanged: (String? newValue) {
-                  setState(() {
-                    selectTypeMaterial = newValue!;
-                  });
-                },
-                items: selectTypeMaterialList.map<DropdownMenuItem<String>>((String value) {
-                  return DropdownMenuItem<String>(
-                    value: value,
-                    child: Text(value),
-                  );
-                }).toList(),
-                decoration: InputDecoration(
-                  border: InputBorder.none,
-                  filled: true,
-                  fillColor: const Color(0xffE2E2E2).withOpacity(.35),
-                  contentPadding: const EdgeInsets.symmetric(horizontal: 15, vertical: 10).copyWith(right: 8),
-                  focusedErrorBorder: const OutlineInputBorder(
-                      borderRadius: BorderRadius.all(Radius.circular(8)),
-                      borderSide: BorderSide(color: AppTheme.secondaryColor)),
-                  errorBorder: const OutlineInputBorder(
-                      borderRadius: BorderRadius.all(Radius.circular(8)),
-                      borderSide: BorderSide(color: Color(0xffE2E2E2))),
-                  focusedBorder: const OutlineInputBorder(
-                      borderRadius: BorderRadius.all(Radius.circular(8)),
-                      borderSide: BorderSide(color: AppTheme.secondaryColor)),
-                  disabledBorder: const OutlineInputBorder(
-                    borderRadius: BorderRadius.all(Radius.circular(8)),
-                    borderSide: BorderSide(color: AppTheme.secondaryColor),
-                  ),
-                  enabledBorder: const OutlineInputBorder(
-                    borderRadius: BorderRadius.all(Radius.circular(8)),
-                    borderSide: BorderSide(color: AppTheme.secondaryColor),
-                  ),
+                const SizedBox(height: 5),
+                Text(
+                  'Unit of measure'.tr,
+                  style: GoogleFonts.poppins(color: const Color(0xff292F45), fontWeight: FontWeight.w500, fontSize: 18),
                 ),
-                validator: (value) {
-                  if (value == null || value.isEmpty) {
-                    return 'Please select an item';
-                  }
-                  return null;
-                },
-              ),
-              const SizedBox(height: 10),
-              CommonTextField(
-                  controller: dimensionController,
-                  obSecure: false,
-                  hintText: 'Length X Width X Height ',
-                  validator: MultiValidator([
-                    RequiredValidator(errorText: 'Product Name is required'.tr),
-                  ])),
-              DropdownButtonFormField<String>(
-                value: selectTypeOfPackaging,
-                onChanged: (String? newValue) {
-                  setState(() {
-                    selectTypeOfPackaging = newValue!;
-                  });
-                },
-                items: selectTypeOfPackagingList.map<DropdownMenuItem<String>>((String value) {
-                  return DropdownMenuItem<String>(
-                    value: value,
-                    child: Text(value),
-                  );
-                }).toList(),
-                decoration: InputDecoration(
-                  border: InputBorder.none,
-                  filled: true,
-                  fillColor: const Color(0xffE2E2E2).withOpacity(.35),
-                  contentPadding: const EdgeInsets.symmetric(horizontal: 15, vertical: 10).copyWith(right: 8),
-                  focusedErrorBorder: const OutlineInputBorder(
+                const SizedBox(height: 5),
+                DropdownButtonFormField<String>(
+                  value: unitOfMeasure,
+                  onChanged: (String? newValue) {
+                    setState(() {
+                      unitOfMeasure = newValue!;
+                    });
+                  },
+                  items: unitOfMeasureList.map<DropdownMenuItem<String>>((String value) {
+                    return DropdownMenuItem<String>(
+                      value: value,
+                      child: Text(value),
+                    );
+                  }).toList(),
+                  decoration: InputDecoration(
+                    border: InputBorder.none,
+                    filled: true,
+                    fillColor: const Color(0xffE2E2E2).withOpacity(.35),
+                    contentPadding: const EdgeInsets.symmetric(horizontal: 15, vertical: 10).copyWith(right: 8),
+                    focusedErrorBorder: const OutlineInputBorder(
+                        borderRadius: BorderRadius.all(Radius.circular(8)),
+                        borderSide: BorderSide(color: AppTheme.secondaryColor)),
+                    errorBorder: const OutlineInputBorder(
+                        borderRadius: BorderRadius.all(Radius.circular(8)),
+                        borderSide: BorderSide(color: Color(0xffE2E2E2))),
+                    focusedBorder: const OutlineInputBorder(
+                        borderRadius: BorderRadius.all(Radius.circular(8)),
+                        borderSide: BorderSide(color: AppTheme.secondaryColor)),
+                    disabledBorder: const OutlineInputBorder(
                       borderRadius: BorderRadius.all(Radius.circular(8)),
-                      borderSide: BorderSide(color: AppTheme.secondaryColor)),
-                  errorBorder: const OutlineInputBorder(
-                      borderRadius: BorderRadius.all(Radius.circular(8)),
-                      borderSide: BorderSide(color: Color(0xffE2E2E2))),
-                  focusedBorder: const OutlineInputBorder(
-                      borderRadius: BorderRadius.all(Radius.circular(8)),
-                      borderSide: BorderSide(color: AppTheme.secondaryColor)),
-                  disabledBorder: const OutlineInputBorder(
-                    borderRadius: BorderRadius.all(Radius.circular(8)),
-                    borderSide: BorderSide(color: AppTheme.secondaryColor),
-                  ),
-                  enabledBorder: const OutlineInputBorder(
-                    borderRadius: BorderRadius.all(Radius.circular(8)),
-                    borderSide: BorderSide(color: AppTheme.secondaryColor),
-                  ),
-                ),
-                validator: (value) {
-                  if (value == null || value.isEmpty) {
-                    return 'Please select an item';
-                  }
-                  return null;
-                },
-              ),
-              const SizedBox(height: 10),
-              CustomOutlineButton(
-                title: 'Confirm',
-                borderRadius: 11,
-                onPressed: () {
-                  shippingDetailsApi();
-                },
-              ),
-              const SizedBox(height: 20),
-              GestureDetector(
-                onTap: (){
-                  shippingDetailsApi();
-                },
-                child: Container(
-                  width: Get.width,
-                  height: 55,
-                  decoration: BoxDecoration(
-                    border: Border.all(
-                      color: Colors.black, // Border color
-                      width: 1.0, // Border width
+                      borderSide: BorderSide(color: AppTheme.secondaryColor),
                     ),
-                    borderRadius: BorderRadius.circular(10), // Border radius
+                    enabledBorder: const OutlineInputBorder(
+                      borderRadius: BorderRadius.all(Radius.circular(8)),
+                      borderSide: BorderSide(color: AppTheme.secondaryColor),
+                    ),
                   ),
-                  padding: const EdgeInsets.all(10), // Padding inside the container
-                  child: const Center(
-                    child: Text(
-                      'Skip',
-                      style: TextStyle(
-                        fontSize: 16,
-                        fontWeight: FontWeight.bold,
-                        color: Colors.black, // Text color
+                  validator: (value) {
+                    if (value == null || value.isEmpty) {
+                      return 'Please select an item';
+                    }
+                    return null;
+                  },
+                ),
+                const SizedBox(height: 15),
+                Text(
+                  'Size & Weight'.tr,
+                  style: GoogleFonts.poppins(color: const Color(0xff292F45), fontWeight: FontWeight.w500, fontSize: 18),
+                ),
+                const SizedBox(height: 5),
+                Text(
+                  'Be as accurate as you can and always round up. Your shipping courier will always round up and charges you based on their weight.',
+                  style: GoogleFonts.poppins(color: const Color(0xff292F45), fontWeight: FontWeight.w400, fontSize: 13),
+                ),
+                const SizedBox(height: 10),
+                CommonTextField(
+                    controller: weightController,
+                    obSecure: false,
+                    hintText: 'Weight Of the Item ',
+                    validator: MultiValidator([
+                      RequiredValidator(errorText: 'Product Name is required'.tr),
+                    ])),
+                DropdownButtonFormField<String>(
+                  value: selectNumberOfPackages,
+                  onChanged: (String? newValue) {
+                    setState(() {
+                      selectNumberOfPackages = newValue!;
+                    });
+                  },
+                  items: selectNumberOfPackagesList.map<DropdownMenuItem<String>>((String value) {
+                    return DropdownMenuItem<String>(
+                      value: value,
+                      child: Text(value),
+                    );
+                  }).toList(),
+                  decoration: InputDecoration(
+                    border: InputBorder.none,
+                    filled: true,
+                    fillColor: const Color(0xffE2E2E2).withOpacity(.35),
+                    contentPadding: const EdgeInsets.symmetric(horizontal: 15, vertical: 10).copyWith(right: 8),
+                    focusedErrorBorder: const OutlineInputBorder(
+                        borderRadius: BorderRadius.all(Radius.circular(8)),
+                        borderSide: BorderSide(color: AppTheme.secondaryColor)),
+                    errorBorder: const OutlineInputBorder(
+                        borderRadius: BorderRadius.all(Radius.circular(8)),
+                        borderSide: BorderSide(color: Color(0xffE2E2E2))),
+                    focusedBorder: const OutlineInputBorder(
+                        borderRadius: BorderRadius.all(Radius.circular(8)),
+                        borderSide: BorderSide(color: AppTheme.secondaryColor)),
+                    disabledBorder: const OutlineInputBorder(
+                      borderRadius: BorderRadius.all(Radius.circular(8)),
+                      borderSide: BorderSide(color: AppTheme.secondaryColor),
+                    ),
+                    enabledBorder: const OutlineInputBorder(
+                      borderRadius: BorderRadius.all(Radius.circular(8)),
+                      borderSide: BorderSide(color: AppTheme.secondaryColor),
+                    ),
+                  ),
+                  validator: (value) {
+                    if (value == null || value.isEmpty) {
+                      return 'Please select an item';
+                    }
+                    return null;
+                  },
+                ),
+                const SizedBox(height: 10),
+                DropdownButtonFormField<String>(
+                  value: selectTypeMaterial,
+                  onChanged: (String? newValue) {
+                    setState(() {
+                      selectTypeMaterial = newValue!;
+                    });
+                  },
+                  items: selectTypeMaterialList.map<DropdownMenuItem<String>>((String value) {
+                    return DropdownMenuItem<String>(
+                      value: value,
+                      child: Text(value),
+                    );
+                  }).toList(),
+                  decoration: InputDecoration(
+                    border: InputBorder.none,
+                    filled: true,
+                    fillColor: const Color(0xffE2E2E2).withOpacity(.35),
+                    contentPadding: const EdgeInsets.symmetric(horizontal: 15, vertical: 10).copyWith(right: 8),
+                    focusedErrorBorder: const OutlineInputBorder(
+                        borderRadius: BorderRadius.all(Radius.circular(8)),
+                        borderSide: BorderSide(color: AppTheme.secondaryColor)),
+                    errorBorder: const OutlineInputBorder(
+                        borderRadius: BorderRadius.all(Radius.circular(8)),
+                        borderSide: BorderSide(color: Color(0xffE2E2E2))),
+                    focusedBorder: const OutlineInputBorder(
+                        borderRadius: BorderRadius.all(Radius.circular(8)),
+                        borderSide: BorderSide(color: AppTheme.secondaryColor)),
+                    disabledBorder: const OutlineInputBorder(
+                      borderRadius: BorderRadius.all(Radius.circular(8)),
+                      borderSide: BorderSide(color: AppTheme.secondaryColor),
+                    ),
+                    enabledBorder: const OutlineInputBorder(
+                      borderRadius: BorderRadius.all(Radius.circular(8)),
+                      borderSide: BorderSide(color: AppTheme.secondaryColor),
+                    ),
+                  ),
+                  validator: (value) {
+                    if (value == null || value.isEmpty) {
+                      return 'Please select an item';
+                    }
+                    return null;
+                  },
+                ),
+                const SizedBox(height: 10),
+                CommonTextField(
+                    controller: dimensionController,
+                    obSecure: false,
+                    hintText: 'Length X Width X Height ',
+                    validator: MultiValidator([
+                      RequiredValidator(errorText: 'Product Name is required'.tr),
+                    ])),
+                DropdownButtonFormField<String>(
+                  value: selectTypeOfPackaging,
+                  onChanged: (String? newValue) {
+                    setState(() {
+                      selectTypeOfPackaging = newValue!;
+                    });
+                  },
+                  items: selectTypeOfPackagingList.map<DropdownMenuItem<String>>((String value) {
+                    return DropdownMenuItem<String>(
+                      value: value,
+                      child: Text(value),
+                    );
+                  }).toList(),
+                  decoration: InputDecoration(
+                    border: InputBorder.none,
+                    filled: true,
+                    fillColor: const Color(0xffE2E2E2).withOpacity(.35),
+                    contentPadding: const EdgeInsets.symmetric(horizontal: 15, vertical: 10).copyWith(right: 8),
+                    focusedErrorBorder: const OutlineInputBorder(
+                        borderRadius: BorderRadius.all(Radius.circular(8)),
+                        borderSide: BorderSide(color: AppTheme.secondaryColor)),
+                    errorBorder: const OutlineInputBorder(
+                        borderRadius: BorderRadius.all(Radius.circular(8)),
+                        borderSide: BorderSide(color: Color(0xffE2E2E2))),
+                    focusedBorder: const OutlineInputBorder(
+                        borderRadius: BorderRadius.all(Radius.circular(8)),
+                        borderSide: BorderSide(color: AppTheme.secondaryColor)),
+                    disabledBorder: const OutlineInputBorder(
+                      borderRadius: BorderRadius.all(Radius.circular(8)),
+                      borderSide: BorderSide(color: AppTheme.secondaryColor),
+                    ),
+                    enabledBorder: const OutlineInputBorder(
+                      borderRadius: BorderRadius.all(Radius.circular(8)),
+                      borderSide: BorderSide(color: AppTheme.secondaryColor),
+                    ),
+                  ),
+                  validator: (value) {
+                    if (value == null || value.isEmpty) {
+                      return 'Please select an item';
+                    }
+                    return null;
+                  },
+                ),
+                const SizedBox(height: 10),
+                CustomOutlineButton(
+                  title: 'Confirm',
+                  borderRadius: 11,
+                  onPressed: () {
+                if (formKey2.currentState!.validate()) {
+                    shippingDetailsApi();}
+                  },
+                ),
+                const SizedBox(height: 20),
+                GestureDetector(
+                  onTap: (){
+                    shippingDetailsApi();
+                  },
+                  child: Container(
+                    width: Get.width,
+                    height: 55,
+                    decoration: BoxDecoration(
+                      border: Border.all(
+                        color: Colors.black, // Border color
+                        width: 1.0, // Border width
+                      ),
+                      borderRadius: BorderRadius.circular(10), // Border radius
+                    ),
+                    padding: const EdgeInsets.all(10), // Padding inside the container
+                    child: const Center(
+                      child: Text(
+                        'Skip',
+                        style: TextStyle(
+                          fontSize: 16,
+                          fontWeight: FontWeight.bold,
+                          color: Colors.black, // Text color
+                        ),
                       ),
                     ),
                   ),
                 ),
-              ),
-            ],
+              ],
+            ),
           ),
         ),
       ),

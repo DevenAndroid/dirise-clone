@@ -388,7 +388,20 @@ RxString id = "".obs;
                 title: 'Confirm',
                 borderRadius: 11,
                 onPressed: () {
-                  deliverySizeApi();
+    if( ProductNameController.text.trim().isEmpty){
+    showToast("Please enter product name");
+    }
+    else if(  categoryName.value == ""){
+    showToast("Please Select Vendor Category");
+    }
+    else if(  productName.value == ""){
+    showToast("Please Select  Product Category");
+    }
+    else if(  subName.value == ""){
+    showToast("Please Select Sub Product Category");
+    }
+    else {
+                  deliverySizeApi();}
 
                 },
               ),
