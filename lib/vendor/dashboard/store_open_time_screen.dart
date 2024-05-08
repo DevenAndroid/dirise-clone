@@ -52,10 +52,10 @@ class _SetTimeScreenState extends State<SetTimeScreen> {
       end.add(value.endTime
           .toString()
           .normalTime);
-      start_break_time.add(value.startTime
+      start_break_time.add(value.startBreakTime
           .toString()
           .normalTime);
-      end_break_time.add(value.endTime
+      end_break_time.add(value.endBreakTime
           .toString()
           .normalTime);
       status.add(value.status == true ? "1" : "0");
@@ -303,12 +303,28 @@ class _SetTimeScreenState extends State<SetTimeScreen> {
                                 flex: 2,
                                 child: GestureDetector(
                                   onTap: () {
-                                    // Handle break start time selection
+                                    if ((e.status ?? false) == false) return;
+                                    _showDialog(
+                                      CupertinoTimerPicker(
+                                        mode: CupertinoTimerPickerMode.hm,
+                                        initialTimerDuration: e.startBreakTime.toString().durationTime,
+                                        onTimerDurationChanged: (Duration newDuration) {
+                                          makeDelay(nowPerform: (bool v) {
+                                            String hour =
+                                                "${newDuration.inHours < 10 ? "0${newDuration.inHours}" : newDuration.inHours}";
+                                            int minute = newDuration.inMinutes % 60;
+                                            String inMinute = "${minute < 10 ? "0$minute" : minute}";
+                                            e.startBreakTime = "$hour:$inMinute";
+                                            setState(() {});
+                                          });
+                                        },
+                                      ),
+                                    );
                                   },
                                   child: Row(
                                     children: [
                                       Text(
-                                        '10:00', // Example break start time
+                                        e.startBreakTime.toString().normalTime,
                                         style: GoogleFonts.poppins(
                                           fontWeight: FontWeight.w500,
                                           fontSize: 15,
@@ -334,12 +350,28 @@ class _SetTimeScreenState extends State<SetTimeScreen> {
                                 flex: 2,
                                 child: GestureDetector(
                                   onTap: () {
-                                    // Handle break end time selection
+                                    if ((e.status ?? false) == false) return;
+                                    _showDialog(
+                                      CupertinoTimerPicker(
+                                        mode: CupertinoTimerPickerMode.hm,
+                                        initialTimerDuration: e.endBreakTime.toString().durationTime,
+                                        onTimerDurationChanged: (Duration newDuration) {
+                                          makeDelay(nowPerform: (bool v) {
+                                            String hour =
+                                                "${newDuration.inHours < 10 ? "0${newDuration.inHours}" : newDuration.inHours}";
+                                            int minute = newDuration.inMinutes % 60;
+                                            String inMinute = "${minute < 10 ? "0$minute" : minute}";
+                                            e.endBreakTime = "$hour:$inMinute";
+                                            setState(() {});
+                                          });
+                                        },
+                                      ),
+                                    );
                                   },
                                   child: Row(
                                     children: [
                                       Text(
-                                        '11:00', // Example break end time
+                                        e.endBreakTime.toString().normalTime,
                                         style: GoogleFonts.poppins(
                                           fontWeight: FontWeight.w500,
                                           fontSize: 15,
@@ -353,6 +385,7 @@ class _SetTimeScreenState extends State<SetTimeScreen> {
                               ),
                             ],
                           ),
+
                           addHeight(15),
                         ],
                       ),

@@ -1,9 +1,7 @@
 import 'dart:convert';
 import 'package:dirise/addNewProduct/pickUpAddressScreen.dart';
 import 'package:dirise/controller/vendor_controllers/add_product_controller.dart';
-import 'package:dirise/singleproductScreen/singleProductPriceScreen.dart';
 import 'package:flutter/cupertino.dart';
-import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:form_field_validator/form_field_validator.dart';
 import 'package:get/get.dart';
@@ -19,7 +17,6 @@ import '../model/vendor_models/vendor_category_model.dart';
 import '../repository/repository.dart';
 import '../utils/api_constant.dart';
 import '../widgets/common_button.dart';
-import '../widgets/common_colour.dart';
 import '../widgets/common_textfield.dart';
 
 class ItemDetailsScreens extends StatefulWidget {
