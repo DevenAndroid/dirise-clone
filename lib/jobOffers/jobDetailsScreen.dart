@@ -8,6 +8,7 @@ import 'package:form_field_validator/form_field_validator.dart';
 import 'package:get/get.dart';
 import 'package:google_fonts/google_fonts.dart';
 
+import '../controller/vendor_controllers/add_product_controller.dart';
 import '../controller/vendor_controllers/vendor_profile_controller.dart';
 import '../model/common_modal.dart';
 import '../model/jobResponceModel.dart';
@@ -90,6 +91,7 @@ class _JobDetailsScreenState extends State<JobDetailsScreen> {
   TextEditingController experienceController = TextEditingController();
   TextEditingController salaryController = TextEditingController();
   final formKey1 = GlobalKey<FormState>();
+  final addProductController = Get.put(AddProductController());
 
   Map<String, File> picture = {};
 
@@ -104,6 +106,8 @@ class _JobDetailsScreenState extends State<JobDetailsScreen> {
     map["experience"] = experienceController.text;
     map["salary"] = salaryController.text;
     map["item_type"] = 'job';
+    map['id'] = addProductController.idProduct.value.toString();
+
 
     repositories
         .multiPartApi(
@@ -484,6 +488,7 @@ class _JobDetailsScreenState extends State<JobDetailsScreen> {
                     }
                   },
                 ),
+                SizedBox(height: 20,),
               ],
             ),
           ),

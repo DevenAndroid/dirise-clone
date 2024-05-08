@@ -85,7 +85,7 @@ class _AddProductFirstImageScreenState extends State<AddProductFirstImageScreen>
               const SizedBox(height: 20,),
               ImageWidget(
                 // key: paymentReceiptCertificateKey,
-                title: "Click To Edit Uploaded  Image".tr,
+                title: "Click To Edit Uploaded Gallery  Image".tr,
                 file: galleryImage,
                 validation: checkValidation(showValidation.value, galleryImage.path.isEmpty),
                 filePicked: (File g) {

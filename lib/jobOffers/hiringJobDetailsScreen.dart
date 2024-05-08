@@ -8,6 +8,7 @@ import 'package:flutter/material.dart';
 import 'package:form_field_validator/form_field_validator.dart';
 import 'package:get/get.dart';
 import 'package:google_fonts/google_fonts.dart';
+import '../controller/vendor_controllers/add_product_controller.dart';
 import '../controller/vendor_controllers/vendor_profile_controller.dart';
 import '../model/common_modal.dart';
 import '../model/jobResponceModel.dart';
@@ -77,7 +78,7 @@ class _HiringJobDetailsScreenState extends State<HiringJobDetailsScreen> {
   TextEditingController experienceController = TextEditingController();
   TextEditingController salaryController = TextEditingController();
   TextEditingController hoursperweekController = TextEditingController();
-
+  final addProductController = Get.put(AddProductController());
 
   void updateProfile() {
     Map<String, String> map = {};
@@ -89,6 +90,7 @@ class _HiringJobDetailsScreenState extends State<HiringJobDetailsScreen> {
     map["salary"] = salaryController.text;
     map["job_hours"] = hoursperweekController.text;
     map["item_type"] = 'job';
+    map['id'] = addProductController.idProduct.value.toString();
 
     repositories.postApi(url: ApiUrls.giveawayProductAddress, context: context, mapData: map).then((value) {
       JobResponceModel response = JobResponceModel.fromJson(jsonDecode(value));
@@ -526,6 +528,7 @@ class _HiringJobDetailsScreenState extends State<HiringJobDetailsScreen> {
 
                     },
                   ),
+                  SizedBox(height: 20,),
                 ],
               ),
             ),

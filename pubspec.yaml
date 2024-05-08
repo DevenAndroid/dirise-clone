@@ -75,6 +75,7 @@ dependencies:
   intl_phone_field: ^3.2.0
   easy_image_viewer: ^1.4.1
   pdf: ^3.10.8
+  multiple_images_picker: ^1.0.1
 dev_dependencies:
   flutter_test:
     sdk: flutter
