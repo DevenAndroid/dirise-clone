@@ -89,6 +89,7 @@ class ApiUrls {
   static const String deleteProductUrl= "${baseUrl}delete-product";
   static const String deleteReturnPolicy= "${baseUrl}remove-return-policy";
   static const String returnPolicyUrl= "${baseUrl}return-policy";
+  static const String stateList= "${baseUrl}all-states";
   static const String productCategoriesListUrl = "${baseUrl}categries";
   static const String categoryListUrl = "${baseUrl}categories-list?category_id=";
   static const String categoryFilterUrl = "${baseUrl}category-filter";
