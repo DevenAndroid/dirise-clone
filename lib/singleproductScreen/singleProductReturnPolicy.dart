@@ -1,5 +1,7 @@
 import 'dart:convert';
 
+import 'package:dirise/model/returnPolicyModel.dart';
+
 import 'package:dirise/singleproductScreen/singleproductDeliverySize.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/foundation.dart';
@@ -26,23 +28,25 @@ class SingleProductReturnPolicy extends StatefulWidget {
 
 class _SingleProductReturnPolicyState extends State<SingleProductReturnPolicy> {
   ModelVendorCategory modelVendorCategory = ModelVendorCategory(usphone: []);
+  ReturnPolicyModel policyModel = ReturnPolicyModel(returnPolicy: []);
   Rx<RxStatus> vendorCategoryStatus = RxStatus.empty().obs;
   final GlobalKey categoryKey = GlobalKey();
   final GlobalKey subcategoryKey = GlobalKey();
   final GlobalKey productsubcategoryKey = GlobalKey();
   Map<String, VendorCategoriesData> allSelectedCategory = {};
+  Map<String, ReturnPolicy> allSelectedCategory1 = {};
 
   final Repositories repositories = Repositories();
   VendorUser get vendorInfo => vendorProfileController.model.user!;
   final vendorProfileController = Get.put(VendorProfileController());
   void getVendorCategories() {
     vendorCategoryStatus.value = RxStatus.loading();
-    repositories.getApi(url: ApiUrls.vendorCategoryListUrl, showResponse: false).then((value) {
-      modelVendorCategory = ModelVendorCategory.fromJson(jsonDecode(value));
+    repositories.getApi(url: ApiUrls.returnPolicyUrl, showResponse: false).then((value) {
+      policyModel = ReturnPolicyModel.fromJson(jsonDecode(value));
       vendorCategoryStatus.value = RxStatus.success();
 
-      for (var element in vendorInfo.vendorCategory!) {
-        allSelectedCategory[element.id.toString()] = VendorCategoriesData.fromJson(element.toJson());
+      for (var element in policyModel.returnPolicy!) {
+        allSelectedCategory1[element.id.toString()] = ReturnPolicy.fromJson(element.toJson());
       }
       setState(() {});
     }).catchError((e) {
@@ -111,11 +115,11 @@ class _SingleProductReturnPolicyState extends State<SingleProductReturnPolicy> {
               ),
               Obx(() {
                 if (kDebugMode) {
-                  print(modelVendorCategory.usphone!
-                      .map((e) => DropdownMenuItem(value: e, child: Text(e.name.toString().capitalize!)))
+                  print(policyModel.returnPolicy!
+                      .map((e) => DropdownMenuItem(value: e, child: Text(e.title.toString().capitalize!)))
                       .toList());
                 }
-                return DropdownButtonFormField<VendorCategoriesData>(
+                return DropdownButtonFormField<ReturnPolicy>(
                   key: categoryKey,
                   autovalidateMode: AutovalidateMode.onUserInteraction,
                   icon: vendorCategoryStatus.value.isLoading
@@ -149,20 +153,27 @@ class _SingleProductReturnPolicyState extends State<SingleProductReturnPolicy> {
                       borderSide: BorderSide(color: AppTheme.secondaryColor),
                     ),
                   ),
-                  items: modelVendorCategory.usphone!
-                      .map((e) => DropdownMenuItem(value: e, child: Text(e.name.toString().capitalize!)))
-                      .toList(),
+                  items:
+
+                  policyModel.returnPolicy!
+                    .map((e) =>
+                      DropdownMenuItem(value: e, child:
+
+                  Text(
+
+                      e.title.toString().capitalize!))
+                  ).toList(),
                   hint: Text('Search category to choose'.tr),
                   onChanged: (value) {
                     // selectedCategory = value;
 
-                    if (value == null) return;
-                    if (allSelectedCategory.isNotEmpty) return;
-                    allSelectedCategory[value.id.toString()] = value;
+                     if (value == null) return;
+                     if (allSelectedCategory1.isNotEmpty) return;
+                     allSelectedCategory1[value.id.toString()] = value;
                     setState(() {});
                   },
                   validator: (value) {
-                    if (allSelectedCategory.isEmpty) {
+                    if (allSelectedCategory1.isEmpty) {
                       return "Please select Category".tr;
                     }
                     return null;

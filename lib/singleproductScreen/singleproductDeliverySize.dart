@@ -21,11 +21,16 @@ class SingleProductDeliverySize extends StatefulWidget {
 }
 
 class _SingleProductDeliverySizeState extends State<SingleProductDeliverySize> {
-  int? selectedRadio; // Variable to track the selected radio button
+  int? selectedRadio;
+  int? selectedRadio1;
+  String selectText = '';
+  String selectText1 = '';
 
-  deliverySizeApi(String deliverySize) {
+  deliverySizeApi() {
     Map<String, dynamic> map = {};
-    map['delivery_size'] = deliverySize;
+    map['delivery_size'] = selectText1;
+    map['shipping_pay'] = selectText;
+    map['item_type'] = "product";
 
     final Repositories repositories = Repositories();
     FocusManager.instance.primaryFocus!.unfocus();
@@ -34,7 +39,7 @@ class _SingleProductDeliverySizeState extends State<SingleProductDeliverySize> {
       print('API Response Status Code: ${response.status}');
       showToast(response.message.toString());
       if (response.status == true) {
-        Get.to(const InternationalshippingdetailsScreen());
+        Get.to(const SinglePInternationalshippingdetailsScreen());
       }
     });
   }
@@ -91,15 +96,15 @@ class _SingleProductDeliverySizeState extends State<SingleProductDeliverySize> {
                 'Choose Delivery According To Package Size'.tr,
                 style: GoogleFonts.poppins(color: Colors.black, fontWeight: FontWeight.w600, fontSize: 13),
               ),
-              buildRadioTile('Fits in small car'.tr, 3), // Radio button for freight cargo
+              buildRadioTile1('Fits in small car'.tr, 3), // Radio button for freight cargo
               const SizedBox(
                 height: 15,
               ),
-              buildRadioTile('Need Truck'.tr, 2), // Radio button for need truck
+              buildRadioTile1('Need Truck'.tr, 4), // Radio button for need truck
               const SizedBox(
                 height: 15,
               ),
-              buildRadioTile('Freight & Cargo'.tr, 3), //
+              buildRadioTile1('Freight & Cargo'.tr, 5), //
               const SizedBox(
                 height: 15,
               ),// Radio button for freight cargo
@@ -117,7 +122,13 @@ class _SingleProductDeliverySizeState extends State<SingleProductDeliverySize> {
                 title: 'Next',
                 borderRadius: 11,
                 onPressed: () {
-Get.to(const SinglePInternationalshippingdetailsScreen());
+                     if(selectText != '' && selectText1 != '' ){
+                       deliverySizeApi();
+
+                     }else{
+                       showToastCenter('Please Select shipping type & pacakge');
+                     }
+
                   // Call API based on the selected radio button
                   // if (selectedRadio == 1) {
                   //   deliverySizeApi('small_car');
@@ -154,6 +165,36 @@ Get.to(const SinglePInternationalshippingdetailsScreen());
             onChanged: (int? newValue) {
               setState(() {
                 selectedRadio = newValue;
+                selectText = title;
+                print('dsdaaad${title.toString()}');
+                print('dsdaaad${selectText.toString()}');
+              });
+            },
+          ),
+        ],
+      ),
+    );
+  }
+  Widget buildRadioTile1(String title, int value) {
+    return Container(
+      padding: const EdgeInsets.all(15),
+      decoration: BoxDecoration(borderRadius: BorderRadius.circular(11), color: Colors.grey.shade100),
+      child: Row(
+        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+        crossAxisAlignment: CrossAxisAlignment.center,
+        children: [
+          Text(
+            title,
+            style: GoogleFonts.poppins(color: Colors.black, fontWeight: FontWeight.w400, fontSize: 18),
+          ),
+          Radio(
+            value: value,
+            groupValue: selectedRadio1,
+            onChanged: (int? newValue) {
+              setState(() {
+                selectedRadio1 = newValue;
+                selectText1 = title;
+                 print('dsdaaad${selectText1.toString()}');
               });
             },
           ),

@@ -1,7 +1,7 @@
 class ReturnPolicyModel {
   bool? status;
   String? message;
-  List<ReturnPolicy>? returnPolicy;
+  List<ReturnPolicy>? returnPolicy = [];
 
   ReturnPolicyModel({this.status, this.message, this.returnPolicy});
 
@@ -13,6 +13,9 @@ class ReturnPolicyModel {
       json['return_policy'].forEach((v) {
         returnPolicy!.add(new ReturnPolicy.fromJson(v));
       });
+    }
+    else {
+      returnPolicy = [];
     }
   }
 
