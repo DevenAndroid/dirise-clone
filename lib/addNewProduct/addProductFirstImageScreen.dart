@@ -7,6 +7,7 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
 import '../controller/profile_controller.dart';
+import '../controller/vendor_controllers/add_product_controller.dart';
 import '../model/common_modal.dart';
 import '../model/jobResponceModel.dart';
 import '../repository/repository.dart';
@@ -35,7 +36,7 @@ class _AddProductFirstImageScreenState extends State<AddProductFirstImageScreen>
     }
   }
    int productID = 0;
-
+  final addProductController = Get.put(AddProductController());
   Map<String, File> images = {};
   void addProduct() {
     Map<String, String> map = {};
@@ -54,8 +55,8 @@ class _AddProductFirstImageScreenState extends State<AddProductFirstImageScreen>
         })
         .then((value) {
       JobResponceModel response = JobResponceModel.fromJson(jsonDecode(value));
-       productID = response.productDetails!.product!.id!;
-       profileController.productID = productID;
+      addProductController.idProduct.value = response.productDetails!.product!.id.toString();
+       // profileController.productID = productID;
        Get.to(const MyItemISScreen());
       showToast('Add Product Image successfully');
     });

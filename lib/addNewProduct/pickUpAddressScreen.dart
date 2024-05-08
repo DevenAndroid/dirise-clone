@@ -63,13 +63,13 @@ class _AddProductPickUpAddressScreenState extends State<AddProductPickUpAddressS
         widget.state != null &&
         widget.zipcode != null &&
         widget.town != null) {
-      map['city'] = widget.city;
+      map['city'] = cityController.text.trim();
       map['item_type'] = 'giveaway';
-      map['state'] = widget.state;
-      map['zip_code'] = widget.zipcode;
-      map['town'] = widget.town;
+      map['state'] =  stateController.text.trim();
+      map['zip_code'] = zipcodeController.text.trim();
+      map['town'] = townController.text.trim();
       map['id'] = addProductController.idProduct.value.toString();
-      map['street'] = widget.street;
+      map['street'] =  streetController.text.trim();
       map['special_instruction'] = specialInstructionController.text.trim();
     } else {
       map['city'] = cityController.text.trim();

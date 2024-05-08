@@ -213,7 +213,7 @@ class _OptionalScreenState extends State<OptionalScreen> {
                   ),
                 ),
                 CommonTextField(
-                    // controller: _referralEmailController,
+                    controller: metaTitleController,
                     obSecure: false,
                     hintText: 'Meta Title'.tr,
                     validator: (value) {
@@ -225,6 +225,7 @@ class _OptionalScreenState extends State<OptionalScreen> {
                     ),
                 TextFormField(
                   maxLines: 2,
+                  controller: metaDescriptionController,
                   minLines: 2,
                   validator: (value) {
                     if (value!.trim().isEmpty) {
@@ -267,7 +268,7 @@ class _OptionalScreenState extends State<OptionalScreen> {
                   ),
                 ),
                 CommonTextField(
-                    // controller: _referralEmailController,
+                 controller: serialNumberController,
                     obSecure: false,
                     hintText: 'Serial Number'.tr,
                     validator: (value) {
@@ -278,7 +279,18 @@ class _OptionalScreenState extends State<OptionalScreen> {
                     },
                     ),
                 CommonTextField(
-                    // controller: _referralEmailController,
+                 controller: longDescriptionController,
+                    obSecure: false,
+                    hintText: 'Long discription'.tr,
+                    validator: (value) {
+                      if (value!.trim().isEmpty) {
+                        return 'Long discription is required'.tr;
+                      }
+                      return null; // Return null if validation passes
+                    },
+                    ),
+                CommonTextField(
+                 controller: productNumberController,
                     obSecure: false,
                     hintText: 'Product number'.tr,
                     validator: (value) {
