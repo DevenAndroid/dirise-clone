@@ -258,12 +258,7 @@ class _AddProductPickUpAddressScreenState extends State<AddProductPickUpAddressS
                    controller: specialInstructionController,
                     obSecure: false,
                     hintText: 'Special instruction'.tr,
-                    validator: (value) {
-                      if (value!.trim().isEmpty) {
-                        return 'Special instruction is required'.tr;
-                      }
-                      return null; // Return null if validation passes
-                    },
+
                     ),
                 SizedBox(height: 10,),
                 SizedBox(
