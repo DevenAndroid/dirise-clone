@@ -83,7 +83,7 @@ class Product {
   dynamic virtualProductType;
   dynamic skuId;
   dynamic pPrice;
-  double? sPrice;
+  dynamic sPrice;
   dynamic commission;
   dynamic newP;
   dynamic bestSaller;

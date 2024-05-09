@@ -175,12 +175,13 @@ class _JobDetailsScreenState extends State<JobDetailsScreen> {
   TextEditingController linkdin_urlController = TextEditingController();
   TextEditingController experienceController = TextEditingController();
   TextEditingController salaryController = TextEditingController();
-  final formKey1 = GlobalKey<FormState>();
+  TextEditingController jobTitle = TextEditingController();
+  final formKey2 = GlobalKey<FormState>();
   final addProductController = Get.put(AddProductController());
 
   Map<String, File> picture = {};
 
-  void updateProfile() {
+  void updateProfile1() {
     Map<String, String> map = {};
     picture["upload_cv"] = idProof;
     map["job_cat"] = selectedCategory ?? "";
@@ -191,6 +192,11 @@ class _JobDetailsScreenState extends State<JobDetailsScreen> {
     map["experience"] = experienceController.text;
     map["salary"] = salaryController.text;
     map["item_type"] = 'job';
+    map["product_name"] = jobTitle.text.toString();
+    map["job_country_id"] = idCountry.toString();
+    map["job_state_id"] = stateCategory.toString();
+    map["job_city_id"] = cityId.toString();
+
     map['id'] = addProductController.idProduct.value.toString();
 
 
@@ -260,7 +266,7 @@ class _JobDetailsScreenState extends State<JobDetailsScreen> {
       ),
       body: SingleChildScrollView(
         child: Form(
-          key: formKey1,
+          key: formKey2,
           child: Container(
             margin: const EdgeInsets.only(left: 15, right: 15),
             child: Column(
@@ -268,7 +274,7 @@ class _JobDetailsScreenState extends State<JobDetailsScreen> {
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 CommonTextField(
-                  controller: linkdin_urlController,
+                  controller: jobTitle,
                   obSecure: false,
                   hintText: 'Job Title'.tr,
                   validator: (value) {
@@ -769,8 +775,8 @@ class _JobDetailsScreenState extends State<JobDetailsScreen> {
                   title: 'Confirm',
                   borderRadius: 11,
                   onPressed: () {
-                    if (formKey1.currentState!.validate()) {
-                      updateProfile();
+                    if (formKey2.currentState!.validate()) {
+                      updateProfile1();
                     }
                   },
                 ),

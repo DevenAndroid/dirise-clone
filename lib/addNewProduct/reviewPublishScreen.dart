@@ -93,17 +93,17 @@ class _ReviewPublishScreenState extends State<ReviewPublishScreen> {
 
   final addProductController = Get.put(AddProductController());
   String productId = "";
-  ModelProductDetails productDetailsModel = ModelProductDetails();
+  Rx<ModelProductDetails> productDetailsModel = ModelProductDetails().obs;
   Rx<RxStatus> vendorCategoryStatus = RxStatus.empty().obs;
 
-  void getVendorCategories(id) {
-    vendorCategoryStatus.value = RxStatus.loading();
-    repositories.getApi(url: ApiUrls.getProductDetailsUrl+id, showResponse: false).then((value) {
-      productDetailsModel = ModelProductDetails.fromJson(jsonDecode(value));
-      vendorCategoryStatus.value = RxStatus.success();
+  getVendorCategories(id) {
+    // vendorCategoryStatus.value = RxStatus.loading();
+    print('callllllll......');
+    repositories.getApi(url: ApiUrls.getProductDetailsUrl + id).then((value) {
+      productDetailsModel.value = ModelProductDetails.fromJson(jsonDecode(value));
+      // vendorCategoryStatus.value = RxStatus.success();
+      log('callllllll......${productDetailsModel.value.toJson()}');
       setState(() {});
-    }).catchError((e) {
-      vendorCategoryStatus.value = RxStatus.error();
     });
   }
   @override
@@ -154,7 +154,8 @@ class _ReviewPublishScreenState extends State<ReviewPublishScreen> {
         child: Container(
             margin: const EdgeInsets.only(left: 15, right: 15),
             child: Obx(() {
-              return  vendorCategoryStatus.value.isSuccess?Column(
+              return  productDetailsModel.value.productDetails!= null?
+              Column(
                 children: [
                   const SizedBox(height: 20),
                   GestureDetector(
@@ -186,11 +187,11 @@ class _ReviewPublishScreenState extends State<ReviewPublishScreen> {
                           mainAxisAlignment: MainAxisAlignment.start,
                           crossAxisAlignment: CrossAxisAlignment.start,
                           children: [
-                            Text('product name: ${productDetailsModel.productDetails!.product!.prodectName.toString()}'),
-                            Text('product Price: ${productDetailsModel.productDetails!.product!.prodectPrice.toString()}'),
-                            Text('product Type: ${productDetailsModel.productDetails!.product!.productType.toString()}'),
-                            Text('product ID: ${productDetailsModel.productDetails!.product!.id.toString()}'),
-                            Text('short Des: ${productDetailsModel.productDetails!.product!.shortDescription.toString()}'),
+                            Text('product name: ${productDetailsModel.value.productDetails!.product!.pname??""}'),
+                            Text('product Price: ${productDetailsModel.value.productDetails!.product!.pPrice??""}'),
+                            Text('product Type: ${productDetailsModel.value.productDetails!.product!.productType ?? ''}'),
+                            Text('product ID: ${productDetailsModel.value.productDetails!.product!.id??""}'),
+                            Text('short Des: ${productDetailsModel.value.productDetails!.product!.shortDescription ??""}'),
                           ],
                         ),
                       )),
@@ -225,11 +226,11 @@ class _ReviewPublishScreenState extends State<ReviewPublishScreen> {
                           mainAxisAlignment: MainAxisAlignment.start,
                           crossAxisAlignment: CrossAxisAlignment.start,
                           children: [
-                            Text('Town: ${widget.town.toString()}'),
-                            Text('city: ${widget.city.toString()}'),
-                            Text('state: ${widget.state.toString()}'),
-                            Text('address: ${widget.address.toString()}'),
-                            Text('zip code: ${widget.zip_code.toString()}'),
+                            Text('Town: ${productDetailsModel.value.productDetails!.address!.town??""}'),
+                            Text('city: ${productDetailsModel.value.productDetails!.address!.city??""}'),
+                            Text('state: ${productDetailsModel.value.productDetails!.address!.state??""}'),
+                            Text('address: ${productDetailsModel.value.productDetails!.address!.address??""}'),
+                            Text('zip code: ${productDetailsModel.value.productDetails!.address!.zipCode??""}'),
                           ],
                         ),
                       )),
@@ -264,7 +265,7 @@ class _ReviewPublishScreenState extends State<ReviewPublishScreen> {
                           mainAxisAlignment: MainAxisAlignment.start,
                           crossAxisAlignment: CrossAxisAlignment.start,
                           children: [
-                            Text('delivery Size: ${widget.deliverySize.toString()}'),
+                            Text('delivery Size: ${productDetailsModel.value.productDetails!.productDimentions!.boxDimension??""}'),
                           ],
                         ),
                       )),
@@ -300,12 +301,12 @@ class _ReviewPublishScreenState extends State<ReviewPublishScreen> {
                           mainAxisAlignment: MainAxisAlignment.start,
                           crossAxisAlignment: CrossAxisAlignment.start,
                           children: [
-                            Text('Unit of measure: ${widget.Unitofmeasure.toString()}'),
-                            Text('Weight Of the Item: ${widget.WeightOftheItem.toString()}'),
-                            Text('Select Number Of Packages: ${widget.SelectNumberOfPackages.toString()}'),
-                            Text('Select Type Material: ${widget.SelectTypeMaterial.toString()}'),
-                            Text('Select Type Of Packaging: ${widget.SelectTypeOfPackaging .toString()}'),
-                            Text('Length X Width X Height: ${widget.LengthWidthHeight.toString()}'),
+                            Text('Unit of measure: ${productDetailsModel.value.productDetails!.productDimentions!.units??""}'),
+                            Text('Weight Of the Item: ${productDetailsModel.value.productDetails!.productDimentions!.weight??""}'),
+                            Text('Select Number Of Packages: ${productDetailsModel.value.productDetails!.productDimentions!.numberOfPackage??""}'),
+                            Text('Select Type Material: ${productDetailsModel.value.productDetails!.productDimentions!.material??""}'),
+                            Text('Select Type Of Packaging: ${productDetailsModel.value.productDetails!.productDimentions!.typeOfPackages??""}'),
+                            Text('Length X Width X Height: ${productDetailsModel.value.productDetails!.productDimentions!.boxDimension??""}'),
                           ],
                         ),
                       )),
@@ -341,11 +342,11 @@ class _ReviewPublishScreenState extends State<ReviewPublishScreen> {
                           mainAxisAlignment: MainAxisAlignment.start,
                           crossAxisAlignment: CrossAxisAlignment.start,
                           children: [
-                            Text('Long Description: ${widget.LongDescription.toString()}'),
-                            Text('Meta Title: ${widget.MetaTitle.toString()}'),
-                            Text('Meta Description: ${widget.MetaDescription.toString()}'),
-                            Text('Serial Number: ${widget.SerialNumber.toString()}'),
-                            Text('Product number: ${widget.Productnumber .toString()}'),
+                            Text('Long Description: ${productDetailsModel.value.productDetails!.product!.longDescription??""}'),
+                            Text('Meta Title: ${productDetailsModel.value.productDetails!.product!.metaTitle??""}'),
+                            Text('Meta Description: ${productDetailsModel.value.productDetails!.product!.metaDescription??""}'),
+                            Text('Serial Number: ${productDetailsModel.value.productDetails!.product!.serialNumber??""}'),
+                            Text('Product number: ${productDetailsModel.value.productDetails!.product!.productNumber??""}'),
                           ],
                         ),
                       )),

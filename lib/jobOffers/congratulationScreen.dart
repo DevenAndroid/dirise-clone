@@ -1,3 +1,5 @@
+import 'package:dirise/bottomavbar.dart';
+import 'package:dirise/screens/order_screens/my_orders_screen.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
@@ -76,6 +78,7 @@ class _CongratulationScreenState extends State<CongratulationScreen> {
                 title: 'Continue',
                 borderRadius: 11,
                 onPressed: () {
+                  Get.offAllNamed(BottomNavbar.route);
                 },
               ),
 
