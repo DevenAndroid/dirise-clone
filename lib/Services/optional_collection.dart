@@ -44,9 +44,8 @@ class _OptionalColloectionScreenState extends State<OptionalColloectionScreen> {
       print('API Response Status Code: ${response.status}');
       showToast(response.message.toString());
       if (response.status == true) {
-        if (formKey1.currentState!.validate()) {
-          Get.to(ReviewPublishScreen());
-        }
+        Get.to(ReviewPublishScreen());
+
       }
     });
   }
@@ -181,7 +180,10 @@ class _OptionalColloectionScreenState extends State<OptionalColloectionScreen> {
                     title: 'Next',
                     borderRadius: 11,
                     onPressed: () {
-                      optionalApi();
+                      if (formKey1.currentState!.validate()) {
+                        optionalApi();
+                      }
+
                     },
                   ),
                   const SizedBox(height: 20),

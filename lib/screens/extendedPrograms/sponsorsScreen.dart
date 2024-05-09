@@ -9,14 +9,14 @@ import '../../vendor/authentication/image_widget.dart';
 import '../../widgets/common_button.dart';
 import '../../widgets/common_textfield.dart';
 
-class SponsorsScreen extends StatefulWidget {
-  const SponsorsScreen({super.key});
+class ExtendProgramSponsorsScreen extends StatefulWidget {
+  const ExtendProgramSponsorsScreen({super.key});
 
   @override
-  State<SponsorsScreen> createState() => _SponsorsScreenState();
+  State<ExtendProgramSponsorsScreen> createState() => _ExtendProgramSponsorsScreenState();
 }
 
-class _SponsorsScreenState extends State<SponsorsScreen> {
+class _ExtendProgramSponsorsScreenState extends State<ExtendProgramSponsorsScreen> {
   File idProof = File("");
   RxBool showValidation = false.obs;
   bool checkValidation(bool bool1, bool2) {
