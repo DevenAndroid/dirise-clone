@@ -1,6 +1,9 @@
 
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
 import 'package:google_fonts/google_fonts.dart';
+
+import '../screens/tell_us_about_yourself.dart';
 
 class ExtraInformation extends StatefulWidget {
   const ExtraInformation({super.key});
@@ -20,69 +23,78 @@ class _ExtraInformationState extends State<ExtraInformation> {
 
           children:[
             Text("Extra information",style:GoogleFonts.poppins(fontSize:20,fontWeight:FontWeight.w500)),
-            SizedBox(height: 30,),
+            const SizedBox(height: 30,),
             Padding(
-              padding: EdgeInsets.symmetric(horizontal: 13,),
+              padding: const EdgeInsets.symmetric(horizontal: 13,),
               child: Text("This is an optional step for some products ",style:GoogleFonts.poppins(fontSize:20)),
             ),
-            SizedBox(height: 20,),
-            Container(
-              width:size.width,
-                decoration: BoxDecoration(borderRadius: BorderRadius.all(Radius.circular(10)),
+            const SizedBox(height: 20,),
+            GestureDetector(
+              onTap: (){
+                // Get.to(()=>const TellUsYourSelfScreen());
+              },
+              child: Container(
+                width:size.width,
+                  decoration: const BoxDecoration(borderRadius: BorderRadius.all(Radius.circular(10)),
+                    image: DecorationImage(
+                      image: AssetImage('assets/images/tellus.png'),
+                      fit: BoxFit.cover,
+                    ),
+                  ),
+                   // adjust the width and height as needed
+                  height: 170,
+                  child:  Padding(
+                    padding: const EdgeInsets.symmetric(horizontal: 15, vertical: 13),
+                    child: Column(
+
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+
+                        children:[
+                      Text('I’am Done ',style:GoogleFonts.poppins(fontSize:30,fontWeight:FontWeight.w500)),
+                      Text('Nothing more to add Publish it, I might edit later :) ',style:GoogleFonts.poppins(fontSize:20))
+
+                    ]),
+                  )
+                ,// add your child widgets here
+              ),
+            ),
+            const SizedBox(height: 20,),
+            GestureDetector(
+              onTap: (){
+                Get.to(()=>const TellUsYourSelfScreen());
+              },
+              child: Container(
+                width:size.width,
+                decoration: const BoxDecoration(borderRadius: BorderRadius.all(Radius.circular(10)),
 
                   image: DecorationImage(
-                    image: AssetImage('assets/images/tellus.png'),
+                    image: AssetImage('assets/images/tellus (2).png'),
                     fit: BoxFit.cover,
                   ),
                 ),
-                 // adjust the width and height as needed
+                // adjust the width and height as needed
                 height: 170,
                 child:  Padding(
-                  padding: EdgeInsets.symmetric(horizontal: 15, vertical: 13),
+                  padding: const EdgeInsets.symmetric(horizontal: 15, vertical: 13),
                   child: Column(
 
                       crossAxisAlignment: CrossAxisAlignment.start,
                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
 
                       children:[
-                    Text('I’am Done ',style:GoogleFonts.poppins(fontSize:30,fontWeight:FontWeight.w500)),
-                    Text('Nothing more to add Publish it, I might edit later :) ',style:GoogleFonts.poppins(fontSize:20))
+                        Text('Variable',style:GoogleFonts.poppins(fontSize:30,fontWeight:FontWeight.w500)),
+                        Text('My item have variable shape, size, color, price, material...etc',style:GoogleFonts.poppins(fontSize:20))
 
-                  ]),
+                      ]),
                 )
-              ,// add your child widgets here
-            ),
-            SizedBox(height: 20,),
-            Container(
-              width:size.width,
-              decoration: BoxDecoration(borderRadius: BorderRadius.all(Radius.circular(10)),
-
-                image: DecorationImage(
-                  image: AssetImage('assets/images/tellus (2).png'),
-                  fit: BoxFit.cover,
-                ),
+                ,// add your child widgets here
               ),
-              // adjust the width and height as needed
-              height: 170,
-              child:  Padding(
-                padding: EdgeInsets.symmetric(horizontal: 15, vertical: 13),
-                child: Column(
-
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
-
-                    children:[
-                      Text('Variable',style:GoogleFonts.poppins(fontSize:30,fontWeight:FontWeight.w500)),
-                      Text('My item have variable shape, size, color, price, material...etc',style:GoogleFonts.poppins(fontSize:20))
-
-                    ]),
-              )
-              ,// add your child widgets here
             ),
-            SizedBox(height: 20,),
+            const SizedBox(height: 20,),
             Container(
               width:size.width,
-              decoration: BoxDecoration(borderRadius: BorderRadius.all(Radius.circular(10)),
+              decoration: const BoxDecoration(borderRadius: BorderRadius.all(Radius.circular(10)),
 
                 image: DecorationImage(
                   image: AssetImage('assets/images/tellus (3).png'),
@@ -92,7 +104,7 @@ class _ExtraInformationState extends State<ExtraInformation> {
               // adjust the width and height as needed
               height: 170,
               child:  Padding(
-                padding: EdgeInsets.symmetric(horizontal: 15, vertical: 13),
+                padding: const EdgeInsets.symmetric(horizontal: 15, vertical: 13),
                 child: Column(
 
                     crossAxisAlignment: CrossAxisAlignment.start,
