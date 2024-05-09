@@ -30,6 +30,7 @@ import '../../model/model_user_delete.dart';
 import '../../posts/posts_ui.dart';
 import '../../repository/repository.dart';
 import '../../singleproductScreen/itemdetailsScreen.dart';
+import '../../tellaboutself/ExtraInformation.dart';
 import '../../utils/api_constant.dart';
 import '../../vendor/authentication/vendor_plans_screen.dart';
 import '../../vendor/dashboard/dashboard_screen.dart';
@@ -1889,9 +1890,11 @@ List<Widget> vendorPartner() {
             showVendorDialog();
             return;
           }
-          if (profileController.model.user!.isVendor != true) {
+          if (profileController.model.user!.isVendor == false) {
             Get.to(() => const AddProductOptionScreen());
             return;
+          }else{
+            showToast('Your user is not verified as a vendor');
           }
           _isValue.value = !_isValue.value;
           setState(() {});
@@ -1941,9 +1944,9 @@ List<Widget> vendorPartner() {
                                           onPressed: () {
                                             if(profileController.model.user!.subscriptionStatus == 'success'){
                                               // Get.toNamed(vendorRoutes[index]);
-                                              Get.to(SingleProductItemDetailsScreens());
+                                              Get.to(()=>const ExtraInformation());
                                             }else if(vendor[index] == 'Dashboard'){
-                                              Get.to(const MyItemISScreen());
+                                              Get.to(()=>const ExtraInformation());
                                              // Get.toNamed( VendorDashBoardScreen.route);
                                             }else{
                                                showToast('Your payment is not successfull'.tr);

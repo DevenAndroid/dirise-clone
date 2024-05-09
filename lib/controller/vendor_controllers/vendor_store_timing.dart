@@ -14,6 +14,7 @@ class VendorStoreTimingController extends GetxController{
       modelStoreAvailability = ModelStoreAvailability.fromJson(jsonDecode(value));
       if(modelStoreAvailability.data == null || modelStoreAvailability.data!.isEmpty){
         modelStoreAvailability.data!.addAll([
+          TimeData(endTime: "19:00",startTime: "09:00",weekDay: "Master",status: false),
           TimeData(endTime: "19:00",startTime: "09:00",weekDay: "Mon",status: false),
           TimeData(endTime: "19:00",startTime: "09:00",weekDay: "Tue",status: false),
           TimeData(endTime: "19:00",startTime: "09:00",weekDay: "Wed",status: false),

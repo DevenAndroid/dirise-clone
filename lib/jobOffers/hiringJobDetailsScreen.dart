@@ -158,6 +158,7 @@ class _HiringJobDetailsScreenState extends State<HiringJobDetailsScreen> {
     });
   }
 
+  TextEditingController titleController = TextEditingController();
   TextEditingController describe_job_roleController = TextEditingController();
   TextEditingController linkdin_urlController = TextEditingController();
   TextEditingController experienceController = TextEditingController();
@@ -247,6 +248,7 @@ class _HiringJobDetailsScreenState extends State<HiringJobDetailsScreen> {
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
                   CommonTextField(
+
                     controller: jobTitle,
                     obSecure: false,
                     hintText: 'Job Title'.tr,

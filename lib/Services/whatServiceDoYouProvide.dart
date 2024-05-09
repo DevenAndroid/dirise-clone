@@ -61,20 +61,16 @@ class _whatServiceDoYouProvideState extends State<whatServiceDoYouProvide> {
       appBar: AppBar(
         backgroundColor: Colors.white,
         elevation: 0,
-        leading: GestureDetector(
-          onTap: (){
-            Get.back();
-          },
-          child: IconButton(
-            icon: const Icon(
-              Icons.arrow_back_ios_new,
-              color: Color(0xff0D5877),
-              size: 16,
-            ),
-            onPressed: () {
-              // Handle back button press
-            },
+        leading: IconButton(
+          icon: const Icon(
+            Icons.arrow_back_ios_new,
+            color: Color(0xff0D5877),
+            size: 16,
           ),
+          onPressed: () {
+            Get.back();
+            // Handle back button press
+          },
         ),
         titleSpacing: 0,
         title: Text(
