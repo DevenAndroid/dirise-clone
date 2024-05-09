@@ -15,6 +15,8 @@ import '../model/customer_profile/model_city_list.dart';
 import '../model/customer_profile/model_country_list.dart';
 import '../model/customer_profile/model_state_list.dart';
 import '../model/jobResponceModel.dart';
+import '../model/modelJobList.dart';
+import '../model/modelSubcategory.dart';
 import '../model/vendor_models/model_vendor_details.dart';
 import '../model/vendor_models/vendor_category_model.dart';
 import '../repository/repository.dart';
@@ -51,12 +53,13 @@ class _HiringJobDetailsScreenState extends State<HiringJobDetailsScreen> {
     'office',
   ];
   final formKey1 = GlobalKey<FormState>();
-  ModelVendorCategory modelVendorCategory = ModelVendorCategory(usphone: []);
+  ModelJobList modelVendorCategory = ModelJobList(data: []);
+  ModelSubcategoryList modelSubCategory = ModelSubcategoryList(subCategory: []);
   Rx<RxStatus> vendorCategoryStatus = RxStatus.empty().obs;
   final GlobalKey categoryKey = GlobalKey();
   final GlobalKey subcategoryKey = GlobalKey();
   final GlobalKey productsubcategoryKey = GlobalKey();
-  Map<String, VendorCategoriesData> allSelectedCategory = {};
+  Map<String, Data> allSelectedCategory = {};
   ModelCountryList modelCountryList = ModelCountryList(country: []);
   ModelStateList modelStateList = ModelStateList(state: []);
   ModelCityList modelCityList = ModelCityList(city: []);
@@ -70,7 +73,9 @@ class _HiringJobDetailsScreenState extends State<HiringJobDetailsScreen> {
   final GlobalKey categoryKey1 = GlobalKey();
   final GlobalKey categoryKey2 = GlobalKey();
   final GlobalKey categoryKey3 = GlobalKey();
+  Map<String, SubCategory> allSelectedCategory4 = {};
   String? cityId;
+  String? selectedSubCategory;
   String? stateCategory;
   String? idCountry;
   void getCountry() {
@@ -88,7 +93,7 @@ class _HiringJobDetailsScreenState extends State<HiringJobDetailsScreen> {
     });
   }
 
-
+  Rx<RxStatus> subCategoryStatus = RxStatus.empty().obs;
   getStateApi() {
     Map<String, dynamic> map = {};
     map['country_id'] = idCountry.toString();
@@ -145,19 +150,33 @@ class _HiringJobDetailsScreenState extends State<HiringJobDetailsScreen> {
   final vendorProfileController = Get.put(VendorProfileController());
   void getVendorCategories() {
     vendorCategoryStatus.value = RxStatus.loading();
-    repositories.getApi(url: ApiUrls.vendorCategoryListUrl, showResponse: false).then((value) {
-      modelVendorCategory = ModelVendorCategory.fromJson(jsonDecode(value));
+    repositories.getApi(url: ApiUrls.jobCategoryListUrl, showResponse: true).then((value) {
+      modelVendorCategory = ModelJobList.fromJson(jsonDecode(value));
       vendorCategoryStatus.value = RxStatus.success();
 
       for (var element in vendorInfo.vendorCategory!) {
-        allSelectedCategory[element.id.toString()] = VendorCategoriesData.fromJson(element.toJson());
+        allSelectedCategory[element.id.toString()] = Data.fromJson(element.toJson());
       }
       setState(() {});
     }).catchError((e) {
       vendorCategoryStatus.value = RxStatus.error();
     });
   }
+  void getSubCategories(id) {
+    subCategoryStatus.value = RxStatus.loading();
+    repositories.getApi(url: ApiUrls.jobSubCategoryListUrl+id, showResponse: true).then((value) {
+      modelSubCategory = ModelSubcategoryList.fromJson(jsonDecode(value));
+      subCategoryStatus.value = RxStatus.success();
 
+      for (var element in vendorInfo.vendorCategory!) {
+        allSelectedCategory4[element.id.toString()] = SubCategory.fromJson(element.toJson());
+      }
+      setState(() {});
+    }).catchError((e) {
+      subCategoryStatus.value = RxStatus.error();
+    });
+  }
+  final GlobalKey categoryKey4 = GlobalKey();
   TextEditingController describe_job_roleController = TextEditingController();
   TextEditingController linkdin_urlController = TextEditingController();
   TextEditingController experienceController = TextEditingController();
@@ -167,7 +186,7 @@ class _HiringJobDetailsScreenState extends State<HiringJobDetailsScreen> {
   TextEditingController jobTitle = TextEditingController();
   void updateProfile() {
     Map<String, String> map = {};
-    map["job_cat"] = selectedCategory ?? "";
+    map["job_cat"] = selectedSubCategory ?? "";
     map["job_model"] = joblocationselectedItem;
     map["describe_job_role"] = describe_job_roleController.text;
     map["linkdin_url"] = linkdin_urlController.text;
@@ -262,14 +281,11 @@ class _HiringJobDetailsScreenState extends State<HiringJobDetailsScreen> {
                   SizedBox(height: 10,),
                   Obx(() {
                     if (kDebugMode) {
-                      print(modelVendorCategory.usphone!
-                          .map((e) =>
-                          DropdownMenuItem(value: e, child: Text(e.name
-                              .toString()
-                              .capitalize!)))
+                      print(modelVendorCategory.data!
+                          .map((e) => DropdownMenuItem(value: e, child: Text(e.title.toString().capitalize!)))
                           .toList());
                     }
-                    return DropdownButtonFormField<VendorCategoriesData>(
+                    return DropdownButtonFormField<Data>(
                       key: categoryKey,
                       autovalidateMode: AutovalidateMode.onUserInteraction,
                       icon: vendorCategoryStatus.value.isLoading
@@ -303,28 +319,91 @@ class _HiringJobDetailsScreenState extends State<HiringJobDetailsScreen> {
                           borderSide: BorderSide(color: AppTheme.secondaryColor),
                         ),
                       ),
-                      items: modelVendorCategory.usphone!
-                          .map((e) =>
-                          DropdownMenuItem(value: e, child: Text(e.name
-                              .toString()
-                              .capitalize!)))
+                      items: modelVendorCategory.data!
+                          .map((e) => DropdownMenuItem(value: e, child: Text(e.title.toString().capitalize!)))
                           .toList(),
                       hint: Text('Search category to choose'.tr),
                       onChanged: (value) {
                         setState(() {
-                          selectedCategory = value!.id.toString(); // Assuming you want to use the ID as the category value
+                          selectedCategory =
+                              value!.id.toString();
+                          getSubCategories(selectedCategory.toString());// Assuming you want to use the ID as the category value
                         });
-                        if (value == null) return;
-                        if (allSelectedCategory.isNotEmpty) return;
-                        allSelectedCategory[value.id.toString()] = value;
-                        setState(() {});
+                        // if (value == null) return;
+                        // if (allSelectedCategory.isNotEmpty) return;
+                        // allSelectedCategory[value.id.toString()] = value;
+                        // setState(() {});
                       },
-                      validator: (value) {
-                        if (allSelectedCategory.isEmpty) {
-                          return "Please select Category".tr;
-                        }
-                        return null;
+                      // validator: (value) {
+                      //   if (allSelectedCategory.isEmpty) {
+                      //     return "Please select Category".tr;
+                      //   }
+                      //   return null;
+                      // },
+                    );
+                  }),
+                  SizedBox(height: 20,),
+                  Obx(() {
+                    if (kDebugMode) {
+                      print(modelSubCategory.subCategory!
+                          .map((e) => DropdownMenuItem(value: e, child: Text(e.title.toString().capitalize!)))
+                          .toList());
+                    }
+                    return DropdownButtonFormField<SubCategory>(
+                      isExpanded: true,
+                      key: categoryKey4,
+                      autovalidateMode: AutovalidateMode.onUserInteraction,
+                      icon: subCategoryStatus.value.isLoading
+                          ? const CupertinoActivityIndicator()
+                          : const Icon(Icons.keyboard_arrow_down_rounded),
+                      iconSize: 30,
+                      iconDisabledColor: const Color(0xff97949A),
+                      iconEnabledColor: const Color(0xff97949A),
+                      value: null,
+                      style: GoogleFonts.poppins(color: Colors.black, fontSize: 14),
+                      decoration: InputDecoration(
+                        border: InputBorder.none,
+                        filled: true,
+                        fillColor: const Color(0xffE2E2E2).withOpacity(.35),
+                        contentPadding: const EdgeInsets.symmetric(horizontal: 15, vertical: 10).copyWith(right: 8),
+                        focusedErrorBorder: const OutlineInputBorder(
+                            borderRadius: BorderRadius.all(Radius.circular(8)),
+                            borderSide: BorderSide(color: AppTheme.secondaryColor)),
+                        errorBorder: const OutlineInputBorder(
+                            borderRadius: BorderRadius.all(Radius.circular(8)),
+                            borderSide: BorderSide(color: Color(0xffE2E2E2))),
+                        focusedBorder: const OutlineInputBorder(
+                            borderRadius: BorderRadius.all(Radius.circular(8)),
+                            borderSide: BorderSide(color: AppTheme.secondaryColor)),
+                        disabledBorder: const OutlineInputBorder(
+                          borderRadius: BorderRadius.all(Radius.circular(8)),
+                          borderSide: BorderSide(color: AppTheme.secondaryColor),
+                        ),
+                        enabledBorder: const OutlineInputBorder(
+                          borderRadius: BorderRadius.all(Radius.circular(8)),
+                          borderSide: BorderSide(color: AppTheme.secondaryColor),
+                        ),
+                      ),
+                      items: modelSubCategory.subCategory!
+                          .map((e) => DropdownMenuItem(value: e, child: Text(e.title.toString().capitalize!)))
+                          .toList(),
+                      hint: Text('sub category'.tr),
+                      onChanged: (value) {
+                        setState(() {
+                          selectedSubCategory =
+                              value!.id.toString(); // Assuming you want to use the ID as the category value
+                        });
+                        // if (value == null) return;
+                        // if (allSelectedCategory.isNotEmpty) return;
+                        // allSelectedCategory[value.id.toString()] = value;
+                        // setState(() {});
                       },
+                      // validator: (value) {
+                      //   if (allSelectedCategory.isEmpty) {
+                      //     return "Please select Category".tr;
+                      //   }
+                      //   return null;
+                      // },
                     );
                   }),
                   SizedBox(height: 20,),
