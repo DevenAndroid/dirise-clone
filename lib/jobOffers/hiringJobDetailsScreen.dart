@@ -165,7 +165,7 @@ class _HiringJobDetailsScreenState extends State<HiringJobDetailsScreen> {
   TextEditingController salaryController = TextEditingController();
   TextEditingController hoursperweekController = TextEditingController();
   final addProductController = Get.put(AddProductController());
-
+  TextEditingController jobTitle = TextEditingController();
   void updateProfile() {
     Map<String, String> map = {};
     map["job_cat"] = selectedCategory ?? "";
@@ -175,6 +175,10 @@ class _HiringJobDetailsScreenState extends State<HiringJobDetailsScreen> {
     map["experience"] = experienceController.text;
     map["salary"] = salaryController.text;
     map["job_hours"] = hoursperweekController.text;
+    map["product_name"] = jobTitle.text.toString();
+    map["job_country_id"] = idCountry.toString();
+    map["job_state_id"] = stateCategory.toString();
+    map["job_city_id"] = cityId.toString();
     map["item_type"] = 'job';
     map['id'] = addProductController.idProduct.value.toString();
 
@@ -244,7 +248,8 @@ class _HiringJobDetailsScreenState extends State<HiringJobDetailsScreen> {
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
                   CommonTextField(
-                    controller: titleController,
+
+                    controller: jobTitle,
                     obSecure: false,
                     hintText: 'Job Title'.tr,
                     validator: (value) {

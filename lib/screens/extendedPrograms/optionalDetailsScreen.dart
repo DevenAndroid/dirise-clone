@@ -1,8 +1,7 @@
 import 'dart:convert';
+import 'dart:developer';
 
-import 'package:dirise/Services/review_publish_service.dart';
 import 'package:dirise/addNewProduct/reviewPublishScreen.dart';
-import 'package:dirise/controller/service_controller.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
@@ -10,53 +9,26 @@ import 'package:form_field_validator/form_field_validator.dart';
 import 'package:get/get.dart';
 import 'package:google_fonts/google_fonts.dart';
 
-import '../model/common_modal.dart';
-import '../repository/repository.dart';
-import '../utils/api_constant.dart';
-import '../widgets/common_button.dart';
-import '../widgets/common_colour.dart';
-import '../widgets/common_textfield.dart';
-import 'optional_collection.dart';
+import '../../widgets/common_button.dart';
+import '../../widgets/common_colour.dart';
+import '../../widgets/common_textfield.dart';
 
-class ServiceClassificationScreen extends StatefulWidget {
-  const ServiceClassificationScreen({super.key});
+class ExtendProgramOptionalScreen extends StatefulWidget {
+  const ExtendProgramOptionalScreen({super.key});
 
   @override
-  State<ServiceClassificationScreen> createState() => _ServiceClassificationScreenState();
+  State<ExtendProgramOptionalScreen> createState() => _ExtendProgramOptionalScreenState();
 }
 
-class _ServiceClassificationScreenState extends State<ServiceClassificationScreen> {
+class _ExtendProgramOptionalScreenState extends State<ExtendProgramOptionalScreen> {
+  final TextEditingController metaTitleController = TextEditingController();
+  final TextEditingController metaDescriptionController = TextEditingController();
+  final TextEditingController longDescriptionController = TextEditingController();
+  final TextEditingController serialNumberController = TextEditingController();
+  final TextEditingController productNumberController = TextEditingController();
 
-  final serviceController = Get.put(ServiceController());
-  RxBool hide = true.obs;
-  RxBool hide1 = true.obs;
-  bool showValidation = false;
-  final Repositories repositories = Repositories();
   final formKey1 = GlobalKey<FormState>();
-  String code = "+91";
-  optionalApi() {
-    Map<String, dynamic> map = {};
 
-    map['serial_number'] = serviceController.serialNumber1Controller.text.trim();
-    map['item_type'] = 'giveaway';
-    map['product_number'] = serviceController.productNumber1Controller.text.trim();
-    map['product_code'] = serviceController.productCode1Controller.text.trim();
-    map['promotion_code'] = serviceController.promotionCode1Controller.text.trim();
-    map['package_detail'] = serviceController.packageDetails1Controller.text.trim();
-
-    FocusManager.instance.primaryFocus!.unfocus();
-    repositories.postApi(url: ApiUrls.giveawayProductAddress, context: context, mapData: map).then((value) {
-      ModelCommonResponse response = ModelCommonResponse.fromJson(jsonDecode(value));
-      print('API Response Status Code: ${response.status}');
-      showToast(response.message.toString());
-      if (response.status == true) {
-        // if(formKey1.currentState!.validate()){
-          Get.to(()=> const ReviewPublishServiceScreen());
-        // }
-
-      }
-    });
-  }
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -79,52 +51,76 @@ class _ServiceClassificationScreenState extends State<ServiceClassificationScree
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: [
             Text(
-              'Optional Classification'.tr,
+              'Optional'.tr,
               style: GoogleFonts.poppins(color: const Color(0xff292F45), fontWeight: FontWeight.w600, fontSize: 20),
             ),
           ],
         ),
       ),
       body: SingleChildScrollView(
-        child: Form(
-          key: formKey1,
-          child: Container(
-            margin: EdgeInsets.only(left: 15,right: 15),
+        child: Container(
+          margin: EdgeInsets.only(left: 15, right: 15),
+          child: Form(
+            key: formKey1,
             child: Column(
               children: [
-
                 CommonTextField(
-                    controller: serviceController.serialNumber1Controller,
-                    obSecure: false,
-                    hintText: 'Serial Number'.tr,
-                    validator: MultiValidator([
-                      RequiredValidator(errorText: 'Serial Number is required'),
-                    ])),
+                  controller: metaTitleController,
+                  obSecure: false,
+                  hintText: 'Location'.tr,
+                  validator: (value) {
+                    if (value!.trim().isEmpty) {
+                      return 'Location is required'.tr;
+                    }
+                    return null; // Return null if validation passes
+                  },
+                ),
+                const SizedBox(height: 10,),
+                Row(
+                  children: [
+                    Radio(value: 1, groupValue: 1, onChanged: (value) {}),
+                    Expanded(
+                      child: Text(
+                          'I will set it the location later.I agree to that a full refund will be mandatory in case in the customer request a refund because of the missing information.'
+                      ,style: TextStyle(fontSize: 14,color: Color(0xffEB4335)),),
+                    ),
+                  ],
+                ),
+                const SizedBox(height: 10,),
                 CommonTextField(
-                    controller: serviceController.productNumber1Controller,
-                    obSecure: false,
-                    hintText: 'Product number'.tr,
-                    validator: MultiValidator([
-                      RequiredValidator(errorText: 'Product number is required'),
-                    ])),
+                  controller: serialNumberController,
+                  obSecure: false,
+                  hintText: 'Host name'.tr,
+                  validator: (value) {
+                    if (value!.trim().isEmpty) {
+                      return 'Host name is required'.tr;
+                    }
+                    return null; // Return null if validation passes
+                  },
+                ),
                 CommonTextField(
-                    controller: serviceController.productCode1Controller,
-                    obSecure: false,
-                    hintText: 'Product Code'.tr,
-                    keyboardType: TextInputType.number,
-                    validator: MultiValidator([
-                      RequiredValidator(errorText: 'Product Code is required'),
-                    ])),
+                  controller: longDescriptionController,
+                  obSecure: false,
+                  hintText: 'Program name'.tr,
+                  validator: (value) {
+                    if (value!.trim().isEmpty) {
+                      return 'Program name is required'.tr;
+                    }
+                    return null; // Return null if validation passes
+                  },
+                ),
                 CommonTextField(
-                    controller: serviceController.promotionCode1Controller,
-                    obSecure: false,
-                    hintText: 'Promotion Code'.tr,
-                    keyboardType: TextInputType.number,
-                    validator: MultiValidator([
-                      RequiredValidator(errorText: 'Promotion Code is required'),
-                    ])),
+                  controller: productNumberController,
+                  obSecure: false,
+                  hintText: 'Program goal'.tr,
+                  validator: (value) {
+                    if (value!.trim().isEmpty) {
+                      return 'Program goal is required'.tr;
+                    }
+                    return null; // Return null if validation passes
+                  },
+                ),
                 TextFormField(
-                  controller: serviceController.packageDetails1Controller,
                   maxLines: 2,
                   minLines: 2,
                   decoration: InputDecoration(
@@ -133,16 +129,14 @@ class _ServiceClassificationScreenState extends State<ServiceClassificationScree
                       fontSize: 25,
                     ),
                     counter: const Offstage(),
-
                     errorMaxLines: 2,
                     contentPadding: const EdgeInsets.all(15),
                     fillColor: Colors.grey.shade100,
-                    hintText: 'Package details',
+                    hintText: 'Program Description',
                     hintStyle: GoogleFonts.poppins(
                       color: AppTheme.primaryColor,
                       fontSize: 15,
                     ),
-
                     border: InputBorder.none,
                     focusedErrorBorder: const OutlineInputBorder(
                         borderRadius: BorderRadius.all(Radius.circular(8)),
@@ -165,18 +159,14 @@ class _ServiceClassificationScreenState extends State<ServiceClassificationScree
                 ),
                 const SizedBox(height: 20),
                 CustomOutlineButton(
-                  title: 'Next',
+                  title: 'Done',
                   borderRadius: 11,
-                  onPressed: () {
-                    if(formKey1.currentState!.validate()){
-                      optionalApi();
-                    }
-                  },
+                  onPressed: () {},
                 ),
                 const SizedBox(height: 20),
                 GestureDetector(
-                  onTap: (){
-                    Get.to(()=> const ReviewPublishServiceScreen());
+                  onTap: () {
+                    Get.to(ReviewPublishScreen());
                   },
                   child: Container(
                     width: Get.width,

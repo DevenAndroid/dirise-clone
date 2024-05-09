@@ -1,20 +1,18 @@
-import 'package:dirise/bottomavbar.dart';
-import 'package:dirise/screens/order_screens/my_orders_screen.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:google_fonts/google_fonts.dart';
 
-import '../widgets/common_button.dart';
+import '../../widgets/common_button.dart';
 
-class CongratulationScreen extends StatefulWidget {
-  const CongratulationScreen({super.key});
+class DoneScreen extends StatefulWidget {
+  const DoneScreen({super.key});
 
   @override
-  State<CongratulationScreen> createState() => _CongratulationScreenState();
+  State<DoneScreen> createState() => _DoneScreenState();
 }
 
-class _CongratulationScreenState extends State<CongratulationScreen> {
+class _DoneScreenState extends State<DoneScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -45,21 +43,31 @@ class _CongratulationScreenState extends State<CongratulationScreen> {
       ),
       body: SingleChildScrollView(
         child: Container(
-          margin: EdgeInsets.only(left: 25,right: 25),
+          margin: const EdgeInsets.only(left: 25, right: 25),
           child: Column(
             mainAxisAlignment: MainAxisAlignment.center,
             crossAxisAlignment: CrossAxisAlignment.center,
             children: [
-              Image.asset('assets/images/newlogoo.png',height: 200,width: 200,),
+              Image.asset(
+                'assets/images/newlogoo.png',
+                height: 200,
+                width: 200,
+              ),
               Text(
-                'Your job profile has been published successfully'.tr,
+                'Service have been added  successfully'.tr,
                 style: GoogleFonts.poppins(color: const Color(0xff0D5877), fontWeight: FontWeight.w600, fontSize: 30),
               ),
-              SizedBox(height: 10,),
-              Image.asset('assets/images/check.png',height: 100,width: 100,),
+              const SizedBox(
+                height: 10,
+              ),
+              Image.asset(
+                'assets/images/check.png',
+                height: 100,
+                width: 100,
+              ),
               Text(
                 'If you are having troubles:-'.tr,
-                style: GoogleFonts.poppins(color: Color(0xff596774), fontWeight: FontWeight.w400, fontSize: 14),
+                style: GoogleFonts.poppins(color: const Color(0xff596774), fontWeight: FontWeight.w400, fontSize: 14),
               ),
               Text(
                 'FAQs'.tr,
@@ -73,15 +81,14 @@ class _CongratulationScreenState extends State<CongratulationScreen> {
                 'call'.tr,
                 style: GoogleFonts.poppins(color: Colors.black, fontWeight: FontWeight.w400, fontSize: 14),
               ),
-              const SizedBox(height: 20,),
+              const SizedBox(
+                height: 20,
+              ),
               CustomOutlineButton(
                 title: 'Continue',
                 borderRadius: 11,
-                onPressed: () {
-                  Get.offAllNamed(BottomNavbar.route);
-                },
+                onPressed: () {},
               ),
-
             ],
           ),
         ),

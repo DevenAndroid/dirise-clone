@@ -1889,10 +1889,11 @@ List<Widget> vendorPartner() {
             showVendorDialog();
             return;
           }
-          if (profileController.model.user!.isVendor != true) {
-            Get.to(() => const MyItemISScreen());
+
+
+            Get.to(() => const AddProductOptionScreen());
             return;
-          }
+
           _isValue.value = !_isValue.value;
           setState(() {});
         },
