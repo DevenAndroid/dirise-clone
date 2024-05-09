@@ -111,6 +111,7 @@ class _StarOfMonthScreenState extends State<StarOfMonthScreen> {
                                 ],
                               ),
                             ),
+                            getStarVendorModel.value.data![index].ofTheMonth!= null?
                             Expanded(
                               child: Column(
                                 children: [
@@ -131,7 +132,7 @@ class _StarOfMonthScreenState extends State<StarOfMonthScreen> {
                                   ),
                                 ],
                               ),
-                            ),
+                            ): const SizedBox(),
                           ],
                         ),
                       ),
