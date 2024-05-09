@@ -9,6 +9,7 @@ import 'package:form_field_validator/form_field_validator.dart';
 import 'package:get/get.dart';
 import 'package:google_fonts/google_fonts.dart';
 
+import '../controller/vendor_controllers/add_product_controller.dart';
 import '../model/common_modal.dart';
 import '../model/reviewAndPublishResponseodel.dart';
 import '../repository/repository.dart';
@@ -63,7 +64,7 @@ class _OptionalScreenState extends State<OptionalScreen> {
         String? SerialNumber;
         String? Productnumber;
 
-
+  final addProductController = Get.put(AddProductController());
 
   optionalApi() {
     Map<String, dynamic> map = {};
@@ -74,12 +75,13 @@ class _OptionalScreenState extends State<OptionalScreen> {
     map['long_description'] = longDescriptionController.text.trim();
     map['serial_number'] = serialNumberController.text.trim();
     map['product_number'] = productNumberController.text.trim();
+    map['id'] = addProductController.idProduct.value.toString();
 
     FocusManager.instance.primaryFocus!.unfocus();
     repositories.postApi(url: ApiUrls.giveawayProductAddress, context: context, mapData: map).then((value) {
       ReviewAndPublishResponseModel response = ReviewAndPublishResponseModel.fromJson(jsonDecode(value));
       print('API Response Status Code: ${response.status}');
-      showToast(response.message.toString());
+
       if (response.status == true) {
         productName = response.productDetails!.product!.pname.toString();
         productID = response.productDetails!.product!.id.toString();
@@ -211,7 +213,7 @@ class _OptionalScreenState extends State<OptionalScreen> {
                   ),
                 ),
                 CommonTextField(
-                    // controller: _referralEmailController,
+                    controller: metaTitleController,
                     obSecure: false,
                     hintText: 'Meta Title'.tr,
                     validator: (value) {
@@ -223,6 +225,7 @@ class _OptionalScreenState extends State<OptionalScreen> {
                     ),
                 TextFormField(
                   maxLines: 2,
+                  controller: metaDescriptionController,
                   minLines: 2,
                   validator: (value) {
                     if (value!.trim().isEmpty) {
@@ -265,7 +268,7 @@ class _OptionalScreenState extends State<OptionalScreen> {
                   ),
                 ),
                 CommonTextField(
-                    // controller: _referralEmailController,
+                 controller: serialNumberController,
                     obSecure: false,
                     hintText: 'Serial Number'.tr,
                     validator: (value) {
@@ -276,7 +279,18 @@ class _OptionalScreenState extends State<OptionalScreen> {
                     },
                     ),
                 CommonTextField(
-                    // controller: _referralEmailController,
+                 controller: longDescriptionController,
+                    obSecure: false,
+                    hintText: 'Long discription'.tr,
+                    validator: (value) {
+                      if (value!.trim().isEmpty) {
+                        return 'Long discription is required'.tr;
+                      }
+                      return null; // Return null if validation passes
+                    },
+                    ),
+                CommonTextField(
+                 controller: productNumberController,
                     obSecure: false,
                     hintText: 'Product number'.tr,
                     validator: (value) {
@@ -297,8 +311,8 @@ class _OptionalScreenState extends State<OptionalScreen> {
                 const SizedBox(height: 20),
                 GestureDetector(
                   onTap: () {
-    if (formKey1.currentState!.validate()) {
-                    Get.to(ReviewPublishScreen());}
+
+                    Get.to(ReviewPublishScreen());
                   },
                   child: Container(
                     width: Get.width,

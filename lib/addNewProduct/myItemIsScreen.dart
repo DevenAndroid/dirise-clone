@@ -5,6 +5,7 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:google_fonts/google_fonts.dart';
 
+import '../Services/whatServiceDoYouProvide.dart';
 import '../iAmHereToSell/whichplantypedescribeyouScreen.dart';
 import '../jobOffers/tellusaboutyourselfScreen.dart';
 import '../language/app_strings.dart';
@@ -41,7 +42,7 @@ class _MyItemISScreenState extends State<MyItemISScreen> {
       Get.to(JobTellusaboutyourselfScreen());
     }
     else if (selectedRadio == 'Service') {
-      Get.to(PickUpAddressScreen());
+      Get.to(whatServiceDoYouProvide());
     }
     else if (selectedRadio == 'Virtual') {
       Get.to(PickUpAddressScreen());

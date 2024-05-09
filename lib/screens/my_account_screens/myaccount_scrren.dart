@@ -16,6 +16,7 @@ import 'package:google_fonts/google_fonts.dart';
 import 'package:intl_phone_field/intl_phone_field.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import '../../addNewProduct/addProductScreen.dart';
+import '../../addNewProduct/addProductStartScreen.dart';
 import '../../addNewProduct/myItemIsScreen.dart';
 import '../../controller/cart_controller.dart';
 import '../../controller/home_controller.dart';
@@ -1888,9 +1889,11 @@ List<Widget> vendorPartner() {
             showVendorDialog();
             return;
           }
-          if (profileController.model.user!.isVendor != true) {
-            Get.to(() => const MyItemISScreen());
+          if (profileController.model.user!.isVendor == true) {
+            Get.to(() => const AddProductOptionScreen());
             return;
+          }else{
+            showToast('Your user is not verified as a vendor');
           }
           _isValue.value = !_isValue.value;
           setState(() {});

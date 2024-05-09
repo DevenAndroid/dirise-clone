@@ -1,7 +1,7 @@
 class ModelStateList {
   bool? status;
   dynamic message;
-  List<CountryState>? state;
+  List<CountryState>? state = [];
 
   ModelStateList({this.status, this.message, this.state});
 

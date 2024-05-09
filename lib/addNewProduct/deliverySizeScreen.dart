@@ -6,6 +6,7 @@ import 'package:get/get.dart';
 import 'package:google_fonts/google_fonts.dart';
 
 import '../addNewProduct/internationalshippingdetailsScreem.dart';
+import '../controller/vendor_controllers/add_product_controller.dart';
 import '../model/common_modal.dart';
 import '../repository/repository.dart';
 import '../utils/api_constant.dart';
@@ -20,11 +21,12 @@ class DeliverySizeScreen extends StatefulWidget {
 
 class _DeliverySizeScreenState extends State<DeliverySizeScreen> {
   int? selectedRadio; // Variable to track the selected radio button
-
+  final addProductController = Get.put(AddProductController());
   deliverySizeApi(String deliverySize) {
     Map<String, dynamic> map = {};
     map['delivery_size'] = deliverySize;
     map['item_type'] = 'giveaway';
+    map['id'] = addProductController.idProduct.value.toString();
 
     final Repositories repositories = Repositories();
     FocusManager.instance.primaryFocus!.unfocus();

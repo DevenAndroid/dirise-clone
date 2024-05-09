@@ -30,6 +30,7 @@ class ProfileController extends GetxController {
   Rx<AboutUsmodel> aboutusModal = AboutUsmodel().obs;
   String planID = '';
   String selectedPlan = '';
+  int productID = 0;
   Future aboutUsData() async {
     Map<String, dynamic> map = {};
     map["id"] = 12;
