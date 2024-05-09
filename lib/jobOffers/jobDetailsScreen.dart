@@ -12,6 +12,7 @@ import 'package:google_fonts/google_fonts.dart';
 import '../controller/vendor_controllers/add_product_controller.dart';
 import '../controller/vendor_controllers/vendor_profile_controller.dart';
 import '../model/common_modal.dart';
+import '../model/customer_profile/model_city_list.dart';
 import '../model/customer_profile/model_country_list.dart';
 import '../model/jobResponceModel.dart';
 import '../model/vendor_models/model_vendor_details.dart';
@@ -65,9 +66,11 @@ class _JobDetailsScreenState extends State<JobDetailsScreen> {
   ModelVendorCategory modelVendorCategory = ModelVendorCategory(usphone: []);
   ModelCountryList modelCountryList = ModelCountryList(country: []);
   ModelStateList modelStateList = ModelStateList(state: []);
+  ModelCityList modelCityList = ModelCityList(city: []);
   Rx<RxStatus> vendorCategoryStatus = RxStatus.empty().obs;
   Rx<RxStatus> countryStatus = RxStatus.empty().obs;
   Rx<RxStatus> stateStatus = RxStatus.empty().obs;
+  Rx<RxStatus> cityStatus = RxStatus.empty().obs;
   final GlobalKey categoryKey = GlobalKey();
   final GlobalKey categoryKey1 = GlobalKey();
   final GlobalKey categoryKey2 = GlobalKey();
@@ -77,7 +80,9 @@ class _JobDetailsScreenState extends State<JobDetailsScreen> {
   Map<String, VendorCategoriesData> allSelectedCategory = {};
   Map<String, Country> allSelectedCategory1 = {};
   Map<String, CountryState> allSelectedCategory2 = {};
+  Map<String, City> allSelectedCategory3 = {};
   String? selectedCategory;
+  String? cityId;
   String? stateCategory;
   String? idCountry;
 
@@ -140,12 +145,32 @@ class _JobDetailsScreenState extends State<JobDetailsScreen> {
       }
     });
   }
-  getCountryList() {
-    if(modelCountryList != null)return;
-    repositories.getApi(url: ApiUrls.allCountriesUrl).then((value) {
-      modelCountryList = ModelCountryList.fromString(value);
+  getCityApi() {
+    Map<String, dynamic> map = {};
+    map['state_id'] = stateCategory.toString();
+
+    /////please change this when image ui is done
+
+    final Repositories repositories = Repositories();
+    FocusManager.instance.primaryFocus!.unfocus();
+    cityStatus.value = RxStatus.loading();
+    repositories.postApi(url: ApiUrls.citiesList, context: context, mapData: map).then((value) {
+      modelCityList = ModelCityList.fromJson(jsonDecode(value));
+      // ModelStateList response = ModelStateList.fromJson(jsonDecode(value));
+      cityStatus.value = RxStatus.success();
+      for (var element in vendorInfo.vendorCategory!) {
+        allSelectedCategory3[element.id.toString()] = City.fromJson(element.toJson());
+      }
+      print('API Response Status Code: ${modelCityList.city}');
+      showToast(modelCityList.message.toString());
+      if (modelCityList.status == true) {
+
+        print(addProductController.idProduct.value.toString());
+
+      }
     });
   }
+
   TextEditingController describe_job_roleController = TextEditingController();
   TextEditingController linkdin_urlController = TextEditingController();
   TextEditingController experienceController = TextEditingController();
@@ -242,6 +267,17 @@ class _JobDetailsScreenState extends State<JobDetailsScreen> {
               mainAxisAlignment: MainAxisAlignment.start,
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
+                CommonTextField(
+                  controller: linkdin_urlController,
+                  obSecure: false,
+                  hintText: 'Job Title'.tr,
+                  validator: (value) {
+                    if (value!.trim().isEmpty) {
+                      return 'Job Title';
+                    }
+                    return null; // Return null if validation passes
+                  },
+                ),
                 Obx(() {
                   if (kDebugMode) {
                     print(modelVendorCategory.usphone!
@@ -304,6 +340,7 @@ class _JobDetailsScreenState extends State<JobDetailsScreen> {
                     },
                   );
                 }),
+                SizedBox(height: 20,),
                 Obx(() {
                   if (kDebugMode) {
                     print(modelCountryList.country!
@@ -358,14 +395,15 @@ class _JobDetailsScreenState extends State<JobDetailsScreen> {
                       // allSelectedCategory1[value.id.toString()] = value;
                       setState(() {});
                     },
-                    validator: (value) {
-                      if (allSelectedCategory1.isEmpty) {
-                        return "Please select Category".tr;
-                      }
-                      return null;
-                    },
+                    // validator: (value) {
+                    //   if (allSelectedCategory1.isEmpty) {
+                    //     return "Please select country".tr;
+                    //   }
+                    //   return null;
+                    // },
                   );
                 }),
+                SizedBox(height: 20,),
                 Obx(() {
                   if (kDebugMode) {
                     print(modelStateList.state!
@@ -409,35 +447,36 @@ class _JobDetailsScreenState extends State<JobDetailsScreen> {
                     items: modelStateList.state!
                         .map((e) => DropdownMenuItem(value: e, child: Text(e.stateName.toString().capitalize!)))
                         .toList(),
-                    hint: Text('Search category to choose'.tr),
+                    hint: Text('Search state to choose'.tr),
                     onChanged: (value) {
                       setState(() {
-                        stateCategory =
-                            value!.stateId.toString(); // Assuming you want to use the ID as the category value
+                        stateCategory = value!.stateId.toString();
+                        getCityApi();// Assuming you want to use the ID as the category value
                       });
                       // if (value == null) return;
                       // if (allSelectedCategory2.isNotEmpty) return;
                       // allSelectedCategory2[value.stateId.toString()] = value;
                       // setState(() {});
                     },
-                    validator: (value) {
-                      if (allSelectedCategory2.isEmpty) {
-                        return "Please select Category".tr;
-                      }
-                      return null;
-                    },
+                    // validator: (value) {
+                    //   if (allSelectedCategory2.isEmpty) {
+                    //     return "Please select state".tr;
+                    //   }
+                    //   return null;
+                    // },
                   );
                 }),
+                SizedBox(height: 20,),
                 Obx(() {
                   if (kDebugMode) {
-                    print(modelVendorCategory.usphone!
-                        .map((e) => DropdownMenuItem(value: e, child: Text(e.name.toString().capitalize!)))
+                    print(modelCityList.city!
+                        .map((e) => DropdownMenuItem(value: e, child: Text(e.cityName.toString().capitalize!)))
                         .toList());
                   }
-                  return DropdownButtonFormField<VendorCategoriesData>(
+                  return DropdownButtonFormField<City>(
                     key: categoryKey3,
                     autovalidateMode: AutovalidateMode.onUserInteraction,
-                    icon: vendorCategoryStatus.value.isLoading
+                    icon: cityStatus.value.isLoading
                         ? const CupertinoActivityIndicator()
                         : const Icon(Icons.keyboard_arrow_down_rounded),
                     iconSize: 30,
@@ -468,26 +507,25 @@ class _JobDetailsScreenState extends State<JobDetailsScreen> {
                         borderSide: BorderSide(color: AppTheme.secondaryColor),
                       ),
                     ),
-                    items: modelVendorCategory.usphone!
-                        .map((e) => DropdownMenuItem(value: e, child: Text(e.name.toString().capitalize!)))
+                    items: modelCityList.city!
+                        .map((e) => DropdownMenuItem(value: e, child: Text(e.cityName.toString().capitalize!)))
                         .toList(),
-                    hint: Text('Search category to choose'.tr),
+                    hint: Text('Search city to choose'.tr),
                     onChanged: (value) {
                       setState(() {
-                        selectedCategory =
-                            value!.id.toString(); // Assuming you want to use the ID as the category value
+                        cityId = value!.cityId.toString(); // Assuming you want to use the ID as the category value
                       });
-                      if (value == null) return;
-                      if (allSelectedCategory.isNotEmpty) return;
-                      allSelectedCategory[value.id.toString()] = value;
-                      setState(() {});
+                      // if (value == null) return;
+                      // if (allSelectedCategory3.isNotEmpty) return;
+                      // allSelectedCategory3[value.cityId.toString()] = value;
+                      // setState(() {});
                     },
-                    validator: (value) {
-                      if (allSelectedCategory.isEmpty) {
-                        return "Please select Category".tr;
-                      }
-                      return null;
-                    },
+                    // validator: (value) {
+                    //   if (allSelectedCategory3.isEmpty) {
+                    //     return "Please select city".tr;
+                    //   }
+                    //   return null;
+                    // },
                   );
                 }),
                 const SizedBox(
