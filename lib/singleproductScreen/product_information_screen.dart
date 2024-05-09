@@ -58,7 +58,7 @@ final addProductController = Get.put(AddProductController());
     map['category_id'] = id.value.toString();
     map['product_name'] = ProductNameController.text.toString();
     map['item_type'] = 'product';
-    map['id'] = 'giveaway';
+    map['id'] = addProductController.idProduct.value.toString();
     /////please change this when image ui is done
 
     final Repositories repositories = Repositories();

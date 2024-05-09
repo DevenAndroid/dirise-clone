@@ -1,9 +1,7 @@
 import 'dart:convert';
 import 'package:dirise/addNewProduct/pickUpAddressScreen.dart';
 import 'package:dirise/controller/vendor_controllers/add_product_controller.dart';
-import 'package:dirise/singleproductScreen/singleProductPriceScreen.dart';
 import 'package:flutter/cupertino.dart';
-import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:form_field_validator/form_field_validator.dart';
 import 'package:get/get.dart';
@@ -21,7 +19,6 @@ import '../repository/repository.dart';
 import '../utils/api_constant.dart';
 import '../utils/styles.dart';
 import '../widgets/common_button.dart';
-import '../widgets/common_colour.dart';
 import '../widgets/common_textfield.dart';
 
 class ItemDetailsScreens extends StatefulWidget {
@@ -60,8 +57,8 @@ class _ItemDetailsScreensState extends State<ItemDetailsScreens> {
     Map<String, dynamic> map = {};
     map['category_id'] = id.value.toString();
     map['product_name'] = ProductNameController.text.toString();
-    map['item_type'] = 'product';
-    map['id'] = 'giveaway';
+    map['item_type'] = 'giveaway';
+    map['id'] = addProductController.idProduct.value.toString();
     /////please change this when image ui is done
 
     final Repositories repositories = Repositories();
@@ -241,6 +238,7 @@ class _ItemDetailsScreensState extends State<ItemDetailsScreens> {
                           fetchDataBasedOnId(data.id);
                           isItemDetailsVisible = !isItemDetailsVisible;
                           categoryName.value = data.name.toString();
+                          id.value = data.id.toString();
                           setState(() {});
                         },
                         child: Container(
@@ -361,6 +359,141 @@ class _ItemDetailsScreensState extends State<ItemDetailsScreens> {
                         .toList(),
                   ) : SizedBox();
               }),
+              // const Text(
+              //   'Select Product Category',
+              //   style: TextStyle(fontWeight: FontWeight.bold),
+              // ),
+              // GestureDetector(
+              //   onTap: () {
+              //     isItemDetailsVisible1 = !isItemDetailsVisible1;
+              //     // fetchSubCategoryBasedOnId(ProductID);
+              //     setState(() {});
+              //   },
+              //   child: Container(
+              //     padding: const EdgeInsets.all(10),
+              //     height: 50,
+              //     decoration: BoxDecoration(
+              //         color: Colors.grey.shade200,
+              //         borderRadius: BorderRadius.circular(10),
+              //         border: Border.all(color: Colors.grey.shade400, width: 1)),
+              //     child:  Row(
+              //       mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              //
+              //       children: [Text(
+              //           productName.value == ""?
+              //           'Select category to choose':productName.value), Icon(Icons.arrow_drop_down_sharp)],
+              //     ),
+              //   ),
+              // ),
+              // const SizedBox(
+              //   height: 5,
+              // ),
+              // Visibility(
+              //     visible: isItemDetailsVisible1,
+              //     child: productCategoryModel.productdata != null
+              //         ? ListView.builder(
+              //         itemCount: productCategoryModel.productdata!.length,
+              //         shrinkWrap: true,
+              //         physics: const NeverScrollableScrollPhysics(),
+              //         itemBuilder: (context, index) {
+              //           var products = productCategoryModel.productdata![index];
+              //           return GestureDetector(
+              //             onTap: (){
+              //               fetchSubCategoryBasedOnId(products.id);
+              //               isItemDetailsVisible1 = !isItemDetailsVisible1;
+              //               productName.value = products.title.toString();
+              //               setState(() {});
+              //             },
+              //             child: Container(
+              //                 margin: EdgeInsets.only(bottom: 5),
+              //                 padding: const EdgeInsets.all(10),
+              //                 height: 50,
+              //                 decoration: BoxDecoration(
+              //                     color: Colors.grey.shade200,
+              //                     borderRadius: BorderRadius.circular(10),
+              //                     border: Border.all(color: Colors.grey.shade400, width: 1)),
+              //                 child: Text(products.title)),
+              //           );
+              //         })
+              //         : SizedBox()),
+              // const SizedBox(
+              //   height: 20,
+              // ),
+              // const Text(
+              //   'Select Sub Product Category',
+              //   style: TextStyle(fontWeight: FontWeight.bold),
+              // ),
+              // GestureDetector(
+              //   onTap: () {
+              //     isItemDetailsVisible2 = !isItemDetailsVisible2;
+              //     setState(() {});
+              //   },
+              //   child: Container(
+              //     padding: const EdgeInsets.all(10),
+              //     height: 50,
+              //     decoration: BoxDecoration(
+              //         color: Colors.grey.shade200,
+              //         borderRadius: BorderRadius.circular(10),
+              //         border: Border.all(color: Colors.grey.shade400, width: 1)),
+              //     child:  Row(
+              //       mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              //       children: [Text(
+              //           subName.value ==""?
+              //           'Select Sub category to choose':subName.value), Icon(Icons.arrow_drop_down_sharp)],
+              //     ),
+              //   ),
+              // ),
+              // const SizedBox(
+              //   height: 5,
+              // ),
+              // Visibility(
+              //     visible: isItemDetailsVisible2,
+              //     child:  subProductCategoryModel.data!= null
+              //         ? ListView.builder(
+              //         itemCount: subProductCategoryModel.data!.length,
+              //         shrinkWrap: true,
+              //         physics: const NeverScrollableScrollPhysics(),
+              //         itemBuilder: (context, index) {
+              //           var products = subProductCategoryModel.data![index];
+              //           return GestureDetector(
+              //             onTap: (){
+              //               isItemDetailsVisible2 = !isItemDetailsVisible2;
+              //               subName.value = products.title.toString();
+              //               id.value = products.id.toString();
+              //               setState(() {});
+              //             },
+              //             child: Container(
+              //                 margin: EdgeInsets.only(bottom: 5),
+              //                 padding: const EdgeInsets.all(10),
+              //                 height: 50,
+              //                 decoration: BoxDecoration(
+              //                     color: Colors.grey.shade200,
+              //                     borderRadius: BorderRadius.circular(10),
+              //                     border: Border.all(color: Colors.grey.shade400, width: 1)),
+              //                 child: Text(products.title)),
+              //           );
+              //         })
+              //         : SizedBox()),
+              // Visibility(
+              //     visible: isItemDetailsVisible2,
+              //     child: subProductData. != null
+              //         ? ListView.builder(
+              //         itemCount: productCategoryModel.productdata!.length,
+              //         shrinkWrap: true,
+              //         physics: const NeverScrollableScrollPhysics(),
+              //         itemBuilder: (context, index) {
+              //           var products = productCategoryModel.productdata![index];
+              //           return Container(
+              //               margin: EdgeInsets.only(bottom: 5),
+              //               padding: const EdgeInsets.all(10),
+              //               height: 50,
+              //               decoration: BoxDecoration(
+              //                   color: Colors.grey.shade200,
+              //                   borderRadius: BorderRadius.circular(10),
+              //                   border: Border.all(color: Colors.grey.shade400, width: 1)),
+              //               child: Text(products.title));
+              //         })
+              //         : SizedBox()),
               const SizedBox(
                 height: 20,
               ),
@@ -378,6 +511,13 @@ class _ItemDetailsScreensState extends State<ItemDetailsScreens> {
                   }
 
                   else {
+                  // else if(  productName.value == ""){
+                  //   showToast("Please Select  Product Category");
+                  // }
+                  // else if(  subName.value == ""){
+                  //   showToast("Please Select Sub Product Category");
+                  // }
+else {
                     deliverySizeApi();
                   }
                 },

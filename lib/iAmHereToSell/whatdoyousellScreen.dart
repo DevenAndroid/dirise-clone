@@ -42,9 +42,7 @@ class WhatdoyousellScreen extends StatefulWidget {
 
 class _WhatdoyousellScreenState extends State<WhatdoyousellScreen> {
   ModelVendorCategory modelVendorCategory = ModelVendorCategory(usphone: []);
-  Rx<RxStatus> vendorCategoryStatus = RxStatus
-      .empty()
-      .obs;
+  Rx<RxStatus> vendorCategoryStatus = RxStatus.empty().obs;
   final GlobalKey categoryKey = GlobalKey();
   Map<String, VendorCategoriesData> allSelectedCategory = {};
   TextEditingController _otpController = TextEditingController();
@@ -82,19 +80,11 @@ class _WhatdoyousellScreenState extends State<WhatdoyousellScreen> {
   }
 
   bool validateFields() {
-    if (storeName.text
-        .trim()
-        .isEmpty ||
-        storeEmail.text
-            .trim()
-            .isEmpty ||
-        storeNumber.text
-            .trim()
-            .isEmpty ||
+    if (storeName.text.trim().isEmpty ||
+        storeEmail.text.trim().isEmpty ||
+        storeNumber.text.trim().isEmpty ||
         allSelectedCategory.isEmpty ||
-        _otpController.text
-            .trim()
-            .length < 4 ||
+        _otpController.text.trim().length < 4 ||
         _isValue != true) {
       showToast('Please fill in all required fields and accept terms.');
       return false;
@@ -150,15 +140,11 @@ class _WhatdoyousellScreenState extends State<WhatdoyousellScreen> {
   verifyOtp() async {
     String? token = await FirebaseMessaging.instance.getToken();
     String? token1 = await FirebaseMessaging.instance.getToken();
-    if (_otpController.text
-        .trim()
-        .isEmpty) {
+    if (_otpController.text.trim().isEmpty) {
       showToast("Please enter OTP".tr);
       return;
     }
-    if (_otpController.text
-        .trim()
-        .length < 4) {
+    if (_otpController.text.trim().length < 4) {
       showToast("Enter complete OTP".tr);
       return;
     }
@@ -182,6 +168,7 @@ class _WhatdoyousellScreenState extends State<WhatdoyousellScreen> {
       }
     });
   }
+
   late Timer _resendTimer;
   int _secondsRemaining = 30;
   bool _resendEnabled = true;
@@ -210,6 +197,7 @@ class _WhatdoyousellScreenState extends State<WhatdoyousellScreen> {
       _startTimer(); // Restart the timer
     }
   }
+
   @override
   void initState() {
     // TODO: implement initState
@@ -286,10 +274,7 @@ class _WhatdoyousellScreenState extends State<WhatdoyousellScreen> {
                 Obx(() {
                   if (kDebugMode) {
                     print(modelVendorCategory.usphone!
-                        .map((e) =>
-                        DropdownMenuItem(value: e, child: Text(e.name
-                            .toString()
-                            .capitalize!)))
+                        .map((e) => DropdownMenuItem(value: e, child: Text(e.name.toString().capitalize!)))
                         .toList());
                   }
                   return DropdownButtonFormField<VendorCategoriesData>(
@@ -327,10 +312,7 @@ class _WhatdoyousellScreenState extends State<WhatdoyousellScreen> {
                       ),
                     ),
                     items: modelVendorCategory.usphone!
-                        .map((e) =>
-                        DropdownMenuItem(value: e, child: Text(e.name
-                            .toString()
-                            .capitalize!)))
+                        .map((e) => DropdownMenuItem(value: e, child: Text(e.name.toString().capitalize!)))
                         .toList(),
                     hint: Text('Category'.tr),
                     onChanged: (value) {
@@ -395,65 +377,98 @@ class _WhatdoyousellScreenState extends State<WhatdoyousellScreen> {
                 const SizedBox(
                   height: 10,
                 ),
+                Row(
+                  children: [
+                    Transform.translate(
+                      offset: const Offset(-6, 0),
+                      child: Checkbox(
+                          visualDensity: const VisualDensity(horizontal: -1, vertical: -3),
+                          materialTapTargetSize: MaterialTapTargetSize.shrinkWrap,
+                          shape: RoundedRectangleBorder(
+                            borderRadius: BorderRadius.circular(4),
+                          ),
+                          value: _isValue,
+                          side: BorderSide(
+                            color: showValidation == false ? const Color(0xff0D5877) : Colors.red,
+                          ),
+                          onChanged: (bool? value) {
+                            setState(() {
+                              _isValue = value;
+                            });
+                          }),
+                    ),
+                    Expanded(
+                      child: Text(
+                        'By clicking next, you agree to the DIRISE Terms of Service and Privacy Policy'.tr,
+                        style: GoogleFonts.poppins(
+                            color: const Color(0xff292F45), fontWeight: FontWeight.w500, fontSize: 13),
+                      ),
+                    ),
+                  ],
+                ),
+                const SizedBox(
+                  height: 10,
+                ),
                 Obx(() {
                   return GestureDetector(
                     onTap: () {
                       if (formKey1.currentState!.validate()) {
-                        response.value.message ==
-                            'You are successfully registered as a seller , Please check your mail for verify your account.'
-                            ?
-                        SizedBox() :vendorregister();
-                    }
+                        if (_isValue == true) {
+                          response.value.message ==
+                                  'You are successfully registered as a seller , Please check your mail for verify your account.'
+                              ? const SizedBox()
+                              : vendorregister();
+                        } else {
+                          showToast('Please Accept Terms of Service');
+                        }
+                      }
                     },
                     child: response.value.message ==
-                        'You are successfully registered as a seller , Please check your mail for verify your account.'
-                        ?
-                    Container(
-                      width: Get.width,
-                      height: 50,
-                      decoration: BoxDecoration(
-                        border: Border.all(
-                          color: const Color(0xff0D5877), // Border color
-                          width: 1.0, // Border width
-                        ),
-                        borderRadius: BorderRadius.circular(2), // Border radius
-                      ),
-                      padding: const EdgeInsets.all(10),
-                      // Padding inside the container
-                      child: const Center(
-                        child: Text(
-                          'Send Otp',
-                          style: TextStyle(
-                            fontSize: 16,
-                            fontWeight: FontWeight.bold,
-                            color: Colors.black, // Text color
-                          ),
-                        ),
-                      ),
-                    )
-                        :
-                    Container(
-                      width: Get.width,
-                      height: 50,
-                      decoration: BoxDecoration(
-                        color: const Color(0xff0D5877), // Border color
+                            'You are successfully registered as a seller , Please check your mail for verify your account.'
+                        ? Container(
+                            width: Get.width,
+                            height: 50,
+                            decoration: BoxDecoration(
+                              border: Border.all(
+                                color: const Color(0xff0D5877), // Border color
+                                width: 1.0, // Border width
+                              ),
+                              borderRadius: BorderRadius.circular(2), // Border radius
+                            ),
+                            padding: const EdgeInsets.all(10),
+                            // Padding inside the container
+                            child: const Center(
+                              child: Text(
+                                'Send Otp',
+                                style: TextStyle(
+                                  fontSize: 16,
+                                  fontWeight: FontWeight.bold,
+                                  color: Colors.black, // Text color
+                                ),
+                              ),
+                            ),
+                          )
+                        : Container(
+                            width: Get.width,
+                            height: 50,
+                            decoration: BoxDecoration(
+                              color: const Color(0xff0D5877), // Border color
 
-                        borderRadius: BorderRadius.circular(2), // Border radius
-                      ),
-                      padding: const EdgeInsets.all(10),
-                      // Padding inside the container
-                      child: const Center(
-                        child: Text(
-                          'Send Otp',
-                          style: TextStyle(
-                            fontSize: 16,
-                            fontWeight: FontWeight.bold,
-                            color: Colors.white, // Text color
+                              borderRadius: BorderRadius.circular(2), // Border radius
+                            ),
+                            padding: const EdgeInsets.all(10),
+                            // Padding inside the container
+                            child: const Center(
+                              child: Text(
+                                'Send Otp',
+                                style: TextStyle(
+                                  fontSize: 16,
+                                  fontWeight: FontWeight.bold,
+                                  color: Colors.white, // Text color
+                                ),
+                              ),
+                            ),
                           ),
-                        ),
-                      ),
-                    ),
-
                   );
                 }),
                 const SizedBox(
@@ -497,11 +512,14 @@ class _WhatdoyousellScreenState extends State<WhatdoyousellScreen> {
                     alignment: Alignment.centerRight,
                     child: Container(
                       padding: EdgeInsets.only(left: 10, right: 10, top: 5, bottom: 5),
-                      decoration: BoxDecoration(color: Color(0xff1D2C3D,), borderRadius: BorderRadius.circular(5)),
+                      decoration: BoxDecoration(
+                          color: Color(
+                            0xff1D2C3D,
+                          ),
+                          borderRadius: BorderRadius.circular(5)),
                       child: Text(
                         'Verify Otp'.tr,
-                        style:
-                        GoogleFonts.poppins(color: Colors.white, fontWeight: FontWeight.w400, fontSize: 14),
+                        style: GoogleFonts.poppins(color: Colors.white, fontWeight: FontWeight.w400, fontSize: 14),
                       ),
                     ),
                   ),
@@ -510,119 +528,89 @@ class _WhatdoyousellScreenState extends State<WhatdoyousellScreen> {
                   height: 10,
                 ),
                 response.value.message ==
-                    'You are successfully registered as a seller , Please check your mail for verify your account.' ?
-                RichText(
-                  text: TextSpan(
-                    text: 'If you don\'t receive a code, ',
-                    style: TextStyle(fontFamily: 'Your App Font Family', color: Colors.black),
-                    children: [
-                      if (_secondsRemaining > 0)
-                        TextSpan(
-                          text: 'Wait $_secondsRemaining seconds to resend',
-                          style: TextStyle(fontWeight: FontWeight.w500, color: Color(0xff014E70)),
-                        )
-                      else
-                        TextSpan(
-                          text: 'Resend',
-                          recognizer: TapGestureRecognizer()..onTap = _resendOTP,
-                          style: TextStyle(fontWeight: FontWeight.w500, color: Color(0xff014E70)),
+                        'You are successfully registered as a seller , Please check your mail for verify your account.'
+                    ? RichText(
+                        text: TextSpan(
+                          text: 'If you don\'t receive a code, ',
+                          style: TextStyle(fontFamily: 'Your App Font Family', color: Colors.black),
+                          children: [
+                            if (_secondsRemaining > 0)
+                              TextSpan(
+                                text: 'Wait $_secondsRemaining seconds to resend',
+                                style: TextStyle(fontWeight: FontWeight.w500, color: Color(0xff014E70)),
+                              )
+                            else
+                              TextSpan(
+                                text: 'Resend',
+                                recognizer: TapGestureRecognizer()..onTap = _resendOTP,
+                                style: TextStyle(fontWeight: FontWeight.w500, color: Color(0xff014E70)),
+                              ),
+                          ],
                         ),
-                    ],
-                  ),
-                ) : SizedBox(),
-                const SizedBox(
-                  height: 10,
-                ),
-                Row(
-                  children: [
-                    Transform.translate(
-                      offset: const Offset(-6, 0),
-                      child: Checkbox(
-                          visualDensity: const VisualDensity(horizontal: -1, vertical: -3),
-                          materialTapTargetSize: MaterialTapTargetSize.shrinkWrap,
-                          shape: RoundedRectangleBorder(
-                            borderRadius: BorderRadius.circular(4),
-                          ),
-                          value: _isValue,
-                          side: BorderSide(
-                            color: showValidation == false ? const Color(0xff0D5877) : Colors.red,
-                          ),
-                          onChanged: (bool? value) {
-                            setState(() {
-                              _isValue = value;
-                            });
-                          }),
-                    ),
-                    Expanded(
-                      child: Text(
-                        'By clicking next, you agree to the DIRISE Terms of Service and Privacy Policy'.tr,
-                        style: GoogleFonts.poppins(
-                            color: const Color(0xff292F45), fontWeight: FontWeight.w500, fontSize: 13),
-                      ),
-                    ),
-                  ],
-                ),
+                      )
+                    : SizedBox(),
                 const SizedBox(
                   height: 10,
                 ),
                 GestureDetector(
                   onTap: () {
                     if (vendorRegister == 'done' && otpVerify == 'done') {
-                      if(_isValue == true){
+                      if (_isValue == true) {
                         Get.to(SellingPickupAddress());
-                      }else{
+                      } else {
                         showToast('please accept Terms and Condition');
                       }
-                   
                     }
                   },
-                  child: vendorRegister == 'done' && otpVerify == 'done' && _isValue == true ?
-                  Container(
-                    width: Get.width,
-                    height: 50,
-                    decoration: BoxDecoration(
-                      color: const Color(0xff0D5877), // Border color
+                  child: vendorRegister == 'done' && otpVerify == 'done'
+                      ? Container(
+                          width: Get.width,
+                          height: 50,
+                          decoration: BoxDecoration(
+                            color: const Color(0xff0D5877), // Border color
 
-                      borderRadius: BorderRadius.circular(2), // Border radius
-                    ),
-                    padding: const EdgeInsets.all(10),
-                    // Padding inside the container
-                    child: const Center(
-                      child: Text(
-                        'Next',
-                        style: TextStyle(
-                          fontSize: 16,
-                          fontWeight: FontWeight.bold,
-                          color: Colors.white, // Text color
+                            borderRadius: BorderRadius.circular(2), // Border radius
+                          ),
+                          padding: const EdgeInsets.all(10),
+                          // Padding inside the container
+                          child: const Center(
+                            child: Text(
+                              'Next',
+                              style: TextStyle(
+                                fontSize: 16,
+                                fontWeight: FontWeight.bold,
+                                color: Colors.white, // Text color
+                              ),
+                            ),
+                          ),
+                        )
+                      : Container(
+                          width: Get.width,
+                          height: 50,
+                          decoration: BoxDecoration(
+                            border: Border.all(
+                              color: const Color(0xff0D5877), // Border color
+                              width: 1.0, // Border width
+                            ),
+                            borderRadius: BorderRadius.circular(2), // Border radius
+                          ),
+                          padding: const EdgeInsets.all(10),
+                          // Padding inside the container
+                          child: const Center(
+                            child: Text(
+                              'Next',
+                              style: TextStyle(
+                                fontSize: 16,
+                                fontWeight: FontWeight.bold,
+                                color: Colors.black, // Text color
+                              ),
+                            ),
+                          ),
                         ),
-                      ),
-                    ),
-                  ) :
-                  Container(
-                    width: Get.width,
-                    height: 50,
-                    decoration: BoxDecoration(
-                      border: Border.all(
-                        color: const Color(0xff0D5877), // Border color
-                        width: 1.0, // Border width
-                      ),
-                      borderRadius: BorderRadius.circular(2), // Border radius
-                    ),
-                    padding: const EdgeInsets.all(10),
-                    // Padding inside the container
-                    child: const Center(
-                      child: Text(
-                        'Next',
-                        style: TextStyle(
-                          fontSize: 16,
-                          fontWeight: FontWeight.bold,
-                          color: Colors.black, // Text color
-                        ),
-                      ),
-                    ),
-                  ),
                 ),
-                const SizedBox(height: 20,),
+                const SizedBox(
+                  height: 20,
+                ),
               ],
             ),
           ),

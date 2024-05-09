@@ -9,6 +9,8 @@ import 'package:flutter/widgets.dart';
 import 'package:get/get.dart';
 import 'package:google_fonts/google_fonts.dart';
 
+import '../controller/vendor_controllers/add_product_controller.dart';
+import '../model/product_details.dart';
 import '../model/reviewAndPublishModel.dart';
 import '../repository/repository.dart';
 import '../widgets/common_button.dart';
@@ -88,12 +90,27 @@ class _ReviewPublishScreenState extends State<ReviewPublishScreen> {
   bool isItemDetailsVisible3 = false;
   bool isItemDetailsVisible4 = false;
   final Repositories repositories = Repositories();
-  String productId = "";
 
+  final addProductController = Get.put(AddProductController());
+  String productId = "";
+  ModelProductDetails productDetailsModel = ModelProductDetails();
+  Rx<RxStatus> vendorCategoryStatus = RxStatus.empty().obs;
+
+  void getVendorCategories(id) {
+    vendorCategoryStatus.value = RxStatus.loading();
+    repositories.getApi(url: ApiUrls.getProductDetailsUrl+id, showResponse: false).then((value) {
+      productDetailsModel = ModelProductDetails.fromJson(jsonDecode(value));
+      vendorCategoryStatus.value = RxStatus.success();
+      setState(() {});
+    }).catchError((e) {
+      vendorCategoryStatus.value = RxStatus.error();
+    });
+  }
   @override
   void initState() {
     // TODO: implement initState
     super.initState();
+    getVendorCategories(addProductController.idProduct.value.toString());
   }
 
   @override
@@ -136,211 +153,218 @@ class _ReviewPublishScreenState extends State<ReviewPublishScreen> {
       body: SingleChildScrollView(
         child: Container(
             margin: const EdgeInsets.only(left: 15, right: 15),
-            child: Column(
-              children: [
-                const SizedBox(height: 20),
-                GestureDetector(
-                  onTap: () {
-                    isItemDetailsVisible = !isItemDetailsVisible;
-                    setState(() {});
-                  },
-                  child: Container(
-                    padding: const EdgeInsets.all(10),
-                    height: 50,
-                    decoration: BoxDecoration(
-                        color: Colors.grey.shade200,
-                        borderRadius: BorderRadius.circular(10),
-                        border: Border.all(color: Colors.grey.shade400, width: 1)),
-                    child: const Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                      children: [Text('Item details'), Icon(Icons.arrow_drop_down_sharp)],
-                    ),
-                  ),
-                ),
-                Visibility(
-                    visible: isItemDetailsVisible,
+            child: Obx(() {
+              return  vendorCategoryStatus.value.isSuccess?Column(
+                children: [
+                  const SizedBox(height: 20),
+                  GestureDetector(
+                    onTap: () {
+                      isItemDetailsVisible = !isItemDetailsVisible;
+                      setState(() {});
+                    },
                     child: Container(
-                      margin: EdgeInsets.only(top: 10),
-                      width: Get.width,
-                      padding: EdgeInsets.all(10),
-                      decoration: BoxDecoration(color: Colors.grey.shade200, borderRadius: BorderRadius.circular(11)),
-                      child: Column(
-                        mainAxisAlignment: MainAxisAlignment.start,
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        children: [
-                          Text('product name: ${widget.productname.toString()}'),
-                          Text('product Price: ${widget.productPrice.toString()}'),
-                          Text('product Type: ${widget.productType.toString()}'),
-                          Text('product ID: ${widget.productID.toString()}'),
-                          Text('short Des: ${widget.shortDes.toString()}'),
-                        ],
+                      padding: const EdgeInsets.all(10),
+                      height: 50,
+                      decoration: BoxDecoration(
+                          color: Colors.grey.shade200,
+                          borderRadius: BorderRadius.circular(10),
+                          border: Border.all(color: Colors.grey.shade400, width: 1)),
+                      child: const Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                        children: [Text('Item details'), Icon(Icons.arrow_drop_down_sharp)],
                       ),
-                    )),
-                const SizedBox(height: 20),
-                GestureDetector(
-                  onTap: () {
-                    isItemDetailsVisible1 = !isItemDetailsVisible1;
-                    setState(() {});
-                  },
-                  child: Container(
-                    padding: const EdgeInsets.all(10),
-                    height: 50,
-                    decoration: BoxDecoration(
-                        color: Colors.grey.shade200,
-                        borderRadius: BorderRadius.circular(10),
-                        border: Border.all(color: Colors.grey.shade400, width: 1)),
-                    child: const Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                      children: [Text('Pickup address'), Icon(Icons.arrow_drop_down_sharp)],
                     ),
                   ),
-                ),
-                const SizedBox(height: 10),
-                Visibility(
-                    visible: isItemDetailsVisible1,
+                  Visibility(
+                      visible: isItemDetailsVisible,
+                      child: Container(
+                        margin: EdgeInsets.only(top: 10),
+                        width: Get.width,
+                        padding: EdgeInsets.all(10),
+                        decoration: BoxDecoration(color: Colors.grey.shade200, borderRadius: BorderRadius.circular(11)),
+                        child: Column(
+                          mainAxisAlignment: MainAxisAlignment.start,
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
+                            Text('product name: ${productDetailsModel.productDetails!.product!.prodectName.toString()}'),
+                            Text('product Price: ${productDetailsModel.productDetails!.product!.prodectPrice.toString()}'),
+                            Text('product Type: ${productDetailsModel.productDetails!.product!.productType.toString()}'),
+                            Text('product ID: ${productDetailsModel.productDetails!.product!.id.toString()}'),
+                            Text('short Des: ${productDetailsModel.productDetails!.product!.shortDescription.toString()}'),
+                          ],
+                        ),
+                      )),
+                  const SizedBox(height: 20),
+                  GestureDetector(
+                    onTap: () {
+                      isItemDetailsVisible1 = !isItemDetailsVisible1;
+                      setState(() {});
+                    },
                     child: Container(
-                      margin: EdgeInsets.only(top: 10),
-                      width: Get.width,
-                      padding: EdgeInsets.all(10),
-                      decoration: BoxDecoration(color: Colors.grey.shade200, borderRadius: BorderRadius.circular(11)),
-                      child: Column(
-                        mainAxisAlignment: MainAxisAlignment.start,
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        children: [
-                          Text('Town: ${widget.town.toString()}'),
-                          Text('city: ${widget.city.toString()}'),
-                          Text('state: ${widget.state.toString()}'),
-                          Text('address: ${widget.address.toString()}'),
-                          Text('zip code: ${widget.zip_code.toString()}'),
-                        ],
+                      padding: const EdgeInsets.all(10),
+                      height: 50,
+                      decoration: BoxDecoration(
+                          color: Colors.grey.shade200,
+                          borderRadius: BorderRadius.circular(10),
+                          border: Border.all(color: Colors.grey.shade400, width: 1)),
+                      child: const Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                        children: [Text('Pickup address'), Icon(Icons.arrow_drop_down_sharp)],
                       ),
-                    )),
-                const SizedBox(height: 10),
-                GestureDetector(
-                  onTap: () {
-                    isItemDetailsVisible2 = !isItemDetailsVisible2;
-                    setState(() {});
-                  },
-                  child: Container(
-                    padding: const EdgeInsets.all(10),
-                    height: 50,
-                    decoration: BoxDecoration(
-                        color: Colors.grey.shade200,
-                        borderRadius: BorderRadius.circular(10),
-                        border: Border.all(color: Colors.grey.shade400, width: 1)),
-                    child: const Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                      children: [Text('Delivery Size'), Icon(Icons.arrow_drop_down_sharp)],
                     ),
                   ),
-                ),
-                const SizedBox(height: 10),
-                Visibility(
-                    visible: isItemDetailsVisible2,
+                  const SizedBox(height: 10),
+                  Visibility(
+                      visible: isItemDetailsVisible1,
+                      child: Container(
+                        margin: EdgeInsets.only(top: 10),
+                        width: Get.width,
+                        padding: EdgeInsets.all(10),
+                        decoration: BoxDecoration(color: Colors.grey.shade200, borderRadius: BorderRadius.circular(11)),
+                        child: Column(
+                          mainAxisAlignment: MainAxisAlignment.start,
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
+                            Text('Town: ${widget.town.toString()}'),
+                            Text('city: ${widget.city.toString()}'),
+                            Text('state: ${widget.state.toString()}'),
+                            Text('address: ${widget.address.toString()}'),
+                            Text('zip code: ${widget.zip_code.toString()}'),
+                          ],
+                        ),
+                      )),
+                  const SizedBox(height: 10),
+                  GestureDetector(
+                    onTap: () {
+                      isItemDetailsVisible2 = !isItemDetailsVisible2;
+                      setState(() {});
+                    },
                     child: Container(
-                      margin: EdgeInsets.only(top: 10),
-                      width: Get.width,
-                      padding: EdgeInsets.all(10),
-                      decoration: BoxDecoration(color: Colors.grey.shade200, borderRadius: BorderRadius.circular(11)),
-                      child: Column(
-                        mainAxisAlignment: MainAxisAlignment.start,
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        children: [
-                          Text('delivery Size: ${widget.deliverySize.toString()}'),
-                        ],
+                      padding: const EdgeInsets.all(10),
+                      height: 50,
+                      decoration: BoxDecoration(
+                          color: Colors.grey.shade200,
+                          borderRadius: BorderRadius.circular(10),
+                          border: Border.all(color: Colors.grey.shade400, width: 1)),
+                      child: const Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                        children: [Text('Delivery Size'), Icon(Icons.arrow_drop_down_sharp)],
                       ),
-                    )),
-                const SizedBox(height: 10),
-                GestureDetector(
-                  onTap: (){
-                    isItemDetailsVisible3 = !isItemDetailsVisible3;
-                    setState(() {});
-                  },
-                  child: Container(
-                    padding: const EdgeInsets.all(10),
-                    height: 50,
-                    decoration: BoxDecoration(
-                        color: Colors.grey.shade200,
-                        borderRadius: BorderRadius.circular(10),
-                        border: Border.all(color: Colors.grey.shade400, width: 1)),
-                    child: const Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                      children: [Text('International Shipping Details'), Icon(Icons.arrow_drop_down_sharp)],
                     ),
                   ),
-                ),
-                const SizedBox(height: 10),
+                  const SizedBox(height: 10),
+                  Visibility(
+                      visible: isItemDetailsVisible2,
+                      child: Container(
+                        margin: EdgeInsets.only(top: 10),
+                        width: Get.width,
+                        padding: EdgeInsets.all(10),
+                        decoration: BoxDecoration(color: Colors.grey.shade200, borderRadius: BorderRadius.circular(11)),
+                        child: Column(
+                          mainAxisAlignment: MainAxisAlignment.start,
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
+                            Text('delivery Size: ${widget.deliverySize.toString()}'),
+                          ],
+                        ),
+                      )),
+                  const SizedBox(height: 10),
+                  GestureDetector(
+                    onTap: (){
+                      isItemDetailsVisible3 = !isItemDetailsVisible3;
+                      setState(() {});
+                    },
+                    child: Container(
+                      padding: const EdgeInsets.all(10),
+                      height: 50,
+                      decoration: BoxDecoration(
+                          color: Colors.grey.shade200,
+                          borderRadius: BorderRadius.circular(10),
+                          border: Border.all(color: Colors.grey.shade400, width: 1)),
+                      child: const Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                        children: [Text('International Shipping Details'), Icon(Icons.arrow_drop_down_sharp)],
+                      ),
+                    ),
+                  ),
+                  const SizedBox(height: 10),
 
-                Visibility(
-                    visible: isItemDetailsVisible3,
+                  Visibility(
+                      visible: isItemDetailsVisible3,
+                      child: Container(
+                        margin: EdgeInsets.only(top: 10),
+                        width: Get.width,
+                        padding: EdgeInsets.all(10),
+                        decoration: BoxDecoration(color: Colors.grey.shade200, borderRadius: BorderRadius.circular(11)),
+                        child: Column(
+                          mainAxisAlignment: MainAxisAlignment.start,
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
+                            Text('Unit of measure: ${widget.Unitofmeasure.toString()}'),
+                            Text('Weight Of the Item: ${widget.WeightOftheItem.toString()}'),
+                            Text('Select Number Of Packages: ${widget.SelectNumberOfPackages.toString()}'),
+                            Text('Select Type Material: ${widget.SelectTypeMaterial.toString()}'),
+                            Text('Select Type Of Packaging: ${widget.SelectTypeOfPackaging .toString()}'),
+                            Text('Length X Width X Height: ${widget.LengthWidthHeight.toString()}'),
+                          ],
+                        ),
+                      )),
+                  const SizedBox(height: 10),
+                  GestureDetector(
+                    onTap: (){
+                      isItemDetailsVisible4 = !isItemDetailsVisible4;
+                      setState(() {});
+                    },
                     child: Container(
-                      margin: EdgeInsets.only(top: 10),
-                      width: Get.width,
-                      padding: EdgeInsets.all(10),
-                      decoration: BoxDecoration(color: Colors.grey.shade200, borderRadius: BorderRadius.circular(11)),
-                      child: Column(
-                        mainAxisAlignment: MainAxisAlignment.start,
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        children: [
-                          Text('Unit of measure: ${widget.Unitofmeasure.toString()}'),
-                          Text('Weight Of the Item: ${widget.WeightOftheItem.toString()}'),
-                          Text('Select Number Of Packages: ${widget.SelectNumberOfPackages.toString()}'),
-                          Text('Select Type Material: ${widget.SelectTypeMaterial.toString()}'),
-                          Text('Select Type Of Packaging: ${widget.SelectTypeOfPackaging .toString()}'),
-                          Text('Length X Width X Height: ${widget.LengthWidthHeight.toString()}'),
-                        ],
+                      padding: const EdgeInsets.all(10),
+                      height: 50,
+                      decoration: BoxDecoration(
+                          color: Colors.grey.shade200,
+                          borderRadius: BorderRadius.circular(10),
+                          border: Border.all(color: Colors.grey.shade400, width: 1)),
+                      child: const Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                        children: [Text('Optional'), Icon(Icons.arrow_drop_down_sharp)],
                       ),
-                    )),
-                const SizedBox(height: 10),
-                GestureDetector(
-                  onTap: (){
-                    isItemDetailsVisible4 = !isItemDetailsVisible4;
-                    setState(() {});
-                  },
-                  child: Container(
-                    padding: const EdgeInsets.all(10),
-                    height: 50,
-                    decoration: BoxDecoration(
-                        color: Colors.grey.shade200,
-                        borderRadius: BorderRadius.circular(10),
-                        border: Border.all(color: Colors.grey.shade400, width: 1)),
-                    child: const Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                      children: [Text('Optional'), Icon(Icons.arrow_drop_down_sharp)],
                     ),
                   ),
-                ),
-                const SizedBox(height: 10),
+                  const SizedBox(height: 10),
 
-                Visibility(
-                    visible: isItemDetailsVisible4,
-                    child: Container(
-                      margin: EdgeInsets.only(top: 10),
-                      width: Get.width,
-                      padding: EdgeInsets.all(10),
-                      decoration: BoxDecoration(color: Colors.grey.shade200, borderRadius: BorderRadius.circular(11)),
-                      child: Column(
-                        mainAxisAlignment: MainAxisAlignment.start,
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        children: [
-                          Text('Long Description: ${widget.LongDescription.toString()}'),
-                          Text('Meta Title: ${widget.MetaTitle.toString()}'),
-                          Text('Meta Description: ${widget.MetaDescription.toString()}'),
-                          Text('Serial Number: ${widget.SerialNumber.toString()}'),
-                          Text('Product number: ${widget.Productnumber .toString()}'),
-                        ],
-                      ),
-                    )),
-                const SizedBox(height: 20),
-                CustomOutlineButton(
-                  title: 'Confirm',
-                  borderRadius: 11,
-                  onPressed: () {
-                    Get.to(const RewardScreen());
-                  },
-                ),
-              ],
-            )),
+                  Visibility(
+                      visible: isItemDetailsVisible4,
+                      child: Container(
+                        margin: EdgeInsets.only(top: 10),
+                        width: Get.width,
+                        padding: EdgeInsets.all(10),
+                        decoration: BoxDecoration(color: Colors.grey.shade200, borderRadius: BorderRadius.circular(11)),
+                        child: Column(
+                          mainAxisAlignment: MainAxisAlignment.start,
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
+                            Text('Long Description: ${widget.LongDescription.toString()}'),
+                            Text('Meta Title: ${widget.MetaTitle.toString()}'),
+                            Text('Meta Description: ${widget.MetaDescription.toString()}'),
+                            Text('Serial Number: ${widget.SerialNumber.toString()}'),
+                            Text('Product number: ${widget.Productnumber .toString()}'),
+                          ],
+                        ),
+                      )),
+                  const SizedBox(height: 20),
+                  CustomOutlineButton(
+                    title: 'Confirm',
+                    borderRadius: 11,
+                    onPressed: () {
+                      Get.to(const RewardScreen());
+                    },
+                  ),
+                ],
+              ):Center(
+          child: CircularProgressIndicator(
+            color: Colors.grey,
+          ));
+            })
+
+        ),
       ),
     );
   }

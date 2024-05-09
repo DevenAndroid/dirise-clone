@@ -9,6 +9,7 @@ import 'package:form_field_validator/form_field_validator.dart';
 import 'package:get/get.dart';
 import 'package:google_fonts/google_fonts.dart';
 
+import '../controller/vendor_controllers/add_product_controller.dart';
 import '../language/app_strings.dart';
 import '../model/common_modal.dart';
 import '../repository/repository.dart';
@@ -48,6 +49,7 @@ class _AddProductPickUpAddressScreenState extends State<AddProductPickUpAddressS
   final TextEditingController zipcodeController = TextEditingController();
   final TextEditingController townController = TextEditingController();
   final TextEditingController specialInstructionController = TextEditingController();
+  final addProductController = Get.put(AddProductController());
   RxBool hide = true.obs;
   RxBool hide1 = true.obs;
   bool showValidation = false;
@@ -61,12 +63,13 @@ class _AddProductPickUpAddressScreenState extends State<AddProductPickUpAddressS
         widget.state != null &&
         widget.zipcode != null &&
         widget.town != null) {
-      map['city'] = widget.city;
+      map['city'] = cityController.text.trim();
       map['item_type'] = 'giveaway';
-      map['state'] = widget.state;
-      map['zip_code'] = widget.zipcode;
-      map['town'] = widget.town;
-      map['street'] = widget.street;
+      map['state'] =  stateController.text.trim();
+      map['zip_code'] = zipcodeController.text.trim();
+      map['town'] = townController.text.trim();
+      map['id'] = addProductController.idProduct.value.toString();
+      map['street'] =  streetController.text.trim();
       map['special_instruction'] = specialInstructionController.text.trim();
     } else {
       map['city'] = cityController.text.trim();
@@ -75,6 +78,7 @@ class _AddProductPickUpAddressScreenState extends State<AddProductPickUpAddressS
       map['zip_code'] = zipcodeController.text.trim();
       map['town'] = townController.text.trim();
       map['street'] = streetController.text.trim();
+      map['id'] = addProductController.idProduct.value.toString();
       map['special_instruction'] = specialInstructionController.text.trim();
     }
 

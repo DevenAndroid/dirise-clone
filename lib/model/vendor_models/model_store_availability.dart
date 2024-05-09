@@ -11,15 +11,15 @@ class ModelStoreAvailability {
     if (json['data'] != null) {
       data = <TimeData>[];
       json['data'].forEach((v) {
-        data!.add(TimeData.fromJson(v));
+        data!.add(new TimeData.fromJson(v));
       });
     }
   }
 
   Map<String, dynamic> toJson() {
-    final Map<String, dynamic> data = <String, dynamic>{};
-    data['status'] = status;
-    data['message'] = message;
+    final Map<String, dynamic> data = new Map<String, dynamic>();
+    data['status'] = this.status;
+    data['message'] = this.message;
     if (this.data != null) {
       data['data'] = this.data!.map((v) => v.toJson()).toList();
     }
@@ -32,25 +32,38 @@ class TimeData {
   dynamic weekDay;
   dynamic startTime;
   dynamic endTime;
+  dynamic startBreakTime;
+  dynamic endBreakTime;
   bool? status;
 
-  TimeData({this.id, this.weekDay, this.startTime, this.endTime, this.status});
+  TimeData(
+      {this.id,
+        this.weekDay,
+        this.startTime,
+        this.endTime,
+        this.startBreakTime,
+        this.endBreakTime,
+        this.status});
 
   TimeData.fromJson(Map<String, dynamic> json) {
     id = json['id'];
     weekDay = json['week_day'];
     startTime = json['start_time'];
     endTime = json['end_time'];
+    startBreakTime = json['start_break_time'];
+    endBreakTime = json['end_break_time'];
     status = json['status'];
   }
 
   Map<String, dynamic> toJson() {
-    final Map<String, dynamic> data = <String, dynamic>{};
-    data['id'] = id;
-    data['week_day'] = weekDay;
-    data['start_time'] = startTime;
-    data['end_time'] = endTime;
-    data['status'] = status;
+    final Map<String, dynamic> data = new Map<String, dynamic>();
+    data['id'] = this.id;
+    data['week_day'] = this.weekDay;
+    data['start_time'] = this.startTime;
+    data['end_time'] = this.endTime;
+    data['start_break_time'] = this.startBreakTime;
+    data['end_break_time'] = this.endBreakTime;
+    data['status'] = this.status;
     return data;
   }
 }

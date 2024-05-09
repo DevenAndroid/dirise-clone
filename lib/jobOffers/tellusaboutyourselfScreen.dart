@@ -9,6 +9,7 @@ import 'package:flutter/widgets.dart';
 import 'package:get/get.dart';
 import 'package:google_fonts/google_fonts.dart';
 
+import '../controller/vendor_controllers/add_product_controller.dart';
 import '../language/app_strings.dart';
 import '../model/common_modal.dart';
 import '../newAddress/pickUpAddressScreen.dart';
@@ -28,7 +29,7 @@ class JobTellusaboutyourselfScreen extends StatefulWidget {
 
 class _JobTellusaboutyourselfScreenState extends State<JobTellusaboutyourselfScreen> {
   String selectedRadio = '';
-
+  final addProductController = Get.put(AddProductController());
   void navigateNext() {
     if (selectedRadio == 'job_seeking') {
       Get.to(const JobDetailsScreen());
@@ -40,13 +41,13 @@ class _JobTellusaboutyourselfScreenState extends State<JobTellusaboutyourselfScr
     Map<String, dynamic> map = {};
     map['jobseeking_or_offering'] = jobType;
     map['item_type'] = 'job';
+    map['id'] = addProductController.idProduct.value.toString();
 
     final Repositories repositories = Repositories();
     FocusManager.instance.primaryFocus!.unfocus();
     repositories.postApi(url: ApiUrls.giveawayProductAddress, context: context, mapData: map).then((value) {
       ModelCommonResponse response = ModelCommonResponse.fromJson(jsonDecode(value));
-      print('API Response Status Code: ${response.status}');
-      showToast(response.message.toString());
+
       if (response.status == true) {
         navigateNext();
       }

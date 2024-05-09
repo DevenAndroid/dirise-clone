@@ -5,14 +5,14 @@ import 'package:google_fonts/google_fonts.dart';
 
 import '../widgets/common_button.dart';
 
-class RewardScreen extends StatefulWidget {
-  const RewardScreen({super.key});
+class CongratulationScreen extends StatefulWidget {
+  const CongratulationScreen({super.key});
 
   @override
-  State<RewardScreen> createState() => _RewardScreenState();
+  State<CongratulationScreen> createState() => _CongratulationScreenState();
 }
 
-class _RewardScreenState extends State<RewardScreen> {
+class _CongratulationScreenState extends State<CongratulationScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -35,7 +35,7 @@ class _RewardScreenState extends State<RewardScreen> {
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: [
             Text(
-              'Reward'.tr,
+              'Done'.tr,
               style: GoogleFonts.poppins(color: const Color(0xff292F45), fontWeight: FontWeight.w600, fontSize: 20),
             ),
           ],
@@ -50,14 +50,11 @@ class _RewardScreenState extends State<RewardScreen> {
             children: [
               Image.asset('assets/images/newlogoo.png',height: 200,width: 200,),
               Text(
-                'Congratulations'.tr,
-                style: GoogleFonts.poppins(color: const Color(0xff0D5877), fontWeight: FontWeight.w600, fontSize: 32),
+                'Your job profile has been published successfully'.tr,
+                style: GoogleFonts.poppins(color: const Color(0xff0D5877), fontWeight: FontWeight.w600, fontSize: 30),
               ),
-              const SizedBox(height: 20,),
-              Text(
-                'Thank you for your donation, you will get 1000 Dicoins as a reward for your generosity'.tr,
-                style: GoogleFonts.poppins(color: Colors.black, fontWeight: FontWeight.w400, fontSize: 16),
-              ),
+              SizedBox(height: 10,),
+              Image.asset('assets/images/check.png',height: 100,width: 100,),
               Text(
                 'If you are having troubles:-'.tr,
                 style: GoogleFonts.poppins(color: Color(0xff596774), fontWeight: FontWeight.w400, fontSize: 14),

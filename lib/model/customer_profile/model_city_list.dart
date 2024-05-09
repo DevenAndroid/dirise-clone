@@ -1,7 +1,7 @@
 class ModelCityList {
   bool? status;
   dynamic message;
-  List<City>? city;
+  List<City>? city =[];
 
   ModelCityList({this.status, this.message, this.city});
 
