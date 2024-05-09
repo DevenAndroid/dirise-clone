@@ -1889,9 +1889,11 @@ List<Widget> vendorPartner() {
             showVendorDialog();
             return;
           }
-          if (profileController.model.user!.isVendor != true) {
+          if (profileController.model.user!.isVendor == true) {
             Get.to(() => const AddProductOptionScreen());
             return;
+          }else{
+            showToast('Your user is not verified as a vendor');
           }
           _isValue.value = !_isValue.value;
           setState(() {});

@@ -55,10 +55,15 @@ class _TellUsScreenState extends State<TellUsScreen> {
         backgroundColor: Colors.white,
         surfaceTintColor: Colors.white,
         elevation: 0,
-        leading: const Icon(
-          Icons.arrow_back_ios_new,
-          color: Color(0xff0D5877),
-          size: 16,
+        leading: GestureDetector(
+          onTap: (){
+            Get.back();
+          },
+          child: const Icon(
+            Icons.arrow_back_ios_new,
+            color: Color(0xff0D5877),
+            size: 16,
+          ),
         ),
         titleSpacing: 0,
         title: Row(

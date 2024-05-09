@@ -41,8 +41,6 @@ class _ServicesReturnPolicyState extends State<ServicesReturnPolicy> {
   List<String> itemList = List.generate(30, (index) => (index + 1).toString());
   List<String> daysList = [
     'days',
-    'week',
-    'year'
   ];
   RxInt returnPolicyLoaded = 0.obs;
   ReturnPolicyModel? modelReturnPolicy;
@@ -220,7 +218,8 @@ class _ServicesReturnPolicyState extends State<ServicesReturnPolicy> {
                             return "DIRISE standard Policy".tr;
                           }
                           return null;
-                        }),
+                        }
+                        ),
                     const SizedBox(
                       height: 20,
                     ),
@@ -279,7 +278,7 @@ class _ServicesReturnPolicyState extends State<ServicesReturnPolicy> {
                           ),
                         ),
                         const SizedBox(
-                          width: 20,
+                          width: 10,
                         ),
                         Expanded(
                           child: DropdownButtonFormField<String>(
@@ -429,9 +428,14 @@ class _ServicesReturnPolicyState extends State<ServicesReturnPolicy> {
                   title: 'Next',
                   borderRadius: 11,
                   onPressed: () {
-                    if (formKey1.currentState!.validate()) {
-                      returnPolicyApi();
+                    if(noReturnSelected == false){
+                      if (formKey1.currentState!.validate()) {
+                        returnPolicyApi();
+                      }
+                    }else{
+                      Get.to(const Locationwherecustomerwilljoin());
                     }
+
                   },
 
               ),
