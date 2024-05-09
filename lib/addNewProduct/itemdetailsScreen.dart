@@ -373,6 +373,10 @@ class _ItemDetailsScreensState extends State<ItemDetailsScreens> {
                       .isEmpty) {
                     showToast("Please enter product name");
                   }
+                  else if (categoryName.value == "") {
+                    showToast("Please Select Vendor Category");
+                  }
+
                   else {
                     deliverySizeApi();
                   }
