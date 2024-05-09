@@ -773,15 +773,16 @@ const SizedBox(height: 10,),
               ),
               InkWell(
                 onTap: (){
-                  if(_isValue == true) {
+                  if(selectedPlan != null ||  selectedPlan1 != null || selectedPlan2 != null) {
                     // Check if any plan is selected
-                    if(selectedPlan != null ||  selectedPlan1 != null || selectedPlan2 != null) {
+                    if(_isValue == true) {
                       Get.to(const WhatdoyousellScreen());
                     } else {
-                      showToast("Please select a plan first");
+                      showToast("Agree terms and Conditions");
+
                     }
                   } else {
-                    showToast("Agree terms and Conditions");
+                    showToast("Please select a plan first");
                   }
                 },
                 child: Container(

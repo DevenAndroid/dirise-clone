@@ -15,7 +15,7 @@ class _ExtraInformationState extends State<ExtraInformation> {
     final size = MediaQuery.of(context).size;
     return  Scaffold(
       body:Padding(
-        padding: const EdgeInsets.symmetric(vertical: 50),
+        padding: const EdgeInsets.symmetric(vertical: 50,horizontal: 5),
         child: Column(
 
           children:[
