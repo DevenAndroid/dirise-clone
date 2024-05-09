@@ -1890,7 +1890,7 @@ List<Widget> vendorPartner() {
             showVendorDialog();
             return;
           }
-          if (profileController.model.user!.isVendor == true) {
+          if (profileController.model.user!.isVendor == false) {
             Get.to(() => const AddProductOptionScreen());
             return;
           }else{

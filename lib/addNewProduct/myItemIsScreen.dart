@@ -1,4 +1,5 @@
 import 'package:dirise/addNewProduct/itemdetailsScreen.dart';
+import 'package:dirise/controller/profile_controller.dart';
 import 'package:dirise/utils/api_constant.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
@@ -23,6 +24,7 @@ class MyItemISScreen extends StatefulWidget {
 
 class _MyItemISScreenState extends State<MyItemISScreen> {
   String selectedRadio = '';
+  final profileController = Get.put(ProfileController());
 
   List<String> itemTexts = [
     'Giveaway',
@@ -33,21 +35,34 @@ class _MyItemISScreenState extends State<MyItemISScreen> {
   ];
 
   void navigateNext() {
-    if (selectedRadio == 'Giveaway') {
-      Get.to(const ItemDetailsScreens());
-    } else if (selectedRadio == 'Product') {
-      Get.to(ProductInformationScreens());
-    }
-    else if (selectedRadio == 'Job') {
-      Get.to(JobTellusaboutyourselfScreen());
-    }
-    else if (selectedRadio == 'Service') {
-      Get.to(whatServiceDoYouProvide());
-    }
-    else if (selectedRadio == 'Virtual') {
-      Get.to(PickUpAddressScreen());
+    if (profileController.model.user!.isVendor == false) {
+      if (selectedRadio == 'Giveaway') {
+        Get.to(const ItemDetailsScreens());
+      } else {
+    showToast('Please Register as a vendor');
+      }
+    } else {
+      if (selectedRadio != 'Giveaway') {
+        if (selectedRadio == 'Product') {
+          Get.to(ProductInformationScreens());
+        } else if (selectedRadio == 'Job') {
+          Get.to(JobTellusaboutyourselfScreen());
+        } else if (selectedRadio == 'Service') {
+          Get.to(whatServiceDoYouProvide());
+        } else if (selectedRadio == 'Virtual') {
+          Get.to(PickUpAddressScreen());
+        } else {
+          // Handle the case where the selected radio doesn't match any case
+          // For example, show a message or perform a different action
+        }
+      } else {
+        // Handle the case where the user is a vendor and selected radio is 'Giveaway'
+        // For example, show a message or perform a different action
+      }
     }
   }
+
+
 
   @override
   Widget build(BuildContext context) {
@@ -192,6 +207,7 @@ class _MyItemISScreenState extends State<MyItemISScreen> {
             groupValue: selectedRadio,
             onChanged: (value) {
               setState(() {
+
                 selectedRadio = value.toString();
               });
             },
