@@ -95,6 +95,7 @@ class Data {
 class ChildCategory {
   dynamic id;
   bool selected = false;
+  List<int?> idForChildModel = [];
   dynamic title;
   dynamic slug;
   dynamic categoryImage;

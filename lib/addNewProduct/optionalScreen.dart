@@ -72,16 +72,19 @@ class _OptionalScreenState extends State<OptionalScreen> {
     map['meta_title'] = metaTitleController.text.trim();
     map['item_type'] = 'giveaway';
     map['meta_description'] = metaDescriptionController.text.trim();
-    map['long_description'] = longDescriptionController.text.trim();
+   map['long_description'] = longDescriptionController.text.trim();
     map['serial_number'] = serialNumberController.text.trim();
     map['product_number'] = productNumberController.text.trim();
     map['id'] = addProductController.idProduct.value.toString();
 
     FocusManager.instance.primaryFocus!.unfocus();
-    repositories.postApi(url: ApiUrls.giveawayProductAddress, context: context, mapData: map).then((value) {
+    repositories.postApi(url: ApiUrls.giveawayProductAddress, context: context, mapData: map,showResponse: true).then((value) {
       ReviewAndPublishResponseModel response = ReviewAndPublishResponseModel.fromJson(jsonDecode(value));
       print('API Response Status Code: ${response.status}');
-      Get.to(()=>ReviewPublishScreen());
+      if (response.status == true) {
+        Get.to(()=>ReviewPublishScreen());
+      }
+
       // if (response.status == true) {
       //   // productName = response.productDetails!.product!.pname.toString();
       //   // productID = response.productDetails!.product!.id.toString();
@@ -153,6 +156,7 @@ class _OptionalScreenState extends State<OptionalScreen> {
             child: Column(
               children: [
                 TextFormField(
+                  controller: longDescriptionController,
                   maxLines: 2,
                   minLines: 2,
                   decoration: InputDecoration(
@@ -255,17 +259,17 @@ class _OptionalScreenState extends State<OptionalScreen> {
                       return null; // Return null if validation passes
                     },
                     ),
-                CommonTextField(
-                 controller: longDescriptionController,
-                    obSecure: false,
-                    hintText: 'Long discription'.tr,
-                    validator: (value) {
-                      if (value!.trim().isEmpty) {
-                        return 'Long discription is required'.tr;
-                      }
-                      return null; // Return null if validation passes
-                    },
-                    ),
+                // CommonTextField(
+                //  controller: longDescriptionController,
+                //     obSecure: false,
+                //     hintText: 'Short discription'.tr,
+                //     validator: (value) {
+                //       if (value!.trim().isEmpty) {
+                //         return 'Short discription is required'.tr;
+                //       }
+                //       return null; // Return null if validation passes
+                //     },
+                //     ),
                 CommonTextField(
                  controller: productNumberController,
                     obSecure: false,

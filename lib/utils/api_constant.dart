@@ -44,6 +44,8 @@ class ApiUrls {
   static const String wishListUrl = "${baseUrl}wishlist";
   static const String storesUrl = "${baseUrl}stores";
   static const String vendorCategoryListUrl = "${baseUrl}vendor-category-list";
+  static const String jobCategoryListUrl = "${baseUrl}job-category-list";
+  static const String jobSubCategoryListUrl = "${baseUrl}job-subcategory-list?category_id=";
   static const String productCategory = "${baseUrl}product-category";
   static const String vendorRegistrationUrl = "${baseUrl}vendor-signup";
   static const String verifyVendorOTPEmailUrl = "${baseUrl}verify-otp-email";

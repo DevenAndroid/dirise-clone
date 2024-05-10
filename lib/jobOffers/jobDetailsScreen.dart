@@ -15,6 +15,8 @@ import '../model/common_modal.dart';
 import '../model/customer_profile/model_city_list.dart';
 import '../model/customer_profile/model_country_list.dart';
 import '../model/jobResponceModel.dart';
+import '../model/modelJobList.dart';
+import '../model/modelSubcategory.dart';
 import '../model/vendor_models/model_vendor_details.dart';
 import '../model/vendor_models/vendor_category_model.dart';
 import '../repository/repository.dart';
@@ -63,11 +65,13 @@ class _JobDetailsScreenState extends State<JobDetailsScreen> {
     'hybrid',
     'office',
   ];
-  ModelVendorCategory modelVendorCategory = ModelVendorCategory(usphone: []);
+  ModelJobList modelVendorCategory = ModelJobList(data: []);
+  ModelSubcategoryList modelSubCategory = ModelSubcategoryList(subCategory: []);
   ModelCountryList modelCountryList = ModelCountryList(country: []);
   ModelStateList modelStateList = ModelStateList(state: []);
   ModelCityList modelCityList = ModelCityList(city: []);
   Rx<RxStatus> vendorCategoryStatus = RxStatus.empty().obs;
+  Rx<RxStatus> subCategoryStatus = RxStatus.empty().obs;
   Rx<RxStatus> countryStatus = RxStatus.empty().obs;
   Rx<RxStatus> stateStatus = RxStatus.empty().obs;
   Rx<RxStatus> cityStatus = RxStatus.empty().obs;
@@ -75,13 +79,16 @@ class _JobDetailsScreenState extends State<JobDetailsScreen> {
   final GlobalKey categoryKey1 = GlobalKey();
   final GlobalKey categoryKey2 = GlobalKey();
   final GlobalKey categoryKey3 = GlobalKey();
+  final GlobalKey categoryKey4 = GlobalKey();
   final GlobalKey subcategoryKey = GlobalKey();
   final GlobalKey productsubcategoryKey = GlobalKey();
-  Map<String, VendorCategoriesData> allSelectedCategory = {};
+  Map<String, Data> allSelectedCategory = {};
   Map<String, Country> allSelectedCategory1 = {};
   Map<String, CountryState> allSelectedCategory2 = {};
   Map<String, City> allSelectedCategory3 = {};
+  Map<String, SubCategory> allSelectedCategory4 = {};
   String? selectedCategory;
+  String? selectedSubCategory;
   String? cityId;
   String? stateCategory;
   String? idCountry;
@@ -91,16 +98,30 @@ class _JobDetailsScreenState extends State<JobDetailsScreen> {
   final vendorProfileController = Get.put(VendorProfileController());
   void getVendorCategories() {
     vendorCategoryStatus.value = RxStatus.loading();
-    repositories.getApi(url: ApiUrls.vendorCategoryListUrl, showResponse: false).then((value) {
-      modelVendorCategory = ModelVendorCategory.fromJson(jsonDecode(value));
+    repositories.getApi(url: ApiUrls.jobCategoryListUrl, showResponse: true).then((value) {
+      modelVendorCategory = ModelJobList.fromJson(jsonDecode(value));
       vendorCategoryStatus.value = RxStatus.success();
 
       for (var element in vendorInfo.vendorCategory!) {
-        allSelectedCategory[element.id.toString()] = VendorCategoriesData.fromJson(element.toJson());
+        allSelectedCategory[element.id.toString()] = Data.fromJson(element.toJson());
       }
       setState(() {});
     }).catchError((e) {
       vendorCategoryStatus.value = RxStatus.error();
+    });
+  }
+  void getSubCategories(id) {
+    subCategoryStatus.value = RxStatus.loading();
+    repositories.getApi(url: ApiUrls.jobSubCategoryListUrl+id, showResponse: true).then((value) {
+      modelSubCategory = ModelSubcategoryList.fromJson(jsonDecode(value));
+      subCategoryStatus.value = RxStatus.success();
+
+      for (var element in vendorInfo.vendorCategory!) {
+        allSelectedCategory4[element.id.toString()] = SubCategory.fromJson(element.toJson());
+      }
+      setState(() {});
+    }).catchError((e) {
+      subCategoryStatus.value = RxStatus.error();
     });
   }
   void getCountry() {
@@ -184,7 +205,7 @@ class _JobDetailsScreenState extends State<JobDetailsScreen> {
   void updateProfile1() {
     Map<String, String> map = {};
     picture["upload_cv"] = idProof;
-    map["job_cat"] = selectedCategory ?? "";
+    map["job_cat"] = selectedSubCategory ?? "";
     map["job_type"] = jobselectedItem;
     map["job_model"] = hiringselectedItem;
     map["describe_job_role"] = describe_job_roleController.text;
@@ -286,11 +307,11 @@ class _JobDetailsScreenState extends State<JobDetailsScreen> {
                 ),
                 Obx(() {
                   if (kDebugMode) {
-                    print(modelVendorCategory.usphone!
-                        .map((e) => DropdownMenuItem(value: e, child: Text(e.name.toString().capitalize!)))
+                    print(modelVendorCategory.data!
+                        .map((e) => DropdownMenuItem(value: e, child: Text(e.title.toString().capitalize!)))
                         .toList());
                   }
-                  return DropdownButtonFormField<VendorCategoriesData>(
+                  return DropdownButtonFormField<Data>(
                     key: categoryKey,
                     autovalidateMode: AutovalidateMode.onUserInteraction,
                     icon: vendorCategoryStatus.value.isLoading
@@ -324,26 +345,91 @@ class _JobDetailsScreenState extends State<JobDetailsScreen> {
                         borderSide: BorderSide(color: AppTheme.secondaryColor),
                       ),
                     ),
-                    items: modelVendorCategory.usphone!
-                        .map((e) => DropdownMenuItem(value: e, child: Text(e.name.toString().capitalize!)))
+                    items: modelVendorCategory.data!
+                        .map((e) => DropdownMenuItem(value: e, child: Text(e.title.toString().capitalize!)))
                         .toList(),
                     hint: Text('Search category to choose'.tr),
                     onChanged: (value) {
                       setState(() {
                         selectedCategory =
+                            value!.id.toString();
+                        getSubCategories(selectedCategory.toString());// Assuming you want to use the ID as the category value
+                      });
+                      // if (value == null) return;
+                      // if (allSelectedCategory.isNotEmpty) return;
+                      // allSelectedCategory[value.id.toString()] = value;
+                      // setState(() {});
+                    },
+                    // validator: (value) {
+                    //   if (allSelectedCategory.isEmpty) {
+                    //     return "Please select Category".tr;
+                    //   }
+                    //   return null;
+                    // },
+                  );
+                }),
+                SizedBox(height: 20,),
+                Obx(() {
+                  if (kDebugMode) {
+                    print(modelSubCategory.subCategory!
+                        .map((e) => DropdownMenuItem(value: e, child: Text(e.title.toString().capitalize!)))
+                        .toList());
+                  }
+                  return DropdownButtonFormField<SubCategory>(
+                    isExpanded: true,
+                    key: categoryKey4,
+                    autovalidateMode: AutovalidateMode.onUserInteraction,
+                    icon: subCategoryStatus.value.isLoading
+                        ? const CupertinoActivityIndicator()
+                        : const Icon(Icons.keyboard_arrow_down_rounded),
+                    iconSize: 30,
+                    iconDisabledColor: const Color(0xff97949A),
+                    iconEnabledColor: const Color(0xff97949A),
+                    value: null,
+                    style: GoogleFonts.poppins(color: Colors.black, fontSize: 14),
+                    decoration: InputDecoration(
+                      border: InputBorder.none,
+                      filled: true,
+                      fillColor: const Color(0xffE2E2E2).withOpacity(.35),
+                      contentPadding: const EdgeInsets.symmetric(horizontal: 15, vertical: 10).copyWith(right: 8),
+                      focusedErrorBorder: const OutlineInputBorder(
+                          borderRadius: BorderRadius.all(Radius.circular(8)),
+                          borderSide: BorderSide(color: AppTheme.secondaryColor)),
+                      errorBorder: const OutlineInputBorder(
+                          borderRadius: BorderRadius.all(Radius.circular(8)),
+                          borderSide: BorderSide(color: Color(0xffE2E2E2))),
+                      focusedBorder: const OutlineInputBorder(
+                          borderRadius: BorderRadius.all(Radius.circular(8)),
+                          borderSide: BorderSide(color: AppTheme.secondaryColor)),
+                      disabledBorder: const OutlineInputBorder(
+                        borderRadius: BorderRadius.all(Radius.circular(8)),
+                        borderSide: BorderSide(color: AppTheme.secondaryColor),
+                      ),
+                      enabledBorder: const OutlineInputBorder(
+                        borderRadius: BorderRadius.all(Radius.circular(8)),
+                        borderSide: BorderSide(color: AppTheme.secondaryColor),
+                      ),
+                    ),
+                    items: modelSubCategory.subCategory!
+                        .map((e) => DropdownMenuItem(value: e, child: Text(e.title.toString().capitalize!)))
+                        .toList(),
+                    hint: Text('sub category'.tr),
+                    onChanged: (value) {
+                      setState(() {
+                        selectedSubCategory =
                             value!.id.toString(); // Assuming you want to use the ID as the category value
                       });
-                      if (value == null) return;
-                      if (allSelectedCategory.isNotEmpty) return;
-                      allSelectedCategory[value.id.toString()] = value;
-                      setState(() {});
+                      // if (value == null) return;
+                      // if (allSelectedCategory.isNotEmpty) return;
+                      // allSelectedCategory[value.id.toString()] = value;
+                      // setState(() {});
                     },
-                    validator: (value) {
-                      if (allSelectedCategory.isEmpty) {
-                        return "Please select Category".tr;
-                      }
-                      return null;
-                    },
+                    // validator: (value) {
+                    //   if (allSelectedCategory.isEmpty) {
+                    //     return "Please select Category".tr;
+                    //   }
+                    //   return null;
+                    // },
                   );
                 }),
                 SizedBox(height: 20,),
