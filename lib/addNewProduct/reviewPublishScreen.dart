@@ -188,10 +188,10 @@ class _ReviewPublishScreenState extends State<ReviewPublishScreen> {
                           crossAxisAlignment: CrossAxisAlignment.start,
                           children: [
                             Text('product name: ${productDetailsModel.value.productDetails!.product!.pname??""}'),
-                            Text('product Price: ${productDetailsModel.value.productDetails!.product!.pPrice??""}'),
+
                             Text('product Type: ${productDetailsModel.value.productDetails!.product!.productType ?? ''}'),
                             Text('product ID: ${productDetailsModel.value.productDetails!.product!.id??""}'),
-                            Text('short Des: ${productDetailsModel.value.productDetails!.product!.shortDescription ??""}'),
+                            Text('long Des: ${productDetailsModel.value.productDetails!.product!.longDescription ??""}'),
                           ],
                         ),
                       )),
@@ -265,7 +265,7 @@ class _ReviewPublishScreenState extends State<ReviewPublishScreen> {
                           mainAxisAlignment: MainAxisAlignment.start,
                           crossAxisAlignment: CrossAxisAlignment.start,
                           children: [
-                            Text('delivery Size: ${productDetailsModel.value.productDetails!.productDimentions!.toString() ??""}'),
+                            Text('delivery Size: ${productDetailsModel.value.productDetails!.product!.deliverySize??""}'),
                           ],
                         ),
                       )),
@@ -306,7 +306,7 @@ class _ReviewPublishScreenState extends State<ReviewPublishScreen> {
                             Text('Select Number Of Packages: ${productDetailsModel.value.productDetails!.productDimentions!.numberOfPackage??""}'),
                             Text('Select Type Material: ${productDetailsModel.value.productDetails!.productDimentions!.material??""}'),
                             Text('Select Type Of Packaging: ${productDetailsModel.value.productDetails!.productDimentions!.typeOfPackages??""}'),
-                            Text('Length X Width X Height: ${productDetailsModel.value.productDetails!.productDimentions!.boxDimension??""}'),
+                            Text('Length X Width X Height: ${productDetailsModel.value.productDetails!.productDimentions!.boxLength??""}X'+"${productDetailsModel.value.productDetails!.productDimentions!.boxWidth??""}X""${productDetailsModel.value.productDetails!.productDimentions!.boxHeight??""}"),
                           ],
                         ),
                       )),

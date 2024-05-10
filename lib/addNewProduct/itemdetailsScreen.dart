@@ -59,10 +59,10 @@ class _ItemDetailsScreensState extends State<ItemDetailsScreens> {
 
   deliverySizeApi() {
     Map<String, dynamic> map = {};
-    map['category_id'] = id.value.toString();
+    map['category_id'] = idForChild.toString();
     map['product_name'] = ProductNameController.text.toString();
-    map['item_type'] = 'product';
-    map['id'] = 'giveaway';
+    map['item_type'] = 'giveaway';
+    map['id'] = addProductController.idProduct.value.toString();
     /////please change this when image ui is done
 
     final Repositories repositories = Repositories();
@@ -74,6 +74,7 @@ class _ItemDetailsScreensState extends State<ItemDetailsScreens> {
       if (response.status == true) {
         addProductController.idProduct.value = response.productDetails!.product!.id.toString();
         print(addProductController.idProduct.value.toString());
+
         Get.to(AddProductPickUpAddressScreen());
       }
     });
@@ -152,6 +153,8 @@ class _ItemDetailsScreensState extends State<ItemDetailsScreens> {
     fetchSubCategoryBasedOnId(ProductID);
   }
 
+  String idChild = '';
+  List<int?> idForChild = [];
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -159,11 +162,11 @@ class _ItemDetailsScreensState extends State<ItemDetailsScreens> {
         backgroundColor: Colors.white,
         surfaceTintColor: Colors.white,
         elevation: 0,
-        leading: GestureDetector(
-          onTap: () {
+        leading: IconButton(
+          onPressed: () {
             Get.back();
           },
-          child: const Icon(
+          icon: const Icon(
             Icons.arrow_back_ios_new,
             color: Color(0xff0D5877),
             size: 16,
@@ -208,6 +211,7 @@ class _ItemDetailsScreensState extends State<ItemDetailsScreens> {
               GestureDetector(
                 onTap: () {
                   isItemDetailsVisible = !isItemDetailsVisible;
+                  idForChild.clear();
                   productCategoryModel.value = ModelCategoryList();
                   setState(() {});
                 },
@@ -242,6 +246,7 @@ class _ItemDetailsScreensState extends State<ItemDetailsScreens> {
                           fetchDataBasedOnId(data.id);
                           isItemDetailsVisible = !isItemDetailsVisible;
                           categoryName.value = data.name.toString();
+                          id.value = data.id.toString();
                           setState(() {});
                         },
                         child: Container(
@@ -328,6 +333,10 @@ class _ItemDetailsScreensState extends State<ItemDetailsScreens> {
                               hint: Text('Select Category'.tr),
                               onChanged: (value) {
                                 e.childCategory![value!].selected = true;
+                                idForChild.add(e.childCategory![value].id);
+                                idChild = idForChild.join(',');
+                                print('vafjdfhdjf ${idForChild.toString()}');
+                                print('vafjdfhdjf ${idChild.toString()}');
                                 setState(() {});
                               },
                             ),
@@ -350,6 +359,9 @@ class _ItemDetailsScreensState extends State<ItemDetailsScreens> {
                                       ),
                                       onDeleted: () {
                                         ee.selected = false;
+                                        idForChild.remove(ee.id);
+                                        print('after remove ${idForChild.toString()}');
+                                        print('after remove ${idChild.toString()}');
                                         setState(() {});
                                       }))
                                   .toList(),
@@ -373,6 +385,12 @@ class _ItemDetailsScreensState extends State<ItemDetailsScreens> {
                       .trim()
                       .isEmpty) {
                     showToast("Please enter product name");
+                  }
+                  else if (categoryName.value == "") {
+                    showToast("Please Select Vendor Category");
+                  }
+                  else if (categoryName.value == "") {
+                    showToast("Please Select Vendor Category");
                   }
                   else if (categoryName.value == "") {
                     showToast("Please Select Vendor Category");
