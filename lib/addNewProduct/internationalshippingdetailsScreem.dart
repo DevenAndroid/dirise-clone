@@ -1,6 +1,7 @@
 import 'dart:convert';
 
 import 'package:dirise/addNewProduct/optionalScreen.dart';
+import 'package:dirise/utils/helper.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
@@ -27,8 +28,10 @@ class InternationalshippingdetailsScreen extends StatefulWidget {
 class _InternationalshippingdetailsScreenState extends State<InternationalshippingdetailsScreen> {
   // Default selected item\
   TextEditingController weightController = TextEditingController();
-  TextEditingController dimensionController = TextEditingController();
 
+  TextEditingController dimensionController = TextEditingController();
+  TextEditingController dimensionWidthController = TextEditingController();
+  TextEditingController dimensionHeightController = TextEditingController();
   String unitOfMeasure = 'cm/kg';
   List<String> unitOfMeasureList = [
     'cm/kg',
@@ -68,6 +71,9 @@ class _InternationalshippingdetailsScreenState extends State<Internationalshippi
     map['number_of_package'] = selectNumberOfPackages;
     map['material'] = selectTypeMaterial;
     map['box_dimension'] = dimensionController.text.trim();
+    map['box_length'] =dimensionController.text.trim();
+    map['box_width'] = dimensionWidthController.text.trim();
+    map['box_height'] =dimensionHeightController.text.trim();
     map['type_of_packages'] = selectTypeOfPackaging;
     map['item_type'] = 'giveaway';
     map['id'] = addProductController.idProduct.value.toString();
@@ -287,13 +293,49 @@ class _InternationalshippingdetailsScreenState extends State<Internationalshippi
                   },
                 ),
                 const SizedBox(height: 10),
-                CommonTextField(
-                    controller: dimensionController,
-                    obSecure: false,
-                    hintText: 'Length X Width X Height ',
-                    validator: MultiValidator([
-                      RequiredValidator(errorText: 'Product Name is required'.tr),
-                    ])),
+
+
+
+
+
+
+
+
+
+
+
+
+                Row(
+                  children: [
+                    Expanded(child: CommonTextField(
+                        controller: dimensionController,
+                        obSecure: false,
+                        keyboardType: TextInputType.number,
+                        hintText: 'Length X ',
+                        validator: MultiValidator([
+                          RequiredValidator(errorText: 'Product length is required'.tr),
+                        ]))
+                    ),
+                    10.spaceX,
+                    Expanded(child:   CommonTextField(
+                        controller:dimensionWidthController,
+                        obSecure: false,
+                        hintText: 'Width X',
+                        keyboardType: TextInputType.number,
+                        validator: MultiValidator([
+                          RequiredValidator(errorText: 'Product Width is required'.tr),
+                        ]))),
+                    10.spaceX,
+                    Expanded(child:   CommonTextField(
+                        controller: dimensionHeightController,
+                        obSecure: false,
+                        hintText: 'Height X',
+                        keyboardType: TextInputType.number,
+                        validator: MultiValidator([
+                          RequiredValidator(errorText: 'Product Height is required'.tr),
+                        ]))),
+                  ],
+                ),
                 DropdownButtonFormField<String>(
                   value: selectTypeOfPackaging,
                   onChanged: (String? newValue) {
