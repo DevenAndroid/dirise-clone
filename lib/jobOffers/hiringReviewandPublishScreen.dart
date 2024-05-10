@@ -1,9 +1,16 @@
+import 'dart:convert';
+import 'dart:developer';
+
 import 'package:dirise/addNewProduct/rewardScreen.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:google_fonts/google_fonts.dart';
 
+import '../controller/vendor_controllers/add_product_controller.dart';
+import '../model/product_details.dart';
+import '../repository/repository.dart';
+import '../utils/api_constant.dart';
 import '../widgets/common_button.dart';
 import '../widgets/common_colour.dart';
 import 'congratulationScreen.dart';
@@ -26,7 +33,29 @@ class HiringReviewPublishScreen extends StatefulWidget {
 class _HiringReviewPublishScreenState extends State<HiringReviewPublishScreen> {
   bool isItemDetailsVisible = false;
   bool isItemDetailsVisible1 = false;
+  final Repositories repositories = Repositories();
 
+  final addProductController = Get.put(AddProductController());
+  Rx<ModelProductDetails> productDetailsModel = ModelProductDetails().obs;
+  Rx<RxStatus> vendorCategoryStatus = RxStatus.empty().obs;
+
+  getVendorCategories(id) {
+    // vendorCategoryStatus.value = RxStatus.loading();
+    print('callllllll......');
+    repositories.getApi(url: ApiUrls.getProductDetailsUrl + id).then((value) {
+      productDetailsModel.value = ModelProductDetails.fromJson(jsonDecode(value));
+      // vendorCategoryStatus.value = RxStatus.success();
+      log('callllllll......${productDetailsModel.value.toJson()}');
+      setState(() {});
+    });
+  }
+
+  @override
+  void initState() {
+    // TODO: implement initState
+    super.initState();
+    getVendorCategories(addProductController.idProduct.value.toString());
+  }
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -64,7 +93,10 @@ class _HiringReviewPublishScreenState extends State<HiringReviewPublishScreen> {
       body: SingleChildScrollView(
         child: Container(
           margin: EdgeInsets.only(left: 15,right: 15),
-          child: Column(
+          child: Obx(() {
+    return productDetailsModel.value.productDetails != null
+    ?
+          Column(
             children: [
               const SizedBox(height: 20),
               GestureDetector(
@@ -100,7 +132,7 @@ class _HiringReviewPublishScreenState extends State<HiringReviewPublishScreen> {
                       mainAxisAlignment: MainAxisAlignment.start,
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
-                        Text('product name: ${widget.jobcat.toString()}'),
+                        Text('Job title: ${productDetailsModel.value.productDetails!.product!.pname ?? ""}'),
                         Text('product Price: ${widget.jobtype.toString()}'),
                         Text('product Type: ${widget.jobmodel.toString()}'),
                         Text('product ID: ${widget.experince.toString()}'),
@@ -168,7 +200,11 @@ class _HiringReviewPublishScreenState extends State<HiringReviewPublishScreen> {
               ),
 
             ],
-          ),
+          ) : Center(
+            child: CircularProgressIndicator(
+            color: Colors.grey,
+            ));
+          })
         ),
       ),
     );

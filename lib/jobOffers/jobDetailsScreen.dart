@@ -92,7 +92,11 @@ class _JobDetailsScreenState extends State<JobDetailsScreen> {
   String? cityId;
   String? stateCategory;
   String? idCountry;
-
+RxString categoryName = "".obs;
+RxString subCategoryName = "".obs;
+RxString countryName = "".obs;
+RxString stateName = "".obs;
+RxString cityName = "".obs;
   final Repositories repositories = Repositories();
   VendorUser get vendorInfo => vendorProfileController.model.user!;
   final vendorProfileController = Get.put(VendorProfileController());
@@ -351,8 +355,8 @@ class _JobDetailsScreenState extends State<JobDetailsScreen> {
                     hint: Text('Search category to choose'.tr),
                     onChanged: (value) {
                       setState(() {
-                        selectedCategory =
-                            value!.id.toString();
+                        selectedCategory = value!.id.toString();
+                        categoryName.value = value!.title.toString();
                         getSubCategories(selectedCategory.toString());// Assuming you want to use the ID as the category value
                       });
                       // if (value == null) return;
@@ -416,8 +420,8 @@ class _JobDetailsScreenState extends State<JobDetailsScreen> {
                     hint: Text('sub category'.tr),
                     onChanged: (value) {
                       setState(() {
-                        selectedSubCategory =
-                            value!.id.toString(); // Assuming you want to use the ID as the category value
+                        selectedSubCategory = value!.id.toString(); // Assuming you want to use the ID as the category value
+                        subCategoryName.value = value!.title.toString(); // Assuming you want to use the ID as the category value
                       });
                       // if (value == null) return;
                       // if (allSelectedCategory.isNotEmpty) return;
@@ -480,6 +484,7 @@ class _JobDetailsScreenState extends State<JobDetailsScreen> {
                     onChanged: (value) {
                       setState(() {
                         idCountry = value!.id.toString();
+                        countryName.value = value!.name.toString();
                         getStateApi();// Assuming you want to use the ID as the category value
                       });
                       // if (value == null) return;
@@ -543,6 +548,7 @@ class _JobDetailsScreenState extends State<JobDetailsScreen> {
                     onChanged: (value) {
                       setState(() {
                         stateCategory = value!.stateId.toString();
+                        stateName.value = value!.stateName.toString();
                         getCityApi();// Assuming you want to use the ID as the category value
                       });
                       // if (value == null) return;
@@ -606,6 +612,7 @@ class _JobDetailsScreenState extends State<JobDetailsScreen> {
                     onChanged: (value) {
                       setState(() {
                         cityId = value!.cityId.toString(); // Assuming you want to use the ID as the category value
+                        cityName.value = value!.cityName.toString(); // Assuming you want to use the ID as the category value
                       });
                       // if (value == null) return;
                       // if (allSelectedCategory3.isNotEmpty) return;
@@ -862,8 +869,16 @@ class _JobDetailsScreenState extends State<JobDetailsScreen> {
                   borderRadius: 11,
                   onPressed: () {
                     if (formKey2.currentState!.validate()) {
+                      if (categoryName.value =="") {showToast("Please select category");}
+                 else if (subCategoryName.value =="") {showToast("Please select sub category");}
+                 else  if(countryName.value ==""){showToast("Please select country");}
+                 else if (stateName.value =="") {showToast("Please select state");}
+                 else if (cityName.value =="") {showToast("Please select city");}
+
+
+                else{
                       updateProfile1();
-                    }
+                    }}
                   },
                 ),
                 SizedBox(height: 20,),
