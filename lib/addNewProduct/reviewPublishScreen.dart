@@ -265,7 +265,7 @@ class _ReviewPublishScreenState extends State<ReviewPublishScreen> {
                           mainAxisAlignment: MainAxisAlignment.start,
                           crossAxisAlignment: CrossAxisAlignment.start,
                           children: [
-                            Text('delivery Size: ${productDetailsModel.value.productDetails!.productDimentions!.boxDimension??""}'),
+                            Text('delivery Size: ${productDetailsModel.value.productDetails!.productDimentions!.toString() ??""}'),
                           ],
                         ),
                       )),

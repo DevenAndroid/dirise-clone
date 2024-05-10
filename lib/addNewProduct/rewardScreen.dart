@@ -1,3 +1,4 @@
+import 'package:dirise/bottomavbar.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
@@ -79,6 +80,7 @@ class _RewardScreenState extends State<RewardScreen> {
                 title: 'Continue',
                 borderRadius: 11,
                 onPressed: () {
+                  Get.to(const BottomNavbar());
                 },
               ),
 

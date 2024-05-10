@@ -49,7 +49,11 @@ class _ReviewPublishServiceScreenState extends State<ReviewPublishServiceScreen>
         actions: [
           Padding(
             padding: const EdgeInsets.only(right: 10),
-            child: Text('Skip',style: GoogleFonts.poppins(color: Color(0xff0D5877),fontWeight: FontWeight.w400,fontSize: 18),),
+            child: GestureDetector(
+                onTap: (){
+                  Get.to(RewardScreen());
+                },
+                child: Text('Skip',style: GoogleFonts.poppins(color: Color(0xff0D5877),fontWeight: FontWeight.w400,fontSize: 18),)),
           )
         ],
         titleSpacing: 0,
@@ -342,7 +346,7 @@ class _ReviewPublishServiceScreenState extends State<ReviewPublishServiceScreen>
               GestureDetector(
                 onTap: (){
                   setState(() {
-                    isReturnPolicy.toggle();
+                    // isReturnPolicy.toggle();
                   });
                 },
                 child: Container(

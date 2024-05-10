@@ -250,46 +250,46 @@ class _TellUsScreenState extends State<TellUsScreen> {
                     return null; // Return null if validation passes
                   },
                 ),
-                Container(
-                  padding: const EdgeInsets.all(15),
-                  decoration: BoxDecoration(borderRadius: BorderRadius.circular(11), color: Colors.grey.shade200),
-                  child: Column(
-                    children: [
-                      Row(
-                        children: [
-                          enteredText != '' ? Container(
-                            padding: const EdgeInsets.only(left: 10, right: 10),
-                            height: 40,
-                            decoration: BoxDecoration(color: Colors.white, borderRadius: BorderRadius.circular(5)),
-                            child:  Row(
-                              children: [
-                                Text(enteredText.toString()),
-                                const SizedBox(
-                                  width: 10,
-                                ),
-
-                                GestureDetector(
-                                    onTap: (){
-                                      setState(() {
-                                        serviceController.writeTagsController.clear();
-                                        enteredText = '';
-                                      });
-                                    },
-                                    child: const Icon(Icons.cancel_outlined))
-                              ],
-                            ),
-                          ): const SizedBox.shrink(),
-                          const SizedBox(
-                            width: 30,
-                          ),
-                        ],
-                      ),
-                      const SizedBox(
-                        height: 20,
-                      ),
-                    ],
-                  ),
-                ),
+                // Container(
+                //   padding: const EdgeInsets.all(15),
+                //   decoration: BoxDecoration(borderRadius: BorderRadius.circular(11), color: Colors.grey.shade200),
+                //   child: Column(
+                //     children: [
+                //       Row(
+                //         children: [
+                //           enteredText != '' ? Container(
+                //             padding: const EdgeInsets.only(left: 10, right: 10),
+                //             height: 40,
+                //             decoration: BoxDecoration(color: Colors.white, borderRadius: BorderRadius.circular(5)),
+                //             child:  Row(
+                //               children: [
+                //                 Text(enteredText.toString()),
+                //                 const SizedBox(
+                //                   width: 10,
+                //                 ),
+                //
+                //                 GestureDetector(
+                //                     onTap: (){
+                //                       setState(() {
+                //                         serviceController.writeTagsController.clear();
+                //                         enteredText = '';
+                //                       });
+                //                     },
+                //                     child: const Icon(Icons.cancel_outlined))
+                //               ],
+                //             ),
+                //           ): const SizedBox.shrink(),
+                //           const SizedBox(
+                //             width: 30,
+                //           ),
+                //         ],
+                //       ),
+                //       const SizedBox(
+                //         height: 20,
+                //       ),
+                //     ],
+                //   ),
+                // ),
                 const SizedBox(
                   height: 30,
                 ),

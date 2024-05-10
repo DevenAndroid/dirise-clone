@@ -282,7 +282,10 @@ class _OptionalScreenState extends State<OptionalScreen> {
                   title: 'Next',
                   borderRadius: 11,
                   onPressed: () {
-                    optionalApi();
+                    if(formKey1.currentState!.validate()){
+                      optionalApi();
+                    }
+
                   },
                 ),
                 const SizedBox(height: 20),
