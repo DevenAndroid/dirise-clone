@@ -309,7 +309,7 @@ class LocaleString extends Translations {
           'Earning' : 'Earning',
           'Vendor Publish Status' : 'Vendor Publish Status',
           'Pre-approved: You must upload the required documents to be approved and able to receive your payments.' : 'Pre-approved: You must upload the required documents to be approved and able to receive your payments.',
-          'Set Store Time' : 'Set Store Time',
+          'de' : 'Set Store Time',
           'To' : 'To',
           'Delivery Details' : 'Delivery Details',
           'Customer Name' : 'Customer Name',

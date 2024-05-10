@@ -451,7 +451,11 @@ class _ServicesReturnPolicyState extends State<ServicesReturnPolicy> {
                   onPressed: isButtonEnabled || noReturnSelected == true? () {
                     if (noReturnSelected == false) {
                       if (formKey1.currentState!.validate()) {
-                        returnPolicyApi();
+                        if(radioButtonValue == true) {
+                          returnPolicyApi();
+                        }else{
+                          showToastCenter('Select Return shipping fees');
+                        }
                       }
                     } else {
                       Get.to(const Locationwherecustomerwilljoin());
