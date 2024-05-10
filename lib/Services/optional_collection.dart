@@ -7,6 +7,7 @@ import 'package:flutter/widgets.dart';
 import 'package:form_field_validator/form_field_validator.dart';
 import 'package:get/get.dart';
 import 'package:google_fonts/google_fonts.dart';
+import '../controller/vendor_controllers/add_product_controller.dart';
 import '../model/common_modal.dart';
 import '../repository/repository.dart';
 import '../utils/api_constant.dart';
@@ -29,6 +30,7 @@ class _OptionalColloectionScreenState extends State<OptionalColloectionScreen> {
   final Repositories repositories = Repositories();
   final formKey1 = GlobalKey<FormState>();
   String code = "+91";
+  final addProductController = Get.put(AddProductController());
   optionalApi() {
     Map<String, dynamic> map = {};
 
@@ -38,6 +40,7 @@ class _OptionalColloectionScreenState extends State<OptionalColloectionScreen> {
     map['promotion_code'] = controller.promotionCodeController.text.trim();
     map['package_detail'] = controller.packageDetailsController.text.trim();
     map['item_type'] = 'service';
+    map['id'] = addProductController.idProduct.value.toString();
     FocusManager.instance.primaryFocus!.unfocus();
     repositories.postApi(url: ApiUrls.giveawayProductAddress, context: context, mapData: map).then((value) {
       ModelCommonResponse response = ModelCommonResponse.fromJson(jsonDecode(value));

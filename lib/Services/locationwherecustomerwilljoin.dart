@@ -12,6 +12,7 @@ import 'package:form_field_validator/form_field_validator.dart';
 import 'package:get/get.dart';
 import 'package:google_fonts/google_fonts.dart';
 
+import '../controller/vendor_controllers/add_product_controller.dart';
 import '../model/common_modal.dart';
 import '../model/model_address_list.dart';
 import '../repository/repository.dart';
@@ -30,6 +31,8 @@ class Locationwherecustomerwilljoin extends StatefulWidget {
 class _LocationwherecustomerwilljoinState extends State<Locationwherecustomerwilljoin> {
   String selectedItem = 'Item 1'; // Default selected item
   RxBool isServiceProvide = false.obs;
+  String selectedRadio = '';
+  int selectedAddressIndex = -1;
   List<String> itemList = [
     'Item 1',
     'Item 2',
@@ -47,6 +50,8 @@ class _LocationwherecustomerwilljoinState extends State<Locationwherecustomerwil
   String state = "";
   String zip_code = "";
   String country = "";
+
+  final addProductController = Get.put(AddProductController());
   editAddressApi() {
     Map<String, dynamic> map = {};
 
@@ -55,13 +60,13 @@ class _LocationwherecustomerwilljoinState extends State<Locationwherecustomerwil
     map['state'] = state.toString();
     map['zip_code'] = zip_code.toString();
     map['country'] = country.toString();
-
+    map['item_type'] = 'service';
+    map['id'] = addProductController.idProduct.value.toString();
     FocusManager.instance.primaryFocus!.unfocus();
-    repositories.postApi(url: ApiUrls.editAddressUrl, context: context, mapData: map).then((value) {
+    repositories.postApi(url: ApiUrls.giveawayProductAddress, context: context, mapData: map).then((value) {
       ModelCommonResponse response = ModelCommonResponse.fromJson(jsonDecode(value));
       showToast(response.message.toString());
       if (response.status == true) {
-        return;
         Get.to(const ServiceInternationalShippingService());
       }
     });
@@ -131,7 +136,8 @@ class _LocationwherecustomerwilljoinState extends State<Locationwherecustomerwil
                 GestureDetector(
                   onTap: () {
                     setState(() {
-                      isServiceProvide.toggle();
+                      selectedRadio = 'write';
+                      selectedAddressIndex = -1;
                     });
                   },
                   child: Container(
@@ -150,12 +156,15 @@ class _LocationwherecustomerwilljoinState extends State<Locationwherecustomerwil
                             fontSize: 15,
                           ),
                         ),
-                        Radio(
-                            value: writeAddress,
-                            groupValue: writeAddress,
-                            onChanged: (value) {
-                              writeAddress = value!;
-                            })
+                        Radio<String>(
+                          value: 'write',
+                          groupValue: selectedRadio,
+                          onChanged: (value) {
+                            setState(() {
+                              selectedRadio = value.toString();
+                            });
+                          },
+                        ),
                       ],
                     ),
                   ),
@@ -175,6 +184,7 @@ class _LocationwherecustomerwilljoinState extends State<Locationwherecustomerwil
                     ),
                   ),
                 ),
+
                 addressListModel.address?.shipping != null
                     ? ListView.builder(
                         physics: const NeverScrollableScrollPhysics(),
@@ -221,59 +231,27 @@ class _LocationwherecustomerwilljoinState extends State<Locationwherecustomerwil
                                   ),
                                 ],
                               ),
-                              Radio(value: 1, groupValue: 1, onChanged: (value) {})
-                            ],
-                          );
-                        },
-                      )
-                    : const Center(child: SizedBox()),
-                addressListModel.address?.billing != null
-                    ? ListView.builder(
-                        physics: const NeverScrollableScrollPhysics(),
-                        itemCount: addressListModel.address!.billing!.length,
-                        shrinkWrap: true,
-                        itemBuilder: (context, index) {
-                          var addressList = addressListModel.address!.billing![index];
-                          return Column(
-                            children: [
-                              Container(
-                                width: size.width,
-                                decoration: BoxDecoration(
-                                    borderRadius: const BorderRadius.all(Radius.circular(15)),
-                                    border: Border.all(color: const Color(0xffE4E2E2))),
-                                child: Column(
-                                  crossAxisAlignment: CrossAxisAlignment.start,
-                                  children: [
-                                    Container(
-                                      padding: const EdgeInsets.all(15),
-                                      child: Column(
-                                        crossAxisAlignment: CrossAxisAlignment.start,
-                                        children: [
-                                          Text('City - ${addressList.city.toString()}'),
-                                          Text('state - ${addressList.state.toString()}'),
-                                          Text('country - ${addressList.country.toString()}'),
-                                          Text('zip code - ${addressList.zipCode.toString()}'),
-                                          const SizedBox(
-                                            height: 8,
-                                          ),
-                                        ],
-                                      ),
-                                    )
-                                  ],
-                                ),
-                              ),
-                              const SizedBox(
-                                height: 15,
+                              Radio<String>(
+                                value: 'address_$index',
+                                groupValue: selectedRadio,
+                                onChanged: (value) {
+                                  setState(() {
+                                    selectedRadio = value!;
+                                  });
+                                },
                               ),
                             ],
                           );
                         },
                       )
                     : const Center(child: SizedBox()),
+
                 InkWell(
                   onTap: () {
                     setState(() {
-                      online = true; // Write address selected
+                      selectedRadio = 'online';
+                      selectedAddressIndex = -1;
+
                     });
                   },
                   child: Container(
@@ -292,14 +270,15 @@ class _LocationwherecustomerwilljoinState extends State<Locationwherecustomerwil
                             fontSize: 15,
                           ),
                         ),
-                        Radio(
-                            value: online,
-                            groupValue: online,
-                            onChanged: (value) {
-                              setState(() {
-                                online = value!;
-                              });
-                            })
+                        Radio<String>(
+                          value: 'online',
+                          groupValue: selectedRadio,
+                          onChanged: (value) {
+                            setState(() {
+                              selectedRadio = value.toString();
+                            });
+                          },
+                        ),
                       ],
                     ),
                   ),
@@ -311,12 +290,15 @@ class _LocationwherecustomerwilljoinState extends State<Locationwherecustomerwil
                   title: 'Next',
                   borderRadius: 11,
                   onPressed: () {
-                    if (writeAddress == 1) {
+                    if (selectedRadio == 'write') {
                       Get.to(PickUpAddressService());
-                    } else if (online == 2) {
+                    } else if (selectedRadio.startsWith('address_')) {
+                      int index = int.parse(selectedRadio.split('_')[1]);
+                      editAddressApi();
+                    } else if (selectedRadio == 'online') {
                       Get.to(const ServiceInternationalShippingService());
                     } else {
-                      editAddressApi();
+                      showToast('Please select Address Type');
                     }
                   },
                 ),

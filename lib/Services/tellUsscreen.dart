@@ -10,6 +10,7 @@ import 'package:get/get.dart';
 import 'package:google_fonts/google_fonts.dart';
 
 import '../controller/service_controller.dart';
+import '../controller/vendor_controllers/add_product_controller.dart';
 import '../model/common_modal.dart';
 import '../repository/repository.dart';
 import '../utils/api_constant.dart';
@@ -27,7 +28,7 @@ class _TellUsScreenState extends State<TellUsScreen> {
   final serviceController = Get.put(ServiceController());
   String enteredText = '';
   final formKey = GlobalKey<FormState>();
-
+  final addProductController = Get.put(AddProductController());
   serviceApi() {
     Map<String, dynamic> map = {};
     map['short_description'] = serviceController.shortDescriptionController.text.trim();
@@ -35,6 +36,8 @@ class _TellUsScreenState extends State<TellUsScreen> {
     map['in_stock'] = serviceController.inStockController.text.trim();
     map['stock_alert'] = serviceController.stockAlertController.text.trim();
     map['seo_tags'] = serviceController.writeTagsController.text.trim();
+    map['id'] = addProductController.idProduct.value.toString();
+
 
 
     final Repositories repositories = Repositories();

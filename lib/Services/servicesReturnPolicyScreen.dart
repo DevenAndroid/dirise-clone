@@ -9,6 +9,7 @@ import 'package:get/get.dart';
 import 'package:google_fonts/google_fonts.dart';
 
 import '../controller/service_controller.dart';
+import '../controller/vendor_controllers/add_product_controller.dart';
 import '../controller/vendor_controllers/vendor_profile_controller.dart';
 import '../model/common_modal.dart';
 import '../model/returnPolicyModel.dart';
@@ -34,6 +35,7 @@ class _ServicesReturnPolicyState extends State<ServicesReturnPolicy> {
 
   final Repositories repositories = Repositories();
   final formKey1 = GlobalKey<FormState>();
+  bool isRadioButtonSelected = false;
 
   String selectedItem = '1';
   String selectedItemDay = 'days';
@@ -45,6 +47,14 @@ class _ServicesReturnPolicyState extends State<ServicesReturnPolicy> {
   RxInt returnPolicyLoaded = 0.obs;
   ReturnPolicyModel? modelReturnPolicy;
   ReturnPolicy? selectedReturnPolicy;
+
+  bool isButtonEnabled = false;
+  void updateButtonState() {
+    setState(() {
+      isButtonEnabled = radioButtonValue != null || noReturnSelected;
+    });
+  }
+
   getReturnPolicyData() {
     repositories.getApi(url: ApiUrls.returnPolicyUrl).then((value) {
       setState(() {
@@ -58,14 +68,17 @@ class _ServicesReturnPolicyState extends State<ServicesReturnPolicy> {
   bool? noReturn;
   bool noReturnSelected = false;
   bool? radioButtonValue;
+  final addProductController = Get.put(AddProductController());
   returnPolicyApi() {
     Map<String, dynamic> map = {};
 
     map['title'] = serviceController.titleController.text.trim();
     map['days'] = selectedItem;
+    map['item_type'] = 'service';
     map['policy_description'] = serviceController.descController.text.trim();
     map['return_shipping_fees'] = radioButtonValue == true ? 'Buyer pays' : 'Seller pays';
     map['no_return'] = radioButtonValue;
+    map['id'] = addProductController.idProduct.value.toString();
 
     FocusManager.instance.primaryFocus!.unfocus();
     repositories.postApi(url: ApiUrls.returnPolicyUrl, context: context, mapData: map).then((value) {
@@ -337,12 +350,16 @@ class _ServicesReturnPolicyState extends State<ServicesReturnPolicy> {
                     ),
                     Row(
                       children: [
-                        Radio(value: true, groupValue: radioButtonValue, onChanged: (value) {
-                          setState(() {
-                            radioButtonValue = value;
-                          });
-
-                        }),
+                        Radio(
+                          value: true,
+                          groupValue: radioButtonValue,
+                          onChanged: (value) {
+                            setState(() {
+                              radioButtonValue = value as bool;
+                              updateButtonState(); // Update button state when radio button changes
+                            });
+                          },
+                        ),
                         Text(
                           'Buyer Pays Return Shipping'.tr,
                           style: GoogleFonts.poppins(color: const Color(0xff292F45), fontWeight: FontWeight.w400, fontSize: 15),
@@ -351,12 +368,16 @@ class _ServicesReturnPolicyState extends State<ServicesReturnPolicy> {
                     ),
                     Row(
                       children: [
-                        Radio(value: false, groupValue: radioButtonValue, onChanged: (value) {
-                          setState(() {
-                            radioButtonValue = value;
-                          });
-
-                        }),
+                        Radio(
+                          value: false,
+                          groupValue: radioButtonValue,
+                          onChanged: (value) {
+                            setState(() {
+                              radioButtonValue = value as bool;
+                              updateButtonState(); // Update button state when radio button changes
+                            });
+                          },
+                        ),
                         Text(
                           'Seller Pays Return Shipping'.tr,
                           style: GoogleFonts.poppins(color: const Color(0xff292F45), fontWeight: FontWeight.w400, fontSize: 15),
@@ -427,18 +448,16 @@ class _ServicesReturnPolicyState extends State<ServicesReturnPolicy> {
                 CustomOutlineButton(
                   title: 'Next',
                   borderRadius: 11,
-                  onPressed: () {
-                    if(noReturnSelected == false){
+                  onPressed: isButtonEnabled || noReturnSelected == true? () {
+                    if (noReturnSelected == false) {
                       if (formKey1.currentState!.validate()) {
                         returnPolicyApi();
                       }
-                    }else{
+                    } else {
                       Get.to(const Locationwherecustomerwilljoin());
                     }
-
-                  },
-
-              ),
+                  } : null, // Disable button if no radio button is selected
+                ),
               ],
             ),
           ),

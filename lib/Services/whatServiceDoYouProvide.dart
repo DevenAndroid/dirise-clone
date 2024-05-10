@@ -8,6 +8,7 @@ import 'package:get/get.dart';
 import 'package:google_fonts/google_fonts.dart';
 
 import '../controller/service_controller.dart';
+import '../controller/vendor_controllers/add_product_controller.dart';
 import '../model/common_modal.dart';
 import '../repository/repository.dart';
 import '../utils/api_constant.dart';
@@ -68,6 +69,7 @@ class _whatServiceDoYouProvideState extends State<whatServiceDoYouProvide> {
     'Item 5',
   ];
   final formKey = GlobalKey<FormState>();
+  final addProductController = Get.put(AddProductController());
   serviceApi() {
     Map<String, dynamic> map = {};
     map['product_name'] = serviceController.serviceNameController.text.trim();
@@ -75,6 +77,8 @@ class _whatServiceDoYouProvideState extends State<whatServiceDoYouProvide> {
     map['p_price'] = serviceController.priceController.text.trim();
     map['fixed_discount_price'] = isDelivery.value == false ? "0" : serviceController.fixedPriceController.text.trim();
     map['discount_percent'] = serviceController.percentageController.text.trim();
+    map['id'] = addProductController.idProduct.value.toString();
+
     // map['discount_percent'] = fixedPriceAfterSaleController.text.trim();
 
     final Repositories repositories = Repositories();

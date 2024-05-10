@@ -104,8 +104,9 @@ class _JobReviewPublishScreenState extends State<JobReviewPublishScreen> {
                         Text('product Price: ${widget.jobtype.toString()}'),
                         Text('product Type: ${widget.jobmodel.toString()}'),
                         Text('product ID: ${widget.experince.toString()}'),
-                        Text('short Des: ${widget.salery.toString()}'),
-                        Text('short Des: ${widget.linkedIN.toString()}'),
+                        Text('Salary: ${widget.salery.toString()}'),
+                        Text('linkedIN: ${widget.linkedIN.toString()}'),
+                        Text('Experience: ${widget.experince.toString()}'),
 
                       ],
                     ),
