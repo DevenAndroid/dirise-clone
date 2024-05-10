@@ -13,15 +13,14 @@ import '../../widgets/common_button.dart';
 import '../../widgets/common_colour.dart';
 import '../../widgets/common_textfield.dart';
 
-
-class ConsultationOptionalScreen extends StatefulWidget {
-  const ConsultationOptionalScreen({super.key});
+class ExtendProgramOptionalScreen extends StatefulWidget {
+  const ExtendProgramOptionalScreen({super.key});
 
   @override
-  State<ConsultationOptionalScreen> createState() => _ConsultationOptionalScreenState();
+  State<ExtendProgramOptionalScreen> createState() => _ExtendProgramOptionalScreenState();
 }
 
-class _ConsultationOptionalScreenState extends State<ConsultationOptionalScreen> {
+class _ExtendProgramOptionalScreenState extends State<ExtendProgramOptionalScreen> {
   final TextEditingController metaTitleController = TextEditingController();
   final TextEditingController metaDescriptionController = TextEditingController();
   final TextEditingController longDescriptionController = TextEditingController();
@@ -29,7 +28,6 @@ class _ConsultationOptionalScreenState extends State<ConsultationOptionalScreen>
   final TextEditingController productNumberController = TextEditingController();
 
   final formKey1 = GlobalKey<FormState>();
-
 
   @override
   Widget build(BuildContext context) {
@@ -66,7 +64,6 @@ class _ConsultationOptionalScreenState extends State<ConsultationOptionalScreen>
             key: formKey1,
             child: Column(
               children: [
-
                 CommonTextField(
                   controller: metaTitleController,
                   obSecure: false,
@@ -78,6 +75,18 @@ class _ConsultationOptionalScreenState extends State<ConsultationOptionalScreen>
                     return null; // Return null if validation passes
                   },
                 ),
+                const SizedBox(height: 10,),
+                Row(
+                  children: [
+                    Radio(value: 1, groupValue: 1, onChanged: (value) {}),
+                    Expanded(
+                      child: Text(
+                          'I will set it the location later.I agree to that a full refund will be mandatory in case in the customer request a refund because of the missing information.'
+                      ,style: TextStyle(fontSize: 14,color: Color(0xffEB4335)),),
+                    ),
+                  ],
+                ),
+                const SizedBox(height: 10,),
                 CommonTextField(
                   controller: serialNumberController,
                   obSecure: false,
@@ -152,13 +161,11 @@ class _ConsultationOptionalScreenState extends State<ConsultationOptionalScreen>
                 CustomOutlineButton(
                   title: 'Done',
                   borderRadius: 11,
-                  onPressed: () {
-                  },
+                  onPressed: () {},
                 ),
                 const SizedBox(height: 20),
                 GestureDetector(
                   onTap: () {
-
                     Get.to(ReviewPublishScreen());
                   },
                   child: Container(

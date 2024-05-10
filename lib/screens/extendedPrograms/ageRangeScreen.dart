@@ -5,14 +5,14 @@ import 'package:google_fonts/google_fonts.dart';
 
 import '../../widgets/common_button.dart';
 
-class EligibleCustomers extends StatefulWidget {
-  const EligibleCustomers({super.key});
+class ExtendProgramEligibleCustomers extends StatefulWidget {
+  const ExtendProgramEligibleCustomers({super.key});
 
   @override
-  State<EligibleCustomers> createState() => _EligibleCustomersState();
+  State<ExtendProgramEligibleCustomers> createState() => _ExtendProgramEligibleCustomersState();
 }
 
-class _EligibleCustomersState extends State<EligibleCustomers> {
+class _ExtendProgramEligibleCustomersState extends State<ExtendProgramEligibleCustomers> {
   RangeValues _currentRangeValues = const RangeValues(40, 80);
 
   @override

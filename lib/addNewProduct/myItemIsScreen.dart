@@ -35,32 +35,32 @@ class _MyItemISScreenState extends State<MyItemISScreen> {
   ];
 
   void navigateNext() {
-    if (profileController.model.user!.isVendor == false) {
+    if (profileController.model.user!.isVendor == true) {
+      // If user is a vendor, allow all radio buttons
+      if (selectedRadio == 'Giveaway') {
+        Get.to(const ItemDetailsScreens());
+      } else if (selectedRadio == 'Product') {
+        Get.to(ProductInformationScreens());
+      } else if (selectedRadio == 'Job') {
+        Get.to(JobTellusaboutyourselfScreen());
+      } else if (selectedRadio == 'Service') {
+        Get.to(whatServiceDoYouProvide());
+      } else if (selectedRadio == 'Virtual') {
+        Get.to(PickUpAddressScreen());
+      } else {
+        // Handle the case where the selected radio doesn't match any case
+        // For example, show a message or perform a different action
+      }
+    } else {
+      // If user is not a vendor, only allow 'Giveaway' option
       if (selectedRadio == 'Giveaway') {
         Get.to(const ItemDetailsScreens());
       } else {
-    showToast('Please Register as a vendor');
-      }
-    } else {
-      if (selectedRadio != 'Giveaway') {
-        if (selectedRadio == 'Product') {
-          Get.to(ProductInformationScreens());
-        } else if (selectedRadio == 'Job') {
-          Get.to(JobTellusaboutyourselfScreen());
-        } else if (selectedRadio == 'Service') {
-          Get.to(whatServiceDoYouProvide());
-        } else if (selectedRadio == 'Virtual') {
-          Get.to(PickUpAddressScreen());
-        } else {
-          // Handle the case where the selected radio doesn't match any case
-          // For example, show a message or perform a different action
-        }
-      } else {
-        // Handle the case where the user is a vendor and selected radio is 'Giveaway'
-        // For example, show a message or perform a different action
+        showToast('Please Register As A Vendor');
       }
     }
   }
+
 
 
 
