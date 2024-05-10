@@ -130,15 +130,7 @@ class _ReviewPublishScreenState extends State<ReviewPublishScreen> {
             size: 16,
           ),
         ),
-        actions: [
-          Padding(
-            padding: const EdgeInsets.only(right: 10),
-            child: Text(
-              'Skip',
-              style: GoogleFonts.poppins(color: const Color(0xff0D5877), fontWeight: FontWeight.w400, fontSize: 18),
-            ),
-          )
-        ],
+
         titleSpacing: 0,
         title: Row(
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -341,6 +333,7 @@ class _ReviewPublishScreenState extends State<ReviewPublishScreen> {
                             ),
                           ),
                         ),
+
                         const SizedBox(height: 10),
                         Visibility(
                             visible: isItemDetailsVisible4,
@@ -381,6 +374,26 @@ class _ReviewPublishScreenState extends State<ReviewPublishScreen> {
                       color: Colors.grey,
                     ));
             })),
+
+                      )),
+                  const SizedBox(height: 20),
+                  CustomOutlineButton(
+                    title: 'Confirm',
+                    borderRadius: 11,
+                    onPressed: () {
+                      Get.to(const RewardScreen());
+                    },
+                  ),
+                ],
+              ):Center(
+          child: CircularProgressIndicator(
+            color: Colors.grey,
+          )
+              );
+            })
+
+        ),
+
       ),
     );
   }

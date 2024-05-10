@@ -1,3 +1,5 @@
+import 'dart:io';
+
 import 'package:dirise/addNewProduct/itemdetailsScreen.dart';
 import 'package:dirise/controller/profile_controller.dart';
 import 'package:dirise/utils/api_constant.dart';
@@ -16,7 +18,8 @@ import '../widgets/common_button.dart';
 
 class MyItemISScreen extends StatefulWidget {
   static String route = "/TellUsAboutYourSelf";
-  const MyItemISScreen({Key? key}) : super(key: key);
+  File? featureImage;
+  MyItemISScreen({Key? key,this.featureImage}) : super(key: key);
 
   @override
   State<MyItemISScreen> createState() => _MyItemISScreenState();
@@ -44,7 +47,7 @@ class _MyItemISScreenState extends State<MyItemISScreen> {
       } else if (selectedRadio == 'Job') {
         Get.to(JobTellusaboutyourselfScreen());
       } else if (selectedRadio == 'Service') {
-        Get.to(whatServiceDoYouProvide());
+        Get.to(whatServiceDoYouProvide(fetaureImage: widget.featureImage,));
       } else if (selectedRadio == 'Virtual') {
         Get.to(PickUpAddressScreen());
       } else {
@@ -70,20 +73,16 @@ class _MyItemISScreenState extends State<MyItemISScreen> {
       appBar: AppBar(
         backgroundColor: Colors.white,
         elevation: 0,
-        leading: GestureDetector(
-          onTap: () {
-            Get.back();
-          },
-          child: IconButton(
-            icon: const Icon(
-              Icons.arrow_back_ios_new,
-              color: Color(0xff0D5877),
-              size: 16,
-            ),
-            onPressed: () {
-              // Handle back button press
-            },
+        leading: IconButton(
+          icon: const Icon(
+            Icons.arrow_back_ios_new,
+            color: Color(0xff0D5877),
+            size: 16,
           ),
+          onPressed: () {
+            Get.back();
+            // Handle back button press
+          },
         ),
         titleSpacing: 0,
         title: Row(

@@ -131,7 +131,7 @@ class _VendorProductScreenState extends State<VendorProductScreen> {
                     ),
                     GestureDetector(
                       onTap: () {
-                        Get.to(()=> const MyItemISScreen());
+                        Get.to(()=> MyItemISScreen());
                       },
                       child: Container(
                         height: AddSize.size20 * 2.5,

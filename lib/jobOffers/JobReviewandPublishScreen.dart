@@ -131,12 +131,15 @@ class _JobReviewPublishScreenState extends State<JobReviewPublishScreen> {
                       mainAxisAlignment: MainAxisAlignment.start,
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
+
                         Text('Job title: ${productDetailsModel.value.productDetails!.product!.pname ?? ""}'),
                      Text('Job Type: ${productDetailsModel.value.productDetails!.product!.jobType ?? ""}'),
                          Text('Job Model: ${productDetailsModel.value.productDetails!.product!.jobModel ?? ""}'),
                        Text('Exprience: ${productDetailsModel.value.productDetails!.product!.experience ?? ""}'),
                      Text('Salary: ${productDetailsModel.value.productDetails!.product!.salary ?? ""}'),
                         Text('short Des: ${productDetailsModel.value.productDetails!.product!.linkdinUrl ?? ""}'),
+
+
 
                       ],
                     ),

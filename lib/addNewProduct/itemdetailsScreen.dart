@@ -35,7 +35,7 @@ class ItemDetailsScreens extends StatefulWidget {
 class _ItemDetailsScreensState extends State<ItemDetailsScreens> {
   ProductCategoryData? selectedSubcategory;
   SubProductData? selectedProductSubcategory;
-  final addProductController = Get.put(AddProductController());
+
   final TextEditingController ProductNameController = TextEditingController();
 
   int vendorID = 0;
@@ -56,7 +56,7 @@ class _ItemDetailsScreensState extends State<ItemDetailsScreens> {
       }
     });
   }
-
+  final addProductController = Get.put(AddProductController());
   deliverySizeApi() {
     Map<String, dynamic> map = {};
     map['category_id'] = idForChild.toString();
@@ -204,63 +204,132 @@ class _ItemDetailsScreensState extends State<ItemDetailsScreens> {
               const SizedBox(
                 height: 10,
               ),
-              const Text(
-                'Select Vendor Category',
-                style: TextStyle(fontWeight: FontWeight.bold),
-              ),
-              GestureDetector(
-                onTap: () {
-                  isItemDetailsVisible = !isItemDetailsVisible;
-                  idForChild.clear();
-                  productCategoryModel.value = ModelCategoryList();
-                  setState(() {});
-                },
-                child: Container(
-                  padding: const EdgeInsets.all(10),
-                  height: 50,
-                  decoration: BoxDecoration(
-                      color: Colors.grey.shade200,
-                      borderRadius: BorderRadius.circular(10),
-                      border: Border.all(color: Colors.grey.shade400, width: 1)),
-                  child: Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                    children: [Text(
-                        categoryName.value == "" ?
-                        'Select category to choose' : categoryName.value), Icon(Icons.arrow_drop_down_sharp)],
+              // const Text(
+              //   'Select Vendor Category',
+              //   style: TextStyle(fontWeight: FontWeight.bold),
+              // ),
+              // /// Inside the build method of your stateful widget
+              // GestureDetector(
+              //   onTap: () {
+              //     isItemDetailsVisible = !isItemDetailsVisible;
+              //     idForChild.clear();
+              //     productCategoryModel.value = ModelCategoryList();
+              //     setState(() {});
+              //   },
+              //   child: Container(
+              //     padding: const EdgeInsets.all(10),
+              //     height: 50,
+              //     decoration: BoxDecoration(
+              //         color: Colors.grey.shade200,
+              //         borderRadius: BorderRadius.circular(10),
+              //         border: Border.all(color: Colors.grey.shade400, width: 1)),
+              //     child: Row(
+              //       mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              //       children: [
+              //         Text(
+              //           categoryName.value == "" ? 'Select category to choose' : categoryName.value,
+              //         ),
+              //         Icon(Icons.arrow_drop_down_sharp),
+              //       ],
+              //     ),
+              //   ),
+              // ),
+              Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Text(
+                    'Search Vendor Category',
+                    style: TextStyle(fontWeight: FontWeight.bold),
                   ),
-                ),
-              ),
-              const SizedBox(
-                height: 5,
-              ),
-              Visibility(
-                visible: isItemDetailsVisible,
-                child: ListView.builder(
-                    itemCount: modelVendorCategory.usphone!.length,
+                  SizedBox(height: 5),
+                  TextField(
+                    onChanged: (value) {
+                      fetchedDropdownItems = modelVendorCategory.usphone!
+                          .where((element) =>
+                          element.name.toLowerCase().contains(value.toLowerCase()))
+                          .map((vendorCategory) => ProductCategoryData(
+                          id: vendorCategory.id,
+                          title: vendorCategory.name)) // Convert vendor category to product category
+                          .toList();
+                      setState(() {});
+                    },
+                    decoration: InputDecoration(
+                      hintText: 'Search',
+                      prefixIcon: Icon(Icons.search),
+                      border: OutlineInputBorder(
+                        borderRadius: BorderRadius.circular(10),
+                      ),
+                    ),
+                  ),
+                  SizedBox(height: 10),
+                  ListView.builder(
+                    itemCount: fetchedDropdownItems.length,
                     shrinkWrap: true,
-                    physics: const NeverScrollableScrollPhysics(),
+                    physics: NeverScrollableScrollPhysics(),
                     itemBuilder: (context, index) {
-                      var data = modelVendorCategory.usphone![index];
+                      var data = fetchedDropdownItems[index];
                       return GestureDetector(
                         onTap: () {
                           fetchDataBasedOnId(data.id);
                           isItemDetailsVisible = !isItemDetailsVisible;
-                          categoryName.value = data.name.toString();
+                          categoryName.value = data.title.toString();
                           id.value = data.id.toString();
                           setState(() {});
                         },
                         child: Container(
-                            margin: EdgeInsets.only(bottom: 5),
-                            padding: const EdgeInsets.all(10),
-                            height: 50,
-                            decoration: BoxDecoration(
-                                color: Colors.grey.shade200,
-                                borderRadius: BorderRadius.circular(10),
-                                border: Border.all(color: Colors.grey.shade400, width: 1)),
-                            child: Text(data.name)),
+                          margin: EdgeInsets.only(bottom: 5),
+                          padding: const EdgeInsets.all(10),
+                          height: 50,
+                          decoration: BoxDecoration(
+                              color: Colors.grey.shade200,
+                              borderRadius: BorderRadius.circular(10),
+                              border: Border.all(color: Colors.grey.shade400, width: 1)),
+                          child: Text(data.title),
+                        ),
                       );
-                    }),
+                    },
+                  ),
+                ],
               ),
+
+              const SizedBox(
+                height: 15,
+              ),
+              Text(
+                'Filters(Optional)'.tr,
+                style: GoogleFonts.poppins(color: Colors.black, fontWeight: FontWeight.w600, fontSize: 16),
+              ),
+              const SizedBox(
+                height: 5,
+              ),
+              // Visibility(
+              //   visible: isItemDetailsVisible,
+              //   child: ListView.builder(
+              //       itemCount: modelVendorCategory.usphone!.length,
+              //       shrinkWrap: true,
+              //       physics: const NeverScrollableScrollPhysics(),
+              //       itemBuilder: (context, index) {
+              //         var data = modelVendorCategory.usphone![index];
+              //         return GestureDetector(
+              //           onTap: () {
+              //             fetchDataBasedOnId(data.id);
+              //             isItemDetailsVisible = !isItemDetailsVisible;
+              //             categoryName.value = data.name.toString();
+              //             id.value = data.id.toString();
+              //             setState(() {});
+              //           },
+              //           child: Container(
+              //               margin: EdgeInsets.only(bottom: 5),
+              //               padding: const EdgeInsets.all(10),
+              //               height: 50,
+              //               decoration: BoxDecoration(
+              //                   color: Colors.grey.shade200,
+              //                   borderRadius: BorderRadius.circular(10),
+              //                   border: Border.all(color: Colors.grey.shade400, width: 1)),
+              //               child: Text(data.name)),
+              //         );
+              //       }),
+              // ),
               const SizedBox(
                 height: 20,
               ),

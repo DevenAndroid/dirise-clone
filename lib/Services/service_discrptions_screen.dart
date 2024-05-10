@@ -11,6 +11,7 @@ import 'package:form_field_validator/form_field_validator.dart';
 import 'package:get/get.dart';
 import 'package:google_fonts/google_fonts.dart';
 
+import '../controller/vendor_controllers/add_product_controller.dart';
 import '../model/common_modal.dart';
 import '../repository/repository.dart';
 import '../utils/api_constant.dart';
@@ -34,15 +35,17 @@ class _ServiceOptionalScreenState extends State<ServiceOptionalScreen> {
   final Repositories repositories = Repositories();
   final formKey1 = GlobalKey<FormState>();
   String code = "+91";
+  final addProductController = Get.put(AddProductController());
   optionalApi() {
     Map<String, dynamic> map = {};
 
     map['meta_title'] = serviceController.metaTitleController.text.trim();
-    map['item_type'] = 'giveaway';
+    map['item_type'] = 'service';
     map['meta_description'] = serviceController.metaDescriptionController.text.trim();
     map['long_description'] = serviceController.longDescriptionController.text.trim();
     map['serial_number'] = serviceController.serialNumberController.text.trim();
     map['product_number'] = serviceController.productNumberController.text.trim();
+    map['id'] = addProductController.idProduct.value.toString();
 
     FocusManager.instance.primaryFocus!.unfocus();
     repositories.postApi(url: ApiUrls.giveawayProductAddress, context: context, mapData: map).then((value) {

@@ -12,6 +12,7 @@ import 'package:get/get.dart';
 import 'package:google_fonts/google_fonts.dart';
 
 import '../controller/service_controller.dart';
+import '../controller/vendor_controllers/add_product_controller.dart';
 import '../iAmHereToSell/personalizeyourstoreScreen.dart';
 import '../model/common_modal.dart';
 import '../repository/repository.dart';
@@ -63,6 +64,7 @@ class _ServiceInternationalShippingServiceState extends State<ServiceInternation
   bool? _isValue = false;
   final Repositories repositories = Repositories();
   String code = "+91";
+  final addProductController = Get.put(AddProductController());
   shippingDetailsApi() {
     Map<String, dynamic> map = {};
     map['weight_unit'] = unitOfMeasure;
@@ -74,6 +76,7 @@ class _ServiceInternationalShippingServiceState extends State<ServiceInternation
     map['box_width'] = serviceController.dimensionWidthController.text.trim();
     map['box_length'] = serviceController.dimensionController.text.trim();
     map['type_of_packages'] = selectTypeOfPackaging;
+    map['id'] = addProductController.idProduct.value.toString();
 
     FocusManager.instance.primaryFocus!.unfocus();
     repositories.postApi(url: ApiUrls.giveawayProductAddress, context: context, mapData: map).then((value) {

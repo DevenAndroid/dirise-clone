@@ -1,13 +1,14 @@
 import 'dart:convert';
+import 'dart:io';
 
 import 'package:dirise/Services/tellUsscreen.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:form_field_validator/form_field_validator.dart';
 import 'package:get/get.dart';
 import 'package:google_fonts/google_fonts.dart';
 
 import '../controller/service_controller.dart';
+import '../controller/vendor_controllers/add_product_controller.dart';
 import '../model/common_modal.dart';
 import '../repository/repository.dart';
 import '../utils/api_constant.dart';
@@ -16,7 +17,8 @@ import '../widgets/common_colour.dart';
 import '../widgets/common_textfield.dart';
 
 class whatServiceDoYouProvide extends StatefulWidget {
-  const whatServiceDoYouProvide({super.key});
+  File? fetaureImage;
+   whatServiceDoYouProvide({super.key,this.fetaureImage});
 
   @override
   State<whatServiceDoYouProvide> createState() => _whatServiceDoYouProvideState();
@@ -26,6 +28,39 @@ class _whatServiceDoYouProvideState extends State<whatServiceDoYouProvide> {
   String selectedItem = 'Item 1'; // Default selected item
   final serviceController = Get.put(ServiceController());
   RxBool isShow = false.obs;
+  String realPrice = "";
+  String discounted = "";
+  String sale = "";
+  String productName = "";
+  String discountedPrice = "";
+  bool isPercentageDiscount = true;
+
+  void calculateDiscount() {
+    double realPrice = double.tryParse(serviceController.priceController.text) ?? 0.0;
+    double sale = double.tryParse(serviceController.percentageController.text) ?? 0.0;
+    double fixedPrice = double.tryParse(serviceController.fixedPriceController.text) ?? 0.0;
+
+    // Check the current discount type and calculate discounted price accordingly
+    if (isPercentageDiscount && realPrice > 0 && sale > 0) {
+      double discountAmount = (realPrice * sale) / 100;
+      double discountedPriceValue = realPrice - discountAmount;
+      setState(() {
+        discountedPrice = discountedPriceValue.toStringAsFixed(2);
+      });
+    } else if (!isPercentageDiscount && realPrice > 0 && fixedPrice > 0) {
+      double discountedPriceValue = realPrice - fixedPrice;
+      setState(() {
+        discountedPrice = discountedPriceValue.toStringAsFixed(2);
+      });
+    } else {
+      setState(() {
+        discountedPrice = "";
+      });
+    }
+  }
+
+
+
   List<String> itemList = [
     'Item 1',
     'Item 2',
@@ -34,6 +69,7 @@ class _whatServiceDoYouProvideState extends State<whatServiceDoYouProvide> {
     'Item 5',
   ];
   final formKey = GlobalKey<FormState>();
+  final addProductController = Get.put(AddProductController());
   serviceApi() {
     Map<String, dynamic> map = {};
     map['product_name'] = serviceController.serviceNameController.text.trim();
@@ -41,6 +77,8 @@ class _whatServiceDoYouProvideState extends State<whatServiceDoYouProvide> {
     map['p_price'] = serviceController.priceController.text.trim();
     map['fixed_discount_price'] = isDelivery.value == false ? "0" : serviceController.fixedPriceController.text.trim();
     map['discount_percent'] = serviceController.percentageController.text.trim();
+    map['id'] = addProductController.idProduct.value.toString();
+
     // map['discount_percent'] = fixedPriceAfterSaleController.text.trim();
 
     final Repositories repositories = Repositories();
@@ -54,6 +92,7 @@ class _whatServiceDoYouProvideState extends State<whatServiceDoYouProvide> {
       }
     });
   }
+
   RxBool isDelivery = false.obs;
   @override
   Widget build(BuildContext context) {
@@ -80,63 +119,99 @@ class _whatServiceDoYouProvideState extends State<whatServiceDoYouProvide> {
       ),
       body: SingleChildScrollView(
         child: Container(
-          margin: EdgeInsets.only(left: 15,right: 15),
+          margin: const EdgeInsets.only(left: 15, right: 15),
           child: Form(
             key: formKey,
             child: Column(
               mainAxisAlignment: MainAxisAlignment.start,
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
+                Text(
+                  'Service Name'.tr,
+                  style: GoogleFonts.inter(color: const Color(0xff292F45), fontWeight: FontWeight.w500, fontSize: 14),
+                ),
                 CommonTextField(
                   controller: serviceController.serviceNameController,
-                    obSecure: false,
-                    hintText: 'Service Name'.tr,
-                    validator: (value) {
-                      if (value!.trim().isEmpty) {
-                        return 'Service Name is required';
-                      }
-                      return null; // Return null if validation passes
-                    },
+                  obSecure: false,
+                  hintText: 'Service Name'.tr,
+                  onChanged: (value) {
+                    productName = value;
+                    setState(() {});
+                  },
+                  validator: (value) {
+                    if (value!.trim().isEmpty) {
+                      return 'Service Name is required';
+                    }
+                    return null; // Return null if validation passes
+                  },
+                ),
+                Text(
+                  'Price'.tr,
+                  style: GoogleFonts.inter(color: const Color(0xff292F45), fontWeight: FontWeight.w500, fontSize: 14),
                 ),
                 CommonTextField(
                   controller: serviceController.priceController,
-                    obSecure: false,
-                    hintText: 'Price'.tr,
-                    keyboardType: TextInputType.number,
-                    validator: (value) {
-                      if (value!.trim().isEmpty) {
-                        return 'Price is required';
-                      }
-                      return null; // Return null if validation passes
-                    },
-                   ),
-                if(isDelivery.value == false)
-                CommonTextField(
-                    controller: serviceController.percentageController,
-                    obSecure: false,
-                    keyboardType: TextInputType.number,
-                    hintText: 'Percentage'.tr,
-                    validator: (value) {
-                      if (value!.trim().isEmpty) {
-                        return 'Enter percentage here.';
-                      }
-                      return null; // Return null if validation passes
-                    },
-                   ),
-                Container(
-                  padding: const EdgeInsets.symmetric(vertical: 12,horizontal: 12),
-                  decoration: BoxDecoration(
-                    color: Colors.white,
-                    borderRadius: BorderRadius.circular(8),
-                    border: Border.all(color: AppTheme.secondaryColor)
+                  obSecure: false,
+                  hintText: 'Price'.tr,
+                  keyboardType: TextInputType.number,
+                  onChanged: (value) {
+                    calculateDiscount();
+                    realPrice = value;
+                    setState(() {});
+                  },
+                  validator: (value) {
+                    if (value!.trim().isEmpty) {
+                      return 'Price is required';
+                    }
+                    return null; // Return null if validation passes
+                  },
+                ),
+                if (isDelivery.value == false)
+                  Column(
+                    mainAxisAlignment: MainAxisAlignment.start,
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      Text(
+                        'Percentage'.tr,
+                        style: GoogleFonts.inter(
+                            color: const Color(0xff292F45), fontWeight: FontWeight.w500, fontSize: 14),
+                      ),
+                      CommonTextField(
+                        controller: serviceController.percentageController,
+                        obSecure: false,
+                        onChanged: (value) {
+                          isPercentageDiscount = true;
+                          calculateDiscount();
+                          sale = value;
+                          setState(() {});
+                        },
+                        keyboardType: TextInputType.number,
+                        hintText: 'Percentage'.tr,
+                        validator: (value) {
+                          if (value!.trim().isEmpty) {
+                            return 'Enter percentage here.';
+                          }
+                          return null; // Return null if validation passes
+                        },
+                      ),
+                    ],
                   ),
+                Container(
+                  padding: const EdgeInsets.symmetric(vertical: 12, horizontal: 12),
+                  decoration: BoxDecoration(
+                      color: Colors.white,
+                      borderRadius: BorderRadius.circular(8),
+                      border: Border.all(color: AppTheme.secondaryColor)),
                   child: Row(
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
-                       Text('Make it on sale',style: GoogleFonts.poppins(
-                         color: AppTheme.primaryColor,
-                         fontSize: 15,
-                       ),),
+                      Text(
+                        'Make it on sale',
+                        style: GoogleFonts.poppins(
+                          color: AppTheme.primaryColor,
+                          fontSize: 15,
+                        ),
+                      ),
                       Transform.translate(
                         offset: const Offset(-6, 0),
                         child: Checkbox(
@@ -153,9 +228,9 @@ class _whatServiceDoYouProvideState extends State<whatServiceDoYouProvide> {
                               color: AppTheme.buttonColor,
                             ),
                             onChanged: (bool? value) {
-                             setState(() {
-                               isDelivery.value = value!;
-                             });
+                              setState(() {
+                                isDelivery.value = value!;
+                              });
                             }),
                       ),
                     ],
@@ -164,147 +239,69 @@ class _whatServiceDoYouProvideState extends State<whatServiceDoYouProvide> {
                 const SizedBox(
                   height: 10,
                 ),
-                // CommonTextField(
-                //     controller: percentageController,
-                //     obSecure: false,
-                //     hintText: 'Make it on sale'.tr,
-                //     readOnly:  true,
-                //     onTap: (){
-                //       isShow.value = !isShow.value;
-                //     },
-                //     ),
-                // DropdownButtonFormField<String>(
-                //   value: selectedItem,
-                //   onChanged: (String? newValue) {
-                //     setState(() {
-                //       isShow.value = !isShow.value;
-                //     });
-                //   },
-                //   items: itemList.map<DropdownMenuItem<String>>((String value) {
-                //     return DropdownMenuItem<String>(
-                //       value: value,
-                //       child: Text('Make it on sale',style: TextStyle(fontSize: 15,color: Colors.grey),),
-                //     );
-                //   }).toList(),
-                //   decoration: InputDecoration(
-                //       border: InputBorder.none,
-                //       filled: true,
-                //       fillColor: Colors.white,
-                //       contentPadding: const EdgeInsets.symmetric(horizontal: 15, vertical: 10).copyWith(right: 8),
-                //       focusedErrorBorder: const OutlineInputBorder(
-                //           borderRadius: BorderRadius.all(Radius.circular(8)),
-                //           borderSide: BorderSide(color: AppTheme.secondaryColor)),
-                //       errorBorder: const OutlineInputBorder(
-                //           borderRadius: BorderRadius.all(Radius.circular(8)),
-                //           borderSide: BorderSide(color: Color(0xffE2E2E2))),
-                //       focusedBorder: const OutlineInputBorder(
-                //           borderRadius: BorderRadius.all(Radius.circular(8)),
-                //           borderSide: BorderSide(color: AppTheme.secondaryColor)),
-                //       disabledBorder: const OutlineInputBorder(
-                //         borderRadius: BorderRadius.all(Radius.circular(8)),
-                //         borderSide: BorderSide(color: AppTheme.secondaryColor),
-                //       ),
-                //       enabledBorder: const OutlineInputBorder(
-                //         borderRadius: BorderRadius.all(Radius.circular(8)),
-                //         borderSide: BorderSide(color: AppTheme.secondaryColor),
-                //       ),
-                //   ),
-                //   validator: (value) {
-                //     if (value == null || value.isEmpty) {
-                //       return 'Please select an item';
-                //     }
-                //     return null;
-                //   },
-                // ),
-                // const SizedBox(height: 10,),
-                // DropdownButtonFormField<String>(
-                //   value: selectedItem,
-                //   onChanged: (String? newValue) {
-                //     setState(() {
-                //       selectedItem = newValue!;
-                //     });
-                //   },
-                //   items: itemList.map<DropdownMenuItem<String>>((String value) {
-                //     return DropdownMenuItem<String>(
-                //       value: value,
-                //       child: Text('Percentage',style: TextStyle(fontSize: 15,color: Colors.grey),),
-                //     );
-                //   }).toList(),
-                //   decoration: InputDecoration(
-                //       border: InputBorder.none,
-                //       filled: true,
-                //       fillColor: const Color(0xffE2E2E2).withOpacity(.35),
-                //       contentPadding: const EdgeInsets.symmetric(horizontal: 15, vertical: 10).copyWith(right: 8),
-                //       focusedErrorBorder: const OutlineInputBorder(
-                //           borderRadius: BorderRadius.all(Radius.circular(8)),
-                //           borderSide: BorderSide(color: AppTheme.secondaryColor)),
-                //       errorBorder: const OutlineInputBorder(
-                //           borderRadius: BorderRadius.all(Radius.circular(8)),
-                //           borderSide: BorderSide(color: Color(0xffE2E2E2))),
-                //       focusedBorder: const OutlineInputBorder(
-                //           borderRadius: BorderRadius.all(Radius.circular(8)),
-                //           borderSide: BorderSide(color: AppTheme.secondaryColor)),
-                //       disabledBorder: const OutlineInputBorder(
-                //         borderRadius: BorderRadius.all(Radius.circular(8)),
-                //         borderSide: BorderSide(color: AppTheme.secondaryColor),
-                //       ),
-                //       enabledBorder: const OutlineInputBorder(
-                //         borderRadius: BorderRadius.all(Radius.circular(8)),
-                //         borderSide: BorderSide(color: AppTheme.secondaryColor),
-                //       ),
-                //   ),
-                //   validator: (value) {
-                //     if (value == null || value.isEmpty) {
-                //       return 'Please select an item';
-                //     }
-                //     return null;
-                //   },
-                // ),
-                if(isDelivery.value == true)
-                CommonTextField(
-                  controller: serviceController.fixedPriceController,
-                    obSecure: false,
-                    keyboardType: TextInputType.number,
-                    hintText: 'Fixed after sale price'.tr,
-                    onChanged: (value){
-                      double sellingPrice = double.tryParse(value) ?? 0.0;
-                      double purchasePrice = double.tryParse(serviceController.priceController.text) ?? 0.0;
-                      if (serviceController.priceController.text.isEmpty) {
-                        FocusManager.instance.primaryFocus!.unfocus();
-                        serviceController.fixedPriceController.clear();
-                        showToastCenter('Enter normal price first');
-                        return;
-                      }
-                      if (sellingPrice > purchasePrice) {
-                        FocusManager.instance.primaryFocus!.unfocus();
-                        serviceController.fixedPriceController.clear();
-                        showToastCenter('After sell price cannot be higher than normal price');
-                      }
-                    },
-                    validator: (value) {
-                      if (value!.trim().isEmpty) {
-                        return 'Fixed after sale price';
-                      }
-                      return null; // Return null if validation passes
-                    },
-                   ),
-                const SizedBox(height: 10,),
+                if (isDelivery.value == true)
+                  Column(
+                    mainAxisAlignment: MainAxisAlignment.start,
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      Text(
+                        'Fixed after sale price'.tr,
+                        style: GoogleFonts.inter(
+                            color: const Color(0xff292F45), fontWeight: FontWeight.w500, fontSize: 14),
+                      ),
+                      CommonTextField(
+                        controller: serviceController.fixedPriceController,
+                        obSecure: false,
+                        keyboardType: TextInputType.number,
+                        hintText: 'Fixed after sale price'.tr,
+                        onChanged: (value) {
+                          isPercentageDiscount = false;
+                          calculateDiscount();
+                          sale = value;
+                          setState(() {});
+                          double sellingPrice = double.tryParse(value) ?? 0.0;
+                          double purchasePrice = double.tryParse(serviceController.priceController.text) ?? 0.0;
+                          if (serviceController.priceController.text.isEmpty) {
+                            FocusManager.instance.primaryFocus!.unfocus();
+                            serviceController.fixedPriceController.clear();
+                            showToastCenter('Enter normal price first');
+                            return;
+                          }
+                          if (sellingPrice > purchasePrice) {
+                            FocusManager.instance.primaryFocus!.unfocus();
+                            serviceController.fixedPriceController.clear();
+                            showToastCenter('After sell price cannot be higher than normal price');
+                          }
+                        },
+                        validator: (value) {
+                          if (value!.trim().isEmpty) {
+                            return 'Fixed after sale price';
+                          }
+                          return null; // Return null if validation passes
+                        },
+                      ),
+                    ],
+                  ),
+                const SizedBox(
+                  height: 10,
+                ),
                 Text(
                   'Calculated price'.tr,
                   style: GoogleFonts.inter(color: const Color(0xff292F45), fontWeight: FontWeight.w500, fontSize: 14),
                 ),
-                const SizedBox(height: 10,),
+                const SizedBox(
+                  height: 10,
+                ),
                 Text(
                   'This is what your customer will see after DIRISE fees.'.tr,
                   style: GoogleFonts.inter(color: const Color(0xff514949), fontWeight: FontWeight.w400, fontSize: 12),
                 ),
-                const SizedBox(height: 10,),
+                const SizedBox(
+                  height: 10,
+                ),
                 Container(
-                  padding: EdgeInsets.all(15),
-                  decoration: BoxDecoration(
-                      borderRadius: BorderRadius.circular(11),
-                      color: Colors.grey.shade200
-                  ),
+                  padding: const EdgeInsets.only(left: 10, right: 15, top: 15, bottom: 15),
+                  decoration: BoxDecoration(borderRadius: BorderRadius.circular(11), color: Colors.grey.shade200),
                   child: Row(
                     children: [
                       Column(
@@ -316,46 +313,70 @@ class _whatServiceDoYouProvideState extends State<whatServiceDoYouProvide> {
                             children: [
                               Text(
                                 'Real Price'.tr,
-                                style: GoogleFonts.poppins(color: const Color(0xff014E70), fontWeight: FontWeight.w600, fontSize: 12),
+                                style: GoogleFonts.poppins(
+                                    color: const Color(0xff014E70), fontWeight: FontWeight.w600, fontSize: 12),
                               ),
-                              SizedBox(width: 20,),
+                              const SizedBox(
+                                width: 20,
+                              ),
                               Text(
-                                'KD 12.700'.tr,
-                                style: GoogleFonts.poppins(color: const Color(0xff014E70), fontWeight: FontWeight.w400, fontSize: 10),
+                                "${realPrice} KWD".tr,
+                                style: GoogleFonts.poppins(
+                                    color: const Color(0xff014E70), fontWeight: FontWeight.w400, fontSize: 10),
                               ),
                             ],
                           ),
-                          SizedBox(height: 20,),
+                          const SizedBox(
+                            height: 20,
+                          ),
                           Row(
                             mainAxisAlignment: MainAxisAlignment.spaceBetween,
                             children: [
                               Text(
                                 'Discounted'.tr,
-                                style: GoogleFonts.poppins(color: const Color(0xff014E70), fontWeight: FontWeight.w600, fontSize: 12),
+                                style: GoogleFonts.poppins(
+                                    color: const Color(0xff014E70), fontWeight: FontWeight.w600, fontSize: 12),
                               ),
-                              SizedBox(width: 20,),
+                              const SizedBox(
+                                width: 10,
+                              ),
                               Text(
-                                'KD 6.350 '.tr,
-                                style: GoogleFonts.poppins(color: const Color(0xff014E70), fontWeight: FontWeight.w400, fontSize: 10),
+                                ' ${discountedPrice}KWD '.tr,
+                                style: GoogleFonts.poppins(
+                                    color: const Color(0xff014E70), fontWeight: FontWeight.w400, fontSize: 10),
                               ),
                             ],
                           ),
-                          SizedBox(height: 20,),
+                          const SizedBox(
+                            height: 20,
+                          ),
                           Row(
                             mainAxisAlignment: MainAxisAlignment.spaceBetween,
                             children: [
                               Text(
                                 'Sale'.tr,
-                                style: GoogleFonts.poppins(color: const Color(0xff014E70), fontWeight: FontWeight.w600, fontSize: 12),
+                                style: GoogleFonts.poppins(
+                                    color: const Color(0xff014E70), fontWeight: FontWeight.w600, fontSize: 12),
                               ),
-                              SizedBox(width: 20,),
-                              Text(
-                                '50% off'.tr,
-                                style: GoogleFonts.poppins(color: const Color(0xff014E70), fontWeight: FontWeight.w400, fontSize: 10),
+                              const SizedBox(
+                                width: 20,
                               ),
+                              isDelivery.value == false
+                                  ? Text(
+                                      "${sale} %".tr,
+                                      style: GoogleFonts.poppins(
+                                          color: const Color(0xff014E70), fontWeight: FontWeight.w400, fontSize: 10),
+                                    )
+                                  : Text(
+                                "${sale} KWD".tr,
+                                      style: GoogleFonts.poppins(
+                                          color: const Color(0xff014E70), fontWeight: FontWeight.w400, fontSize: 10),
+                                    )
                             ],
                           ),
-                          SizedBox(height: 20,),
+                          const SizedBox(
+                            height: 20,
+                          ),
                         ],
                       ),
                       Column(
@@ -363,42 +384,47 @@ class _whatServiceDoYouProvideState extends State<whatServiceDoYouProvide> {
                           Stack(
                             children: [
                               Container(
-                                margin: EdgeInsets.only(left: 15,right: 15,bottom: 15),
-                                padding: EdgeInsets.all(15),
+                                margin: const EdgeInsets.only(left: 2, right: 2, bottom: 2),
+                                padding: const EdgeInsets.all(15),
                                 height: 150,
                                 width: 130,
-                                decoration: BoxDecoration(
-                                    borderRadius: BorderRadius.circular(11),
-                                    color: Colors.white
-                                ),
-                                child: Image.asset('assets/images/newlogoo.png'),
+                                decoration: BoxDecoration(borderRadius: BorderRadius.circular(11), color: Colors.white),
+                                child: Image.file(widget.fetaureImage!),
                               ),
-                              Positioned(
+                              const Positioned(
                                   right: 20,
                                   top: 10,
-                                  child: Icon(Icons.delete,color: Color(0xff014E70),))
+                                  child: Icon(
+                                    Icons.delete,
+                                    color: Color(0xff014E70),
+                                  ))
                             ],
                           ),
                           Text(
-                            'Product.'.tr,
-                            style: GoogleFonts.inter(color: const Color(0xff014E70), fontWeight: FontWeight.w600, fontSize: 12),
+                            serviceController.serviceNameController.text.toString().tr,
+                            style: GoogleFonts.inter(
+                                color: const Color(0xff014E70), fontWeight: FontWeight.w600, fontSize: 12),
                           ),
                         ],
                       )
                     ],
                   ),
                 ),
-                const SizedBox(height: 20,),
+                const SizedBox(
+                  height: 20,
+                ),
                 CustomOutlineButton(
                   title: 'Next',
                   borderRadius: 11,
                   onPressed: () {
-                    if(formKey.currentState!.validate()){
+                    if (formKey.currentState!.validate()) {
                       serviceApi();
                     }
                   },
                 ),
-                const SizedBox(height: 20,),
+                const SizedBox(
+                  height: 20,
+                ),
               ],
             ),
           ),

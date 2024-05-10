@@ -10,6 +10,7 @@ import 'package:form_field_validator/form_field_validator.dart';
 import 'package:get/get.dart';
 import 'package:google_fonts/google_fonts.dart';
 
+import '../controller/vendor_controllers/add_product_controller.dart';
 import '../model/common_modal.dart';
 import '../repository/repository.dart';
 import '../utils/api_constant.dart';
@@ -33,16 +34,18 @@ class _ServiceClassificationScreenState extends State<ServiceClassificationScree
   bool showValidation = false;
   final Repositories repositories = Repositories();
   final formKey1 = GlobalKey<FormState>();
+  final addProductController = Get.put(AddProductController());
   String code = "+91";
   optionalApi() {
     Map<String, dynamic> map = {};
 
     map['serial_number'] = serviceController.serialNumber1Controller.text.trim();
-    map['item_type'] = 'giveaway';
+    map['item_type'] = 'service';
     map['product_number'] = serviceController.productNumber1Controller.text.trim();
     map['product_code'] = serviceController.productCode1Controller.text.trim();
     map['promotion_code'] = serviceController.promotionCode1Controller.text.trim();
     map['package_detail'] = serviceController.packageDetails1Controller.text.trim();
+    map['id'] = addProductController.idProduct.value.toString();
 
     FocusManager.instance.primaryFocus!.unfocus();
     repositories.postApi(url: ApiUrls.giveawayProductAddress, context: context, mapData: map).then((value) {

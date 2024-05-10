@@ -71,9 +71,9 @@ class _InternationalshippingdetailsScreenState extends State<Internationalshippi
     map['number_of_package'] = selectNumberOfPackages;
     map['material'] = selectTypeMaterial;
     map['box_dimension'] = dimensionController.text.trim();
-    map['box_length'] =dimensionController.text.trim();
+    map['box_length'] = dimensionController.text.trim();
     map['box_width'] = dimensionWidthController.text.trim();
-    map['box_height'] =dimensionHeightController.text.trim();
+    map['box_height'] = dimensionHeightController.text.trim();
     map['type_of_packages'] = selectTypeOfPackaging;
     map['item_type'] = 'giveaway';
     map['id'] = addProductController.idProduct.value.toString();
@@ -198,6 +198,11 @@ class _InternationalshippingdetailsScreenState extends State<Internationalshippi
                   style: GoogleFonts.poppins(color: const Color(0xff292F45), fontWeight: FontWeight.w400, fontSize: 13),
                 ),
                 const SizedBox(height: 10),
+                Text(
+                  'Weight of the item'.tr,
+                  style: GoogleFonts.poppins(color: const Color(0xff292F45), fontWeight: FontWeight.w500, fontSize: 18),
+                ),
+                const SizedBox(height: 5),
                 CommonTextField(
                     controller: weightController,
                     obSecure: false,
@@ -205,6 +210,11 @@ class _InternationalshippingdetailsScreenState extends State<Internationalshippi
                     validator: MultiValidator([
                       RequiredValidator(errorText: 'Product Name is required'.tr),
                     ])),
+                Text(
+                  'Select Number Of Packages '.tr,
+                  style: GoogleFonts.poppins(color: const Color(0xff292F45), fontWeight: FontWeight.w500, fontSize: 18),
+                ),
+                const SizedBox(height: 5),
                 DropdownButtonFormField<String>(
                   value: selectNumberOfPackages,
                   onChanged: (String? newValue) {
@@ -249,6 +259,11 @@ class _InternationalshippingdetailsScreenState extends State<Internationalshippi
                   },
                 ),
                 const SizedBox(height: 10),
+                Text(
+                  'Select Type Material   '.tr,
+                  style: GoogleFonts.poppins(color: const Color(0xff292F45), fontWeight: FontWeight.w500, fontSize: 18),
+                ),
+                const SizedBox(height: 5),
                 DropdownButtonFormField<String>(
                   value: selectTypeMaterial,
                   onChanged: (String? newValue) {
@@ -293,49 +308,77 @@ class _InternationalshippingdetailsScreenState extends State<Internationalshippi
                   },
                 ),
                 const SizedBox(height: 10),
-
-
-
-
-
-
-
-
-
-
-
-
                 Row(
                   children: [
-                    Expanded(child: CommonTextField(
-                        controller: dimensionController,
-                        obSecure: false,
-                        keyboardType: TextInputType.number,
-                        hintText: 'Length X ',
-                        validator: MultiValidator([
-                          RequiredValidator(errorText: 'Product length is required'.tr),
-                        ]))
-                    ),
+                    Expanded(
+                        child: Column(
+                          mainAxisAlignment: MainAxisAlignment.start,
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
+                            Text(
+                              'Length'.tr,
+                              style: GoogleFonts.poppins(color: const Color(0xff292F45), fontWeight: FontWeight.w500, fontSize: 14),
+                            ),
+                            const SizedBox(height: 5,),
+                            CommonTextField(
+                                controller: dimensionController,
+                                obSecure: false,
+                                keyboardType: TextInputType.number,
+                                hintText: 'Length X ',
+                                validator: MultiValidator([
+                                  RequiredValidator(errorText: 'Product length is required'.tr),
+                                ])),
+                          ],
+                        )),
                     10.spaceX,
-                    Expanded(child:   CommonTextField(
-                        controller:dimensionWidthController,
-                        obSecure: false,
-                        hintText: 'Width X',
-                        keyboardType: TextInputType.number,
-                        validator: MultiValidator([
-                          RequiredValidator(errorText: 'Product Width is required'.tr),
-                        ]))),
+                    Expanded(
+                        child: Column(
+                          mainAxisAlignment: MainAxisAlignment.start,
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
+                            Text(
+                              'Width'.tr,
+                              style: GoogleFonts.poppins(color: const Color(0xff292F45), fontWeight: FontWeight.w500, fontSize: 14),
+                            ),
+                            const SizedBox(height: 5,),
+                            CommonTextField(
+                                controller: dimensionWidthController,
+                                obSecure: false,
+                                hintText: 'Width X',
+                                keyboardType: TextInputType.number,
+                                validator: MultiValidator([
+                                  RequiredValidator(errorText: 'Product Width is required'.tr),
+                                ])),
+                          ],
+                        )),
                     10.spaceX,
-                    Expanded(child:   CommonTextField(
-                        controller: dimensionHeightController,
-                        obSecure: false,
-                        hintText: 'Height X',
-                        keyboardType: TextInputType.number,
-                        validator: MultiValidator([
-                          RequiredValidator(errorText: 'Product Height is required'.tr),
-                        ]))),
+                    Expanded(
+                        child: Column(
+                          mainAxisAlignment: MainAxisAlignment.start,
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
+                            Text(
+                              'Height'.tr,
+                              style: GoogleFonts.poppins(color: const Color(0xff292F45), fontWeight: FontWeight.w500, fontSize: 14),
+                            ),
+                            const SizedBox(height: 5,),
+                            CommonTextField(
+                                controller: dimensionHeightController,
+                                obSecure: false,
+                                hintText: 'Height X',
+                                keyboardType: TextInputType.number,
+                                validator: MultiValidator([
+                                  RequiredValidator(errorText: 'Product Height is required'.tr),
+                                ])),
+                          ],
+                        )),
                   ],
                 ),
+                Text(
+                  'Select Type Of Packaging '.tr,
+                  style: GoogleFonts.poppins(color: const Color(0xff292F45), fontWeight: FontWeight.w500, fontSize: 18),
+                ),
+                const SizedBox(height: 5),
                 DropdownButtonFormField<String>(
                   value: selectTypeOfPackaging,
                   onChanged: (String? newValue) {
@@ -385,9 +428,7 @@ class _InternationalshippingdetailsScreenState extends State<Internationalshippi
                   borderRadius: 11,
                   onPressed: () {
                     if (formKey2.currentState!.validate()) {
-
                       shippingDetailsApi();
-                      
                     }
                   },
                 ),

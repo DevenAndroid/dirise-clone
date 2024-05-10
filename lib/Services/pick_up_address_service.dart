@@ -5,8 +5,10 @@ import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 import 'package:get/get.dart';
 import 'package:google_fonts/google_fonts.dart';
+import '../addNewProduct/deliverySizeScreen.dart';
 import '../addNewProduct/locationScreen.dart';
 import '../controller/service_controller.dart';
+import '../controller/vendor_controllers/add_product_controller.dart';
 import '../model/common_modal.dart';
 import '../newAddress/customeraccountcreatedsuccessfullyScreen.dart';
 import '../repository/repository.dart';
@@ -45,39 +47,47 @@ class _PickUpAddressServiceState extends State<PickUpAddressService> {
   final Repositories repositories = Repositories();
   final formKey1 = GlobalKey<FormState>();
   String code = "+91";
+  final TextEditingController streetController = TextEditingController();
+  final TextEditingController cityController = TextEditingController();
+  final TextEditingController stateController = TextEditingController();
+  final TextEditingController zipcodeController = TextEditingController();
+  final TextEditingController townController = TextEditingController();
+  final TextEditingController countryController = TextEditingController();
+  final TextEditingController specialInstructionController = TextEditingController();
+  final addProductController = Get.put(AddProductController());
   editAddressApi() {
     Map<String, dynamic> map = {};
     if (widget.street != null &&
         widget.city != null &&
         widget.state != null &&
-        widget.country != null &&
         widget.zipcode != null &&
         widget.town != null) {
-      map['address_type'] = 'Both';
-      map['city'] = widget.city;
-      map['country'] = widget.country;
-      map['state'] = widget.state;
-      map['zip_code'] = widget.zipcode;
-      map['town'] = widget.town;
-      map['street'] = widget.street;
-      map['special_instruction'] = serviceController.specialInstructionController.text.trim();
-    }else{
-      map['address_type'] = 'Both';
-      map['city'] = serviceController.cityController.text.trim();
-      map['country'] = serviceController.countryController.text.trim();
-      map['state'] = serviceController.stateController.text.trim();
-      map['zip_code'] = serviceController.zipcodeController.text.trim();
-      map['town'] = serviceController.townController.text.trim();
-      map['street'] = serviceController.streetController.text.trim();
-      map['special_instruction'] = serviceController.specialInstructionController.text.trim();
+      map['city'] = cityController.text.trim();
+      map['item_type'] = 'giveaway';
+      map['state'] =  stateController.text.trim();
+      map['zip_code'] = zipcodeController.text.trim();
+      map['town'] = townController.text.trim();
+      map['id'] = addProductController.idProduct.value.toString();
+      map['street'] =  streetController.text.trim();
+      map['special_instruction'] = specialInstructionController.text.trim();
+    } else {
+      map['city'] = cityController.text.trim();
+      map['item_type'] = 'giveaway';
+      map['state'] = stateController.text.trim();
+      map['zip_code'] = zipcodeController.text.trim();
+      map['town'] = townController.text.trim();
+      map['street'] = streetController.text.trim();
+      map['id'] = addProductController.idProduct.value.toString();
+      map['special_instruction'] = specialInstructionController.text.trim();
     }
 
     FocusManager.instance.primaryFocus!.unfocus();
-    repositories.postApi(url: ApiUrls.editAddressUrl, context: context, mapData: map).then((value) {
+    repositories.postApi(url: ApiUrls.giveawayProductAddress, context: context, mapData: map).then((value) {
       ModelCommonResponse response = ModelCommonResponse.fromJson(jsonDecode(value));
+      print('API Response Status Code: ${response.status}');
       showToast(response.message.toString());
       if (response.status == true) {
-        Get.to(const CustomerAccountCreatedSuccessfullyScreen());
+        Get.to(ServiceInternationalShippingService());
       }
     });
   }
@@ -152,43 +162,43 @@ class _PickUpAddressServiceState extends State<PickUpAddressService> {
                 ),
                 ...commonField(
                     hintText: "Street",
-                    textController: serviceController.streetController,
+                    textController: streetController,
                     title: 'Street*',
                     validator: (String? value) {},
                     keyboardType: TextInputType.name),
                 ...commonField(
                     hintText: "city",
-                    textController: serviceController.cityController,
+                    textController: cityController,
                     title: 'City*',
                     validator: (String? value) {},
                     keyboardType: TextInputType.name),
                 ...commonField(
                     hintText: "state",
-                    textController: serviceController.stateController,
+                    textController: stateController,
                     title: 'State*',
                     validator: (String? value) {},
                     keyboardType: TextInputType.name),
                 ...commonField(
                     hintText: "Country",
-                    textController: serviceController.countryController,
+                    textController: countryController,
                     title: 'Country*',
                     validator: (String? value) {},
                     keyboardType: TextInputType.name),
                 ...commonField(
                     hintText: "Zip Code",
-                    textController: serviceController.zipcodeController,
+                    textController: zipcodeController,
                     title: 'Zip Code*',
                     validator: (String? value) {},
                     keyboardType: TextInputType.number),
                 ...commonField(
                     hintText: "Town",
-                    textController: serviceController.townController,
+                    textController: townController,
                     title: 'Town*',
                     validator: (String? value) {},
                     keyboardType: TextInputType.name),
                 ...commonField(
                     hintText: "Special instruction",
-                    textController: serviceController.specialInstructionController,
+                    textController: specialInstructionController,
                     title: 'Special instruction*',
                     validator: (String? value) {},
                     keyboardType: TextInputType.name),
@@ -199,7 +209,7 @@ class _PickUpAddressServiceState extends State<PickUpAddressService> {
                   onTap: (){
 
                     if (formKey1.currentState!.validate()) {
-                      Get.to(()=> const ServiceInternationalShippingService());
+                   editAddressApi();
                     }
                     setState(() {});
                   },
