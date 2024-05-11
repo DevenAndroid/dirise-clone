@@ -92,7 +92,6 @@ class _OptionalDetailsScreenState extends State<OptionalDetailsScreen> {
                   controller: serviceController.longDescriptionController,
                   maxLines: 2,
                   minLines: 2,
-
                   decoration: InputDecoration(
                     counterStyle: GoogleFonts.poppins(
                       color: AppTheme.primaryColor,

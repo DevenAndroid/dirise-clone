@@ -4,6 +4,7 @@ import 'package:get/get.dart';
 import 'package:google_fonts/google_fonts.dart';
 
 import 'Consultation Sessions/date_range_screen.dart';
+import 'academic programs/date_range_screen.dart';
 
 
 class TellUsYourSelfScreen extends StatefulWidget {
@@ -74,7 +75,9 @@ class _TellUsYourSelfScreenState extends State<TellUsYourSelfScreen> {
                 ),
                 const SizedBox(height: 20,),
                 GestureDetector(
-                  onTap: (){},
+                  onTap: (){
+                    Get.to(()=> const AcademicdateScreen());
+                  },
                   child: Container(
                     width:size.width,
                     decoration: const BoxDecoration(borderRadius: BorderRadius.all(Radius.circular(10)),
