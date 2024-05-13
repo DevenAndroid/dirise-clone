@@ -22,7 +22,7 @@ import '../widgets/common_colour.dart';
 import '../widgets/common_textfield.dart';
 
 class Locationwherecustomerwilljoin extends StatefulWidget {
-  const Locationwherecustomerwilljoin({super.key});
+  const Locationwherecustomerwilljoin({Key? key});
 
   @override
   State<Locationwherecustomerwilljoin> createState() => _LocationwherecustomerwilljoinState();
@@ -50,20 +50,13 @@ class _LocationwherecustomerwilljoinState extends State<Locationwherecustomerwil
   String state = "";
   String zip_code = "";
   String country = "";
+  String street = "";
+  String town = "";
 
   final addProductController = Get.put(AddProductController());
-  editAddressApi() {
-    Map<String, dynamic> map = {};
-
-    map['address_type'] = 'Both';
-    map['city'] = city.toString();
-    map['state'] = state.toString();
-    map['zip_code'] = zip_code.toString();
-    map['country'] = country.toString();
-    map['item_type'] = 'service';
-    map['id'] = addProductController.idProduct.value.toString();
+  editAddressApi(Map<String, dynamic> addressData) {
     FocusManager.instance.primaryFocus!.unfocus();
-    repositories.postApi(url: ApiUrls.giveawayProductAddress, context: context, mapData: map).then((value) {
+    repositories.postApi(url: ApiUrls.giveawayProductAddress, context: context, mapData: addressData).then((value) {
       ModelCommonResponse response = ModelCommonResponse.fromJson(jsonDecode(value));
       showToast(response.message.toString());
       if (response.status == true) {
@@ -86,7 +79,6 @@ class _LocationwherecustomerwilljoinState extends State<Locationwherecustomerwil
 
   @override
   void initState() {
-    // TODO: implement initState
     super.initState();
     getAddressDetails();
   }
@@ -114,7 +106,7 @@ class _LocationwherecustomerwilljoinState extends State<Locationwherecustomerwil
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: [
             Text(
-              'Location where customer will join'.tr,
+              'Location where customer will join',
               style: GoogleFonts.poppins(color: Colors.black, fontWeight: FontWeight.w600, fontSize: 18),
             ),
           ],
@@ -124,185 +116,208 @@ class _LocationwherecustomerwilljoinState extends State<Locationwherecustomerwil
         child: Container(
           margin: const EdgeInsets.only(left: 15, right: 15),
           child: Column(
-              mainAxisAlignment: MainAxisAlignment.start,
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                20.spaceY,
-                Text(
-                  'Write address or choose*'.tr,
-                  style: GoogleFonts.poppins(color: Colors.black, fontWeight: FontWeight.w600, fontSize: 18),
-                ),
-                20.spaceY,
-                GestureDetector(
-                  onTap: () {
-                    setState(() {
-                      selectedRadio = 'write';
-                      selectedAddressIndex = -1;
-                    });
-                  },
-                  child: Container(
-                    padding: const EdgeInsets.symmetric(vertical: 2, horizontal: 12),
-                    decoration: BoxDecoration(
-                        color: Colors.white,
-                        borderRadius: BorderRadius.circular(8),
-                        border: Border.all(color: AppTheme.secondaryColor)),
-                    child: Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                      children: [
-                        Text(
-                          'Write Address',
-                          style: GoogleFonts.poppins(
-                            color: AppTheme.primaryColor,
-                            fontSize: 15,
-                          ),
+            mainAxisAlignment: MainAxisAlignment.start,
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              20.spaceY,
+              Text(
+                'Write address or choose*',
+                style: GoogleFonts.poppins(color: Colors.black, fontWeight: FontWeight.w600, fontSize: 18),
+              ),
+              20.spaceY,
+              GestureDetector(
+                onTap: () {
+                  setState(() {
+                    selectedRadio = 'write';
+                    selectedAddressIndex = -1;
+                  });
+                },
+                child: Container(
+                  padding: const EdgeInsets.symmetric(vertical: 2, horizontal: 12),
+                  decoration: BoxDecoration(
+                      color: Colors.white,
+                      borderRadius: BorderRadius.circular(8),
+                      border: Border.all(color: AppTheme.secondaryColor)),
+                  child: Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    children: [
+                      Text(
+                        'Write Address',
+                        style: GoogleFonts.poppins(
+                          color: AppTheme.primaryColor,
+                          fontSize: 15,
                         ),
-                        Radio<String>(
-                          value: 'write',
-                          groupValue: selectedRadio,
-                          onChanged: (value) {
-                            setState(() {
-                              selectedRadio = value.toString();
-                            });
-                          },
-                        ),
-                      ],
-                    ),
-                  ),
-                ),
-                Padding(
-                  padding: const EdgeInsets.symmetric(horizontal: 12),
-                  child: TextButton(
-                    onPressed: () {
-                      Get.toNamed(PickUpAddressService.route);
-                    },
-                    child: Text(
-                      'Choose my default shipping address',
-                      style: GoogleFonts.poppins(
-                        color: AppTheme.primaryColor,
-                        fontSize: 15,
                       ),
-                    ),
-                  ),
-                ),
-
-                addressListModel.address?.shipping != null
-                    ? ListView.builder(
-                        physics: const NeverScrollableScrollPhysics(),
-                        itemCount: addressListModel.address!.shipping!.length,
-                        shrinkWrap: true,
-                        itemBuilder: (context, index) {
-                          var addressList = addressListModel.address!.shipping![index];
-                          city = addressList.city;
-                          state = addressList.state;
-                          zip_code = addressList.zipCode;
-                          country = addressList.country.toString();
-                          return Row(
-                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                            children: [
-                              Column(
-                                children: [
-                                  Container(
-                                    decoration: BoxDecoration(
-                                        borderRadius: const BorderRadius.all(Radius.circular(15)),
-                                        border: Border.all(color: const Color(0xffE4E2E2))),
-                                    child: Column(
-                                      crossAxisAlignment: CrossAxisAlignment.start,
-                                      children: [
-                                        Container(
-                                          padding: const EdgeInsets.all(15),
-                                          child: Column(
-                                            crossAxisAlignment: CrossAxisAlignment.start,
-                                            children: [
-                                              Text('City - ${addressList.city.toString()}'),
-                                              Text('state - ${addressList.state.toString()}'),
-                                              Text('country - ${addressList.country.toString()}'),
-                                              Text('zip code - ${addressList.zipCode.toString()}'),
-                                              const SizedBox(
-                                                height: 8,
-                                              ),
-                                            ],
-                                          ),
-                                        )
-                                      ],
-                                    ),
-                                  ),
-                                  const SizedBox(
-                                    height: 15,
-                                  ),
-                                ],
-                              ),
-                              Radio<String>(
-                                value: 'address_$index',
-                                groupValue: selectedRadio,
-                                onChanged: (value) {
-                                  setState(() {
-                                    selectedRadio = value!;
-                                  });
-                                },
-                              ),
-                            ],
-                          );
+                      Radio<String>(
+                        value: 'write',
+                        groupValue: selectedRadio,
+                        onChanged: (value) {
+                          setState(() {
+                            selectedRadio = value.toString();
+                          });
                         },
-                      )
-                    : const Center(child: SizedBox()),
-
-                InkWell(
-                  onTap: () {
-                    setState(() {
-                      selectedRadio = 'online';
-                      selectedAddressIndex = -1;
-
-                    });
+                      ),
+                    ],
+                  ),
+                ),
+              ),
+              Padding(
+                padding: const EdgeInsets.symmetric(horizontal: 12),
+                child: TextButton(
+                  onPressed: () {
+                    Get.toNamed(PickUpAddressService.route);
                   },
-                  child: Container(
-                    padding: const EdgeInsets.symmetric(vertical: 2, horizontal: 12),
-                    decoration: BoxDecoration(
-                        color: Colors.white,
-                        borderRadius: BorderRadius.circular(8),
-                        border: Border.all(color: AppTheme.secondaryColor)),
-                    child: Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                      children: [
-                        Text(
-                          'Not Needed - Online Product',
-                          style: GoogleFonts.poppins(
-                            color: AppTheme.primaryColor,
-                            fontSize: 15,
-                          ),
-                        ),
-                        Radio<String>(
-                          value: 'online',
-                          groupValue: selectedRadio,
-                          onChanged: (value) {
-                            setState(() {
-                              selectedRadio = value.toString();
-                            });
-                          },
-                        ),
-                      ],
+                  child: Text(
+                    'Choose my default shipping address',
+                    style: GoogleFonts.poppins(
+                      color: AppTheme.primaryColor,
+                      fontSize: 15,
                     ),
                   ),
                 ),
-                const SizedBox(
-                  height: 20,
+              ),
+              addressListModel.address?.shipping != null
+                  ? ListView.builder(
+                physics: const NeverScrollableScrollPhysics(),
+                itemCount: addressListModel.address!.shipping!.length,
+                shrinkWrap: true,
+                itemBuilder: (context, index) {
+                  var addressList = addressListModel.address!.shipping![index];
+                  city = addressList.city.toString();
+                  state = addressList.state.toString();
+                  zip_code = addressList.zipCode.toString();
+                  country = addressList.country.toString();
+                  street = addressList.address.toString();
+                  town = addressList.town.toString();
+
+                  return Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    children: [
+                      Column(
+                        children: [
+                          Container(
+                            decoration: BoxDecoration(
+                                borderRadius: const BorderRadius.all(Radius.circular(15)),
+                                border: Border.all(color: const Color(0xffE4E2E2))),
+                            child: Column(
+                              crossAxisAlignment: CrossAxisAlignment.start,
+                              children: [
+                                Container(
+                                  padding: const EdgeInsets.all(15),
+                                  child: Column(
+                                    crossAxisAlignment: CrossAxisAlignment.start,
+                                    children: [
+                                      Text('City - $city'),
+                                      Text('State - $state'),
+                                      Text('Country - $country'),
+                                      Text('Zip code - $zip_code'),
+                                      Text('Street - $street'),
+                                      Text('Town - $town'),
+                                      const SizedBox(
+                                        height: 8,
+                                      ),
+                                    ],
+                                  ),
+                                )
+                              ],
+                            ),
+                          ),
+                          const SizedBox(
+                            height: 15,
+                          ),
+                        ],
+                      ),
+                      Radio<String>(
+                        value: 'address_$index',
+                        groupValue: selectedRadio,
+                        onChanged: (value) {
+                          setState(() {
+                            selectedRadio = value!;
+                          });
+                        },
+                      ),
+                    ],
+                  );
+                },
+              )
+                  : const Center(child: SizedBox()),
+              InkWell(
+                onTap: () {
+                  setState(() {
+                    selectedRadio = 'online';
+                    selectedAddressIndex = -1;
+                  });
+                },
+                child: Container(
+                  padding: const EdgeInsets.symmetric(vertical: 2, horizontal: 12),
+                  decoration: BoxDecoration(
+                      color: Colors.white,
+                      borderRadius: BorderRadius.circular(8),
+                      border: Border.all(color: AppTheme.secondaryColor)),
+                  child: Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    children: [
+                      Text(
+                        'Not Needed - Online Product',
+                        style: GoogleFonts.poppins(
+                          color: AppTheme.primaryColor,
+                          fontSize: 15,
+                        ),
+                      ),
+                      Radio<String>(
+                        value: 'online',
+                        groupValue: selectedRadio,
+                        onChanged: (value) {
+                          setState(() {
+                            selectedRadio = value.toString();
+                          });
+                        },
+                      ),
+                    ],
+                  ),
                 ),
-                CustomOutlineButton(
-                  title: 'Next',
-                  borderRadius: 11,
-                  onPressed: () {
-                    if (selectedRadio == 'write') {
-                      Get.to(PickUpAddressService());
-                    } else if (selectedRadio.startsWith('address_')) {
-                      int index = int.parse(selectedRadio.split('_')[1]);
-                      editAddressApi();
-                    } else if (selectedRadio == 'online') {
-                      Get.to(const ServiceInternationalShippingService());
-                    } else {
-                      showToast('Please select Address Type');
+              ),
+              const SizedBox(
+                height: 20,
+              ),
+              CustomOutlineButton(
+                title: 'Next',
+                borderRadius: 11,
+                onPressed: () {
+                  if (selectedRadio == 'write') {
+                    Get.to(PickUpAddressService());
+                  } else if (selectedRadio.startsWith('address_')) {
+                    int index = int.parse(selectedRadio.split('_')[1]);
+                    var selectedAddress = addressListModel.address!.shipping![index];
+                    city = selectedAddress.city.toString();
+                    state = selectedAddress.state.toString();
+                    zip_code = selectedAddress.zipCode.toString();
+                    country = selectedAddress.country.toString();
+                    street = selectedAddress.address.toString();
+                    town = selectedAddress.town.toString();
+
+                    Map<String, dynamic> addressData = {
+                      'city': city,
+                      'state': state,
+                      'zip_code': zip_code,
+                      'country': country,
+                      'street': street,
+                      'town': town,
+                      // Add other necessary fields here
+                    };
+                    if(selectedAddress.id != null) {
+                      addressData['address_id'] = selectedAddress.id!;
                     }
-                  },
-                ),
-              ]),
+                    editAddressApi(addressData);
+                  } else if (selectedRadio == 'online') {
+                    Get.to(const ServiceInternationalShippingService());
+                  } else {
+                    showToast('Please select Address Type');
+                  }
+                },
+              ),
+            ],
+          ),
         ),
       ),
     );

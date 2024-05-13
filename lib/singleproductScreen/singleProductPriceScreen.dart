@@ -1,4 +1,5 @@
 import 'dart:convert';
+import 'dart:io';
 
 import 'package:dirise/singleproductScreen/singleProductDiscriptionScreen.dart';
 import 'package:flutter/cupertino.dart';
@@ -17,7 +18,9 @@ import '../widgets/common_button.dart';
 import '../widgets/common_textfield.dart';
 
 class SingleProductPriceScreen extends StatefulWidget {
-  const SingleProductPriceScreen({super.key});
+  File? fetaureImage;
+  String? name;
+  SingleProductPriceScreen({super.key,this.fetaureImage,this.name});
 
   @override
   State<SingleProductPriceScreen> createState() => _SingleProductPriceScreenState();
@@ -28,6 +31,38 @@ class _SingleProductPriceScreenState extends State<SingleProductPriceScreen> {
   TextEditingController discountPrecrnt = TextEditingController();
   TextEditingController fixedDiscount = TextEditingController();
   final addProductController = Get.put(AddProductController());
+
+  RxBool isShow = false.obs;
+  String realPrice = "";
+  String discounted = "";
+  String sale = "";
+  String productName = "";
+  String discountedPrice = "";
+  bool isPercentageDiscount = true;
+
+  void calculateDiscount() {
+    double realPrice = double.tryParse(priceController.text) ?? 0.0;
+    double sale = double.tryParse(discountPrecrnt.text) ?? 0.0;
+    double fixedPrice = double.tryParse(fixedDiscount.text) ?? 0.0;
+
+    // Check the current discount type and calculate discounted price accordingly
+    if (isPercentageDiscount && realPrice > 0 && sale > 0) {
+      double discountAmount = (realPrice * sale) / 100;
+      double discountedPriceValue = realPrice - discountAmount;
+      setState(() {
+        discountedPrice = discountedPriceValue.toStringAsFixed(2);
+      });
+    } else if (!isPercentageDiscount && realPrice > 0 && fixedPrice > 0) {
+      double discountedPriceValue = realPrice - fixedPrice;
+      setState(() {
+        discountedPrice = discountedPriceValue.toStringAsFixed(2);
+      });
+    } else {
+      setState(() {
+        discountedPrice = "";
+      });
+    }
+  }
   deliverySizeApi() {
     Map<String, dynamic> map = {};
     map['discount_percent'] = discountPrecrnt.text.toString();
@@ -95,10 +130,17 @@ class _SingleProductPriceScreenState extends State<SingleProductPriceScreen> {
                     controller: priceController,
                     obSecure: false,
                     // hintText: 'Name',
+                  keyboardType: TextInputType.number,
                     hintText: 'Price'.tr,
                     suffixIcon: const Text(
                       'KWD',
                     ),
+                  onChanged: (value) {
+                    isPercentageDiscount = true;
+                    calculateDiscount();
+                    realPrice = value;
+                    setState(() {});
+                  },
                     validator: (value) {
                       if (value!.trim().isEmpty) {
                         return 'Price is required'.tr;
@@ -125,6 +167,13 @@ class _SingleProductPriceScreenState extends State<SingleProductPriceScreen> {
                     controller: fixedDiscount,
                     obSecure: false,
                     // hintText: 'Name',
+                  keyboardType: TextInputType.number,
+                  onChanged: (value) {
+                    isPercentageDiscount = true;
+                    calculateDiscount();
+                    discountedPrice = value;
+                    setState(() {});
+                  },
                   validator: (value) {
                     if (value!.trim().isEmpty) {
                       return 'Discount Price is required'.tr;
@@ -153,7 +202,14 @@ class _SingleProductPriceScreenState extends State<SingleProductPriceScreen> {
                     controller: discountPrecrnt,
                     obSecure: false,
                     // hintText: 'Name',
+                  keyboardType: TextInputType.number,
                     hintText: 'Percentage'.tr,
+                  onChanged: (value) {
+                    isPercentageDiscount = true;
+                    calculateDiscount();
+                    sale = value;
+                    setState(() {});
+                  },
                   validator: (value) {
                     if (value!.trim().isEmpty) {
                       return 'Percentage is required'.tr;
@@ -175,95 +231,111 @@ class _SingleProductPriceScreenState extends State<SingleProductPriceScreen> {
                   style: GoogleFonts.inter(color: const Color(0xff514949), fontWeight: FontWeight.w400, fontSize: 12),
                 ),
                 const SizedBox(height: 10,),
-                 Container(
-                   padding: EdgeInsets.all(15),
-                   decoration: BoxDecoration(
-                     borderRadius: BorderRadius.circular(11),
-                     color: Colors.grey.shade200
-                   ),
-                   child: Row(
-                     children: [
-                       Column(
-                         mainAxisAlignment: MainAxisAlignment.start,
-                         crossAxisAlignment: CrossAxisAlignment.start,
-                         children: [
-                           Row(
-                             mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                             children: [
+                Container(
+                  padding: const EdgeInsets.only(left: 10, right: 15, top: 15, bottom: 15),
+                  decoration: BoxDecoration(borderRadius: BorderRadius.circular(11), color: Colors.grey.shade200),
+                  child: Row(
+                    children: [
+                      Column(
+                        mainAxisAlignment: MainAxisAlignment.start,
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          Row(
+                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                            children: [
+                              Text(
+                                'Real Price'.tr,
+                                style: GoogleFonts.poppins(
+                                    color: const Color(0xff014E70), fontWeight: FontWeight.w600, fontSize: 12),
+                              ),
+                              const SizedBox(
+                                width: 20,
+                              ),
+                              Text(
+                                "${realPrice} KWD".tr,
+                                style: GoogleFonts.poppins(
+                                    color: const Color(0xff014E70), fontWeight: FontWeight.w400, fontSize: 10),
+                              ),
+                            ],
+                          ),
+                          const SizedBox(
+                            height: 20,
+                          ),
+                          Row(
+                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                            children: [
+                              Text(
+                                'Discounted'.tr,
+                                style: GoogleFonts.poppins(
+                                    color: const Color(0xff014E70), fontWeight: FontWeight.w600, fontSize: 12),
+                              ),
+                              const SizedBox(
+                                width: 10,
+                              ),
+                              Text(
+                                ' ${discountedPrice}KWD '.tr,
+                                style: GoogleFonts.poppins(
+                                    color: const Color(0xff014E70), fontWeight: FontWeight.w400, fontSize: 10),
+                              ),
+                            ],
+                          ),
+                          const SizedBox(
+                            height: 20,
+                          ),
+                          Row(
+                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                            children: [
+                              Text(
+                                'Sale'.tr,
+                                style: GoogleFonts.poppins(
+                                    color: const Color(0xff014E70), fontWeight: FontWeight.w600, fontSize: 12),
+                              ),
+                              const SizedBox(
+                                width: 20,
+                              ),
                                Text(
-                                 'Real Price'.tr,
-                                 style: GoogleFonts.poppins(color: const Color(0xff014E70), fontWeight: FontWeight.w600, fontSize: 12),
-                               ),
-                               SizedBox(width: 20,),
-                               Text(
-                                 'KD 12.700'.tr,
-                                 style: GoogleFonts.poppins(color: const Color(0xff014E70), fontWeight: FontWeight.w400, fontSize: 10),
-                               ),
-                             ],
-                           ),
-                           SizedBox(height: 20,),
-                           Row(
-                             mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                             children: [
-                               Text(
-                                 'Discounted'.tr,
-                                 style: GoogleFonts.poppins(color: const Color(0xff014E70), fontWeight: FontWeight.w600, fontSize: 12),
-                               ),
-                               SizedBox(width: 20,),
-                               Text(
-                                 'KD 6.350 '.tr,
-                                 style: GoogleFonts.poppins(color: const Color(0xff014E70), fontWeight: FontWeight.w400, fontSize: 10),
-                               ),
-                             ],
-                           ),
-                           SizedBox(height: 20,),
-                           Row(
-                             mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                             children: [
-                               Text(
-                                 'Sale'.tr,
-                                 style: GoogleFonts.poppins(color: const Color(0xff014E70), fontWeight: FontWeight.w600, fontSize: 12),
-                               ),
-                               SizedBox(width: 20,),
-                               Text(
-                                 '50% off'.tr,
-                                 style: GoogleFonts.poppins(color: const Color(0xff014E70), fontWeight: FontWeight.w400, fontSize: 10),
-                               ),
-                             ],
-                           ),
-                           SizedBox(height: 20,),
-                         ],
-                       ),
-                       Column(
-                         children: [
-                           Stack(
-                             children: [
-                               Container(
-                                 margin: EdgeInsets.only(left: 15,right: 15,bottom: 15),
-                                 padding: EdgeInsets.all(15),
-                                 height: 150,
-                                 width: 130,
-                                 decoration: BoxDecoration(
-                                     borderRadius: BorderRadius.circular(11),
-                                     color: Colors.white
-                                 ),
-                                 child: Image.asset('assets/images/newlogoo.png'),
-                               ),
-                               Positioned(
-                                 right: 20,
-                                   top: 10,
-                                   child: Icon(Icons.delete,color: Color(0xff014E70),))
-                             ],
-                           ),
-                           Text(
-                             'Product.'.tr,
-                             style: GoogleFonts.inter(color: const Color(0xff014E70), fontWeight: FontWeight.w600, fontSize: 12),
-                           ),
-                         ],
-                       )
-                     ],
-                   ),
-                 ),
+                                "${sale} %".tr,
+                                style: GoogleFonts.poppins(
+                                    color: const Color(0xff014E70), fontWeight: FontWeight.w400, fontSize: 10),
+                              )
+                            ],
+                          ),
+                          const SizedBox(
+                            height: 20,
+                          ),
+                        ],
+                      ),
+                      Column(
+                        children: [
+                          Stack(
+                            children: [
+                              Container(
+                                margin: const EdgeInsets.only(left: 2, right: 2, bottom: 2),
+                                padding: const EdgeInsets.all(15),
+                                height: 150,
+                                width: 130,
+                                decoration: BoxDecoration(borderRadius: BorderRadius.circular(11), color: Colors.white),
+                                child: Image.file(widget.fetaureImage!),
+                              ),
+                              const Positioned(
+                                  right: 20,
+                                  top: 10,
+                                  child: Icon(
+                                    Icons.delete,
+                                    color: Color(0xff014E70),
+                                  ))
+                            ],
+                          ),
+                          Text(
+                            widget.name.toString().tr,
+                            style: GoogleFonts.inter(
+                                color: const Color(0xff014E70), fontWeight: FontWeight.w600, fontSize: 12),
+                          ),
+                        ],
+                      )
+                    ],
+                  ),
+                ),
                 const SizedBox(height: 20,),
                 CustomOutlineButton(
                   title: 'Next',

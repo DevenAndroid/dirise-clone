@@ -96,13 +96,13 @@ class _PickUpAddressServiceState extends State<PickUpAddressService> {
   void initState() {
     // TODO: implement initState
     super.initState();
-    if (widget.street != null) {
-      serviceController.streetController.text = widget.street!;
-      serviceController.cityController.text = widget.city ?? '';
-      serviceController.stateController.text = widget.state ?? '';
-      serviceController.countryController.text = widget.country ?? '';
-      serviceController.zipcodeController.text = widget.zipcode ?? '';
-      serviceController.townController.text = widget.town ?? '';
+    if (widget.state != null) {
+      streetController.text = widget.street ?? "";
+      cityController.text = widget.city ?? '';
+      stateController.text = widget.state ?? '';
+      countryController.text = widget.country ?? '';
+      zipcodeController.text = widget.zipcode ?? '';
+      townController.text = widget.town ?? '';
     }
   }
   @override
@@ -113,10 +113,15 @@ class _PickUpAddressServiceState extends State<PickUpAddressService> {
         backgroundColor: Colors.white,
         surfaceTintColor: Colors.white,
         elevation: 0,
-        leading: const Icon(
-          Icons.arrow_back_ios_new,
-          color: Color(0xff0D5877),
-          size: 16,
+        leading: GestureDetector(
+          onTap: (){
+            Get.back();
+          },
+          child: const Icon(
+            Icons.arrow_back_ios_new,
+            color: Color(0xff0D5877),
+            size: 16,
+          ),
         ),
         titleSpacing: 0,
         title: Row(
@@ -150,7 +155,7 @@ class _PickUpAddressServiceState extends State<PickUpAddressService> {
                 ),
                 InkWell(
                   onTap: (){
-                    Get.toNamed( ChooseAddressService.route);
+                    Get.to(ChooseAddressService());
                   },
                   child: Align(
                     alignment: Alignment.center,
@@ -160,48 +165,106 @@ class _PickUpAddressServiceState extends State<PickUpAddressService> {
                     ),
                   ),
                 ),
-                ...commonField(
-                    hintText: "Street",
-                    textController: streetController,
-                    title: 'Street*',
-                    validator: (String? value) {},
-                    keyboardType: TextInputType.name),
-                ...commonField(
-                    hintText: "city",
-                    textController: cityController,
-                    title: 'City*',
-                    validator: (String? value) {},
-                    keyboardType: TextInputType.name),
-                ...commonField(
-                    hintText: "state",
-                    textController: stateController,
-                    title: 'State*',
-                    validator: (String? value) {},
-                    keyboardType: TextInputType.name),
-                ...commonField(
-                    hintText: "Country",
-                    textController: countryController,
-                    title: 'Country*',
-                    validator: (String? value) {},
-                    keyboardType: TextInputType.name),
-                ...commonField(
-                    hintText: "Zip Code",
-                    textController: zipcodeController,
-                    title: 'Zip Code*',
-                    validator: (String? value) {},
-                    keyboardType: TextInputType.number),
-                ...commonField(
-                    hintText: "Town",
-                    textController: townController,
-                    title: 'Town*',
-                    validator: (String? value) {},
-                    keyboardType: TextInputType.name),
-                ...commonField(
-                    hintText: "Special instruction",
-                    textController: specialInstructionController,
-                    title: 'Special instruction*',
-                    validator: (String? value) {},
-                    keyboardType: TextInputType.name),
+                SizedBox(height: 20,),
+                Text(
+                  "Street*".tr,
+                  style: GoogleFonts.poppins(color: Color(0xff044484), fontWeight: FontWeight.w600, fontSize: 14),
+                ),
+                SizedBox(height: 5,),
+                CommonTextField(
+                  controller: streetController,
+                  obSecure: false,
+                  hintText: 'Street'.tr,
+                  validator: (value) {
+                    if (value!.trim().isEmpty) {
+                      return 'Street is required'.tr;
+                    }
+                    return null; // Return null if validation passes
+                  },
+                ),
+                SizedBox(height: 10,),
+                Text(
+                  "City*".tr,
+                  style: GoogleFonts.poppins(color: Color(0xff044484), fontWeight: FontWeight.w600, fontSize: 14),
+                ),
+                SizedBox(height: 5,),
+                CommonTextField(
+                  controller: cityController,
+                  obSecure: false,
+                  hintText: 'city'.tr,
+                  validator: (value) {
+                    if (value!.trim().isEmpty) {
+                      return 'city is required'.tr;
+                    }
+                    return null; // Return null if validation passes
+                  },
+                ),
+                SizedBox(height: 10,),
+                Text(
+                  "State*".tr,
+                  style: GoogleFonts.poppins(color: Color(0xff044484), fontWeight: FontWeight.w600, fontSize: 14),
+                ),
+                SizedBox(height: 5,),
+                CommonTextField(
+                  controller: stateController,
+                  obSecure: false,
+                  hintText: 'State'.tr,
+                  validator: (value) {
+                    if (value!.trim().isEmpty) {
+                      return 'State is required'.tr;
+                    }
+                    return null; // Return null if validation passes
+                  },
+
+                ),
+                SizedBox(height: 10,),
+                Text(
+                  "Zip Code".tr,
+                  style: GoogleFonts.poppins(color: Color(0xff044484), fontWeight: FontWeight.w600, fontSize: 14),
+                ),
+                SizedBox(height: 5,),
+                CommonTextField(
+                  controller: zipcodeController,
+                  obSecure: false,
+                  hintText: 'Zip Code'.tr,
+                  validator: (value) {
+                    if (value!.trim().isEmpty) {
+                      return 'Zip Code is required'.tr;
+                    }
+                    return null; // Return null if validation passes
+                  },
+                ),
+                SizedBox(height: 10,),
+                Text(
+                  "Town*".tr,
+                  style: GoogleFonts.poppins(color: Color(0xff044484), fontWeight: FontWeight.w600, fontSize: 14),
+                ),
+                SizedBox(height: 5,),
+                CommonTextField(
+                  controller: townController,
+                  obSecure: false,
+                  hintText: 'Town'.tr,
+                  validator: (value) {
+                    if (value!.trim().isEmpty) {
+                      return 'Town is required'.tr;
+                    }
+                    return null; // Return null if validation passes
+                  },
+                ),
+                SizedBox(height: 10,),
+
+                Text(
+                  "Special instruction".tr,
+                  style: GoogleFonts.poppins(color: Color(0xff044484), fontWeight: FontWeight.w600, fontSize: 14),
+                ),
+                SizedBox(height: 5,),
+                CommonTextField(
+                  controller: specialInstructionController,
+                  obSecure: false,
+                  hintText: 'Special instruction'.tr,
+
+                ),
+                SizedBox(height: 10,),
                 SizedBox(
                   height: size.height * .02,
                 ),

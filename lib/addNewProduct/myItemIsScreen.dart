@@ -43,7 +43,7 @@ class _MyItemISScreenState extends State<MyItemISScreen> {
       if (selectedRadio == 'Giveaway') {
         Get.to(const ItemDetailsScreens());
       } else if (selectedRadio == 'Product') {
-        Get.to(ProductInformationScreens());
+        Get.to(ProductInformationScreens(fetaureImage: widget.featureImage,));
       } else if (selectedRadio == 'Job') {
         Get.to(JobTellusaboutyourselfScreen());
       } else if (selectedRadio == 'Service') {

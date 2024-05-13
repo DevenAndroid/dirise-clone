@@ -74,7 +74,7 @@ class _ServiceInternationalShippingServiceState extends State<ServiceInternation
     map['material'] = selectTypeMaterial;
     map['box_length'] = serviceController.dimensionController.text.trim();
     map['box_width'] = serviceController.dimensionWidthController.text.trim();
-    map['box_length'] = serviceController.dimensionController.text.trim();
+    map['box_height'] = serviceController.dimensionHeightController.text.trim();
     map['type_of_packages'] = selectTypeOfPackaging;
     map['id'] = addProductController.idProduct.value.toString();
 
