@@ -295,6 +295,7 @@ RxString cityName = "".obs;
                     return null; // Return null if validation passes
                   },
                 ),
+                SizedBox(height: 10,),
                 Obx(() {
                   if (kDebugMode) {
                     print(modelVendorCategory.data!
@@ -358,55 +359,68 @@ RxString cityName = "".obs;
                     // },
                   );
                 }),
-                SizedBox(height: 20,),
-                TextField(
-                  onChanged: (value) {
-                    fetchedDropdownItems = modelSubCategory.subCategory!
-                        .where((element) =>
-                        element.title!.toLowerCase().contains(value.toLowerCase()))
-                        .map((vendorCategory) => SubCategory(
-                        id: vendorCategory.id,
-                        title: vendorCategory.title)) // Convert vendor category to product category
-                        .toList();
-                    setState(() {});
-                  },
-                  decoration: InputDecoration(
-                    hintText: 'Search',
-                    prefixIcon: Icon(Icons.search),
-                    border: OutlineInputBorder(
-                      borderRadius: BorderRadius.circular(10),
+                SizedBox(height: 7,),
+                categoryName.value.isEmpty?SizedBox():
+
+                Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    Text(
+                      'Choose Sub Category'.tr,
+                      style: GoogleFonts.poppins(color: Colors.black, fontWeight: FontWeight.w400, fontSize: 14),
                     ),
-                  ),
-                ),
-                SizedBox(height: 10),
-                ListView.builder(
-                  itemCount: fetchedDropdownItems.length,
-                  shrinkWrap: true,
-                  physics: NeverScrollableScrollPhysics(),
-                  itemBuilder: (context, index) {
-                    var data = fetchedDropdownItems[index];
-                    return GestureDetector(
-                      onTap: () {
-                        // fetchDataBasedOnId(data.id);
-                        isItemDetailsVisible = !isItemDetailsVisible;
-                        selectedSubCategory = data.id.toString(); // Assuming you want to use the ID as the category value
-                        subCategoryName.value = data.title.toString();
-                        setState(() {
-                          tappedIndex = index;
-                        });
+                    SizedBox(height: 8),
+                    TextField(
+                      onChanged: (value) {
+                        fetchedDropdownItems = modelSubCategory.subCategory!
+                            .where((element) =>
+                            element.title!.toLowerCase().contains(value.toLowerCase()))
+                            .map((vendorCategory) => SubCategory(
+                            id: vendorCategory.id,
+                            title: vendorCategory.title)) // Convert vendor category to product category
+                            .toList();
+                        setState(() {});
                       },
-                      child: Container(
-                        margin: EdgeInsets.only(bottom: 5),
-                        padding: const EdgeInsets.all(10),
-                        height: 50,
-                        decoration: BoxDecoration(
-                            color: Colors.grey.shade200,
-                            borderRadius: BorderRadius.circular(10),
-                            border: Border.all(color: tappedIndex == index ? AppTheme.buttonColor : Colors.grey.shade400, width: 2)),
-                        child: Text(data.title.toString()),
+                      decoration: InputDecoration(
+                        hintText: 'Search',
+                        prefixIcon: Icon(Icons.search),
+                        border: OutlineInputBorder(
+                          borderRadius: BorderRadius.circular(10),
+                        ),
                       ),
-                    );
-                  },
+                    ),
+                    SizedBox(height: 5),
+                    ListView.builder(
+                      padding: EdgeInsets.zero,
+                      itemCount: fetchedDropdownItems.length,
+                      shrinkWrap: true,
+                      physics: NeverScrollableScrollPhysics(),
+                      itemBuilder: (context, index) {
+                        var data = fetchedDropdownItems[index];
+                        return GestureDetector(
+                          onTap: () {
+                            // fetchDataBasedOnId(data.id);
+                            isItemDetailsVisible = !isItemDetailsVisible;
+                            selectedSubCategory = data.id.toString(); // Assuming you want to use the ID as the category value
+                            subCategoryName.value = data.title.toString();
+                            setState(() {
+                              tappedIndex = index;
+                            });
+                          },
+                          child: Container(
+                            margin: EdgeInsets.only(bottom: 5),
+                            padding: const EdgeInsets.all(10),
+                            height: 50,
+                            decoration: BoxDecoration(
+                                color: Colors.grey.shade200,
+                                borderRadius: BorderRadius.circular(10),
+                                border: Border.all(color: tappedIndex == index ? AppTheme.buttonColor : Colors.grey.shade400, width: 2)),
+                            child: Text(data.title.toString()),
+                          ),
+                        );
+                      },
+                    ),
+                  ],
                 ),
                 // Obx(() {
                 //   if (kDebugMode) {
@@ -471,7 +485,7 @@ RxString cityName = "".obs;
                 //     // },
                 //   );
                 // }),
-                SizedBox(height: 20,),
+                SizedBox(height: 10,),
                 Obx(() {
                   if (kDebugMode) {
                     print(modelCountryList.country!
