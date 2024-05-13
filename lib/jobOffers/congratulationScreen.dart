@@ -1,5 +1,6 @@
 import 'package:dirise/bottomavbar.dart';
 import 'package:dirise/model/faq_model.dart';
+import 'package:dirise/screens/my_account_screens/contact_us_screen.dart';
 import 'package:dirise/screens/my_account_screens/faqs_screen.dart';
 import 'package:dirise/screens/order_screens/my_orders_screen.dart';
 import 'package:flutter/cupertino.dart';
@@ -74,6 +75,7 @@ class _CongratulationScreenState extends State<CongratulationScreen> {
               ),
               GestureDetector(
                 onTap: (){
+                  Get.offNamed( ContactUsScreen.route);
                   // Get.offNamed( .route);
                 },
                 child: Text(
