@@ -9,6 +9,7 @@ import 'package:form_field_validator/form_field_validator.dart';
 import 'package:get/get.dart';
 import 'package:google_fonts/google_fonts.dart';
 
+import '../bottomavbar.dart';
 import '../controller/vendor_controllers/add_product_controller.dart';
 import '../language/app_strings.dart';
 import '../model/common_modal.dart';
@@ -114,10 +115,15 @@ class _AddProductPickUpAddressScreenState extends State<AddProductPickUpAddressS
         backgroundColor: Colors.white,
         surfaceTintColor: Colors.white,
         elevation: 0,
-        leading: const Icon(
-          Icons.arrow_back_ios_new,
-          color: Color(0xff0D5877),
-          size: 16,
+        leading: GestureDetector(
+          onTap: (){
+            Get.back();
+          },
+          child: const Icon(
+            Icons.arrow_back_ios_new,
+            color: Color(0xff0D5877),
+            size: 16,
+          ),
         ),
         titleSpacing: 0,
         title: Row(
@@ -151,7 +157,8 @@ class _AddProductPickUpAddressScreenState extends State<AddProductPickUpAddressS
                 ),
                 InkWell(
                   onTap: () {
-                    Get.to(ChooseAddressForGiveaway());
+                    // Get.toNamed("/chooseAddressScreen");
+              Get.to(ChooseAddressForGiveaway());
                   },
                   child: Align(
                     alignment: Alignment.center,
