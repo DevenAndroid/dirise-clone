@@ -375,26 +375,10 @@ class _ReviewPublishScreenState extends State<ReviewPublishScreen> {
                     ));
             })),
 
-                      )),
-                  const SizedBox(height: 20),
-                  CustomOutlineButton(
-                    title: 'Confirm',
-                    borderRadius: 11,
-                    onPressed: () {
-                      Get.to(const RewardScreen());
-                    },
-                  ),
-                ],
-              ):Center(
-          child: CircularProgressIndicator(
-            color: Colors.grey,
-          )
-              );
-            })
 
         ),
 
-      ),
-    );
+      );
+
   }
 }

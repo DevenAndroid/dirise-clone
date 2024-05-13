@@ -42,7 +42,7 @@ class _SingleProductReturnPolicyState extends State<SingleProductReturnPolicy> {
   final vendorProfileController = Get.put(VendorProfileController());
   void getVendorCategories() {
     vendorCategoryStatus.value = RxStatus.loading();
-    repositories.getApi(url: ApiUrls.returnPolicyUrl, showResponse: false).then((value) {
+    repositories.getApi(url: ApiUrls.returnPolicyUrl).then((value) {
       policyModel = ReturnPolicyModel.fromJson(jsonDecode(value));
       vendorCategoryStatus.value = RxStatus.success();
 
