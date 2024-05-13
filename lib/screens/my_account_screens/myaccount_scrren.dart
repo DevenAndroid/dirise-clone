@@ -1886,14 +1886,18 @@ List<Widget> vendorPartner() {
         iconColor: AppTheme.primaryColor,
         minLeadingWidth: 0,
         onTap: () {
-          if (profileController.model.user == null) {
-            showVendorDialog();
-            return;
-          }
+          // if (profileController.model.user == null) {
+          //   showVendorDialog();
+          //   return;
+          // }
 
 
-            // Get.to(() => const AddProductOptionScreen());
+             Get.to(() => const AddProductOptionScreen());
+
+             return;
+
             // return;
+
 
           _isValue.value = !_isValue.value;
           setState(() {});

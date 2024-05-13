@@ -2,6 +2,7 @@ import 'dart:convert';
 import 'dart:developer';
 
 import 'package:dirise/addNewProduct/rewardScreen.dart';
+import 'package:dirise/widgets/loading_animation.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
@@ -16,15 +17,9 @@ import '../widgets/common_colour.dart';
 import 'congratulationScreen.dart';
 
 class JobReviewPublishScreen extends StatefulWidget {
-  String? jobcat;
-  String? jobtype;
-  String? jobmodel;
-  String? jobdesc;
-  String? linkedIN;
-  String? experince;
-  String? salery;
 
-  JobReviewPublishScreen({super.key,this.jobcat,this.salery,this.experince,this.linkedIN,this.jobdesc,this.jobmodel,this.jobtype});
+
+  JobReviewPublishScreen({super.key});
 
   @override
   State<JobReviewPublishScreen> createState() => _JobReviewPublishScreenState();
@@ -46,7 +41,7 @@ class _JobReviewPublishScreenState extends State<JobReviewPublishScreen> {
       productDetailsModel.value = ModelProductDetails.fromJson(jsonDecode(value));
       // vendorCategoryStatus.value = RxStatus.success();
       log('callllllll......${productDetailsModel.value.toJson()}');
-      setState(() {});
+    //  setState(() {});
     });
   }
 
@@ -201,10 +196,7 @@ class _JobReviewPublishScreenState extends State<JobReviewPublishScreen> {
               ),
 
             ],
-          )  : Center(
-        child: CircularProgressIndicator(
-          color: Colors.grey,
-        ));
+          )  : LoadingAnimation();
           })
         ),
       ),

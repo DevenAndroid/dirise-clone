@@ -33,11 +33,11 @@ class ProductDetails {
 
   ProductDetails.fromJson(Map<String, dynamic> json) {
     product =
-    json['product'] != null ? new Product.fromJson(json['product']) : null;
+    json['product'] != null ? Product.fromJson(json['product']) : null;
     address =
-    json['address'] != null ? new Address.fromJson(json['address']) : null;
+    json['address'] != null ? Address.fromJson(json['address']) : null;
     productDimentions = json['product_dimentions'] != null
-        ? new ProductDimentions.fromJson(json['product_dimentions'])
+        ? ProductDimentions.fromJson(json['product_dimentions'])
         : null;
   }
 
@@ -461,7 +461,7 @@ class Address {
   dynamic alterPhoneCountryCode;
   dynamic addressType;
   dynamic type;
-  bool? isDefault;
+ dynamic isDefault;
   dynamic address;
   dynamic address2;
   dynamic city;
