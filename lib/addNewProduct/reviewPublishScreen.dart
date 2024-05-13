@@ -323,6 +323,13 @@ class _ReviewPublishScreenState extends State<ReviewPublishScreen> {
                   ),
                   const SizedBox(height: 10),
 
+
+
+        ),
+
+      );
+
+
                   Visibility(
                       visible: isItemDetailsVisible4,
                       child: Container(
@@ -361,5 +368,6 @@ class _ReviewPublishScreenState extends State<ReviewPublishScreen> {
         ),
       ),
     );
+
   }
 }

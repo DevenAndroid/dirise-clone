@@ -234,24 +234,8 @@ RxString cityName = "".obs;
             onProgress: (int bytes, int totalBytes) {})
         .then((value) {
       JobResponceModel response = JobResponceModel.fromJson(jsonDecode(value));
-
-      jobcat = response.productDetails!.product!.jobCat.toString();
-      jobtype = response.productDetails!.product!.jobType.toString();
-      jobmodel = response.productDetails!.product!.jobModel.toString();
-      jobdesc = response.productDetails!.product!.describeJobRole.toString();
-      linkedIN = response.productDetails!.product!.linkdinUrl.toString();
-      experince = response.productDetails!.product!.experience.toString();
-      salery = response.productDetails!.product!.salary.toString();
       if (response.status == true && idProof.path.isNotEmpty) {
-        Get.to(JobReviewPublishScreen(
-          jobcat: jobcat,
-          experince: experince,
-          jobdesc: jobdesc,
-          jobmodel: jobmodel,
-          jobtype: jobtype,
-          linkedIN: linkedIN,
-          salery: salery,
-        ));
+        Get.to(JobReviewPublishScreen());
       }else{
         showToast('Please Upload CV');
       }

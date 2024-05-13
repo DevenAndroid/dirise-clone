@@ -165,7 +165,7 @@ class _OptionalClassificationScreenState extends State<OptionalClassificationScr
                 CustomOutlineButton(
                   title: 'Next',
                   borderRadius: 11,
-                  onPressed: () { Get.to(ReviewandPublishScreen());
+                  onPressed: () {   optionalApi();
                     // optionalApi();
                   },
                 ),
