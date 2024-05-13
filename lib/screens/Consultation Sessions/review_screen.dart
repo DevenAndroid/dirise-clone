@@ -9,6 +9,7 @@ import '../../bottomavbar.dart';
 import '../../widgets/common_button.dart';
 import '../../widgets/common_colour.dart';
 import '../../widgets/common_textfield.dart';
+import 'consultation_session_thankyou.dart';
 
 
 class ReviewScreen extends StatefulWidget {
@@ -278,7 +279,7 @@ class _ReviewScreenState extends State<ReviewScreen> {
                 title: 'Confirm',
                 borderRadius: 11,
                 onPressed: () {
-                  Get.offAllNamed(BottomNavbar.route);
+                  Get.to(()=> const ConsulationThankYouScreen());
                 },
               ),
 

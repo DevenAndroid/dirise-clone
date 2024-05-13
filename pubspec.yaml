@@ -63,7 +63,7 @@ dependencies:
   webview_flutter: ^4.2.4
   url_launcher: ^6.1.14
   freshchat_sdk: ^0.10.13
-  better_player_plus: ^1.0.5
+  better_player_plus:
   chewie: ^1.7.4
   video_player: ^2.8.1
   full_screen_image: ^2.0.0
