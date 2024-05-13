@@ -4,6 +4,8 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:google_fonts/google_fonts.dart';
 
+import '../screens/my_account_screens/contact_us_screen.dart';
+import '../screens/my_account_screens/faqs_screen.dart';
 import '../widgets/common_button.dart';
 
 class RewardScreen extends StatefulWidget {
@@ -63,13 +65,24 @@ class _RewardScreenState extends State<RewardScreen> {
                 'If you are having troubles:-'.tr,
                 style: GoogleFonts.poppins(color: Color(0xff596774), fontWeight: FontWeight.w400, fontSize: 14),
               ),
-              Text(
-                'FAQs'.tr,
-                style: GoogleFonts.poppins(color: Colors.black, fontWeight: FontWeight.w400, fontSize: 14),
+              GestureDetector(
+                onTap: (){
+                  Get.offNamed( FrequentlyAskedQuestionsScreen.route);
+                },
+                child: Text(
+                  'FAQs'.tr,
+                  style: GoogleFonts.poppins(color: Colors.black, fontWeight: FontWeight.w400, fontSize: 14),
+                ),
               ),
-              Text(
-                'Cutomer Support'.tr,
-                style: GoogleFonts.poppins(color: Colors.black, fontWeight: FontWeight.w400, fontSize: 14),
+              GestureDetector(
+                onTap: (){
+                  Get.offNamed( ContactUsScreen.route);
+                  // Get.offNamed( .route);
+                },
+                child: Text(
+                  'Cutomer Support'.tr,
+                  style: GoogleFonts.poppins(color: Colors.black, fontWeight: FontWeight.w400, fontSize: 14),
+                ),
               ),
               Text(
                 'call'.tr,

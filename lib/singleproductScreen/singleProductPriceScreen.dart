@@ -169,12 +169,14 @@ class _SingleProductPriceScreenState extends State<SingleProductPriceScreen> {
                     // hintText: 'Name',
                   keyboardType: TextInputType.number,
                   onChanged: (value) {
-                    isPercentageDiscount = true;
+                    isPercentageDiscount = false;
                     calculateDiscount();
-                    discountedPrice = value;
+                    sale = value;
                     setState(() {});
                   },
+
                   validator: (value) {
+                      if(discountPrecrnt.text.isEmpty)
                     if (value!.trim().isEmpty) {
                       return 'Discount Price is required'.tr;
                     }
@@ -211,6 +213,7 @@ class _SingleProductPriceScreenState extends State<SingleProductPriceScreen> {
                     setState(() {});
                   },
                   validator: (value) {
+                    if(fixedDiscount.text.isEmpty)
                     if (value!.trim().isEmpty) {
                       return 'Percentage is required'.tr;
                     }
@@ -293,8 +296,14 @@ class _SingleProductPriceScreenState extends State<SingleProductPriceScreen> {
                               const SizedBox(
                                 width: 20,
                               ),
+                              discountPrecrnt.text.isNotEmpty ?
                                Text(
                                 "${sale} %".tr,
+                                style: GoogleFonts.poppins(
+                                    color: const Color(0xff014E70), fontWeight: FontWeight.w400, fontSize: 10),
+                              ) :
+                              Text(
+                                "${sale} KWD".tr,
                                 style: GoogleFonts.poppins(
                                     color: const Color(0xff014E70), fontWeight: FontWeight.w400, fontSize: 10),
                               )

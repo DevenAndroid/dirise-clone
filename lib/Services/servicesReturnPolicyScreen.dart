@@ -1,27 +1,19 @@
 import 'dart:convert';
 import 'dart:developer';
-
-import 'package:dirise/singleproductScreen/singleproductDeliverySize.dart';
 import 'package:flutter/cupertino.dart';
-import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
-import 'package:form_field_validator/form_field_validator.dart';
 import 'package:get/get.dart';
 import 'package:google_fonts/google_fonts.dart';
 
 import '../controller/service_controller.dart';
 import '../controller/vendor_controllers/add_product_controller.dart';
-import '../controller/vendor_controllers/vendor_profile_controller.dart';
 import '../model/common_modal.dart';
 import '../model/returnPolicyModel.dart';
-import '../model/vendor_models/model_vendor_details.dart';
-import '../model/vendor_models/vendor_category_model.dart';
+import '../model/singlereturnPolicyModel.dart';
 import '../repository/repository.dart';
-import '../screens/return_policy.dart';
 import '../utils/api_constant.dart';
 import '../widgets/common_button.dart';
 import '../widgets/common_colour.dart';
-import '../widgets/common_textfield.dart';
 import '../widgets/vendor_common_textfield.dart';
 import 'locationwherecustomerwilljoin.dart';
 
@@ -38,7 +30,7 @@ class _ServicesReturnPolicyState extends State<ServicesReturnPolicy> {
   bool isRadioButtonSelected = false;
 
   String selectedItem = '1';
-  String selectedItemDay = 'days';
+  String selectedItemDay = 'Days';
 
   List<String> itemList = List.generate(30, (index) => (index + 1).toString());
   List<String> daysList = [
@@ -62,6 +54,20 @@ class _ServicesReturnPolicyState extends State<ServicesReturnPolicy> {
         log("Return Policy Data: ${modelReturnPolicy!.toJson()}");
       });
       log("Return Policy Data: ${modelReturnPolicy!.toJson()}");
+      returnPolicyLoaded.value = DateTime.now().millisecondsSinceEpoch;
+    });
+  }
+
+  Rx<SingleReturnPolicy> singleModelReturnPolicy = SingleReturnPolicy().obs;
+
+  getSingleReturnPolicyData(id) {
+    repositories.getApi(url: ApiUrls.singleReturnPolicyUrl+id).then((value) {
+      setState(() {
+        singleModelReturnPolicy.value = SingleReturnPolicy.fromJson(jsonDecode(value));
+        radioButtonValue = singleModelReturnPolicy.value.data!.returnShippingFees.toString();
+        serviceController.titleController.text = singleModelReturnPolicy.value.data!.title.toString();
+        serviceController.descController.text = singleModelReturnPolicy.value.data!.policyDiscreption.toString();
+      });
       returnPolicyLoaded.value = DateTime.now().millisecondsSinceEpoch;
     });
   }
@@ -201,7 +207,7 @@ class _ServicesReturnPolicyState extends State<ServicesReturnPolicy> {
                               onChanged: (value) {
                                 setState(() {
                                   selectedReturnPolicy = value;
-
+                                  getSingleReturnPolicyData(selectedReturnPolicy!.id.toString());
                                 });
                               },
                               // validator: (value){
@@ -229,6 +235,7 @@ class _ServicesReturnPolicyState extends State<ServicesReturnPolicy> {
                             height: 5,
                           ),
                           VendorCommonTextfield(
+                              readOnly: singleModelReturnPolicy.value.data!= null ? true : false,
                               controller: serviceController.titleController,
                               hintText: selectedReturnPolicy != null
                                   ? selectedReturnPolicy!.title.toString()
@@ -257,10 +264,13 @@ class _ServicesReturnPolicyState extends State<ServicesReturnPolicy> {
                                   value: selectedReturnPolicy != null
                                       ? selectedReturnPolicy!.days.toString()
                                       : selectedItem,
+
                                   onChanged: (String? newValue) {
-                                    setState(() {
-                                      selectedItem = newValue!;
-                                    });
+                                    if (singleModelReturnPolicy.value.data == null) {
+                                      setState(() {
+                                        selectedItem = newValue!;
+                                      });
+                                    }
                                   },
                                   items: itemList.map<DropdownMenuItem<String>>((String value) {
                                     return DropdownMenuItem<String>(
@@ -268,6 +278,7 @@ class _ServicesReturnPolicyState extends State<ServicesReturnPolicy> {
                                       child: Text(value),
                                     );
                                   }).toList(),
+
                                   decoration: InputDecoration(
                                     border: InputBorder.none,
                                     filled: true,
@@ -362,9 +373,7 @@ class _ServicesReturnPolicyState extends State<ServicesReturnPolicy> {
                           Row(
                             children: [
                               Radio(
-                                value: selectedReturnPolicy != null
-                                    ? selectedReturnPolicy!.returnShippingFees.toString()
-                                    :  'buyer_pays',
+                                value: 'buyer_pays',
                                 groupValue: radioButtonValue,
                                 onChanged: (value) {
                                   setState(() {
@@ -383,9 +392,7 @@ class _ServicesReturnPolicyState extends State<ServicesReturnPolicy> {
                           Row(
                             children: [
                               Radio(
-                                value: selectedReturnPolicy != null
-                                    ? selectedReturnPolicy!.returnShippingFees.toString()
-                                    : 'seller_pays',
+                                value: 'seller_pays',
                                 groupValue: radioButtonValue,
                                 onChanged: (value) {
                                   setState(() {
@@ -415,6 +422,7 @@ class _ServicesReturnPolicyState extends State<ServicesReturnPolicy> {
                           TextFormField(
                             maxLines: 4,
                             minLines: 4,
+                            readOnly: singleModelReturnPolicy.value.data!= null ? true : false,
                             validator: (value) {
                               if (value == null || value.isEmpty) {
                                 return 'Please write return policy description';
