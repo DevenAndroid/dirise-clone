@@ -1,4 +1,7 @@
 import 'package:dirise/bottomavbar.dart';
+import 'package:dirise/model/faq_model.dart';
+import 'package:dirise/screens/my_account_screens/contact_us_screen.dart';
+import 'package:dirise/screens/my_account_screens/faqs_screen.dart';
 import 'package:dirise/screens/order_screens/my_orders_screen.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
@@ -61,13 +64,24 @@ class _CongratulationScreenState extends State<CongratulationScreen> {
                 'If you are having troubles:-'.tr,
                 style: GoogleFonts.poppins(color: Color(0xff596774), fontWeight: FontWeight.w400, fontSize: 14),
               ),
-              Text(
-                'FAQs'.tr,
-                style: GoogleFonts.poppins(color: Colors.black, fontWeight: FontWeight.w400, fontSize: 14),
+              GestureDetector(
+                onTap: (){
+                  Get.offNamed( FrequentlyAskedQuestionsScreen.route);
+                },
+                child: Text(
+                  'FAQs'.tr,
+                  style: GoogleFonts.poppins(color: Colors.black, fontWeight: FontWeight.w400, fontSize: 14),
+                ),
               ),
-              Text(
-                'Cutomer Support'.tr,
-                style: GoogleFonts.poppins(color: Colors.black, fontWeight: FontWeight.w400, fontSize: 14),
+              GestureDetector(
+                onTap: (){
+                  Get.offNamed( ContactUsScreen.route);
+                  // Get.offNamed( .route);
+                },
+                child: Text(
+                  'Cutomer Support'.tr,
+                  style: GoogleFonts.poppins(color: Colors.black, fontWeight: FontWeight.w400, fontSize: 14),
+                ),
               ),
               Text(
                 'call'.tr,

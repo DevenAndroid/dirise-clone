@@ -16,6 +16,7 @@ import '../Services/servicesReturnPolicyScreen.dart';
 import '../Services/tellUsscreen.dart';
 import '../Services/whatServiceDoYouProvide.dart';
 
+import '../addNewProduct/giveawaylocation.dart';
 import '../addNewProduct/pickUpAddressScreen.dart';
 import '../model/model_cart_response.dart';
 import '../model/vendor_models/model_return_policy.dart';
@@ -67,6 +68,7 @@ class MyRouters {
     GetPage(name: CreateAccountNewScreen.route, page: () => const CreateAccountNewScreen()),
     GetPage(name: ForgetPasswordScreen.route, page: () => const ForgetPasswordScreen()),
     GetPage(name: BottomNavbar.route, page: () => const BottomNavbar()),
+    // GetPage(name: ChooseAddressForGiveaway.route, page: () =>  ChooseAddressForGiveaway()),
     GetPage(name: PrivacyPolicy.route, page: () => const PrivacyPolicy()),
     GetPage(name: ProfileScreen.route, page: () => const ProfileScreen()),
     GetPage(name: OtpScreen.route, page: () => const NewOtpScreen()),

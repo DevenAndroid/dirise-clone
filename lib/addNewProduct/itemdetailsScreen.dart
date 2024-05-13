@@ -79,7 +79,7 @@ class _ItemDetailsScreensState extends State<ItemDetailsScreens> {
       }
     });
   }
-
+  int tappedIndex = -1;
   ModelVendorCategory modelVendorCategory = ModelVendorCategory(usphone: []);
   Rx<ModelCategoryList> productCategoryModel = ModelCategoryList().obs;
   Rx<RxStatus> vendorCategoryStatus = RxStatus
@@ -152,7 +152,7 @@ class _ItemDetailsScreensState extends State<ItemDetailsScreens> {
     fetchDataBasedOnId(vendorID);
     fetchSubCategoryBasedOnId(ProductID);
   }
-
+  Color borderColor = Colors.grey.shade400;
   String idChild = '';
   List<int?> idForChild = [];
   @override
@@ -274,7 +274,9 @@ class _ItemDetailsScreensState extends State<ItemDetailsScreens> {
                           isItemDetailsVisible = !isItemDetailsVisible;
                           categoryName.value = data.title.toString();
                           id.value = data.id.toString();
-                          setState(() {});
+                          setState(() {
+                            tappedIndex = index;
+                          });
                         },
                         child: Container(
                           margin: EdgeInsets.only(bottom: 5),
@@ -283,7 +285,7 @@ class _ItemDetailsScreensState extends State<ItemDetailsScreens> {
                           decoration: BoxDecoration(
                               color: Colors.grey.shade200,
                               borderRadius: BorderRadius.circular(10),
-                              border: Border.all(color: Colors.grey.shade400, width: 1)),
+                              border: Border.all(color: tappedIndex == index ? AppTheme.buttonColor : Colors.grey.shade400, width: 2)),
                           child: Text(data.title),
                         ),
                       );

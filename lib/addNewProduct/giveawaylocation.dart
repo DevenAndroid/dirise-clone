@@ -20,9 +20,11 @@ import '../widgets/common_colour.dart';
 import '../widgets/dimension_screen.dart';
 
 class ChooseAddressForGiveaway extends StatefulWidget {
+
   ChooseAddressForGiveaway({
     super.key,
   });
+  // static var route = "/chooseAddressScreen";
   static var chooseAddressScreen = "/chooseAddressScreen";
   @override
   State<ChooseAddressForGiveaway> createState() => _ChooseAddressForGiveawayState();

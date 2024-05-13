@@ -435,7 +435,7 @@ class _InternationalshippingdetailsScreenState extends State<Internationalshippi
                 const SizedBox(height: 20),
                 GestureDetector(
                   onTap: () {
-                    shippingDetailsApi();
+                    Get.to(const OptionalScreen());
                   },
                   child: Container(
                     width: Get.width,
