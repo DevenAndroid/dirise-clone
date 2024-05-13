@@ -328,6 +328,7 @@ class _SetTimeAcademicScreenState extends State<SetTimeAcademicScreen> {
                           ),
                           Expanded(
                             flex: 2,
+
                             child: GestureDetector(
                               onTap: () {
                                 if ((e.status ?? false) == false) return;
