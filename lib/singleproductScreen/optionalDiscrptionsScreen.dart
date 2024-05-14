@@ -59,13 +59,13 @@ class _OptionalDiscrptionsScreenState extends State<OptionalDiscrptionsScreen> {
       print('API Response Status Code: ${response.status}');
       showToast(response.message.toString());
       if (response.status == true) {
-        if(formKey1.currentState!.validate()){
+        if (formKey1.currentState!.validate()) {
           Get.to(ReviewPublishScreen());
         }
-
       }
     });
   }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -96,7 +96,7 @@ class _OptionalDiscrptionsScreenState extends State<OptionalDiscrptionsScreen> {
       ),
       body: SingleChildScrollView(
         child: Container(
-          margin: EdgeInsets.only(left: 15,right: 15),
+          margin: EdgeInsets.only(left: 15, right: 15),
           child: Form(
             key: formKey1,
             child: Column(
@@ -108,7 +108,7 @@ class _OptionalDiscrptionsScreenState extends State<OptionalDiscrptionsScreen> {
                   style: GoogleFonts.poppins(color: Colors.black, fontWeight: FontWeight.w600, fontSize: 13),
                 ),
                 CommonTextField(
-                  // controller: _referralEmailController,
+                    // controller: _referralEmailController,
                     obSecure: false,
                     hintText: 'Meta Title'.tr,
                     validator: MultiValidator([
@@ -123,7 +123,6 @@ class _OptionalDiscrptionsScreenState extends State<OptionalDiscrptionsScreen> {
                       fontSize: 25,
                     ),
                     counter: const Offstage(),
-
                     errorMaxLines: 2,
                     contentPadding: const EdgeInsets.all(15),
                     fillColor: Colors.grey.shade100,
@@ -132,7 +131,6 @@ class _OptionalDiscrptionsScreenState extends State<OptionalDiscrptionsScreen> {
                       color: AppTheme.primaryColor,
                       fontSize: 15,
                     ),
-
                     border: InputBorder.none,
                     focusedErrorBorder: const OutlineInputBorder(
                         borderRadius: BorderRadius.all(Radius.circular(8)),
@@ -153,7 +151,6 @@ class _OptionalDiscrptionsScreenState extends State<OptionalDiscrptionsScreen> {
                     ),
                   ),
                 ),
-
                 TextFormField(
                   maxLines: 2,
                   minLines: 2,
@@ -163,7 +160,6 @@ class _OptionalDiscrptionsScreenState extends State<OptionalDiscrptionsScreen> {
                       fontSize: 25,
                     ),
                     counter: const Offstage(),
-
                     errorMaxLines: 2,
                     contentPadding: const EdgeInsets.all(15),
                     fillColor: Colors.grey.shade100,
@@ -172,7 +168,6 @@ class _OptionalDiscrptionsScreenState extends State<OptionalDiscrptionsScreen> {
                       color: AppTheme.primaryColor,
                       fontSize: 15,
                     ),
-
                     border: InputBorder.none,
                     focusedErrorBorder: const OutlineInputBorder(
                         borderRadius: BorderRadius.all(Radius.circular(8)),
@@ -198,7 +193,6 @@ class _OptionalDiscrptionsScreenState extends State<OptionalDiscrptionsScreen> {
                   'Pick up Adress location '.tr,
                   style: GoogleFonts.poppins(color: Colors.black, fontWeight: FontWeight.w600, fontSize: 16),
                 ),
-
                 DropdownButtonFormField<String>(
                   value: selectedItem,
                   onChanged: (String? newValue) {
@@ -295,15 +289,15 @@ class _OptionalDiscrptionsScreenState extends State<OptionalDiscrptionsScreen> {
                   title: 'Next',
                   borderRadius: 11,
                   onPressed: () {
-    if (formKey1.currentState!.validate()) {
-                    Get.to(OptionalClassificationScreen());}
+                    if (formKey1.currentState!.validate()) {
+                      Get.to(OptionalClassificationScreen());
+                    }
                     // optionalApi();
                   },
                 ),
                 const SizedBox(height: 20),
-
                 GestureDetector(
-                  onTap: (){
+                  onTap: () {
                     Get.to(ReviewPublishScreen());
                   },
                   child: Container(

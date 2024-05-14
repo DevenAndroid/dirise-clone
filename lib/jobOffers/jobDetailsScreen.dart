@@ -92,11 +92,11 @@ class _JobDetailsScreenState extends State<JobDetailsScreen> {
   String? cityId;
   String? stateCategory;
   String? idCountry;
-RxString categoryName = "".obs;
-RxString subCategoryName = "".obs;
-RxString countryName = "".obs;
-RxString stateName = "".obs;
-RxString cityName = "".obs;
+  RxString categoryName = "".obs;
+  RxString subCategoryName = "".obs;
+  RxString countryName = "".obs;
+  RxString stateName = "".obs;
+  RxString cityName = "".obs;
   final Repositories repositories = Repositories();
   VendorUser get vendorInfo => vendorProfileController.model.user!;
   final vendorProfileController = Get.put(VendorProfileController());
@@ -114,9 +114,10 @@ RxString cityName = "".obs;
       vendorCategoryStatus.value = RxStatus.error();
     });
   }
+
   void getSubCategories(id) {
     subCategoryStatus.value = RxStatus.loading();
-    repositories.getApi(url: ApiUrls.jobSubCategoryListUrl+id, showResponse: true).then((value) {
+    repositories.getApi(url: ApiUrls.jobSubCategoryListUrl + id, showResponse: true).then((value) {
       modelSubCategory = ModelSubcategoryList.fromJson(jsonDecode(value));
       subCategoryStatus.value = RxStatus.success();
 
@@ -128,6 +129,7 @@ RxString cityName = "".obs;
       subCategoryStatus.value = RxStatus.error();
     });
   }
+
   void getCountry() {
     countryStatus.value = RxStatus.loading();
     repositories.getApi(url: ApiUrls.allCountriesUrl, showResponse: false).then((value) {
@@ -143,7 +145,6 @@ RxString cityName = "".obs;
     });
   }
 
-
   getStateApi() {
     Map<String, dynamic> map = {};
     map['country_id'] = idCountry.toString();
@@ -157,19 +158,18 @@ RxString cityName = "".obs;
       modelStateList = ModelStateList.fromJson(jsonDecode(value));
       // ModelStateList response = ModelStateList.fromJson(jsonDecode(value));
       stateStatus.value = RxStatus.success();
-      print(idCountry.toString() );
+      print(idCountry.toString());
       for (var element in vendorInfo.vendorCategory!) {
         allSelectedCategory2[element.id.toString()] = CountryState.fromJson(element.toJson());
       }
       print('API Response Status Code: ${modelStateList.status}');
       showToast(modelStateList.message.toString());
       if (modelStateList.status == true) {
-
         print(addProductController.idProduct.value.toString());
-
       }
     });
   }
+
   getCityApi() {
     Map<String, dynamic> map = {};
     map['state_id'] = stateCategory.toString();
@@ -189,9 +189,7 @@ RxString cityName = "".obs;
       print('API Response Status Code: ${modelCityList.city}');
       showToast(modelCityList.message.toString());
       if (modelCityList.status == true) {
-
         print(addProductController.idProduct.value.toString());
-
       }
     });
   }
@@ -225,7 +223,6 @@ RxString cityName = "".obs;
 
     map['id'] = addProductController.idProduct.value.toString();
 
-
     repositories
         .multiPartApi(
             mapData: map,
@@ -236,13 +233,13 @@ RxString cityName = "".obs;
         .then((value) {
       JobResponceModel response = JobResponceModel.fromJson(jsonDecode(value));
       if (response.status == true && idProof.path.isNotEmpty) {
-
         Get.to(JobReviewPublishScreen());
-      }else{
+      } else {
         showToast('Please Upload CV');
       }
     });
   }
+
   bool isItemDetailsVisible = false;
   @override
   void initState() {
@@ -295,7 +292,9 @@ RxString cityName = "".obs;
                     return null; // Return null if validation passes
                   },
                 ),
-                SizedBox(height: 10,),
+                const SizedBox(
+                  height: 10,
+                ),
                 Obx(() {
                   if (kDebugMode) {
                     print(modelVendorCategory.data!
@@ -344,7 +343,8 @@ RxString cityName = "".obs;
                       setState(() {
                         selectedCategory = value!.id.toString();
                         categoryName.value = value!.title.toString();
-                        getSubCategories(selectedCategory.toString());// Assuming you want to use the ID as the category value
+                        getSubCategories(
+                            selectedCategory.toString()); // Assuming you want to use the ID as the category value
                       });
                       // if (value == null) return;
                       // if (allSelectedCategory.isNotEmpty) return;
@@ -359,69 +359,73 @@ RxString cityName = "".obs;
                     // },
                   );
                 }),
-                SizedBox(height: 7,),
-                categoryName.value.isEmpty?SizedBox():
-
-                Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    Text(
-                      'Choose Sub Category'.tr,
-                      style: GoogleFonts.poppins(color: Colors.black, fontWeight: FontWeight.w400, fontSize: 14),
-                    ),
-                    SizedBox(height: 8),
-                    TextField(
-                      onChanged: (value) {
-                        fetchedDropdownItems = modelSubCategory.subCategory!
-                            .where((element) =>
-                            element.title!.toLowerCase().contains(value.toLowerCase()))
-                            .map((vendorCategory) => SubCategory(
-                            id: vendorCategory.id,
-                            title: vendorCategory.title)) // Convert vendor category to product category
-                            .toList();
-                        setState(() {});
-                      },
-                      decoration: InputDecoration(
-                        hintText: 'Search',
-                        prefixIcon: Icon(Icons.search),
-                        border: OutlineInputBorder(
-                          borderRadius: BorderRadius.circular(10),
-                        ),
-                      ),
-                    ),
-                    SizedBox(height: 5),
-                    ListView.builder(
-                      padding: EdgeInsets.zero,
-                      itemCount: fetchedDropdownItems.length,
-                      shrinkWrap: true,
-                      physics: NeverScrollableScrollPhysics(),
-                      itemBuilder: (context, index) {
-                        var data = fetchedDropdownItems[index];
-                        return GestureDetector(
-                          onTap: () {
-                            // fetchDataBasedOnId(data.id);
-                            isItemDetailsVisible = !isItemDetailsVisible;
-                            selectedSubCategory = data.id.toString(); // Assuming you want to use the ID as the category value
-                            subCategoryName.value = data.title.toString();
-                            setState(() {
-                              tappedIndex = index;
-                            });
-                          },
-                          child: Container(
-                            margin: EdgeInsets.only(bottom: 5),
-                            padding: const EdgeInsets.all(10),
-                            height: 50,
-                            decoration: BoxDecoration(
-                                color: Colors.grey.shade200,
-                                borderRadius: BorderRadius.circular(10),
-                                border: Border.all(color: tappedIndex == index ? AppTheme.buttonColor : Colors.grey.shade400, width: 2)),
-                            child: Text(data.title.toString()),
-                          ),
-                        );
-                      },
-                    ),
-                  ],
+                const SizedBox(
+                  height: 7,
                 ),
+                categoryName.value.isEmpty
+                    ? const SizedBox()
+                    : Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          Text(
+                            'Choose Sub Category'.tr,
+                            style: GoogleFonts.poppins(color: Colors.black, fontWeight: FontWeight.w400, fontSize: 14),
+                          ),
+                          const SizedBox(height: 8),
+                          TextField(
+                            onChanged: (value) {
+                              fetchedDropdownItems = modelSubCategory.subCategory!
+                                  .where((element) => element.title!.toLowerCase().contains(value.toLowerCase()))
+                                  .map((vendorCategory) => SubCategory(
+                                      id: vendorCategory.id,
+                                      title: vendorCategory.title)) // Convert vendor category to product category
+                                  .toList();
+                              setState(() {});
+                            },
+                            decoration: InputDecoration(
+                              hintText: 'Search',
+                              prefixIcon: const Icon(Icons.search),
+                              border: OutlineInputBorder(
+                                borderRadius: BorderRadius.circular(10),
+                              ),
+                            ),
+                          ),
+                          const SizedBox(height: 5),
+                          ListView.builder(
+                            padding: EdgeInsets.zero,
+                            itemCount: fetchedDropdownItems.length,
+                            shrinkWrap: true,
+                            physics: const NeverScrollableScrollPhysics(),
+                            itemBuilder: (context, index) {
+                              var data = fetchedDropdownItems[index];
+                              return GestureDetector(
+                                onTap: () {
+                                  // fetchDataBasedOnId(data.id);
+                                  isItemDetailsVisible = !isItemDetailsVisible;
+                                  selectedSubCategory =
+                                      data.id.toString(); // Assuming you want to use the ID as the category value
+                                  subCategoryName.value = data.title.toString();
+                                  setState(() {
+                                    tappedIndex = index;
+                                  });
+                                },
+                                child: Container(
+                                  margin: const EdgeInsets.only(bottom: 5),
+                                  padding: const EdgeInsets.all(10),
+                                  height: 50,
+                                  decoration: BoxDecoration(
+                                      color: Colors.grey.shade200,
+                                      borderRadius: BorderRadius.circular(10),
+                                      border: Border.all(
+                                          color: tappedIndex == index ? AppTheme.buttonColor : Colors.grey.shade400,
+                                          width: 2)),
+                                  child: Text(data.title.toString()),
+                                ),
+                              );
+                            },
+                          ),
+                        ],
+                      ),
                 // Obx(() {
                 //   if (kDebugMode) {
                 //     print(modelSubCategory.subCategory!
@@ -485,7 +489,9 @@ RxString cityName = "".obs;
                 //     // },
                 //   );
                 // }),
-                SizedBox(height: 10,),
+                const SizedBox(
+                  height: 10,
+                ),
                 Obx(() {
                   if (kDebugMode) {
                     print(modelCountryList.country!
@@ -534,7 +540,7 @@ RxString cityName = "".obs;
                       setState(() {
                         idCountry = value!.id.toString();
                         countryName.value = value!.name.toString();
-                        getStateApi();// Assuming you want to use the ID as the category value
+                        getStateApi(); // Assuming you want to use the ID as the category value
                       });
                       // if (value == null) return;
                       // if (allSelectedCategory1.isNotEmpty) return;
@@ -549,7 +555,9 @@ RxString cityName = "".obs;
                     // },
                   );
                 }),
-                SizedBox(height: 20,),
+                const SizedBox(
+                  height: 20,
+                ),
                 Obx(() {
                   if (kDebugMode) {
                     print(modelStateList.state!
@@ -598,7 +606,7 @@ RxString cityName = "".obs;
                       setState(() {
                         stateCategory = value!.stateId.toString();
                         stateName.value = value.stateName.toString();
-                        getCityApi();// Assuming you want to use the ID as the category value
+                        getCityApi(); // Assuming you want to use the ID as the category value
                       });
                       // if (value == null) return;
                       // if (allSelectedCategory2.isNotEmpty) return;
@@ -613,7 +621,9 @@ RxString cityName = "".obs;
                     // },
                   );
                 }),
-                SizedBox(height: 20,),
+                const SizedBox(
+                  height: 20,
+                ),
                 Obx(() {
                   if (kDebugMode) {
                     print(modelCityList.city!
@@ -661,7 +671,8 @@ RxString cityName = "".obs;
                     onChanged: (value) {
                       setState(() {
                         cityId = value!.cityId.toString(); // Assuming you want to use the ID as the category value
-                        cityName.value = value!.cityName.toString(); // Assuming you want to use the ID as the category value
+                        cityName.value =
+                            value!.cityName.toString(); // Assuming you want to use the ID as the category value
                       });
                       // if (value == null) return;
                       // if (allSelectedCategory3.isNotEmpty) return;
@@ -918,19 +929,25 @@ RxString cityName = "".obs;
                   borderRadius: 11,
                   onPressed: () {
                     if (formKey2.currentState!.validate()) {
-                      if (categoryName.value =="") {showToast("Please select category");}
-                 else if (subCategoryName.value =="") {showToast("Please select sub category");}
-                 else  if(countryName.value ==""){showToast("Please select country");}
-                 else if (stateName.value =="") {showToast("Please select state");}
-                 else if (cityName.value =="") {showToast("Please select city");}
-
-
-                else{
-                      updateProfile1();
-                    }}
+                      if (categoryName.value == "") {
+                        showToast("Please select category");
+                      } else if (subCategoryName.value == "") {
+                        showToast("Please select sub category");
+                      } else if (countryName.value == "") {
+                        showToast("Please select country");
+                      } else if (stateName.value == "") {
+                        showToast("Please select state");
+                      } else if (cityName.value == "") {
+                        showToast("Please select city");
+                      } else {
+                        updateProfile1();
+                      }
+                    }
                   },
                 ),
-                SizedBox(height: 20,),
+                const SizedBox(
+                  height: 20,
+                ),
               ],
             ),
           ),

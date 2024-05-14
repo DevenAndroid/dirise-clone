@@ -1,3 +1,5 @@
+import 'dart:convert';
+
 import 'package:dirise/utils/helper.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
@@ -6,6 +8,11 @@ import 'package:form_field_validator/form_field_validator.dart';
 import 'package:get/get.dart';
 import 'package:google_fonts/google_fonts.dart';
 
+import '../controller/service_controller.dart';
+import '../controller/vendor_controllers/add_product_controller.dart';
+import '../model/common_modal.dart';
+import '../repository/repository.dart';
+import '../utils/api_constant.dart';
 import '../widgets/common_button.dart';
 import '../widgets/common_colour.dart';
 import '../widgets/common_textfield.dart';
@@ -19,10 +26,11 @@ class SinglePInternationalshippingdetailsScreen extends StatefulWidget {
 }
 
 class _SinglePInternationalshippingdetailsScreenState extends State<SinglePInternationalshippingdetailsScreen> {
-  String selectedItem = 'Item 1'; // Default selected item
+  String selectedItem = 'Item 1';
   TextEditingController dimensionController = TextEditingController();
   TextEditingController dimensionWidthController = TextEditingController();
   TextEditingController dimensionHeightController = TextEditingController();
+  TextEditingController weightController = TextEditingController();
 
   List<String> itemList = [
     'Item 1',
@@ -31,6 +39,65 @@ class _SinglePInternationalshippingdetailsScreenState extends State<SinglePInter
     'Item 4',
     'Item 5',
   ];
+
+
+  final serviceController = Get.put(ServiceController());
+  String unitOfMeasure = 'cm/kg';
+  List<String> unitOfMeasureList = [
+    'cm/kg',
+    'lb/inch',
+  ];
+
+  String selectNumberOfPackages  = '1';
+  List<String> selectNumberOfPackagesList = List.generate(30, (index) => (index + 1).toString());
+
+  String selectTypeMaterial   = 'plastic';
+  List<String> selectTypeMaterialList = [
+    'plastic',
+    'glass',
+    'iron',
+  ];
+
+  String selectTypeOfPackaging   = 'fedex 10kg box';
+  List<String> selectTypeOfPackagingList = [
+    'fedex 10kg box',
+    'fedex 25kg box',
+    'fedex box',
+    'fedex Envelop',
+    'fedex pak',
+    'fedex Tube',
+  ];
+  final formKey = GlobalKey<FormState>();
+  RxBool hide = true.obs;
+  RxBool hide1 = true.obs;
+  bool showValidation = false;
+  bool? _isValue = false;
+  final Repositories repositories = Repositories();
+  String code = "+91";
+  final addProductController = Get.put(AddProductController());
+  shippingDetailsApi() {
+    Map<String, dynamic> map = {};
+    map['weight_unit'] = unitOfMeasure;
+    map['item_type'] = 'service';
+    map['weight'] = weightController.text.trim();
+    map['number_of_package'] = selectNumberOfPackages;
+    map['material'] = selectTypeMaterial;
+    map['box_length'] = dimensionController.text.trim();
+    map['box_width'] = dimensionWidthController.text.trim();
+    map['box_height'] = dimensionHeightController.text.trim();
+    map['type_of_packages'] = selectTypeOfPackaging;
+    map['number_of_package'] = selectedItem;
+    map['id'] = addProductController.idProduct.value.toString();
+
+    FocusManager.instance.primaryFocus!.unfocus();
+    repositories.postApi(url: ApiUrls.giveawayProductAddress, context: context, mapData: map).then((value) {
+      ModelCommonResponse response = ModelCommonResponse.fromJson(jsonDecode(value));
+      showToast(response.message.toString());
+      if (response.status == true) {
+        Get.to(()=> const OptionalDiscrptionsScreen());
+      }
+    });
+  }
   final formKey5 = GlobalKey<FormState>();
   @override
   Widget build(BuildContext context) {
@@ -70,18 +137,19 @@ class _SinglePInternationalshippingdetailsScreenState extends State<SinglePInter
                 SizedBox(height: 10,),
 
                 DropdownButtonFormField<String>(
-                  value: selectedItem,
+                  value: unitOfMeasure,
                   onChanged: (String? newValue) {
                     setState(() {
-                      selectedItem = newValue!;
+                      unitOfMeasure = newValue!;
                     });
                   },
-                  items: itemList.map<DropdownMenuItem<String>>((String value) {
+                  items: unitOfMeasureList.map<DropdownMenuItem<String>>((String value) {
                     return DropdownMenuItem<String>(
                       value: value,
-                      child: Text('Unit of measure '),
+                      child: Text(value),
                     );
                   }).toList(),
+
                   decoration: InputDecoration(
                     border: InputBorder.none,
                     filled: true,
@@ -114,6 +182,8 @@ class _SinglePInternationalshippingdetailsScreenState extends State<SinglePInter
                 ),
                 const SizedBox(height: 20),
                 TextFormField(
+                  controller: weightController,
+                  keyboardType: TextInputType.number,
                   decoration: InputDecoration(
                     counterStyle: GoogleFonts.poppins(
                       color: AppTheme.primaryColor,
@@ -203,13 +273,13 @@ class _SinglePInternationalshippingdetailsScreenState extends State<SinglePInter
                 ),
                 const SizedBox(height: 20),
                 DropdownButtonFormField<String>(
-                  value: selectedItem,
+                  value: selectNumberOfPackages,
                   onChanged: (String? newValue) {
                     setState(() {
-                      selectedItem = newValue!;
+                      selectNumberOfPackages = newValue!;
                     });
                   },
-                  items: itemList.map<DropdownMenuItem<String>>((String value) {
+                  items: selectNumberOfPackagesList.map<DropdownMenuItem<String>>((String value) {
                     return DropdownMenuItem<String>(
                       value: value,
                       child: Text('Material'),
@@ -299,13 +369,13 @@ class _SinglePInternationalshippingdetailsScreenState extends State<SinglePInter
                 ),
                 const SizedBox(height: 20),
                 DropdownButtonFormField<String>(
-                  value: selectedItem,
+                  value: selectTypeOfPackaging,
                   onChanged: (String? newValue) {
                     setState(() {
-                      selectedItem = newValue!;
+                      selectTypeOfPackaging = newValue!;
                     });
                   },
-                  items: itemList.map<DropdownMenuItem<String>>((String value) {
+                  items: selectTypeOfPackagingList.map<DropdownMenuItem<String>>((String value) {
                     return DropdownMenuItem<String>(
                       value: value,
                       child: Text('Type of packages'),
@@ -396,7 +466,8 @@ class _SinglePInternationalshippingdetailsScreenState extends State<SinglePInter
                   borderRadius: 11,
                   onPressed: () {
                 if (formKey5.currentState!.validate()) {
-                    Get.to(const OptionalDiscrptionsScreen());}
+                  shippingDetailsApi();
+                }
                   },
                 ),
                 const SizedBox(height: 20),

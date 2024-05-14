@@ -391,13 +391,13 @@ class _whatServiceDoYouProvideState extends State<whatServiceDoYouProvide> {
                                 decoration: BoxDecoration(borderRadius: BorderRadius.circular(11), color: Colors.white),
                                 child: Image.file(widget.fetaureImage!),
                               ),
-                              const Positioned(
-                                  right: 20,
-                                  top: 10,
-                                  child: Icon(
-                                    Icons.delete,
-                                    color: Color(0xff014E70),
-                                  ))
+                              // const Positioned(
+                              //     right: 20,
+                              //     top: 10,
+                              //     child: Icon(
+                              //       Icons.delete,
+                              //       color: Color(0xff014E70),
+                              //     ))
                             ],
                           ),
                           Text(
