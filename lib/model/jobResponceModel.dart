@@ -154,12 +154,14 @@ class Product {
   dynamic    describeJobRole;
   dynamic    updatedAt;
   dynamic    createdAt;
+  dynamic tempType;
   int? id;
 
   Product(
       {this.vendorId,
         this.addressId,
         this.pname,
+        this.tempType,
         this.productType,
         this.itemType,
         this.virtualProductType,

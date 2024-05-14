@@ -70,7 +70,9 @@ class ApiUrls {
   static const String addEventUrl = "${baseUrl}event";
   static const String deleteEventUrl = "${baseUrl}delete-event";
   static const String storeTimingUrl = "${baseUrl}store-timing";
+  static const String productWeekly = "${baseUrl}product-weekly-timing?product_id=";
   static const String storeAvailabilityUrl = "${baseUrl}store-availability";
+  static const String productAvailabilityUrl = "${baseUrl}product-weekly-availability";
   static const String virtualAssetsPDFUrl = "${baseUrl}my-e-book?type=digital_reader";
   static const String virtualAssetsVoiceUrl = "${baseUrl}my-e-book?type=voice";
   static const String accountDetailsUrl = "${baseUrl}account-details";
