@@ -13,6 +13,7 @@ import '../../controller/vendor_controllers/vendor_store_timing.dart';
 import '../../widgets/customsize.dart';
 import '../../widgets/loading_animation.dart';
 import '../Consultation Sessions/duration_screen.dart';
+import 'optional_details_academic.dart';
 
 class SetTimeAcademicScreen extends StatefulWidget {
   const SetTimeAcademicScreen({Key? key}) : super(key: key);
@@ -378,7 +379,7 @@ class _SetTimeAcademicScreenState extends State<SetTimeAcademicScreen> {
             InkWell(
               onTap: (){
                 // updateProfile();
-                Get.to(()=> const DurationScreen());
+                Get.to(()=> const OptionalDetailsAcademicScreen());
               },
               child: Container(
                 width: Get.width,
@@ -409,7 +410,7 @@ class _SetTimeAcademicScreenState extends State<SetTimeAcademicScreen> {
             InkWell(
               onTap: (){
                 // updateProfile();
-                Get.to(()=> const DurationScreen());
+                Get.to(()=> const OptionalDetailsAcademicScreen());
               },
               child: Container(
                 width: Get.width,

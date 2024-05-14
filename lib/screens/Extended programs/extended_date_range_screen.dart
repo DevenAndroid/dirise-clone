@@ -1,23 +1,21 @@
 import 'dart:math';
-
-import 'package:dirise/screens/Consultation%20Sessions/set_store_time.dart';
-import 'package:dirise/screens/academic%20programs/set_store_time_academic.dart';
 import 'package:dirise/utils/helper.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:intl/intl.dart';
 import '../../widgets/common_colour.dart';
+import 'duration_spots.dart';
 
 
-class AcademicDateScreen extends StatefulWidget {
-  const AcademicDateScreen({super.key});
+class ExtendedDateRange extends StatefulWidget {
+  const ExtendedDateRange({super.key});
 
   @override
-  State<AcademicDateScreen> createState() => _AcademicDateScreenState();
+  State<ExtendedDateRange> createState() => _ExtendedDateRangeState();
 }
 
-class _AcademicDateScreenState extends State<AcademicDateScreen> {
+class _ExtendedDateRangeState extends State<ExtendedDateRange> {
   DateTime _startDate = DateTime.now();
   DateTime _endDate = DateTime.now();
   String? formattedStartDate;
@@ -130,54 +128,115 @@ class _AcademicDateScreenState extends State<AcademicDateScreen> {
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            Text('Dates range',style:GoogleFonts.poppins(fontSize:19,fontWeight:FontWeight.w500)),
+            Text('Dates range',
+                style:GoogleFonts.poppins(fontSize:19,fontWeight:FontWeight.w600)),
             15.spaceY,
-            Text('The start date and end date which this service offered',style:GoogleFonts.poppins(fontSize:15,fontWeight:FontWeight.w400)),
-            20.spaceY,
-            Text('Start Date: ${formattedStartDate ?? ''}'),
-            10.spaceY,
-            ElevatedButton(
-              style: ButtonStyle(
-                backgroundColor: MaterialStateColor.resolveWith((states) => const Color(0xff014E70))
-              ),
-              onPressed: () => _selectStartDate(context),
-              child: const Text('Select Start Date',style: TextStyle(color: Colors.white),),
-            ),
-            const SizedBox(height: 20),
-            Text('End Date: ${formattedStartDate1 ?? ''}'),
-            const SizedBox(height: 10),
-            ElevatedButton(
-              style: ButtonStyle(
-                  backgroundColor: MaterialStateColor.resolveWith((states) => const Color(0xff014E70))
-              ),
-              onPressed: () => _selectEndDate(context),
-              child: const Text('Select End Date',style: TextStyle(color: Colors.white),),
+            Text('The start date and end date which this service offered',
+                style:GoogleFonts.poppins(fontSize:15,fontWeight:FontWeight.w400)),
+            40.spaceY,
+            Row(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              children: [
+                Expanded(
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    children: [
+                      Text('Start Date: ${formattedStartDate ?? ''}',
+                        style:const TextStyle(
+                          fontSize: 17,
+                          fontWeight: FontWeight.w500
+                        ),),
+                      10.spaceY,
+                      ElevatedButton(
+                        style: ButtonStyle(
+                            backgroundColor: MaterialStateColor.resolveWith((states) => const Color(0xff014E70))
+                        ),
+                        onPressed: () => _selectStartDate(context),
+                        child: const Text('Select Start Date',style: TextStyle(color: Colors.white),),
+                      ),
+                    ],
+                  ),
+                ),
+                const SizedBox(width: 20),
+                Expanded(
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    children: [
+                      Text('End Date: ${formattedStartDate1 ?? ''}',
+                    style:const TextStyle(
+                        fontSize: 17,
+                        fontWeight: FontWeight.w500
+                    ),),
+                      const SizedBox(height: 10),
+                      ElevatedButton(
+                        style: ButtonStyle(
+                            backgroundColor: MaterialStateColor.resolveWith((states) => const Color(0xff014E70))
+                        ),
+                        onPressed: () => _selectEndDate(context),
+                        child: const Text('Select End Date',style: TextStyle(color: Colors.white),),
+                      ),
+                    ],
+                  ),
+                )
+              ],
             ),
             const SizedBox(height: 40),
-            Text('Add vacations ',style:GoogleFonts.poppins(fontSize:19,fontWeight:FontWeight.w500)),
-
+            Text('Add vacations ',
+                style:GoogleFonts.poppins(fontSize:19,fontWeight:FontWeight.w600)),
             20.spaceY,
-            Text('Start Date: ${formattedStartDateVacation ?? ''}'),
-            10.spaceY,
-            ElevatedButton(
-              style: ButtonStyle(
-                backgroundColor: MaterialStateColor.resolveWith((states) => const Color(0xFF014E70))
-              ),
-              onPressed: () => selectStartDateVacation(context),
-              child: const Text('Select Start Date',style: TextStyle(color: Colors.white),),
+            Row(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              children: [
+                Expanded(
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      mainAxisAlignment: MainAxisAlignment.start,
+                      children: [
+                        Text('Start Date: ${formattedStartDateVacation ?? ''}',
+                      style:const TextStyle(
+                          fontSize: 17,
+                          fontWeight: FontWeight.w500
+                      ),),
+                        10.spaceY,
+                        ElevatedButton(
+                          style: ButtonStyle(
+                              backgroundColor: MaterialStateColor.resolveWith((states) => const Color(0xFF014E70))
+                          ),
+                          onPressed: () => selectStartDateVacation(context),
+                          child: const Text('Select Start Date',style: TextStyle(color: Colors.white),),
+                        ),
+                      ],
+                    )
+                ),
+                const SizedBox(width: 20),
+                Expanded(
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      mainAxisAlignment: MainAxisAlignment.start,
+                      children: [
+                        Text('End Date: ${formattedStartDate1Vacation ?? ''}',
+                      style:const TextStyle(
+                          fontSize: 17,
+                          fontWeight: FontWeight.w500
+                      ),),
+                        const SizedBox(height: 10),
+                        ElevatedButton(
+                          style: ButtonStyle(
+                              backgroundColor: MaterialStateColor.resolveWith((states) => const Color(0xFF014E70))
+                          ),
+                          onPressed: () => selectEndDateVacation(context),
+                          child: const Text('Select End Date',style: TextStyle(color: Colors.white),),
+                        ),
+                      ],
+                    )
+                )
+              ],
             ),
-            const SizedBox(height: 20),
-            Text('End Date: ${formattedStartDate1Vacation ?? ''}'),
-
-            const SizedBox(height: 10),
-            ElevatedButton(
-              style: ButtonStyle(
-                  backgroundColor: MaterialStateColor.resolveWith((states) => const Color(0xFF014E70))
-              ),
-              onPressed: () => selectEndDateVacation(context),
-              child: const Text('Select End Date',style: TextStyle(color: Colors.white),),
-            ),
-            20.spaceY,
+            30.spaceY,
             GestureDetector(
               onTap: (){
                 setState(() {
@@ -251,19 +310,76 @@ class _AcademicDateScreenState extends State<AcademicDateScreen> {
                   );
                 },
               ),
+            30.spaceY,
+            Text('Programme Overview',
+                style:GoogleFonts.poppins(fontSize:19,fontWeight:FontWeight.w600)),
+            15.spaceY,
+            Text('Edit Active and off days by selection',
+                style:GoogleFonts.poppins(fontSize:15,fontWeight:FontWeight.w400)),
+            40.spaceY,
+            Row(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              children: [
+                Expanded(
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      mainAxisAlignment: MainAxisAlignment.start,
+                      children: [
+                        Text('Start Date: ${formattedStartDateVacation ?? ''}',
+                          style:const TextStyle(
+                              fontSize: 17,
+                              fontWeight: FontWeight.w500
+                          ),),
+                        10.spaceY,
+                        ElevatedButton(
+                          style: ButtonStyle(
+                              backgroundColor: MaterialStateColor.resolveWith((states) => const Color(0xFF014E70))
+                          ),
+                          onPressed: () => selectStartDateVacation(context),
+                          child: const Text('Select Start Date',style: TextStyle(color: Colors.white),),
+                        ),
+                      ],
+                    )
+                ),
+                const SizedBox(width: 20),
+                Expanded(
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      mainAxisAlignment: MainAxisAlignment.start,
+                      children: [
+                        Text('End Date: ${formattedStartDate1Vacation ?? ''}',
+                          style:const TextStyle(
+                              fontSize: 17,
+                              fontWeight: FontWeight.w500
+                          ),),
+                        const SizedBox(height: 10),
+                        ElevatedButton(
+                          style: ButtonStyle(
+                              backgroundColor: MaterialStateColor.resolveWith((states) => const Color(0xFF014E70))
+                          ),
+                          onPressed: () => selectEndDateVacation(context),
+                          child: const Text('Select End Date',style: TextStyle(color: Colors.white),),
+                        ),
+                      ],
+                    )
+                )
+              ],
+            ),
             const SizedBox(height: 40),
             20.spaceY,
             InkWell(
               onTap: (){
                 // updateProfile();
-                Get.to(()=> const SetTimeAcademicScreen());
+                Get.to(()=> const DurationAndSpots());
               },
               child: Container(
                 width: Get.width,
                 height: 50,
                 decoration: BoxDecoration(
                   color: const Color(0xffF5F2F2),
-                  borderRadius: BorderRadius.circular(2), // Border radius
+                  borderRadius: BorderRadius.circular(2),
+                  border: Border.all(color: AppTheme.buttonColor)
                 ),
                 padding: const EdgeInsets.all(10), // Padding inside the container
                 child: const Center(
@@ -284,7 +400,7 @@ class _AcademicDateScreenState extends State<AcademicDateScreen> {
             InkWell(
               onTap: (){
                 // updateProfile();
-                Get.to(()=> const SetTimeAcademicScreen());
+                Get.to(()=> const DurationAndSpots());
               },
               child: Container(
                 width: Get.width,

@@ -42,6 +42,7 @@ import '../screens/public_speaker_screen/single_public_speaker_screen.dart';
 import '../screens/return_policy.dart';
 import '../screens/school_nursery_category.dart';
 import '../screens/order_screens/selectd_order_screen.dart';
+import '../screens/tell_us_about_yourself.dart';
 import '../screens/vendorinformation_screen.dart';
 import '../screens/virtual_assets/virtual_assets_screen.dart';
 import '../vendor/authentication/verify_vendor_otp.dart';
@@ -58,10 +59,7 @@ import '../vendor/shipping_policy.dart';
 class MyRouters {
   static var route = [
 
-
-
-
-    GetPage(name: '/', page: () => const BottomNavbar()),
+    GetPage(name: '/', page: () => const TellUsYourSelfScreen()),
     GetPage(name: LoginScreen.route, page: () => const LoginScreen()),
     GetPage(name: VendorOTPVerification.route, page: () => const VendorOTPVerification()),
     GetPage(name: CreateAccountNewScreen.route, page: () => const CreateAccountNewScreen()),
