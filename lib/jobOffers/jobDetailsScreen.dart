@@ -233,7 +233,7 @@ class _JobDetailsScreenState extends State<JobDetailsScreen> {
         .then((value) {
       JobResponceModel response = JobResponceModel.fromJson(jsonDecode(value));
       if (response.status == true && idProof.path.isNotEmpty) {
-        Get.to(JobReviewPublishScreen());
+        Get.to(JobReviewPublishScreen(category: selectedCategory,subCategory: selectedSubCategory,));
       } else {
         showToast('Please Upload CV');
       }
@@ -540,12 +540,14 @@ class _JobDetailsScreenState extends State<JobDetailsScreen> {
                       setState(() {
                         idCountry = value!.id.toString();
                         countryName.value = value!.name.toString();
+
                         getStateApi(); // Assuming you want to use the ID as the category value
                       });
+                      modelStateList = ModelStateList();
                       // if (value == null) return;
                       // if (allSelectedCategory1.isNotEmpty) return;
                       // allSelectedCategory1[value.id.toString()] = value;
-                      setState(() {});
+                      // setState(() {});
                     },
                     // validator: (value) {
                     //   if (allSelectedCategory1.isEmpty) {
@@ -559,12 +561,13 @@ class _JobDetailsScreenState extends State<JobDetailsScreen> {
                   height: 20,
                 ),
                 Obx(() {
-                  if (kDebugMode) {
-                    print(modelStateList.state!
-                        .map((e) => DropdownMenuItem(value: e, child: Text(e.stateName.toString().capitalize!)))
-                        .toList());
-                  }
-                  return DropdownButtonFormField<CountryState>(
+                  // if (kDebugMode) {
+                  //   print(modelStateList.state!
+                  //       .map((e) => DropdownMenuItem(value: e, child: Text(e.stateName.toString().capitalize!)))
+                  //       .toList());
+                  // }
+                  return modelStateList.state!=null ?
+                  DropdownButtonFormField<CountryState>(
                     key: categoryKey2,
                     autovalidateMode: AutovalidateMode.onUserInteraction,
                     icon: stateStatus.value.isLoading
@@ -608,6 +611,7 @@ class _JobDetailsScreenState extends State<JobDetailsScreen> {
                         stateName.value = value.stateName.toString();
                         getCityApi(); // Assuming you want to use the ID as the category value
                       });
+                      modelCityList = ModelCityList();
                       // if (value == null) return;
                       // if (allSelectedCategory2.isNotEmpty) return;
                       // allSelectedCategory2[value.stateId.toString()] = value;
@@ -619,18 +623,19 @@ class _JobDetailsScreenState extends State<JobDetailsScreen> {
                     //   }
                     //   return null;
                     // },
-                  );
+                  ): const SizedBox.shrink();
                 }),
                 const SizedBox(
                   height: 20,
                 ),
                 Obx(() {
-                  if (kDebugMode) {
-                    print(modelCityList.city!
-                        .map((e) => DropdownMenuItem(value: e, child: Text(e.cityName.toString().capitalize!)))
-                        .toList());
-                  }
-                  return DropdownButtonFormField<City>(
+                  // if (kDebugMode) {
+                  //   print(modelCityList.city!
+                  //       .map((e) => DropdownMenuItem(value: e, child: Text(e.cityName.toString().capitalize!)))
+                  //       .toList());
+                  // }
+                  return modelCityList.city!= null ?
+                    DropdownButtonFormField<City>(
                     key: categoryKey3,
                     autovalidateMode: AutovalidateMode.onUserInteraction,
                     icon: cityStatus.value.isLoading
@@ -685,7 +690,7 @@ class _JobDetailsScreenState extends State<JobDetailsScreen> {
                     //   }
                     //   return null;
                     // },
-                  );
+                  ): const SizedBox.shrink();
                 }),
                 const SizedBox(
                   height: 20,

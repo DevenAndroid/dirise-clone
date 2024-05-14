@@ -35,16 +35,23 @@ class _ServiceOptionalScreenState extends State<ServiceOptionalScreen> {
   final Repositories repositories = Repositories();
   final formKey1 = GlobalKey<FormState>();
   String code = "+91";
+
+  TextEditingController metaTitleController = TextEditingController();
+  TextEditingController metaDescriptionController = TextEditingController();
+  TextEditingController longDescriptionController = TextEditingController();
+  TextEditingController metaTagsController = TextEditingController();
+  TextEditingController taxController = TextEditingController();
+
   final addProductController = Get.put(AddProductController());
   optionalApi() {
     Map<String, dynamic> map = {};
 
-    map['meta_title'] = serviceController.metaTitleController.text.trim();
+    map['meta_title'] = metaTitleController.text.trim();
     map['item_type'] = 'service';
-    map['meta_description'] = serviceController.metaDescriptionController.text.trim();
-    map['long_description'] = serviceController.longDescriptionController.text.trim();
-    map['serial_number'] = serviceController.serialNumberController.text.trim();
-    map['product_number'] = serviceController.productNumberController.text.trim();
+    map['meta_description'] = metaDescriptionController.text.trim();
+    map['long_description'] = longDescriptionController.text.trim();
+    map['meta_tags'] = metaTagsController.text.trim();
+    map['tax_type'] = taxController.text.trim();
     map['id'] = addProductController.idProduct.value.toString();
 
     FocusManager.instance.primaryFocus!.unfocus();
@@ -96,7 +103,7 @@ class _ServiceOptionalScreenState extends State<ServiceOptionalScreen> {
             child: Column(
               children: [
                 TextFormField(
-                  controller: serviceController.longDescriptionController,
+                  controller: longDescriptionController,
                   maxLines: 2,
                   minLines: 2,
 
@@ -135,7 +142,7 @@ class _ServiceOptionalScreenState extends State<ServiceOptionalScreen> {
                   ),
                 ),
                 CommonTextField(
-                    controller: serviceController.metaTitleController,
+                    controller: metaTitleController,
                     obSecure: false,
                     hintText: 'Meta Title'.tr,
                     validator: (value) {
@@ -148,7 +155,7 @@ class _ServiceOptionalScreenState extends State<ServiceOptionalScreen> {
                 ),
                 TextFormField(
                   maxLines: 2,
-                  controller: serviceController.metaDescriptionController,
+                  controller: metaDescriptionController,
                   minLines: 2,
                   validator: (value) {
                     if (value!.trim().isEmpty) {
@@ -191,7 +198,7 @@ class _ServiceOptionalScreenState extends State<ServiceOptionalScreen> {
                   ),
                 ),
                 CommonTextField(
-                    controller: serviceController.serialNumberController,
+                    controller: metaTagsController,
                     obSecure: false,
                     hintText: 'Meta Tags'.tr,
                     validator: (value) {
@@ -202,7 +209,7 @@ class _ServiceOptionalScreenState extends State<ServiceOptionalScreen> {
                     },
                     ),
                 CommonTextField(
-                    controller: serviceController.productNumberController,
+                    controller: taxController,
                     obSecure: false,
                     hintText: 'No Tax '.tr,
                     keyboardType: TextInputType.number,

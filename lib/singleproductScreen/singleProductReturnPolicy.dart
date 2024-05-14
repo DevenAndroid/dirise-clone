@@ -475,21 +475,21 @@ class _SingleProductReturnPolicyState extends State<SingleProductReturnPolicy> {
                 CustomOutlineButton(
                   title: 'Next',
                   borderRadius: 11,
-                  onPressed: isButtonEnabled || noReturnSelected == true
-                      ? () {
+                  onPressed: () {
                     if (noReturnSelected == false) {
                       if (formKey1.currentState!.validate()) {
-                        if (radioButtonValue != '') {
-                          returnPolicyApi();
-                        } else {
-                          showToastCenter('Select Return shipping fees');
-                        }
+                        returnPolicyApi();
+                        // if (radioButtonValue != '') {
+                        //
+                        // } else {
+                        //   showToastCenter('Select Return shipping fees');
+                        // }
                       }
                     } else {
                       Get.to(const SingleProductDeliverySize());
                     }
                   }
-                      : null, // Disable button if no radio button is selected
+                    // Disable button if no radio button is selected
                 ),
               ],
             ),

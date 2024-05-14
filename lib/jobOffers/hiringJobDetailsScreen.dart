@@ -513,12 +513,14 @@ class _HiringJobDetailsScreenState extends State<HiringJobDetailsScreen> {
                         setState(() {
                           idCountry = value!.id.toString();
                           countryName.value = value!.name.toString();
-                          getStateApi();// Assuming you want to use the ID as the category value
+
+                          getStateApi(); // Assuming you want to use the ID as the category value
                         });
+                        modelStateList = ModelStateList();
                         // if (value == null) return;
                         // if (allSelectedCategory1.isNotEmpty) return;
                         // allSelectedCategory1[value.id.toString()] = value;
-                        setState(() {});
+                        // setState(() {});
                       },
                       // validator: (value) {
                       //   if (allSelectedCategory1.isEmpty) {
@@ -528,14 +530,17 @@ class _HiringJobDetailsScreenState extends State<HiringJobDetailsScreen> {
                       // },
                     );
                   }),
-                  SizedBox(height: 20,),
+                  const SizedBox(
+                    height: 20,
+                  ),
                   Obx(() {
-                    if (kDebugMode) {
-                      print(modelStateList.state!
-                          .map((e) => DropdownMenuItem(value: e, child: Text(e.stateName.toString().capitalize!)))
-                          .toList());
-                    }
-                    return DropdownButtonFormField<CountryState>(
+                    // if (kDebugMode) {
+                    //   print(modelStateList.state!
+                    //       .map((e) => DropdownMenuItem(value: e, child: Text(e.stateName.toString().capitalize!)))
+                    //       .toList());
+                    // }
+                    return modelStateList.state!=null ?
+                    DropdownButtonFormField<CountryState>(
                       key: categoryKey2,
                       autovalidateMode: AutovalidateMode.onUserInteraction,
                       icon: stateStatus.value.isLoading
@@ -576,9 +581,10 @@ class _HiringJobDetailsScreenState extends State<HiringJobDetailsScreen> {
                       onChanged: (value) {
                         setState(() {
                           stateCategory = value!.stateId.toString();
-                          stateName.value = value!.stateName.toString();
-                          getCityApi();// Assuming you want to use the ID as the category value
+                          stateName.value = value.stateName.toString();
+                          getCityApi(); // Assuming you want to use the ID as the category value
                         });
+                        modelCityList = ModelCityList();
                         // if (value == null) return;
                         // if (allSelectedCategory2.isNotEmpty) return;
                         // allSelectedCategory2[value.stateId.toString()] = value;
@@ -590,16 +596,19 @@ class _HiringJobDetailsScreenState extends State<HiringJobDetailsScreen> {
                       //   }
                       //   return null;
                       // },
-                    );
+                    ): const SizedBox.shrink();
                   }),
-                  SizedBox(height: 20,),
+                  const SizedBox(
+                    height: 20,
+                  ),
                   Obx(() {
-                    if (kDebugMode) {
-                      print(modelCityList.city!
-                          .map((e) => DropdownMenuItem(value: e, child: Text(e.cityName.toString().capitalize!)))
-                          .toList());
-                    }
-                    return DropdownButtonFormField<City>(
+                    // if (kDebugMode) {
+                    //   print(modelCityList.city!
+                    //       .map((e) => DropdownMenuItem(value: e, child: Text(e.cityName.toString().capitalize!)))
+                    //       .toList());
+                    // }
+                    return modelCityList.city!= null ?
+                    DropdownButtonFormField<City>(
                       key: categoryKey3,
                       autovalidateMode: AutovalidateMode.onUserInteraction,
                       icon: cityStatus.value.isLoading
@@ -639,8 +648,9 @@ class _HiringJobDetailsScreenState extends State<HiringJobDetailsScreen> {
                       hint: Text('Search city to choose'.tr),
                       onChanged: (value) {
                         setState(() {
-                          cityId = value!.cityId.toString();
-                          cityName.value = value!.cityName.toString();
+                          cityId = value!.cityId.toString(); // Assuming you want to use the ID as the category value
+                          cityName.value =
+                              value!.cityName.toString(); // Assuming you want to use the ID as the category value
                         });
                         // if (value == null) return;
                         // if (allSelectedCategory3.isNotEmpty) return;
@@ -653,7 +663,7 @@ class _HiringJobDetailsScreenState extends State<HiringJobDetailsScreen> {
                       //   }
                       //   return null;
                       // },
-                    );
+                    ): const SizedBox.shrink();
                   }),
                   const SizedBox(
                     height: 20,

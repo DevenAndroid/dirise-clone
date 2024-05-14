@@ -86,137 +86,134 @@ class _OptionalColloectionScreenState extends State<OptionalColloectionScreen> {
           key: formKey1,
           child: Container(
             margin: const EdgeInsets.only(left: 15, right: 15),
-            child: Form(
-              key: formKey1,
-              child: Column(
-                children: [
-                  CommonTextField(
-                    controller: controller.serialNumberController,
-                    obSecure: false,
-                    hintText: 'Serial Number'.tr,
-                    validator: (value) {
-                      if (value!.trim().isEmpty) {
-                        return "Meta Title is required".tr;
-                      }
-                      return null;
-                    },
-                  ),
-                  CommonTextField(
-                    controller: controller.productNumberController,
-                    obSecure: false,
-                    hintText: 'Product number'.tr,
-                    validator: (value) {
-                      if (value!.trim().isEmpty) {
-                        return "Serial Number is required".tr;
-                      }
-                      return null;
-                    },
-                  ),
-                  CommonTextField(
-                    controller: controller.productCodeController,
-                    obSecure: false,
-                    hintText: 'Product Code'.tr,
-                    validator: (value) {
-                      if (value!.trim().isEmpty) {
-                        return "Product number is required".tr;
-                      }
-                      return null;
-                    },
-                  ),
-                  CommonTextField(
-                    controller: controller.promotionCodeController,
-                    obSecure: false,
-                    hintText: 'Promotion Code'.tr,
-                    validator: (value) {
-                      if (value!.trim().isEmpty) {
-                        return "Product number is required".tr;
-                      }
-                      return null;
-                    },
-                  ),
-                  TextFormField(
-                    controller: controller.packageDetailsController,
-                    maxLines: 5,
-                    minLines: 5,
-                    validator: (value) {
-                      if (value!.trim().isEmpty) {
-                        return "Package details is required".tr;
-                      }
-                      return null;
-                    },
-                    decoration: InputDecoration(
-                      counterStyle: GoogleFonts.poppins(
-                        color: AppTheme.primaryColor,
-                        fontSize: 25,
-                      ),
-                      counter: const Offstage(),
-                      errorMaxLines: 2,
-                      contentPadding: const EdgeInsets.all(15),
-                      fillColor: Colors.grey.shade100,
-                      hintText: 'Package details',
-                      hintStyle: GoogleFonts.poppins(
-                        color: AppTheme.primaryColor,
-                        fontSize: 15,
-                      ),
-                      border: InputBorder.none,
-                      focusedErrorBorder: const OutlineInputBorder(
-                          borderRadius: BorderRadius.all(Radius.circular(8)),
-                          borderSide: BorderSide(color: AppTheme.secondaryColor)),
-                      errorBorder: const OutlineInputBorder(
-                          borderRadius: BorderRadius.all(Radius.circular(8)),
-                          borderSide: BorderSide(color: AppTheme.secondaryColor)),
-                      focusedBorder: const OutlineInputBorder(
-                          borderRadius: BorderRadius.all(Radius.circular(8)),
-                          borderSide: BorderSide(color: AppTheme.secondaryColor)),
-                      disabledBorder: const OutlineInputBorder(
+            child: Column(
+              children: [
+                CommonTextField(
+                  controller: controller.serialNumberController,
+                  obSecure: false,
+                  hintText: 'Serial Number'.tr,
+                  validator: (value) {
+                    if (value!.trim().isEmpty) {
+                      return "Meta Title is required".tr;
+                    }
+                    return null;
+                  },
+                ),
+                CommonTextField(
+                  controller: controller.productNumberController,
+                  obSecure: false,
+                  hintText: 'Product number'.tr,
+                  validator: (value) {
+                    if (value!.trim().isEmpty) {
+                      return "Serial Number is required".tr;
+                    }
+                    return null;
+                  },
+                ),
+                CommonTextField(
+                  controller: controller.productCodeController,
+                  obSecure: false,
+                  hintText: 'Product Code'.tr,
+                  validator: (value) {
+                    if (value!.trim().isEmpty) {
+                      return "Product number is required".tr;
+                    }
+                    return null;
+                  },
+                ),
+                CommonTextField(
+                  controller: controller.promotionCodeController,
+                  obSecure: false,
+                  hintText: 'Promotion Code'.tr,
+                  validator: (value) {
+                    if (value!.trim().isEmpty) {
+                      return "Product number is required".tr;
+                    }
+                    return null;
+                  },
+                ),
+                TextFormField(
+                  controller: controller.packageDetailsController,
+                  maxLines: 5,
+                  minLines: 5,
+                  validator: (value) {
+                    if (value!.trim().isEmpty) {
+                      return "Package details is required".tr;
+                    }
+                    return null;
+                  },
+                  decoration: InputDecoration(
+                    counterStyle: GoogleFonts.poppins(
+                      color: AppTheme.primaryColor,
+                      fontSize: 25,
+                    ),
+                    counter: const Offstage(),
+                    errorMaxLines: 2,
+                    contentPadding: const EdgeInsets.all(15),
+                    fillColor: Colors.grey.shade100,
+                    hintText: 'Package details',
+                    hintStyle: GoogleFonts.poppins(
+                      color: AppTheme.primaryColor,
+                      fontSize: 15,
+                    ),
+                    border: InputBorder.none,
+                    focusedErrorBorder: const OutlineInputBorder(
                         borderRadius: BorderRadius.all(Radius.circular(8)),
-                        borderSide: BorderSide(color: AppTheme.secondaryColor),
-                      ),
-                      enabledBorder: const OutlineInputBorder(
+                        borderSide: BorderSide(color: AppTheme.secondaryColor)),
+                    errorBorder: const OutlineInputBorder(
                         borderRadius: BorderRadius.all(Radius.circular(8)),
-                        borderSide: BorderSide(color: AppTheme.secondaryColor),
-                      ),
+                        borderSide: BorderSide(color: AppTheme.secondaryColor)),
+                    focusedBorder: const OutlineInputBorder(
+                        borderRadius: BorderRadius.all(Radius.circular(8)),
+                        borderSide: BorderSide(color: AppTheme.secondaryColor)),
+                    disabledBorder: const OutlineInputBorder(
+                      borderRadius: BorderRadius.all(Radius.circular(8)),
+                      borderSide: BorderSide(color: AppTheme.secondaryColor),
+                    ),
+                    enabledBorder: const OutlineInputBorder(
+                      borderRadius: BorderRadius.all(Radius.circular(8)),
+                      borderSide: BorderSide(color: AppTheme.secondaryColor),
                     ),
                   ),
-                  const SizedBox(height: 100),
-                  CustomOutlineButton(
-                    title: 'Next',
-                    borderRadius: 11,
-                    onPressed: () {
-                      if (formKey1.currentState!.validate()) {
-                        optionalApi();
-                      }
+                ),
+                const SizedBox(height: 100),
+                CustomOutlineButton(
+                  title: 'Next',
+                  borderRadius: 11,
+                  onPressed: () {
+                    if (formKey1.currentState!.validate()) {
+                      optionalApi();
+                    }
 
-                    },
-                  ),
-                  const SizedBox(height: 20),
-                  GestureDetector(
-                    onTap: () {},
-                    child: Container(
-                      width: Get.width,
-                      height: 55,
-                      decoration: BoxDecoration(
-                        border: Border.all(
-                          color: Colors.black, // Border color
-                          width: 1.0, // Border width
-                        ),
-                        borderRadius: BorderRadius.circular(10), // Border radius
+                  },
+                ),
+                const SizedBox(height: 20),
+                GestureDetector(
+                  onTap: () {},
+                  child: Container(
+                    width: Get.width,
+                    height: 55,
+                    decoration: BoxDecoration(
+                      border: Border.all(
+                        color: Colors.black, // Border color
+                        width: 1.0, // Border width
                       ),
-                      padding: const EdgeInsets.all(10), // Padding inside the container
-                      child: const Center(
-                        child: Text(
-                          'Skip',
-                          style: TextStyle(
-                            fontSize: 16,
-                            fontWeight: FontWeight.bold,
-                            color: Colors.black, // Text color
-                          ),
+                      borderRadius: BorderRadius.circular(10), // Border radius
+                    ),
+                    padding: const EdgeInsets.all(10), // Padding inside the container
+                    child: const Center(
+                      child: Text(
+                        'Skip',
+                        style: TextStyle(
+                          fontSize: 16,
+                          fontWeight: FontWeight.bold,
+                          color: Colors.black, // Text color
                         ),
                       ),
                     ),
                   ),
-                ],
-              ),
+                ),
+              ],
             ),
           ),
         ),

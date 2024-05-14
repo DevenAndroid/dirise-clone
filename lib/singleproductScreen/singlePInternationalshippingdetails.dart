@@ -40,7 +40,6 @@ class _SinglePInternationalshippingdetailsScreenState extends State<SinglePInter
     'Item 5',
   ];
 
-
   final serviceController = Get.put(ServiceController());
   String unitOfMeasure = 'cm/kg';
   List<String> unitOfMeasureList = [
@@ -48,17 +47,17 @@ class _SinglePInternationalshippingdetailsScreenState extends State<SinglePInter
     'lb/inch',
   ];
 
-  String selectNumberOfPackages  = '1';
+  String selectNumberOfPackages = '1';
   List<String> selectNumberOfPackagesList = List.generate(30, (index) => (index + 1).toString());
 
-  String selectTypeMaterial   = 'plastic';
+  String selectTypeMaterial = 'plastic';
   List<String> selectTypeMaterialList = [
     'plastic',
     'glass',
     'iron',
   ];
 
-  String selectTypeOfPackaging   = 'fedex 10kg box';
+  String selectTypeOfPackaging = 'fedex 10kg box';
   List<String> selectTypeOfPackagingList = [
     'fedex 10kg box',
     'fedex 25kg box',
@@ -94,10 +93,11 @@ class _SinglePInternationalshippingdetailsScreenState extends State<SinglePInter
       ModelCommonResponse response = ModelCommonResponse.fromJson(jsonDecode(value));
       showToast(response.message.toString());
       if (response.status == true) {
-        Get.to(()=> const OptionalDiscrptionsScreen());
+        Get.to(() => const OptionalDiscrptionsScreen());
       }
     });
   }
+
   final formKey5 = GlobalKey<FormState>();
   @override
   Widget build(BuildContext context) {
@@ -134,8 +134,9 @@ class _SinglePInternationalshippingdetailsScreenState extends State<SinglePInter
             key: formKey5,
             child: Column(
               children: [
-                SizedBox(height: 10,),
-
+                SizedBox(
+                  height: 10,
+                ),
                 DropdownButtonFormField<String>(
                   value: unitOfMeasure,
                   onChanged: (String? newValue) {
@@ -149,7 +150,6 @@ class _SinglePInternationalshippingdetailsScreenState extends State<SinglePInter
                       child: Text(value),
                     );
                   }).toList(),
-
                   decoration: InputDecoration(
                     border: InputBorder.none,
                     filled: true,
@@ -189,9 +189,7 @@ class _SinglePInternationalshippingdetailsScreenState extends State<SinglePInter
                       color: AppTheme.primaryColor,
                       fontSize: 25,
                     ),
-
                     counter: const Offstage(),
-
                     errorMaxLines: 2,
                     contentPadding: const EdgeInsets.all(15),
                     fillColor: Colors.grey.shade100,
@@ -200,7 +198,6 @@ class _SinglePInternationalshippingdetailsScreenState extends State<SinglePInter
                       color: AppTheme.primaryColor,
                       fontSize: 15,
                     ),
-
                     border: InputBorder.none,
                     focusedErrorBorder: const OutlineInputBorder(
                         borderRadius: BorderRadius.all(Radius.circular(8)),
@@ -320,51 +317,53 @@ class _SinglePInternationalshippingdetailsScreenState extends State<SinglePInter
                   alignment: Alignment.topLeft,
                   child: Text(
                     'Box dimension L X W X H (Optional)'.tr,
-                    style: GoogleFonts.poppins(color: const Color(0xff463B57), fontWeight: FontWeight.w500, fontSize: 14),
+                    style:
+                        GoogleFonts.poppins(color: const Color(0xff463B57), fontWeight: FontWeight.w500, fontSize: 14),
                   ),
                 ),
                 Row(
                   children: [
-                    Expanded(child: CommonTextField(
-                        controller: dimensionController,
-                        obSecure: false,
-                        keyboardType: TextInputType.number,
-                        hintText: 'Length X ',
-                        validator: (value) {
-                          if (value!.trim().isEmpty) {
-                            return 'Product length is required'.tr;
-                          }
-                          return null; // Return null if validation passes
-                        },
-                        )
-                    ),
+                    Expanded(
+                        child: CommonTextField(
+                      controller: dimensionController,
+                      obSecure: false,
+                      keyboardType: TextInputType.number,
+                      hintText: 'Length X ',
+                      validator: (value) {
+                        if (value!.trim().isEmpty) {
+                          return 'Product length is required'.tr;
+                        }
+                        return null; // Return null if validation passes
+                      },
+                    )),
                     10.spaceX,
-                    Expanded(child:   CommonTextField(
-                        controller: dimensionWidthController,
-                        obSecure: false,
-                        hintText: 'Width X',
-                        keyboardType: TextInputType.number,
-
-                        validator: (value) {
-                          if (value!.trim().isEmpty) {
-                            return 'Product Width is required'.tr;
-                          }
-                          return null; // Return null if validation passes
-                        },
-                      )),
+                    Expanded(
+                        child: CommonTextField(
+                      controller: dimensionWidthController,
+                      obSecure: false,
+                      hintText: 'Width X',
+                      keyboardType: TextInputType.number,
+                      validator: (value) {
+                        if (value!.trim().isEmpty) {
+                          return 'Product Width is required'.tr;
+                        }
+                        return null; // Return null if validation passes
+                      },
+                    )),
                     10.spaceX,
-                    Expanded(child:   CommonTextField(
-                        controller: dimensionHeightController,
-                        obSecure: false,
-                        hintText: 'Height X',
-                        keyboardType: TextInputType.number,
-                        validator: (value) {
-                          if (value!.trim().isEmpty) {
-                            return 'Product Height is required'.tr;
-                          }
-                          return null; // Return null if validation passes
-                        },
-                       )),
+                    Expanded(
+                        child: CommonTextField(
+                      controller: dimensionHeightController,
+                      obSecure: false,
+                      hintText: 'Height X',
+                      keyboardType: TextInputType.number,
+                      validator: (value) {
+                        if (value!.trim().isEmpty) {
+                          return 'Product Height is required'.tr;
+                        }
+                        return null; // Return null if validation passes
+                      },
+                    )),
                   ],
                 ),
                 const SizedBox(height: 20),
@@ -412,83 +411,39 @@ class _SinglePInternationalshippingdetailsScreenState extends State<SinglePInter
                   },
                 ),
                 const SizedBox(height: 20),
-                Align(
-                  alignment: Alignment.topLeft,
-                  child: Text(
-                    'When do you plan to ship? '.tr,
-                    style: GoogleFonts.poppins(color: const Color(0xff463B57), fontWeight: FontWeight.w500, fontSize: 14),
-                  ),
-                ),
-                TextFormField(validator: (value) {
-                  if (value!.trim().isEmpty) {
-                    return 'why ship is required'.tr;
-                  }
-                  return null; // Return null if validation passes
-                },
-                  decoration: InputDecoration(
-                    counterStyle: GoogleFonts.poppins(
-                      color: AppTheme.primaryColor,
-                      fontSize: 25,
-                    ),
-                    counter: const Offstage(),
-
-                    errorMaxLines: 2,
-                    contentPadding: const EdgeInsets.all(15),
-                    fillColor: Colors.grey.shade100,
-                    hintText: '1 Day after receiving an order. ',
-                    hintStyle: GoogleFonts.poppins(
-                      color: AppTheme.primaryColor,
-                      fontSize: 15,
-                    ),
-
-                    border: InputBorder.none,
-                    focusedErrorBorder: const OutlineInputBorder(
-                        borderRadius: BorderRadius.all(Radius.circular(8)),
-                        borderSide: BorderSide(color: AppTheme.secondaryColor)),
-                    errorBorder: const OutlineInputBorder(
-                        borderRadius: BorderRadius.all(Radius.circular(8)),
-                        borderSide: BorderSide(color: AppTheme.secondaryColor)),
-                    focusedBorder: const OutlineInputBorder(
-                        borderRadius: BorderRadius.all(Radius.circular(8)),
-                        borderSide: BorderSide(color: AppTheme.secondaryColor)),
-                    disabledBorder: const OutlineInputBorder(
-                      borderRadius: BorderRadius.all(Radius.circular(8)),
-                      borderSide: BorderSide(color: AppTheme.secondaryColor),
-                    ),
-                    enabledBorder: const OutlineInputBorder(
-                      borderRadius: BorderRadius.all(Radius.circular(8)),
-                      borderSide: BorderSide(color: AppTheme.secondaryColor),
-                    ),
-                  ),
-                ),
                 CustomOutlineButton(
                   title: 'Confirm',
                   borderRadius: 11,
                   onPressed: () {
-                if (formKey5.currentState!.validate()) {
-                  shippingDetailsApi();
-                }
+                    if (formKey5.currentState!.validate()) {
+                      shippingDetailsApi();
+                    }
                   },
                 ),
                 const SizedBox(height: 20),
-                Container(
-                  width: Get.width,
-                  height: 55,
-                  decoration: BoxDecoration(
-                    border: Border.all(
-                      color: Colors.black, // Border color
-                      width: 1.0, // Border width
+                GestureDetector(
+                  onTap: () {
+                    Get.to(() => const OptionalDiscrptionsScreen());
+                  },
+                  child: Container(
+                    width: Get.width,
+                    height: 55,
+                    decoration: BoxDecoration(
+                      border: Border.all(
+                        color: Colors.black, // Border color
+                        width: 1.0, // Border width
+                      ),
+                      borderRadius: BorderRadius.circular(10), // Border radius
                     ),
-                    borderRadius: BorderRadius.circular(10), // Border radius
-                  ),
-                  padding: const EdgeInsets.all(10), // Padding inside the container
-                  child: const Center(
-                    child: Text(
-                      'Skip',
-                      style: TextStyle(
-                        fontSize: 16,
-                        fontWeight: FontWeight.bold,
-                        color: Colors.black, // Text color
+                    padding: const EdgeInsets.all(10), // Padding inside the container
+                    child: const Center(
+                      child: Text(
+                        'Skip',
+                        style: TextStyle(
+                          fontSize: 16,
+                          fontWeight: FontWeight.bold,
+                          color: Colors.black, // Text color
+                        ),
                       ),
                     ),
                   ),

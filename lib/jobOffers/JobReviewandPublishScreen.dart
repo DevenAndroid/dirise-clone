@@ -17,9 +17,10 @@ import '../widgets/common_colour.dart';
 import 'congratulationScreen.dart';
 
 class JobReviewPublishScreen extends StatefulWidget {
+    String? category;
+    String? subCategory;
 
-
-  JobReviewPublishScreen({super.key});
+  JobReviewPublishScreen({super.key,this.category,this.subCategory});
 
   @override
   State<JobReviewPublishScreen> createState() => _JobReviewPublishScreenState();
@@ -128,11 +129,16 @@ class _JobReviewPublishScreenState extends State<JobReviewPublishScreen> {
                       children: [
 
                         Text('Job title: ${productDetailsModel.value.productDetails!.product!.pname ?? ""}'),
+                        Text('Job Category: ${widget.category ?? ""}'),
+                        Text('Job Category: ${widget.subCategory ?? ""}'),
+                        Text('Job Country: ${productDetailsModel.value.productDetails!.product!.jobCountry ?? ""}'),
+                        Text('Job State: ${productDetailsModel.value.productDetails!.product!.jobState ?? ""}'),
+                        Text('Job City: ${productDetailsModel.value.productDetails!.product!.jobCity ?? ""}'),
                      Text('Job Type: ${productDetailsModel.value.productDetails!.product!.jobType ?? ""}'),
                          Text('Job Model: ${productDetailsModel.value.productDetails!.product!.jobModel ?? ""}'),
                        Text('Exprience: ${productDetailsModel.value.productDetails!.product!.experience ?? ""}'),
                      Text('Salary: ${productDetailsModel.value.productDetails!.product!.salary ?? ""}'),
-                        Text('short Des: ${productDetailsModel.value.productDetails!.product!.linkdinUrl ?? ""}'),
+                        Text('LinkedIn Url: ${productDetailsModel.value.productDetails!.product!.linkdinUrl ?? ""}'),
 
 
 

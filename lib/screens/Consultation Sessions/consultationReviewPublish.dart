@@ -8,14 +8,14 @@ import 'package:google_fonts/google_fonts.dart';
 import '../../widgets/common_button.dart';
 import '../../widgets/common_colour.dart';
 
-class ReviewandPublishScreen extends StatefulWidget {
-  const ReviewandPublishScreen({super.key});
+class ConsulationreviewandPublishScreen extends StatefulWidget {
+  const ConsulationreviewandPublishScreen({super.key});
 
   @override
-  State<ReviewandPublishScreen> createState() => _ReviewandPublishScreenState();
+  State<ConsulationreviewandPublishScreen> createState() => _ConsulationreviewandPublishScreenState();
 }
 
-class _ReviewandPublishScreenState extends State<ReviewandPublishScreen> {
+class _ConsulationreviewandPublishScreenState extends State<ConsulationreviewandPublishScreen> {
   String selectedItem = 'Item 1'; // Default selected item
   final addProductController = Get.put(AddProductController());
   List<String> itemList = [

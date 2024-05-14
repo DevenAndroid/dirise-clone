@@ -1,9 +1,20 @@
+import 'dart:convert';
+import 'dart:developer';
+import 'dart:io';
+
+import 'package:dirise/singleproductScreen/singleProductReturnPolicy.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 import 'package:get/get.dart';
 import 'package:google_fonts/google_fonts.dart';
 
+import '../controller/profile_controller.dart';
+import '../model/common_modal.dart';
+import '../model/virtualProductModel.dart';
+import '../repository/repository.dart';
+import '../utils/api_constant.dart';
+import '../vendor/authentication/image_widget.dart';
 import '../widgets/common_button.dart';
 import '../widgets/common_colour.dart';
 
@@ -15,15 +26,64 @@ class VirtualProductScreen extends StatefulWidget {
 }
 
 class _VirtualProductScreenState extends State<VirtualProductScreen> {
-  String selectedItem = 'Item 1'; // Default selected item
+  String productItem = 'PDF'; // Default selected item
+  File featuredImage = File("");
+  RxBool showValidation = false.obs;
+  final profileController = Get.put(ProfileController());
+  bool checkValidation(bool bool1, bool2) {
+    if (bool1 == true && bool2 == true) {
+      return true;
+    } else {
+      return false;
+    }
+  }
 
-  List<String> itemList = [
-    'Item 1',
-    'Item 2',
-    'Item 3',
-    'Item 4',
-    'Item 5',
+  List<String> productItemList = [
+    'PDF',
+    'Audio',
+    'Video',
+    'Image',
+    'Others',
   ];
+  String languageItem = 'Hindi'; // Default selected item
+
+  List<String> languageItemList = [
+    'Hindi',
+    'English',
+  ];
+  final Repositories repositories = Repositories();
+  final formKey1 = GlobalKey<FormState>();
+
+  optionalApi() {
+    Map<String, String> map = {};
+    Map<String, File> images = {};
+    map['virtual_product_type'] = productItem;
+    map['virtual_product_file_language'] = languageItem;
+    map['product_type'] = 'virtual_product';
+    map['product_type'] = 'virtual_product';
+    map['item_type'] = 'virtual_product';
+    images['virtual_product_file'] = featuredImage;
+    log(images.toString());
+    FocusManager.instance.primaryFocus!.unfocus();
+    repositories
+        .multiPartApi(
+        mapData: map,
+        images: images,
+        context: context,
+        url: ApiUrls.giveawayProductAddress, onProgress: (int bytes, int totalBytes) {  },
+       )
+        .then((value) {
+      VirtualProductModel response = VirtualProductModel.fromJson(jsonDecode(value));
+      print('API Response Status Code: ${response.status}');
+      log(response.message.toString());
+      showToast(response.message.toString());
+      if (response.status == true) {
+        Get.to(const SingleProductReturnPolicy());
+      }
+    });
+
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -49,7 +109,7 @@ class _VirtualProductScreenState extends State<VirtualProductScreen> {
       ),
       body: SingleChildScrollView(
         child: Container(
-          margin: const EdgeInsets.only(left: 15,right: 15),
+          margin: const EdgeInsets.only(left: 15, right: 15),
           child: Column(
             mainAxisAlignment: MainAxisAlignment.start,
             crossAxisAlignment: CrossAxisAlignment.start,
@@ -62,16 +122,16 @@ class _VirtualProductScreenState extends State<VirtualProductScreen> {
                 height: 5,
               ),
               DropdownButtonFormField<String>(
-                value: selectedItem,
+                value: productItem,
                 onChanged: (String? newValue) {
                   setState(() {
-                    selectedItem = newValue!;
+                    productItem = newValue!;
                   });
                 },
-                items: itemList.map<DropdownMenuItem<String>>((String value) {
+                items: productItemList.map<DropdownMenuItem<String>>((String value) {
                   return DropdownMenuItem<String>(
                     value: value,
-                    child: const Text('Virtual product type*'),
+                    child: Text(value),
                   );
                 }).toList(),
                 decoration: InputDecoration(
@@ -111,76 +171,7 @@ class _VirtualProductScreenState extends State<VirtualProductScreen> {
                 'Select file according to choosed category:'.tr,
                 style: GoogleFonts.poppins(color: const Color(0xff292F45), fontWeight: FontWeight.w500, fontSize: 16),
               ),
-              const SizedBox(
-                height: 5,
-              ),
-          Container(
-
-           padding: EdgeInsets.only(left: 15),
-            decoration: BoxDecoration(borderRadius: BorderRadius.circular(4),
-              color: Color(0xffE2E2E2).withOpacity(.35),),
-            child: Row(
-              children: [
-                Container(
-                  padding: EdgeInsets.all(8.0), // Adjust padding as needed
-                  decoration: BoxDecoration(color: Colors.white),
-
-                  child: Text(
-                    'Choose file'.tr,
-                    style: GoogleFonts.poppins(color: Colors.black, fontWeight: FontWeight.w400, fontSize: 13),
-                  ),
-                ),
-                Expanded(
-                  child: DropdownButtonFormField<String>(
-                    value: selectedItem,
-                    onChanged: (String? newValue) {
-                      setState(() {
-                        selectedItem = newValue!;
-                      });
-                    },
-                    items: itemList.map((String value) {
-                      return DropdownMenuItem<String>(
-                        value: value,
-                        child: Text('No file selected*'),
-                      );
-                    }).toList(),
-                    decoration: InputDecoration(
-                      border: InputBorder.none,
-                      filled: true,
-                      fillColor: Colors.transparent,
-                      contentPadding: const EdgeInsets.symmetric(horizontal: 15, vertical: 10).copyWith(right: 8),
-                      focusedErrorBorder: const OutlineInputBorder(
-                          borderRadius: BorderRadius.all(Radius.circular(8)),
-                          borderSide: BorderSide(color: AppTheme.secondaryColor)),
-                      errorBorder: const OutlineInputBorder(
-                          borderRadius: BorderRadius.all(Radius.circular(8)),
-                          borderSide: BorderSide(color: Color(0xffE2E2E2))),
-                      // focusedBorder: const OutlineInputBorder(
-                      //     borderRadius: BorderRadius.all(Radius.circular(8)),
-                      //     borderSide: BorderSide(color: AppTheme.secondaryColor)),
-                      disabledBorder: const OutlineInputBorder(
-                        borderRadius: BorderRadius.all(Radius.circular(8)),
-                        borderSide: BorderSide(color: AppTheme.secondaryColor),
-                      ),
-                      // enabledBorder: const OutlineInputBorder(
-                      //   borderRadius: BorderRadius.all(Radius.circular(8)),
-                      //   borderSide: BorderSide(color: AppTheme.secondaryColor),
-                      // ),
-                    ),
-                    validator: (value) {
-                      if (value == null || value.isEmpty) {
-                        return 'Please select an item';
-                      }
-                      return null;
-                    },
-                  ),
-                ),
-                SizedBox(width: 10), // Add spacing between dropdown and button
-
-              ],
-            ),
-          ),
-              SizedBox(height: 20),
+              const SizedBox(height: 20),
               Row(
                 mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                 children: [
@@ -191,33 +182,19 @@ class _VirtualProductScreenState extends State<VirtualProductScreen> {
                       style: GoogleFonts.inter(color: Colors.black, fontWeight: FontWeight.w500, fontSize: 14),
                     ),
                   ),
-                  Column(
-                    children: [
-                      Stack(
-                         children: [
-                           Container(
-                             margin: EdgeInsets.only(left: 15,right: 15),
-                             padding: EdgeInsets.all(15),
-                             height: 150,
-                             width: 130,
-                             decoration: BoxDecoration(
-                                 borderRadius: BorderRadius.circular(11),
-                                 color: Colors.grey.shade200
-                             ),
-                             child: Image.asset('assets/images/newlogoo.png'),
-                           ),
-                           Positioned(
-                               right: 20,
-                               top: 10,
-                               child: Icon(Icons.delete,color: Color(0xff014E70),))
-                         ],
-                       ),
-                      Text(
-                        'Choose More.'.tr,
-                        style: GoogleFonts.inter(color: const Color(0xff014E70), fontWeight: FontWeight.w600, fontSize: 12),
-                      ),
-                    ],
-                  )
+                  Container(
+                    height: 220,
+                    width: 200,
+                    child: ImageWidget(
+                      // key: paymentReceiptCertificateKey,
+                      title: "Click To Edit Uploaded  Image".tr,
+                      file: featuredImage,
+                      validation: checkValidation(showValidation.value, featuredImage.path.isEmpty),
+                      filePicked: (File g) {
+                        featuredImage = g;
+                      },
+                    ),
+                  ),
                 ],
               ),
               const SizedBox(
@@ -231,16 +208,16 @@ class _VirtualProductScreenState extends State<VirtualProductScreen> {
                 height: 5,
               ),
               DropdownButtonFormField<String>(
-                value: selectedItem,
+                value: languageItem,
                 onChanged: (String? newValue) {
                   setState(() {
-                    selectedItem = newValue!;
+                    languageItem = newValue!;
                   });
                 },
-                items: itemList.map<DropdownMenuItem<String>>((String value) {
+                items: languageItemList.map<DropdownMenuItem<String>>((String value) {
                   return DropdownMenuItem<String>(
                     value: value,
-                    child: const Text('choose Language*'),
+                    child: Text(value),
                   );
                 }).toList(),
                 decoration: InputDecoration(
@@ -273,11 +250,14 @@ class _VirtualProductScreenState extends State<VirtualProductScreen> {
                   return null;
                 },
               ),
-              SizedBox(height: 100,),
+              const SizedBox(
+                height: 100,
+              ),
               CustomOutlineButton(
                 title: 'Confirm',
+                borderRadius: 11,
                 onPressed: () {
-                  // optionalApi();
+                  optionalApi();
                 },
               ),
             ],

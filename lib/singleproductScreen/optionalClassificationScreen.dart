@@ -4,12 +4,14 @@ import 'package:dirise/addNewProduct/reviewPublishScreen.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
-import 'package:form_field_validator/form_field_validator.dart';
 import 'package:get/get.dart';
 import 'package:google_fonts/google_fonts.dart';
 
+import '../controller/service_controller.dart';
+import '../controller/vendor_controllers/add_product_controller.dart';
 import '../model/common_modal.dart';
 import '../repository/repository.dart';
+import '../screens/Consultation Sessions/consultationReviewPublish.dart';
 import '../utils/api_constant.dart';
 import '../widgets/common_button.dart';
 import '../widgets/common_colour.dart';
@@ -24,36 +26,31 @@ class OptionalClassificationScreen extends StatefulWidget {
 }
 
 class _OptionalClassificationScreenState extends State<OptionalClassificationScreen> {
-
-  final TextEditingController metaTitleController = TextEditingController();
-  final TextEditingController metaDescriptionController = TextEditingController();
-  final TextEditingController longDescriptionController = TextEditingController();
-  final TextEditingController serialNumberController = TextEditingController();
-  final TextEditingController productNumberController = TextEditingController();
+  final controller = Get.put(ServiceController());
   RxBool hide = true.obs;
   RxBool hide1 = true.obs;
   bool showValidation = false;
   final Repositories repositories = Repositories();
   final formKey1 = GlobalKey<FormState>();
   String code = "+91";
+  final addProductController = Get.put(AddProductController());
   optionalApi() {
     Map<String, dynamic> map = {};
 
-    map['meta_title'] = metaTitleController.text.trim();
-    map['meta_description'] = metaDescriptionController.text.trim();
-    map['long_description'] = longDescriptionController.text.trim();
-    map['serial_number'] = serialNumberController.text.trim();
-    map['product_number'] = productNumberController.text.trim();
-
+    map['serial_number'] = controller.serialNumberController.text.trim();
+    map['product_number'] = controller.productNumberController.text.trim();
+    map['product_code'] = controller.productCodeController.text.trim();
+    map['promotion_code'] = controller.promotionCodeController.text.trim();
+    map['package_detail'] = controller.packageDetailsController.text.trim();
+    map['item_type'] = 'service';
+    map['id'] = addProductController.idProduct.value.toString();
     FocusManager.instance.primaryFocus!.unfocus();
     repositories.postApi(url: ApiUrls.giveawayProductAddress, context: context, mapData: map).then((value) {
       ModelCommonResponse response = ModelCommonResponse.fromJson(jsonDecode(value));
       print('API Response Status Code: ${response.status}');
       showToast(response.message.toString());
       if (response.status == true) {
-        if(formKey1.currentState!.validate()){
-          Get.to(ReviewPublishScreen());
-        }
+        Get.to(ReviewandPublishScreen());
 
       }
     });
@@ -87,51 +84,72 @@ class _OptionalClassificationScreenState extends State<OptionalClassificationScr
         ),
       ),
       body: SingleChildScrollView(
-        child: Container(
-          margin: EdgeInsets.only(left: 15,right: 15),
-          child: Form(
-            key: formKey1,
+        child: Form(
+          key: formKey1,
+          child: Container(
+            margin: const EdgeInsets.only(left: 15, right: 15),
             child: Column(
               children: [
                 CommonTextField(
-                  // controller: _referralEmailController,
-                    obSecure: false,
-                    hintText: 'Serial Number'.tr,
-                    validator: MultiValidator([
-                      RequiredValidator(errorText: 'Meta Title is required'),
-                    ])),
-
+                  controller: controller.serialNumberController,
+                  obSecure: false,
+                  hintText: 'Serial Number'.tr,
+                  validator: (value) {
+                    if (value!.trim().isEmpty) {
+                      return "Meta Title is required".tr;
+                    }
+                    return null;
+                  },
+                ),
                 CommonTextField(
-                  // controller: _referralEmailController,
-                    obSecure: false,
-                    hintText: 'Product number'.tr,
-                    validator: MultiValidator([
-                      RequiredValidator(errorText: 'Serial Number is required'),
-                    ])),
+                  controller: controller.productNumberController,
+                  obSecure: false,
+                  hintText: 'Product number'.tr,
+                  validator: (value) {
+                    if (value!.trim().isEmpty) {
+                      return "Serial Number is required".tr;
+                    }
+                    return null;
+                  },
+                ),
                 CommonTextField(
-                  // controller: _referralEmailController,
-                    obSecure: false,
-                    hintText: 'Product Code'.tr,
-                    validator: MultiValidator([
-                      RequiredValidator(errorText: 'Product number is required'),
-                    ])),
+                  controller: controller.productCodeController,
+                  obSecure: false,
+                  hintText: 'Product Code'.tr,
+                  validator: (value) {
+                    if (value!.trim().isEmpty) {
+                      return "Product number is required".tr;
+                    }
+                    return null;
+                  },
+                ),
                 CommonTextField(
-                  // controller: _referralEmailController,
-                    obSecure: false,
-                    hintText: 'Promotion Code'.tr,
-                    validator: MultiValidator([
-                      RequiredValidator(errorText: 'Product number is required'),
-                    ])),
+                  controller: controller.promotionCodeController,
+                  obSecure: false,
+                  hintText: 'Promotion Code'.tr,
+                  validator: (value) {
+                    if (value!.trim().isEmpty) {
+                      return "Product number is required".tr;
+                    }
+                    return null;
+                  },
+                ),
                 TextFormField(
+                  controller: controller.packageDetailsController,
                   maxLines: 5,
                   minLines: 5,
+                  validator: (value) {
+                    if (value!.trim().isEmpty) {
+                      return "Package details is required".tr;
+                    }
+                    return null;
+                  },
                   decoration: InputDecoration(
                     counterStyle: GoogleFonts.poppins(
                       color: AppTheme.primaryColor,
                       fontSize: 25,
                     ),
                     counter: const Offstage(),
-
                     errorMaxLines: 2,
                     contentPadding: const EdgeInsets.all(15),
                     fillColor: Colors.grey.shade100,
@@ -140,7 +158,6 @@ class _OptionalClassificationScreenState extends State<OptionalClassificationScr
                       color: AppTheme.primaryColor,
                       fontSize: 15,
                     ),
-
                     border: InputBorder.none,
                     focusedErrorBorder: const OutlineInputBorder(
                         borderRadius: BorderRadius.all(Radius.circular(8)),
@@ -165,15 +182,16 @@ class _OptionalClassificationScreenState extends State<OptionalClassificationScr
                 CustomOutlineButton(
                   title: 'Next',
                   borderRadius: 11,
-                  onPressed: () {   optionalApi();
-                    // optionalApi();
+                  onPressed: () {
+                    if (formKey1.currentState!.validate()) {
+                      optionalApi();
+                    }
+
                   },
                 ),
                 const SizedBox(height: 20),
                 GestureDetector(
-                  onTap: (){
-
-                  },
+                  onTap: () {},
                   child: Container(
                     width: Get.width,
                     height: 55,

@@ -1,6 +1,7 @@
 import 'dart:convert';
 
 import 'package:dirise/singleproductScreen/singleProductReturnPolicy.dart';
+import 'package:dirise/singleproductScreen/virtualProductScreen.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
@@ -47,7 +48,7 @@ class _SingleProductDiscriptionScreenState extends State<SingleProductDiscriptio
       if (response.status == true) {
         // addProductController.idProduct.value = response.productDetails!.product!.id.toString();
         print(addProductController.idProduct.value.toString());
-        Get.to(const SingleProductReturnPolicy());
+        Get.to(const VirtualProductScreen());
       }
     });
   }

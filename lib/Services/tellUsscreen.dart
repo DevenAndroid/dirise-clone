@@ -33,12 +33,13 @@ class _TellUsScreenState extends State<TellUsScreen> {
     Map<String, dynamic> map = {};
     map['short_description'] = serviceController.shortDescriptionController.text.trim();
     map['item_type'] = 'service';
-    map['in_stock'] = serviceController.inStockController.text.trim();
-    map['stock_alert'] = serviceController.stockAlertController.text.trim();
     map['seo_tags'] = serviceController.writeTagsController.text.trim();
     map['id'] = addProductController.idProduct.value.toString();
 
-
+    if (!isDelivery.value) {
+      map['in_stock'] = serviceController.inStockController.text.trim();
+      map['stock_alert'] = serviceController.stockAlertController.text.trim();
+    }
 
     final Repositories repositories = Repositories();
     FocusManager.instance.primaryFocus!.unfocus();
@@ -51,6 +52,7 @@ class _TellUsScreenState extends State<TellUsScreen> {
       }
     });
   }
+  RxBool isDelivery = false.obs;
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -146,40 +148,42 @@ class _TellUsScreenState extends State<TellUsScreen> {
                 const SizedBox(
                   height: 20,
                 ),
-
-                Text(
-                  'Stock quantity *'.tr,
-                  style: GoogleFonts.poppins(color: const Color(0xff292F45), fontWeight: FontWeight.w600, fontSize: 14),
-                ),
-                CommonTextField(
-                  controller: serviceController.inStockController,
-                    obSecure: false,
-                    // hintText: 'Name',
-                    keyboardType: TextInputType.number,
-                    hintText: 'Stock quantity'.tr,
-                  validator: (value) {
-                    if (value!.trim().isEmpty) {
-                      return 'Stock number is required'.tr;
-                    }
-                    return null; // Return null if validation passes
-                  },
-                    // validator: MultiValidator([
-                    //   RequiredValidator(errorText: 'Stock number is required'.tr),
-                    // ])
-                ),
-                const SizedBox(
-                  height: 20,
-                ),
                 Container(
                   height: 40,
                   width: Get.width,
                   decoration: BoxDecoration(borderRadius: BorderRadius.circular(11), color: Colors.grey.shade200),
                   child: Align(
                     alignment: Alignment.bottomCenter,
-                    child: Text(
-                      'Item doesn’t need stock number'.tr,
-                      style:
-                      GoogleFonts.poppins(color: const Color(0xff514949), fontWeight: FontWeight.w400, fontSize: 13),
+                    child: Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      children: [
+                        SizedBox(width: 5,),
+                        Text(
+                          'Item doesn’t need stock number'.tr,
+                          style:
+                          GoogleFonts.poppins(color: const Color(0xff514949), fontWeight: FontWeight.w400, fontSize: 13),
+                        ),
+                        Transform.translate(
+                          offset: const Offset(-6, 0),
+                          child: Checkbox(
+                              visualDensity: const VisualDensity(horizontal: -1, vertical: -3),
+                              materialTapTargetSize: MaterialTapTargetSize.shrinkWrap,
+                              shape: RoundedRectangleBorder(
+                                borderRadius: BorderRadius.circular(4),
+                              ),
+                              value: isDelivery.value,
+
+                              side: const BorderSide(
+                                color: AppTheme.buttonColor,
+                              ),
+                              onChanged: (bool? value) {
+                                setState(() {
+                                  isDelivery.value = value!;
+                                });
+                              }),
+                        ),
+                        SizedBox(width: 5,),
+                      ],
                     ),
                   ),
                 ),
@@ -187,37 +191,71 @@ class _TellUsScreenState extends State<TellUsScreen> {
                 const SizedBox(
                   height: 20,
                 ),
-                Text(
-                  'Set stock alert *'.tr,
-                  style: GoogleFonts.poppins(color: const Color(0xff292F45), fontWeight: FontWeight.w600, fontSize: 14),
+
+               if(isDelivery.value == false)
+                Column(
+                  mainAxisAlignment: MainAxisAlignment.start,
+                  crossAxisAlignment: CrossAxisAlignment.start,
+
+                  children: [
+                    Text(
+                      'Stock quantity *'.tr,
+                      style: GoogleFonts.poppins(color: const Color(0xff292F45), fontWeight: FontWeight.w600, fontSize: 14),
+                    ),
+                    CommonTextField(
+                      controller: serviceController.inStockController,
+                      obSecure: false,
+                      // hintText: 'Name',
+                      keyboardType: TextInputType.number,
+                      hintText: 'Stock quantity'.tr,
+                      validator: (value) {
+                        if (value!.trim().isEmpty) {
+                          return 'Stock number is required'.tr;
+                        }
+                        return null; // Return null if validation passes
+                      },
+                      // validator: MultiValidator([
+                      //   RequiredValidator(errorText: 'Stock number is required'.tr),
+                      // ])
+                    ),
+                    const SizedBox(
+                      height: 20,
+                    ),
+                    Text(
+                      'Set stock alert *'.tr,
+                      style: GoogleFonts.poppins(color: const Color(0xff292F45), fontWeight: FontWeight.w600, fontSize: 14),
+                    ),
+                    CommonTextField(
+                      controller: serviceController.stockAlertController,
+                      obSecure: false,
+                      keyboardType: TextInputType.number,
+                      onChanged: (value){
+                        double sellingPrice = double.tryParse(value) ?? 0.0;
+                        double purchasePrice = double.tryParse(serviceController.inStockController.text) ?? 0.0;
+                        if (serviceController.inStockController.text.isEmpty) {
+                          FocusManager.instance.primaryFocus!.unfocus();
+                          serviceController.stockAlertController.clear();
+                          showToastCenter('Enter stock quantity first');
+                          return;
+                        }
+                        if (sellingPrice > purchasePrice) {
+                          FocusManager.instance.primaryFocus!.unfocus();
+                          serviceController.stockAlertController.clear();
+                          showToastCenter('Stock alert cannot be higher than stock quantity');
+                        }
+                      },
+                      hintText: 'Get notification on your stock quantity'.tr,
+                      validator: (value) {
+                        if (value!.trim().isEmpty) {
+                          return 'Set stock alert is required';
+                        }
+                        return null; // Return null if validation passes
+                      },
+                    ),
+                  ],
                 ),
-                CommonTextField(
-                  controller: serviceController.stockAlertController,
-                    obSecure: false,
-                    keyboardType: TextInputType.number,
-                    onChanged: (value){
-                      double sellingPrice = double.tryParse(value) ?? 0.0;
-                      double purchasePrice = double.tryParse(serviceController.inStockController.text) ?? 0.0;
-                      if (serviceController.inStockController.text.isEmpty) {
-                        FocusManager.instance.primaryFocus!.unfocus();
-                        serviceController.stockAlertController.clear();
-                        showToastCenter('Enter stock quantity first');
-                        return;
-                      }
-                      if (sellingPrice > purchasePrice) {
-                        FocusManager.instance.primaryFocus!.unfocus();
-                        serviceController.stockAlertController.clear();
-                        showToastCenter('Stock alert cannot be higher than stock quantity');
-                      }
-                    },
-                    hintText: 'Get notification on your stock quantity'.tr,
-                    validator: (value) {
-                      if (value!.trim().isEmpty) {
-                        return 'Set stock alert is required';
-                      }
-                      return null; // Return null if validation passes
-                    },
-                   ),
+
+
                 const SizedBox(
                   height: 20,
                 ),

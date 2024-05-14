@@ -8,6 +8,7 @@ import 'package:get/get.dart';
 import 'package:google_fonts/google_fonts.dart';
 
 import '../addNewProduct/internationalshippingdetailsScreem.dart';
+import '../controller/vendor_controllers/add_product_controller.dart';
 import '../model/common_modal.dart';
 import '../repository/repository.dart';
 import '../utils/api_constant.dart';
@@ -21,16 +22,16 @@ class SingleProductDeliverySize extends StatefulWidget {
 }
 
 class _SingleProductDeliverySizeState extends State<SingleProductDeliverySize> {
-  int? selectedRadio;
-  int? selectedRadio1;
-  String selectText = '';
-  String selectText1 = '';
+  int? selectedRadio; // Variable to track the selected radio button
+  int? selectedRadio1; // Variable to track the selected radio button
+  final addProductController = Get.put(AddProductController());
 
-  deliverySizeApi() {
+  deliverySizeApi({required String shippingPay, required String deliverySize}) {
     Map<String, dynamic> map = {};
-    map['delivery_size'] = selectText1;
-    map['shipping_pay'] = selectText;
-    map['item_type'] = "product";
+    map['delivery_size'] = deliverySize;
+    map['shipping_pay'] = shippingPay; // Use the shippingPay parameter
+    map['item_type'] = 'virtual_product';
+    map['id'] = addProductController.idProduct.value.toString();
 
     final Repositories repositories = Repositories();
     FocusManager.instance.primaryFocus!.unfocus();
@@ -43,6 +44,7 @@ class _SingleProductDeliverySizeState extends State<SingleProductDeliverySize> {
       }
     });
   }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -107,38 +109,50 @@ class _SingleProductDeliverySizeState extends State<SingleProductDeliverySize> {
               buildRadioTile1('Freight & Cargo'.tr, 5), //
               const SizedBox(
                 height: 15,
-              ),// Radio button for freight cargo
+              ), // Radio button for freight cargo
               Align(
                 alignment: Alignment.bottomCenter,
                 child: Text(
                   'Shipping prices'.tr,
-                  style: GoogleFonts.poppins(color: Color(0xff044484), fontWeight: FontWeight.w600, fontSize: 13),
+                  style: GoogleFonts.poppins(color: const Color(0xff044484), fontWeight: FontWeight.w600, fontSize: 13),
                 ),
               ),
-              SizedBox(
+              const SizedBox(
                 height: 20,
               ),
               CustomOutlineButton(
                 title: 'Next',
                 borderRadius: 11,
                 onPressed: () {
-                     if(selectText != '' && selectText1 != '' ){
-                       deliverySizeApi();
+                  if (selectedRadio != null && selectedRadio1 != null) {
+                    String shippingPay;
+                    if (selectedRadio == 1) {
+                      shippingPay = 'vendor_pay';
+                    } else if (selectedRadio == 2) {
+                      shippingPay = 'customer_pay';
+                    } else {
+                      showToast('Select who will pay the shipping');
+                      return;
+                    }
 
-                     }else{
-                       showToastCenter('Please Select shipping type & pacakge');
-                     }
+                    String deliverySize;
+                    if (selectedRadio1 == 3) {
+                      deliverySize = 'small_car';
+                    } else if (selectedRadio1 == 4) {
+                      deliverySize = 'need_truck';
+                    } else if (selectedRadio1 == 5) {
+                      deliverySize = 'freight_cargo';
+                    } else {
+                      showToast('Select delivery according to package size');
+                      return;
+                    }
 
-                  // Call API based on the selected radio button
-                  // if (selectedRadio == 1) {
-                  //   deliverySizeApi('small_car');
-                  // } else if (selectedRadio == 2) {
-                  //   deliverySizeApi('need_truck');
-                  // } else if (selectedRadio == 3) {
-                  //   deliverySizeApi('freight_cargo');
-                  // }
-
+                    deliverySizeApi(shippingPay: shippingPay, deliverySize: deliverySize);
+                  } else {
+                    showToast('Select both shipping and package size');
+                  }
                 },
+
               ),
             ],
           ),
@@ -165,9 +179,6 @@ class _SingleProductDeliverySizeState extends State<SingleProductDeliverySize> {
             onChanged: (int? newValue) {
               setState(() {
                 selectedRadio = newValue;
-                selectText = title;
-                print('dsdaaad${title.toString()}');
-                print('dsdaaad${selectText.toString()}');
               });
             },
           ),
@@ -175,6 +186,7 @@ class _SingleProductDeliverySizeState extends State<SingleProductDeliverySize> {
       ),
     );
   }
+
   Widget buildRadioTile1(String title, int value) {
     return Container(
       padding: const EdgeInsets.all(15),
@@ -193,8 +205,6 @@ class _SingleProductDeliverySizeState extends State<SingleProductDeliverySize> {
             onChanged: (int? newValue) {
               setState(() {
                 selectedRadio1 = newValue;
-                selectText1 = title;
-                 print('dsdaaad${selectText1.toString()}');
               });
             },
           ),

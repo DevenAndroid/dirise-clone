@@ -315,12 +315,12 @@ class _ReviewPublishServiceScreenState extends State<ReviewPublishServiceScreen>
                                 ),
                               ),
                               GestureDetector(
-                                child: isReturnPolicy.value == true
+                                child: isLocationPolicy.value == true
                                     ? const Icon(Icons.keyboard_arrow_up_rounded)
                                     : const Icon(Icons.keyboard_arrow_down_outlined),
                                 onTap: () {
                                   setState(() {
-                                    isReturnPolicy.toggle();
+                                    isLocationPolicy.toggle();
                                   });
                                 },
                               ),
@@ -445,7 +445,7 @@ class _ReviewPublishServiceScreenState extends State<ReviewPublishServiceScreen>
                             Text('Meta Title: ${productDetailsModel.value.productDetails!.product!.metaTitle ?? ""}'),
                             Text(
                                 'Meta Description: ${productDetailsModel.value.productDetails!.product!.metaDescription ?? ""}'),
-                            Text('Meta Tags: ${productDetailsModel.value.productDetails!.product!.seoTags ?? ""}'),
+                            Text('Meta Tags: ${productDetailsModel.value.productDetails!.product!.metaTags ?? ""}'),
                           ],
                         ),
                       SizedBox(

@@ -55,7 +55,7 @@ class _TellUsYourSelfScreenState extends State<TellUsYourSelfScreen> {
                         ),
                       ],
                     ),
-                   height: size.height*.26,
+                   // height: size.height*.26,
                     child:  Padding(
                       padding: const EdgeInsets.symmetric(horizontal: 15, vertical: 13),
                       child: Column(

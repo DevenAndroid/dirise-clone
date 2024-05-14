@@ -64,11 +64,11 @@ class _PickUpAddressServiceState extends State<PickUpAddressService> {
         widget.town != null) {
       map['city'] = cityController.text.trim();
       map['item_type'] = 'giveaway';
-      map['state'] =  stateController.text.trim();
+      map['state'] = stateController.text.trim();
       map['zip_code'] = zipcodeController.text.trim();
       map['town'] = townController.text.trim();
       map['id'] = addProductController.idProduct.value.toString();
-      map['street'] =  streetController.text.trim();
+      map['street'] = streetController.text.trim();
       map['special_instruction'] = specialInstructionController.text.trim();
     } else {
       map['city'] = cityController.text.trim();
@@ -105,6 +105,7 @@ class _PickUpAddressServiceState extends State<PickUpAddressService> {
       townController.text = widget.town ?? '';
     }
   }
+
   @override
   Widget build(BuildContext context) {
     Size size = MediaQuery.of(context).size;
@@ -114,7 +115,7 @@ class _PickUpAddressServiceState extends State<PickUpAddressService> {
         surfaceTintColor: Colors.white,
         elevation: 0,
         leading: GestureDetector(
-          onTap: (){
+          onTap: () {
             Get.back();
           },
           child: const Icon(
@@ -154,7 +155,7 @@ class _PickUpAddressServiceState extends State<PickUpAddressService> {
                   height: size.height * .02,
                 ),
                 InkWell(
-                  onTap: (){
+                  onTap: () {
                     Get.to(ChooseAddressService());
                   },
                   child: Align(
@@ -165,12 +166,16 @@ class _PickUpAddressServiceState extends State<PickUpAddressService> {
                     ),
                   ),
                 ),
-                SizedBox(height: 20,),
+                SizedBox(
+                  height: 20,
+                ),
                 Text(
                   "Street*".tr,
                   style: GoogleFonts.poppins(color: Color(0xff044484), fontWeight: FontWeight.w600, fontSize: 14),
                 ),
-                SizedBox(height: 5,),
+                SizedBox(
+                  height: 5,
+                ),
                 CommonTextField(
                   controller: streetController,
                   obSecure: false,
@@ -182,12 +187,16 @@ class _PickUpAddressServiceState extends State<PickUpAddressService> {
                     return null; // Return null if validation passes
                   },
                 ),
-                SizedBox(height: 10,),
+                SizedBox(
+                  height: 10,
+                ),
                 Text(
                   "City*".tr,
                   style: GoogleFonts.poppins(color: Color(0xff044484), fontWeight: FontWeight.w600, fontSize: 14),
                 ),
-                SizedBox(height: 5,),
+                SizedBox(
+                  height: 5,
+                ),
                 CommonTextField(
                   controller: cityController,
                   obSecure: false,
@@ -199,12 +208,16 @@ class _PickUpAddressServiceState extends State<PickUpAddressService> {
                     return null; // Return null if validation passes
                   },
                 ),
-                SizedBox(height: 10,),
+                SizedBox(
+                  height: 10,
+                ),
                 Text(
                   "State*".tr,
                   style: GoogleFonts.poppins(color: Color(0xff044484), fontWeight: FontWeight.w600, fontSize: 14),
                 ),
-                SizedBox(height: 5,),
+                SizedBox(
+                  height: 5,
+                ),
                 CommonTextField(
                   controller: stateController,
                   obSecure: false,
@@ -215,14 +228,17 @@ class _PickUpAddressServiceState extends State<PickUpAddressService> {
                     }
                     return null; // Return null if validation passes
                   },
-
                 ),
-                SizedBox(height: 10,),
+                SizedBox(
+                  height: 10,
+                ),
                 Text(
-                  "Zip Code".tr,
+                  "Zip Code*".tr,
                   style: GoogleFonts.poppins(color: Color(0xff044484), fontWeight: FontWeight.w600, fontSize: 14),
                 ),
-                SizedBox(height: 5,),
+                SizedBox(
+                  height: 5,
+                ),
                 CommonTextField(
                   controller: zipcodeController,
                   obSecure: false,
@@ -234,12 +250,16 @@ class _PickUpAddressServiceState extends State<PickUpAddressService> {
                     return null; // Return null if validation passes
                   },
                 ),
-                SizedBox(height: 10,),
+                SizedBox(
+                  height: 10,
+                ),
                 Text(
                   "Town*".tr,
                   style: GoogleFonts.poppins(color: Color(0xff044484), fontWeight: FontWeight.w600, fontSize: 14),
                 ),
-                SizedBox(height: 5,),
+                SizedBox(
+                  height: 5,
+                ),
                 CommonTextField(
                   controller: townController,
                   obSecure: false,
@@ -251,28 +271,31 @@ class _PickUpAddressServiceState extends State<PickUpAddressService> {
                     return null; // Return null if validation passes
                   },
                 ),
-                SizedBox(height: 10,),
-
+                SizedBox(
+                  height: 10,
+                ),
                 Text(
                   "Special instruction".tr,
                   style: GoogleFonts.poppins(color: Color(0xff044484), fontWeight: FontWeight.w600, fontSize: 14),
                 ),
-                SizedBox(height: 5,),
+                SizedBox(
+                  height: 5,
+                ),
                 CommonTextField(
                   controller: specialInstructionController,
                   obSecure: false,
                   hintText: 'Special instruction'.tr,
-
                 ),
-                SizedBox(height: 10,),
+                SizedBox(
+                  height: 10,
+                ),
                 SizedBox(
                   height: size.height * .02,
                 ),
                 GestureDetector(
-                  onTap: (){
-
+                  onTap: () {
                     if (formKey1.currentState!.validate()) {
-                   editAddressApi();
+                      editAddressApi();
                     }
                     setState(() {});
                   },

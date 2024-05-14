@@ -23,8 +23,10 @@ class HiringReviewPublishScreen extends StatefulWidget {
   String? linkedIN;
   String? experince;
   String? salery;
+  String? category;
+  String? subCategory;
 
-  HiringReviewPublishScreen({super.key,this.jobcat,this.salery,this.experince,this.linkedIN,this.jobdesc,this.jobmodel,this.jobtype});
+  HiringReviewPublishScreen({super.key,this.category,this.subCategory,this.jobcat,this.salery,this.experince,this.linkedIN,this.jobdesc,this.jobmodel,this.jobtype});
 
   @override
   State<HiringReviewPublishScreen> createState() => _HiringReviewPublishScreenState();
@@ -133,6 +135,11 @@ class _HiringReviewPublishScreenState extends State<HiringReviewPublishScreen> {
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
                         Text('Job title: ${productDetailsModel.value.productDetails!.product!.pname ?? ""}'),
+                        Text('Job Category: ${widget.category ?? ""}'),
+                        Text('Job Category: ${widget.subCategory ?? ""}'),
+                        Text('Job Country: ${productDetailsModel.value.productDetails!.product!.jobCountry ?? ""}'),
+                        Text('Job State: ${productDetailsModel.value.productDetails!.product!.jobState ?? ""}'),
+                        Text('Job City: ${productDetailsModel.value.productDetails!.product!.jobCity ?? ""}'),
                         Text('product Price: ${widget.jobtype.toString()}'),
                         Text('product Type: ${widget.jobmodel.toString()}'),
                         Text('product ID: ${widget.experince.toString()}'),

@@ -58,6 +58,9 @@ class ProductDetails {
 
 class Product {
   dynamic id;
+  dynamic jobCountry;
+  dynamic jobState;
+  dynamic jobCity;
   dynamic vendorId;
   dynamic addressId;
   dynamic catId;
@@ -154,6 +157,9 @@ class Product {
 
   Product(
       {this.id,
+        this.jobCountry,
+        this.jobState,
+        this.jobCity,
         this.vendorId,
         this.addressId,
         this.catId,
@@ -251,6 +257,9 @@ class Product {
   Product.fromJson(Map<String, dynamic> json) {
     id = json['id'];
     vendorId = json['vendor_id'];
+    jobCountry = json['job_country_id'];
+    jobState = json['job_state_id'];
+    jobCity = json['job_city_id'];
     addressId = json['address_id'];
     catId = json['cat_id'];
     catId2 = json['cat_id_2'];

@@ -222,7 +222,7 @@ class _AddProductPickUpAddressScreenState extends State<AddProductPickUpAddressS
                 ),
                 SizedBox(height: 10,),
                 Text(
-                  "Zip Code".tr,
+                  "Zip Code*".tr,
                   style: GoogleFonts.poppins(color: Color(0xff044484), fontWeight: FontWeight.w600, fontSize: 14),
                 ),
                 SizedBox(height: 5,),

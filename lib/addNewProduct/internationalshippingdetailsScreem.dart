@@ -28,6 +28,7 @@ class InternationalshippingdetailsScreen extends StatefulWidget {
 class _InternationalshippingdetailsScreenState extends State<InternationalshippingdetailsScreen> {
   // Default selected item\
   TextEditingController weightController = TextEditingController();
+  TextEditingController numberOfPackageController = TextEditingController();
 
   TextEditingController dimensionController = TextEditingController();
   TextEditingController dimensionWidthController = TextEditingController();
@@ -68,7 +69,7 @@ class _InternationalshippingdetailsScreenState extends State<Internationalshippi
     Map<String, dynamic> map = {};
     map['weight_unit'] = unitOfMeasure;
     map['weight'] = weightController.text.trim();
-    map['number_of_package'] = selectNumberOfPackages;
+    map['number_of_package'] = numberOfPackageController.text.trim();
     map['material'] = selectTypeMaterial;
     map['box_dimension'] = dimensionController.text.trim();
     map['box_length'] = dimensionController.text.trim();
@@ -208,56 +209,21 @@ class _InternationalshippingdetailsScreenState extends State<Internationalshippi
                     obSecure: false,
                     hintText: 'Weight Of the Item ',
                     validator: MultiValidator([
-                      RequiredValidator(errorText: 'Product Name is required'.tr),
+                      RequiredValidator(errorText: 'Weight Of the Itemis required'.tr),
                     ])),
                 Text(
                   'Select Number Of Packages '.tr,
                   style: GoogleFonts.poppins(color: const Color(0xff292F45), fontWeight: FontWeight.w500, fontSize: 18),
                 ),
                 const SizedBox(height: 5),
-                DropdownButtonFormField<String>(
-                  value: selectNumberOfPackages,
-                  onChanged: (String? newValue) {
-                    setState(() {
-                      selectNumberOfPackages = newValue!;
-                    });
-                  },
-                  items: selectNumberOfPackagesList.map<DropdownMenuItem<String>>((String value) {
-                    return DropdownMenuItem<String>(
-                      value: value,
-                      child: Text(value),
-                    );
-                  }).toList(),
-                  decoration: InputDecoration(
-                    border: InputBorder.none,
-                    filled: true,
-                    fillColor: const Color(0xffE2E2E2).withOpacity(.35),
-                    contentPadding: const EdgeInsets.symmetric(horizontal: 15, vertical: 10).copyWith(right: 8),
-                    focusedErrorBorder: const OutlineInputBorder(
-                        borderRadius: BorderRadius.all(Radius.circular(8)),
-                        borderSide: BorderSide(color: AppTheme.secondaryColor)),
-                    errorBorder: const OutlineInputBorder(
-                        borderRadius: BorderRadius.all(Radius.circular(8)),
-                        borderSide: BorderSide(color: Color(0xffE2E2E2))),
-                    focusedBorder: const OutlineInputBorder(
-                        borderRadius: BorderRadius.all(Radius.circular(8)),
-                        borderSide: BorderSide(color: AppTheme.secondaryColor)),
-                    disabledBorder: const OutlineInputBorder(
-                      borderRadius: BorderRadius.all(Radius.circular(8)),
-                      borderSide: BorderSide(color: AppTheme.secondaryColor),
-                    ),
-                    enabledBorder: const OutlineInputBorder(
-                      borderRadius: BorderRadius.all(Radius.circular(8)),
-                      borderSide: BorderSide(color: AppTheme.secondaryColor),
-                    ),
-                  ),
-                  validator: (value) {
-                    if (value == null || value.isEmpty) {
-                      return 'Please select an item';
-                    }
-                    return null;
-                  },
-                ),
+                CommonTextField(
+                    controller: numberOfPackageController,
+                    keyboardType: TextInputType.number,
+                    obSecure: false,
+                    hintText: 'Number Of Package',
+                    validator: MultiValidator([
+                      RequiredValidator(errorText: 'Number Of Package is required'.tr),
+                    ])),
                 const SizedBox(height: 10),
                 Text(
                   'Select Type Material   '.tr,
