@@ -9,7 +9,9 @@ import 'package:flutter/cupertino.dart';
 import 'package:get/get.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
+import '../../controller/vendor_controllers/add_product_controller.dart';
 import '../../controller/vendor_controllers/vendor_store_timing.dart';
+import '../../model/jobResponceModel.dart';
 import '../../widgets/customsize.dart';
 import '../../widgets/loading_animation.dart';
 import 'duration_screen.dart';
@@ -36,7 +38,7 @@ class _SetTimeScreenConsultationState extends State<SetTimeScreenConsultation> {
       nowPerform(true);
     });
   }
-
+  final addProductController = Get.put(AddProductController());
   updateTime() {
     Map<String, dynamic> map = {};
 
@@ -58,16 +60,53 @@ class _SetTimeScreenConsultationState extends State<SetTimeScreenConsultation> {
     map["start_break_time"] = start_break_time;
     map["end_break_time"] = end_break_time;
     map["status"] = status;
-    repositories.postApi(url: ApiUrls.storeAvailabilityUrl, mapData: map, context: context).then((value) {
+    repositories.postApi(url: ApiUrls.productAvailabilityUrl, mapData: map, context: context).then((value) {
       ModelCommonResponse modelCommonResponse = ModelCommonResponse.fromJson(jsonDecode(value));
       showToast(modelCommonResponse.message.toString());
-      controller.getTime();
+      controller.getTime( addProductController.idProduct.value.toString());
       if (modelCommonResponse.status == true) {
+        Get.to(()=> const DurationScreen());
         // Get.back();
       }
     });
   }
-
+  RxString weakDays = "".obs;
+  RxString startTime = "".obs;
+  RxString endTime = "".obs;
+  RxString breakStart = "".obs;
+  RxString breakEnd = "".obs;
+  RxBool status = false.obs;
+  int index = 0;
+  // void updateProfile() {
+  //   Map<String, dynamic> map = {};
+  //   Map<String, dynamic> map1 = {};
+  //   Map<String, dynamic> map2 = {};
+  //   Map<String, dynamic> map3 = {};
+  //   Map<String, dynamic> map4 = {};
+  //   Map<String, dynamic> map5 = {};
+  //   Map<String, dynamic> map6 = {};
+  //   map['week_day'] = map1;
+  //   map['start_time'] = map2;
+  //   map['end_time'] = map3;
+  //   map['start_break_time'] = map4;
+  //   map['end_break_time'] = map5;
+  //   map['status'] = map6;
+  //   map1['$index'] =
+  //   map["product_type"] = "booking";
+  //
+  //
+  //   repositories.postApi(url: ApiUrls.giveawayProductAddress, context: context, mapData: map).then((value) {
+  //     print('object${value.toString()}');
+  //     JobResponceModel response = JobResponceModel.fromJson(jsonDecode(value));
+  //     if (response.status == true) {
+  //       showToast(response.message.toString());
+  //       Get.to(()=> const SetTimeScreenConsultation());
+  //       print('value isssss${response.toJson()}');
+  //     }else{
+  //       showToast(response.message.toString());
+  //     }
+  //   });
+  // }
   void _showDialog(Widget child) {
     showCupertinoModalPopup<void>(
       context: context,
@@ -89,7 +128,7 @@ class _SetTimeScreenConsultationState extends State<SetTimeScreenConsultation> {
   @override
   void initState() {
     super.initState();
-    controller.getTime();
+    controller.getTime(addProductController.idProduct.value.toString());
   }
 
   @override
@@ -160,6 +199,18 @@ class _SetTimeScreenConsultationState extends State<SetTimeScreenConsultation> {
                               value: e.status ?? false,
                               onChanged: (value) {
                                 e.status = value;
+                                weakDays.value = e.weekDay.toString();
+                                startTime.value = e.startTime.toString();
+                                endTime.value = e.endTime.toString();
+                                breakEnd.value = e.endBreakTime.toString();
+                                breakStart.value = e.startBreakTime.toString();
+                                status.value = e.status;
+print(weakDays.value.toString());
+print( startTime.value.toString());
+print( endTime.value.toString());
+print( breakEnd.value.toString());
+print( breakStart.value.toString());
+print( status.value.toString());
                                 setState(() {});
                               },
                             ),
@@ -200,7 +251,7 @@ class _SetTimeScreenConsultationState extends State<SetTimeScreenConsultation> {
                               child: Row(
                                 children: [
                                   Text(
-                                    e.startTime.toString().normalTime,
+                                    e.startTime!.isNotEmpty?   e.startTime.toString().normalTime:"0.90",
                                     style: GoogleFonts.poppins(
                                       fontWeight: FontWeight.w500,
                                       fontSize: 15,
@@ -247,7 +298,7 @@ class _SetTimeScreenConsultationState extends State<SetTimeScreenConsultation> {
                               child: Row(
                                 children: [
                                   Text(
-                                    e.endTime.toString().normalTime,
+                                    e.endTime!.isNotEmpty?      e.endTime.toString().normalTime:"0:0",
                                     style: GoogleFonts.poppins(
                                       fontWeight: FontWeight.w500,
                                       fontSize: 15,
@@ -376,8 +427,9 @@ class _SetTimeScreenConsultationState extends State<SetTimeScreenConsultation> {
                 .toList(),
             InkWell(
               onTap: (){
+                updateTime();
                 // updateProfile();
-                Get.to(()=> const DurationScreen());
+                // Get.to(()=> const DurationScreen());
               },
               child: Container(
                 width: Get.width,
@@ -407,8 +459,8 @@ class _SetTimeScreenConsultationState extends State<SetTimeScreenConsultation> {
             ),
             InkWell(
               onTap: (){
-                // updateProfile();
-                Get.to(()=> const DurationScreen());
+                // updateTime();
+           Get.to(()=> const DurationScreen());
               },
               child: Container(
                 width: Get.width,

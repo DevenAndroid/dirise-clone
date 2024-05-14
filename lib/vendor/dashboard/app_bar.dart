@@ -91,13 +91,13 @@ class _AppBarScreenState extends State<AppBarScreen> {
                     child: Obx(() {
                       if(vendorStoreTimingController.refreshInt.value > 0){}
                       return Text(
-                        vendorStoreTimingController.modelStoreAvailability.data != null ?
-                        "${vendorStoreTimingController.modelStoreAvailability.data!.firstWhere((element) =>
+                        vendorStoreTimingController.modelStoreAvailability1.data != null ?
+                        "${vendorStoreTimingController.modelStoreAvailability1.data!.firstWhere((element) =>
                         element.weekDay.toString().toLowerCase() == DateFormat("EEEE").format(DateTime.now()).toLowerCase(),
                             orElse: () =>
                                 TimeData(
                                     startTime: " 09 AM"
-                                )).startTime.toString().normalTime} to ${(vendorStoreTimingController.modelStoreAvailability.data!.firstWhere((
+                                )).startTime.toString().normalTime} to ${(vendorStoreTimingController.modelStoreAvailability1.data!.firstWhere((
                             element) =>
                         element.weekDay.toString().toLowerCase() == DateFormat("EEEE").format(DateTime.now()).toLowerCase(),
                             orElse: () =>

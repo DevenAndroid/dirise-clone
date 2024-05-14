@@ -1,27 +1,30 @@
 import 'dart:convert';
 import 'package:get/get.dart';
+import '../../model/model_store_available.dart';
 import '../../model/vendor_models/model_store_availability.dart';
 import '../../repository/repository.dart';
 import '../../utils/api_constant.dart';
+import 'add_product_controller.dart';
 
 class VendorStoreTimingController extends GetxController{
   final Repositories repositories = Repositories();
-  ModelStoreAvailability modelStoreAvailability = ModelStoreAvailability();
+  ModelStoreAvailable modelStoreAvailability = ModelStoreAvailable();
+  ModelStoreAvailability modelStoreAvailability1 = ModelStoreAvailability();
   RxInt refreshInt = 0.obs;
-
-  getTime() {
-    repositories.getApi(url: ApiUrls.storeTimingUrl).then((value) {
-      modelStoreAvailability = ModelStoreAvailability.fromJson(jsonDecode(value));
+  final addProductController = Get.put(AddProductController());
+  getTime(id) {
+    repositories.getApi(url: ApiUrls.productWeekly+id).then((value) {
+      modelStoreAvailability = ModelStoreAvailable.fromJson(jsonDecode(value));
       if(modelStoreAvailability.data == null || modelStoreAvailability.data!.isEmpty){
         modelStoreAvailability.data!.addAll([
-          TimeData(endTime: "19:00",startTime: "09:00",weekDay: "Master",status: false),
-          TimeData(endTime: "19:00",startTime: "09:00",weekDay: "Mon",status: false),
-          TimeData(endTime: "19:00",startTime: "09:00",weekDay: "Tue",status: false),
-          TimeData(endTime: "19:00",startTime: "09:00",weekDay: "Wed",status: false),
-          TimeData(endTime: "19:00",startTime: "09:00",weekDay: "Thu",status: false),
-          TimeData(endTime: "19:00",startTime: "09:00",weekDay: "Fri",status: false),
-          TimeData(endTime: "19:00",startTime: "09:00",weekDay: "Sat",status: false),
-          TimeData(endTime: "19:00",startTime: "09:00",weekDay: "Sun",status: false),
+        Data(endTime: "19:00",startTime: "09:00",weekDay: "Master",status: false),
+          Data(endTime: "19:00",startTime: "09:00",weekDay: "Mon",status: false),
+          Data(endTime: "19:00",startTime: "09:00",weekDay: "Tue",status: false),
+          Data(endTime: "19:00",startTime: "09:00",weekDay: "Wed",status: false),
+          Data(endTime: "19:00",startTime: "09:00",weekDay: "Thu",status: false),
+          Data(endTime: "19:00",startTime: "09:00",weekDay: "Fri",status: false),
+          Data(endTime: "19:00",startTime: "09:00",weekDay: "Sat",status: false),
+          Data(endTime: "19:00",startTime: "09:00",weekDay: "Sun",status: false),
         ]);
       }
       refreshInt.value = DateTime.now().millisecondsSinceEpoch;
@@ -31,7 +34,7 @@ class VendorStoreTimingController extends GetxController{
   @override
   void onInit() {
     super.onInit();
-    getTime();
+    getTime( addProductController.idProduct.value.toString());
   }
 
 }

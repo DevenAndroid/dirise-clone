@@ -9,6 +9,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:get/get.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
+import '../../controller/vendor_controllers/add_product_controller.dart';
 import '../../controller/vendor_controllers/vendor_store_timing.dart';
 import '../../widgets/customsize.dart';
 import '../../widgets/loading_animation.dart';
@@ -37,7 +38,7 @@ class _SetTimeAcademicScreenState extends State<SetTimeAcademicScreen> {
       nowPerform(true);
     });
   }
-
+  final addProductController = Get.put(AddProductController());
   updateTime() {
     Map<String, dynamic> map = {};
 
@@ -62,7 +63,7 @@ class _SetTimeAcademicScreenState extends State<SetTimeAcademicScreen> {
     repositories.postApi(url: ApiUrls.storeAvailabilityUrl, mapData: map, context: context).then((value) {
       ModelCommonResponse modelCommonResponse = ModelCommonResponse.fromJson(jsonDecode(value));
       showToast(modelCommonResponse.message.toString());
-      controller.getTime();
+      controller.getTime( addProductController.idProduct.value.toString());
       if (modelCommonResponse.status == true) {
         // Get.back();
       }
@@ -90,7 +91,7 @@ class _SetTimeAcademicScreenState extends State<SetTimeAcademicScreen> {
   @override
   void initState() {
     super.initState();
-    controller.getTime();
+    controller.getTime( addProductController.idProduct.value.toString() );
   }
 
   @override

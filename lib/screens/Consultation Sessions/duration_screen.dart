@@ -9,7 +9,7 @@ import 'optional_details.dart';
 
 
 class DurationScreen extends StatefulWidget {
-  const DurationScreen({super.key});
+  const  DurationScreen({super.key});
 
   @override
   State<DurationScreen> createState() => _DurationScreenState();
