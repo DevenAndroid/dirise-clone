@@ -24,6 +24,7 @@ import '../newAuthScreens/newOtpScreen.dart';
 import '../newAuthScreens/signupScreen.dart';
 import '../personalizeyourstore/returnpolicyScreen.dart';
 import '../posts/posts_ui.dart';
+import '../screens/Consultation Sessions/date_range_screen.dart';
 import '../screens/auth_screens/createacc_screen.dart';
 import '../screens/auth_screens/otp_screen.dart';
 import '../screens/calender.dart';

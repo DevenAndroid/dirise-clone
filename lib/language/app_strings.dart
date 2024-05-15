@@ -57,7 +57,7 @@ class AppStrings{
   static String alreadyAccount = "Already have an Account? ";
   static String noAccount = "Don't have an Account? ";
   static String signUp = "Sign Up";
-  static String pickUpAddress = "Pick up address";
+  static String pickUpAddress = "Vendor address";
   static String tellUsAboutYourself = "Tell us about yourself";
   static String iAmHereToSell = "I am here to sell";
   static String iWantToGoShopping = "I want to go shopping";

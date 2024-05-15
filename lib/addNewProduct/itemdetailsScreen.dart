@@ -297,10 +297,11 @@ class _ItemDetailsScreensState extends State<ItemDetailsScreens> {
               const SizedBox(
                 height: 15,
               ),
+              id.value.isNotEmpty?
               Text(
                 'Filters(Optional)'.tr,
                 style: GoogleFonts.poppins(color: Colors.black, fontWeight: FontWeight.w600, fontSize: 16),
-              ),
+              ):SizedBox(),
               const SizedBox(
                 height: 5,
               ),
