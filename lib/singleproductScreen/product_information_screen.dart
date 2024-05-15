@@ -42,7 +42,7 @@ class _ProductInformationScreensState extends State<ProductInformationScreens> {
 
   int vendorID = 0;
   int ProductID = 0;
-
+  int tappedIndex = -1;
   final addProductController = Get.put(AddProductController());
   deliverySizeApi() {
     Map<String, dynamic> map = {};
@@ -261,7 +261,9 @@ class _ProductInformationScreensState extends State<ProductInformationScreens> {
                           isItemDetailsVisible = !isItemDetailsVisible;
                           categoryName.value = data.title.toString();
                           id.value = data.id.toString();
-                          setState(() {});
+                          setState(() {
+                            tappedIndex = index;
+                          });
                         },
                         child: Container(
                           margin: EdgeInsets.only(bottom: 5),
@@ -270,7 +272,7 @@ class _ProductInformationScreensState extends State<ProductInformationScreens> {
                           decoration: BoxDecoration(
                               color: Colors.grey.shade200,
                               borderRadius: BorderRadius.circular(10),
-                              border: Border.all(color: Colors.grey.shade400, width: 1)),
+                              border: Border.all(color: tappedIndex == index ? AppTheme.buttonColor : Colors.grey.shade400, width: 2)),
                           child: Text(data.title),
                         ),
                       );

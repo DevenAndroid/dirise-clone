@@ -5,8 +5,10 @@ import 'package:dirise/screens/my_account_screens/faqs_screen.dart';
 import 'package:dirise/screens/order_screens/my_orders_screen.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/widgets.dart';
 import 'package:get/get.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:url_launcher/url_launcher_string.dart';
 
 import '../widgets/common_button.dart';
 
@@ -75,7 +77,7 @@ class _CongratulationScreenState extends State<CongratulationScreen> {
               ),
               GestureDetector(
                 onTap: (){
-                  Get.offNamed( ContactUsScreen.route);
+                  Get.to(const ContactUsScreen());
                   // Get.offNamed( .route);
                 },
                 child: Text(
@@ -83,9 +85,14 @@ class _CongratulationScreenState extends State<CongratulationScreen> {
                   style: GoogleFonts.poppins(color: Colors.black, fontWeight: FontWeight.w400, fontSize: 14),
                 ),
               ),
-              Text(
-                'call'.tr,
-                style: GoogleFonts.poppins(color: Colors.black, fontWeight: FontWeight.w400, fontSize: 14),
+              GestureDetector(
+                onTap: (){
+                  launchUrlString("tel://96565556490");
+                },
+                child: Text(
+                  'call'.tr,
+                  style: GoogleFonts.poppins(color: Colors.black, fontWeight: FontWeight.w400, fontSize: 14),
+                ),
               ),
               const SizedBox(height: 20,),
               CustomOutlineButton(

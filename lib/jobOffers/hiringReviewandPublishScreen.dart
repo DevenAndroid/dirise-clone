@@ -135,8 +135,8 @@ class _HiringReviewPublishScreenState extends State<HiringReviewPublishScreen> {
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
                         Text('Job title: ${productDetailsModel.value.productDetails!.product!.pname ?? ""}'),
-                        Text('Job Category: ${widget.category ?? ""}'),
-                        Text('Job Category: ${widget.subCategory ?? ""}'),
+                        Text('Job Category: ${productDetailsModel.value.productDetails!.product!.jobParentCat ?? ""}'),
+                        Text('Job Category: ${productDetailsModel.value.productDetails!.product!.jobCat ?? ""}'),
                         Text('Job Country: ${productDetailsModel.value.productDetails!.product!.jobCountry ?? ""}'),
                         Text('Job State: ${productDetailsModel.value.productDetails!.product!.jobState ?? ""}'),
                         Text('Job City: ${productDetailsModel.value.productDetails!.product!.jobCity ?? ""}'),

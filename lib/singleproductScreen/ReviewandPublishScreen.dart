@@ -8,6 +8,7 @@ import 'package:get/get.dart';
 import 'package:google_fonts/google_fonts.dart';
 
 import '../controller/service_controller.dart';
+import '../model/getShippingModel.dart';
 import '../model/product_details.dart';
 import '../model/returnPolicyModel.dart';
 import '../repository/repository.dart';
@@ -34,6 +35,7 @@ class _ReviewandPublishScreenState extends State<ReviewandPublishScreen> {
   RxBool optionalDescription = false.obs;
   RxBool optionalClassification = false.obs;
   RxBool isDeliverySize = false.obs;
+  RxBool isShippingPolicy = false.obs;
 
   final Repositories repositories = Repositories();
   RxInt returnPolicyLoaded = 0.obs;
@@ -50,6 +52,15 @@ class _ReviewandPublishScreenState extends State<ReviewandPublishScreen> {
       });
       print("Return Policy Data: $modelReturnPolicy"); // Print the fetched data
       returnPolicyLoaded.value = DateTime.now().millisecondsSinceEpoch;
+    });
+  }
+
+  GetShippingModel? modelShippingPolicy;
+  getShippingPolicyData() {
+    repositories.getApi(url: ApiUrls.getShippingPolicy).then((value) {
+      setState(() {
+        modelShippingPolicy = GetShippingModel.fromJson(jsonDecode(value));
+      });
     });
   }
 
@@ -386,6 +397,57 @@ class _ReviewandPublishScreenState extends State<ReviewandPublishScreen> {
                         ),
 
                       const SizedBox(height: 20),
+
+                      GestureDetector(
+                        onTap: () {
+                          setState(() {
+                            isShippingPolicy.toggle();
+                          });
+                        },
+                        child: Container(
+                          padding: const EdgeInsets.symmetric(vertical: 12, horizontal: 12),
+                          decoration: BoxDecoration(
+                              color: Colors.white,
+                              borderRadius: BorderRadius.circular(8),
+                              border: Border.all(color: AppTheme.secondaryColor)),
+                          child: Row(
+                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                            children: [
+                              Text(
+                                'Location where customer will join ',
+                                style: GoogleFonts.poppins(
+                                  color: AppTheme.primaryColor,
+                                  fontSize: 15,
+                                ),
+                              ),
+                              GestureDetector(
+                                child: isShippingPolicy.value == true
+                                    ? const Icon(Icons.keyboard_arrow_up_rounded)
+                                    : const Icon(Icons.keyboard_arrow_down_outlined),
+                                onTap: () {
+                                  setState(() {
+                                    isShippingPolicy.toggle();
+                                  });
+                                },
+                              ),
+                            ],
+                          ),
+                        ),
+                      ),
+                      if (isShippingPolicy.value == true)
+                        Column(
+                          mainAxisAlignment: MainAxisAlignment.start,
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
+                            Text('Town: ${modelShippingPolicy.shippingPolicy. ?? ""}'),
+                            Text('city: ${productDetailsModel.value.productDetails!.address!.city ?? ""}'),
+                            Text('state: ${productDetailsModel.value.productDetails!.address!.state ?? ""}'),
+                            Text('address: ${productDetailsModel.value.productDetails!.address!.address ?? ""}'),
+                            Text('zip code: ${productDetailsModel.value.productDetails!.address!.zipCode ?? ""}'),
+                          ],
+                        ),
+                      const SizedBox(height: 20),
+
                       GestureDetector(
                         onTap: () {
                           setState(() {

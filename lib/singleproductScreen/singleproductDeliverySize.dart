@@ -12,6 +12,7 @@ import '../controller/vendor_controllers/add_product_controller.dart';
 import '../model/common_modal.dart';
 import '../repository/repository.dart';
 import '../utils/api_constant.dart';
+import '../vendor/shipping_policy.dart';
 import '../widgets/common_button.dart';
 
 class SingleProductDeliverySize extends StatefulWidget {
@@ -40,7 +41,7 @@ class _SingleProductDeliverySizeState extends State<SingleProductDeliverySize> {
       print('API Response Status Code: ${response.status}');
       showToast(response.message.toString());
       if (response.status == true) {
-        Get.to(const SinglePInternationalshippingdetailsScreen());
+        Get.to(const ShippingPolicyScreen());
       }
     });
   }

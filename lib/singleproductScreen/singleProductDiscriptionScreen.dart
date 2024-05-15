@@ -30,6 +30,7 @@ class _SingleProductDiscriptionScreenState extends State<SingleProductDiscriptio
   TextEditingController shortController = TextEditingController();
   TextEditingController alertDiscount = TextEditingController();
   TextEditingController tagDiscount = TextEditingController();
+  RxBool isDelivery = false.obs;
   deliverySizeApi() {
     Map<String, dynamic> map = {};
     map['in_stock'] = inStockController.text.toString();
@@ -85,7 +86,7 @@ class _SingleProductDiscriptionScreenState extends State<SingleProductDiscriptio
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 Text(
-                  'Short Description*'.tr,
+                  'Long Description'.tr,
                   style: GoogleFonts.poppins(color: Colors.black, fontWeight: FontWeight.w600, fontSize: 18),
                 ),
                 const SizedBox(
@@ -141,52 +142,105 @@ class _SingleProductDiscriptionScreenState extends State<SingleProductDiscriptio
                   decoration: BoxDecoration(borderRadius: BorderRadius.circular(11), color: Colors.grey.shade200),
                   child: Align(
                     alignment: Alignment.bottomCenter,
-                    child: Text(
-                      'Stock quantity *'.tr,
-                      style:
+                    child:  Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      children: [
+                        SizedBox(width: 5,),
+                        Text(
+                          'Item doesn’t need stock number'.tr,
+                          style:
                           GoogleFonts.poppins(color: const Color(0xff514949), fontWeight: FontWeight.w400, fontSize: 13),
+                        ),
+                        Transform.translate(
+                          offset: const Offset(-6, 0),
+                          child: Checkbox(
+                              visualDensity: const VisualDensity(horizontal: -1, vertical: -3),
+                              materialTapTargetSize: MaterialTapTargetSize.shrinkWrap,
+                              shape: RoundedRectangleBorder(
+                                borderRadius: BorderRadius.circular(4),
+                              ),
+                              value: isDelivery.value,
+
+                              side: const BorderSide(
+                                color: AppTheme.buttonColor,
+                              ),
+                              onChanged: (bool? value) {
+                                setState(() {
+                                  isDelivery.value = value!;
+                                });
+                              }),
+                        ),
+                        SizedBox(width: 5,),
+                      ],
                     ),
                   ),
                 ),
                 const SizedBox(
                   height: 20,
                 ),
-                Text(
-                  'Stock quantity *'.tr,
-                  style: GoogleFonts.poppins(color: const Color(0xff292F45), fontWeight: FontWeight.w600, fontSize: 14),
-                ),
-                CommonTextField(
-                controller: inStockController,
-                    obSecure: false,
-                    // hintText: 'Name',
-                    hintText: 'Stock number'.tr,
-                    validator: (value) {
-                      if (value!.trim().isEmpty) {
-                        return 'Stock number is required'.tr;
-                      }
-                      return null; // Return null if validation passes
-                    },
-                    ),
-                const SizedBox(
-                  height: 20,
-                ),
-                Text(
-                  'Set stock alert *'.tr,
-                  style: GoogleFonts.poppins(color: const Color(0xff292F45), fontWeight: FontWeight.w600, fontSize: 14),
-                ),
-                CommonTextField(
-                  controller: alertDiscount,
-                    // controller: priceController,
-                    obSecure: false,
-                    // hintText: 'Name',
-                    hintText: 'Get notification on your stock quantity'.tr,
-                    validator: (value) {
-                      if (value!.trim().isEmpty) {
-                        return 'Set stock alert is required'.tr;
-                      }
-                      return null; // Return null if validation passes
-                    },
-                    ),
+                if(isDelivery.value == false)
+                  Column(
+                    mainAxisAlignment: MainAxisAlignment.start,
+                    crossAxisAlignment: CrossAxisAlignment.start,
+
+                    children: [
+                      Text(
+                        'Stock quantity *'.tr,
+                        style: GoogleFonts.poppins(color: const Color(0xff292F45), fontWeight: FontWeight.w600, fontSize: 14),
+                      ),
+                      CommonTextField(
+                        controller: inStockController,
+                        obSecure: false,
+                        // hintText: 'Name',
+                        keyboardType: TextInputType.number,
+                        hintText: 'Stock quantity'.tr,
+                        validator: (value) {
+                          if (value!.trim().isEmpty) {
+                            return 'Stock number is required'.tr;
+                          }
+                          return null; // Return null if validation passes
+                        },
+                        // validator: MultiValidator([
+                        //   RequiredValidator(errorText: 'Stock number is required'.tr),
+                        // ])
+                      ),
+                      const SizedBox(
+                        height: 20,
+                      ),
+                      Text(
+                        'Set stock alert *'.tr,
+                        style: GoogleFonts.poppins(color: const Color(0xff292F45), fontWeight: FontWeight.w600, fontSize: 14),
+                      ),
+                      CommonTextField(
+                        controller: alertDiscount,
+                        obSecure: false,
+                        keyboardType: TextInputType.number,
+                        onChanged: (value){
+                          double sellingPrice = double.tryParse(value) ?? 0.0;
+                          double purchasePrice = double.tryParse(alertDiscount.text) ?? 0.0;
+                          if (alertDiscount.text.isEmpty) {
+                            FocusManager.instance.primaryFocus!.unfocus();
+                            alertDiscount.clear();
+                            showToastCenter('Enter stock quantity first');
+                            return;
+                          }
+                          if (sellingPrice > purchasePrice) {
+                            FocusManager.instance.primaryFocus!.unfocus();
+                            alertDiscount.clear();
+                            showToastCenter('Stock alert cannot be higher than stock quantity');
+                          }
+                        },
+                        hintText: 'Get notification on your stock quantity'.tr,
+                        validator: (value) {
+                          if (value!.trim().isEmpty) {
+                            return 'Set stock alert is required';
+                          }
+                          return null; // Return null if validation passes
+                        },
+                      ),
+                    ],
+                  ),
+
                 const SizedBox(
                   height: 20,
                 ),
