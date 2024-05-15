@@ -130,7 +130,7 @@ class _AddProductPickUpAddressScreenState extends State<AddProductPickUpAddressS
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: [
             Text(
-              AppStrings.pickUpAddress.tr,
+             "Vendor address",
               style: GoogleFonts.poppins(color: Color(0xff292F45), fontWeight: FontWeight.w600, fontSize: 20),
             ),
           ],

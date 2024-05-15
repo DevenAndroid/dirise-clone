@@ -59,7 +59,8 @@ class _whatServiceDoYouProvideState extends State<whatServiceDoYouProvide> {
     }
   }
 
-
+  TextEditingController discountPrecrnt = TextEditingController();
+  TextEditingController fixedDiscount = TextEditingController();
 
   List<String> itemList = [
     'Item 1',
@@ -166,36 +167,6 @@ class _whatServiceDoYouProvideState extends State<whatServiceDoYouProvide> {
                     return null; // Return null if validation passes
                   },
                 ),
-                if (isDelivery.value == false)
-                  Column(
-                    mainAxisAlignment: MainAxisAlignment.start,
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      Text(
-                        'Percentage'.tr,
-                        style: GoogleFonts.inter(
-                            color: const Color(0xff292F45), fontWeight: FontWeight.w500, fontSize: 14),
-                      ),
-                      CommonTextField(
-                        controller: serviceController.percentageController,
-                        obSecure: false,
-                        onChanged: (value) {
-                          isPercentageDiscount = true;
-                          calculateDiscount();
-                          sale = value;
-                          setState(() {});
-                        },
-                        keyboardType: TextInputType.number,
-                        hintText: 'Percentage'.tr,
-                        validator: (value) {
-                          if (value!.trim().isEmpty) {
-                            return 'Enter percentage here.';
-                          }
-                          return null; // Return null if validation passes
-                        },
-                      ),
-                    ],
-                  ),
                 Container(
                   padding: const EdgeInsets.symmetric(vertical: 12, horizontal: 12),
                   decoration: BoxDecoration(
@@ -236,14 +207,55 @@ class _whatServiceDoYouProvideState extends State<whatServiceDoYouProvide> {
                     ],
                   ),
                 ),
-                const SizedBox(
-                  height: 10,
-                ),
+
                 if (isDelivery.value == true)
                   Column(
                     mainAxisAlignment: MainAxisAlignment.start,
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
+                      Text(
+                        'Percentage'.tr,
+                        style: GoogleFonts.inter(
+                            color: const Color(0xff292F45), fontWeight: FontWeight.w500, fontSize: 14),
+                      ),
+                      CommonTextField(
+                        controller: serviceController.percentageController,
+                        obSecure: false,
+                        onChanged: (value) {
+                          isPercentageDiscount = true;
+                          calculateDiscount();
+                          sale = value;
+                          setState(() {});
+                        },
+                        keyboardType: TextInputType.number,
+                        hintText: 'Percentage'.tr,
+                        validator: (value) {
+                          if(serviceController.percentageController.text.isEmpty)
+                            if (value!.trim().isEmpty) {
+                              return 'Discount Price is required'.tr;
+                            }
+                          return null; // Return null if validation passes
+                        },
+                      ),
+                    ],
+                  ),
+
+                const SizedBox(
+                  height: 10,
+                ),
+
+                if (isDelivery.value == true)
+                  Column(
+                    mainAxisAlignment: MainAxisAlignment.start,
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      Center(
+                        child: Text(
+                          'Or'.tr,
+                          style: GoogleFonts.inter(
+                              color: const Color(0xff292F45), fontWeight: FontWeight.w500, fontSize: 14),
+                        ),
+                      ),
                       Text(
                         'Fixed after sale price'.tr,
                         style: GoogleFonts.inter(
@@ -274,9 +286,10 @@ class _whatServiceDoYouProvideState extends State<whatServiceDoYouProvide> {
                           }
                         },
                         validator: (value) {
-                          if (value!.trim().isEmpty) {
-                            return 'Fixed after sale price';
-                          }
+                          if(serviceController.fixedPriceController.text.isEmpty)
+                            if (value!.trim().isEmpty) {
+                              return 'Fixed after sale price'.tr;
+                            }
                           return null; // Return null if validation passes
                         },
                       ),

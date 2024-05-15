@@ -13,44 +13,40 @@ import '../iAmHereToSell/whichplantypedescribeyouScreen.dart';
 import '../jobOffers/tellusaboutyourselfScreen.dart';
 import '../language/app_strings.dart';
 import '../newAddress/pickUpAddressScreen.dart';
-import '../singleproductScreen/giveaway1.dart';
 import '../singleproductScreen/product_information_screen.dart';
 import '../widgets/common_button.dart';
 
-class MyItemISScreen extends StatefulWidget {
+class Giveway1Screen extends StatefulWidget {
   static String route = "/TellUsAboutYourSelf";
   File? featureImage;
-  MyItemISScreen({Key? key,this.featureImage}) : super(key: key);
+  Giveway1Screen({Key? key,this.featureImage}) : super(key: key);
 
   @override
-  State<MyItemISScreen> createState() => _MyItemISScreenState();
+  State<Giveway1Screen> createState() => _Giveway1ScreenState();
 }
 
-class _MyItemISScreenState extends State<MyItemISScreen> {
+class _Giveway1ScreenState extends State<Giveway1Screen> {
   String selectedRadio = '';
   final profileController = Get.put(ProfileController());
 
   List<String> itemTexts = [
-    'Giveaway',
-    'Product',
-    'Job',
-    'Service',
-    'Virtual',
+    'Working',
+    'NotWorking',
+    'Scrab',
+
   ];
 
   void navigateNext() {
     if (profileController.model.user!.isVendor == true) {
       // If user is a vendor, allow all radio buttons
-      if (selectedRadio == 'Giveaway') {
-        Get.to( Giveway1Screen());
-      } else if (selectedRadio == 'Product') {
-        Get.to(ProductInformationScreens(fetaureImage: widget.featureImage,));
-      } else if (selectedRadio == 'Job') {
-        Get.to(JobTellusaboutyourselfScreen());
-      } else if (selectedRadio == 'Service') {
-        Get.to(whatServiceDoYouProvide(fetaureImage: widget.featureImage,));
-      } else if (selectedRadio == 'Virtual') {
-        Get.to(PickUpAddressScreen());
+      if (selectedRadio == 'Working') {
+        Get.to(const ItemDetailsScreens());
+      } else if (selectedRadio == 'NotWorking') {
+        Get.to(const ItemDetailsScreens());
+        // Get.to(ProductInformationScreens(fetaureImage: widget.featureImage,));
+      } else if (selectedRadio == 'Scrab') {
+        Get.to(const ItemDetailsScreens());
+        // Get.to(JobTellusaboutyourselfScreen());
       } else {
         // Handle the case where the selected radio doesn't match any case
         // For example, show a message or perform a different action
@@ -126,8 +122,8 @@ class _MyItemISScreenState extends State<MyItemISScreen> {
                   if(selectedRadio.isNotEmpty){
                     navigateNext();
                   }
-                 else{
-                   showToast('Please select any item type');
+                  else{
+                    showToast('Please select any item type');
                   }
                 },
                 child: Container(

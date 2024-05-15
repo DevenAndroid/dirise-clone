@@ -23,25 +23,12 @@ class _RewardScreenState extends State<RewardScreen> {
         backgroundColor: Colors.white,
         surfaceTintColor: Colors.white,
         elevation: 0,
-        leading: GestureDetector(
-          onTap: () {
-            Get.back();
-          },
-          child: const Icon(
-            Icons.arrow_back_ios_new,
-            color: Color(0xff0D5877),
-            size: 16,
-          ),
-        ),
+        leading:SizedBox(),
         titleSpacing: 0,
-        title: Row(
-          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-          children: [
-            Text(
-              'Reward'.tr,
-              style: GoogleFonts.poppins(color: const Color(0xff292F45), fontWeight: FontWeight.w600, fontSize: 20),
-            ),
-          ],
+        centerTitle: true,
+        title: Text(
+          'Reward'.tr,
+          style: GoogleFonts.poppins(color: const Color(0xff292F45), fontWeight: FontWeight.w600, fontSize: 20),
         ),
       ),
       body: SingleChildScrollView(
@@ -51,7 +38,7 @@ class _RewardScreenState extends State<RewardScreen> {
             mainAxisAlignment: MainAxisAlignment.center,
             crossAxisAlignment: CrossAxisAlignment.center,
             children: [
-              Image.asset('assets/images/newlogoo.png',height: 200,width: 200,),
+              Image.asset('assets/images/giveaway.png',height: 200,width: 200,),
               Text(
                 'Congratulations'.tr,
                 style: GoogleFonts.poppins(color: const Color(0xff0D5877), fontWeight: FontWeight.w600, fontSize: 32),
@@ -59,7 +46,8 @@ class _RewardScreenState extends State<RewardScreen> {
               const SizedBox(height: 20,),
               Text(
                 'Thank you for your donation, you will get 1000 Dicoins as a reward for your generosity'.tr,
-                style: GoogleFonts.poppins(color: Colors.black, fontWeight: FontWeight.w400, fontSize: 16),
+                style: GoogleFonts.poppins(color: Colors.black, fontWeight: FontWeight.w400, fontSize: 16,),
+                textAlign: TextAlign.center,
               ),
               Text(
                 'If you are having troubles:-'.tr,

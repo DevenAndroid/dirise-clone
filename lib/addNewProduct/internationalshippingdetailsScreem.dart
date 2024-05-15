@@ -57,6 +57,8 @@ class _InternationalshippingdetailsScreenState extends State<Internationalshippi
     'fedex Envelop',
     'fedex pak',
     'fedex Tube',
+    'your packaging',
+    'custom packaging',
   ];
   final addProductController = Get.put(AddProductController());
   RxBool hide = true.obs;
