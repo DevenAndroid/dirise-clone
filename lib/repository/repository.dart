@@ -52,7 +52,7 @@ class Repositories {
       mapData["device_id"] = deviceId;
     }
 
-    try {
+    // try {
       final Map<String, String> headers = {
         HttpHeaders.contentTypeHeader: 'application/json',
         HttpHeaders.acceptHeader: 'application/json',
@@ -99,19 +99,20 @@ class Repositories {
         showToast(response.body);
         throw Exception(response.body);
       }
-    } on SocketException catch (e) {
-      Helpers.hideLoader(loader);
-      showToast("No Internet Access");
-      throw Exception(e);
     }
-    catch (e) {
-      log('error isssss${e.toString()}');
-      log("API Response Url222........  $url");
-      log("API Response Url222........  $url");
-      Helpers.hideLoader(loader);
-      // throw Exception(e);
-    }
-  }
+    // on SocketException catch (e) {
+    //   Helpers.hideLoader(loader);
+    //   showToast("No Internet Access");
+    //   throw Exception(e);
+    // }
+    // catch (e) {
+    //   log('error isssss${e.toString()}');
+    //   log("API Response Url222........  $url");
+    //   log("API Response Url222........  $url");
+    //   Helpers.hideLoader(loader);
+    //   // throw Exception(e);
+    // }
+  // }
 
   saveLoginDetails(String loginResponse) async {
     SharedPreferences pref = await SharedPreferences.getInstance();
