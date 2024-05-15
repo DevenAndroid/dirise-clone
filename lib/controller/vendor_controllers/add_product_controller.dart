@@ -24,6 +24,7 @@ class AddProductController extends GetxController {
   // Gram Kilogram Pound
   ModelCategoryList? modelCategoryList;
   RxInt categoryLoadingInt = 0.obs;
+  String? formattedStartDate;
   final productController = Get.put(ProductsController());
   Future getProductsCategoryList() async {
     // if (modelCategoryList != null) {
