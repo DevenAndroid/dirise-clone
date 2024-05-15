@@ -24,6 +24,7 @@ import '../newAuthScreens/newOtpScreen.dart';
 import '../newAuthScreens/signupScreen.dart';
 import '../personalizeyourstore/returnpolicyScreen.dart';
 import '../posts/posts_ui.dart';
+import '../screens/Consultation Sessions/date_range_screen.dart';
 import '../screens/auth_screens/createacc_screen.dart';
 import '../screens/auth_screens/otp_screen.dart';
 import '../screens/calender.dart';
@@ -60,7 +61,7 @@ import '../vendor/shipping_policy.dart';
 class MyRouters {
   static var route = [
 
-    GetPage(name: '/', page: () => const BottomNavbar()),
+    GetPage(name: '/', page: () => const DateRangeScreen()),
     GetPage(name: LoginScreen.route, page: () => const LoginScreen()),
     GetPage(name: VendorOTPVerification.route, page: () => const VendorOTPVerification()),
     GetPage(name: CreateAccountNewScreen.route, page: () => const CreateAccountNewScreen()),
