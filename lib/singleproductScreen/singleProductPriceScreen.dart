@@ -15,6 +15,7 @@ import '../model/vendor_models/add_product_model.dart';
 import '../repository/repository.dart';
 import '../utils/api_constant.dart';
 import '../widgets/common_button.dart';
+import '../widgets/common_colour.dart';
 import '../widgets/common_textfield.dart';
 
 class SingleProductPriceScreen extends StatefulWidget {
@@ -39,7 +40,7 @@ class _SingleProductPriceScreenState extends State<SingleProductPriceScreen> {
   String productName = "";
   String discountedPrice = "";
   bool isPercentageDiscount = true;
-
+  RxBool isDelivery = false.obs;
   void calculateDiscount() {
     double realPrice = double.tryParse(priceController.text) ?? 0.0;
     double sale = double.tryParse(discountPrecrnt.text) ?? 0.0;
@@ -155,7 +156,25 @@ class _SingleProductPriceScreenState extends State<SingleProductPriceScreen> {
                       'I want to show this item on sale'.tr,
                       style: GoogleFonts.poppins(color: Colors.black, fontWeight: FontWeight.w600, fontSize: 14),
                     ),
-                    Radio(value: 1, groupValue: 1, onChanged: (value) {}),
+                    Transform.translate(
+                      offset: const Offset(-6, 0),
+                      child: Checkbox(
+                          visualDensity: const VisualDensity(horizontal: -1, vertical: -3),
+                          materialTapTargetSize: MaterialTapTargetSize.shrinkWrap,
+                          shape: RoundedRectangleBorder(
+                            borderRadius: BorderRadius.circular(4),
+                          ),
+                          value: isDelivery.value,
+
+                          side: const BorderSide(
+                            color: AppTheme.buttonColor,
+                          ),
+                          onChanged: (bool? value) {
+                            setState(() {
+                              isDelivery.value = value!;
+                            });
+                          }),
+                    ),
                   ],
                 ),
                 const SizedBox(height: 10,),
@@ -314,6 +333,7 @@ class _SingleProductPriceScreenState extends State<SingleProductPriceScreen> {
                           ),
                         ],
                       ),
+                      SizedBox(width: 10,),
                       Column(
                         children: [
                           Stack(
@@ -326,13 +346,13 @@ class _SingleProductPriceScreenState extends State<SingleProductPriceScreen> {
                                 decoration: BoxDecoration(borderRadius: BorderRadius.circular(11), color: Colors.white),
                                 child: Image.file(widget.fetaureImage!),
                               ),
-                              const Positioned(
-                                  right: 20,
-                                  top: 10,
-                                  child: Icon(
-                                    Icons.delete,
-                                    color: Color(0xff014E70),
-                                  ))
+                              // const Positioned(
+                              //     right: 20,
+                              //     top: 10,
+                              //     child: Icon(
+                              //       Icons.delete,
+                              //       color: Color(0xff014E70),
+                              //     ))
                             ],
                           ),
                           Text(

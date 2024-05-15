@@ -191,7 +191,9 @@ class _OptionalClassificationScreenState extends State<OptionalClassificationScr
                 ),
                 const SizedBox(height: 20),
                 GestureDetector(
-                  onTap: () {},
+                  onTap: () {
+                    Get.to(const ReviewandPublishScreen());
+                  },
                   child: Container(
                     width: Get.width,
                     height: 55,

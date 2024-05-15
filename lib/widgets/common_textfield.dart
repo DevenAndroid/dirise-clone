@@ -92,7 +92,7 @@ class _CommonTextFieldState extends State<CommonTextField> {
           errorText: widget.errorText,
           labelText: widget.labelText,
           prefixIcon: widget.prefix,
-          suffixIcon: widget.suffixIcon,
+          suffix: widget.suffixIcon,
           hintStyle: GoogleFonts.poppins(
             color: AppTheme.primaryColor,
             fontSize: 13,

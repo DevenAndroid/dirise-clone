@@ -66,6 +66,7 @@ class Product {
   dynamic catId;
   dynamic catId2;
   dynamic jobCat;
+  dynamic jobParentCat;
   dynamic brandSlug;
   dynamic slug;
   dynamic pname;
@@ -165,6 +166,7 @@ class Product {
         this.catId,
         this.catId2,
         this.jobCat,
+        this.jobParentCat,
         this.brandSlug,
         this.slug,
         this.pname,
@@ -264,6 +266,7 @@ class Product {
     catId = json['cat_id'];
     catId2 = json['cat_id_2'];
     jobCat = json['job_cat'];
+    jobParentCat = json['job_parent_category'];
     brandSlug = json['brand_slug'];
     slug = json['slug'];
     pname = json['pname'];

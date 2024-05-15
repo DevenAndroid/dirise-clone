@@ -376,7 +376,7 @@ class _OptionalDiscrptionsScreenState extends State<OptionalDiscrptionsScreen> {
                 const SizedBox(height: 20),
                 GestureDetector(
                   onTap: () {
-                    Get.to(ReviewPublishScreen());
+                    Get.to(const OptionalClassificationScreen());
                   },
                   child: Container(
                     width: Get.width,
