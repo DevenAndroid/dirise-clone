@@ -492,8 +492,9 @@ class CartController extends GetxController {
     // }
     Map<String, dynamic> map = {};
     map["key"] = 'fedexRate';
-    map["country_id"]= profileController.model.user!= null && countryId.isEmpty ? profileController.model.user!.country_id : countryId.toString();
-    map["zip_code"]= '99999';
+    // map["country_id"]= profileController.model.user!= null && countryId.isEmpty ? profileController.model.user!.country_id : countryId.toString();
+    map["country_id"]= '117';
+    map["zip_code"]= '83706';
 
     log("mappppppp::::::$map");
     await repositories.postApi(url: ApiUrls.cartListUrl,mapData: map ).then((value) {

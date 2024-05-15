@@ -83,18 +83,18 @@ class Cart {
 class StoreData {
   List<Products>? products;
   dynamic fedexCommision;
-  bool? localShipping;
-  List<Shipping>? shipping;
+  dynamic localShipping;
+  Shipping? shipping;
+  double sPrice = 0.0;
   // List<ShippingTypes>? shippingTypes;
   // FedexShipping? fedexShipping;
-  RxString fedexShippingOption = "".obs;
+  // RxString fedexShippingOption = "".obs;
   // List<ShippingTypes>? selectedContacts;
   RxString shippingOption = "".obs;
   RxString shippingId = '0'.obs;
   RxString shippingVendorName = "".obs;
   RxString vendorPrice = "".obs;
   RxInt vendorId = 0.obs;
-  double sPrice = 0.0;
   double sMethod = 0.0;
 
   StoreData({this.products, this.shipping,this.fedexCommision,this.localShipping});
@@ -106,10 +106,7 @@ class StoreData {
         products!.add(Products.fromJson(v));
       });
     }
-    if (json['shipping'] != null) {
-      shipping = <Shipping>[];
-      json['shipping'].forEach((v) { shipping!.add( Shipping.fromJson(v)); });
-    }
+    shipping = json['shipping'] != null ? new Shipping.fromJson(json['shipping']) : null;
     // if (json['shipping_types'] != null) {
     //   shippingTypes = <ShippingTypes>[];
     //   json['shipping_types'].forEach((v) {
@@ -132,7 +129,7 @@ class StoreData {
     // }
     // data['fedex_shipping'] = fedexShipping!.toJson();
     if (shipping != null) {
-      data['shipping'] = shipping!.map((v) => v.toJson()).toList();
+      data['shipping'] = shipping!.toJson();
     }
     data['fedex_commision'] = fedexCommision;
     data['local_shipping'] = localShipping;
@@ -141,37 +138,554 @@ class StoreData {
 }
 
 class Shipping {
-  dynamic id;
-  dynamic name;
-  dynamic value;
-  dynamic vendorId;
-  dynamic transactionId;
-  Output? output;
-
-  Shipping({this.id, this.name, this.value, this.vendorId,this.output,this.transactionId});
+  List<IcarryShipping>? icarryShipping;
+  List<LocalShipping>? localShipping;
+  FedexShipping? fedexShipping;
+  RxString fedexShippingOption = "".obs;
+  Shipping({this.icarryShipping, this.localShipping, this.fedexShipping});
 
   Shipping.fromJson(Map<String, dynamic> json) {
-    id = json['id'];
-    name = json['name'];
-    value = json['value'];
-    vendorId = json['vendor_id'];
-    transactionId = json['transactionId'];
-    output = json['output'] != null ?  Output.fromJson(json['output']) : null;
+    if (json['icarry_shipping'] != null) {
+      icarryShipping = <IcarryShipping>[];
+      json['icarry_shipping'].forEach((v) { icarryShipping!.add(new IcarryShipping.fromJson(v)); });
+    }
+    if (json['local_shipping'] != null) {
+      localShipping = <LocalShipping>[];
+      json['local_shipping'].forEach((v) { localShipping!.add(new LocalShipping.fromJson(v)); });
+    }
+    fedexShipping = json['fedex_shipping'] != null ? new FedexShipping.fromJson(json['fedex_shipping']) : null;
   }
 
   Map<String, dynamic> toJson() {
-    final Map<String, dynamic> data =  Map<String, dynamic>();
-    data['id'] = id;
-    data['name'] = name;
-    data['value'] = value;
-    data['vendor_id'] = vendorId;
-    data['transactionId'] = transactionId;
-    if (output != null) {
-      data['output'] = output!.toJson();
+    final Map<String, dynamic> data = new Map<String, dynamic>();
+    if (icarryShipping != null) {
+      data['icarry_shipping'] = icarryShipping!.map((v) => v.toJson()).toList();
+    }
+    if (localShipping != null) {
+      data['local_shipping'] = localShipping!.map((v) => v.toJson()).toList();
+    }
+    if (fedexShipping != null) {
+      data['fedex_shipping'] = fedexShipping!.toJson();
     }
     return data;
   }
 }
+
+class IcarryShipping {
+  dynamic name;
+  CarrierModel? carrierModel;
+  dynamic shippingRateComputationMethodSystemName;
+  dynamic methodName;
+  dynamic methodId;
+  dynamic methodBodyInfo;
+  dynamic carrierTransportationTypeId;
+  dynamic carrierAdminVehicleTypeId;
+  dynamic description;
+  dynamic price;
+  dynamic cODCurrency;
+  dynamic rate;
+  Finance? finance;
+  dynamic deliveryDateFormat;
+  dynamic displayOrder;
+ dynamic selected;
+  WorkingCurrency? workingCurrency;
+  // List<Null>? customProperties;
+  dynamic friendlyPluginName;
+
+  IcarryShipping({this.name, this.carrierModel, this.shippingRateComputationMethodSystemName, this.methodName, this.methodId, this.methodBodyInfo, this.carrierTransportationTypeId, this.carrierAdminVehicleTypeId, this.description, this.price, this.cODCurrency, this.rate, this.finance, this.deliveryDateFormat, this.displayOrder, this.selected, this.workingCurrency, 
+    // this.customProperties, 
+    this.friendlyPluginName});
+
+  IcarryShipping.fromJson(Map<String, dynamic> json) {
+    name = json['Name'];
+    carrierModel = json['CarrierModel'] != null ? new CarrierModel.fromJson(json['CarrierModel']) : null;
+    shippingRateComputationMethodSystemName = json['ShippingRateComputationMethodSystemName'];
+    methodName = json['MethodName'];
+    methodId = json['MethodId'];
+    methodBodyInfo = json['MethodBodyInfo'];
+    carrierTransportationTypeId = json['CarrierTransportationTypeId'];
+    carrierAdminVehicleTypeId = json['CarrierAdminVehicleTypeId'];
+    description = json['Description'];
+    price = json['Price'];
+    cODCurrency = json['CODCurrency'];
+    rate = json['Rate'];
+    finance = json['Finance'] != null ? new Finance.fromJson(json['Finance']) : null;
+    deliveryDateFormat = json['DeliveryDateFormat'];
+    displayOrder = json['DisplayOrder'];
+    selected = json['Selected'];
+    workingCurrency = json['WorkingCurrency'] != null ? new WorkingCurrency.fromJson(json['WorkingCurrency']) : null;
+    // if (json['CustomProperties'] != null) {
+    //   customProperties = <Null>[];
+    //   json['CustomProperties'].forEach((v) { customProperties!.add(new Null.fromJson(v)); });
+    // }
+    friendlyPluginName = json['friendlyPluginName'];
+  }
+
+  Map<String, dynamic> toJson() {
+    final Map<String, dynamic> data = new Map<String, dynamic>();
+    data['Name'] = name;
+    if (carrierModel != null) {
+      data['CarrierModel'] = carrierModel!.toJson();
+    }
+    data['ShippingRateComputationMethodSystemName'] = shippingRateComputationMethodSystemName;
+    data['MethodName'] = methodName;
+    data['MethodId'] = methodId;
+    data['MethodBodyInfo'] = methodBodyInfo;
+    data['CarrierTransportationTypeId'] = carrierTransportationTypeId;
+    data['CarrierAdminVehicleTypeId'] = carrierAdminVehicleTypeId;
+    data['Description'] = description;
+    data['Price'] = price;
+    data['CODCurrency'] = cODCurrency;
+    data['Rate'] = rate;
+    if (finance != null) {
+      data['Finance'] = finance!.toJson();
+    }
+    data['DeliveryDateFormat'] = deliveryDateFormat;
+    data['DisplayOrder'] = displayOrder;
+    data['Selected'] = selected;
+    if (workingCurrency != null) {
+      data['WorkingCurrency'] = workingCurrency!.toJson();
+    }
+    // if (this.customProperties != null) {
+    //   data['CustomProperties'] = this.customProperties!.map((v) => v.toJson()).toList();
+    // }
+    data['friendlyPluginName'] = friendlyPluginName;
+    return data;
+  }
+}
+
+class CarrierModel {
+  dynamic id;
+  dynamic editShippigStatus;
+  dynamic systemName;
+  dynamic staticName;
+  dynamic methodName;
+  dynamic carrierName;
+  dynamic email;
+  dynamic icon;
+ dynamic isActive;
+ dynamic isOnline;
+ dynamic returnApplicable;
+ dynamic publicRate;
+  dynamic shippingTripType;
+  dynamic limitedToStore;
+  // List<Null>? shippingTripTypeIds;
+  List<Null>? limitedToStoreIds;
+  dynamic markUpPercentage;
+  dynamic intlMarkUpPercentage;
+  dynamic onDemandMarkUpPercentage;
+  dynamic onDemandIntlMarkUpPercentage;
+  dynamic customMarkUpPercentage;
+  dynamic customIntlMarkUpPercentage;
+  dynamic domesticDiscountPercentage;
+  dynamic internationalDiscountPercentage;
+  dynamic onDemandDomesticDiscountPercentage;
+  dynamic onDemandInternationalDiscountPercentage;
+  dynamic customDomesticDiscountPercentage;
+  dynamic customInternationalDiscountPercentage;
+  dynamic carrierCODPercentage;
+  dynamic intlCODPercentage;
+  dynamic carrierCODMinimalCharge;
+  dynamic intlCODMinimalCharge;
+  dynamic returnUponDeliveryRate;
+  dynamic failedDeliveryRate;
+ dynamic configure;
+  dynamic carrierAWBType;
+  dynamic configureUrl;
+  dynamic displayOrder;
+  dynamic transitDays;
+  dynamic totalRate;
+  dynamic iconUrl;
+  dynamic iconId;
+  dynamic termsUrl;
+  List<Null>? availableShippingTripType;
+  List<Null>? availableStores;
+  List<Null>? availableCarriersLibraries;
+  dynamic vendorId;
+  List<Null>? availableVendors;
+  List<Null>? availableCountries;
+  List<Null>? selectedVendors;
+  List<Null>? selectedCountries;
+  dynamic primaryStoreCurrencyCode;
+  dynamic vatPercentage;
+ dynamic isICarryCarrier;
+ dynamic isAvailableForOnDemand;
+ dynamic isAvailableForAllVendors;
+ dynamic isCODProvided;
+ dynamic enableSchedule;
+ dynamic enableAutoPickupRequest;
+ dynamic hasRateAPI;
+ dynamic shippingProviderHasRateAPI;
+  dynamic integrationType;
+  List<Null>? proofDeliveryIds;
+  dynamic gridPageSize;
+  List<Null>? availablePageSizes;
+  List<Null>? customProperties;
+  dynamic friendlyPluginName;
+
+  CarrierModel({this.id, this.editShippigStatus, this.systemName, this.staticName, this.methodName, this.carrierName, this.email, this.icon, this.isActive, this.isOnline, this.returnApplicable, this.publicRate, this.shippingTripType, this.limitedToStore, 
+    // this.shippingTripTypeIds, 
+    this.limitedToStoreIds, this.markUpPercentage, this.intlMarkUpPercentage, this.onDemandMarkUpPercentage, this.onDemandIntlMarkUpPercentage, this.customMarkUpPercentage, this.customIntlMarkUpPercentage, this.domesticDiscountPercentage, this.internationalDiscountPercentage, this.onDemandDomesticDiscountPercentage, this.onDemandInternationalDiscountPercentage, this.customDomesticDiscountPercentage, this.customInternationalDiscountPercentage, this.carrierCODPercentage, this.intlCODPercentage, this.carrierCODMinimalCharge, this.intlCODMinimalCharge, this.returnUponDeliveryRate, this.failedDeliveryRate, this.configure, this.carrierAWBType, this.configureUrl, this.displayOrder, this.transitDays, this.totalRate, this.iconUrl, this.iconId, this.termsUrl, this.availableShippingTripType, this.availableStores, this.availableCarriersLibraries, this.vendorId, this.availableVendors, this.availableCountries, this.selectedVendors, this.selectedCountries, this.primaryStoreCurrencyCode, this.vatPercentage, this.isICarryCarrier, this.isAvailableForOnDemand, this.isAvailableForAllVendors, this.isCODProvided, this.enableSchedule, this.enableAutoPickupRequest, this.hasRateAPI, this.shippingProviderHasRateAPI, this.integrationType, this.proofDeliveryIds, this.gridPageSize, this.availablePageSizes, this.customProperties, this.friendlyPluginName});
+
+  CarrierModel.fromJson(Map<String, dynamic> json) {
+    id = json['Id'];
+    editShippigStatus = json['EditShippigStatus'];
+    systemName = json['SystemName'];
+    staticName = json['StaticName'];
+    methodName = json['MethodName'];
+    carrierName = json['CarrierName'];
+    email = json['Email'];
+    icon = json['Icon'];
+    isActive = json['IsActive'];
+    isOnline = json['IsOnline'];
+    returnApplicable = json['ReturnApplicable'];
+    publicRate = json['PublicRate'];
+    shippingTripType = json['ShippingTripType'];
+    limitedToStore = json['LimitedToStore'];
+    // if (json['ShippingTripTypeIds'] != null) {
+    //   shippingTripTypeIds = <Null>[];
+    //   json['ShippingTripTypeIds'].forEach((v) { shippingTripTypeIds!.add(new Null.fromJson(v)); });
+    // }
+    // if (json['LimitedToStoreIds'] != null) {
+    //   limitedToStoreIds = <Null>[];
+    //   json['LimitedToStoreIds'].forEach((v) { limitedToStoreIds!.add(new Null.fromJson(v)); });
+    // }
+    markUpPercentage = json['MarkUpPercentage'];
+    intlMarkUpPercentage = json['IntlMarkUpPercentage'];
+    onDemandMarkUpPercentage = json['OnDemandMarkUpPercentage'];
+    onDemandIntlMarkUpPercentage = json['OnDemandIntlMarkUpPercentage'];
+    customMarkUpPercentage = json['CustomMarkUpPercentage'];
+    customIntlMarkUpPercentage = json['CustomIntlMarkUpPercentage'];
+    domesticDiscountPercentage = json['DomesticDiscountPercentage'];
+    internationalDiscountPercentage = json['InternationalDiscountPercentage'];
+    onDemandDomesticDiscountPercentage = json['OnDemandDomesticDiscountPercentage'];
+    onDemandInternationalDiscountPercentage = json['OnDemandInternationalDiscountPercentage'];
+    customDomesticDiscountPercentage = json['CustomDomesticDiscountPercentage'];
+    customInternationalDiscountPercentage = json['CustomInternationalDiscountPercentage'];
+    carrierCODPercentage = json['CarrierCODPercentage'];
+    intlCODPercentage = json['IntlCODPercentage'];
+    carrierCODMinimalCharge = json['CarrierCODMinimalCharge'];
+    intlCODMinimalCharge = json['IntlCODMinimalCharge'];
+    returnUponDeliveryRate = json['ReturnUponDeliveryRate'];
+    failedDeliveryRate = json['FailedDeliveryRate'];
+    configure = json['Configure'];
+    carrierAWBType = json['CarrierAWBType'];
+    configureUrl = json['ConfigureUrl'];
+    displayOrder = json['DisplayOrder'];
+    transitDays = json['TransitDays'];
+    totalRate = json['TotalRate'];
+    iconUrl = json['IconUrl'];
+    iconId = json['IconId'];
+    termsUrl = json['TermsUrl'];
+    // if (json['AvailableShippingTripType'] != null) {
+    //   availableShippingTripType = <Null>[];
+    //   json['AvailableShippingTripType'].forEach((v) { availableShippingTripType!.add(new Null.fromJson(v)); });
+    // }
+    // if (json['AvailableStores'] != null) {
+    //   availableStores = <Null>[];
+    //   json['AvailableStores'].forEach((v) { availableStores!.add(new Null.fromJson(v)); });
+    // }
+    // if (json['AvailableCarriersLibraries'] != null) {
+    //   availableCarriersLibraries = <Null>[];
+    //   json['AvailableCarriersLibraries'].forEach((v) { availableCarriersLibraries!.add(new Null.fromJson(v)); });
+    // }
+    vendorId = json['VendorId'];
+    // if (json['AvailableVendors'] != null) {
+    //   availableVendors = <Null>[];
+    //   json['AvailableVendors'].forEach((v) { availableVendors!.add(new Null.fromJson(v)); });
+    // }
+    // if (json['AvailableCountries'] != null) {
+    //   availableCountries = <Null>[];
+    //   json['AvailableCountries'].forEach((v) { availableCountries!.add(new Null.fromJson(v)); });
+    // }
+    // if (json['SelectedVendors'] != null) {
+    //   selectedVendors = <Null>[];
+    //   json['SelectedVendors'].forEach((v) { selectedVendors!.add(new Null.fromJson(v)); });
+    // }
+    // if (json['SelectedCountries'] != null) {
+    //   selectedCountries = <Null>[];
+    //   json['SelectedCountries'].forEach((v) { selectedCountries!.add(new Null.fromJson(v)); });
+    // }
+    primaryStoreCurrencyCode = json['PrimaryStoreCurrencyCode'];
+    vatPercentage = json['VatPercentage'];
+    isICarryCarrier = json['isICarryCarrier'];
+    isAvailableForOnDemand = json['IsAvailableForOnDemand'];
+    isAvailableForAllVendors = json['IsAvailableForAllVendors'];
+    isCODProvided = json['IsCODProvided'];
+    enableSchedule = json['EnableSchedule'];
+    enableAutoPickupRequest = json['EnableAutoPickupRequest'];
+    hasRateAPI = json['HasRateAPI'];
+    shippingProviderHasRateAPI = json['ShippingProviderHasRateAPI'];
+    integrationType = json['IntegrationType'];
+    // if (json['ProofDeliveryIds'] != null) {
+    //   proofDeliveryIds = <Null>[];
+    //   json['ProofDeliveryIds'].forEach((v) { proofDeliveryIds!.add(new Null.fromJson(v)); });
+    // }
+    gridPageSize = json['GridPageSize'];
+    // if (json['AvailablePageSizes'] != null) {
+    //   availablePageSizes = <Null>[];
+    //   json['AvailablePageSizes'].forEach((v) { availablePageSizes!.add(new Null.fromJson(v)); });
+    // }
+    // if (json['CustomProperties'] != null) {
+    //   customProperties = <Null>[];
+    //   json['CustomProperties'].forEach((v) { customProperties!.add(new Null.fromJson(v)); });
+    // }
+    friendlyPluginName = json['friendlyPluginName'];
+  }
+
+  Map<String, dynamic> toJson() {
+    final Map<String, dynamic> data = new Map<String, dynamic>();
+    data['Id'] = id;
+    data['EditShippigStatus'] = editShippigStatus;
+    data['SystemName'] = systemName;
+    data['StaticName'] = staticName;
+    data['MethodName'] =  methodName;
+    data['CarrierName'] = carrierName;
+    data['Email'] = email;
+    data['Icon'] = icon;
+    data['IsActive'] = isActive;
+    data['IsOnline'] = isOnline;
+    data['ReturnApplicable'] = returnApplicable;
+    data['PublicRate'] = publicRate;
+    data['ShippingTripType'] = shippingTripType;
+    data['LimitedToStore'] = limitedToStore;
+    // if (this.shippingTripTypeIds != null) {
+    //   data['ShippingTripTypeIds'] = this.shippingTripTypeIds!.map((v) => v.toJson()).toList();
+    // }
+    // if (this.limitedToStoreIds != null) {
+    //   data['LimitedToStoreIds'] = this.limitedToStoreIds!.map((v) => v.toJson()).toList();
+    // }
+    data['MarkUpPercentage'] = markUpPercentage;
+    data['IntlMarkUpPercentage'] = intlMarkUpPercentage;
+    data['OnDemandMarkUpPercentage'] = onDemandMarkUpPercentage;
+    data['OnDemandIntlMarkUpPercentage'] = onDemandIntlMarkUpPercentage;
+    data['CustomMarkUpPercentage'] = customMarkUpPercentage;
+    data['CustomIntlMarkUpPercentage'] = customIntlMarkUpPercentage;
+    data['DomesticDiscountPercentage'] = domesticDiscountPercentage;
+    data['InternationalDiscountPercentage'] = internationalDiscountPercentage;
+    data['OnDemandDomesticDiscountPercentage'] = onDemandDomesticDiscountPercentage;
+    data['OnDemandInternationalDiscountPercentage'] = onDemandInternationalDiscountPercentage;
+    data['CustomDomesticDiscountPercentage'] = customDomesticDiscountPercentage;
+    data['CustomInternationalDiscountPercentage'] = customInternationalDiscountPercentage;
+    data['CarrierCODPercentage'] = carrierCODPercentage;
+    data['IntlCODPercentage'] = intlCODPercentage;
+    data['CarrierCODMinimalCharge'] = carrierCODMinimalCharge;
+    data['IntlCODMinimalCharge'] = intlCODMinimalCharge;
+    data['ReturnUponDeliveryRate'] = returnUponDeliveryRate;
+    data['FailedDeliveryRate'] = failedDeliveryRate;
+    data['Configure'] = configure;
+    data['CarrierAWBType'] = carrierAWBType;
+    data['ConfigureUrl'] = configureUrl;
+    data['DisplayOrder'] = displayOrder;
+    data['TransitDays'] = transitDays;
+    data['TotalRate'] = totalRate;
+    data['IconUrl'] = iconUrl;
+    data['IconId'] = iconId;
+    data['TermsUrl'] = termsUrl;
+    // if (this.availableShippingTripType != null) {
+    //   data['AvailableShippingTripType'] = this.availableShippingTripType!.map((v) => v.toJson()).toList();
+    // }
+    // if (this.availableStores != null) {
+    //   data['AvailableStores'] = this.availableStores!.map((v) => v.toJson()).toList();
+    // }
+    // if (this.availableCarriersLibraries != null) {
+    //   data['AvailableCarriersLibraries'] = this.availableCarriersLibraries!.map((v) => v.toJson()).toList();
+    // }
+    data['VendorId'] = vendorId;
+    // if (this.availableVendors != null) {
+    //   data['AvailableVendors'] = this.availableVendors!.map((v) => v.toJson()).toList();
+    // }
+    // if (this.availableCountries != null) {
+    //   data['AvailableCountries'] = this.availableCountries!.map((v) => v.toJson()).toList();
+    // }
+    // if (this.selectedVendors != null) {
+    //   data['SelectedVendors'] = this.selectedVendors!.map((v) => v.toJson()).toList();
+    // }
+    // if (this.selectedCountries != null) {
+    //   data['SelectedCountries'] = this.selectedCountries!.map((v) => v.toJson()).toList();
+    // }
+    data['PrimaryStoreCurrencyCode'] = primaryStoreCurrencyCode;
+    data['VatPercentage'] = vatPercentage;
+    data['isICarryCarrier'] = isICarryCarrier;
+    data['IsAvailableForOnDemand'] = isAvailableForOnDemand;
+    data['IsAvailableForAllVendors'] = isAvailableForAllVendors;
+    data['IsCODProvided'] = isCODProvided;
+    data['EnableSchedule'] = enableSchedule;
+    data['EnableAutoPickupRequest'] = enableAutoPickupRequest;
+    data['HasRateAPI'] = hasRateAPI;
+    data['ShippingProviderHasRateAPI'] = shippingProviderHasRateAPI;
+    data['IntegrationType'] = integrationType;
+    // if (this.proofDeliveryIds != null) {
+    //   data['ProofDeliveryIds'] = this.proofDeliveryIds!.map((v) => v.toJson()).toList();
+    // }
+    data['GridPageSize'] = gridPageSize;
+    // if (this.availablePageSizes != null) {
+    //   data['AvailablePageSizes'] = this.availablePageSizes!.map((v) => v.toJson()).toList();
+    // }
+    // if (this.customProperties != null) {
+    //   data['CustomProperties'] = this.customProperties!.map((v) => v.toJson()).toList();
+    // }
+    data['friendlyPluginName'] = friendlyPluginName;
+    return data;
+  }
+}
+
+class Finance {
+  dynamic shipmentID;
+  dynamic orderID;
+  dynamic deliveryRate;
+  dynamic deliveryCharge;
+  dynamic cODCharge;
+  dynamic serviceFee;
+  dynamic subscriptionplanVendorID;
+  dynamic revenues;
+  dynamic taxRate;
+  dynamic taxValue;
+  dynamic deliveryExpense;
+  dynamic cODExpense;
+  dynamic expenses;
+  dynamic grossProfit;
+  dynamic affiliateCost;
+  dynamic fulfillmentCharge;
+  dynamic fulfillmentCost;
+ dynamic isSpecialRate;
+  dynamic originalRate;
+ dynamic deleted;
+ dynamic completed;
+  dynamic id;
+
+  Finance({this.shipmentID, this.orderID, this.deliveryRate, this.deliveryCharge, this.cODCharge, this.serviceFee, this.subscriptionplanVendorID, this.revenues, this.taxRate, this.taxValue, this.deliveryExpense, this.cODExpense, this.expenses, this.grossProfit, this.affiliateCost, this.fulfillmentCharge, this.fulfillmentCost, this.isSpecialRate, this.originalRate, this.deleted, this.completed, this.id});
+
+  Finance.fromJson(Map<String, dynamic> json) {
+    shipmentID = json['ShipmentID'];
+    orderID = json['OrderID'];
+    deliveryRate = json['DeliveryRate'];
+    deliveryCharge = json['DeliveryCharge'];
+    cODCharge = json['CODCharge'];
+    serviceFee = json['ServiceFee'];
+    subscriptionplanVendorID = json['SubscriptionplanVendorID'];
+    revenues = json['Revenues'];
+    taxRate = json['TaxRate'];
+    taxValue = json['TaxValue'];
+    deliveryExpense = json['DeliveryExpense'];
+    cODExpense = json['CODExpense'];
+    expenses = json['Expenses'];
+    grossProfit = json['GrossProfit'];
+    affiliateCost = json['AffiliateCost'];
+    fulfillmentCharge = json['FulfillmentCharge'];
+    fulfillmentCost = json['FulfillmentCost'];
+    isSpecialRate = json['IsSpecialRate'];
+    originalRate = json['OriginalRate'];
+    deleted = json['Deleted'];
+    completed = json['Completed'];
+    id = json['Id'];
+  }
+
+  Map<String, dynamic> toJson() {
+    final Map<String, dynamic> data = new Map<String, dynamic>();
+    data['ShipmentID'] = shipmentID;
+    data['OrderID'] = orderID;
+    data['DeliveryRate'] = deliveryRate;
+    data['DeliveryCharge'] = deliveryCharge;
+    data['CODCharge'] = cODCharge;
+    data['ServiceFee'] = serviceFee;
+    data['SubscriptionplanVendorID'] = subscriptionplanVendorID;
+    data['Revenues'] = revenues;
+    data['TaxRate'] = taxRate;
+    data['TaxValue'] = taxValue;
+    data['DeliveryExpense'] = deliveryExpense;
+    data['CODExpense'] = cODExpense;
+    data['Expenses'] = expenses;
+    data['GrossProfit'] = grossProfit;
+    data['AffiliateCost'] = affiliateCost;
+    data['FulfillmentCharge'] = fulfillmentCharge;
+    data['FulfillmentCost'] = fulfillmentCost;
+    data['IsSpecialRate'] = isSpecialRate;
+    data['OriginalRate'] = originalRate;
+    data['Deleted'] = deleted;
+    data['Completed'] = completed;
+    data['Id'] = id;
+    return data;
+  }
+}
+
+class WorkingCurrency {
+  dynamic name;
+  dynamic currencyCode;
+  dynamic rate;
+  dynamic displayLocale;
+  dynamic customFormatting;
+ dynamic limitedToStores;
+ dynamic published;
+  dynamic displayOrder;
+  dynamic createdOnUtc;
+  dynamic updatedOnUtc;
+  dynamic roundingTypeId;
+  dynamic roundingType;
+  dynamic id;
+
+  WorkingCurrency({this.name, this.currencyCode, this.rate, this.displayLocale, this.customFormatting, this.limitedToStores, this.published, this.displayOrder, this.createdOnUtc, this.updatedOnUtc, this.roundingTypeId, this.roundingType, this.id});
+
+  WorkingCurrency.fromJson(Map<String, dynamic> json) {
+    name = json['Name'];
+    currencyCode = json['CurrencyCode'];
+    rate = json['Rate'];
+    displayLocale = json['DisplayLocale'];
+    customFormatting = json['CustomFormatting'];
+    limitedToStores = json['LimitedToStores'];
+    published = json['Published'];
+    displayOrder = json['DisplayOrder'];
+    createdOnUtc = json['CreatedOnUtc'];
+    updatedOnUtc = json['UpdatedOnUtc'];
+    roundingTypeId = json['RoundingTypeId'];
+    roundingType = json['RoundingType'];
+    id = json['Id'];
+  }
+
+  Map<String, dynamic> toJson() {
+    final Map<String, dynamic> data = new Map<String, dynamic>();
+    data['Name'] = name;
+    data['CurrencyCode'] = currencyCode;
+    data['Rate'] = rate;
+    data['DisplayLocale'] = displayLocale;
+    data['CustomFormatting'] = customFormatting;
+    data['LimitedToStores'] = limitedToStores;
+    data['Published'] = published;
+    data['DisplayOrder'] = displayOrder;
+    data['CreatedOnUtc'] = createdOnUtc;
+    data['UpdatedOnUtc'] = updatedOnUtc;
+    data['RoundingTypeId'] = roundingTypeId;
+    data['RoundingType'] = roundingType;
+    data['Id'] = id;
+    return data;
+  }
+}
+
+class LocalShipping {
+  dynamic id;
+  dynamic name;
+  dynamic value;
+  dynamic vendorId;
+
+  LocalShipping({this.id, this.name, this.value, this.vendorId});
+
+  LocalShipping.fromJson(Map<String, dynamic> json) {
+    id = json['id'];
+    name = json['name'];
+    value = json['value'];
+    vendorId = json['vendor_id'];
+  }
+
+  Map<String, dynamic> toJson() {
+    final Map<String, dynamic> data = new Map<String, dynamic>();
+    data['id'] = id;
+    data['name'] = name;
+    data['value'] = value;
+    data['vendor_id'] = vendorId;
+    return data;
+  }
+}
+
 
 
 class FedexShipping {
