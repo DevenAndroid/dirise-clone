@@ -7,6 +7,7 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:intl/intl.dart';
+import '../../controller/vendor_controllers/add_product_controller.dart';
 import '../../model/jobResponceModel.dart';
 import '../../repository/repository.dart';
 import '../../utils/api_constant.dart';
@@ -23,7 +24,7 @@ class DateRangeScreen extends StatefulWidget {
 class _DateRangeScreenState extends State<DateRangeScreen> {
   DateTime _startDate = DateTime.now();
   DateTime _endDate = DateTime.now();
-  String? formattedStartDate;
+  final addProductController = Get.put(AddProductController());
   String? formattedStartDate1;
   RxBool isServiceProvide = false.obs;
 
@@ -37,8 +38,8 @@ class _DateRangeScreenState extends State<DateRangeScreen> {
     if (picked != null && picked != _startDate) {
       setState(() {
         _startDate = picked;
-        formattedStartDate = DateFormat('yyyy/MM/dd').format(_startDate);
-        print('Now Select........${formattedStartDate.toString()}');
+        addProductController.formattedStartDate = DateFormat('yyyy/MM/dd').format(_startDate);
+        print('Now Select........${addProductController.formattedStartDate.toString()}');
       });
     }
   }
@@ -107,12 +108,12 @@ class _DateRangeScreenState extends State<DateRangeScreen> {
     Map<String, dynamic> map3 = {};
 
     map["product_type"] = "booking";
-    map["group"] = formattedStartDate  == formattedStartDate1?"date":"range";
-    if(formattedStartDate  == formattedStartDate1){
-    map["single_date"] = formattedStartDate.toString();
+    map["group"] = addProductController.formattedStartDate  == formattedStartDate1?"date":"range";
+    if(addProductController.formattedStartDate  == formattedStartDate1){
+    map["single_date"] = addProductController.formattedStartDate.toString();
     }
 else{
-  map["from_date"] = formattedStartDate.toString();
+  map["from_date"] = addProductController.formattedStartDate.toString();
   map["to_date"] = formattedStartDate1.toString();
 }
     map['vacation_type'] = map1;
@@ -188,7 +189,7 @@ else{
                     crossAxisAlignment: CrossAxisAlignment.start,
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
-                      Text('Start Date: ${formattedStartDate ?? ''}',
+                      Text('Start Date: ${addProductController.formattedStartDate ?? ''}',
                         style:const TextStyle(
                             fontSize: 17,
                             fontWeight: FontWeight.w500

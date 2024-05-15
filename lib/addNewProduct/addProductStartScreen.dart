@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 import 'package:get/get.dart';
 
+import '../screens/tell_us_about_yourself.dart';
 import 'addProductFirstImageScreen.dart';
 
 class AddProductOptionScreen extends StatefulWidget {
@@ -56,26 +57,31 @@ class _AddProductOptionScreenState extends State<AddProductOptionScreen> {
             const SizedBox(
               height: 40,
             ),
-            Container(
-              padding: const EdgeInsets.all(15),
-              width: Get.width,
-              decoration: BoxDecoration(borderRadius: BorderRadius.circular(11), color: Colors.grey.shade200),
-              child: const Column(
-                mainAxisAlignment: MainAxisAlignment.start,
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  Text(
-                    'Multiple products',
-                    style: TextStyle(fontSize: 32, fontWeight: FontWeight.w500, color: Color(0xff272E41)),
-                  ),
-                  SizedBox(
-                    height: 20,
-                  ),
-                  Text(
-                    'I want to add Multiple Product',
-                    style: TextStyle(fontSize: 24, fontWeight: FontWeight.w500, color: Color(0xff272E41)),
-                  ),
-                ],
+            InkWell(
+              onTap: (){
+                Get.to(()=> const TellUsYourSelfScreen());
+              },
+              child: Container(
+                padding: const EdgeInsets.all(15),
+                width: Get.width,
+                decoration: BoxDecoration(borderRadius: BorderRadius.circular(11), color: Colors.grey.shade200),
+                child: const Column(
+                  mainAxisAlignment: MainAxisAlignment.start,
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    Text(
+                      'Multiple products',
+                      style: TextStyle(fontSize: 32, fontWeight: FontWeight.w500, color: Color(0xff272E41)),
+                    ),
+                    SizedBox(
+                      height: 20,
+                    ),
+                    Text(
+                      'I want to add Multiple Product',
+                      style: TextStyle(fontSize: 24, fontWeight: FontWeight.w500, color: Color(0xff272E41)),
+                    ),
+                  ],
+                ),
               ),
             ),
           ],
