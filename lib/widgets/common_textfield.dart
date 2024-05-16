@@ -64,7 +64,7 @@ class _CommonTextFieldState extends State<CommonTextField> {
         style: GoogleFonts.poppins(),
         autofocus: false,
         autovalidateMode: AutovalidateMode.onUserInteraction,
-        textInputAction: widget.textInputAction,
+        textInputAction: TextInputAction.next,
         onFieldSubmitted: widget.onFieldSubmitted,
         inputFormatters: widget.inputFormatters,
         onChanged: widget.onChanged,
@@ -86,16 +86,16 @@ class _CommonTextFieldState extends State<CommonTextField> {
 
           errorMaxLines: 2,
           enabled: widget.enabled,
-          contentPadding: widget.contentPadding,
+          contentPadding: const EdgeInsets.all(15),
           //   fillColor: Colors.transparent,
           hintText: widget.hintText,
           errorText: widget.errorText,
           labelText: widget.labelText,
           prefixIcon: widget.prefix,
-          suffix: widget.suffixIcon,
+          suffixIcon: widget.suffixIcon,
           hintStyle: GoogleFonts.poppins(
             color: AppTheme.primaryColor,
-            fontSize: 13,
+            fontSize: 15,
           ),
 
           border: InputBorder.none,

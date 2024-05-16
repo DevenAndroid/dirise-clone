@@ -231,54 +231,54 @@ class _HomePageState extends State<HomePage> {
 
   List<Widget> vendorPartner() {
     return [
-      GestureDetector(
-        onTap: () {
-          if (profileController.model.user == null) {
-            showVendorDialog();
-            return;
-          }
-          if (profileController.model.user!.isVendor != true) {
-            Get.to(() => const VendorPlansScreen());
-            return;
-          }
-          if (profileController.model.user!.isVendor == true) {
-            Get.to(() => const VendorDashBoardScreen());
-            return;
-          }
-          _isValue.value = !_isValue.value;
-          setState(() {});
-        },
-        child: Container(
-          alignment: Alignment.center,
-          padding: const EdgeInsets.symmetric(vertical: 5, horizontal: 5),
-          height: 40,
-          decoration: BoxDecoration(
-              borderRadius: BorderRadius.circular(8),
-              color: Colors.white
-          ),
-          child: Row(
-            crossAxisAlignment: CrossAxisAlignment.center,
-            mainAxisAlignment: MainAxisAlignment.center,
-            children: [
-              SvgPicture.asset('assets/icons/plus_icon.svg', height: 25, color: AppTheme.buttonColor),
-              const SizedBox(
-                width: 6,
-              ),
-              Text(
-                'Sell'.tr,
-                style: GoogleFonts.poppins(color: AppTheme.buttonColor, fontSize: 17, fontWeight: FontWeight.w500),
-              ),
-              const SizedBox(
-                width: 3,
-              ),
-            ],
-          ),
-        ),
-      ),
+      // GestureDetector(
+      //   onTap: () {
+      //     if (profileController.model.user == null) {
+      //       showVendorDialog();
+      //       return;
+      //     }
+      //     if (profileController.model.user!.isVendor != true) {
+      //       Get.to(() => const VendorPlansScreen());
+      //       return;
+      //     }
+      //     if (profileController.model.user!.isVendor == true) {
+      //       Get.to(() => const VendorDashBoardScreen());
+      //       return;
+      //     }
+      //     _isValue.value = !_isValue.value;
+      //     setState(() {});
+      //   },
+      //   child: Container(
+      //     alignment: Alignment.center,
+      //     padding: const EdgeInsets.symmetric(vertical: 5, horizontal: 5),
+      //     height: 40,
+      //     decoration: BoxDecoration(
+      //         borderRadius: BorderRadius.circular(8),
+      //         color: Colors.white
+      //     ),
+      //     child: Row(
+      //       crossAxisAlignment: CrossAxisAlignment.center,
+      //       mainAxisAlignment: MainAxisAlignment.center,
+      //       children: [
+      //         SvgPicture.asset('assets/icons/plus_icon.svg', height: 25, color: AppTheme.buttonColor),
+      //         const SizedBox(
+      //           width: 6,
+      //         ),
+      //         Text(
+      //           'Sell'.tr,
+      //           style: GoogleFonts.poppins(color: AppTheme.buttonColor, fontSize: 17, fontWeight: FontWeight.w500),
+      //         ),
+      //         const SizedBox(
+      //           width: 3,
+      //         ),
+      //       ],
+      //     ),
+      //   ),
+      // ),
       // _isValue.value == true
       //     ? Obx(() {
       //   if (profileController.refreshInt.value > 0) {}
-      //
+      //`
       //   return profileController.model.user != null
       //       ? Column(
       //     crossAxisAlignment: CrossAxisAlignment.start,
