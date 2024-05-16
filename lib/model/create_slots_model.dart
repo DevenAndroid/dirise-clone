@@ -1,6 +1,6 @@
 class CreateSlotsModel {
-  bool? status;
-  String? message;
+  dynamic status;
+  dynamic message;
   List<Data>? data;
 
   CreateSlotsModel({this.status, this.message, this.data});
@@ -28,12 +28,12 @@ class CreateSlotsModel {
 }
 
 class Data {
-  String? productId;
-  int? weekDay;
-  int? productAvailabilityId;
-  int? vendorId;
-  String? timeSloat;
-  String? timeSloatEnd;
+  dynamic productId;
+  dynamic weekDay;
+  dynamic productAvailabilityId;
+  dynamic vendorId;
+  dynamic timeSloat;
+  dynamic timeSloatEnd;
 
   Data(
       {this.productId,

@@ -30,15 +30,20 @@ class _OptionalDetailsScreenState extends State<OptionalDetailsScreen> {
   final Repositories repositories = Repositories();
   final formKey1 = GlobalKey<FormState>();
   String code = "+91";
+  final TextEditingController locationController = TextEditingController();
+  final TextEditingController hostNameController = TextEditingController();
+  final TextEditingController programNameController = TextEditingController();
+  final TextEditingController programGoalController = TextEditingController();
+  final TextEditingController programDescription = TextEditingController();
   optionalApi() {
     Map<String, dynamic> map = {};
 
-    map['meta_title'] = serviceController.metaTitleController.text.trim();
-    map['item_type'] = 'giveaway';
-    map['meta_description'] = serviceController.metaDescriptionController.text.trim();
-    map['long_description'] = serviceController.longDescriptionController.text.trim();
-    map['serial_number'] = serviceController.serialNumberController.text.trim();
-    map['product_number'] = serviceController.productNumberController.text.trim();
+    map['bookable_product_location'] = locationController.text.trim();
+    map['item_type'] = 'product';
+    map['host_name'] = hostNameController.text.trim();
+    map['program_name'] = programNameController.text.trim();
+    map['program_goal'] = programGoalController.text.trim();
+    map['program_desc'] = programDescription.text.trim();
 
     FocusManager.instance.primaryFocus!.unfocus();
     repositories.postApi(url: ApiUrls.giveawayProductAddress, context: context, mapData: map).then((value) {
@@ -46,8 +51,9 @@ class _OptionalDetailsScreenState extends State<OptionalDetailsScreen> {
       print('API Response Status Code: ${response.status}');
       // showToast(response.message.toString());
       if (response.status == true) {
+        showToast(response.message.toString());
         if(formKey1.currentState!.validate()){
-          Get.to(() => const ServiceClassificationScreen());
+          Get.to(()=> const SponsorsScreen());
         }
       }
     });
@@ -89,7 +95,7 @@ class _OptionalDetailsScreenState extends State<OptionalDetailsScreen> {
             child: Column(
               children: [
                 TextFormField(
-                  controller: serviceController.longDescriptionController,
+                  controller: locationController,
                   maxLines: 2,
                   minLines: 2,
                   decoration: InputDecoration(
@@ -127,7 +133,7 @@ class _OptionalDetailsScreenState extends State<OptionalDetailsScreen> {
                   ),
                 ),
                 CommonTextField(
-                  controller: serviceController.metaTitleController,
+                  controller: hostNameController,
                   obSecure: false,
                   hintText: 'Host name'.tr,
                   validator: (value) {
@@ -139,7 +145,7 @@ class _OptionalDetailsScreenState extends State<OptionalDetailsScreen> {
 
                 ),
                 CommonTextField(
-                  controller: serviceController.productNumberController,
+                  controller: programNameController,
                   obSecure: false,
                   hintText: 'Program name'.tr,
                   keyboardType: TextInputType.number,
@@ -152,7 +158,7 @@ class _OptionalDetailsScreenState extends State<OptionalDetailsScreen> {
 
                 ),
                 CommonTextField(
-                  controller: serviceController.serialNumberController,
+                  controller: programGoalController,
                   obSecure: false,
                   hintText: 'Program goal'.tr,
                   validator: (value) {
@@ -164,7 +170,7 @@ class _OptionalDetailsScreenState extends State<OptionalDetailsScreen> {
                 ),
                 TextFormField(
                   maxLines: 2,
-                  controller: serviceController.metaDescriptionController,
+                  controller: programDescription,
                   minLines: 2,
                   validator: (value) {
                     if (value!.trim().isEmpty) {
@@ -212,10 +218,8 @@ class _OptionalDetailsScreenState extends State<OptionalDetailsScreen> {
                   title: 'Done',
                   borderRadius: 11,
                   onPressed: () {
-                    // if(formKey1.currentState!.validate()){
-                    // optionalApi();
-                    // }
-                     Get.to(()=> const SponsorsScreen());
+                    optionalApi();
+
                   },
                 ),
                 const SizedBox(height: 20),

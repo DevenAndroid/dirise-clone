@@ -1,3 +1,4 @@
+import 'dart:convert';
 import 'dart:io';
 
 import 'package:dirise/screens/Consultation%20Sessions/review_screen.dart';
@@ -6,6 +7,9 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:google_fonts/google_fonts.dart';
 
+import '../../model/common_modal.dart';
+import '../../repository/repository.dart';
+import '../../utils/api_constant.dart';
 import '../../vendor/authentication/image_widget.dart';
 import '../../widgets/common_button.dart';
 import '../../widgets/common_textfield.dart';
@@ -23,6 +27,7 @@ class _SponsorsScreenState extends State<SponsorsScreen> {
   final formKey1 = GlobalKey<FormState>();
   File idProof = File("");
   List<Map<String, dynamic>> sponsorData = [];
+  final Repositories repositories = Repositories();
   bool checkValidation(bool bool1, bool2) {
     if (bool1 == true && bool2 == true) {
       return true;
@@ -33,6 +38,41 @@ class _SponsorsScreenState extends State<SponsorsScreen> {
   RxBool showValidation = false.obs;
   TextEditingController sponsorTypeController = TextEditingController();
   TextEditingController sponsorNameController = TextEditingController();
+  addSponsors() {
+    Map<String, String> map = {};
+    Map<String, File> images = {};
+    map['sponsor_type'] = sponsorTypeController.text.trim();
+    map['sponsor_name'] = sponsorNameController.text.trim();
+    images['sponsor_logo'] = idProof;
+
+    FocusManager.instance.primaryFocus!.unfocus();
+    repositories.multiPartApi(onProgress: (gg,kk){},images: images,url: ApiUrls.addProductSponsor, context: context, mapData: map).then((value) {
+      ModelCommonResponse response = ModelCommonResponse.fromJson(jsonDecode(value));
+      print('API Response Status Code: ${response.status}');
+      showToast(response.message.toString());
+      if (response.status == true) {
+        showToast(response.message.toString());
+        if(formKey1.currentState!.validate()){
+          // Get.to(()=> const SponsorsScreen());
+        }
+      }
+    });
+  }
+  getSponsors() {
+    repositories.getApi(url: ApiUrls.sponsorList, context: context).then((value) {
+      ModelCommonResponse response = ModelCommonResponse.fromJson(jsonDecode(value));
+      print('API Response Status Code: ${response.status}');
+      showToast(response.message.toString());
+      if (response.status == true) {
+        showToast(response.message.toString());
+      }
+    });
+  }
+  @override
+  void initState() {
+    super.initState();
+    getSponsors();
+  }
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -68,6 +108,8 @@ class _SponsorsScreenState extends State<SponsorsScreen> {
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
+
+              15.spaceY,
               CommonTextField(
                 controller: sponsorTypeController,
                 obSecure: false,
@@ -104,76 +146,6 @@ class _SponsorsScreenState extends State<SponsorsScreen> {
                 },
               ),
               20.spaceY,
-              ListView.builder(
-                physics: const NeverScrollableScrollPhysics(),
-                shrinkWrap: true,
-                itemCount: sponsorData.length,
-                itemBuilder: (context, index) {
-                  return Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      Row(
-                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                        children: [
-                          Text(
-                            'New Field'.tr,
-                            style: GoogleFonts.poppins(color: const Color(0xff292F45), fontWeight: FontWeight.w500, fontSize: 18),
-                          ),
-                          IconButton(
-                            icon: const Icon(Icons.delete,color: Colors.red,),
-                            onPressed: () {
-                              setState(() {
-                                sponsorData.removeAt(index);
-                              });
-                            },
-                          ),
-                        ],
-                      ),
-                      10.spaceY,
-                      CommonTextField(
-                        controller: sponsorData[index]['typeController'],
-                        obSecure: false,
-                        hintText: 'Sponsor type'.tr,
-                        validator: (value) {
-                          if (value!.trim().isEmpty) {
-                            return "Sponsor type is required".tr;
-                          }
-                          return null;
-                        },
-                      ),
-                      CommonTextField(
-                        controller: sponsorData[index]['nameController'],
-                        obSecure: false,
-                        hintText: 'Sponsor name'.tr,
-                        keyboardType: TextInputType.number,
-                        validator: (value) {
-                          if (value!.trim().isEmpty) {
-                            return "Sponsor name is required".tr;
-                          }
-                          return null;
-                        },
-                      ),
-                      SizedBox(height: 25),
-                      ImageWidget(
-                        title: "Upload Sponsor logo".tr,
-                        file: sponsorData[index]['imageFile'],
-                        validation: checkValidation(
-                          showValidation.value,
-                          sponsorData[index]['imageFile']?.path?.isEmpty ?? true,
-                        ),
-                        filePicked: (File? g) {
-                          if (g != null) {
-                            setState(() {
-                              sponsorData[index]['imageFile'] = g;
-                            });
-                          }
-                        },
-                      ),
-                    ],
-                  );
-                },
-              ),
-              20.spaceY,
               const Text('Adding sponsor requires approval by admin, Also sponsor letter is required with the following :- Written to DIRISE Not older than7 days on the day of submitting.Number of contact of the sponsor to verify verbally Email to verify electronic',
               style: TextStyle(
                 fontWeight: FontWeight.w500,
@@ -191,13 +163,6 @@ class _SponsorsScreenState extends State<SponsorsScreen> {
               GestureDetector(
                 onTap: () {
                   setState(() {
-                    int newIndex = sponsorData.length;
-                    sponsorData.add({
-                      'id': newIndex,
-                      'typeController': TextEditingController(),
-                      'nameController': TextEditingController(),
-                      'imageFile': idProof,
-                    });
                   });
                 },
                 child: const Align(
@@ -216,10 +181,10 @@ class _SponsorsScreenState extends State<SponsorsScreen> {
                 title: 'Done',
                 borderRadius: 11,
                 onPressed: () {
-                  // if(formKey1.currentState!.validate()){
-                  // optionalApi();
-                  // }
-                  Get.to(()=> const EligibleCustomers());
+                  if(formKey1.currentState!.validate()){
+                  addSponsors();
+                  }
+                  // Get.to(()=> const EligibleCustomers());
                 },
               ),
               const SizedBox(height: 20),

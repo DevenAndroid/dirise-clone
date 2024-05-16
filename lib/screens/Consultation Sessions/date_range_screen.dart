@@ -108,6 +108,7 @@ class _DateRangeScreenState extends State<DateRangeScreen> {
     Map<String, dynamic> map3 = {};
 
     map["product_type"] = "booking";
+    map["id"] =  addProductController.idProduct.value.toString();
     map["group"] = addProductController.formattedStartDate  == formattedStartDate1?"date":"range";
     if(addProductController.formattedStartDate  == formattedStartDate1){
     map["single_date"] = addProductController.formattedStartDate.toString();
