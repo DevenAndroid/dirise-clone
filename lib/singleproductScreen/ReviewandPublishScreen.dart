@@ -439,7 +439,8 @@ class _ReviewandPublishScreenState extends State<ReviewandPublishScreen> {
                           mainAxisAlignment: MainAxisAlignment.start,
                           crossAxisAlignment: CrossAxisAlignment.start,
                           children: [
-                            Text('Town: ${productDetailsModel.value.productDetails!.address!.city  ?? ""}'),
+
+                            Text('Town: ${productDetailsModel.value.productDetails!.address!.town ?? ""}'),
                             Text('city: ${productDetailsModel.value.productDetails!.address!.city ?? ""}'),
                             Text('state: ${productDetailsModel.value.productDetails!.address!.state ?? ""}'),
                             Text('address: ${productDetailsModel.value.productDetails!.address!.address ?? ""}'),
