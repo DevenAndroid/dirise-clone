@@ -4,7 +4,10 @@ import 'package:dirise/widgets/common_colour.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:url_launcher/url_launcher_string.dart';
 import '../../widgets/dimension_screen.dart';
+import '../screens/my_account_screens/contact_us_screen.dart';
+import '../screens/my_account_screens/faqs_screen.dart';
 
 const String navigationBackUrl = "navigationbackUrlCode/navigationbackUrlCode";
 const String failureUrl = "navigationbackUrlCode/navigationbackUrlCode__failureUrl";
@@ -84,29 +87,33 @@ class _VendorAccountCreatedSuccessfullyScreenState extends State<VendorAccountCr
                       .headlineSmall!
                       .copyWith(fontWeight: FontWeight.w500, fontSize: 14, color: const Color(0xff596774)),
                 ),
-                Text(
-                  "FAQs".tr,
-                  textAlign: TextAlign.center,
-                  style: Theme.of(context)
-                      .textTheme
-                      .headlineSmall!
-                      .copyWith(fontWeight: FontWeight.w500, fontSize: 14, color: const Color(0xff262F33)),
+                GestureDetector(
+                  onTap: () {
+                    Get.offNamed(FrequentlyAskedQuestionsScreen.route);
+                  },
+                  child: Text(
+                    'FAQs'.tr,
+                    style: GoogleFonts.poppins(color: Colors.black, fontWeight: FontWeight.w400, fontSize: 14),
+                  ),
                 ),
-                Text(
-                  "Customer Support".tr,
-                  textAlign: TextAlign.center,
-                  style: Theme.of(context)
-                      .textTheme
-                      .headlineSmall!
-                      .copyWith(fontWeight: FontWeight.w500, fontSize: 14, color: const Color(0xff262F33)),
+                GestureDetector(
+                  onTap: () {
+                    Get.to(const ContactUsScreen());
+                    // Get.offNamed( .route);
+                  },
+                  child: Text(
+                    'Cutomer Support'.tr,
+                    style: GoogleFonts.poppins(color: Colors.black, fontWeight: FontWeight.w400, fontSize: 14),
+                  ),
                 ),
-                Text(
-                  "Call".tr,
-                  textAlign: TextAlign.center,
-                  style: Theme.of(context)
-                      .textTheme
-                      .headlineSmall!
-                      .copyWith(fontWeight: FontWeight.w500, fontSize: 14, color: const Color(0xff262F33)),
+                GestureDetector(
+                  onTap: (){
+                    launchUrlString("tel://+96565556490");
+                  },
+                  child: Text(
+                    'call'.tr,
+                    style: GoogleFonts.poppins(color: Colors.black, fontWeight: FontWeight.w400, fontSize: 14),
+                  ),
                 ),
                 SizedBox(
                   height: AddSize.size10,

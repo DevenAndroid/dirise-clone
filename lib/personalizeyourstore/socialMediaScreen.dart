@@ -142,7 +142,7 @@ class _SocialMediaStoreState extends State<SocialMediaStore> {
                             obSecure: false,
                             prefix: Image.asset('assets/images/instagram.png'),
                             // hintText: 'Name',
-                            hintText: 'Enter Your Instagram Username'.tr,
+                            hintText: 'Enter Your Instagram Profile Link'.tr,
                             validator: MultiValidator([
                               RequiredValidator(errorText: 'Instagram Username is required'.tr),
                             ])),
@@ -151,7 +151,7 @@ class _SocialMediaStoreState extends State<SocialMediaStore> {
                             obSecure: false,
                             prefix: Image.network('https://img.icons8.com/color/48/youtube-play'),
                             // hintText: 'Name',
-                            hintText: 'Enter Your youtube Username'.tr,
+                            hintText: 'Enter Your youtube Profile Link'.tr,
                             validator: MultiValidator([
                               RequiredValidator(errorText: 'youtube Username is required'.tr),
                             ])),
@@ -160,7 +160,7 @@ class _SocialMediaStoreState extends State<SocialMediaStore> {
                             obSecure: false,
                             prefix: Image.network('https://img.icons8.com/fluency/48/twitter.png'),
                             // hintText: 'Name',
-                            hintText: 'Enter Your twitter Username'.tr,
+                            hintText: 'Enter Your twitter Profile Link'.tr,
                             validator: MultiValidator([
                               RequiredValidator(errorText: 'twitter Username is required'.tr),
                             ])),
@@ -169,7 +169,7 @@ class _SocialMediaStoreState extends State<SocialMediaStore> {
                             obSecure: false,
                             prefix: Image.network('https://img.icons8.com/fluency/48/linkedin.png'),
                             // hintText: 'Name',
-                            hintText: 'Enter Your linkedin Username'.tr,
+                            hintText: 'Enter Your linkedin Profile Link'.tr,
                             validator: MultiValidator([
                               RequiredValidator(errorText: 'linkedin Username is required'.tr),
                             ])),
@@ -178,7 +178,7 @@ class _SocialMediaStoreState extends State<SocialMediaStore> {
                             obSecure: false,
                             prefix: Image.network('https://img.icons8.com/color/48/facebook-new.png'),
                             // hintText: 'Name',
-                            hintText: 'Enter Your facebook Username'.tr,
+                            hintText: 'Enter Your facebook Profile Link'.tr,
                             validator: MultiValidator([
                               RequiredValidator(errorText: 'facebook Username is required'.tr),
                             ])),
@@ -187,7 +187,7 @@ class _SocialMediaStoreState extends State<SocialMediaStore> {
                             obSecure: false,
                             prefix: Image.network('https://img.icons8.com/parakeet/48/snapchat.png'),
                             // hintText: 'Name',
-                            hintText: 'Enter Your snapchat Username'.tr,
+                            hintText: 'Enter Your snapchat Profile Link'.tr,
                             validator: MultiValidator([
                               RequiredValidator(errorText: 'snapchat Username is required'.tr),
                             ])),
@@ -196,7 +196,7 @@ class _SocialMediaStoreState extends State<SocialMediaStore> {
                             obSecure: false,
                             prefix: Image.network('https://img.icons8.com/color/48/pinterest--v1.png'),
                             // hintText: 'Name',
-                            hintText: 'Enter Your pinterest Username'.tr,
+                            hintText: 'Enter Your pinterest Profile Link'.tr,
                             validator: MultiValidator([
                               RequiredValidator(errorText: 'pinterest Username is required'.tr),
                             ])),
@@ -205,7 +205,7 @@ class _SocialMediaStoreState extends State<SocialMediaStore> {
                             obSecure: false,
                             prefix: Image.network('https://img.icons8.com/color-glass/48/tiktok.png'),
                             // hintText: 'Name',
-                            hintText: 'Enter Your tiktok Username'.tr,
+                            hintText: 'Enter Your tiktok Profile Link'.tr,
                             validator: MultiValidator([
                               RequiredValidator(errorText: 'tiktok Username is required'.tr),
                             ])),
@@ -214,7 +214,7 @@ class _SocialMediaStoreState extends State<SocialMediaStore> {
                             obSecure: false,
                             prefix: Image.network('https://img.icons8.com/color/48/clew.png'),
                             // hintText: 'Name',
-                            hintText: 'Enter Your threads Username'.tr,
+                            hintText: 'Enter Your threads Profile Link'.tr,
                             validator: MultiValidator([
                               RequiredValidator(errorText: 'threads Username is required'.tr),
                             ])),

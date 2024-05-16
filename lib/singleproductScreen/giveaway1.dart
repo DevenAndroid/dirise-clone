@@ -31,7 +31,7 @@ class _Giveway1ScreenState extends State<Giveway1Screen> {
 
   List<String> itemTexts = [
     'Working',
-    'NotWorking',
+    'Not Working',
     'Scrab',
 
   ];
@@ -160,7 +160,9 @@ class _Giveway1ScreenState extends State<Giveway1Screen> {
     return Stack(
       children: [
         Container(
+         width: Get.width,
           height: 300,
+          padding: EdgeInsets.all(10),
           decoration: BoxDecoration(
             borderRadius: BorderRadius.circular(11),
             color: Colors.grey.shade100,
@@ -171,27 +173,14 @@ class _Giveway1ScreenState extends State<Giveway1Screen> {
             children: [
               Text(
                 text,
-                style: TextStyle(
+                style: const TextStyle(
                   fontSize: 28,
                   fontWeight: FontWeight.w500,
                   color: Colors.black, // Text color
                 ),
               ),
               SizedBox(height: 10,),
-              Center(
-                child: Padding(
-                  padding: const EdgeInsets.symmetric(horizontal: 10),
-                  child: Text(
-                    'Some other text',
-                    style: GoogleFonts.poppins(
-                      color: Colors.black,
-                      fontWeight: FontWeight.w500,
-                      fontSize: 10,
-                    ),
-                    textAlign: TextAlign.center,
-                  ),
-                ),
-              ),
+
             ],
           ),
         ),

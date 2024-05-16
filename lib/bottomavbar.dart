@@ -143,9 +143,10 @@ class _BottomNavbarState extends State<BottomNavbar> {
                   child: GestureDetector(
                     onTap: () {
                       if (isLoggedIn) {
-                        Get.toNamed(VendorDashBoardScreen.route);
-                      } else {
                         Get.toNamed(CreateAccountNewScreen.route);
+
+                      } else {
+                        Get.toNamed(VendorDashBoardScreen.route);
                       }
                     },
                     child: Center(

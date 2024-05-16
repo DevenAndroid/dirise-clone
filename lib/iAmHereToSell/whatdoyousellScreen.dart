@@ -13,12 +13,15 @@ import 'package:flutter/widgets.dart';
 import 'package:form_field_validator/form_field_validator.dart';
 import 'package:get/get.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:intl_phone_field/intl_phone_field.dart';
 import 'package:pinput/pinput.dart';
 import 'package:flutter_pin_code_fields/flutter_pin_code_fields.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 import '../bottomavbar.dart';
+import '../controller/profile_controller.dart';
 import '../controller/vendor_controllers/vendor_profile_controller.dart';
+import '../language/app_strings.dart';
 import '../model/login_model.dart';
 import '../model/vendor_models/model_plan_list.dart';
 import '../model/vendor_models/model_vendor_details.dart';
@@ -99,7 +102,7 @@ class _WhatdoyousellScreenState extends State<WhatdoyousellScreen> {
   static String userInfo = "login_user";
   bool isOtpDone = false;
   Rx<LoginModal> response = LoginModal().obs;
-
+  final profileController = Get.put(ProfileController());
   void vendorregister() {
     Map<String, String> map = {};
     map["store_name"] = storeName.text.trim();
@@ -363,15 +366,43 @@ class _WhatdoyousellScreenState extends State<WhatdoyousellScreen> {
                 const SizedBox(
                   height: 10,
                 ),
-                CommonTextField(
-                  hintText: 'Store Number*',
+                IntlPhoneField(
+                  key: ValueKey(profileController.code),
+                  flagsButtonPadding: const EdgeInsets.all(8),
+                  dropdownIconPosition: IconPosition.trailing,
+                  showDropdownIcon: true,
+                  cursorColor: Colors.black,
+                  textInputAction: TextInputAction.next,
+                  dropdownTextStyle: const TextStyle(color: Colors.black),
+                  style: const TextStyle(color: AppTheme.textColor),
                   controller: storeNumber,
-                  keyboardType: TextInputType.number,
+                  decoration: const InputDecoration(
+                      contentPadding: EdgeInsets.zero,
+                      hintStyle: TextStyle(color: AppTheme.textColor),
+                      hintText: 'Store Number*',
+                      labelStyle: TextStyle(color: AppTheme.textColor),
+                      border: OutlineInputBorder(
+                        borderSide: BorderSide(),
+                      ),
+                      enabledBorder: OutlineInputBorder(borderSide: BorderSide(color: AppTheme.shadowColor)),
+                      focusedBorder: OutlineInputBorder(borderSide: BorderSide(color: AppTheme.shadowColor))),
+                  initialCountryCode: profileController.code.toString(),
+                  languageCode: '+91',
+                  onCountryChanged: (phone) {
+                    profileController.code = phone.code;
+                    print(phone.code);
+                    print(profileController.code.toString());
+                  },
                   validator: (value) {
-                    if (value!.trim().isEmpty) {
-                      return 'Please enter valid store Number';
+                    if (value == null || storeNumber.text.isEmpty) {
+                      return AppStrings.pleaseenterphonenumber.tr;
                     }
-                    return null; // Return null if validation passes
+                    return null;
+                  },
+                  onChanged: (phone) {
+                    profileController.code = phone.countryISOCode.toString();
+                    print(phone.countryCode);
+                    print(profileController.code.toString());
                   },
                 ),
                 const SizedBox(

@@ -140,6 +140,9 @@ class _TellUsScreenState extends State<TellUsScreen> {
                     if (value!.trim().isEmpty) {
                       return 'Enter short description';
                     }
+                    else if (value.length < 10) {
+                      return 'Short description must be at least 10 characters long';
+                    }
                     return null; // Return null if validation passes
                   },
 

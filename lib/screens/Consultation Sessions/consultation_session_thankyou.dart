@@ -89,7 +89,8 @@ class _ConsulationThankYouScreenState extends State<ConsulationThankYouScreen> {
                 title: 'Continue',
                 borderRadius: 11,
                 onPressed: () {
-                  Get.offAllNamed(BottomNavbar.route);
+                  Get.to(BottomNavbar());
+
                 },
               ),
             ],

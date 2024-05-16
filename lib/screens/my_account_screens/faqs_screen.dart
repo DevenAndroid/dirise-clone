@@ -72,7 +72,9 @@ class _FrequentlyAskedQuestionsScreenState extends State<FrequentlyAskedQuestion
                       height: 25,
                       width: 25,
                     ),
-                    onPressed: () => Navigator.of(context).pop(),
+                    onPressed: () {
+                      Get.back();
+                    }
                   ),
                   10.spaceX,
                   Text(

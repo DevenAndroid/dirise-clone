@@ -20,6 +20,7 @@ import '../model/common_modal.dart';
 import '../model/vendor_models/model_vendor_details.dart';
 import '../newAddress/customeraccountcreatedsuccessfullyScreen.dart';
 import '../personalizeyourstore/bannersScreen.dart';
+import '../personalizeyourstore/differentPolicyScreen.dart';
 import '../personalizeyourstore/operatinghourScreen.dart';
 import '../personalizeyourstore/personalizeAddressScreen.dart';
 import '../personalizeyourstore/socialMediaScreen.dart';
@@ -384,13 +385,13 @@ class _PersonalizeyourstoreScreenState extends State<PersonalizeyourstoreScreen>
               ),
               GestureDetector(
                 onTap: (){
-                  Get.to(ReturnnPolicyList());
+                  Get.to(DifferentPolicyScreen());
                 },
                 child: Row(
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
                     Text(
-                      'Return Policy',
+                      'Select Policy',
                       style: GoogleFonts.poppins(color: Colors.black, fontSize: 14),
                     ),
                     const Icon(

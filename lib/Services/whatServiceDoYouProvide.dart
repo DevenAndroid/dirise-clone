@@ -95,6 +95,7 @@ class _whatServiceDoYouProvideState extends State<whatServiceDoYouProvide> {
   }
 
   RxBool isDelivery = false.obs;
+  RxBool isPercantage = false.obs;
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -201,6 +202,7 @@ class _whatServiceDoYouProvideState extends State<whatServiceDoYouProvide> {
                             onChanged: (bool? value) {
                               setState(() {
                                 isDelivery.value = value!;
+                                isPercantage.value = true;
                               });
                             }),
                       ),
@@ -222,6 +224,8 @@ class _whatServiceDoYouProvideState extends State<whatServiceDoYouProvide> {
                         controller: serviceController.percentageController,
                         obSecure: false,
                         onChanged: (value) {
+                          serviceController.fixedPriceController.text = '';
+                          isPercantage.value = true;
                           isPercentageDiscount = true;
                           calculateDiscount();
                           sale = value;
@@ -231,7 +235,7 @@ class _whatServiceDoYouProvideState extends State<whatServiceDoYouProvide> {
                         hintText: 'Percentage'.tr,
                         validator: (value) {
                           if(serviceController.percentageController.text.isEmpty)
-                            if (value!.trim().isEmpty) {
+                            if (value!.trim().isEmpty && isPercantage.value == true) {
                               return 'Discount Price is required'.tr;
                             }
                           return null; // Return null if validation passes
@@ -267,6 +271,8 @@ class _whatServiceDoYouProvideState extends State<whatServiceDoYouProvide> {
                         keyboardType: TextInputType.number,
                         hintText: 'Fixed after sale price'.tr,
                         onChanged: (value) {
+                          serviceController.percentageController.text = '';
+                          isPercantage.value = false;
                           isPercentageDiscount = false;
                           calculateDiscount();
                           sale = value;
@@ -287,7 +293,7 @@ class _whatServiceDoYouProvideState extends State<whatServiceDoYouProvide> {
                         },
                         validator: (value) {
                           if(serviceController.fixedPriceController.text.isEmpty)
-                            if (value!.trim().isEmpty) {
+                            if (value!.trim().isEmpty && isPercantage.value == false) {
                               return 'Fixed after sale price'.tr;
                             }
                           return null; // Return null if validation passes
@@ -374,7 +380,7 @@ class _whatServiceDoYouProvideState extends State<whatServiceDoYouProvide> {
                               const SizedBox(
                                 width: 20,
                               ),
-                              isDelivery.value == false
+                              isPercantage.value == true
                                   ? Text(
                                       "${sale} %".tr,
                                       style: GoogleFonts.poppins(
