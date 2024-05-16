@@ -4,6 +4,7 @@ import 'package:cached_network_image/cached_network_image.dart';
 import 'package:dirise/language/app_strings.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_animate/flutter_animate.dart';
+import 'package:flutter_svg/flutter_svg.dart';
 import 'package:get/get.dart';
 import 'package:google_fonts/google_fonts.dart';
 import '../../controller/home_controller.dart';
@@ -35,8 +36,8 @@ class _CategoryItemsState extends State<CategoryItems> {
               itemCount: min(homeController.vendorCategory.usphone!.length + 1,12),
               padding: const EdgeInsets.symmetric(horizontal: 15, vertical: 20).copyWith(top: 0),
               gridDelegate:  SliverGridDelegateWithMaxCrossAxisExtent(
-                maxCrossAxisExtent: Get.width*.220,
-                childAspectRatio: .75,
+                maxCrossAxisExtent: Get.width*.230,
+                childAspectRatio: .65,
                 crossAxisSpacing: 14,
                 mainAxisSpacing: 16,
               ),
@@ -53,23 +54,15 @@ class _CategoryItemsState extends State<CategoryItems> {
                             bottomController.pageIndex.value = 1;
                           },
                           child: Container(
+
                               height: 70,
-                              decoration:
-                                  BoxDecoration(borderRadius: BorderRadius.circular(10), color: const Color(0xffF0F0F0)),
-                              child: Padding(
-                                padding: const EdgeInsets.all(18),
-                                child: Container(
-                                  // height: 40,
-                                  width: 40,
-                                  decoration: BoxDecoration(
-                                      shape: BoxShape.circle, border: Border.all(color: AppTheme.buttonColor, width: 1.2)),
-                                  child: const Icon(
-                                    Icons.arrow_forward,
-                                    color: AppTheme.buttonColor,
-                                    size: 14,
-                                  ),
-                                ),
-                              )),
+                              padding: EdgeInsets.all(10),
+                              decoration: BoxDecoration(
+                                  shape: BoxShape.circle,
+                                  color: Color(0xFFF0EEEE),
+                                  border: Border.all(color: Color(0xFFCCCCCC))
+                              ),
+                              child: Image.asset("assets/svgs/more.png")),
                         ),
                       ),
                       // ignore: prefer_const_constructors
@@ -101,8 +94,13 @@ class _CategoryItemsState extends State<CategoryItems> {
                           height: 10,
                         ),
                         Expanded(
-                          child: ClipRRect(
-                            borderRadius: BorderRadius.circular(1500),
+                          child: Container(
+padding: EdgeInsets.all(10),
+                            decoration: BoxDecoration(
+                            shape: BoxShape.circle,
+                              color: Color(0xFFF0EEEE),
+                              border: Border.all(color: Color(0xFFCCCCCC))
+                            ),
                             child: Hero(
                               tag: item.bannerProfile.toString(),
                               child: Material(
@@ -110,7 +108,7 @@ class _CategoryItemsState extends State<CategoryItems> {
                                 surfaceTintColor: Colors.transparent,
                                 child: CachedNetworkImage(
                                     imageUrl: item.bannerProfile.toString(),
-                                    height: 65,
+                                    // height: 65,
                                     fit: BoxFit.cover,
                                     placeholder: (context, url) => const SizedBox(),
                                     errorWidget: (context, url, error) => const SizedBox()),

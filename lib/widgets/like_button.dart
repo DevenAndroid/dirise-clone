@@ -39,23 +39,14 @@ class _LikeButtonCatState extends State<LikeButtonCat> with SingleTickerProvider
 
   @override
   Widget build(BuildContext context) {
-      return Container(
-        height: 36,
-        width: 36,
-        alignment: Alignment.center,
-        decoration: BoxDecoration(
-          color: AppTheme.buttonColor,
-          borderRadius: BorderRadius.circular(10)
-        ),
-        child: IconButton(
-            onPressed: widget.onPressed,
-            icon: Icon(
-              widget.isLiked ? Icons.favorite : Icons.favorite_border_rounded,
-              // color: widget.isLiked ? Colors.red : Colors.grey.shade700,
-              color: widget.isLiked ? Colors.red : Colors.white,
-              size: 20,
-            )
-        ),
+      return GestureDetector(
+          onTap: widget.onPressed,
+          child: Icon(
+            widget.isLiked ? Icons.favorite : Icons.favorite_border_rounded,
+            // color: widget.isLiked ? Colors.red : Colors.grey.shade700,
+            color: widget.isLiked ? Colors.red : Colors.red,
+            size: 20,
+          )
       );
   }
 }

@@ -248,32 +248,7 @@ class _HomePageState extends State<HomePage> {
           _isValue.value = !_isValue.value;
           setState(() {});
         },
-        child: Container(
-          alignment: Alignment.center,
-          padding: const EdgeInsets.symmetric(vertical: 5, horizontal: 5),
-          height: 40,
-          decoration: BoxDecoration(
-              borderRadius: BorderRadius.circular(8),
-              color: Colors.white
-          ),
-          child: Row(
-            crossAxisAlignment: CrossAxisAlignment.center,
-            mainAxisAlignment: MainAxisAlignment.center,
-            children: [
-              SvgPicture.asset('assets/icons/plus_icon.svg', height: 25, color: AppTheme.buttonColor),
-              const SizedBox(
-                width: 6,
-              ),
-              Text(
-                'Sell'.tr,
-                style: GoogleFonts.poppins(color: AppTheme.buttonColor, fontSize: 17, fontWeight: FontWeight.w500),
-              ),
-              const SizedBox(
-                width: 3,
-              ),
-            ],
-          ),
-        ),
+        child:SvgPicture.asset("assets/svgs/heart.svg"),
       ),
       // _isValue.value == true
       //     ? Obx(() {
@@ -332,19 +307,33 @@ class _HomePageState extends State<HomePage> {
     return Scaffold(
         appBar: AppBar(
           toolbarHeight: kToolbarHeight + 10,
-          backgroundColor: AppTheme.buttonColor,
-          surfaceTintColor: AppTheme.buttonColor,
-          title: const Padding(
-            padding: EdgeInsets.only(left: 0),
-            child: SizedBox(
-              height: kToolbarHeight - 14,
-              child: Image(
-                  color: Colors.white,
-                  image: AssetImage(
-                    'assets/images/diries logo.png',
-                  )),
+          backgroundColor: Colors.white,
+          surfaceTintColor: Colors.white,
+          leading: Padding(
+            padding: const EdgeInsets.only(left: 8.0),
+            child: Row(
+              children: [
+                SvgPicture.asset(
+
+                  'assets/svgs/drawer.svg',
+                  // color: Colors.white,
+                ),
+                SizedBox(width: 13,),
+                SvgPicture.asset(
+
+                  'assets/svgs/search.svg',
+                  // color: Colors.white,
+                ),
+              ],
             ),
           ),
+          leadingWidth: 120,
+          title:  Image.asset(
+
+                'assets/svgs/live.png',
+            // color: Colors.white,
+              ),
+          centerTitle: true,
           actions: [
             ...vendorPartner(),
             const CartBagCard(),
@@ -358,7 +347,7 @@ class _HomePageState extends State<HomePage> {
             child: Column(
               children: [
                 Container(
-                  color: AppTheme.buttonColor,
+                  color: Colors.white,
                   child: Column(
                     children: [
                       const SizedBox(
@@ -371,14 +360,14 @@ class _HomePageState extends State<HomePage> {
                         child: Column(
                           crossAxisAlignment: CrossAxisAlignment.start,
                           children: [
-                            Text(
-                              'Address',
-                              style: GoogleFonts.poppins(
-                                color: Colors.white,
-                                fontSize: 18,
-                                fontWeight: FontWeight.w500,
-                              ),
-                            ),
+                            // Text(
+                            //   'Address',
+                            //   style: GoogleFonts.poppins(
+                            //     color: Colors.white,
+                            //     fontSize: 18,
+                            //     fontWeight: FontWeight.w500,
+                            //   ),
+                            // ),
                             4.spaceY,
                             GestureDetector(onTap: () {
                               Get.to(() => const HomeAddEditAddressLogin(), arguments: 'home');
@@ -388,7 +377,7 @@ class _HomePageState extends State<HomePage> {
                                 SvgPicture.asset(
                                   'assets/images/location.svg',
                                   height: 20,
-                                  color: Colors.white,
+                                  color: Colors.black,
                                 ),
                                 5.spaceX,
                                 Flexible(
@@ -397,7 +386,7 @@ class _HomePageState extends State<HomePage> {
                                         "Deliver to ${locationController.city.toString()} , ${locationController.zipcode ??
                                             ''}",
                                         style: GoogleFonts.poppins(
-                                          color: Colors.white,
+                                          color: Colors.black,
                                           fontSize: 14,
                                           fontWeight: FontWeight.w400,
                                         ),
@@ -425,7 +414,7 @@ class _HomePageState extends State<HomePage> {
                             Text(
                               'Address',
                               style: GoogleFonts.poppins(
-                                color: Colors.white,
+                                color: Colors.black,
                                 fontSize: 18,
                                 fontWeight: FontWeight.w500,
                               ),
@@ -439,7 +428,7 @@ class _HomePageState extends State<HomePage> {
                                 SvgPicture.asset(
                                   'assets/images/location.svg',
                                   height: 20,
-                                  color: Colors.white,
+                                  color: Colors.black,
                                 ),
                                 5.spaceX,
                                 Flexible(
@@ -448,7 +437,7 @@ class _HomePageState extends State<HomePage> {
                                       "Deliver to ${locationController.city.toString()} , ${locationController.zipcode
                                           .toString()}",
                                       style: GoogleFonts.poppins(
-                                        color: Colors.white,
+                                        color: Colors.black,
                                         fontSize: 14,
                                         fontWeight: FontWeight.w400,
                                       ),
@@ -468,51 +457,51 @@ class _HomePageState extends State<HomePage> {
                         ),
                       ) : const SizedBox.shrink(),
                       10.spaceY,
-                      Hero(
-                        tag: "search_tag",
-                        child: Material(
-                          color: Colors.transparent,
-                          surfaceTintColor: Colors.transparent,
-                          child: Padding(
-                            padding: const EdgeInsets.symmetric(horizontal: 15),
-                            child: TextField(
-                              maxLines: 1,
-                              style: GoogleFonts.poppins(fontSize: 16),
-                              textInputAction: TextInputAction.search,
-                              onSubmitted: (vb) {
-                                Get.to(() =>
-                                    SearchProductsScreen(
-                                      searchText: vb,
-                                    ));
-                              },
-                              decoration: InputDecoration(
-                                  filled: true,
-                                  prefixIcon: Padding(
-                                    padding: const EdgeInsets.all(10),
-                                    child: Image.asset(
-                                      'assets/icons/search.png',
-                                      height: 5,
-                                    ),
-                                  ),
-                                  border: InputBorder.none,
-                                  enabledBorder: const OutlineInputBorder(
-                                      borderRadius: BorderRadius.all(Radius.circular(8)),
-                                      borderSide: BorderSide(color: AppTheme.buttonColor)),
-                                  disabledBorder: const OutlineInputBorder(
-                                      borderRadius: BorderRadius.all(Radius.circular(8)),
-                                      borderSide: BorderSide(color: AppTheme.buttonColor)),
-                                  focusedBorder: const OutlineInputBorder(
-                                      borderRadius: BorderRadius.all(Radius.circular(8)),
-                                      borderSide: BorderSide(color: AppTheme.buttonColor)),
-                                  fillColor: Colors.white,
-                                  contentPadding: const EdgeInsets.all(15),
-                                  hintText: AppStrings.searchFieldText.tr,
-                                  hintStyle:
-                                  GoogleFonts.poppins(color: AppTheme.buttonColor, fontWeight: FontWeight.w400)),
-                            ),
-                          ),
-                        ),
-                      ),
+                      // Hero(
+                      //   tag: "search_tag",
+                      //   child: Material(
+                      //     color: Colors.transparent,
+                      //     surfaceTintColor: Colors.transparent,
+                      //     child: Padding(
+                      //       padding: const EdgeInsets.symmetric(horizontal: 15),
+                      //       child: TextField(
+                      //         maxLines: 1,
+                      //         style: GoogleFonts.poppins(fontSize: 16),
+                      //         textInputAction: TextInputAction.search,
+                      //         onSubmitted: (vb) {
+                      //           Get.to(() =>
+                      //               SearchProductsScreen(
+                      //                 searchText: vb,
+                      //               ));
+                      //         },
+                      //         decoration: InputDecoration(
+                      //             filled: true,
+                      //             prefixIcon: Padding(
+                      //               padding: const EdgeInsets.all(10),
+                      //               child: Image.asset(
+                      //                 'assets/icons/search.png',
+                      //                 height: 5,
+                      //               ),
+                      //             ),
+                      //             border: InputBorder.none,
+                      //             enabledBorder: const OutlineInputBorder(
+                      //                 borderRadius: BorderRadius.all(Radius.circular(8)),
+                      //                 borderSide: BorderSide(color: AppTheme.buttonColor)),
+                      //             disabledBorder: const OutlineInputBorder(
+                      //                 borderRadius: BorderRadius.all(Radius.circular(8)),
+                      //                 borderSide: BorderSide(color: AppTheme.buttonColor)),
+                      //             focusedBorder: const OutlineInputBorder(
+                      //                 borderRadius: BorderRadius.all(Radius.circular(8)),
+                      //                 borderSide: BorderSide(color: AppTheme.buttonColor)),
+                      //             fillColor: Colors.white,
+                      //             contentPadding: const EdgeInsets.all(15),
+                      //             hintText: AppStrings.searchFieldText.tr,
+                      //             hintStyle:
+                      //             GoogleFonts.poppins(color: AppTheme.buttonColor, fontWeight: FontWeight.w400)),
+                      //       ),
+                      //     ),
+                      //   ),
+                      // ),
                       const SizedBox(
                         height: 8,
                       ),
@@ -522,10 +511,21 @@ class _HomePageState extends State<HomePage> {
                 Expanded(
                   child: Container(
                     color: Colors.white,
-                    child: const SingleChildScrollView(
+                    child:  SingleChildScrollView(
                         child: Column(children: [
                           SliderWidget(),
                           CategoryItems(),
+                          Row(
+                            mainAxisAlignment: MainAxisAlignment.end,
+                            children: [
+                              Text(
+                                "Edit categories order",
+                                style: GoogleFonts.poppins(fontWeight: FontWeight.w600, fontSize: 16, color: AppTheme.buttonColor),
+
+                              ),
+                              SizedBox(width: 18,)
+                            ],
+                          ),
                           TrendingProducts(),
                           AdBannerUI(),
                           PopularProducts(),
