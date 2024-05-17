@@ -1,6 +1,7 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_animate/flutter_animate.dart';
+import 'package:flutter_svg/flutter_svg.dart';
 import 'package:get/get.dart';
 import 'package:google_fonts/google_fonts.dart';
 
@@ -29,43 +30,18 @@ class _CartBagCardState extends State<CartBagCard> {
 
         },
         child: Padding(
-          padding: const EdgeInsets.symmetric(vertical: 10,horizontal: 15),
-          child: Container(
-            alignment: Alignment.center,
-            height: 40,
-            decoration: BoxDecoration(
-                borderRadius: BorderRadius.circular(8),
-                color: widget.isBlackTheme == true ? AppTheme.buttonColor : Colors.white
-            ),
-            child: Row(
-              mainAxisAlignment: MainAxisAlignment.center,
-              children: [
-                const SizedBox(
-                  width: 10,
-                ),
-                Image(
-                  height: 25,
-                  image: const AssetImage(
-                    'assets/icons/whishlist.png',
-                  ),
-                  color: widget.isBlackTheme == true ? Colors.white : AppTheme.buttonColor,
-                ),
-                const SizedBox(
-                  width: 5,
-                ),
-                cartController.apiLoaded
-                    ? Text(
-                  key: ValueKey(DateTime.now().millisecondsSinceEpoch),
-                    cartController.cartModel.totalProducts.toString(),
-                        style: GoogleFonts.poppins(color: widget.isBlackTheme == true ? Colors.white : AppTheme.buttonColor, fontSize: 20),
-                      ).animate().scale(duration: 200.ms)
-                    : const SizedBox(),
-                const SizedBox(
-                  width: 10,
-                ),
-              ],
-            ),
-          ),
+          padding: const EdgeInsets.only(left: 20,right: 15,bottom: 10),
+          child:      Stack(children:[ SvgPicture.asset("assets/svgs/cart.svg",color: widget.isBlackTheme == true ? Colors.white : AppTheme.buttonColor,),cartController.apiLoaded
+              ? Positioned(
+            right: 4,
+            top: 5.8,
+            child: Text(
+              key: ValueKey(DateTime.now().millisecondsSinceEpoch),
+              cartController.cartModel.totalProducts.toString(),
+              style: GoogleFonts.poppins(color: widget.isBlackTheme == true ? Colors.white :Colors.white, fontSize: 13),
+            ).animate().scale(duration: 200.ms),
+          )
+              : const SizedBox(),]),
         ),
       );
     });

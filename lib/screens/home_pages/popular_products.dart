@@ -23,44 +23,49 @@ class _PopularProductsState extends State<PopularProducts> {
       return homeController.popularProdModal.value.product != null
           ? Column(
               children: [
+                SizedBox(height: 40,),
                 Padding(
-                  padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 15),
+                  padding: const EdgeInsets.symmetric(horizontal: 22),
                   child: Row(
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
+                      SizedBox(),
                       Text(
-                        AppStrings.popularProducts.tr,
+                        "Popular Products".toUpperCase(),
                         style: GoogleFonts.poppins(fontSize: 20, fontWeight: FontWeight.w500),
                       ),
-                      // InkWell(
-                      //   onTap: () {
-                      //     // index1 = index1 + 1;
-                      //     // setState(() {
-                      //     //   if (index1 == homeController.popularProdModal.value.product!.product!.length - 1) {
-                      //     //     index1 = 0;
-                      //     //   }
-                      //     // });
-                      //     // scrollToItem1(index1);
-                      //   },
-                      //   child: Container(
-                      //     padding: const EdgeInsets.all(2),
-                      //     decoration: BoxDecoration(
-                      //         shape: BoxShape.circle, border: Border.all(color: AppTheme.buttonColor, width: 1.2)),
-                      //     child: const Icon(
-                      //       Icons.arrow_forward,
-                      //       color: AppTheme.buttonColor,
-                      //     ),
-                      //   ),
-                      // )
+                    SizedBox()
                     ],
                   ),
                 ),
-                const SizedBox(
-                  height: 10,
+                SizedBox(height: 20,),
+                Text(
+                  "All what you need for a fun and exciting day in",
+                  style: GoogleFonts.poppins(fontSize: 12, fontWeight: FontWeight.w400),
                 ),
+                SizedBox(height: 20,),
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.end,
+                  children: [
+                    InkWell(
+                        onTap: () {
+                          // index1 = index1 + 1;
+                          // setState(() {
+                          //   if (index1 == homeController.trendingModel.value.product!.product!.length - 1) {
+                          //     index1 = 0;
+                          //   }
+                          // });
+                          // scrollToItem(index1);
+                        },
+                        child:Image.asset("assets/svgs/forward.png")
+                    ),
+                    SizedBox(width: 20,)
+                  ],
+                ),
+                SizedBox(height: 20,),
                 if (homeController.popularProdModal.value.product != null)
                   Container(
-                    height: 230,
+                    height: 440,
                     margin: const EdgeInsets.fromLTRB(15, 20, 15, 0),
                     child: ListView.builder(
                         itemCount: homeController.popularProdModal.value.product!.product!.length,

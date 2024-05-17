@@ -72,7 +72,7 @@ class AppStrings{
   static String published = "Published: 06/06/2023";
   static String artificialIntelligenceAI = " Artificial Intelligence (Al) is gaining a strong foothold in various niches, and blogging is no exception.By making use of the best Al writing tools, you can create a long-form affiliate blog post in 10 to 15 minutes (instead of spending hours writing it yourself) and generate traffic";
   static String more = "More";
-  static String trendingProducts = "Trending Products";
+  static String trendingProducts = "trending Products";
   static String popularProducts = "Popular Products";
   static String type = "Type";
   static String notHaveAnyProduct = "Category don't have any store.";

@@ -21,6 +21,7 @@ class _AdBannerUIState extends State<AdBannerUI> {
       return homeController.homeModal.value.home != null && homeController.popularProdModal.value.product != null
           ? Column(
               children: [
+                SizedBox(height: 30,),
                 Padding(
                     padding: const EdgeInsets.symmetric(horizontal: 15,vertical: 12),
                     child: SizedBox(

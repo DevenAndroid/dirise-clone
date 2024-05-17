@@ -435,6 +435,7 @@ class _ReviewandPublishScreenState extends State<ReviewandPublishScreen> {
                         ),
                       ),
                       if (isShippingPolicy.value == true)
+
                         modelShippingPolicy != null
                             ? ListView.builder(
                             shrinkWrap: true,
