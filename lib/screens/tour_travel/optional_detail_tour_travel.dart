@@ -1,29 +1,26 @@
 import 'dart:convert';
-import 'package:dirise/Services/services_classification.dart';
 import 'package:dirise/controller/service_controller.dart';
-import 'package:dirise/screens/Consultation%20Sessions/sponsors_screen.dart';
+import 'package:dirise/screens/tour_travel/sponsors_screen_tour.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 import 'package:get/get.dart';
 import 'package:google_fonts/google_fonts.dart';
-
 import '../../model/common_modal.dart';
 import '../../repository/repository.dart';
 import '../../utils/api_constant.dart';
 import '../../widgets/common_button.dart';
 import '../../widgets/common_colour.dart';
 import '../../widgets/common_textfield.dart';
-import 'EligibleCustomers_extended.dart';
 
-class OptionalDetailsScreenExtended extends StatefulWidget {
-  const OptionalDetailsScreenExtended({super.key});
+class OptionalDetailTourScreen extends StatefulWidget {
+  const OptionalDetailTourScreen({super.key});
 
   @override
-  State<OptionalDetailsScreenExtended> createState() => _OptionalDetailsScreenExtendedState();
+  State<OptionalDetailTourScreen> createState() => _OptionalDetailTourScreenState();
 }
 
-class _OptionalDetailsScreenExtendedState extends State<OptionalDetailsScreenExtended> {
+class _OptionalDetailTourScreenState extends State<OptionalDetailTourScreen> {
   final serviceController = Get.put(ServiceController());
   RxBool hide = true.obs;
   RxBool hide1 = true.obs;
@@ -54,7 +51,7 @@ class _OptionalDetailsScreenExtendedState extends State<OptionalDetailsScreenExt
       if (response.status == true) {
         showToast(response.message.toString());
         if(formKey1.currentState!.validate()){
-          Get.to(() => const EligibleCustomersExtended());
+          Get.to(() => const SponsorsTourScreen());
         }
       }
     });
@@ -226,7 +223,7 @@ class _OptionalDetailsScreenExtendedState extends State<OptionalDetailsScreenExt
                 const SizedBox(height: 20),
                 GestureDetector(
                   onTap: () {
-                    Get.to(() => const EligibleCustomersExtended());
+                    Get.to(() => const SponsorsTourScreen());
                   },
                   child: Container(
                     width: Get.width,

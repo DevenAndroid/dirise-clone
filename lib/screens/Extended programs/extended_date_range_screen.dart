@@ -1,9 +1,14 @@
+import 'dart:convert';
 import 'dart:math';
 import 'package:dirise/utils/helper.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:intl/intl.dart';
+import '../../controller/vendor_controllers/add_product_controller.dart';
+import '../../model/jobResponceModel.dart';
+import '../../repository/repository.dart';
+import '../../utils/api_constant.dart';
 import '../../widgets/common_colour.dart';
 import 'duration_spots.dart';
 
@@ -18,7 +23,7 @@ class ExtendedDateRange extends StatefulWidget {
 class _ExtendedDateRangeState extends State<ExtendedDateRange> {
   DateTime _startDate = DateTime.now();
   DateTime _endDate = DateTime.now();
-  String? formattedStartDate;
+  final addProductController = Get.put(AddProductController());
   String? formattedStartDate1;
   RxBool isServiceProvide = false.obs;
 
@@ -32,8 +37,8 @@ class _ExtendedDateRangeState extends State<ExtendedDateRange> {
     if (picked != null && picked != _startDate) {
       setState(() {
         _startDate = picked;
-        formattedStartDate = DateFormat('yyyy/MM/dd').format(_startDate);
-        print('Now Select........${formattedStartDate.toString()}');
+        addProductController.formattedStartDate = DateFormat('yyyy/MM/dd').format(_startDate);
+        print('Now Select........${addProductController.formattedStartDate.toString()}');
       });
     }
   }
@@ -47,7 +52,7 @@ class _ExtendedDateRangeState extends State<ExtendedDateRange> {
     if (picked != null && picked != _endDate) {
       setState(() {
         _endDate = picked;
-        formattedStartDate1 = DateFormat('yyyy/MM/dd').format(_startDate);
+        formattedStartDate1 = DateFormat('yyyy/MM/dd').format(_endDate);
         print('Now Select........${formattedStartDate1.toString()}');
       });
     }
@@ -92,6 +97,49 @@ class _ExtendedDateRangeState extends State<ExtendedDateRange> {
         print('Now Select........${formattedStartDate1Vacation.toString()}');
       });
     }
+  }
+  final Repositories repositories = Repositories();
+  int index = 0;
+  void updateProfile() {
+    Map<String, dynamic> map = {};
+    Map<String, dynamic> map1 = {};
+    Map<String, dynamic> map2 = {};
+    Map<String, dynamic> map3 = {};
+
+    map["product_type"] = "booking";
+    map["id"] =  addProductController.idProduct.value.toString();
+    map["group"] = addProductController.formattedStartDate  == formattedStartDate1?"date":"range";
+    if(addProductController.formattedStartDate  == formattedStartDate1){
+      map["single_date"] = addProductController.formattedStartDate.toString();
+    }
+    else{
+      map["from_date"] = addProductController.formattedStartDate.toString();
+      map["to_date"] = formattedStartDate1.toString();
+    }
+    map['vacation_type'] = map1;
+    map['vacation_from_date'] = map2;
+    map['vacation_to_date'] = map3;
+    map1['$index'] = formattedStartDateVacation  == formattedStartDate1Vacation?"date":"range";
+    // map["vacation_type[0]"] = formattedStartDateVacation  == formattedStartDate1Vacation?"date":"range";
+    if(formattedStartDateVacation  == formattedStartDate1Vacation){
+      map["vacation_single_date[]"] = formattedStartDateVacation.toString();
+    }
+    else{
+      map2["$index"] = formattedStartDateVacation.toString();
+      map3["$index"] = formattedStartDate1Vacation.toString();
+    }
+
+    repositories.postApi(url: ApiUrls.giveawayProductAddress, context: context, mapData: map).then((value) {
+      print('object${value.toString()}');
+      JobResponceModel response = JobResponceModel.fromJson(jsonDecode(value));
+      if (response.status == true) {
+        showToast(response.message.toString());
+        Get.to(()=> const DurationAndSpots());
+        print('value isssss${response.toJson()}');
+      }else{
+        showToast(response.message.toString());
+      }
+    });
   }
 
 
@@ -143,10 +191,10 @@ class _ExtendedDateRangeState extends State<ExtendedDateRange> {
                     crossAxisAlignment: CrossAxisAlignment.start,
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
-                      Text('Start Date: ${formattedStartDate ?? ''}',
+                      Text('Start Date: ${addProductController.formattedStartDate ?? ''}',
                         style:const TextStyle(
-                          fontSize: 17,
-                          fontWeight: FontWeight.w500
+                            fontSize: 17,
+                            fontWeight: FontWeight.w500
                         ),),
                       10.spaceY,
                       ElevatedButton(
@@ -166,10 +214,10 @@ class _ExtendedDateRangeState extends State<ExtendedDateRange> {
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
                       Text('End Date: ${formattedStartDate1 ?? ''}',
-                    style:const TextStyle(
-                        fontSize: 17,
-                        fontWeight: FontWeight.w500
-                    ),),
+                        style:const TextStyle(
+                            fontSize: 17,
+                            fontWeight: FontWeight.w500
+                        ),),
                       const SizedBox(height: 10),
                       ElevatedButton(
                         style: ButtonStyle(
@@ -370,8 +418,7 @@ class _ExtendedDateRangeState extends State<ExtendedDateRange> {
             20.spaceY,
             InkWell(
               onTap: (){
-                // updateProfile();
-                Get.to(()=> const DurationAndSpots());
+                updateProfile();
               },
               child: Container(
                 width: Get.width,

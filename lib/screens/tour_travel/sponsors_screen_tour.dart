@@ -15,17 +15,17 @@ import '../../widgets/common_colour.dart';
 import '../../widgets/common_textfield.dart';
 import '../../widgets/dimension_screen.dart';
 import '../../widgets/loading_animation.dart';
-import 'optional_details_extended.dart';
+import 'eligble_customer_range.dart';
 
 
-class SponsorsScreenExtended extends StatefulWidget {
-  const SponsorsScreenExtended({super.key});
+class SponsorsTourScreen extends StatefulWidget {
+  const SponsorsTourScreen({super.key});
 
   @override
-  State<SponsorsScreenExtended> createState() => _SponsorsScreenExtendedState();
+  State<SponsorsTourScreen> createState() => _SponsorsTourScreenState();
 }
 
-class _SponsorsScreenExtendedState extends State<SponsorsScreenExtended> {
+class _SponsorsTourScreenState extends State<SponsorsTourScreen> {
   final formKey1 = GlobalKey<FormState>();
   File idProof = File("");
   List<Map<String, dynamic>> sponsorData = [];
@@ -84,7 +84,7 @@ class _SponsorsScreenExtendedState extends State<SponsorsScreenExtended> {
       if (response.status == true) {
         showToast(response.message.toString());
         if(formKey1.currentState!.validate()){
-          Get.to(()=> const OptionalDetailsScreenExtended());
+          Get.to(()=> const EligibleCustomersTourScreen());
         }
       }
     });
@@ -290,19 +290,19 @@ class _SponsorsScreenExtendedState extends State<SponsorsScreenExtended> {
                   const SizedBox(height: 20),
                   GestureDetector(
                     onTap: () {
-                      Get.to(()=> const OptionalDetailsScreenExtended());
+                      Get.to(()=> const EligibleCustomersTourScreen());
                     },
                     child: Container(
                       width: Get.width,
                       height: 55,
                       decoration: BoxDecoration(
                         border: Border.all(
-                          color: Colors.black, // Border color
-                          width: 1.0, // Border width
+                          color: Colors.black,
+                          width: 1.0,
                         ),
-                        borderRadius: BorderRadius.circular(10), // Border radius
+                        borderRadius: BorderRadius.circular(10),
                       ),
-                      padding: const EdgeInsets.all(10), // Padding inside the container
+                      padding: const EdgeInsets.all(10),
                       child: const Center(
                         child: Text(
                           'Skip',
