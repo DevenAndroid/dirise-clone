@@ -29,7 +29,7 @@ class AppStrings{
   static String faq = "FAQs";
   static String newsFeed = "News Feed";
   static String pdfReader = "Digital Pdf Reader";
-  static String vendorPartner = "Switch To Vendor";
+  static String vendorPartner = "Sell Better";
   static String language = "Language";
   static String aboutUs = "About Us";
   static String termsCondition = "Terms and Conditions";

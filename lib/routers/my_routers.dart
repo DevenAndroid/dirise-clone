@@ -18,6 +18,7 @@ import '../Services/whatServiceDoYouProvide.dart';
 
 import '../addNewProduct/giveawaylocation.dart';
 import '../addNewProduct/pickUpAddressScreen.dart';
+import '../iAmHereToSell/personalizeyourstoreScreen.dart';
 import '../model/model_cart_response.dart';
 import '../model/vendor_models/model_return_policy.dart';
 import '../newAuthScreens/newOtpScreen.dart';
@@ -99,7 +100,7 @@ class MyRouters {
     GetPage(name: DirectCheckOutScreen.route, page: () => const DirectCheckOutScreen()),
     GetPage(name: VendorProfileScreen.route, page: () => const VendorProfileScreen()),
     GetPage(name: AddAddressScreen.route, page: () => const AddAddressScreen()),
-    GetPage(name: ShippingPolicyScreen.route, page: () => const ShippingPolicyScreen()),
+    GetPage(name: ShippingPolicyScreen.route, page: () => ShippingPolicyScreen()),
     GetPage(name: EditAddresss.route, page: () => const EditAddresss()),
     // GetPage(name: ReturnnPolicy.route, page: () => const ReturnnPolicy()),
     GetPage(name: VendorInformation.route, page: () => const VendorInformation()),

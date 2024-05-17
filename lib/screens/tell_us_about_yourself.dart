@@ -1,9 +1,15 @@
+import 'dart:convert';
+
 import 'package:dirise/screens/tour_travel/date_range_screen_tour.dart';
 import 'package:dirise/utils/helper.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:google_fonts/google_fonts.dart';
 
+import '../controller/vendor_controllers/add_product_controller.dart';
+import '../model/common_modal.dart';
+import '../repository/repository.dart';
+import '../utils/api_constant.dart';
 import 'Consultation Sessions/date_range_screen.dart';
 import 'Extended programs/extended_date_range_screen.dart';
 import 'academic programs/date_range_screen.dart';
@@ -17,6 +23,10 @@ class TellUsYourSelfScreen extends StatefulWidget {
 }
 
 class _TellUsYourSelfScreenState extends State<TellUsYourSelfScreen> {
+
+  final Repositories repositories = Repositories();
+  final addProductController = Get.put(AddProductController());
+
   @override
   Widget build(BuildContext context) {
     final size = MediaQuery.of(context).size;
@@ -34,9 +44,17 @@ class _TellUsYourSelfScreenState extends State<TellUsYourSelfScreen> {
                   child: Text("What’s best that align with your bookable product & service ?",style:GoogleFonts.poppins(fontSize:20)),
                 ),
                 const SizedBox(height: 20,),
-                GestureDetector(
+                GestureDetector (
                   onTap: (){
-                    Get.to(()=> const DateRangeScreen());
+                    Map<String, dynamic> map = {};
+                    map['booking_product_type'] = 'appointment';
+                    map['id'] = addProductController.idProduct.value.toString();
+                    repositories.postApi(url: ApiUrls.giveawayProductAddress, context: context, mapData: map).then((value) {
+                      ModelCommonResponse response = ModelCommonResponse.fromJson(jsonDecode(value));
+                      if (response.status == true) {
+                        Get.to(()=> const DateRangeScreen());
+                      }
+                    });
                   },
                   child: Container(
                     width:size.width,
@@ -59,10 +77,8 @@ class _TellUsYourSelfScreenState extends State<TellUsYourSelfScreen> {
                     child:  Padding(
                       padding: const EdgeInsets.symmetric(horizontal: 15, vertical: 13),
                       child: Column(
-        
                           crossAxisAlignment: CrossAxisAlignment.start,
                           mainAxisAlignment: MainAxisAlignment.spaceBetween,
-        
                           children:[
                             Text('Consultation Sessions  ',style:GoogleFonts.poppins(fontSize:26,fontWeight:FontWeight.w500)),
                             4.spaceY,
@@ -78,7 +94,15 @@ class _TellUsYourSelfScreenState extends State<TellUsYourSelfScreen> {
                 const SizedBox(height: 20,),
                 GestureDetector(
                   onTap: (){
-                    Get.to(()=> const AcademicDateScreen());
+                    Map<String, dynamic> map = {};
+                    map['booking_product_type'] = 'academic_program';
+                    map['id'] = addProductController.idProduct.value.toString();
+                    repositories.postApi(url: ApiUrls.giveawayProductAddress, context: context, mapData: map).then((value) {
+                      ModelCommonResponse response = ModelCommonResponse.fromJson(jsonDecode(value));
+                      if (response.status == true) {
+                        Get.to(()=> const AcademicDateScreen());
+                      }
+                    });
                   },
                   child: Container(
                     width:size.width,
@@ -109,7 +133,15 @@ class _TellUsYourSelfScreenState extends State<TellUsYourSelfScreen> {
                 const SizedBox(height: 20,),
                 GestureDetector(
                   onTap: (){
-                    Get.to(()=>const ExtendedDateRange());
+                    Map<String, dynamic> map = {};
+                    map['booking_product_type'] = 'monthly_program';
+                    map['id'] = addProductController.idProduct.value.toString();
+                    repositories.postApi(url: ApiUrls.giveawayProductAddress, context: context, mapData: map).then((value) {
+                      ModelCommonResponse response = ModelCommonResponse.fromJson(jsonDecode(value));
+                      if (response.status == true) {
+                        Get.to(()=>const ExtendedDateRange());
+                      }
+                    });
                   },
                   child: Container(
                     width:size.width,
@@ -142,7 +174,15 @@ class _TellUsYourSelfScreenState extends State<TellUsYourSelfScreen> {
                 const SizedBox(height: 20,),
                 GestureDetector(
                   onTap: (){
-                    Get.to(()=> const DateRangeScreenTour());
+                    Map<String, dynamic> map = {};
+                    map['booking_product_type'] = 'tour_travel';
+                    map['id'] = addProductController.idProduct.value.toString();
+                    repositories.postApi(url: ApiUrls.giveawayProductAddress, context: context, mapData: map).then((value) {
+                      ModelCommonResponse response = ModelCommonResponse.fromJson(jsonDecode(value));
+                      if (response.status == true) {
+                        Get.to(()=> const DateRangeScreenTour());
+                      }
+                    });
                   },
                   child: Container(
                     width:size.width,
@@ -173,7 +213,17 @@ class _TellUsYourSelfScreenState extends State<TellUsYourSelfScreen> {
                 ),
                 const SizedBox(height: 20,),
                 GestureDetector(
-                  onTap: (){},
+                  onTap: (){
+                    Map<String, dynamic> map = {};
+                    map['booking_product_type'] = 'seminar';
+                    map['id'] = addProductController.idProduct.value.toString();
+                    repositories.postApi(url: ApiUrls.giveawayProductAddress, context: context, mapData: map).then((value) {
+                      ModelCommonResponse response = ModelCommonResponse.fromJson(jsonDecode(value));
+                      if (response.status == true) {
+                        Get.to(()=> const DateRangeScreenTour());
+                      }
+                    });
+                  },
                   child: Container(
                     width:size.width,
                     decoration: const BoxDecoration(borderRadius: BorderRadius.all(Radius.circular(10)),
@@ -202,8 +252,18 @@ class _TellUsYourSelfScreenState extends State<TellUsYourSelfScreen> {
                   ),
                 ),
                 const SizedBox(height: 20,),
-                GestureDetector(
-                  onTap: (){},
+                GestureDetector (
+                  onTap: (){
+                    Map<String, dynamic> map = {};
+                    map['booking_product_type'] = 'seminar';
+                    map['id'] = addProductController.idProduct.value.toString();
+                    repositories.postApi(url: ApiUrls.giveawayProductAddress, context: context, mapData: map).then((value) {
+                      ModelCommonResponse response = ModelCommonResponse.fromJson(jsonDecode(value));
+                      if (response.status == true) {
+                        Get.to(()=> const DateRangeScreenTour());
+                      }
+                    });
+                  },
                   child: Container(
                     width:size.width,
                     decoration: const BoxDecoration(borderRadius: BorderRadius.all(Radius.circular(10)),

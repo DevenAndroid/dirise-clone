@@ -56,6 +56,7 @@ class _SetTimeScreenConsultationState extends State<SetTimeScreenConsultation> {
       status.add(value.status == true ? "1" : "0");
     });
     map["start_time"] = start;
+    map["product_id"] =  addProductController.idProduct.value.toString();
     map["end_time"] = end;
     map["start_break_time"] = start_break_time;
     map["end_break_time"] = end_break_time;

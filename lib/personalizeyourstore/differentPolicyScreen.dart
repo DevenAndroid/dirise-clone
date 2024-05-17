@@ -2,7 +2,11 @@ import 'dart:io';
 
 import 'package:dirise/addNewProduct/itemdetailsScreen.dart';
 import 'package:dirise/controller/profile_controller.dart';
+import 'package:dirise/personalizeyourstore/returnPolicyListScreen.dart';
+import 'package:dirise/personalizeyourstore/returnpolicyScreen.dart';
+import 'package:dirise/personalizeyourstore/shippingPolicyListScreen.dart';
 import 'package:dirise/utils/api_constant.dart';
+import 'package:dirise/vendor/shipping_policy.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
@@ -16,49 +20,38 @@ import '../newAddress/pickUpAddressScreen.dart';
 import '../singleproductScreen/product_information_screen.dart';
 import '../widgets/common_button.dart';
 
-class Giveway1Screen extends StatefulWidget {
+class DifferentPolicyScreen extends StatefulWidget {
   static String route = "/TellUsAboutYourSelf";
   File? featureImage;
-  Giveway1Screen({Key? key,this.featureImage}) : super(key: key);
+  DifferentPolicyScreen({Key? key,this.featureImage}) : super(key: key);
 
   @override
-  State<Giveway1Screen> createState() => _Giveway1ScreenState();
+  State<DifferentPolicyScreen> createState() => _DifferentPolicyScreenState();
 }
 
-class _Giveway1ScreenState extends State<Giveway1Screen> {
+class _DifferentPolicyScreenState extends State<DifferentPolicyScreen> {
   String selectedRadio = '';
   final profileController = Get.put(ProfileController());
 
   List<String> itemTexts = [
-    'Working',
-    'Not Working',
-    'Scrab',
+    'Return Policy',
+    'Shipping Policy',
+    'Pickup Policy',
 
   ];
 
   void navigateNext() {
-    if (profileController.model.user!.isVendor == true) {
-      // If user is a vendor, allow all radio buttons
-      if (selectedRadio == 'Working') {
+
+      if (selectedRadio == 'Return Policy') {
+        Get.to(const ReturnPolicyListScreen());
+      } else if (selectedRadio == 'Shipping Policy') {
+        Get.to(ShippingPolicyListScreen());
+      } else if (selectedRadio == 'Pickup Policy') {
         Get.to(const ItemDetailsScreens());
-      } else if (selectedRadio == 'NotWorking') {
-        Get.to(const ItemDetailsScreens());
-        // Get.to(ProductInformationScreens(fetaureImage: widget.featureImage,));
-      } else if (selectedRadio == 'Scrab') {
-        Get.to(const ItemDetailsScreens());
-        // Get.to(JobTellusaboutyourselfScreen());
       } else {
         // Handle the case where the selected radio doesn't match any case
         // For example, show a message or perform a different action
       }
-    } else {
-      // If user is not a vendor, only allow 'Giveaway' option
-      if (selectedRadio == 'Giveaway') {
-        Get.to(const ItemDetailsScreens());
-      } else {
-        showToast('Please Register As A Vendor');
-      }
-    }
   }
 
 
@@ -160,7 +153,7 @@ class _Giveway1ScreenState extends State<Giveway1Screen> {
     return Stack(
       children: [
         Container(
-         width: Get.width,
+          width: Get.width,
           height: 300,
           padding: EdgeInsets.all(10),
           decoration: BoxDecoration(

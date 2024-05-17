@@ -435,17 +435,30 @@ class _ReviewandPublishScreenState extends State<ReviewandPublishScreen> {
                         ),
                       ),
                       if (isShippingPolicy.value == true)
-                        Column(
-                          mainAxisAlignment: MainAxisAlignment.start,
-                          crossAxisAlignment: CrossAxisAlignment.start,
-                          children: [
-                            Text('Town: ${productDetailsModel.value.productDetails!.address!.town ?? ""}'),
-                            Text('city: ${productDetailsModel.value.productDetails!.address!.city ?? ""}'),
-                            Text('state: ${productDetailsModel.value.productDetails!.address!.state ?? ""}'),
-                            Text('address: ${productDetailsModel.value.productDetails!.address!.address ?? ""}'),
-                            Text('zip code: ${productDetailsModel.value.productDetails!.address!.zipCode ?? ""}'),
-                          ],
-                        ),
+
+                        modelShippingPolicy != null
+                            ? ListView.builder(
+                            shrinkWrap: true,
+                            physics: AlwaysScrollableScrollPhysics(),
+                            itemCount: modelShippingPolicy!.shippingPolicy!.length,
+                            itemBuilder: (context, index) {
+                              var shippingPolicy = modelShippingPolicy!.shippingPolicy![index];
+                              return Container(
+                                padding: EdgeInsets.all(10),
+                                decoration: BoxDecoration(border: Border.all(color: Colors.grey)),
+                                child: Column(
+                                  mainAxisAlignment: MainAxisAlignment.start,
+                                  crossAxisAlignment: CrossAxisAlignment.start,
+                                  children: [
+                                    Text('Policy Name: ${shippingPolicy.title ?? ""}'),
+                                    Text('Return Policy Description : ${shippingPolicy.description ?? ""}'),
+                                    Text('Return Within: ${shippingPolicy.days ?? ""}'),
+                                    Text('Return Shipping Fees: ${shippingPolicy.shippingCharges ?? ""}'),
+                                  ],
+                                ),
+                              );
+                            })
+                            : const CircularProgressIndicator(),
                       const SizedBox(height: 20),
 
                       GestureDetector(

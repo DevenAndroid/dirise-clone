@@ -10,6 +10,7 @@ import 'package:get/get.dart';
 import 'package:google_fonts/google_fonts.dart';
 
 import '../controller/profile_controller.dart';
+import '../controller/vendor_controllers/add_product_controller.dart';
 import '../model/common_modal.dart';
 import '../model/virtualProductModel.dart';
 import '../repository/repository.dart';
@@ -53,7 +54,7 @@ class _VirtualProductScreenState extends State<VirtualProductScreen> {
   ];
   final Repositories repositories = Repositories();
   final formKey1 = GlobalKey<FormState>();
-
+  final addProductController = Get.put(AddProductController());
   optionalApi() {
     Map<String, String> map = {};
     Map<String, File> images = {};
@@ -63,6 +64,7 @@ class _VirtualProductScreenState extends State<VirtualProductScreen> {
     map['product_type'] = 'virtual_product';
     map['item_type'] = 'virtual_product';
     images['virtual_product_file'] = featuredImage;
+    map["id"] =  addProductController.idProduct.value.toString();
     log(images.toString());
     FocusManager.instance.primaryFocus!.unfocus();
     repositories

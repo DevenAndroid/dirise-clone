@@ -12,6 +12,7 @@ import '../repository/repository.dart';
 import '../utils/api_constant.dart';
 import '../widgets/common_button.dart';
 import '../widgets/common_colour.dart';
+import 'doneSeriveseScreen.dart';
 
 
 class ReviewPublishServiceScreen extends StatefulWidget {
@@ -512,7 +513,7 @@ class _ReviewPublishServiceScreenState extends State<ReviewPublishServiceScreen>
                         title: 'Confirm',
                         borderRadius: 11,
                         onPressed: () {
-                          Get.to(RewardScreen());
+                          Get.to(DoneServiceScreen());
                         },
                       ),
                     ],

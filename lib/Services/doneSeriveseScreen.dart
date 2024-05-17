@@ -8,17 +8,16 @@ import 'package:url_launcher/url_launcher_string.dart';
 
 import '../screens/my_account_screens/contact_us_screen.dart';
 import '../screens/my_account_screens/faqs_screen.dart';
-import '../tellaboutself/ExtraInformation.dart';
 import '../widgets/common_button.dart';
 
-class RewardScreen extends StatefulWidget {
-  const RewardScreen({super.key});
+class DoneServiceScreen extends StatefulWidget {
+  const DoneServiceScreen({super.key});
 
   @override
-  State<RewardScreen> createState() => _RewardScreenState();
+  State<DoneServiceScreen> createState() => _DoneServiceScreenState();
 }
 
-class _RewardScreenState extends State<RewardScreen> {
+class _DoneServiceScreenState extends State<DoneServiceScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -56,9 +55,12 @@ class _RewardScreenState extends State<RewardScreen> {
                 height: 20,
               ),
               Text(
-                'Thank you for your donation, you will get 1000 Dicoins as a reward for your generosity'.tr,
+                'Service have been added  successfully '.tr,
                 style: GoogleFonts.poppins(color: Colors.black, fontWeight: FontWeight.w400, fontSize: 16,),
                 textAlign: TextAlign.center,
+              ),
+              const SizedBox(
+                height: 40,
               ),
               Text(
                 'If you are having troubles:-'.tr,
@@ -99,7 +101,7 @@ class _RewardScreenState extends State<RewardScreen> {
                 title: 'Continue',
                 borderRadius: 11,
                 onPressed: () {
-                  Get.to(()=>const ExtraInformation());
+                  Get.to(const BottomNavbar());
                 },
               ),
             ],

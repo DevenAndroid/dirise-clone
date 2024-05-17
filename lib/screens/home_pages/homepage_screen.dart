@@ -231,6 +231,7 @@ class _HomePageState extends State<HomePage> {
 
   List<Widget> vendorPartner() {
     return [
+
       GestureDetector(
         onTap: () {
           if (profileController.model.user == null) {
@@ -250,10 +251,11 @@ class _HomePageState extends State<HomePage> {
         },
         child:SvgPicture.asset("assets/svgs/heart.svg"),
       ),
+
       // _isValue.value == true
       //     ? Obx(() {
       //   if (profileController.refreshInt.value > 0) {}
-      //
+      //`
       //   return profileController.model.user != null
       //       ? Column(
       //     crossAxisAlignment: CrossAxisAlignment.start,
