@@ -1,11 +1,14 @@
+import 'dart:convert';
+
 import 'package:dirise/screens/Consultation%20Sessions/review_screen.dart';
 import 'package:dirise/utils/helper.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:google_fonts/google_fonts.dart';
-
+import '../../model/common_modal.dart';
+import '../../repository/repository.dart';
+import '../../utils/api_constant.dart';
 import '../../widgets/common_button.dart';
-import '../../widgets/common_colour.dart';
 
 
 class EligibleCustomers extends StatefulWidget {
@@ -16,6 +19,7 @@ class EligibleCustomers extends StatefulWidget {
 }
 
 class _EligibleCustomersState extends State<EligibleCustomers> {
+  final Repositories repositories = Repositories();
   RangeValues currentRangeValues = const RangeValues(10, 80);
   double startValue = 0.0;
   String startString = '';
@@ -28,6 +32,22 @@ class _EligibleCustomersState extends State<EligibleCustomers> {
   String endDigitsBeforeDecimal = '';
 
   String selectedGender = 'Male Only';
+  createEligbleCustomer() {
+    Map<String, dynamic> map = {};
+    map['eligible_min_age '] = digitsBeforeDecimal.toString();
+    map['eligible_max_age '] = endDigitsBeforeDecimal.toString();
+    map['eligible_gender '] = selectedGender.toString();
+    FocusManager.instance.primaryFocus!.unfocus();
+    repositories.postApi(url: ApiUrls.giveawayProductAddress, context: context, mapData: map).then((value) {
+      ModelCommonResponse response = ModelCommonResponse.fromJson(jsonDecode(value));
+      print('API Response Status Code: ${response.status}');
+      // showToast(response.message.toString());
+      if (response.status == true) {
+        showToast(response.message.toString());
+        Get.to(()=> const ReviewScreen());
+      }
+    });
+  }
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -70,7 +90,7 @@ class _EligibleCustomersState extends State<EligibleCustomers> {
             20.spaceY,
             RangeSlider(
               values: currentRangeValues,
-              max: 100,
+              max: 99,
               divisions: 99,
               labels: RangeLabels(
                 currentRangeValues.start.round().toString(),
@@ -190,10 +210,12 @@ class _EligibleCustomersState extends State<EligibleCustomers> {
               title: 'Done',
               borderRadius: 11,
               onPressed: () {
-                // if(formKey1.currentState!.validate()){
-                // optionalApi();
-                // }
-                Get.to(()=> const ReviewScreen());
+                if(selectedGender != '' && digitsBeforeDecimal != '' && endDigitsBeforeDecimal != ''){
+                  createEligbleCustomer();
+                }else{
+                  showToastCenter('Select Age Range'.tr);
+                }
+
               },
             ),
             const SizedBox(height: 20),

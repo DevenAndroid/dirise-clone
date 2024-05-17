@@ -6,6 +6,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 import 'package:get/get.dart';
 import 'package:google_fonts/google_fonts.dart';
+import '../../controller/service_controller.dart';
 import '../../model/common_modal.dart';
 import '../../repository/repository.dart';
 import '../../utils/api_constant.dart';
@@ -22,27 +23,27 @@ class OptionalDetailsAcademicScreen extends StatefulWidget {
 }
 
 class _OptionalDetailsAcademicScreenState extends State<OptionalDetailsAcademicScreen> {
-  final TextEditingController locationController = TextEditingController();
-  final TextEditingController hostNameController = TextEditingController();
-  final TextEditingController programNameController = TextEditingController();
-  final TextEditingController programGoalController = TextEditingController();
-  final TextEditingController programDesController = TextEditingController();
-  final TextEditingController sponsorController = TextEditingController();
+  final serviceController = Get.put(ServiceController());
   RxBool hide = true.obs;
   RxBool hide1 = true.obs;
   bool showValidation = false;
   final Repositories repositories = Repositories();
   final formKey1 = GlobalKey<FormState>();
   String code = "+91";
+  final TextEditingController locationController = TextEditingController();
+  final TextEditingController hostNameController = TextEditingController();
+  final TextEditingController programNameController = TextEditingController();
+  final TextEditingController programGoalController = TextEditingController();
+  final TextEditingController programDescription = TextEditingController();
   optionalApi() {
     Map<String, dynamic> map = {};
 
-    // map['meta_title'] = locationController.text.trim();
-    // map['item_type'] = 'giveaway';
-    // map['meta_description'] = serviceController.metaDescriptionController.text.trim();
-    // map['long_description'] = serviceController.longDescriptionController.text.trim();
-    // map['serial_number'] = serviceController.serialNumberController.text.trim();
-    // map['product_number'] = serviceController.productNumberController.text.trim();
+    map['bookable_product_location'] = locationController.text.trim();
+    map['item_type'] = 'product';
+    map['host_name'] = hostNameController.text.trim();
+    map['program_name'] = programNameController.text.trim();
+    map['program_goal'] = programGoalController.text.trim();
+    map['program_desc'] = programDescription.text.trim();
 
     FocusManager.instance.primaryFocus!.unfocus();
     repositories.postApi(url: ApiUrls.giveawayProductAddress, context: context, mapData: map).then((value) {
@@ -50,8 +51,9 @@ class _OptionalDetailsAcademicScreenState extends State<OptionalDetailsAcademicS
       print('API Response Status Code: ${response.status}');
       // showToast(response.message.toString());
       if (response.status == true) {
+        showToast(response.message.toString());
         if(formKey1.currentState!.validate()){
-          Get.to(() => const ServiceClassificationScreen());
+          Get.to(()=> const SponsorsScreenAcademic());
         }
       }
     });
@@ -93,7 +95,7 @@ class _OptionalDetailsAcademicScreenState extends State<OptionalDetailsAcademicS
             child: Column(
               children: [
                 TextFormField(
-                  controller:locationController,
+                  controller: locationController,
                   maxLines: 2,
                   minLines: 2,
                   decoration: InputDecoration(
@@ -168,7 +170,7 @@ class _OptionalDetailsAcademicScreenState extends State<OptionalDetailsAcademicS
                 ),
                 TextFormField(
                   maxLines: 2,
-                  controller: programDesController,
+                  controller: programDescription,
                   minLines: 2,
                   validator: (value) {
                     if (value!.trim().isEmpty) {
@@ -210,26 +212,14 @@ class _OptionalDetailsAcademicScreenState extends State<OptionalDetailsAcademicS
                     ),
                   ),
                 ),
-                CommonTextField(
-                  controller: sponsorController,
-                  obSecure: false,
-                  hintText: 'Sponsor'.tr,
-                  validator: (value) {
-                    if (value!.trim().isEmpty) {
-                      return "Sponsor goal is required".tr;
-                    }
-                    return null;
-                  },
-                ),
+
                 const SizedBox(height: 20),
                 CustomOutlineButton(
                   title: 'Done',
                   borderRadius: 11,
                   onPressed: () {
-                    // if(formKey1.currentState!.validate()){
-                    // optionalApi();
-                    // }
-                     Get.to(()=> const SponsorsScreenAcademic());
+                    optionalApi();
+
                   },
                 ),
                 const SizedBox(height: 20),
