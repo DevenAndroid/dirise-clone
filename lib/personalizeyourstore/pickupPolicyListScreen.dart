@@ -1,6 +1,7 @@
 import 'dart:convert';
 import 'dart:developer';
 
+import 'package:dirise/personalizeyourstore/pickUpPolicyScreen.dart';
 import 'package:dirise/vendor/shipping_policy.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
@@ -8,26 +9,27 @@ import 'package:get/get.dart';
 import 'package:google_fonts/google_fonts.dart';
 
 import '../model/getShippingModel.dart';
+import '../model/pickUpModel.dart';
 import '../repository/repository.dart';
 import '../utils/api_constant.dart';
 import '../widgets/common_colour.dart';
 
-class ShippingPolicyListScreen extends StatefulWidget {
-  const ShippingPolicyListScreen({super.key});
+class PickUpPolicyListScreen extends StatefulWidget {
+  const PickUpPolicyListScreen({super.key});
 
   @override
-  State<ShippingPolicyListScreen> createState() => _ShippingPolicyListScreenState();
+  State<PickUpPolicyListScreen> createState() => _PickUpPolicyListScreenState();
 }
 
-class _ShippingPolicyListScreenState extends State<ShippingPolicyListScreen> {
+class _PickUpPolicyListScreenState extends State<PickUpPolicyListScreen> {
   final Repositories repositories = Repositories();
   final formKey1 = GlobalKey<FormState>();
-  Rx<GetShippingModel> modelShippingPolicy = GetShippingModel().obs;
+  Rx<PickUpPolicyModel> modelPickUpPolicy = PickUpPolicyModel().obs;
   getShippingPolicyData() {
-    repositories.getApi(url: ApiUrls.getShippingPolicy).then((value) {
+    repositories.getApi(url: ApiUrls.getPickUpPolicy).then((value) {
       setState(() {
-        modelShippingPolicy.value = GetShippingModel.fromJson(jsonDecode(value));
-        log("Return Policy Data: ${modelShippingPolicy.value.shippingPolicy![0].id.toString()}");
+        modelPickUpPolicy.value = PickUpPolicyModel.fromJson(jsonDecode(value));
+        log("Return Policy Data: ${modelPickUpPolicy.value.pickupPolicy![0].id.toString()}");
       });
     });
   }
@@ -60,7 +62,7 @@ class _ShippingPolicyListScreenState extends State<ShippingPolicyListScreen> {
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: [
             Text(
-              'Shipping Policy List'.tr,
+              'PickUp Policy List'.tr,
               style: GoogleFonts.poppins(color: const Color(0xff292F45), fontWeight: FontWeight.w600, fontSize: 20),
             ),
           ],
@@ -73,7 +75,7 @@ class _ShippingPolicyListScreenState extends State<ShippingPolicyListScreen> {
                 alignment: Alignment.centerRight,
                 child: GestureDetector(
                   onTap: () {
-              Get.to(ShippingPolicyScreen());
+                    Get.to(PickUpPolicyPolicyScreen());
                   },
                   child: const Padding(
                     padding: EdgeInsets.only(right: 15),
@@ -86,25 +88,24 @@ class _ShippingPolicyListScreenState extends State<ShippingPolicyListScreen> {
             const SizedBox(
               height: 20,
             ),
-            modelShippingPolicy.value.shippingPolicy != null
+            modelPickUpPolicy.value.pickupPolicy != null
                 ? ListView.builder(
-                itemCount: modelShippingPolicy.value.shippingPolicy!.length,
+                itemCount: modelPickUpPolicy.value.pickupPolicy!.length,
                 shrinkWrap: true,
                 physics: const NeverScrollableScrollPhysics(),
                 itemBuilder: (context, index) {
-                  var shippingPolicy = modelShippingPolicy.value.shippingPolicy![index];
+                  var pickUpPolicyPolicy = modelPickUpPolicy.value.pickupPolicy![index];
                   return GestureDetector(
                     onTap: () {
-                      Get.to(ShippingPolicyScreen(
-                        id: shippingPolicy.id,
-                        policydesc: shippingPolicy.description,
-                        policyDiscount: shippingPolicy.shippingCharges,
-                        policyName: shippingPolicy.title,
-                        priceLimit: shippingPolicy.priceLimit,
+                      Get.to(PickUpPolicyPolicyScreen(
+                        id: pickUpPolicyPolicy.id,
+                        policydesc: pickUpPolicyPolicy.description,
+                        policyName: pickUpPolicyPolicy.title,
+                        handling_days: pickUpPolicyPolicy.handlingDays,
+                        pick_option: int.tryParse(pickUpPolicyPolicy.pickOption ?? '0'),
+
 
                       ));
-
-                      log(shippingPolicy.shippingCharges.toString());
                     },
                     child: Container(
                         width: Get.width,
@@ -120,12 +121,12 @@ class _ShippingPolicyListScreenState extends State<ShippingPolicyListScreen> {
                                 crossAxisAlignment: CrossAxisAlignment.start,
                                 children: [
                                   Text(
-                                    shippingPolicy.title,
+                                    pickUpPolicyPolicy.title,
                                     style: const TextStyle(
                                         color: Colors.black, fontWeight: FontWeight.w600, fontSize: 20),
                                   ),
-                                  SizedBox(height: 10,),
-                                  Text(shippingPolicy.description,maxLines: 3,),
+                                  const SizedBox(height: 10,),
+                                  Text(pickUpPolicyPolicy.description,maxLines: 3,),
                                 ],
                               ),
                             ),

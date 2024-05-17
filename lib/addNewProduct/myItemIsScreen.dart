@@ -164,6 +164,7 @@ class _MyItemISScreenState extends State<MyItemISScreen> {
     return Stack(
       children: [
         Container(
+          width: Get.width,
           height: 300,
           decoration: BoxDecoration(
             borderRadius: BorderRadius.circular(11),
@@ -182,20 +183,20 @@ class _MyItemISScreenState extends State<MyItemISScreen> {
                 ),
               ),
               SizedBox(height: 10,),
-              Center(
-                child: Padding(
-                  padding: const EdgeInsets.symmetric(horizontal: 10),
-                  child: Text(
-                    'Some other text',
-                    style: GoogleFonts.poppins(
-                      color: Colors.black,
-                      fontWeight: FontWeight.w500,
-                      fontSize: 10,
-                    ),
-                    textAlign: TextAlign.center,
-                  ),
-                ),
-              ),
+              // Center(
+              //   child: Padding(
+              //     padding: const EdgeInsets.symmetric(horizontal: 10),
+              //     child: Text(
+              //       'Some other text',
+              //       style: GoogleFonts.poppins(
+              //         color: Colors.black,
+              //         fontWeight: FontWeight.w500,
+              //         fontSize: 10,
+              //       ),
+              //       textAlign: TextAlign.center,
+              //     ),
+              //   ),
+              // ),
             ],
           ),
         ),

@@ -204,8 +204,7 @@ class _SetTimeScreenState extends State<SetTimeScreen> {
                                     initialTimerDuration: e.startTime.toString().durationTime,
                                     onTimerDurationChanged: (Duration newDuration) {
                                       makeDelay(nowPerform: (bool v) {
-                                        String hour =
-                                            "${newDuration.inHours < 10 ? "0${newDuration.inHours}" : newDuration.inHours}";
+                                        String hour = "${newDuration.inHours < 10 ? "0${newDuration.inHours}" : newDuration.inHours}";
                                         int minute = newDuration.inMinutes % 60;
                                         String inMinute = "${minute < 10 ? "0$minute" : minute}";
                                         e.startTime = "$hour:$inMinute";
@@ -251,8 +250,7 @@ class _SetTimeScreenState extends State<SetTimeScreen> {
                                     initialTimerDuration: e.endTime.toString().durationTime,
                                     onTimerDurationChanged: (Duration newDuration) {
                                       makeDelay(nowPerform: (bool v) {
-                                        String hour =
-                                            "${newDuration.inHours < 10 ? "0${newDuration.inHours}" : newDuration.inHours}";
+                                        String hour = "${newDuration.inHours < 10 ? "0${newDuration.inHours}" : newDuration.inHours}";
                                         int minute = newDuration.inMinutes % 60;
                                         String inMinute = "${minute < 10 ? "0$minute" : minute}";
                                         e.endTime = "$hour:$inMinute";
@@ -280,22 +278,22 @@ class _SetTimeScreenState extends State<SetTimeScreen> {
                         ],
                       ),
                       addHeight(15),
+
+                      addHeight(5),
                       Row(
                         crossAxisAlignment: CrossAxisAlignment.center,
                         mainAxisAlignment: MainAxisAlignment.start,
                         children: [
-                          SizedBox(width: 48), // Match the width of checkbox column
-                          Expanded(
-                            flex: 3,
-                            child: Text(
-                              'Break'.tr,
-                              style: GoogleFonts.poppins(
-                                color: Colors.grey.shade900,
-                                fontSize: 14,
-                                fontWeight: FontWeight.w400,
-                              ),
+                          const SizedBox(width: 50),
+                          Text(
+                            "Break Time".tr,
+                            style: GoogleFonts.poppins(
+                              color: Colors.black,
+                              fontSize: 14,
+                              fontWeight: FontWeight.w500,
                             ),
                           ),
+                          SizedBox(width: 20,),
                           Expanded(
                             flex: 2,
                             child: GestureDetector(
@@ -304,15 +302,20 @@ class _SetTimeScreenState extends State<SetTimeScreen> {
                                 _showDialog(
                                   CupertinoTimerPicker(
                                     mode: CupertinoTimerPickerMode.hm,
-                                    initialTimerDuration:
-                                    (e.startBreakTime ?? "00:00").toString().durationTime,
+                                    initialTimerDuration: e.startBreakTime.toString().durationTime,
                                     onTimerDurationChanged: (Duration newDuration) {
                                       makeDelay(nowPerform: (bool v) {
-                                        String hour =
-                                            "${newDuration.inHours < 10 ? "0${newDuration.inHours}" : newDuration.inHours}";
+                                        String hour = "${newDuration.inHours < 10 ? "0${newDuration.inHours}" : newDuration.inHours}";
                                         int minute = newDuration.inMinutes % 60;
                                         String inMinute = "${minute < 10 ? "0$minute" : minute}";
-                                        e.startBreakTime = "$hour:$inMinute";
+
+                                        String selectedBreakTime = "$hour:$inMinute";
+                                        if (selectedBreakTime.compareTo(e.startTime!) >= 0 &&
+                                            selectedBreakTime.compareTo(e.endTime!) <= 0) {
+                                          e.startBreakTime = selectedBreakTime;
+                                        } else {
+                                          showToast("Break time must be within working hours.");
+                                        }
                                         setState(() {});
                                       });
                                     },
@@ -322,7 +325,7 @@ class _SetTimeScreenState extends State<SetTimeScreen> {
                               child: Row(
                                 children: [
                                   Text(
-                                    (e.startBreakTime ?? "00:00").toString().normalTime,
+                                    e.startBreakTime.toString().normalTime,
                                     style: GoogleFonts.poppins(
                                       fontWeight: FontWeight.w500,
                                       fontSize: 15,
@@ -352,15 +355,20 @@ class _SetTimeScreenState extends State<SetTimeScreen> {
                                 _showDialog(
                                   CupertinoTimerPicker(
                                     mode: CupertinoTimerPickerMode.hm,
-                                    initialTimerDuration:
-                                    (e.endBreakTime ?? "00:00").toString().durationTime,
+                                    initialTimerDuration: e.endBreakTime.toString().durationTime,
                                     onTimerDurationChanged: (Duration newDuration) {
                                       makeDelay(nowPerform: (bool v) {
-                                        String hour =
-                                            "${newDuration.inHours < 10 ? "0${newDuration.inHours}" : newDuration.inHours}";
+                                        String hour = "${newDuration.inHours < 10 ? "0${newDuration.inHours}" : newDuration.inHours}";
                                         int minute = newDuration.inMinutes % 60;
                                         String inMinute = "${minute < 10 ? "0$minute" : minute}";
-                                        e.endBreakTime = "$hour:$inMinute";
+
+                                        String selectedEndBreakTime = "$hour:$inMinute";
+                                        if (selectedEndBreakTime.compareTo(e.startTime!) >= 0 &&
+                                            selectedEndBreakTime.compareTo(e.endTime!) <= 0) {
+                                          e.endBreakTime = selectedEndBreakTime;
+                                        } else {
+                                          showToast("Break time must be within working hours.");
+                                        }
                                         setState(() {});
                                       });
                                     },
@@ -370,7 +378,7 @@ class _SetTimeScreenState extends State<SetTimeScreen> {
                               child: Row(
                                 children: [
                                   Text(
-                                    (e.endBreakTime ?? "00:00").toString().normalTime,
+                                    e.endBreakTime.toString().normalTime,
                                     style: GoogleFonts.poppins(
                                       fontWeight: FontWeight.w500,
                                       fontSize: 15,
@@ -384,39 +392,42 @@ class _SetTimeScreenState extends State<SetTimeScreen> {
                           ),
                         ],
                       ),
-                      addHeight(15),
+                      addHeight(10),
                     ],
                   ),
                 ),
-                addHeight(15),
+                addHeight(10),
               ],
             ))
                 .toList(),
-            ElevatedButton(
-              onPressed: () {
+            addHeight(10),
+            GestureDetector(
+              onTap: () {
                 updateTime();
               },
-              style: ElevatedButton.styleFrom(
-                backgroundColor: AppTheme.buttonColor,
-                surfaceTintColor: AppTheme.buttonColor,
-                shape: RoundedRectangleBorder(
-                  borderRadius: BorderRadius.circular(12),
+              child: Container(
+                decoration: BoxDecoration(
+                  color: AppTheme.buttonColor,
+                  borderRadius: BorderRadius.circular(10),
                 ),
-              ),
-              child: Padding(
-                padding: const EdgeInsets.all(14.0),
+                padding: const EdgeInsets.symmetric(vertical: 12),
+                alignment: Alignment.center,
                 child: Text(
-                  "Save".tr,
-                  style: GoogleFonts.poppins(fontSize: 18, fontWeight: FontWeight.w600, color: Colors.white),
+                  "Save Time".tr,
+                  style: GoogleFonts.poppins(
+                    color: Colors.white,
+                    fontSize: 15,
+                    fontWeight: FontWeight.w600,
+                  ),
                 ),
               ),
             ),
-            const SizedBox(
-              height: 20,
-            ),
+            addHeight(20),
           ],
         )
-            : const LoadingAnimation();
+            : Center(
+          child: LoadingAnimation(),
+        );
       }),
     );
   }

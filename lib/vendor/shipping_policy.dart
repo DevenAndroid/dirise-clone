@@ -152,69 +152,7 @@ class _ShippingPolicyScreenState extends State<ShippingPolicyScreen> {
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              Padding(
-                padding: const EdgeInsets.symmetric(horizontal: 16),
-                child: Text("Select Your Shipping Policy",
-                    style: GoogleFonts.poppins(fontSize: 18, fontWeight: FontWeight.w600)),
-              ),
-              Hero(
-                tag: "search_tag",
-                child: Material(
-                  color: Colors.transparent,
-                  surfaceTintColor: Colors.transparent,
-                  child: TextField(
-                    maxLines: 1,
-                    style: GoogleFonts.poppins(fontSize: 16),
-                    textInputAction: TextInputAction.search,
-                    onSubmitted: (vb) {
-                      // Get.to(() => SearchProductsScreen(
-                      //   searchText: vb,
-                      // ));
-                    },
-                    decoration: InputDecoration(
-                        filled: true,
-                        prefixIcon: Padding(
-                          padding: const EdgeInsets.all(10),
-                          child: Image.asset(
-                            'assets/icons/search.png',
-                            height: 5,
-                            color: Colors.black,
-                          ),
-                        ),
-                        border: InputBorder.none,
-                        enabledBorder: const OutlineInputBorder(
-                            borderRadius: BorderRadius.all(Radius.circular(8)),
-                            borderSide: BorderSide(color: Color(0xffACACAC))),
-                        disabledBorder: const OutlineInputBorder(
-                            borderRadius: BorderRadius.all(Radius.circular(8)),
-                            borderSide: BorderSide(color: Color(0xffACACAC))),
-                        focusedBorder: const OutlineInputBorder(
-                            borderRadius: BorderRadius.all(Radius.circular(8)),
-                            borderSide: BorderSide(color: Color(0xffACACAC))),
-                        fillColor: Colors.white,
-                        contentPadding: const EdgeInsets.all(8),
-                        hintText: AppStrings.searchVendorFieldText.tr,
-                        hintStyle: GoogleFonts.poppins(
-                            color: const Color(0xff525252), fontSize: 16, fontWeight: FontWeight.w400)),
-                  ),
-                ),
-              ),
-              const SizedBox(
-                height: 5,
-              ),
-              Row(
-                children: [
-                  // Radio(value: 1, groupValue: 1, onChanged: (value) {}),
-                  Text("Item Is Not eligible for shipping",
-                      style: GoogleFonts.poppins(fontSize: 10, fontWeight: FontWeight.w600)),
-                  const SizedBox(
-                    width: 20,
-                  ),
-                  Text("Add New Policy+",
-                      style: GoogleFonts.poppins(
-                          fontSize: 10, fontWeight: FontWeight.w600, color: const Color(0xff292F45))),
-                ],
-              ),
+
               Padding(
                 padding: const EdgeInsets.symmetric(horizontal: 16),
                 child: Text("Policy Name", style: GoogleFonts.poppins(fontSize: 18, fontWeight: FontWeight.w600)),
