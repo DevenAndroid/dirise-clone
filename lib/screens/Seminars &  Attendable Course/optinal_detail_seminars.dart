@@ -1,7 +1,7 @@
 import 'dart:convert';
-import 'package:dirise/Services/services_classification.dart';
 import 'package:dirise/controller/service_controller.dart';
 import 'package:dirise/screens/Consultation%20Sessions/sponsors_screen.dart';
+import 'package:dirise/screens/Seminars%20&%20%20Attendable%20Course/seminars_sponsors_screen.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
@@ -14,16 +14,15 @@ import '../../utils/api_constant.dart';
 import '../../widgets/common_button.dart';
 import '../../widgets/common_colour.dart';
 import '../../widgets/common_textfield.dart';
-import 'EligibleCustomers_extended.dart';
 
-class OptionalDetailsScreenExtended extends StatefulWidget {
-  const OptionalDetailsScreenExtended({super.key});
+class OptionalDetailsSeminarScreen extends StatefulWidget {
+  const OptionalDetailsSeminarScreen({super.key});
 
   @override
-  State<OptionalDetailsScreenExtended> createState() => _OptionalDetailsScreenExtendedState();
+  State<OptionalDetailsSeminarScreen> createState() => _OptionalDetailsSeminarScreenState();
 }
 
-class _OptionalDetailsScreenExtendedState extends State<OptionalDetailsScreenExtended> {
+class _OptionalDetailsSeminarScreenState extends State<OptionalDetailsSeminarScreen> {
   final serviceController = Get.put(ServiceController());
   RxBool hide = true.obs;
   RxBool hide1 = true.obs;
@@ -31,7 +30,6 @@ class _OptionalDetailsScreenExtendedState extends State<OptionalDetailsScreenExt
   final Repositories repositories = Repositories();
   final formKey1 = GlobalKey<FormState>();
   String code = "+91";
-  final TextEditingController locationController = TextEditingController();
   final TextEditingController hostNameController = TextEditingController();
   final TextEditingController programNameController = TextEditingController();
   final TextEditingController programGoalController = TextEditingController();
@@ -39,7 +37,6 @@ class _OptionalDetailsScreenExtendedState extends State<OptionalDetailsScreenExt
   optionalApi() {
     Map<String, dynamic> map = {};
 
-    map['bookable_product_location'] = locationController.text.trim();
     map['item_type'] = 'product';
     map['host_name'] = hostNameController.text.trim();
     map['program_name'] = programNameController.text.trim();
@@ -54,7 +51,7 @@ class _OptionalDetailsScreenExtendedState extends State<OptionalDetailsScreenExt
       if (response.status == true) {
         showToast(response.message.toString());
         if(formKey1.currentState!.validate()){
-          Get.to(() => const EligibleCustomersExtended());
+          Get.to(()=> const SponsorsSeminarScreen());
         }
       }
     });
@@ -92,46 +89,11 @@ class _OptionalDetailsScreenExtendedState extends State<OptionalDetailsScreenExt
         child: Form(
           key: formKey1,
           child: Container(
-            margin: EdgeInsets.only(left: 15, right: 15),
+            margin: const EdgeInsets.only(left: 15, right: 15),
             child: Column(
               children: [
-                TextFormField(
-                  controller: locationController,
-                  maxLines: 2,
-                  minLines: 2,
-                  decoration: InputDecoration(
-                    counterStyle: GoogleFonts.poppins(
-                      color: AppTheme.primaryColor,
-                      fontSize: 25,
-                    ),
-                    counter: const Offstage(),
-                    errorMaxLines: 2,
-                    contentPadding: const EdgeInsets.all(15),
-                    fillColor: Colors.grey.shade100,
-                    hintText: 'Location',
-                    hintStyle: GoogleFonts.poppins(
-                      color: AppTheme.primaryColor,
-                      fontSize: 15,
-                    ),
-                    border: InputBorder.none,
-                    focusedErrorBorder: const OutlineInputBorder(
-                        borderRadius: BorderRadius.all(Radius.circular(8)),
-                        borderSide: BorderSide(color: AppTheme.secondaryColor)),
-                    errorBorder: const OutlineInputBorder(
-                        borderRadius: BorderRadius.all(Radius.circular(8)),
-                        borderSide: BorderSide(color: AppTheme.secondaryColor)),
-                    focusedBorder: const OutlineInputBorder(
-                        borderRadius: BorderRadius.all(Radius.circular(8)),
-                        borderSide: BorderSide(color: AppTheme.secondaryColor)),
-                    disabledBorder: const OutlineInputBorder(
-                      borderRadius: BorderRadius.all(Radius.circular(8)),
-                      borderSide: BorderSide(color: AppTheme.secondaryColor),
-                    ),
-                    enabledBorder: const OutlineInputBorder(
-                      borderRadius: BorderRadius.all(Radius.circular(8)),
-                      borderSide: BorderSide(color: AppTheme.secondaryColor),
-                    ),
-                  ),
+                const SizedBox(
+                  height: 15,
                 ),
                 CommonTextField(
                   controller: hostNameController,
@@ -226,7 +188,7 @@ class _OptionalDetailsScreenExtendedState extends State<OptionalDetailsScreenExt
                 const SizedBox(height: 20),
                 GestureDetector(
                   onTap: () {
-                    Get.to(() => const EligibleCustomersExtended());
+                    Get.to(()=> const SponsorsSeminarScreen());
                   },
                   child: Container(
                     width: Get.width,

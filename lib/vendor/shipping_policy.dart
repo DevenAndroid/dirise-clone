@@ -468,17 +468,18 @@ class _ShippingPolicyScreenState extends State<ShippingPolicyScreen> {
                   title: 'Next',
                   borderRadius: 11,
                   onPressed: () {
-                    if (formKey1.currentState!.validate()) {
-                      if (selectedRadio == 1) {
-                        shippingPolicyApi('free_shipping');
-                      } else if (selectedRadio == 2) {
-                        shippingPolicyApi('partial_shipping');
-                      } else if (selectedRadio == 3) {
-                        shippingPolicyApi('charge_my_customer');
-                      } else {
-                        showToast('Select delivery size');
-                      }
-                    }
+                    // if (formKey1.currentState!.validate()) {
+                    //   if (selectedRadio == 1) {
+                    //     shippingPolicyApi('free_shipping');
+                    //   } else if (selectedRadio == 2) {
+                    //     shippingPolicyApi('partial_shipping');
+                    //   } else if (selectedRadio == 3) {
+                    //     shippingPolicyApi('charge_my_customer');
+                    //   } else {
+                    //     showToast('Select delivery size');
+                    //   }
+                    // }
+                    Get.to(()=> const SinglePInternationalshippingdetailsScreen());
                   }),
               const SizedBox(
                 height: 20,

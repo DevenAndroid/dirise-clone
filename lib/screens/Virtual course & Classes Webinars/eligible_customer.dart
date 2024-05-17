@@ -1,27 +1,26 @@
 import 'dart:convert';
 
 import 'package:dirise/screens/Consultation%20Sessions/review_screen.dart';
-import 'package:dirise/screens/Extended%20programs/review_screen_extended.dart';
+import 'package:dirise/screens/Seminars%20&%20%20Attendable%20Course/review_screen.dart';
+import 'package:dirise/screens/Virtual%20course%20&%20Classes%20Webinars/review_screen_webinar.dart';
 import 'package:dirise/utils/helper.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:google_fonts/google_fonts.dart';
-
 import '../../model/common_modal.dart';
 import '../../repository/repository.dart';
 import '../../utils/api_constant.dart';
 import '../../widgets/common_button.dart';
-import '../../widgets/common_colour.dart';
 
 
-class EligibleCustomersExtended extends StatefulWidget {
-  const EligibleCustomersExtended({super.key});
+class EligibleCustomersWebinars extends StatefulWidget {
+  const EligibleCustomersWebinars({super.key});
 
   @override
-  State<EligibleCustomersExtended> createState() => _EligibleCustomersExtendedState();
+  State<EligibleCustomersWebinars> createState() => _EligibleCustomersWebinarsState();
 }
 
-class _EligibleCustomersExtendedState extends State<EligibleCustomersExtended> {
+class _EligibleCustomersWebinarsState extends State<EligibleCustomersWebinars> {
   final Repositories repositories = Repositories();
   RangeValues currentRangeValues = const RangeValues(10, 80);
   double startValue = 0.0;
@@ -47,7 +46,7 @@ class _EligibleCustomersExtendedState extends State<EligibleCustomersExtended> {
       // showToast(response.message.toString());
       if (response.status == true) {
         showToast(response.message.toString());
-        Get.to(()=> const ReviewScreenExtended());
+        Get.to(()=> const ReviewScreenWebinars());
       }
     });
   }
@@ -224,7 +223,7 @@ class _EligibleCustomersExtendedState extends State<EligibleCustomersExtended> {
             const SizedBox(height: 20),
             GestureDetector(
               onTap: () {
-                Get.to(()=> const ReviewScreenExtended());
+                Get.to(()=> const ReviewScreenSeminars());
               },
               child: Container(
                 width: Get.width,

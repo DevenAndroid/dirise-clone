@@ -2,6 +2,7 @@ import 'dart:convert';
 import 'dart:io';
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:dirise/utils/helper.dart';
+import 'package:dirise/widgets/loading_animation.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:google_fonts/google_fonts.dart';
@@ -14,18 +15,17 @@ import '../../widgets/common_button.dart';
 import '../../widgets/common_colour.dart';
 import '../../widgets/common_textfield.dart';
 import '../../widgets/dimension_screen.dart';
-import '../../widgets/loading_animation.dart';
-import 'optional_details_extended.dart';
+import 'eligible_customer.dart';
 
 
-class SponsorsScreenExtended extends StatefulWidget {
-  const SponsorsScreenExtended({super.key});
+class SponsorswebinarScreen extends StatefulWidget {
+  const SponsorswebinarScreen({super.key});
 
   @override
-  State<SponsorsScreenExtended> createState() => _SponsorsScreenExtendedState();
+  State<SponsorswebinarScreen> createState() => _SponsorswebinarScreenState();
 }
 
-class _SponsorsScreenExtendedState extends State<SponsorsScreenExtended> {
+class _SponsorswebinarScreenState extends State<SponsorswebinarScreen> {
   final formKey1 = GlobalKey<FormState>();
   File idProof = File("");
   List<Map<String, dynamic>> sponsorData = [];
@@ -58,7 +58,7 @@ class _SponsorsScreenExtendedState extends State<SponsorsScreenExtended> {
       if (response.status == true) {
         showToast(response.message.toString());
         if(formKey1.currentState!.validate()){
-          // Get.to(()=> const SponsorsScreen());
+          // Get.to(()=> const SponsorsSeminarScreen());
         }
       }
     });
@@ -84,7 +84,7 @@ class _SponsorsScreenExtendedState extends State<SponsorsScreenExtended> {
       if (response.status == true) {
         showToast(response.message.toString());
         if(formKey1.currentState!.validate()){
-          Get.to(()=> const OptionalDetailsScreenExtended());
+          Get.to(()=> const EligibleCustomersWebinars());
         }
       }
     });
@@ -210,7 +210,7 @@ class _SponsorsScreenExtendedState extends State<SponsorsScreenExtended> {
 
                   ),
                   25.spaceY,
-                  if( sponsorImage == '' )
+                  if( sponsorImage != '' )
                     ImageWidget(
                       // key: paymentReceiptCertificateKey,
                       title: "Upload Sponsor logo".tr,
@@ -220,14 +220,14 @@ class _SponsorsScreenExtendedState extends State<SponsorsScreenExtended> {
                         idProof = g;
                       },
                     ),
-                  if(sponsorImage != '' )
+                  if(sponsorImage == '' )
                     Text(
                       "Upload Sponsor logo".tr,
                       style: GoogleFonts.poppins(fontWeight: FontWeight.w500, color: const Color(0xff2F2F2F), fontSize: 16),
                     ),
-                  if(sponsorImage != '' )
+                  if(sponsorImage == '' )
                     8.spaceY,
-                  if(sponsorImage != '' )
+                  if(sponsorImage == '' )
                     Container(
                       padding: EdgeInsets.symmetric(horizontal: AddSize.padding16, vertical: AddSize.padding16),
                       width: AddSize.screenWidth,
@@ -240,7 +240,9 @@ class _SponsorsScreenExtendedState extends State<SponsorsScreenExtended> {
                           )),
                       child: CachedNetworkImage(
                         imageUrl: sponsorImage.toString(),
-
+                        errorWidget: (context, url, error) {
+                          return const SizedBox.shrink();
+                        },
                       ),
                     ),
                   20.spaceY,
@@ -290,7 +292,7 @@ class _SponsorsScreenExtendedState extends State<SponsorsScreenExtended> {
                   const SizedBox(height: 20),
                   GestureDetector(
                     onTap: () {
-                      Get.to(()=> const OptionalDetailsScreenExtended());
+                      Get.to(()=> const EligibleCustomersWebinars());
                     },
                     child: Container(
                       width: Get.width,
