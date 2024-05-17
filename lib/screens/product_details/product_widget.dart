@@ -214,7 +214,7 @@ class _ProductUIState extends State<ProductUI> {
               BoxShadow(
 
                 blurStyle: BlurStyle.outer,
-                offset: Offset(3,3),
+                offset: Offset(1,1),
                 color: Colors.black12,
                 blurRadius:3,
 
@@ -228,205 +228,249 @@ class _ProductUIState extends State<ProductUI> {
           ),
           // color: Colors.red,
          margin: const EdgeInsets.only(right: 14),
-          child: Stack(
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
+              Row(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
-                  Expanded(
+                  Container(
+
+                    padding: EdgeInsets.all(4),
+                    decoration: BoxDecoration(
+                        color: Color(0xFFFF6868)
+                        ,
+                        borderRadius: BorderRadius.circular(10)
+                    ),
                     child: Row(
                       children: [
-                        Expanded(
-                          child: Align(
-                            alignment: Alignment.center,
-                            child: Center(
-                              child: CachedNetworkImage(
-                                imageUrl: widget.productElement.featuredImage.toString(),
-                                height: 150,
-                                fit: BoxFit.fill,
-                                  errorWidget: (_, __, ___) => Image.asset('assets/images/new_logo.png')
+                        Text(
+                          "  SALE",
+                          style: GoogleFonts.poppins(fontSize: 12, fontWeight: FontWeight.w700, color:  Color(0xFFFFDF33)),
+                        ),
+                        Text(
+                          " ${widget.productElement.discountPercentage ?? ((((widget.productElement.pPrice.toString().toNum - widget.productElement.sPrice.toString().toNum) / widget.productElement.pPrice.toString().toNum) * 100).toStringAsFixed(2))}${'%'}  ",
+                          style: GoogleFonts.poppins(fontSize: 12, fontWeight: FontWeight.w700, color:  Colors.white),
+                        ),
+                      ],
+                    ),
+                  ),
+                  Obx(() {
+                    if (wishListController.refreshFav.value > 0) {}
+                    return LikeButtonCat(
+                      onPressed: () {
+                        if (wishListController.favoriteItems.contains(widget.productElement.id.toString())) {
+                          removeFromWishList();
+                        } else {
+                          addToWishList();
+                        }
+                      },
+                      isLiked: wishListController.favoriteItems.contains(widget.productElement.id.toString()),
+                    );
+                  }),
+
+                ],
+              ),
+              SizedBox(height: 10,),
+              Expanded(
+                child: Row(
+                  children: [
+                    Expanded(
+                      child: Align(
+                        alignment: Alignment.center,
+                        child: Center(
+                          child: CachedNetworkImage(
+                            imageUrl: widget.productElement.featuredImage.toString(),
+                            height: 150,
+                            fit: BoxFit.fill,
+                              errorWidget: (_, __, ___) => Image.asset('assets/images/new_logo.png')
+                          ),
+                        ),
+                      ),
+                    ),
+                  ],
+                ),
+              ),
+              const SizedBox(
+                height: 10,
+              ),
+
+              const SizedBox(
+                height: 3,
+              ),
+              Text(
+                widget.productElement.pName.toString(),
+                maxLines: 2,
+                style: GoogleFonts.poppins(fontSize: 12, fontWeight: FontWeight.w500,color: Color(0xFF19313C)),
+              ),
+              const SizedBox(
+                height: 3,
+              ),
+
+
+
+              Row(
+                children: [
+                  Text(
+                    'KWD ${widget.productElement.pPrice.toString()}',
+                    style: GoogleFonts.poppins(decorationColor: Colors.red,
+                        decorationThickness: 2,
+                        decoration: TextDecoration.lineThrough,
+
+                        color: const Color(0xff19313B),
+
+                        fontSize: 16,
+                        fontWeight: FontWeight.w600),
+                  ),
+                  SizedBox(width: 7,),
+                  Text.rich(
+                    TextSpan(
+                      text: '${widget.productElement.sPrice.toString().split('.')[0]}.',
+                      style: TextStyle(
+                        fontSize: 24,
+                        fontWeight: FontWeight.w600,
+                        color: Color(0xFF19313B),
+                      ),
+                      children: [
+                        WidgetSpan(
+                          alignment: PlaceholderAlignment.middle,
+                          child: Column(
+                            mainAxisAlignment: MainAxisAlignment.start,
+                            children: [
+                              Text(
+                                'KWD',
+                                style: TextStyle(
+                                  fontSize: 8,
+                                  fontWeight: FontWeight.w500,
+                                  color: Color(0xFF19313B),
+                                ),
                               ),
-                            ),
+                              Text(
+                                '${widget.productElement.sPrice.toString().split('.')[1]}',
+                                style: TextStyle(
+                                  fontSize: 8,
+                                  fontWeight: FontWeight.w600,
+                                  color: Color(0xFF19313B),
+                                ),
+                              ),
+                            ],
                           ),
                         ),
                       ],
                     ),
                   ),
-                  const SizedBox(
-                    height: 10,
-                  ),
+                ],
+              ),
 
-                  const SizedBox(
-                    height: 3,
-                  ),
-                  Text(
-                    widget.productElement.pName.toString(),
-                    maxLines: 2,
-                    style: GoogleFonts.poppins(fontSize: 12, fontWeight: FontWeight.w500,color: Color(0xFF19313C)),
-                  ),
-                  const SizedBox(
-                    height: 3,
-                  ),
-               Row(
-                 children: [
-                   Icon(Icons.star,color: Color(
-                       0xFFE0AD60
-                   ),size: 20,),
-                   Icon(Icons.star,color: Color(
-                       0xFFE0AD60
-                   ),size: 20,),
-                   Icon(Icons.star,color: Color(
-                       0xFFE0AD60
-                   ),size: 20,),
-                   Icon(Icons.star,color: Color(
-                       0xFFE0AD60
-                   ),size: 20,),
-                   Icon(Icons.star,color: Color(
-                       0xFFE0AD60
-                   ),size: 20,),
-                 ],
-               )
-                  ,Text(
-                    '${widget.productElement.inStock.toString()} ${'pieces'.tr}',
-                    style: GoogleFonts.poppins(color: Colors.grey.shade700, fontSize: 15,fontWeight: FontWeight.w500),
-                  ),
-                  const SizedBox(
-                    height: 3,
-                  ),
-                  Row(
-                    children: [
-                      Text(
-                        'KWD ${widget.productElement.pPrice.toString()}',
-                        style: GoogleFonts.poppins(decorationColor: Colors.red,
-                            decorationThickness: 2,
-                            decoration: TextDecoration.lineThrough,
 
-                            color: const Color(0xff19313B),
+SizedBox(height: 8,),
+            // if (canBuyProduct)
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    Expanded(
+                      child: Column(
+                        mainAxisAlignment: MainAxisAlignment.start,
+                        crossAxisAlignment: CrossAxisAlignment.start ,
+                        children: [
 
-                            fontSize: 16,
-                            fontWeight: FontWeight.w600),
-                      ),
-                      SizedBox(width: 7,),
-                      Text.rich(
-                        TextSpan(
-                          text: '${widget.productElement.sPrice.toString().split('.')[0]}.',
-                          style: TextStyle(
-                            fontSize: 24,
-                            fontWeight: FontWeight.w600,
-                            color: Color(0xFF19313B),
+                          Row(
+                            children: [
+                              Icon(Icons.star,color: Color(
+                                  0xFFE0AD60
+                              ),size: 20,),
+                              Icon(Icons.star,color: Color(
+                                  0xFFE0AD60
+                              ),size: 20,),
+                              Icon(Icons.star,color: Color(
+                                  0xFFE0AD60
+                              ),size: 20,),
+                              Icon(Icons.star,color: Color(
+                                  0xFFE0AD60
+                              ),size: 20,),
+                              Icon(Icons.star,color: Color(
+                                  0xFFE0AD60
+                              ),size: 20,),
+                            ],
                           ),
-                          children: [
-                            WidgetSpan(
-                              alignment: PlaceholderAlignment.middle,
-                              child: Column(
-                      mainAxisAlignment: MainAxisAlignment.start,
-                                children: [
-                                  Text(
-                                    'KWD',
-                                    style: TextStyle(
-                                      fontSize: 8,
-                                      fontWeight: FontWeight.w500,
-                                      color: Color(0xFF19313B),
-                                    ),
-                                  ),
-                                  Text(
-                                    '${widget.productElement.sPrice.toString().split('.')[1]}',
-                                    style: TextStyle(
-                                      fontSize: 8,
-                                      fontWeight: FontWeight.w600,
-                                      color: Color(0xFF19313B),
-                                    ),
-                                  ),
-                                ],
+                          // ,Text(
+                          //   '${widget.productElement.inStock.toString()} ${'pieces'.tr}',
+                          //   style: GoogleFonts.poppins(color: Colors.grey.shade700, fontSize: 15,fontWeight: FontWeight.w500),
+                          // ),
+                          widget.productElement.shippingDate!="No Internation Shipping Available"?
+                          Column(crossAxisAlignment: CrossAxisAlignment.start,
+                            children: [
+                              Text(
+                                'shipping',
+                                style: GoogleFonts.poppins(
+                                    color: const Color(0xff858484),
+                                    fontSize: 13,
+                                    fontWeight: FontWeight.w500),
                               ),
-                            ),
-                          ],
-                        ),
-                      ),
-                    ],
-                  ),
-
-
-                  widget.productElement.shippingDate!="No Internation Shipping Available"?
-                  Column(crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      Text(
-                        'shipping',
-                        style: GoogleFonts.poppins(
-                            color: const Color(0xff858484),
-                            fontSize: 13,
-                            fontWeight: FontWeight.w500),
-                      ),
-                      if(widget.productElement.lowestDeliveryPrice!=null)
-                      Text(
-                        'KWD${widget.productElement.lowestDeliveryPrice.toString()}',
-                        style: GoogleFonts.poppins(
-                            color: const Color(0xff858484),
-                            fontSize: 13,
-                            fontWeight: FontWeight.w500),
-                      ),
-                      if(widget.productElement.shippingDate!=null)
-                      Text(
-                        '${widget.productElement.shippingDate.toString()}',
-                        style: GoogleFonts.poppins(
-                            color: const Color(0xff858484),
-                            fontSize: 13,
-                            fontWeight: FontWeight.w500),
-                      ),
-                    ],
-                  )
-        :Text("No Internation Shipping Available",  style: GoogleFonts.poppins(
-                      color: const Color(0xff858484),
-                      fontSize: 13,
-                      fontWeight: FontWeight.w500),),
-
-
-                if (canBuyProduct)
-                    Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                      crossAxisAlignment: CrossAxisAlignment.end,
-                      children: [
-
-                        Column(
-                          children: [
-                            ElevatedButton(
-
-                              onPressed: () {
-
-                                directBuyProduct();
-                              },
-                              style: ElevatedButton.styleFrom(
-
-                                backgroundColor: Colors.red,
-                                surfaceTintColor: Colors.red,
-                              ),
-                              child: FittedBox(
-                                child: Text(
-                                  "  Buy Now  ".tr,
-                                  style: GoogleFonts.poppins(fontSize: 16, fontWeight: FontWeight.w500, color: Colors.white),
+                              if(widget.productElement.lowestDeliveryPrice!=null)
+                                Text(
+                                  'KWD${widget.productElement.lowestDeliveryPrice.toString()}',
+                                  style: GoogleFonts.poppins(
+                                      color: const Color(0xff858484),
+                                      fontSize: 13,
+                                      fontWeight: FontWeight.w500),
                                 ),
-                              ),
-                            ),
-                            ElevatedButton(
-                              onPressed: () {
-                                addToCartProduct();
-                              },
-                              style: ElevatedButton.styleFrom(
-                                backgroundColor: AppTheme.buttonColor,
-                                surfaceTintColor: AppTheme.buttonColor,
-                              ),
-                              child: FittedBox(
-                                child: Text(
-                                  "Add to Cart".tr,
-                                  style: GoogleFonts.poppins(fontSize: 16, fontWeight: FontWeight.w500, color: Colors.white),
+                              if(widget.productElement.shippingDate!=null)
+                                Text(
+                                  '${widget.productElement.shippingDate.toString()}',
+                                  style: GoogleFonts.poppins(
+                                      color: const Color(0xff858484),
+                                      fontSize: 13,
+                                      fontWeight: FontWeight.w500),
                                 ),
+                            ],
+                          )
+                              :Text("No Internation Shipping Available",  style: GoogleFonts.poppins(
+                              color: const Color(0xff858484),
+                              fontSize: 13,
+                              fontWeight: FontWeight.w500),),
+                        ],
+                      ),
+                    ),
+                    Expanded(
+                      child: Column(
+                        children: [
+                          ElevatedButton(
+
+                            onPressed: () {
+
+                              directBuyProduct();
+                            },
+                            style: ElevatedButton.styleFrom(
+
+                              backgroundColor: Colors.red,
+                              surfaceTintColor: Colors.red,
+                            ),
+                            child: FittedBox(
+                              child: Text(
+                                "  Buy Now  ".tr,
+                                style: GoogleFonts.poppins(fontSize: 16, fontWeight: FontWeight.w500, color: Colors.white),
                               ),
                             ),
-                          ],
-                        ),
-                        Expanded(
-                          child: Row(
-                            mainAxisAlignment: MainAxisAlignment.end,
+                          ),
+                          ElevatedButton(
+                            onPressed: () {
+                              addToCartProduct();
+                            },
+                            style: ElevatedButton.styleFrom(
+                              backgroundColor: AppTheme.buttonColor,
+                              surfaceTintColor: AppTheme.buttonColor,
+                            ),
+                            child: FittedBox(
+                              child: Text(
+                                "Add to Cart".tr,
+                                style: GoogleFonts.poppins(fontSize: 16, fontWeight: FontWeight.w500, color: Colors.white),
+                              ),
+                            ),
+                          ),
+                          Row(
+                            mainAxisAlignment: MainAxisAlignment.center,
                             crossAxisAlignment: CrossAxisAlignment.center,
                             children: [
                               GestureDetector(
@@ -472,55 +516,60 @@ class _ProductUIState extends State<ProductUI> {
                               ),
                             ],
                           ),
-                        ),
-                      ],
+                        ],
+                      ),
                     ),
-                ],
-              ),
-
-
-              Positioned(
-                top: 0,
-                right: 0,
-                child: Obx(() {
-                  if (wishListController.refreshFav.value > 0) {}
-                  return LikeButtonCat(
-                    onPressed: () {
-                      if (wishListController.favoriteItems.contains(widget.productElement.id.toString())) {
-                        removeFromWishList();
-                      } else {
-                        addToWishList();
-                      }
-                    },
-                    isLiked: wishListController.favoriteItems.contains(widget.productElement.id.toString()),
-                  );
-                }),
-              ),
-              Positioned(
-                top: 0,
-                left: 0,
-                child:    Container(
-                  
-                  padding: EdgeInsets.all(4),
-                  decoration: BoxDecoration(
-                    color: Colors.red
-                        ,
-                    borderRadius: BorderRadius.circular(10)
-                  ),
-                  child: Row(
-                    children: [
-                      Text(
-                        "  SALE",
-                        style: GoogleFonts.poppins(fontSize: 12, fontWeight: FontWeight.w700, color:  Color(0xFFFFDF33)),
-                      ),
-                      Text(
-                        " ${widget.productElement.discountPercentage ?? ((((widget.productElement.pPrice.toString().toNum - widget.productElement.sPrice.toString().toNum) / widget.productElement.pPrice.toString().toNum) * 100).toStringAsFixed(2))}${'%'}  ",
-                        style: GoogleFonts.poppins(fontSize: 12, fontWeight: FontWeight.w700, color:  Colors.white),
-                      ),
-                    ],
-                  ),
+                    // Expanded(
+                    //   child: Row(
+                    //     mainAxisAlignment: MainAxisAlignment.end,
+                    //     crossAxisAlignment: CrossAxisAlignment.center,
+                    //     children: [
+                    //       GestureDetector(
+                    //         onTap: () {
+                    //           if (productQuantity.value > 1) {
+                    //             productQuantity.value--;
+                    //           }
+                    //         },
+                    //         child: Center(
+                    //             child: Text(
+                    //               "-",
+                    //               style: GoogleFonts.poppins(
+                    //                   fontSize: 40, fontWeight: FontWeight.w300, color: Color(0xFF014E70)),
+                    //             )),
+                    //       ),
+                    //       SizedBox(
+                    //         width: size.width * .02,
+                    //       ),
+                    //       Obx(() {
+                    //         return Text(
+                    //           productQuantity.value.toString(),
+                    //           style: GoogleFonts.poppins(
+                    //               fontSize: 26, fontWeight: FontWeight.w500, color: Color(0xFF014E70)),
+                    //         );
+                    //       }),
+                    //       SizedBox(
+                    //         width: size.width * .02,
+                    //       ),
+                    //       GestureDetector(
+                    //         onTap: () {
+                    //           if ((productDetails.inStock.toString().convertToNum ?? 0) > productQuantity.value) {
+                    //             productQuantity.value++;
+                    //           } else {
+                    //             showToast("Out Of Stock".tr);
+                    //           }
+                    //         },
+                    //         child: Center(
+                    //             child: Text(
+                    //               "+",
+                    //               style: GoogleFonts.poppins(
+                    //                   fontSize: 30, fontWeight: FontWeight.w300, color: Color(0xFF014E70)),
+                    //             )),
+                    //       ),
+                    //     ],
+                    //   ),
+                    // ),
+                  ],
                 ),
-              ),
             ],
           ),
         ),

@@ -305,10 +305,11 @@ class _HomePageState extends State<HomePage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+
         appBar: AppBar(
           toolbarHeight: kToolbarHeight + 10,
-          backgroundColor: Colors.white,
-          surfaceTintColor: Colors.white,
+          backgroundColor: Color(0xFFF2F2F2),
+          surfaceTintColor: Color(0xFFF2F2F2),
           leading: Padding(
             padding: const EdgeInsets.only(left: 8.0),
             child: Row(
@@ -339,7 +340,7 @@ class _HomePageState extends State<HomePage> {
             const CartBagCard(),
           ],
         ),
-        backgroundColor: AppTheme.buttonColor,
+        backgroundColor: Color(0xFFF2F2F2),
         body: RefreshIndicator(
             onRefresh: () async {
               await getAllAsync();
@@ -510,22 +511,22 @@ class _HomePageState extends State<HomePage> {
                 ),
                 Expanded(
                   child: Container(
-                    color: Colors.white,
+                    color: Color(0xFFF2F2F2).withOpacity(0.6),
                     child:  SingleChildScrollView(
                         child: Column(children: [
                           SliderWidget(),
                           CategoryItems(),
-                          Row(
-                            mainAxisAlignment: MainAxisAlignment.end,
-                            children: [
-                              Text(
-                                "Edit categories order",
-                                style: GoogleFonts.poppins(fontWeight: FontWeight.w600, fontSize: 16, color: AppTheme.buttonColor),
-
-                              ),
-                              SizedBox(width: 18,)
-                            ],
-                          ),
+                          // Row(
+                          //   mainAxisAlignment: MainAxisAlignment.end,
+                          //   children: [
+                          //     Text(
+                          //       "Edit categories order",
+                          //       style: GoogleFonts.poppins(fontWeight: FontWeight.w600, fontSize: 16, color: AppTheme.buttonColor),
+                          //
+                          //     ),
+                          //     SizedBox(width: 18,)
+                          //   ],
+                          // ),
                           TrendingProducts(),
                           AdBannerUI(),
                           PopularProducts(),

@@ -566,7 +566,7 @@ class _SingleCategoriesState extends State<SingleCategories> {
                 height: 10,
               ),
               Container(
-                height: 230,
+                height: 440,
                 margin: const EdgeInsets.only(top: 20),
                 child: ListView.builder(
                     itemCount: modelCategoryStores![i].product!.length,

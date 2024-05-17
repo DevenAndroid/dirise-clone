@@ -25,7 +25,7 @@ class _TrendingProductsState extends State<TrendingProducts> {
       return homeController.trendingModel.value.product != null
           ? Column(
               children: [
-                SizedBox(height: 20,),
+                SizedBox(height: 60,),
                 Padding(
                   padding: const EdgeInsets.symmetric(horizontal: 22),
                   child: Row(
@@ -33,10 +33,24 @@ class _TrendingProductsState extends State<TrendingProducts> {
                     children: [
                       SizedBox(),
                       Text(
-                        AppStrings.trendingProducts.tr,
-                        style: GoogleFonts.poppins(fontSize: 20, fontWeight: FontWeight.w500),
+                        AppStrings.trendingProducts.tr.toUpperCase(),
+                        style: GoogleFonts.poppins(fontSize: 20, fontWeight: FontWeight.w600),
                       ),
-                      InkWell(
+                   SizedBox()
+                    ],
+                  ),
+                ),
+                SizedBox(height: 10,),
+                Text(
+                  "All what you need for a fun and exciting day in",
+                  style: GoogleFonts.poppins(fontSize: 12, fontWeight: FontWeight.w400),
+                ),
+                SizedBox(height: 20,),
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.end,
+                  crossAxisAlignment: CrossAxisAlignment.end,
+                  children: [
+                    InkWell(
                         onTap: () {
                           // index1 = index1 + 1;
                           // setState(() {
@@ -47,18 +61,16 @@ class _TrendingProductsState extends State<TrendingProducts> {
                           // scrollToItem(index1);
                         },
                         child:Image.asset("assets/svgs/forward.png")
-                      )
-                    ],
-                  ),
+                    ),
+                    SizedBox(width: 20,)
+                  ],
+
                 ),
-                Text(
-                  "All what you need for a fun and exciting day in",
-                  style: GoogleFonts.poppins(fontSize: 12, fontWeight: FontWeight.w400),
-                ),
+                SizedBox(height: 20,),
                 Align(
                   alignment: Alignment.topLeft,
                   child: Container(
-                    height: 350,
+                    height: 440,
                     margin: const EdgeInsets.fromLTRB(15, 20, 15, 0),
                     child: ListView.builder(
                         itemCount: homeController.trendingModel.value.product!.product!.length,

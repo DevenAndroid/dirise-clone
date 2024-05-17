@@ -120,7 +120,7 @@ class _BottomNavbarState extends State<BottomNavbar> {
       child: Obx(() {
         return Scaffold(
             body: pages[bottomController.pageIndex.value],
-            backgroundColor: Colors.white,
+            backgroundColor: Color(0xFFEBF3F6),
             bottomNavigationBar: buildMyNavBar(),
             floatingActionButtonLocation:
                 FloatingActionButtonLocation.centerDocked,
@@ -137,9 +137,19 @@ class _BottomNavbarState extends State<BottomNavbar> {
                   height: 55,
                   width: 55,
                   decoration: BoxDecoration(
-                      color: AppTheme.buttonColor,
+                    boxShadow: [
+                    BoxShadow(
+
+                    blurStyle: BlurStyle.solid,
+                    offset: Offset(1 ,0),
+                    color: Colors.grey.withOpacity(.2),
+                    blurRadius:3,
+                      spreadRadius: 4
+
+                  )],
+                      color: Colors.white,
                       borderRadius: BorderRadius.circular(30),
-                      border: Border.all(color: AppTheme.shadowColor, width: 2)),
+                   ),
                   child: GestureDetector(
                     onTap: () {
                       if (isLoggedIn) {
@@ -149,9 +159,9 @@ class _BottomNavbarState extends State<BottomNavbar> {
                       }
                     },
                     child: Center(
-                        child: SvgPicture.asset(
-                          'assets/svgs/Group.svg',
-                          color: Colors.white,
+                        child: Image.asset(
+                          'assets/svgs/bt5.png',
+                          // color: Colors.white,
                           height: 30,
                         ),
                     ),
@@ -169,8 +179,10 @@ class _BottomNavbarState extends State<BottomNavbar> {
       mainAxisSize: MainAxisSize.min,
       children: [
         SafeArea(
+
           bottom: true,
           child: Card(
+            color: Color(0xFFEBF3F6),
             elevation: 0,
             // width: double.maxFinite,
             // decoration: const BoxDecoration(
@@ -202,7 +214,7 @@ class _BottomNavbarState extends State<BottomNavbar> {
                               Padding(
                                 padding: const EdgeInsets.all(8.0),
                                 child: SvgPicture.asset(
-                                  'assets/svgs/home.svg',
+                                  'assets/svgs/bt1.svg',
                                   colorFilter: ColorFilter.mode(
                                       bottomController.pageIndex.value == 0
                                           ? AppTheme.buttonColor
@@ -241,7 +253,7 @@ class _BottomNavbarState extends State<BottomNavbar> {
                               Padding(
                                 padding: const EdgeInsets.all(8.0),
                                 child: SvgPicture.asset(
-                                  'assets/svgs/category.svg',
+                                  'assets/svgs/bt2.svg',
                                   colorFilter: ColorFilter.mode(
                                       bottomController.pageIndex.value == 1
                                           ? AppTheme.buttonColor
@@ -280,7 +292,7 @@ class _BottomNavbarState extends State<BottomNavbar> {
                               Padding(
                                 padding: const EdgeInsets.all(8.0),
                                 child: SvgPicture.asset(
-                                  'assets/svgs/fav.svg',
+                                  'assets/svgs/bt3.svg',
                                   colorFilter: ColorFilter.mode(
                                       bottomController.pageIndex.value == 2
                                           ? AppTheme.buttonColor
@@ -319,7 +331,7 @@ class _BottomNavbarState extends State<BottomNavbar> {
                               Padding(
                                 padding: const EdgeInsets.all(8.0),
                                 child: SvgPicture.asset(
-                                  'assets/svgs/person.svg',
+                                  'assets/svgs/bt4.svg',
                                   height: 20,
                                   colorFilter: ColorFilter.mode(
                                       bottomController.pageIndex.value == 3
