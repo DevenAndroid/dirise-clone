@@ -44,14 +44,14 @@ class ProductDetails {
 }
 
 class Product {
-  int? vendorId;
+  dynamic vendorId;
   String? productType;
   String? virtualProductType;
-  int? sPrice;
+  dynamic sPrice;
   String? shortDescription;
   String? longDescription;
   String? inStock;
-  int? isPublish;
+  dynamic isPublish;
   String? taxApply;
   String? bookingProductType;
   String? serialNumber;
@@ -61,8 +61,8 @@ class Product {
   String? spot;
   String? updatedAt;
   String? createdAt;
-  int? id;
-  int? discountPrice;
+  dynamic id;
+  dynamic discountPrice;
 
   Product(
       {this.vendorId,

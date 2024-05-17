@@ -8,6 +8,7 @@ import 'package:url_launcher/url_launcher_string.dart';
 
 import '../screens/my_account_screens/contact_us_screen.dart';
 import '../screens/my_account_screens/faqs_screen.dart';
+import '../tellaboutself/ExtraInformation.dart';
 import '../widgets/common_button.dart';
 
 class RewardScreen extends StatefulWidget {
@@ -98,7 +99,7 @@ class _RewardScreenState extends State<RewardScreen> {
                 title: 'Continue',
                 borderRadius: 11,
                 onPressed: () {
-                  Get.to(const BottomNavbar());
+                  Get.to(()=>const ExtraInformation());
                 },
               ),
             ],

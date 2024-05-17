@@ -63,7 +63,7 @@ class _ExtraInformationState extends State<ExtraInformation> {
               const SizedBox(height: 20,),
               GestureDetector(
                 onTap: (){
-                  Get.to(()=>const TellUsYourSelfScreen());
+                  // Get.to(()=>const TellUsYourSelfScreen());
                 },
                 child: Container(
                   width:size.width,
@@ -93,31 +93,36 @@ class _ExtraInformationState extends State<ExtraInformation> {
                 ),
               ),
               const SizedBox(height: 20,),
-              Container(
-                width:size.width,
-                decoration: const BoxDecoration(borderRadius: BorderRadius.all(Radius.circular(10)),
-          
-                  image: DecorationImage(
-                    image: AssetImage('assets/images/tellus (3).png'),
-                    fit: BoxFit.cover,
+              GestureDetector(
+                onTap: (){
+                  Get.to(()=>const TellUsYourSelfScreen());
+                },
+                child: Container(
+                  width:size.width,
+                  decoration: const BoxDecoration(borderRadius: BorderRadius.all(Radius.circular(10)),
+
+                    image: DecorationImage(
+                      image: AssetImage('assets/images/tellus (3).png'),
+                      fit: BoxFit.cover,
+                    ),
                   ),
+                  // adjust the width and height as needed
+                  height: 170,
+                  child:  Padding(
+                    padding: const EdgeInsets.symmetric(horizontal: 15, vertical: 13),
+                    child: Column(
+
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+
+                        children:[
+                          Text('Bookable',style:GoogleFonts.poppins(fontSize:30,fontWeight:FontWeight.w500)),
+                          Text('I Need to set times, availability, offs, & locations ..etc',style:GoogleFonts.poppins(fontSize:20))
+
+                        ]),
+                  )
+                  ,// add your child widgets here
                 ),
-                // adjust the width and height as needed
-                height: 170,
-                child:  Padding(
-                  padding: const EdgeInsets.symmetric(horizontal: 15, vertical: 13),
-                  child: Column(
-          
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
-          
-                      children:[
-                        Text('Bookable',style:GoogleFonts.poppins(fontSize:30,fontWeight:FontWeight.w500)),
-                        Text('I Need to set times, availability, offs, & locations ..etc',style:GoogleFonts.poppins(fontSize:20))
-          
-                      ]),
-                )
-                ,// add your child widgets here
               ),
               // Text("Extra information",),
               // Text("This is an optional step for some products")

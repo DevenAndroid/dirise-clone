@@ -7,6 +7,7 @@ import 'package:get/get.dart';
 import 'package:google_fonts/google_fonts.dart';
 import '../../controller/vendor_controllers/add_product_controller.dart';
 import '../../model/create_slots_model.dart';
+import '../../model/vendor_models/add_product_model.dart';
 import '../../repository/repository.dart';
 import '../../utils/api_constant.dart';
 import '../../widgets/common_colour.dart';
@@ -30,11 +31,29 @@ class _DurationScreenState extends State<DurationScreen> {
   Rx<CreateSlotsModel> createSlotsModel = CreateSlotsModel().obs;
   final addProductController = Get.put(AddProductController());
   final formKey = GlobalKey<FormState>();
+  createDuration() {
+    Map<String, dynamic> map = {};
+    map['recovery_block_time'] = timeControllerRecovery.text.trim().toString();
+    map['booking_product_type'] = timeControllerPreparation.text.trim().toString();
+    map['id'] = addProductController.idProduct.value.toString();
+    final Repositories repositories = Repositories();
+    FocusManager.instance.primaryFocus!.unfocus();
+    repositories.postApi(url: ApiUrls.giveawayProductAddress, context: context, mapData: map).then((value) {
+      AddProductModel response = AddProductModel.fromJson(jsonDecode(value));
+      print('API Response Status Code: ${response.status}');
+      showToast(response.message.toString());
+      if (response.status == true) {
+        addProductController.idProduct.value = response.productDetails!.product!.id.toString();
+        print(addProductController.idProduct.value.toString());
+        Get.to(()=>const OptionalDetailsScreen());
+      }
+    });
+  }
   createSlots() {
     Map<String, dynamic> map = {};
 
     // map["product_id"] = addProductController.productId.toString();
-    map["product_id"] = '1237';
+    map["product_id"] =  addProductController.idProduct.value.toString();
     map["todayDate"] = addProductController.formattedStartDate.toString();
     map["interval"] = timeController.text.trim().toString();
     repositories.postApi(url: ApiUrls.productCreateSlots, mapData: map, context: context).then((value) {
@@ -447,11 +466,49 @@ class _DurationScreenState extends State<DurationScreen> {
                     fontWeight: FontWeight.w500,
                     color: const Color(0xff423E5E),
                   )),
+              createSlotsModel.value.data!=null ?
+              ListView.builder(
+                  shrinkWrap: true,
+                  itemCount: createSlotsModel.value.data!.length,
+                  physics: const NeverScrollableScrollPhysics(),
+                  padding: const EdgeInsets.symmetric(horizontal: 0,vertical: 30),
+                  itemBuilder: (context, index) {
+                    var item = createSlotsModel.value.data![index];
+                    return Column(
+                      children: [
+                         Row(
+                           mainAxisAlignment: MainAxisAlignment.start,
+                           crossAxisAlignment: CrossAxisAlignment.start,
+                           children: [
+                             Expanded(
+                               child: Text(item.timeSloat.toString(),
+                                 textAlign: TextAlign.start,
+                                 style: const TextStyle(
+                                 color: Colors.black,
+                                 fontWeight: FontWeight.w500,
+                                 fontSize: 16
+                               ),),
+                             ),
+                             Expanded(
+                               child: Text(item.timeSloatEnd.toString(),
+                                 textAlign: TextAlign.start,
+                                 style: const TextStyle(
+                                 color: Colors.black,
+                                 fontWeight: FontWeight.w500,
+                                 fontSize: 16
+                               ),),
+                             ),
+                           ],
+                         ),
+                        20.spaceY
+                      ],
+                    );
+                  },
+              ): const SizedBox.shrink(),
               40.spaceY,
               InkWell(
                 onTap: (){
-                  // updateProfile();
-                  Get.to(()=>const OptionalDetailsScreen());
+                  createDuration();
                 },
                 child: Container(
                   width: Get.width,
