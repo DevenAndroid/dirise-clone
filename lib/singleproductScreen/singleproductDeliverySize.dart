@@ -41,7 +41,7 @@ class _SingleProductDeliverySizeState extends State<SingleProductDeliverySize> {
       print('API Response Status Code: ${response.status}');
       showToast(response.message.toString());
       if (response.status == true) {
-        Get.to(const ShippingPolicyScreen());
+        Get.to(ShippingPolicyScreen());
       }
     });
   }

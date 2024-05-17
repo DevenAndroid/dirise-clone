@@ -29,13 +29,13 @@ class GetShippingModel {
 }
 
 class ShippingPolicy {
-  int? id;
-  int? vendorId;
-  String? title;
-  int? days;
-  String? description;
-  Null? shippingCharges;
-  int? priceLimit;
+  dynamic id;
+  dynamic vendorId;
+  dynamic title;
+  dynamic days;
+  dynamic description;
+  dynamic shippingCharges;
+  dynamic priceLimit;
 
   ShippingPolicy(
       {this.id,

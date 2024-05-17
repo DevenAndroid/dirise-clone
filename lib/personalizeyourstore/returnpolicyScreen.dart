@@ -1,5 +1,6 @@
 import 'dart:convert';
 import 'dart:developer';
+import 'package:dirise/personalizeyourstore/returnPolicyListScreen.dart';
 import 'package:dirise/screens/return_policy.dart';
 import 'package:dirise/utils/api_constant.dart';
 import 'package:flutter/cupertino.dart';
@@ -84,8 +85,8 @@ class _ReturnPolicyScreensState extends State<ReturnPolicyScreens> {
       ModelCommonResponse response = ModelCommonResponse.fromJson(jsonDecode(value));
       showToast(response.message.toString());
       if (response.status == true) {
-        Get.to(ReturnnPolicyList(
-          noreturnPolicy: noReturnSelected,
+        Get.to(ReturnPolicyListScreen(
+
         ));
         showToast(response.message.toString());
         log('gggg' + response.message.toString());
@@ -169,63 +170,63 @@ class _ReturnPolicyScreensState extends State<ReturnPolicyScreens> {
                         mainAxisAlignment: MainAxisAlignment.start,
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
-                          Obx(() {
-                            return modelReturnPolicy.value.returnPolicy != null
-                                ? Column(
-                              mainAxisAlignment: MainAxisAlignment.start,
-                              crossAxisAlignment: CrossAxisAlignment.start,
-                                    children: [
-                                      Text(
-                                        'Select Your Return Policy*'.tr,
-                                        style: GoogleFonts.poppins(
-                                            color: const Color(0xff292F45), fontWeight: FontWeight.w500, fontSize: 18),
-                                      ),
-                                      const SizedBox(
-                                        height: 5,
-                                      ),
-                                      DropdownButtonFormField<ReturnPolicy>(
-                                        value: selectedReturnPolicy,
-                                        hint: const Text("Select a Return Policy"),
-                                        decoration: InputDecoration(
-                                          border: InputBorder.none,
-                                          filled: true,
-                                          fillColor: const Color(0xffE2E2E2).withOpacity(.35),
-                                          contentPadding: const EdgeInsets.symmetric(horizontal: 15, vertical: 10)
-                                              .copyWith(right: 8),
-                                          focusedErrorBorder: const OutlineInputBorder(
-                                              borderRadius: BorderRadius.all(Radius.circular(8)),
-                                              borderSide: BorderSide(color: AppTheme.secondaryColor)),
-                                          errorBorder: const OutlineInputBorder(
-                                              borderRadius: BorderRadius.all(Radius.circular(8)),
-                                              borderSide: BorderSide(color: Color(0xffE2E2E2))),
-                                          focusedBorder: const OutlineInputBorder(
-                                              borderRadius: BorderRadius.all(Radius.circular(8)),
-                                              borderSide: BorderSide(color: AppTheme.secondaryColor)),
-                                          disabledBorder: const OutlineInputBorder(
-                                            borderRadius: BorderRadius.all(Radius.circular(8)),
-                                            borderSide: BorderSide(color: AppTheme.secondaryColor),
-                                          ),
-                                          enabledBorder: const OutlineInputBorder(
-                                            borderRadius: BorderRadius.all(Radius.circular(8)),
-                                            borderSide: BorderSide(color: AppTheme.secondaryColor),
-                                          ),
-                                        ),
-                                        onChanged: (value) {
-                                          setState(() {
-                                            selectedReturnPolicy = value;
-                                          });
-                                        },
-                                        items: modelReturnPolicy.value.returnPolicy!.map((policy) {
-                                          return DropdownMenuItem<ReturnPolicy>(
-                                            value: policy,
-                                            child: Text(policy.title), // Assuming 'title' is a property in ReturnPolicy
-                                          );
-                                        }).toList(),
-                                      ),
-                                    ],
-                                  )
-                                : const SizedBox();
-                          }),
+                          // Obx(() {
+                          //   return modelReturnPolicy.value.returnPolicy != null
+                          //       ? Column(
+                          //     mainAxisAlignment: MainAxisAlignment.start,
+                          //     crossAxisAlignment: CrossAxisAlignment.start,
+                          //           children: [
+                          //             Text(
+                          //               'Select Your Return Policy*'.tr,
+                          //               style: GoogleFonts.poppins(
+                          //                   color: const Color(0xff292F45), fontWeight: FontWeight.w500, fontSize: 18),
+                          //             ),
+                          //             const SizedBox(
+                          //               height: 5,
+                          //             ),
+                          //             DropdownButtonFormField<ReturnPolicy>(
+                          //               value: selectedReturnPolicy,
+                          //               hint: const Text("Select a Return Policy"),
+                          //               decoration: InputDecoration(
+                          //                 border: InputBorder.none,
+                          //                 filled: true,
+                          //                 fillColor: const Color(0xffE2E2E2).withOpacity(.35),
+                          //                 contentPadding: const EdgeInsets.symmetric(horizontal: 15, vertical: 10)
+                          //                     .copyWith(right: 8),
+                          //                 focusedErrorBorder: const OutlineInputBorder(
+                          //                     borderRadius: BorderRadius.all(Radius.circular(8)),
+                          //                     borderSide: BorderSide(color: AppTheme.secondaryColor)),
+                          //                 errorBorder: const OutlineInputBorder(
+                          //                     borderRadius: BorderRadius.all(Radius.circular(8)),
+                          //                     borderSide: BorderSide(color: Color(0xffE2E2E2))),
+                          //                 focusedBorder: const OutlineInputBorder(
+                          //                     borderRadius: BorderRadius.all(Radius.circular(8)),
+                          //                     borderSide: BorderSide(color: AppTheme.secondaryColor)),
+                          //                 disabledBorder: const OutlineInputBorder(
+                          //                   borderRadius: BorderRadius.all(Radius.circular(8)),
+                          //                   borderSide: BorderSide(color: AppTheme.secondaryColor),
+                          //                 ),
+                          //                 enabledBorder: const OutlineInputBorder(
+                          //                   borderRadius: BorderRadius.all(Radius.circular(8)),
+                          //                   borderSide: BorderSide(color: AppTheme.secondaryColor),
+                          //                 ),
+                          //               ),
+                          //               onChanged: (value) {
+                          //                 setState(() {
+                          //                   selectedReturnPolicy = value;
+                          //                 });
+                          //               },
+                          //               items: modelReturnPolicy.value.returnPolicy!.map((policy) {
+                          //                 return DropdownMenuItem<ReturnPolicy>(
+                          //                   value: policy,
+                          //                   child: Text(policy.title), // Assuming 'title' is a property in ReturnPolicy
+                          //                 );
+                          //               }).toList(),
+                          //             ),
+                          //           ],
+                          //         )
+                          //       : const SizedBox();
+                          // }),
                           const SizedBox(
                             height: 20,
                           ),

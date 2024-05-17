@@ -1,6 +1,7 @@
 import 'dart:convert';
 import 'dart:developer';
 
+import 'package:dirise/personalizeyourstore/shippingPolicyListScreen.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
@@ -18,7 +19,13 @@ import '../widgets/common_colour.dart';
 import '../widgets/common_textfield.dart';
 
 class ShippingPolicyScreen extends StatefulWidget {
-  const ShippingPolicyScreen({super.key});
+
+  String? policyName;
+  int? id;
+  String? policydesc;
+  int? policyDiscount;
+  int? priceLimit;
+  ShippingPolicyScreen({super.key, this.policyName, this.policydesc, this.policyDiscount, this.priceLimit,this.id});
   static var route = "/shippingPolicyScreen";
 
   @override
@@ -64,6 +71,15 @@ class _ShippingPolicyScreenState extends State<ShippingPolicyScreen> {
     super.initState();
     thenController.addListener(updateHintText);
     upTo40Controller.addListener(updateHintText);
+
+    if (widget.policyName != null) {
+      policyNameController.text = widget.policyName ?? "";
+      policyDescController.text = widget.policydesc ?? "";
+      policyPriceController.text = widget.priceLimit.toString();
+      selectedRadio = widget.policyDiscount;
+
+      // daysItem = widget.daysItem ?? "";
+    }
   }
 
   @override
@@ -72,6 +88,7 @@ class _ShippingPolicyScreenState extends State<ShippingPolicyScreen> {
     upTo40Controller.dispose();
     super.dispose();
   }
+
   shippingPolicyApi(String deliverySize) {
     Map<String, dynamic> map = {};
     map['title'] = policyNameController.text.trim();
@@ -91,7 +108,7 @@ class _ShippingPolicyScreenState extends State<ShippingPolicyScreen> {
       ModelCommonResponse response = ModelCommonResponse.fromJson(jsonDecode(value));
       showToast(response.message.toString());
       if (response.status == true) {
-        Get.to(const SinglePInternationalshippingdetailsScreen());
+        Get.to(const ShippingPolicyListScreen());
       }
     });
   }
@@ -112,7 +129,6 @@ class _ShippingPolicyScreenState extends State<ShippingPolicyScreen> {
   ];
   int? _radioValue1;
 
-
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -121,8 +137,13 @@ class _ShippingPolicyScreenState extends State<ShippingPolicyScreen> {
           "Shipping Policy",
           style: GoogleFonts.poppins(fontSize: 20, fontWeight: FontWeight.w600),
         ),
+        leading: GestureDetector(
+            onTap: () {
+              Get.back();
+            },
+            child: Icon(Icons.arrow_back)),
         automaticallyImplyLeading: false,
-        centerTitle: true,
+        // centerTitle: true,
         backgroundColor: Colors.white,
       ),
       body: SingleChildScrollView(
@@ -342,8 +363,6 @@ class _ShippingPolicyScreenState extends State<ShippingPolicyScreen> {
               const SizedBox(
                 height: 10,
               ),
-
-
               Visibility(
                 visible: selectedRadio == 2,
                 child: Column(
@@ -434,14 +453,14 @@ class _ShippingPolicyScreenState extends State<ShippingPolicyScreen> {
                           width: 10,
                         ),
                         Expanded(
-                          child: Text("After  that  charge full to my customer", style: GoogleFonts.poppins(fontSize: 14)),
+                          child:
+                              Text("After  that  charge full to my customer", style: GoogleFonts.poppins(fontSize: 14)),
                         ),
                       ],
                     ),
                   ],
                 ),
               ),
-
               const SizedBox(
                 height: 10,
               ),
