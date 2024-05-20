@@ -19,13 +19,13 @@ import '../widgets/common_colour.dart';
 import '../widgets/common_textfield.dart';
 
 class ShippingPolicyScreen extends StatefulWidget {
-
   String? policyName;
   int? id;
   String? policydesc;
-  int? policyDiscount;
+  String? policyDiscount;
   int? priceLimit;
-  ShippingPolicyScreen({super.key, this.policyName, this.policydesc, this.policyDiscount, this.priceLimit,this.id});
+  String? selectZone;
+  ShippingPolicyScreen({super.key, this.policyName, this.policydesc, this.policyDiscount, this.priceLimit, this.id,this.selectZone});
   static var route = "/shippingPolicyScreen";
 
   @override
@@ -44,12 +44,19 @@ class _ShippingPolicyScreenState extends State<ShippingPolicyScreen> {
   TextEditingController upTo40Controller = TextEditingController();
   TextEditingController calculatedPercentageController = TextEditingController();
 
-  String selectHandlingTime = 'Select your handling time';
-  int? selectedRadio;
+  String? selectedRadio;
   final formKey1 = GlobalKey<FormState>();
   final Repositories repositories = Repositories();
 
   String hintText = 'Enter values to calculate percentage';
+
+  List<String> selectZoneList = [
+    'zone_1',
+    'zone_2',
+    'zone_3',
+    'zone_4',
+  ];
+  String? selectZone = 'zone_1';
 
   void updateHintText() {
     if (thenController.text.isNotEmpty && upTo40Controller.text.isNotEmpty) {
@@ -77,8 +84,8 @@ class _ShippingPolicyScreenState extends State<ShippingPolicyScreen> {
       policyDescController.text = widget.policydesc ?? "";
       policyPriceController.text = widget.priceLimit.toString();
       selectedRadio = widget.policyDiscount;
+       selectZone = widget.selectZone.toString();
 
-      // daysItem = widget.daysItem ?? "";
     }
   }
 
@@ -89,8 +96,24 @@ class _ShippingPolicyScreenState extends State<ShippingPolicyScreen> {
     super.dispose();
   }
 
-  shippingPolicyApi(String deliverySize) {
+  shippingPolicyApi() {
     Map<String, dynamic> map = {};
+
+    if (widget.id != null) {
+      map['title'] = policyNameController.text.trim();
+      map['description'] = policyDescController.text.trim();
+      map['price_limit'] = policyPriceController.text.trim();
+      map['range1_percent'] = iPayController.text.trim();
+      map['range2_percent'] = thenController.text.trim();
+      map['range1_min'] = from1KWDController.text.trim();
+      map['range1_max'] = upTo20Controller.text.trim();
+      map['range2_min'] = from2KWDController.text.trim();
+      map['range2_max'] = upTo40Controller.text.trim();
+      map['shipping_type'] = selectedRadio;
+      map['shipping_zone'] = selectZone;
+      map['id'] = widget.id;
+    }
+
     map['title'] = policyNameController.text.trim();
     map['description'] = policyDescController.text.trim();
     map['price_limit'] = policyPriceController.text.trim();
@@ -100,34 +123,25 @@ class _ShippingPolicyScreenState extends State<ShippingPolicyScreen> {
     map['range1_max'] = upTo20Controller.text.trim();
     map['range2_min'] = from2KWDController.text.trim();
     map['range2_max'] = upTo40Controller.text.trim();
-    map['shipping_type'] = deliverySize;
+    map['shipping_type'] = selectedRadio;
     map['shipping_zone'] = selectZone;
-
+    log("API Request Map: ${map.toString()}");
+      log('ghfkhjsdgsd${selectZone}');
     FocusManager.instance.primaryFocus!.unfocus();
     repositories.postApi(url: ApiUrls.vendorShippingPolicy, context: context, mapData: map).then((value) {
+      log('ffffffff${jsonDecode(value)}');
       ModelCommonResponse response = ModelCommonResponse.fromJson(jsonDecode(value));
       showToast(response.message.toString());
       if (response.status == true) {
+
+        log('ghfkhjsdgsd${selectZone}');
         Get.to(const ShippingPolicyListScreen());
       }
     });
   }
 
-  List<String> selectHandlingTimeList = [
-    'Select your handling time',
-    'lb/inch',
-  ];
-  String selectZone = 'Select Zones';
-  List<String> selectZoneList = [
-    'Select Zones',
-    'lb/inch',
-  ];
-  String unitSShipping = 'Shipping';
-  List<String> unitSShippingList = [
-    'Shipping',
-    'lb/inch',
-  ];
-  int? _radioValue1;
+
+
 
   @override
   Widget build(BuildContext context) {
@@ -139,7 +153,7 @@ class _ShippingPolicyScreenState extends State<ShippingPolicyScreen> {
         ),
         leading: GestureDetector(
             onTap: () {
-              Get.back();
+              Navigator.pop(context);
             },
             child: Icon(Icons.arrow_back)),
         automaticallyImplyLeading: false,
@@ -152,7 +166,6 @@ class _ShippingPolicyScreenState extends State<ShippingPolicyScreen> {
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-
               Padding(
                 padding: const EdgeInsets.symmetric(horizontal: 16),
                 child: Text("Policy Name", style: GoogleFonts.poppins(fontSize: 18, fontWeight: FontWeight.w600)),
@@ -201,108 +214,166 @@ class _ShippingPolicyScreenState extends State<ShippingPolicyScreen> {
               ),
               Column(
                 children: [
-                  buildRadioTile('I want to offer free shipping', 1),
-                  buildRadioTile('Pay partial of the shipping', 2),
-                  buildRadioTile('Charge my customer for shipping', 3),
+                  Row(
+                    children: [
+                      Radio<String>(
+                        value: 'free_shipping',
+                        groupValue: selectedRadio,
+                        onChanged: (String? value) {
+                          setState(() {
+                            selectedRadio = value;
+                            log(selectedRadio.toString());
+                          });
+                        },
+                      ),
+                      Expanded(
+                        child: Text("I want to offer free shipping",
+                            style: GoogleFonts.poppins(fontSize: 14, fontWeight: FontWeight.w400)),
+                      )
+                    ],
+                  ),
+                  Row(
+                    children: [
+                      Radio<String>(
+                        value: 'partial_shipping',
+                        groupValue: selectedRadio,
+                        onChanged: (String? value) {
+                          setState(() {
+                            selectedRadio = value;
+                            log(selectedRadio.toString());
+                          });
+                        },
+                      ),
+                      Expanded(
+                        child: Text("Pay partial of the shipping",
+                            style: GoogleFonts.poppins(fontSize: 14, fontWeight: FontWeight.w400)),
+                      )
+                    ],
+                  ),
+                  Row(
+                    children: [
+                      Radio<String>(
+                        value: 'charge_my_customer',
+                        groupValue: selectedRadio,
+                        onChanged: (String? value) {
+                          setState(() {
+                            selectedRadio = value;
+                            log(selectedRadio.toString());
+                          });
+                        },
+                      ),
+                      Expanded(
+                        child: Text("Charge my customer for shipping",
+                            style: GoogleFonts.poppins(fontSize: 16, fontWeight: FontWeight.w400)),
+                      )
+                    ],
+                  ),
                 ],
               ),
-              Row(
-                crossAxisAlignment: CrossAxisAlignment.start,
+              selectedRadio == "free_shipping" ?
+              Column(
                 children: [
-                  const Expanded(
-                    child: CommonTextField(
-                      contentPadding: EdgeInsets.symmetric(horizontal: 20),
-                      readOnly: true,
-                      obSecure: false,
-                      hintText: 'Free for',
-                    ),
-                  ),
-                  const SizedBox(
-                    width: 10,
-                  ),
-                  Expanded(
-                    child: DropdownButtonFormField<String>(
-                      value: selectZone,
-                      onChanged: (String? newValue) {
-                        setState(() {
-                          selectZone = newValue!;
-                        });
-                      },
-                      items: selectZoneList.map<DropdownMenuItem<String>>((String value) {
-                        return DropdownMenuItem<String>(
-                          value: value,
-                          child: Text(
-                            value,
-                            style: GoogleFonts.poppins(fontSize: 13),
+                  Row(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      const Expanded(
+                        child: CommonTextField(
+                          contentPadding: EdgeInsets.symmetric(horizontal: 20),
+                          readOnly: true,
+                          obSecure: false,
+                          hintText: 'Free for',
+                        ),
+                      ),
+                      const SizedBox(
+                        width: 10,
+                      ),
+                      Expanded(
+                        child: DropdownButtonFormField<String>(
+                          value: selectZone,
+                          onChanged: (String? newValue) {
+                            setState(() {
+                              selectZone = newValue!;
+
+                            });
+                          },
+                          items: selectZoneList.map<DropdownMenuItem<String>>((String value) {
+                            return DropdownMenuItem<String>(
+                              value: value,
+                              child: Text(
+                                value,
+                                style: GoogleFonts.poppins(fontSize: 13),
+                              ),
+                            );
+                          }).toList(),
+                          decoration: InputDecoration(
+                            border: InputBorder.none,
+                            filled: true,
+                            fillColor: const Color(0xffE2E2E2).withOpacity(.35),
+                            contentPadding: const EdgeInsets.symmetric(horizontal: 15, vertical: 8).copyWith(right: 3),
+                            focusedErrorBorder: const OutlineInputBorder(
+                                borderRadius: BorderRadius.all(Radius.circular(8)),
+                                borderSide: BorderSide(color: AppTheme.secondaryColor)),
+                            errorBorder: const OutlineInputBorder(
+                                borderRadius: BorderRadius.all(Radius.circular(8)),
+                                borderSide: BorderSide(color: Color(0xffE2E2E2))),
+                            focusedBorder: const OutlineInputBorder(
+                                borderRadius: BorderRadius.all(Radius.circular(8)),
+                                borderSide: BorderSide(color: AppTheme.secondaryColor)),
+                            disabledBorder: const OutlineInputBorder(
+                              borderRadius: BorderRadius.all(Radius.circular(8)),
+                              borderSide: BorderSide(color: AppTheme.secondaryColor),
+                            ),
+                            enabledBorder: const OutlineInputBorder(
+                              borderRadius: BorderRadius.all(Radius.circular(8)),
+                              borderSide: BorderSide(color: AppTheme.secondaryColor),
+                            ),
                           ),
-                        );
-                      }).toList(),
-                      decoration: InputDecoration(
-                        border: InputBorder.none,
-                        filled: true,
-                        fillColor: const Color(0xffE2E2E2).withOpacity(.35),
-                        contentPadding: const EdgeInsets.symmetric(horizontal: 15, vertical: 8).copyWith(right: 3),
-                        focusedErrorBorder: const OutlineInputBorder(
-                            borderRadius: BorderRadius.all(Radius.circular(8)),
-                            borderSide: BorderSide(color: AppTheme.secondaryColor)),
-                        errorBorder: const OutlineInputBorder(
-                            borderRadius: BorderRadius.all(Radius.circular(8)),
-                            borderSide: BorderSide(color: Color(0xffE2E2E2))),
-                        focusedBorder: const OutlineInputBorder(
-                            borderRadius: BorderRadius.all(Radius.circular(8)),
-                            borderSide: BorderSide(color: AppTheme.secondaryColor)),
-                        disabledBorder: const OutlineInputBorder(
-                          borderRadius: BorderRadius.all(Radius.circular(8)),
-                          borderSide: BorderSide(color: AppTheme.secondaryColor),
-                        ),
-                        enabledBorder: const OutlineInputBorder(
-                          borderRadius: BorderRadius.all(Radius.circular(8)),
-                          borderSide: BorderSide(color: AppTheme.secondaryColor),
+                          validator: (value) {
+                            if (value == null || value.isEmpty) {
+                              return 'Please select an item';
+                            }
+                            return null;
+                          },
                         ),
                       ),
-                      validator: (value) {
-                        if (value == null || value.isEmpty) {
-                          return 'Please select an item';
-                        }
-                        return null;
-                      },
-                    ),
+                    ],
                   ),
-                ],
-              ),
-              Row(
-                children: [
-                  Expanded(
-                    child: Container(
-                      height: 50,
-                      padding: const EdgeInsets.only(left: 15, top: 12),
-                      decoration: BoxDecoration(
-                        color: Colors.grey.shade100,
-                        border: Border.all(color: Colors.grey.shade400),
-                        borderRadius: BorderRadius.circular(8),
+                  Row(
+                    children: [
+                      Expanded(
+                        child: Container(
+                          height: 50,
+                          padding: const EdgeInsets.only(left: 15, top: 12),
+                          decoration: BoxDecoration(
+                            color: Colors.grey.shade100,
+                            border: Border.all(color: Colors.grey.shade400),
+                            borderRadius: BorderRadius.circular(8),
+                          ),
+                          child: const Text('Shipping'),
+                        ),
                       ),
-                      child: const Text('Shipping'),
-                    ),
-                  ),
-                  const SizedBox(
-                    width: 10,
-                  ),
-                  Expanded(
-                    child: CommonTextField(
-                      contentPadding: const EdgeInsets.symmetric(horizontal: 15),
-                      controller: policyPriceController,
-                      keyboardType: TextInputType.number,
-                      obSecure: false,
-                      hintText: 'Enter Price limit',
-                    ),
+                      const SizedBox(
+                        width: 10,
+                      ),
+                      Expanded(
+                        child: CommonTextField(
+                          contentPadding: const EdgeInsets.symmetric(horizontal: 15),
+                          controller: policyPriceController,
+                          keyboardType: TextInputType.number,
+                          obSecure: false,
+                          hintText: 'Enter Price limit',
+                        ),
+                      ),
+                    ],
                   ),
                 ],
-              ),
+              ) : const SizedBox(),
+
               const SizedBox(
                 height: 10,
               ),
               Visibility(
-                visible: selectedRadio == 2,
+                visible: selectedRadio == 'partial_shipping',
                 child: Column(
                   children: [
                     Row(
@@ -406,18 +477,16 @@ class _ShippingPolicyScreenState extends State<ShippingPolicyScreen> {
                   title: 'Next',
                   borderRadius: 11,
                   onPressed: () {
-                    // if (formKey1.currentState!.validate()) {
-                    //   if (selectedRadio == 1) {
-                    //     shippingPolicyApi('free_shipping');
-                    //   } else if (selectedRadio == 2) {
-                    //     shippingPolicyApi('partial_shipping');
-                    //   } else if (selectedRadio == 3) {
-                    //     shippingPolicyApi('charge_my_customer');
-                    //   } else {
-                    //     showToast('Select delivery size');
-                    //   }
-                    // }
-                    Get.to(()=> const SinglePInternationalshippingdetailsScreen());
+                    if (formKey1.currentState!.validate()) {
+                      if (selectedRadio == 'free_shipping' ||
+                          selectedRadio == 'partial_shipping' ||
+                          selectedRadio == 'charge_my_customer') {
+                        shippingPolicyApi();
+                      } else {
+                        showToast('Please select Shipping Shipping Fees');
+                      }
+                    }
+                    // Get.to(()=> const SinglePInternationalshippingdetailsScreen());
                   }),
               const SizedBox(
                 height: 20,
@@ -426,28 +495,6 @@ class _ShippingPolicyScreenState extends State<ShippingPolicyScreen> {
           ),
         ),
       ),
-    );
-  }
-
-  Widget buildRadioTile(String title, int value) {
-    return Row(
-      mainAxisAlignment: MainAxisAlignment.start,
-      crossAxisAlignment: CrossAxisAlignment.center,
-      children: [
-        Radio(
-          value: value,
-          groupValue: selectedRadio,
-          onChanged: (int? newValue) {
-            setState(() {
-              selectedRadio = newValue;
-            });
-          },
-        ),
-        Text(
-          title,
-          style: GoogleFonts.poppins(color: Colors.black, fontWeight: FontWeight.w600, fontSize: 14),
-        ),
-      ],
     );
   }
 }

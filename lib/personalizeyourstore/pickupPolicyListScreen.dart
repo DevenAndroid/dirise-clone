@@ -40,6 +40,7 @@ class _PickUpPolicyListScreenState extends State<PickUpPolicyListScreen> {
     super.initState();
     getShippingPolicyData();
   }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -90,56 +91,61 @@ class _PickUpPolicyListScreenState extends State<PickUpPolicyListScreen> {
             ),
             modelPickUpPolicy.value.pickupPolicy != null
                 ? ListView.builder(
-                itemCount: modelPickUpPolicy.value.pickupPolicy!.length,
-                shrinkWrap: true,
-                physics: const NeverScrollableScrollPhysics(),
-                itemBuilder: (context, index) {
-                  var pickUpPolicyPolicy = modelPickUpPolicy.value.pickupPolicy![index];
-                  return GestureDetector(
-                    onTap: () {
-                      Get.to(PickUpPolicyPolicyScreen(
-                        id: pickUpPolicyPolicy.id,
-                        policydesc: pickUpPolicyPolicy.description,
-                        policyName: pickUpPolicyPolicy.title,
-                        handling_days: pickUpPolicyPolicy.handlingDays,
-                        pick_option: int.tryParse(pickUpPolicyPolicy.pickOption ?? '0'),
-
-
-                      ));
-                    },
-                    child: Container(
-                        width: Get.width,
-                        margin: const EdgeInsets.only(left: 15, right: 15,bottom: 15),
-                        padding: const EdgeInsets.all(15),
-                        decoration:
-                        BoxDecoration(color: Colors.grey.shade200, borderRadius: BorderRadius.circular(11)),
-                        child: Row(
-                          children: [
-                            Expanded(
-                              child: Column(
-                                mainAxisAlignment: MainAxisAlignment.start,
-                                crossAxisAlignment: CrossAxisAlignment.start,
-                                children: [
-                                  Text(
-                                    pickUpPolicyPolicy.title,
-                                    style: const TextStyle(
-                                        color: Colors.black, fontWeight: FontWeight.w600, fontSize: 20),
+                    itemCount: modelPickUpPolicy.value.pickupPolicy!.length,
+                    shrinkWrap: true,
+                    physics: const NeverScrollableScrollPhysics(),
+                    itemBuilder: (context, index) {
+                      var pickUpPolicyPolicy = modelPickUpPolicy.value.pickupPolicy![index];
+                      return GestureDetector(
+                        onTap: () {
+                          Get.to(PickUpPolicyPolicyScreen(
+                            id: pickUpPolicyPolicy.id,
+                            policydesc: pickUpPolicyPolicy.description,
+                            policyName: pickUpPolicyPolicy.title,
+                            handling_days: pickUpPolicyPolicy.handlingDays,
+                            pick_option: pickUpPolicyPolicy.pickOption,
+                            vendor_will_pay: pickUpPolicyPolicy.vendor_will_pay,
+                          ));
+                          log(pickUpPolicyPolicy.handlingDays.toString());
+                        },
+                        child: Container(
+                            width: Get.width,
+                            margin: const EdgeInsets.only(left: 15, right: 15, bottom: 15),
+                            padding: const EdgeInsets.all(15),
+                            decoration:
+                                BoxDecoration(color: Colors.grey.shade200, borderRadius: BorderRadius.circular(11)),
+                            child: Row(
+                              children: [
+                                Expanded(
+                                  child: Column(
+                                    mainAxisAlignment: MainAxisAlignment.start,
+                                    crossAxisAlignment: CrossAxisAlignment.start,
+                                    children: [
+                                      Text(
+                                        pickUpPolicyPolicy.title,
+                                        style: const TextStyle(
+                                            color: Colors.black, fontWeight: FontWeight.w600, fontSize: 20),
+                                      ),
+                                      const SizedBox(
+                                        height: 10,
+                                      ),
+                                      Text(
+                                        pickUpPolicyPolicy.description,
+                                        maxLines: 3,
+                                      ),
+                                    ],
                                   ),
-                                  const SizedBox(height: 10,),
-                                  Text(pickUpPolicyPolicy.description,maxLines: 3,),
-                                ],
-                              ),
-                            ),
-                            // const Spacer(),
-                            Text(
-                              'Edit'.tr,
-                              style: GoogleFonts.poppins(
-                                  color: const Color(0xff292F45), fontWeight: FontWeight.w500, fontSize: 16),
-                            ),
-                          ],
-                        )),
-                  );
-                })
+                                ),
+                                // const Spacer(),
+                                Text(
+                                  'Edit'.tr,
+                                  style: GoogleFonts.poppins(
+                                      color: const Color(0xff292F45), fontWeight: FontWeight.w500, fontSize: 16),
+                                ),
+                              ],
+                            )),
+                      );
+                    })
                 : const Center(child: Text('No Shipping policy Available'))
           ],
         ),

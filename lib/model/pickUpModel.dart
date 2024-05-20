@@ -35,6 +35,7 @@ class PickupPolicy {
   dynamic description;
   dynamic pickOption;
   dynamic handlingDays;
+  dynamic vendor_will_pay;
 
   PickupPolicy(
       {this.id,
@@ -42,6 +43,7 @@ class PickupPolicy {
         this.title,
         this.description,
         this.pickOption,
+        this.vendor_will_pay,
         this.handlingDays});
 
   PickupPolicy.fromJson(Map<String, dynamic> json) {
@@ -49,6 +51,7 @@ class PickupPolicy {
     vendorId = json['vendor_id'];
     title = json['title'];
     description = json['description'];
+    vendor_will_pay = json['vendor_will_pay'];
     pickOption = json['pick_option'];
     handlingDays = json['handling_days'];
   }

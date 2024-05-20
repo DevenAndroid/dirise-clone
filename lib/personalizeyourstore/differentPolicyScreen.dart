@@ -81,7 +81,7 @@ class _DifferentPolicyScreenState extends State<DifferentPolicyScreen> {
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: [
             Text(
-              'My Item is  a'.tr,
+              'Select Policy'.tr,
               style: GoogleFonts.poppins(
                   color: Colors.black,
                   fontWeight: FontWeight.w600,
@@ -118,7 +118,7 @@ class _DifferentPolicyScreenState extends State<DifferentPolicyScreen> {
                     navigateNext();
                   }
                   else{
-                    showToast('Please select any item type');
+                    showToast('Please select any policy');
                   }
                 },
                 child: Container(

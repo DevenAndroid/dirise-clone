@@ -23,9 +23,9 @@ class PickUpPolicyPolicyScreen extends StatefulWidget {
   String? policyName;
   int?     id;
   String? policydesc;
-  String? vendor_will_pay;
+  int? vendor_will_pay;
   int?    handling_days;
-  int?  pick_option;
+  String?  pick_option;
   PickUpPolicyPolicyScreen(
       {super.key, this.policyName, this.policydesc, this.vendor_will_pay, this.handling_days,this.pick_option, this.id});
   static var route = "/shippingPolicyScreen";
@@ -37,11 +37,11 @@ class PickUpPolicyPolicyScreen extends StatefulWidget {
 class _PickUpPolicyPolicyScreenState extends State<PickUpPolicyPolicyScreen> {
   TextEditingController policyNameController = TextEditingController();
   TextEditingController policyDescController = TextEditingController();
-  TextEditingController policyPriceController = TextEditingController();
-  TextEditingController policyDaysController = TextEditingController();
+  TextEditingController handlingDaysController = TextEditingController();
+  TextEditingController vendorWillPayController = TextEditingController();
 
   String selectHandlingTime = 'Select your handling time';
-  int? selectedRadio;
+  String? selectedRadio;
   final formKey1 = GlobalKey<FormState>();
   final Repositories repositories = Repositories();
 
@@ -54,11 +54,9 @@ class _PickUpPolicyPolicyScreenState extends State<PickUpPolicyPolicyScreen> {
     if (widget.policyName != null) {
       policyNameController.text = widget.policyName ?? "";
       policyDescController.text = widget.policydesc ?? "";
-      policyPriceController.text = widget.vendor_will_pay.toString();
-      policyPriceController.text = widget.handling_days.toString();
+      vendorWillPayController.text = widget.vendor_will_pay.toString();
+      handlingDaysController.text = widget.handling_days.toString();
       selectedRadio = widget.pick_option;
-
-      // daysItem = widget.daysItem ?? "";
     }
   }
 
@@ -67,13 +65,24 @@ class _PickUpPolicyPolicyScreenState extends State<PickUpPolicyPolicyScreen> {
     super.dispose();
   }
 
-  pickUpPolicyApi(String deliverySize) {
+  pickUpPolicyApi() {
     Map<String, dynamic> map = {};
+
+    if (widget.id != null) {
+      map['title'] = policyNameController.text.trim();
+      map['description'] = policyDescController.text.trim();
+      map['vendor_will_pay'] = vendorWillPayController.text.trim();
+      map['handling_days'] = handlingDaysController.text.trim();
+      map['pick_option'] = selectedRadio;
+      map['id'] = widget.id;
+    }
+
     map['title'] = policyNameController.text.trim();
     map['description'] = policyDescController.text.trim();
-    map['vendor_will_pay'] = policyPriceController.text.trim();
-    map['handling_days'] = policyDaysController.text.trim();
+    map['vendor_will_pay'] = vendorWillPayController.text.trim();
+    map['handling_days'] = handlingDaysController.text.trim();
     map['pick_option'] = selectedRadio;
+    log("API Request Map: ${map.toString()}");
 
     FocusManager.instance.primaryFocus!.unfocus();
     repositories.postApi(url: ApiUrls.vendorPickUpPolicy, context: context, mapData: map).then((value) {
@@ -84,6 +93,8 @@ class _PickUpPolicyPolicyScreenState extends State<PickUpPolicyPolicyScreen> {
       }
     });
   }
+
+
 
 
   @override
@@ -164,16 +175,68 @@ class _PickUpPolicyPolicyScreenState extends State<PickUpPolicyPolicyScreen> {
                 Padding(
                   padding: const EdgeInsets.symmetric(horizontal: 16),
                   child: Text("Pick Up Option",
-                      style: GoogleFonts.poppins(fontSize: 18, fontWeight: FontWeight.w600)),
+                      style: GoogleFonts.poppins(fontSize: 14, fontWeight: FontWeight.w600)),
                 ),
 
                 Column(
                   children: [
-                    buildRadioTile('I want to drop off my package at my local shipping carrier', 1),
-                    buildRadioTile('I want the package to be picked up from my location.', 2),
-                    buildRadioTile('Always schedule a pick up for me but split the charge between me and my customer', 3),
+                    Row(
+                      children: [
+                        Radio<String>(
+                          value: 'dropoff_package',
+                          groupValue: selectedRadio,
+                          onChanged: (String? value) {
+                            setState(() {
+                              selectedRadio = value;
+                              log(selectedRadio.toString());
+                            });
+                          },
+                        ),
+                        Expanded(
+                          child: Text("I want to drop off my package at my local shipping carrier",
+                              style: GoogleFonts.poppins(fontSize: 14, fontWeight: FontWeight.w400)),
+                        )
+                      ],
+                    ),
+                    Row(
+                      children: [
+                        Radio<String>(
+                          value: 'picked_from_my_location',
+                          groupValue: selectedRadio,
+                          onChanged: (String? value) {
+                            setState(() {
+                              selectedRadio = value;
+                              log(selectedRadio.toString());
+                            });
+                          },
+                        ),
+                        Expanded(
+                          child: Text("I want the package to be picked up from my location.",
+                              style: GoogleFonts.poppins(fontSize: 14, fontWeight: FontWeight.w400)),
+                        )
+                      ],
+                    ),
+                    Row(
+                      children: [
+                        Radio<String>(
+                          value: 'split_charges',
+                          groupValue: selectedRadio,
+                          onChanged: (String? value) {
+                            setState(() {
+                              selectedRadio = value;
+                              log(selectedRadio.toString());
+                            });
+                          },
+                        ),
+                        Expanded(
+                          child: Text("Always schedule a pick up for me but split the charge between me and my customer",
+                              style: GoogleFonts.poppins(fontSize: 14, fontWeight: FontWeight.w400)),
+                        )
+                      ],
+                    ),
                   ],
                 ),
+                selectedRadio == "split_charges" ?
                 Row(
                   children: [
                     Expanded(
@@ -194,14 +257,14 @@ class _PickUpPolicyPolicyScreenState extends State<PickUpPolicyPolicyScreen> {
                     Expanded(
                       child: CommonTextField(
                         contentPadding: const EdgeInsets.symmetric(horizontal: 15),
-                        controller: policyPriceController,
+                        controller: vendorWillPayController,
                         keyboardType: TextInputType.number,
                         obSecure: false,
                         hintText: 'Amount per package',
                       ),
                     ),
                   ],
-                ),
+                ) : SizedBox(),
                 const SizedBox(
                   height: 10,
                 ),
@@ -227,7 +290,7 @@ class _PickUpPolicyPolicyScreenState extends State<PickUpPolicyPolicyScreen> {
                 ),
                 CommonTextField(
                   contentPadding: const EdgeInsets.symmetric(horizontal: 15),
-                  controller: policyDaysController,
+                  controller: handlingDaysController,
                   keyboardType: TextInputType.number,
                   obSecure: false,
                   hintText: 'Select Your handling time',
@@ -237,14 +300,10 @@ class _PickUpPolicyPolicyScreenState extends State<PickUpPolicyPolicyScreen> {
                     borderRadius: 11,
                     onPressed: () {
                       if (formKey1.currentState!.validate()) {
-                        if (selectedRadio == 1) {
-                          pickUpPolicyApi('dropoff_package');
-                        } else if (selectedRadio == 2) {
-                          pickUpPolicyApi('picked_from_my_location');
-                        } else if (selectedRadio == 3) {
-                          pickUpPolicyApi('split_charges');
+                        if (selectedRadio == 'dropoff_package' || selectedRadio == 'picked_from_my_location' || selectedRadio == 'split_charges') {
+                          pickUpPolicyApi();
                         } else {
-                          showToast('Select pickUp Option size');
+                          showToast('Please select PickUp Fees');
                         }
                       }
                     }),
@@ -259,27 +318,5 @@ class _PickUpPolicyPolicyScreenState extends State<PickUpPolicyPolicyScreen> {
     );
   }
 
-  Widget buildRadioTile(String title, int value) {
-    return Row(
-      mainAxisAlignment: MainAxisAlignment.start,
-      crossAxisAlignment: CrossAxisAlignment.center,
-      children: [
-        Radio(
-          value: value,
-          groupValue: selectedRadio,
-          onChanged: (int? newValue) {
-            setState(() {
-              selectedRadio = newValue;
-            });
-          },
-        ),
-        Expanded(
-          child: Text(
-            title,
-            style: GoogleFonts.poppins(color: Colors.black, fontWeight: FontWeight.w600, fontSize: 14),
-          ),
-        ),
-      ],
-    );
-  }
+
 }

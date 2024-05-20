@@ -452,7 +452,7 @@ class _ReviewandPublishTourScreenScreenState extends State<ReviewandPublishTourS
                               Text('Policy Name: ${shippingPolicy.title ?? ""}'),
                               Text('Return Policy Description : ${shippingPolicy.description ?? ""}'),
                               Text('Return Within: ${shippingPolicy.days ?? ""}'),
-                              Text('Return Shipping Fees: ${shippingPolicy.shippingCharges ?? ""}'),
+                              Text('Return Shipping Fees: ${shippingPolicy.shippingType ?? ""}'),
                             ],
                           ),
                         );
