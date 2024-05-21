@@ -433,6 +433,7 @@ SizedBox(height: 8,),
                         ],
                       ),
                     ),
+                    if (canBuyProduct)
                     Expanded(
                       child: Column(
                         children: [
