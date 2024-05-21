@@ -13,6 +13,8 @@ class AddMultipleItems {
   TextEditingController variantSku = TextEditingController();
   TextEditingController variantPrice = TextEditingController();
   TextEditingController variantStock = TextEditingController();
+  TextEditingController shortDescription  = TextEditingController();
+  TextEditingController longDescription = TextEditingController();
 
   AddMultipleItems({
     this.attributes,
@@ -25,13 +27,16 @@ class AddMultipleItems {
     required String variantSkuLive,
     required String variantPriceLive,
     required String variantStockLive,
+    required String shortDescriptionLive,
+    required String longDescriptionLive,
 
   }){
-    log("Adding to list......      ");
     attributes = attr;
     variantSku.text = variantSkuLive;
     variantPrice.text = variantPriceLive;
     variantStock.text = variantStockLive;
+    shortDescription.text = shortDescriptionLive;
+    longDescription.text = longDescriptionLive;
     variantImages = File(filePath);
     live = true;
   }
