@@ -222,6 +222,8 @@ class VariantData {
   dynamic variantPrice;
   dynamic variantStock;
   dynamic variantImages;
+  dynamic shortDescription ;
+  dynamic longDescription;
 
   VariantData(
       {this.parentId,
@@ -230,6 +232,8 @@ class VariantData {
         this.variantSku,
         this.variantPrice,
         this.variantStock,
+        this.shortDescription,
+        this.longDescription,
         this.variantImages});
 
   VariantData.fromJson(Map<String, dynamic> json) {
@@ -240,6 +244,8 @@ class VariantData {
     variantPrice = json['variant_price'];
     variantStock = json['variant_stock'];
     variantImages = json['variant_images'];
+    shortDescription = json['short_description'];
+    longDescription = json['long_description'];
   }
 
   Map<String, dynamic> toJson() {

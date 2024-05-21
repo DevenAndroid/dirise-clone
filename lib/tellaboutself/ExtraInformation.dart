@@ -4,6 +4,9 @@ import 'package:get/get.dart';
 import 'package:google_fonts/google_fonts.dart';
 
 import '../screens/tell_us_about_yourself.dart';
+import '../singleproductScreen/varientsProductsScreen.dart';
+import '../vendor/products/add_product/add_product_screen.dart';
+import '../vendor/products/add_product/variant_product/varient_product.dart';
 
 class ExtraInformation extends StatefulWidget {
   const ExtraInformation({super.key});
@@ -63,7 +66,8 @@ class _ExtraInformationState extends State<ExtraInformation> {
               const SizedBox(height: 20,),
               GestureDetector(
                 onTap: (){
-                  // Get.to(()=>const TellUsYourSelfScreen());
+                   // Get.to(()=> VarientProductsScreen(productType: 'variants',));
+                  Get.to(AddProductScreen());
                 },
                 child: Container(
                   width:size.width,

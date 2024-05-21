@@ -128,27 +128,26 @@ class _SingleProductPriceScreenState extends State<SingleProductPriceScreen> {
                   style: GoogleFonts.poppins(color: const Color(0xff292F45), fontWeight: FontWeight.w400, fontSize: 14),
                 ),
                 CommonTextField(
-                    controller: priceController,
-                    obSecure: false,
-                    // hintText: 'Name',
+                  controller: priceController,
+                  obSecure: false,
                   keyboardType: TextInputType.number,
-                    hintText: 'Price'.tr,
-                    suffixIcon: const Text(
-                      'KWD',
-                    ),
+                  hintText: 'Price'.tr,
+                  suffixIcon: const Text(
+                    'KWD',
+                  ),
                   onChanged: (value) {
                     isPercentageDiscount = true;
                     calculateDiscount();
                     realPrice = value;
                     setState(() {});
                   },
-                    validator: (value) {
-                      if (value!.trim().isEmpty) {
-                        return 'Price is required'.tr;
-                      }
-                      return null; // Return null if validation passes
-                    },
-                   ),
+                  validator: (value) {
+                    if (value!.trim().isEmpty) {
+                      return 'Price is required'.tr;
+                    }
+                    return null; // Return null if validation passes
+                  },
+                ),
                 Row(
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
@@ -177,72 +176,84 @@ class _SingleProductPriceScreenState extends State<SingleProductPriceScreen> {
                     ),
                   ],
                 ),
-                const SizedBox(height: 10,),
-                Text(
-                  'Fixed Discounted Price'.tr,
-                  style: GoogleFonts.poppins(color: const Color(0xff292F45), fontWeight: FontWeight.w400, fontSize: 14),
+                if(isDelivery.value ==  true)
+                Column(
+                  children: [
+                    const SizedBox(height: 10,),
+                    Text(
+                      'Fixed Discounted Price'.tr,
+                      style: GoogleFonts.poppins(color: const Color(0xff292F45), fontWeight: FontWeight.w400, fontSize: 14),
+                    ),
+                    CommonTextField(
+                      controller: fixedDiscount,
+                      obSecure: false,
+                      keyboardType: TextInputType.number,
+                      onChanged: (value) {
+                        discountPrecrnt.text = "";
+                        isPercentageDiscount = false;
+                        calculateDiscount();
+                        sale = value;
+                        setState(() {});
+                      },
+                      validator: (value) {
+                        if (discountPrecrnt.text.isEmpty) {
+                          if (value!.trim().isEmpty) {
+                            return 'Discount Price is required'.tr;
+                          }
+                          double? discountValue = double.tryParse(value);
+                          double? priceValue = double.tryParse(priceController.text);
+                          if (discountValue != null && priceValue != null && discountValue > priceValue) {
+                            return 'Discount Price cannot be greater than Price'.tr;
+                          }
+                        }
+                        return null; // Return null if validation passes
+                      },
+                      hintText: 'Discount Price'.tr,
+                    ),
+                    const SizedBox(height: 10,),
+                    Align(
+                      alignment: Alignment.center,
+                      child: Text(
+                        'OR'.tr,
+                        style: GoogleFonts.poppins(color: Colors.red, fontWeight: FontWeight.w400, fontSize: 14),
+                      ),
+                    ),
+                    const SizedBox(height: 10,),
+                    Text(
+                      'Discount Percentage'.tr,
+                      style: GoogleFonts.poppins(color: const Color(0xff292F45), fontWeight: FontWeight.w400, fontSize: 14),
+                    ),
+                    CommonTextField(
+                      controller: discountPrecrnt,
+                      obSecure: false,
+                      // hintText: 'Name',
+                      keyboardType: TextInputType.number,
+                      hintText: 'Percentage'.tr,
+                      onChanged: (value) {
+                        fixedDiscount.text = "";
+                        isPercentageDiscount = true;
+                        calculateDiscount();
+                        sale = value;
+                        setState(() {});
+                      },
+                      validator: (value) {
+                        if (fixedDiscount.text.isEmpty) {
+                          if (value == null || value.trim().isEmpty) {
+                            return 'Percentage is required'.tr;
+                          } else {
+                            double? percentage = double.tryParse(value);
+                            if (percentage == null || percentage > 100) {
+                              return 'Percentage must be between 0 and 100'.tr;
+                            }
+                          }
+                        }
+                        return null; // Return null if validation passes
+                      },
+                    ),
+                    const SizedBox(height: 10,),
+                  ],
                 ),
-                CommonTextField(
-                    controller: fixedDiscount,
-                    obSecure: false,
-                    // hintText: 'Name',
-                  keyboardType: TextInputType.number,
-                  onChanged: (value) {
-                    isPercentageDiscount = false;
-                    calculateDiscount();
-                    sale = value;
-                    setState(() {});
-                  },
 
-                  validator: (value) {
-                      if(discountPrecrnt.text.isEmpty)
-                    if (value!.trim().isEmpty) {
-                      return 'Discount Price is required'.tr;
-                    }
-                    return null; // Return null if validation passes
-                  },
-                    hintText: 'Discount Price'.tr,
-                    // validator: MultiValidator([
-                    //   RequiredValidator(errorText: 'Discount Price is required'.tr),
-                    // ])
-                ),
-                const SizedBox(height: 10,),
-                Align(
-                  alignment: Alignment.center,
-                  child: Text(
-                    'OR'.tr,
-                    style: GoogleFonts.poppins(color: Colors.red, fontWeight: FontWeight.w400, fontSize: 14),
-                  ),
-                ),
-                const SizedBox(height: 10,),
-                Text(
-                  'Discount Percentage'.tr,
-                  style: GoogleFonts.poppins(color: const Color(0xff292F45), fontWeight: FontWeight.w400, fontSize: 14),
-                ),
-                CommonTextField(
-                    controller: discountPrecrnt,
-                    obSecure: false,
-                    // hintText: 'Name',
-                  keyboardType: TextInputType.number,
-                    hintText: 'Percentage'.tr,
-                  onChanged: (value) {
-                    isPercentageDiscount = true;
-                    calculateDiscount();
-                    sale = value;
-                    setState(() {});
-                  },
-                  validator: (value) {
-                    if(fixedDiscount.text.isEmpty)
-                    if (value!.trim().isEmpty) {
-                      return 'Percentage is required'.tr;
-                    }
-                    return null; // Return null if validation passes
-                  },
-                    // validator: MultiValidator([
-                    //   RequiredValidator(errorText: 'Discount Price is required'.tr),
-                    // ])
-                ),
-                const SizedBox(height: 10,),
                 Text(
                   'Calculated price'.tr,
                   style: GoogleFonts.inter(color: const Color(0xff292F45), fontWeight: FontWeight.w500, fontSize: 14),

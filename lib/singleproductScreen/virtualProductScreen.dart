@@ -56,6 +56,13 @@ class _VirtualProductScreenState extends State<VirtualProductScreen> {
   final formKey1 = GlobalKey<FormState>();
   final addProductController = Get.put(AddProductController());
   optionalApi() {
+    if (featuredImage.path.isEmpty) {
+      if (featuredImage.path.isEmpty) {
+        showToastCenter('Please select an file');
+      }
+      showValidation.value = true;
+      return;
+    }
     Map<String, String> map = {};
     Map<String, File> images = {};
     map['virtual_product_type'] = productItem;
@@ -189,7 +196,7 @@ class _VirtualProductScreenState extends State<VirtualProductScreen> {
                     width: 200,
                     child: ImageWidget(
                       // key: paymentReceiptCertificateKey,
-                      title: "Click To Edit Uploaded  Image".tr,
+                      title: "Click To Edit Uploaded  File".tr,
                       file: featuredImage,
                       validation: checkValidation(showValidation.value, featuredImage.path.isEmpty),
                       filePicked: (File g) {
@@ -259,6 +266,7 @@ class _VirtualProductScreenState extends State<VirtualProductScreen> {
                 title: 'Confirm',
                 borderRadius: 11,
                 onPressed: () {
+
                   optionalApi();
                 },
               ),
