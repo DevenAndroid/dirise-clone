@@ -141,9 +141,9 @@ class _SingleProductDetailsState extends State<SingleProductDetails> {
   Map<String, dynamic> get getMap {
     Map<String, dynamic> map = {};
     map["product_id"] = productDetails.id.toString();
-    map["quantity"] = productQuantity.value.toString();
-    // map["key"] = 'fedexRate';
-    // map["country_id"]=profileController.model.user!.country_id;
+    map["quantity"] = map["quantity"] = int.tryParse(productQuantity.value.toString());
+     map["key"] = 'fedexRate';
+     map["country_id"]=profileController.model.user!.country_id;
 
     if (isBookingProduct) {
       map["start_date"] = selectedDate.text.trim();
@@ -174,7 +174,21 @@ class _SingleProductDetailsState extends State<SingleProductDetails> {
 
   addToCartProduct() {
     if (!validateSlots()) return;
-    repositories.postApi(url: ApiUrls.addToCartUrl, mapData: getMap, context: context).then((value) {
+    Map<String, dynamic> map = {};
+    map["product_id"] = productDetails.id.toString();
+    map["quantity"] = map["quantity"] = int.tryParse(productQuantity.value.toString());
+    map["key"] = 'fedexRate';
+    map["country_id"]=profileController.model.user!.country_id;
+
+    if (isBookingProduct) {
+      map["start_date"] = selectedDate.text.trim();
+      map["time_sloat"] = selectedSlot.split("--").first;
+      map["sloat_end_time"] = selectedSlot.split("--").last;
+    }
+    if (isVariantType) {
+      map["variation"] = selectedVariant!.id.toString();
+    }
+    repositories.postApi(url: ApiUrls.addToCartUrl, mapData: map, context: context).then((value) {
       ModelCommonResponse response = ModelCommonResponse.fromJson(jsonDecode(value));
       showToast(response.message.toString());
       if (response.status == true) {
@@ -186,13 +200,30 @@ class _SingleProductDetailsState extends State<SingleProductDetails> {
 
   directBuyProduct() {
     if (!validateSlots()) return;
-    repositories.postApi(url: ApiUrls.buyNowDetailsUrl, mapData: getMap, context: context).then((value) {
+    Map<String, dynamic> map = {};
+    map["product_id"] = productDetails.id.toString();
+    map["quantity"] = map["quantity"] = int.tryParse(productQuantity.value.toString());
+    map["key"] = 'fedexRate';
+    map["country_id"]=profileController.model.user!.country_id;
+
+    if (isBookingProduct) {
+      map["start_date"] = selectedDate.text.trim();
+      map["time_sloat"] = selectedSlot.split("--").first;
+      map["sloat_end_time"] = selectedSlot.split("--").last;
+    }
+    if (isVariantType) {
+      map["variation"] = selectedVariant!.id.toString();
+    }
+    repositories.postApi(url: ApiUrls.buyNowDetailsUrl, mapData: map, context: context).then((value) {
+      log("Value>>>>>>>$value");
       ModelDirectOrderResponse response = ModelDirectOrderResponse.fromJson(jsonDecode(value));
+
       showToast(response.message.toString());
       if (response.status == true) {
-        response.quantity = productQuantity.value;
+
+        response.prodcutData!.inStock = productQuantity.value;
         if (kDebugMode) {
-          print(response.quantity);
+          print(response.prodcutData!.inStock);
         }
         Get.toNamed(DirectCheckOutScreen.route, arguments: response);
       }
