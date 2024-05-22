@@ -245,7 +245,8 @@ class _ServicesReturnPolicyState extends State<ServicesReturnPolicy> {
                                   return "DIRISE standard Policy".tr;
                                 }
                                 return null;
-                              }),
+                              }
+                              ),
                           const SizedBox(
                             height: 20,
                           ),

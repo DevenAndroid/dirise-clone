@@ -56,7 +56,7 @@ class ApiUrls {
   static const String vendorResendOTPUrl = "${baseUrl}vendor-resend-otp";
   static const String deleteAddressUrl = "${baseUrl}delete-address";
   static const String getVendorDetailUrl = "${baseUrl}my-vendor-details";
-  static const String addVendorProductUrl = "${baseUrl}add-vendor-prodect";
+  static const String addVendorProductUrl = "${baseUrl}add-vendor-product";
   static const String productCategoryListUrl = "${baseUrl}prodect-category-list";
   static const String taxDataUrl = "${baseUrl}tax";
   static const String myProductsListUrl = "${baseUrl}my-product-list";

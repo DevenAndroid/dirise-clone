@@ -9,6 +9,7 @@ import 'package:form_field_validator/form_field_validator.dart';
 import 'package:get/get.dart';
 import 'package:google_fonts/google_fonts.dart';
 
+import '../Services/service_international_shipping_details.dart';
 import '../language/app_strings.dart';
 import '../model/common_modal.dart';
 import '../repository/repository.dart';
@@ -135,7 +136,7 @@ class _ShippingPolicyScreenState extends State<ShippingPolicyScreen> {
       if (response.status == true) {
 
         log('ghfkhjsdgsd${selectZone}');
-        Get.to(const ShippingPolicyListScreen());
+        Get.to(const ServiceInternationalShippingService());
       }
     });
   }
@@ -362,6 +363,12 @@ class _ShippingPolicyScreenState extends State<ShippingPolicyScreen> {
                           keyboardType: TextInputType.number,
                           obSecure: false,
                           hintText: 'Enter Price limit',
+                          validator: (value) {
+                            if (value!.trim().isEmpty) {
+                              return "Enter Price limit".tr;
+                            }
+                            return null;
+                          },
                         ),
                       ),
                     ],
@@ -386,6 +393,12 @@ class _ShippingPolicyScreenState extends State<ShippingPolicyScreen> {
                             keyboardType: TextInputType.number,
                             obSecure: false,
                             hintText: 'I pay 15%',
+                            validator: (value) {
+                              if (value!.trim().isEmpty) {
+                                return "Enter Value".tr;
+                              }
+                              return null;
+                            },
                           ),
                         ),
                         Expanded(
@@ -395,6 +408,12 @@ class _ShippingPolicyScreenState extends State<ShippingPolicyScreen> {
                             keyboardType: TextInputType.number,
                             obSecure: false,
                             hintText: 'From 01kwd',
+                            validator: (value) {
+                              if (value!.trim().isEmpty) {
+                                return "Enter Value".tr;
+                              }
+                              return null;
+                            },
                           ),
                         ),
                         const SizedBox(
@@ -407,6 +426,12 @@ class _ShippingPolicyScreenState extends State<ShippingPolicyScreen> {
                             keyboardType: TextInputType.number,
                             obSecure: false,
                             hintText: 'Up to 20 KWD',
+                            validator: (value) {
+                              if (value!.trim().isEmpty) {
+                                return "Enter Value".tr;
+                              }
+                              return null;
+                            },
                           ),
                         ),
                       ],
@@ -421,6 +446,12 @@ class _ShippingPolicyScreenState extends State<ShippingPolicyScreen> {
                             keyboardType: TextInputType.number,
                             obSecure: false,
                             hintText: 'Then  10%',
+                            validator: (value) {
+                              if (value!.trim().isEmpty) {
+                                return "Enter Value".tr;
+                              }
+                              return null;
+                            },
                           ),
                         ),
                         Expanded(
@@ -430,6 +461,12 @@ class _ShippingPolicyScreenState extends State<ShippingPolicyScreen> {
                             keyboardType: TextInputType.number,
                             obSecure: false,
                             hintText: 'From  20 kwd',
+                            validator: (value) {
+                              if (value!.trim().isEmpty) {
+                                return "Enter Value".tr;
+                              }
+                              return null;
+                            },
                           ),
                         ),
                         const SizedBox(
@@ -442,6 +479,12 @@ class _ShippingPolicyScreenState extends State<ShippingPolicyScreen> {
                             keyboardType: TextInputType.number,
                             obSecure: false,
                             hintText: 'Up to 40 KWD',
+                            validator: (value) {
+                              if (value!.trim().isEmpty) {
+                                return "Enter Value".tr;
+                              }
+                              return null;
+                            },
                           ),
                         ),
                       ],
@@ -456,6 +499,7 @@ class _ShippingPolicyScreenState extends State<ShippingPolicyScreen> {
                             readOnly: true,
                             obSecure: false,
                             hintText: hintText,
+
                           ),
                         ),
                         const SizedBox(

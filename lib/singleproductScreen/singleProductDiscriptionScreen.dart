@@ -191,7 +191,6 @@ class _SingleProductDiscriptionScreenState extends State<SingleProductDiscriptio
                       CommonTextField(
                         controller: inStockController,
                         obSecure: false,
-                        // hintText: 'Name',
                         keyboardType: TextInputType.number,
                         hintText: 'Stock quantity'.tr,
                         validator: (value) {
@@ -200,9 +199,6 @@ class _SingleProductDiscriptionScreenState extends State<SingleProductDiscriptio
                           }
                           return null; // Return null if validation passes
                         },
-                        // validator: MultiValidator([
-                        //   RequiredValidator(errorText: 'Stock number is required'.tr),
-                        // ])
                       ),
                       const SizedBox(
                         height: 20,
@@ -215,16 +211,16 @@ class _SingleProductDiscriptionScreenState extends State<SingleProductDiscriptio
                         controller: alertDiscount,
                         obSecure: false,
                         keyboardType: TextInputType.number,
-                        onChanged: (value){
-                          double sellingPrice = double.tryParse(value) ?? 0.0;
-                          double purchasePrice = double.tryParse(alertDiscount.text) ?? 0.0;
-                          if (alertDiscount.text.isEmpty) {
+                        onChanged: (value) {
+                          double stockQuantity = double.tryParse(inStockController.text) ?? 0.0;
+                          double stockAlert = double.tryParse(value) ?? 0.0;
+                          if (inStockController.text.isEmpty) {
                             FocusManager.instance.primaryFocus!.unfocus();
                             alertDiscount.clear();
                             showToastCenter('Enter stock quantity first');
                             return;
                           }
-                          if (sellingPrice > purchasePrice) {
+                          if (stockAlert > stockQuantity) {
                             FocusManager.instance.primaryFocus!.unfocus();
                             alertDiscount.clear();
                             showToastCenter('Stock alert cannot be higher than stock quantity');
@@ -233,7 +229,12 @@ class _SingleProductDiscriptionScreenState extends State<SingleProductDiscriptio
                         hintText: 'Get notification on your stock quantity'.tr,
                         validator: (value) {
                           if (value!.trim().isEmpty) {
-                            return 'Set stock alert is required';
+                            return 'Set stock alert is required'.tr;
+                          }
+                          double stockQuantity = double.tryParse(inStockController.text) ?? 0.0;
+                          double stockAlert = double.tryParse(value) ?? 0.0;
+                          if (stockAlert > stockQuantity) {
+                            return 'Stock alert cannot be higher than stock quantity'.tr;
                           }
                           return null; // Return null if validation passes
                         },

@@ -1,5 +1,6 @@
 import 'dart:convert';
 import 'package:dirise/addNewProduct/rewardScreen.dart';
+import 'package:dirise/tellaboutself/ExtraInformation.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
@@ -513,7 +514,7 @@ class _ReviewPublishServiceScreenState extends State<ReviewPublishServiceScreen>
                         title: 'Confirm',
                         borderRadius: 11,
                         onPressed: () {
-                          Get.to(DoneServiceScreen());
+                          Get.to(ExtraInformation());
                         },
                       ),
                     ],
