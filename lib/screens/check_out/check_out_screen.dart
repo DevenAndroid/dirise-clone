@@ -84,7 +84,7 @@ class _CheckOutScreenState extends State<CheckOutScreen> {
       stateRefresh.value = DateTime.now().millisecondsSinceEpoch;
     });
   }
-
+  RxString shippingType= "".obs;
   applyCouponCode() {
     if (couponController.text.trim().isEmpty) {
       showToast("Please enter coupon code".tr);
@@ -110,6 +110,7 @@ class _CheckOutScreenState extends State<CheckOutScreen> {
   }
 
   RxString paymentOption = "".obs;
+  RxString shipmentProvider = "".obs;
 
   // double sPrice = 0.0;
   bool get userLoggedIn => profileController.userLoggedIn;
@@ -153,7 +154,7 @@ class _CheckOutScreenState extends State<CheckOutScreen> {
   ModelCountryList? modelCountryList;
   Country? selectedCountry;
   RxInt cityRefresh = 2.obs;
-
+RxString shipId = "".obs;
   Future getCityList({required String stateId, bool? reset}) async {
     if (reset == true) {
       modelCityList = null;
@@ -295,13 +296,14 @@ class _CheckOutScreenState extends State<CheckOutScreen> {
               context: context,
               currencyCode: "kwd",
               paymentMethod: paymentMethod1,
-
+              shippingId:  shipId.value.toString(),
+shipmentProvider: shipmentProvider.value.toString(),
               // deliveryOption: cartController.deliveryOption1.value,
               deliveryOption: 'delivery',
               subTotalPrice: cartController.cartModel.subtotal.toString(),
               totalPrice: cartController.formattedTotal.toString(),
               couponCode: couponApplied.isNotEmpty ? appliedCode : null,
-              purchaseType: PurchaseType.cart,
+              purchaseType:   shippingType.value.toString(),
               address: cartController.selectedAddress.id != null
                   ? cartController.selectedAddress.toJson()
                   : cartController.myDefaultAddressModel.value.defaultAddress!.toJson(),
@@ -853,6 +855,9 @@ class _CheckOutScreenState extends State<CheckOutScreen> {
                                                     onChanged: (value) {
                                                       log("which is selected + $value");
                                                       setState(() {
+                                                        shippingType.value = "fedex_shipping";
+                                                        shipId.value = "";
+                                                        shipmentProvider.value = "";
                                                         e.value.shipping!.fedexShippingOption.value = value.toString();
                                                         // e.value.shipping![ii].output!.rateReplyDetails![index].shippingDate = product.operationalDetail!.deliveryDate;
                                                         cartController.shippingTitle =  e.value.shipping!.fedexShippingOption.value;
@@ -861,7 +866,7 @@ class _CheckOutScreenState extends State<CheckOutScreen> {
                                                         print( e.value.shipping!.fedexShippingOption.value.toString());
                                                         print(cartController.shippingTitle.toString());
                                                         print('select value${cartController.shippingPrices.toString()}');
-                                                        print(cartController.shippingPrices.toString());
+                                                        print(cartController. shippingPrices.toString());
                                                         shippingPrice =  product.ratedShipmentDetails![index].totalNetCharge.toString();
                                                         double subtotal = double.parse(cartController.cartModel.subtotal.toString());
                                                         double shipping = double.parse(shippingPrice);
@@ -976,6 +981,9 @@ class _CheckOutScreenState extends State<CheckOutScreen> {
                                               : null,
                                           onChanged: (value) {
                                             setState(() {
+                                              shippingType.value = "icarry_shipping";
+                                              shipId.value =product.methodId.toString();
+                                              shipmentProvider.value =product.carrierModel!.systemName.toString();
                                               e.value.shippingOption.value = value.toString();
                                               e.value.shipping!.fedexShippingOption.value = value.toString();
                                               cartController.shippingTitle =  e.value.shipping!.fedexShippingOption.value;
@@ -997,6 +1005,7 @@ class _CheckOutScreenState extends State<CheckOutScreen> {
                                               e.value.sPrice = product.rate;
 
                                               log("Initial sPrice:$sPrice1");
+                                              log("Initial sPrice:::::::::"+shipmentProvider.value.toString());
                                               sPrice1 = 0.0;
                                               for (var item in cartController
                                                   .cartModel.cart!.carsShowroom!.entries) {
