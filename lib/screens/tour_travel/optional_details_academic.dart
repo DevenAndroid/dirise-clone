@@ -2,6 +2,8 @@ import 'dart:convert';
 import 'package:dirise/Services/services_classification.dart';
 import 'package:dirise/controller/service_controller.dart';
 import 'package:dirise/screens/Consultation%20Sessions/sponsors_screen.dart';
+import 'package:dirise/screens/extendedPrograms/sponsors_academic_screen.dart';
+import 'package:dirise/screens/tour_travel/sponsors_academic_screen.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
@@ -15,15 +17,16 @@ import '../../utils/api_constant.dart';
 import '../../widgets/common_button.dart';
 import '../../widgets/common_colour.dart';
 import '../../widgets/common_textfield.dart';
+import 'eligible_customer_academic.dart';
 
-class OptionalDetailsScreen extends StatefulWidget {
-  const OptionalDetailsScreen({super.key});
+class OptionalDetailsTourAndTravel extends StatefulWidget {
+  const OptionalDetailsTourAndTravel({super.key});
 
   @override
-  State<OptionalDetailsScreen> createState() => _OptionalDetailsScreenState();
+  State<OptionalDetailsTourAndTravel> createState() => _OptionalDetailsTourAndTravelState();
 }
 
-class _OptionalDetailsScreenState extends State<OptionalDetailsScreen> {
+class _OptionalDetailsTourAndTravelState extends State<OptionalDetailsTourAndTravel> {
   final serviceController = Get.put(ServiceController());
   RxBool hide = true.obs;
   RxBool hide1 = true.obs;
@@ -39,7 +42,7 @@ class _OptionalDetailsScreenState extends State<OptionalDetailsScreen> {
   final TextEditingController programDescription = TextEditingController();
   optionalApi() {
     Map<String, dynamic> map = {};
-    map["id"] =  addProductController.idProduct.value.toString();
+    map["id"] = addProductController.idProduct.value.toString();
     map['bookable_product_location'] = locationController.text.trim();
     map['item_type'] = 'product';
     map['host_name'] = hostNameController.text.trim();
@@ -54,8 +57,8 @@ class _OptionalDetailsScreenState extends State<OptionalDetailsScreen> {
       if (response.status == true) {
         showToast(response.message.toString());
 
-        if(formKey1.currentState!.validate()){
-          Get.to(()=> const SponsorsScreen());
+        if (formKey1.currentState!.validate()) {
+          Get.to(() => const SponsorsScreenTourAndTravel());
         }
       }
     });
@@ -144,7 +147,6 @@ class _OptionalDetailsScreenState extends State<OptionalDetailsScreen> {
                     }
                     return null;
                   },
-
                 ),
                 CommonTextField(
                   controller: programNameController,
@@ -157,7 +159,6 @@ class _OptionalDetailsScreenState extends State<OptionalDetailsScreen> {
                     }
                     return null;
                   },
-
                 ),
                 CommonTextField(
                   controller: programGoalController,
@@ -214,20 +215,18 @@ class _OptionalDetailsScreenState extends State<OptionalDetailsScreen> {
                     ),
                   ),
                 ),
-
                 const SizedBox(height: 20),
                 CustomOutlineButton(
                   title: 'Done',
                   borderRadius: 11,
                   onPressed: () {
                     optionalApi();
-
                   },
                 ),
                 const SizedBox(height: 20),
                 GestureDetector(
                   onTap: () {
-                    Get.to(()=> const SponsorsScreen());
+                    Get.to(() => const SponsorsScreenTourAndTravel());
                   },
                   child: Container(
                     width: Get.width,

@@ -349,7 +349,8 @@ class _SinglePInternationalshippingdetailsScreenState extends State<SinglePInter
                         }
                         return null; // Return null if validation passes
                       },
-                    )),
+                    )
+                    ),
                     10.spaceX,
                     Expanded(
                         child: CommonTextField(

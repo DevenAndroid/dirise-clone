@@ -11,10 +11,10 @@ import '../model/common_modal.dart';
 import '../repository/repository.dart';
 import '../utils/api_constant.dart';
 import 'Consultation Sessions/date_range_screen.dart';
-import 'Extended programs/extended_date_range_screen.dart';
 import 'Seminars &  Attendable Course/seminars_date_screen.dart';
 import 'Virtual course & Classes Webinars/webinars_date_screen.dart';
 import 'academic programs/date_range_screen.dart';
+import 'extendedPrograms/date_range_screen.dart';
 
 
 class TellUsYourSelfScreen extends StatefulWidget {
@@ -141,7 +141,7 @@ class _TellUsYourSelfScreenState extends State<TellUsYourSelfScreen> {
                     repositories.postApi(url: ApiUrls.giveawayProductAddress, context: context, mapData: map).then((value) {
                       ModelCommonResponse response = ModelCommonResponse.fromJson(jsonDecode(value));
                       if (response.status == true) {
-                        Get.to(()=>const ExtendedDateRange());
+                        Get.to(()=>const ExtendedProgramsScreenDateScreen());
                       }
                     });
                   },
@@ -217,7 +217,7 @@ class _TellUsYourSelfScreenState extends State<TellUsYourSelfScreen> {
                 GestureDetector(
                   onTap: (){
                     Map<String, dynamic> map = {};
-                    map['booking_product_type'] = 'seminar';
+                    map['booking_product_type'] = 'webinar';
                     map['id'] = addProductController.idProduct.value.toString();
                     repositories.postApi(url: ApiUrls.giveawayProductAddress, context: context, mapData: map).then((value) {
                       ModelCommonResponse response = ModelCommonResponse.fromJson(jsonDecode(value));

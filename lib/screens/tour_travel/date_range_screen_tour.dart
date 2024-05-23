@@ -13,7 +13,7 @@ import '../../repository/repository.dart';
 import '../../utils/api_constant.dart';
 import '../../widgets/common_colour.dart';
 import '../../widgets/common_textfield.dart';
-
+import 'dateRangemodel.dart';
 
 class DateRangeScreenTour extends StatefulWidget {
   const DateRangeScreenTour({super.key});
@@ -48,6 +48,7 @@ class _DateRangeScreenTourState extends State<DateRangeScreenTour> {
       });
     }
   }
+
   Future<void> _selectEndDate(BuildContext context) async {
     final DateTime? picked = await showDatePicker(
       context: context,
@@ -63,6 +64,7 @@ class _DateRangeScreenTourState extends State<DateRangeScreenTour> {
       });
     }
   }
+
   bool isChecked = false;
   final addProductController = Get.put(AddProductController());
   final Repositories repositories = Repositories();
@@ -70,7 +72,7 @@ class _DateRangeScreenTourState extends State<DateRangeScreenTour> {
     Map<String, dynamic> map = {};
 
     map["product_type"] = "booking";
-    map["id"] =  addProductController.idProduct.value.toString();
+    map["id"] = addProductController.idProduct.value.toString();
     map["from_date"] = addProductController.formattedStartDate.toString();
     map["to_date"] = formattedStartDate1.toString();
     map["from_location"] = fromController.text.trim().toString();
@@ -80,17 +82,19 @@ class _DateRangeScreenTourState extends State<DateRangeScreenTour> {
 
     repositories.postApi(url: ApiUrls.giveawayProductAddress, context: context, mapData: map).then((value) {
       print('object${value.toString()}');
-      JobResponceModel response = JobResponceModel.fromJson(jsonDecode(value));
+      DateRangeInTravelModel response = DateRangeInTravelModel.fromJson(jsonDecode(value));
       if (response.status == true) {
+        int? id = response.productDetails!.productAvailabilityId?.id;
         showToast(response.message.toString());
-        Get.to(()=> const TimingScreenTour());
+        Get.to(() => TimingScreenTour(id: id,));
         print('value isssss${response.toJson()}');
-      }else{
+      } else {
         showToast(response.message.toString());
       }
     });
   }
- final formKey = GlobalKey<FormState>();
+
+  final formKey = GlobalKey<FormState>();
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -113,24 +117,23 @@ class _DateRangeScreenTourState extends State<DateRangeScreenTour> {
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: [
             Text(
-              'Date'.tr,
+              'Date dddd'.tr,
               style: GoogleFonts.poppins(color: const Color(0xff292F45), fontWeight: FontWeight.w600, fontSize: 20),
             ),
           ],
         ),
       ),
       body: SingleChildScrollView(
-        padding: const EdgeInsets.symmetric(vertical: 20,horizontal: 10),
+        padding: const EdgeInsets.symmetric(vertical: 20, horizontal: 10),
         child: Form(
           key: formKey,
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              Text('Dates range',
-                  style:GoogleFonts.poppins(fontSize:19,fontWeight:FontWeight.w600)),
+              Text('Dates range', style: GoogleFonts.poppins(fontSize: 19, fontWeight: FontWeight.w600)),
               15.spaceY,
               Text('The start date and end date which this service offered',
-                  style:GoogleFonts.poppins(fontSize:15,fontWeight:FontWeight.w400)),
+                  style: GoogleFonts.poppins(fontSize: 15, fontWeight: FontWeight.w400)),
               40.spaceY,
               Row(
                 crossAxisAlignment: CrossAxisAlignment.start,
@@ -141,18 +144,19 @@ class _DateRangeScreenTourState extends State<DateRangeScreenTour> {
                       crossAxisAlignment: CrossAxisAlignment.start,
                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
                       children: [
-                        Text('Start Date: ${formattedStartDate ?? ''}',
-                          style:const TextStyle(
-                              fontSize: 17,
-                              fontWeight: FontWeight.w500
-                          ),),
+                        Text(
+                          'Start Date: ${formattedStartDate ?? ''}',
+                          style: const TextStyle(fontSize: 17, fontWeight: FontWeight.w500),
+                        ),
                         10.spaceY,
                         ElevatedButton(
                           style: ButtonStyle(
-                              backgroundColor: MaterialStateColor.resolveWith((states) => const Color(0xff014E70))
-                          ),
+                              backgroundColor: MaterialStateColor.resolveWith((states) => const Color(0xff014E70))),
                           onPressed: () => _selectStartDate(context),
-                          child: const Text('Select Start Date',style: TextStyle(color: Colors.white),),
+                          child: const Text(
+                            'Select Start Date',
+                            style: TextStyle(color: Colors.white),
+                          ),
                         ),
                       ],
                     ),
@@ -163,18 +167,19 @@ class _DateRangeScreenTourState extends State<DateRangeScreenTour> {
                       crossAxisAlignment: CrossAxisAlignment.start,
                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
                       children: [
-                        Text('End Date: ${formattedStartDate1 ?? ''}',
-                          style:const TextStyle(
-                              fontSize: 17,
-                              fontWeight: FontWeight.w500
-                          ),),
+                        Text(
+                          'End Date: ${formattedStartDate1 ?? ''}',
+                          style: const TextStyle(fontSize: 17, fontWeight: FontWeight.w500),
+                        ),
                         const SizedBox(height: 10),
                         ElevatedButton(
                           style: ButtonStyle(
-                              backgroundColor: MaterialStateColor.resolveWith((states) => const Color(0xff014E70))
-                          ),
+                              backgroundColor: MaterialStateColor.resolveWith((states) => const Color(0xff014E70))),
                           onPressed: () => _selectEndDate(context),
-                          child: const Text('Select End Date',style: TextStyle(color: Colors.white),),
+                          child: const Text(
+                            'Select End Date',
+                            style: TextStyle(color: Colors.white),
+                          ),
                         ),
                       ],
                     ),
@@ -182,11 +187,10 @@ class _DateRangeScreenTourState extends State<DateRangeScreenTour> {
                 ],
               ),
               const SizedBox(height: 40),
-              const Text('Places',
-                style:TextStyle(
-                    fontSize: 17,
-                    fontWeight: FontWeight.w600
-                ),),
+              const Text(
+                'Places',
+                style: TextStyle(fontSize: 17, fontWeight: FontWeight.w600),
+              ),
               30.spaceY,
               Row(
                 crossAxisAlignment: CrossAxisAlignment.start,
@@ -217,17 +221,15 @@ class _DateRangeScreenTourState extends State<DateRangeScreenTour> {
                         }
                         return null;
                       },
-
                     ),
                   ),
                 ],
               ),
               20.spaceY,
-              const Text('Extra Notes',
-                style:TextStyle(
-                    fontSize: 17,
-                    fontWeight: FontWeight.w600
-                ),),
+              const Text(
+                'Extra Notes',
+                style: TextStyle(fontSize: 17, fontWeight: FontWeight.w600),
+              ),
               20.spaceY,
               CommonTextField(
                 controller: notesController,
@@ -239,7 +241,6 @@ class _DateRangeScreenTourState extends State<DateRangeScreenTour> {
                   }
                   return null;
                 },
-
               ),
               30.spaceY,
               Row(
@@ -259,7 +260,7 @@ class _DateRangeScreenTourState extends State<DateRangeScreenTour> {
                   ),
                   20.spaceX,
                   Expanded(
-                    child:  CommonTextField(
+                    child: CommonTextField(
                       controller: toController,
                       obSecure: false,
                       hintText: 'Location'.tr,
@@ -269,7 +270,6 @@ class _DateRangeScreenTourState extends State<DateRangeScreenTour> {
                         }
                         return null;
                       },
-
                     ),
                   ),
                   20.spaceX,
@@ -295,20 +295,19 @@ class _DateRangeScreenTourState extends State<DateRangeScreenTour> {
                             ),
                             child: isChecked
                                 ? const Icon(
-                              Icons.check,
-                              size: 15,
-                              color: AppTheme.buttonColor,
-                            )
+                                    Icons.check,
+                                    size: 15,
+                                    color: AppTheme.buttonColor,
+                                  )
                                 : null,
                           ),
                         ),
                         20.spaceX,
                         const Expanded(
-                          child: Text('Same as above',
-                            style:TextStyle(
-                                fontSize: 17,
-                                fontWeight: FontWeight.w400
-                            ),),
+                          child: Text(
+                            'Same as above',
+                            style: TextStyle(fontSize: 17, fontWeight: FontWeight.w400),
+                          ),
                         ),
                       ],
                     ),
@@ -316,11 +315,10 @@ class _DateRangeScreenTourState extends State<DateRangeScreenTour> {
                 ],
               ),
               30.spaceY,
-              const Text('Extra Notes',
-                style:TextStyle(
-                    fontSize: 17,
-                    fontWeight: FontWeight.w600
-                ),),
+              const Text(
+                'Extra Notes',
+                style: TextStyle(fontSize: 17, fontWeight: FontWeight.w600),
+              ),
               20.spaceY,
               CommonTextField(
                 controller: extraController,
@@ -332,7 +330,6 @@ class _DateRangeScreenTourState extends State<DateRangeScreenTour> {
                   }
                   return null;
                 },
-
               ),
               30.spaceY,
               // const Align(
@@ -348,8 +345,8 @@ class _DateRangeScreenTourState extends State<DateRangeScreenTour> {
               // ),
               // 20.spaceY,
               InkWell(
-                onTap: (){
-                  if(formKey.currentState!.validate()) {
+                onTap: () {
+                  if (formKey.currentState!.validate()) {
                     updateProfile();
                   }
                 },
@@ -357,10 +354,9 @@ class _DateRangeScreenTourState extends State<DateRangeScreenTour> {
                   width: Get.width,
                   height: 50,
                   decoration: BoxDecoration(
-                    color: const Color(0xffF5F2F2),
-                    borderRadius: BorderRadius.circular(2),
-                    border: Border.all(color: AppTheme.buttonColor)
-                  ),
+                      color: const Color(0xffF5F2F2),
+                      borderRadius: BorderRadius.circular(2),
+                      border: Border.all(color: AppTheme.buttonColor)),
                   padding: const EdgeInsets.all(10), // Padding inside the container
                   child: const Center(
                     child: Text(
@@ -376,9 +372,9 @@ class _DateRangeScreenTourState extends State<DateRangeScreenTour> {
               ),
               20.spaceY,
               InkWell(
-                onTap: (){
+                onTap: () {
                   // updateProfile();
-                  Get.to(()=> const TimingScreenTour());
+                  Get.to(() =>  TimingScreenTour());
                 },
                 child: Container(
                   width: Get.width,

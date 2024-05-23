@@ -1,5 +1,6 @@
 import 'dart:convert';
 
+import 'package:dirise/screens/academic%20programs/sponsors_academic_screen.dart';
 import 'package:dirise/utils/helper.dart';
 import 'package:dirise/widgets/common_textfield.dart';
 import 'package:flutter/material.dart';
@@ -11,17 +12,17 @@ import '../../model/vendor_models/add_product_model.dart';
 import '../../repository/repository.dart';
 import '../../utils/api_constant.dart';
 import '../../widgets/common_colour.dart';
-import 'optional_details.dart';
+import 'optional_details_academic.dart';
 
 
-class DurationScreen extends StatefulWidget {
-  const  DurationScreen({super.key});
+class AcademicDurationScreen extends StatefulWidget {
+  const  AcademicDurationScreen({super.key});
 
   @override
-  State<DurationScreen> createState() => _DurationScreenState();
+  State<AcademicDurationScreen> createState() => _AcademicDurationScreenState();
 }
 
-class _DurationScreenState extends State<DurationScreen> {
+class _AcademicDurationScreenState extends State<AcademicDurationScreen> {
   String selectedItemDay = 'min';
   TextEditingController timeController = TextEditingController();
   TextEditingController timeControllerPreparation = TextEditingController();
@@ -46,7 +47,7 @@ class _DurationScreenState extends State<DurationScreen> {
       if (response.status == true) {
         addProductController.idProduct.value = response.productDetails!.product!.id.toString();
         print(addProductController.idProduct.value.toString());
-        Get.to(()=>const OptionalDetailsScreen());
+        Get.to(()=>const SponsorsScreenAcademic());
       }
     });
   }
@@ -538,7 +539,7 @@ class _DurationScreenState extends State<DurationScreen> {
               ),
               InkWell(
                 onTap: (){
-                  Get.to(()=>const OptionalDetailsScreen());
+                  Get.to(()=>const SponsorsScreenAcademic());
                 },
                 child: Container(
                   width: Get.width,

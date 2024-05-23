@@ -19,16 +19,17 @@ import '../../widgets/common_button.dart';
 import '../../widgets/common_colour.dart';
 import '../../widgets/common_textfield.dart';
 import '../../widgets/dimension_screen.dart';
+import 'eligible_customer_academic.dart';
 import 'optional_details_academic.dart';
 
-class SponsorsScreenAcademic extends StatefulWidget {
-  const SponsorsScreenAcademic({super.key});
+class SponsorsScreenExtendedPrograms extends StatefulWidget {
+  const SponsorsScreenExtendedPrograms({super.key});
 
   @override
-  State<SponsorsScreenAcademic> createState() => _SponsorsScreenAcademicState();
+  State<SponsorsScreenExtendedPrograms> createState() => _SponsorsScreenExtendedProgramsState();
 }
 
-class _SponsorsScreenAcademicState extends State<SponsorsScreenAcademic> {
+class _SponsorsScreenExtendedProgramsState extends State<SponsorsScreenExtendedPrograms> {
   final formKey1 = GlobalKey<FormState>();
   File idProof = File("");
   List<Map<String, dynamic>> sponsorData = [];
@@ -96,7 +97,7 @@ class _SponsorsScreenAcademicState extends State<SponsorsScreenAcademic> {
       if (response.status == true) {
         showToast(response.message.toString());
         if (formKey1.currentState!.validate()) {
-          Get.to(() => const OptionalDetailsAcademicScreen());
+          Get.to(() => const EligibleCustomersExtendedPrograms());
         }
       }
     });
@@ -304,7 +305,7 @@ class _SponsorsScreenAcademicState extends State<SponsorsScreenAcademic> {
                         const SizedBox(height: 20),
                         GestureDetector(
                           onTap: () {
-                            Get.to(() => const OptionalDetailsAcademicScreen());
+                            Get.to(() => const EligibleCustomersExtendedPrograms());
                           },
                           child: Container(
                             width: Get.width,

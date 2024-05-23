@@ -17,16 +17,16 @@ import '../../utils/api_constant.dart';
 import '../../widgets/common_button.dart';
 import '../../widgets/common_colour.dart';
 import '../../widgets/common_textfield.dart';
-import 'consultation_session_thankyou.dart';
+import '../Consultation Sessions/consultation_session_thankyou.dart';
 
-class ReviewScreen extends StatefulWidget {
-  const ReviewScreen({super.key});
+class ReviewScreenExtendedPrograms extends StatefulWidget {
+  const ReviewScreenExtendedPrograms({super.key});
 
   @override
-  State<ReviewScreen> createState() => _ReviewScreenState();
+  State<ReviewScreenExtendedPrograms> createState() => _ReviewScreenExtendedProgramsState();
 }
 
-class _ReviewScreenState extends State<ReviewScreen> {
+class _ReviewScreenExtendedProgramsState extends State<ReviewScreenExtendedPrograms> {
   String selectedItem = 'Item 1';
   RxBool isServiceProvide = false.obs;
   RxBool isTime = false.obs;
@@ -102,7 +102,7 @@ class _ReviewScreenState extends State<ReviewScreen> {
                     children: [
                       const SizedBox(height: 10),
                       const Text(
-                        'Appointments',
+                        'Academic Programs',
                         style: TextStyle(color: Colors.black, fontSize: 20, fontWeight: FontWeight.w500),
                       ),
                       const SizedBox(height: 10),
@@ -147,7 +147,8 @@ class _ReviewScreenState extends State<ReviewScreen> {
                           mainAxisAlignment: MainAxisAlignment.start,
                           crossAxisAlignment: CrossAxisAlignment.start,
                           children: [
-                            Text('Dates range: ${productDetailsModel.value.productDetails!.product!.productAvailability!.fromDate ?? ""} to ${productDetailsModel.value.productDetails!.product!.productAvailability!.toDate ?? ""}'),
+                            Text(
+                                'Dates range: ${productDetailsModel.value.productDetails!.product!.productAvailability!.fromDate ?? ""} to ${productDetailsModel.value.productDetails!.product!.productAvailability!.toDate ?? ""}'),
                             ListView.builder(
                                 itemCount: productDetailsModel.value.productDetails!.product!.productVacation!.length,
                                 shrinkWrap: true,
@@ -220,54 +221,7 @@ class _ReviewScreenState extends State<ReviewScreen> {
                               }),
                         ),
                       const SizedBox(height: 20),
-                      GestureDetector(
-                        onTap: () {
-                          setState(() {
-                            isDuration.toggle();
-                          });
-                        },
-                        child: Container(
-                          padding: const EdgeInsets.symmetric(vertical: 12, horizontal: 12),
-                          decoration: BoxDecoration(
-                              color: Colors.white,
-                              borderRadius: BorderRadius.circular(8),
-                              border: Border.all(color: AppTheme.secondaryColor)),
-                          child: Row(
-                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                            children: [
-                              Text(
-                                'Duration',
-                                style: GoogleFonts.poppins(
-                                  color: AppTheme.primaryColor,
-                                  fontSize: 15,
-                                ),
-                              ),
-                              GestureDetector(
-                                child: isDuration.value == true
-                                    ? const Icon(Icons.keyboard_arrow_up_rounded)
-                                    : const Icon(Icons.keyboard_arrow_down_outlined),
-                                onTap: () {
-                                  setState(() {
-                                    isDuration.toggle();
-                                  });
-                                },
-                              ),
-                            ],
-                          ),
-                        ),
-                      ),
-                      if (isDuration.value == true)
-                        Column(
-                          mainAxisAlignment: MainAxisAlignment.start,
-                          crossAxisAlignment: CrossAxisAlignment.start,
-                          children: [
 
-                            Text('Service Slot Duration: ${productDetailsModel.value.productDetails!.product!.productAvailability!.interval ?? ""}'),
-                            Text('Preparation Block Time: ${productDetailsModel.value.productDetails!.product!.productAvailability!.preparationBlockTime ?? ""}'),
-                            Text('Recovery Block Time: ${productDetailsModel.value.productDetails!.product!.productAvailability!.recoveryBlockTime ?? ""}'),
-                          ],
-                        ),
-                      const SizedBox(height: 20),
                       GestureDetector(
                         onTap: () {
                           setState(() {
@@ -304,17 +258,20 @@ class _ReviewScreenState extends State<ReviewScreen> {
                           ),
                         ),
                       ),
-                      if(isOperational.value == true)
+                      if (isOperational.value == true)
                         Column(
                           mainAxisAlignment: MainAxisAlignment.start,
                           crossAxisAlignment: CrossAxisAlignment.start,
                           children: [
-
-                            Text('Location: ${productDetailsModel.value.productDetails!.product!.bookable_product_location ?? ""}'),
+                            Text(
+                                'Location: ${productDetailsModel.value.productDetails!.product!.bookable_product_location ?? ""}'),
                             Text('Host name: ${productDetailsModel.value.productDetails!.product!.host_name ?? ""}'),
-                            Text('Program name: ${productDetailsModel.value.productDetails!.product!.program_name ?? ""}'),
-                            Text('Program goal: ${productDetailsModel.value.productDetails!.product!.program_goal ?? ""}'),
-                            Text('Program Description: ${productDetailsModel.value.productDetails!.product!.program_desc ?? ""}'),
+                            Text(
+                                'Program name: ${productDetailsModel.value.productDetails!.product!.program_name ?? ""}'),
+                            Text(
+                                'Program goal: ${productDetailsModel.value.productDetails!.product!.program_goal ?? ""}'),
+                            Text(
+                                'Program Description: ${productDetailsModel.value.productDetails!.product!.program_desc ?? ""}'),
                           ],
                         ),
                       const SizedBox(height: 20),
@@ -354,15 +311,14 @@ class _ReviewScreenState extends State<ReviewScreen> {
                           ),
                         ),
                       ),
-                      if(isSponsors.value == true)
+                      if (isSponsors.value == true)
                         Column(
                           mainAxisAlignment: MainAxisAlignment.start,
                           crossAxisAlignment: CrossAxisAlignment.start,
                           children: [
-
-                            Text('Sponsor type: ${productDetailsModel.value.productDetails!.product!.bookable_product_location ?? ""}'),
+                            Text(
+                                'Sponsor type: ${productDetailsModel.value.productDetails!.product!.bookable_product_location ?? ""}'),
                             Text('Sponsor name: ${productDetailsModel.value.productDetails!.product!.host_name ?? ""}'),
-
                           ],
                         ),
                       const SizedBox(height: 20),
@@ -398,21 +354,19 @@ class _ReviewScreenState extends State<ReviewScreen> {
                                   });
                                 },
                               ),
-
-
                             ],
                           ),
                         ),
                       ),
-
-                      if(eligibleCustomer.value == true)
+                      if (eligibleCustomer.value == true)
                         Column(
                           mainAxisAlignment: MainAxisAlignment.start,
                           crossAxisAlignment: CrossAxisAlignment.start,
                           children: [
-                            Text('Age range: ${productDetailsModel.value.productDetails!.product!.eligible_min_age ?? ""} to  ${productDetailsModel.value.productDetails!.product!.eligible_max_age ?? ""}'),
-                            Text('eligible gender : ${productDetailsModel.value.productDetails!.product!.eligible_gender ?? ""}'),
-
+                            Text(
+                                'Age range: ${productDetailsModel.value.productDetails!.product!.eligible_min_age ?? ""} to  ${productDetailsModel.value.productDetails!.product!.eligible_max_age ?? ""}'),
+                            Text(
+                                'eligible gender : ${productDetailsModel.value.productDetails!.product!.eligible_gender ?? ""}'),
                           ],
                         ),
                       const SizedBox(height: 20),

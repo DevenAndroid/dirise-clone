@@ -16,14 +16,14 @@ import '../utils/api_constant.dart';
 import '../widgets/common_colour.dart';
 import '../widgets/common_textfield.dart';
 
-class SingleProductDiscriptionScreen extends StatefulWidget {
-  const SingleProductDiscriptionScreen({super.key});
+class VirtualDiscriptionScreen extends StatefulWidget {
+  const VirtualDiscriptionScreen({super.key});
 
   @override
-  State<SingleProductDiscriptionScreen> createState() => _SingleProductDiscriptionScreenState();
+  State<VirtualDiscriptionScreen> createState() => _VirtualDiscriptionScreenState();
 }
 
-class _SingleProductDiscriptionScreenState extends State<SingleProductDiscriptionScreen> {
+class _VirtualDiscriptionScreenState extends State<VirtualDiscriptionScreen> {
   final addProductController = Get.put(AddProductController());
   final formKey1 = GlobalKey<FormState>();
   TextEditingController inStockController = TextEditingController();
@@ -49,7 +49,7 @@ class _SingleProductDiscriptionScreenState extends State<SingleProductDiscriptio
       if (response.status == true) {
         // addProductController.idProduct.value = response.productDetails!.product!.id.toString();
         print(addProductController.idProduct.value.toString());
-        Get.to(const SingleProductReturnPolicy());
+        Get.to(const VirtualProductScreen());
       }
     });
   }

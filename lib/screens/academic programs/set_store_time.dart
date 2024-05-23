@@ -14,17 +14,18 @@ import '../../controller/vendor_controllers/add_product_controller.dart';
 import '../../controller/vendor_controllers/vendor_store_timing.dart';
 import '../../widgets/customsize.dart';
 import '../../widgets/loading_animation.dart';
+import '../extendedPrograms/optional_details_academic.dart';
 import 'duration_screen.dart';
 
-class TimeScreen extends StatefulWidget {
-  const TimeScreen({Key? key}) : super(key: key);
+class SetTimeScreenAcademic extends StatefulWidget {
+  const SetTimeScreenAcademic({Key? key}) : super(key: key);
   static var route = "/setTimeScreen";
 
   @override
-  State<TimeScreen> createState() => _TimeScreenState();
+  State<SetTimeScreenAcademic> createState() => _SetTimeScreenAcademicState();
 }
 
-class _TimeScreenState extends State<TimeScreen> {
+class _SetTimeScreenAcademicState extends State<SetTimeScreenAcademic> {
   final Repositories repositories = Repositories();
   final controller = Get.put(VendorStoreTimingController());
 
@@ -41,7 +42,6 @@ class _TimeScreenState extends State<TimeScreen> {
 
   final addProductController = Get.put(AddProductController());
   timeUpdate() {
-
     log('dvszfjhgb');
     Map<String, dynamic> map = {};
 
@@ -67,7 +67,9 @@ class _TimeScreenState extends State<TimeScreen> {
     map["start_break_time"] = start_break_time;
     map["end_break_time"] = end_break_time;
     map["status"] = status;
-    repositories.postApi(url: ApiUrls.productAvailabilityUrl, mapData: map, context: context,showResponse: true).then((value) {
+    repositories
+        .postApi(url: ApiUrls.productAvailabilityUrl, mapData: map, context: context, showResponse: true)
+        .then((value) {
       ModelCommonResponse modelCommonResponse = ModelCommonResponse.fromJson(jsonDecode(value));
 
       showToast(modelCommonResponse.message.toString());
@@ -76,7 +78,7 @@ class _TimeScreenState extends State<TimeScreen> {
 
       if (modelCommonResponse.status == true) {
         log("dfsgsdfg${modelCommonResponse.uRL.toString()}");
-        Get.to(const DurationScreen());
+        Get.to(const OptionalDetailsExtendedPrograms());
       }
     });
   }
