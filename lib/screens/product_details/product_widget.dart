@@ -164,9 +164,9 @@ class _ProductUIState extends State<ProductUI> {
       ModelDirectOrderResponse response = ModelDirectOrderResponse.fromJson(jsonDecode(value));
       showToast(response.message.toString());
       if (response.status == true) {
-        response.quantity = productQuantity.value;
+        response.prodcutData!.inStock = productQuantity.value;
         if (kDebugMode) {
-          print(response.quantity);
+          print(response.prodcutData!.inStock);
         }
         Get.toNamed(DirectCheckOutScreen.route, arguments: response);
       }

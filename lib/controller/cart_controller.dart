@@ -108,7 +108,9 @@ class CartController extends GetxController {
     String? productID,
     String? quantity,
     String? otp,
-    required PurchaseType purchaseType,
+    String? shippingId,
+    String? shipmentProvider,
+    required String purchaseType,
     Map<String, dynamic>? address,
   }) {
     Map<String, dynamic> gg = {
@@ -116,8 +118,9 @@ class CartController extends GetxController {
       if (otp != null) "otp": otp,
       if (productID != null) "product_id": productID,
       if (quantity != null) "quantity": quantity,
-      "type": purchaseType.name,
+      "type": purchaseType,
       "subtotPrice": subTotalPrice,
+      "shipment_provider": shipmentProvider,
       "total": totalPrice,
       "payment_method": paymentMethod,
       "delivery_type": deliveryOption, // delivery or pickup
@@ -130,7 +133,7 @@ class CartController extends GetxController {
       'callback_url': 'https://diriseapp.com/home/$navigationBackUrl',
       'failure_url': 'https://diriseapp.com/home/$failureUrl',
       "shipping": [
-        {"store_id": storeIdShipping!= '' ? storeIdShipping.toString() : '0', "store_name": storeNameShipping.toString(), "title": shippingTitle.toString(), "ship_price": shippingPrices.toString() , "shipping_type_id": shippingList.isNotEmpty ? shippingList.join(',') : '',
+        {"store_id": storeIdShipping!= '' ? storeIdShipping.toString() : '0', "store_name": storeNameShipping.toString(), "title": shippingTitle.toString(), "ship_price": shippingPrices.toString() , "shipping_type_id": shippingId,
         'shipping_date' :  shippingDate.isNotEmpty ? shippingDate.join(',') : ''}
       ],
       "cart_id": ["2"],
@@ -148,7 +151,9 @@ class CartController extends GetxController {
       // ModelCommonResponse response = ModelCommonResponse.fromJson(jsonDecode(value));
       ModelPlaceOrderResponse response = ModelPlaceOrderResponse.fromJson(jsonDecode(value));
       showToast(response.message.toString());
+      print("response"+response.message.toString());
       if (response.status == true) {
+        log("response"+response.message.toString());
         getCart();
         // if(re)
         if (dialogOpened) {
@@ -186,7 +191,7 @@ class CartController extends GetxController {
 
   showOTPDialog({
     required BuildContext context,
-    required PurchaseType purchaseType,
+    required String purchaseType,
     required String subTotalPrice,
     required String totalPrice,
     required String currencyCode,
@@ -483,6 +488,7 @@ class CartController extends GetxController {
     });
   }
   String countryId = '';
+  String zipCode = '';
 
   Future getCart() async {
     // if (cartModel.cart != null) {
@@ -493,8 +499,8 @@ class CartController extends GetxController {
     Map<String, dynamic> map = {};
     map["key"] = 'fedexRate';
     // map["country_id"]= profileController.model.user!= null && countryId.isEmpty ? profileController.model.user!.country_id : countryId.toString();
-    map["country_id"]= '117';
-    map["zip_code"]= '83706';
+    map["country_id"]= countryId.toString();
+    map["zip_code"]= zipCode.toString();
 
     log("mappppppp::::::$map");
     await repositories.postApi(url: ApiUrls.cartListUrl,mapData: map ).then((value) {
