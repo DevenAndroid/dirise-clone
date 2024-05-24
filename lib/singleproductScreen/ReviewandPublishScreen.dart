@@ -5,6 +5,7 @@ import 'package:dirise/addNewProduct/rewardScreen.dart';
 import 'package:dirise/controller/vendor_controllers/add_product_controller.dart';
 import 'package:dirise/singleproductScreen/product_information_screen.dart';
 import 'package:dirise/singleproductScreen/singlePInternationalshippingdetails.dart';
+import 'package:dirise/singleproductScreen/singleProductDiscriptionScreen.dart';
 import 'package:dirise/singleproductScreen/singleProductPriceScreen.dart';
 import 'package:dirise/singleproductScreen/singleproductDeliverySize.dart';
 import 'package:flutter/cupertino.dart';
@@ -43,6 +44,7 @@ class _ReviewandPublishScreenState extends State<ReviewandPublishScreen> {
   RxBool optionalClassification = false.obs;
   RxBool isDeliverySize = false.obs;
   RxBool isShippingPolicy = false.obs;
+  RxBool isDiscrptionPolicy = false.obs;
 
   final Repositories repositories = Repositories();
   RxInt returnPolicyLoaded = 0.obs;
@@ -270,6 +272,87 @@ class _ReviewandPublishScreenState extends State<ReviewandPublishScreen> {
                                         percentage: productDetailsModel.value.productDetails!.product!.discountPrice,
                                         name: '',
                                         fetaureImage: File(''),
+
+
+                                      ));
+                                    },
+                                    child: const Text('Edit',style: TextStyle(color: Colors.red,fontSize: 13),)))
+
+                          ],
+                        ),
+
+                      // tell us
+
+                      GestureDetector(
+                        onTap: () {
+                          setState(() {
+                            isDiscrptionPolicy.toggle();
+                          });
+                        },
+                        child: Container(
+                          padding: const EdgeInsets.symmetric(vertical: 12, horizontal: 12),
+                          decoration: BoxDecoration(
+                              color: Colors.white,
+                              borderRadius: BorderRadius.circular(8),
+                              border: Border.all(color: AppTheme.secondaryColor)),
+                          child: Row(
+                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                            children: [
+                              Text(
+                                'Description',
+                                style: GoogleFonts.poppins(
+                                  color: AppTheme.primaryColor,
+                                  fontSize: 15,
+                                ),
+                              ),
+                              GestureDetector(
+                                child: isDiscrptionPolicy.value == true
+                                    ? const Icon(Icons.keyboard_arrow_up_rounded)
+                                    : const Icon(Icons.keyboard_arrow_down_outlined),
+                                onTap: () {
+                                  setState(() {
+                                    isDiscrptionPolicy.toggle();
+                                  });
+                                },
+                              ),
+                            ],
+                          ),
+                        ),
+                      ),
+                      const SizedBox(height: 20),
+                      if (isDiscrptionPolicy.value == true)
+                        Stack(
+                          children: [
+                            Container(
+                              width: Get.width,
+                              padding: EdgeInsets.all(10),
+                              decoration: BoxDecoration(
+                                  color: Colors.grey.shade200
+                              ),
+                              child: Column(
+                                mainAxisAlignment: MainAxisAlignment.start,
+                                crossAxisAlignment: CrossAxisAlignment.start,
+                                children: [
+                                  Text('Short Description: ${productDetailsModel.value.productDetails!.product!.shortDescription ?? ""} KWD'),
+                                  Text('Stock/spot quantity : ${productDetailsModel.value.productDetails!.product!.inStock ?? ""} KWD'),
+                                  Text('Set stock/spot alert: ${productDetailsModel.value.productDetails!.product!.stockAlert ?? ''}'),
+                                  Text('SEO Tags: ${productDetailsModel.value.productDetails!.product!.seoTags ?? ''}'),
+                                ],
+                              ),
+
+                            ),
+                            Positioned(
+                                right: 10,
+                                top: 20,
+                                child: GestureDetector(
+                                    onTap: (){
+                                      Get.to(SingleProductDiscriptionScreen(
+                                        id: productDetailsModel.value.productDetails!.product!.id,
+                                        description: productDetailsModel.value.productDetails!.product!.shortDescription,
+                                        stockquantity: productDetailsModel.value.productDetails!.product!.inStock,
+                                        setstock: productDetailsModel.value.productDetails!.product!.stockAlert,
+                                        sEOTags:  productDetailsModel.value.productDetails!.product!.seoTags,
+
 
 
                                       ));

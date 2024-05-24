@@ -91,7 +91,7 @@ class _SingleProductPriceScreenState extends State<SingleProductPriceScreen> {
         if (widget.id != null) {
           Get.to(const ReviewandPublishScreen());
         } else {
-          Get.to(const SingleProductDiscriptionScreen());
+          Get.to( SingleProductDiscriptionScreen());
         }
       }
     });
