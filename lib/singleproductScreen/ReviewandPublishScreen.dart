@@ -419,6 +419,106 @@ class _ReviewandPublishScreenState extends State<ReviewandPublishScreen> {
                                 })
                             : const CircularProgressIndicator(),
 
+                      GestureDetector(
+                        onTap: () {
+                          setState(() {
+                            isLocationPolicy.toggle();
+                          });
+                        },
+                        child: Container(
+                          padding: const EdgeInsets.symmetric(vertical: 12, horizontal: 12),
+                          decoration: BoxDecoration(
+                              color: Colors.white,
+                              borderRadius: BorderRadius.circular(8),
+                              border: Border.all(color: AppTheme.secondaryColor)),
+                          child: Row(
+                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                            children: [
+                              Text(
+                                'Location where customer will join ',
+                                style: GoogleFonts.poppins(
+                                  color: AppTheme.primaryColor,
+                                  fontSize: 15,
+                                ),
+                              ),
+                              GestureDetector(
+                                child: isReturnPolicy.value == true
+                                    ? const Icon(Icons.keyboard_arrow_up_rounded)
+                                    : const Icon(Icons.keyboard_arrow_down_outlined),
+                                onTap: () {
+                                  setState(() {
+                                    isReturnPolicy.toggle();
+                                  });
+                                },
+                              ),
+                            ],
+                          ),
+                        ),
+                      ),
+                      if (isLocationPolicy.value == true)
+                        Column(
+                          mainAxisAlignment: MainAxisAlignment.start,
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
+                            Text('Town: ${productDetailsModel.value.productDetails!.address!.town ?? ""}'),
+                            Text('city: ${productDetailsModel.value.productDetails!.address!.city ?? ""}'),
+                            Text('state: ${productDetailsModel.value.productDetails!.address!.state ?? ""}'),
+                            Text('address: ${productDetailsModel.value.productDetails!.address!.address ?? ""}'),
+                            Text('zip code: ${productDetailsModel.value.productDetails!.address!.zipCode ?? ""}'),
+                          ],
+                        ),
+
+                      const SizedBox(height: 20),
+
+                      GestureDetector(
+                        onTap: () {
+                          setState(() {
+                            isShippingPolicy.toggle();
+                          });
+                        },
+                        child: Container(
+                          padding: const EdgeInsets.symmetric(vertical: 12, horizontal: 12),
+                          decoration: BoxDecoration(
+                              color: Colors.white,
+                              borderRadius: BorderRadius.circular(8),
+                              border: Border.all(color: AppTheme.secondaryColor)),
+                          child: Row(
+                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                            children: [
+                              Text(
+                                'Location where customer will join ',
+                                style: GoogleFonts.poppins(
+                                  color: AppTheme.primaryColor,
+                                  fontSize: 15,
+                                ),
+                              ),
+                              GestureDetector(
+                                child: isShippingPolicy.value == true
+                                    ? const Icon(Icons.keyboard_arrow_up_rounded)
+                                    : const Icon(Icons.keyboard_arrow_down_outlined),
+                                onTap: () {
+                                  setState(() {
+                                    isShippingPolicy.toggle();
+                                  });
+                                },
+                              ),
+                            ],
+                          ),
+                        ),
+                      ),
+                      if (isShippingPolicy.value == true)
+                        Column(
+                          mainAxisAlignment: MainAxisAlignment.start,
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
+                            Text('Town: ${productDetailsModel.value.productDetails!.address!.town ?? ""}'),
+                            Text('city: ${productDetailsModel.value.productDetails!.address!.city ?? ""}'),
+                            Text('state: ${productDetailsModel.value.productDetails!.address!.state ?? ""}'),
+                            Text('address: ${productDetailsModel.value.productDetails!.address!.address ?? ""}'),
+                            Text('zip code: ${productDetailsModel.value.productDetails!.address!.zipCode ?? ""}'),
+                          ],
+                        ),
+                      const SizedBox(height: 20),
 
                       GestureDetector(
                         onTap: () {

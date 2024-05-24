@@ -15,6 +15,7 @@ class ApiUrls {
   static const String vendorShippingPolicy = "${baseUrl}vendor-shipping-policy";
   static const String vendorPickUpPolicy = "${baseUrl}vendor-pickup-policy";
   static const String getShippingPolicy = "${baseUrl}shipping-policy";
+  static const String sampleCsvFile = "${baseUrl}sample-csv-file";
   static const String getPickUpPolicy = "${baseUrl}pickup-policy";
   static const String newRegisterUrl = "${baseUrl}register";
   static const String socialMediaUrl = "${baseUrl}social-media";
@@ -39,6 +40,7 @@ class ApiUrls {
   static const String addressListUrl = "${baseUrl}address";
   static const String editAddressUrl = "${baseUrl}edit-address";
   static const String giveawayProductAddress = "${baseUrl}add-vendor-product";
+  static const String addMultipleProduct = "${baseUrl}add-multiple-product";
   static const String placeOrderUrl = "${baseUrl}add-order";
   static const String myOrdersListUrl = "${baseUrl}orders";
   static const String customerDashboardUrl = "${baseUrl}customer-dashboard";

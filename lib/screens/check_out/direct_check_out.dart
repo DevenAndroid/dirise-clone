@@ -372,6 +372,7 @@ RxString shippingType= "".obs;
                               padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 15).copyWith(top: 0),
                               itemBuilder: (context, ii) {
                                 var product = directOrderResponse.shippingType!.icarryShipping![ii];
+
                                 return Obx(() {
                                   return Column(
                                     children: [
@@ -395,11 +396,10 @@ RxString shippingType= "".obs;
                                                 // shippingPrice =directOrderResponse.shippingType!.localShipping!.map((e) {
                                                 //   return e.value.toString();
                                                 // });
-                                                double subtotal =
-                                                double.parse(cartController.cartModel.subtotal.toString());
-                                                double shipping = double.parse(shippingPrice);
+                                                double subtotal = double.parse(directOrderResponse.icarryCommision.toString());
+                                                double shipping = double.parse(product.rate.toString());
                                                 total = subtotal + shipping;
-                                                cartController.formattedTotal = total.toStringAsFixed(3);
+                                                cartController.formattedTotal = total.toString();
                                                 print('total isss${cartController.formattedTotal.toString()}');
                                                 log(directOrderResponse.shippingOption.value);
                                                 log(cartController.shippingId);
@@ -479,8 +479,17 @@ RxString shippingType= "".obs;
     physics: const NeverScrollableScrollPhysics(),
     itemCount: directOrderResponse.shippingType!.fedexShipping!.output!.rateReplyDetails![ii].ratedShipmentDetails!.length,
     itemBuilder: (context, index) {
+      cartController.storeIdShipping = directOrderResponse.prodcutData!.vendorId.toString();
     RateReplyDetails product = directOrderResponse.shippingType!.fedexShipping!.output!.rateReplyDetails![ii];
     RatedShipmentDetails product1 = directOrderResponse.shippingType!.fedexShipping!.output!.rateReplyDetails![ii].ratedShipmentDetails![index];
+    double subtotal = double.parse(directOrderResponse.fedexCommision.toString());
+    double shipping = double.parse(product1.totalNetCharge.toString());
+    total = subtotal + shipping;
+    cartController.formattedTotal = total.toStringAsFixed(3);
+    print("icarryCommision"+directOrderResponse.fedexCommision.toString());
+    print("rate"+product1.totalNetCharge.toString());
+    print('total isss${cartController.formattedTotal.toString()}');
+    cartController.shippingPrices = cartController.formattedTotal.toString();
     return Obx(() {
     return Column(
     children: [
@@ -507,19 +516,23 @@ RxString shippingType= "".obs;
     shippingType.value = "fedex_shipping";
     shipId.value ="";
     shipmentProvider.value ="";
+    cartController.shippingDates=product.commit!.dateDetail!.dayFormat!.toString();
     // e.value.shipping![ii].output!.rateReplyDetails![index].shippingDate = product.operationalDetail!.deliveryDate;
-    cartController.shippingTitle =  directOrderResponse.fedexShippingOption.value;
-    cartController.shippingPrices = product.ratedShipmentDetails![index].totalNetCharge.toString();
+    cartController.shippingTitle = product.serviceName.toString();
+    // cartController.shippingPrices = product.ratedShipmentDetails![index].totalNetCharge.toString();
     directOrderResponse.shippingOption.value = value.toString();
     print( directOrderResponse.fedexShippingOption.value.toString());
     print(cartController.shippingTitle.toString());
     print('select value${cartController.shippingPrices.toString()}');
     print(cartController.shippingPrices.toString());
-    shippingPrice =  product.ratedShipmentDetails![index].totalNetCharge.toString();
-    double subtotal = double.parse(cartController.cartModel.subtotal.toString());
-    double shipping = double.parse(shippingPrice);
+    double subtotal = double.parse(directOrderResponse.fedexCommision.toString());
+    double shipping = double.parse(product1.totalNetCharge.toString());
     total = subtotal + shipping;
-    cartController.formattedTotal = total.toStringAsFixed(3);
+    cartController.formattedTotal2 = total.toStringAsFixed(3);
+    print("icarryCommision"+directOrderResponse.fedexCommision.toString());
+    print("rate"+product1.totalNetCharge.toString());
+    print('total isss${cartController.formattedTotal2.toString()}');
+    cartController.shippingPrices1 = cartController.formattedTotal2.toString();
     // e.value.shippingId.value = product.id.toString();
     // e.value.vendorId.value = e.value.shipping![ii].vendorId!;
     // directOrderResponse.s.value = product.serviceName.toString();
@@ -528,6 +541,7 @@ RxString shippingType= "".obs;
     directOrderResponse.prodcutData!.sPrice = product.ratedShipmentDetails![index].totalNetCharge;
 
     log("Initial sPrice:$sPrice1");
+    log("Initial sPrice"+ cartController.shippingTitle);
     log( product.serviceType.toString());
     sPrice1 = 0.0;
 
@@ -555,7 +569,7 @@ RxString shippingType= "".obs;
     Text(product.serviceName.toString().capitalize!.replaceAll('_', ' '),
     style: GoogleFonts.poppins(fontWeight: FontWeight.w500, fontSize: 16)),
     3.spaceY,
-    Text('kwd ${product1.totalNetCharge.toString()}',
+    Text('kwd ${  cartController.shippingPrices.toString()}',
     style: GoogleFonts.poppins(fontWeight: FontWeight.w400,
     fontSize: 16,
     color: const Color(0xFF03a827))),
@@ -607,7 +621,16 @@ RxString shippingType= "".obs;
     itemCount: directOrderResponse.shippingType!.icarryShipping!.length,
     padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 15).copyWith(top: 0),
     itemBuilder: (context, ii) {
+      cartController.storeIdShipping = directOrderResponse.prodcutData!.vendorId.toString();
     IcarryShipping product = directOrderResponse.shippingType!.icarryShipping![ii];
+    double subtotal = double.parse(directOrderResponse.icarryCommision.toString());
+    double shipping = double.parse(product.rate.toString());
+    total = subtotal + shipping;
+    cartController.formattedTotal = total.toStringAsFixed(3);
+    print("icarryCommision"+directOrderResponse.icarryCommision.toString());
+    print("rate"+product.rate.toString());
+    print('total isss${cartController.formattedTotal.toString()}');
+    cartController.shippingPrices = cartController.formattedTotal.toString();
     return Obx(() {
     return Column(
     children: [
@@ -635,14 +658,31 @@ RxString shippingType= "".obs;
       shipmentProvider.value =product.carrierModel!.systemName.toString();
     directOrderResponse.shippingOption.value = value.toString();
     directOrderResponse.fedexShippingOption.value = value.toString();
-    cartController.shippingTitle =  directOrderResponse.fedexShippingOption.value;
-    cartController.shippingPrices = product.price.toString();
+    cartController.shippingTitle =  product.name.toString();
+      cartController.shippingDates=product.methodName.toString();
+     //  double subtotal = double.parse(directOrderResponse.icarryCommision.toString());
+     //  double shipping = double.parse(product.rate.toString());
+     //  total = subtotal + shipping;
+     //  cartController.formattedTotal = total.toString();
+     //  print("icarryCommision"+directOrderResponse.icarryCommision.toString());
+     //  print("rate"+product.rate.toString());
+     //  print('total isss${cartController.formattedTotal.toString()}');
+     // cartController.shippingPrices = cartController.formattedTotal.toString();
     print( directOrderResponse.fedexShippingOption.value.toString());
     print(cartController.shippingTitle.toString());
     print('select value${cartController.shippingPrices.toString()}');
     print(cartController.shippingPrices.toString());
-    shippingPrice =   product.price.toString();
-    double subtotal = double.parse(cartController.cartModel.subtotal.toString());
+
+      double subtotal = double.parse(directOrderResponse.icarryCommision.toString());
+      double shipping = double.parse(product.rate.toString());
+      total = subtotal + shipping;
+      cartController.formattedTotal2 = total.toStringAsFixed(3);
+      print("icarryCommision"+directOrderResponse.icarryCommision.toString());
+      print("rate"+product.rate.toString());
+      print('total isss${cartController.formattedTotal2.toString()}');
+      cartController.shippingPrices1 = cartController.formattedTotal2.toString();
+    // shippingPrice =   product.price.toString();
+    // double subtotal = double.parse(cartController.cartModel.subtotal.toString());
     // double shipping = double.parse(shippingPrice.toString());
     // total = subtotal + shipping;
     // cartController.formattedTotal = total.toStringAsFixed(3);
@@ -655,6 +695,8 @@ RxString shippingType= "".obs;
 
     log("Initial sPrice:$sPrice1");
     log("Initial sPrice::::::::"+shipId.value.toString());
+    log("Initial sPrice::::::fdsggsgggggggg::"+cartController.shippingDates.toString());
+      log("Initial sPrice:"+  cartController.shippingTitle.toString());
     log("Initial sPrice::"+shipmentProvider.value.toString());
     sPrice1 = 0.0;
       log("kiska price hai :::::::::::::::s+ ${shippingType.value.toString()}");
@@ -684,7 +726,7 @@ RxString shippingType= "".obs;
         .replaceAll('_', ' '),
     style: GoogleFonts.poppins(fontWeight: FontWeight.w500, fontSize: 16)),
     3.spaceY,
-    Text(product.price.toString(),
+    Text( "KWD "+cartController.shippingPrices.toString(),
     style: GoogleFonts.poppins(fontWeight: FontWeight.w400,
     fontSize: 16,
     color: const Color(0xFF03a827))),
@@ -1215,13 +1257,14 @@ RxString shippingType= "".obs;
                 shippingId:  shipId.value.toString(),
                 shipmentProvider: shipmentProvider.value.toString(),
                 // deliveryOption: deliveryOption.value,
+                purchaseType: PurchaseType.buy,
                 deliveryOption: 'delivery',
                 productID: directOrderResponse.prodcutData!.id.toString(),
                 subTotalPrice: directOrderResponse.subtotal.toString(),
                 totalPrice: cartController.formattedTotal.toString(),
                 quantity: directOrderResponse.prodcutData!.inStock.toString(),
-                purchaseType:shippingType.value.toString(),
-                address: selectedAddress.toJson());
+                purchaseType1:shippingType.value.toString(),
+                address: selectedAddress.toJson(), );
           } else {
             showToast('Please Choose Address');
           }
