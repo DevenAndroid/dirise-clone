@@ -2,6 +2,7 @@ import 'dart:convert';
 import 'dart:developer';
 
 import 'package:dirise/addNewProduct/deliverySizeScreen.dart';
+import 'package:dirise/addNewProduct/reviewPublishScreen.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
@@ -28,6 +29,7 @@ class AddProductPickUpAddressScreen extends StatefulWidget {
   final String? country;
   final String? zipcode;
   final String? town;
+  int? id;
 
   AddProductPickUpAddressScreen({
     Key? key,
@@ -37,6 +39,7 @@ class AddProductPickUpAddressScreen extends StatefulWidget {
     this.country,
     this.zipcode,
     this.town,
+    this.id,
   }) : super(key: key);
 
   @override
@@ -89,7 +92,13 @@ class _AddProductPickUpAddressScreenState extends State<AddProductPickUpAddressS
       print('API Response Status Code: ${response.status}');
       showToast(response.message.toString());
       if (response.status == true) {
-        Get.to(DeliverySizeScreen());
+        if(widget.id != null){
+          Get.to(ReviewPublishScreen());
+        }else
+          {
+            Get.to(DeliverySizeScreen());
+          }
+
       }
     });
   }
@@ -98,7 +107,7 @@ class _AddProductPickUpAddressScreenState extends State<AddProductPickUpAddressS
   void initState() {
     // TODO: implement initState
     super.initState();
-    if (widget.street != null) {
+    if (widget.id != null) {
       streetController.text = widget.street!;
       cityController.text = widget.city ?? '';
       stateController.text = widget.state ?? '';

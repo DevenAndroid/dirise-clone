@@ -1,7 +1,12 @@
 import 'dart:convert';
+import 'dart:io';
 
 import 'package:dirise/addNewProduct/rewardScreen.dart';
 import 'package:dirise/controller/vendor_controllers/add_product_controller.dart';
+import 'package:dirise/singleproductScreen/product_information_screen.dart';
+import 'package:dirise/singleproductScreen/singlePInternationalshippingdetails.dart';
+import 'package:dirise/singleproductScreen/singleProductPriceScreen.dart';
+import 'package:dirise/singleproductScreen/singleproductDeliverySize.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
@@ -15,6 +20,8 @@ import '../repository/repository.dart';
 import '../utils/api_constant.dart';
 import '../widgets/common_button.dart';
 import '../widgets/common_colour.dart';
+import 'optionalClassificationScreen.dart';
+import 'optionalDiscrptionsScreen.dart';
 
 class ReviewandPublishScreen extends StatefulWidget {
   const ReviewandPublishScreen({super.key});
@@ -95,19 +102,7 @@ class _ReviewandPublishScreenState extends State<ReviewandPublishScreen> {
             size: 16,
           ),
         ),
-        // actions: [
-        //   Padding(
-        //     padding: const EdgeInsets.only(right: 10),
-        //     child: GestureDetector(
-        //         onTap: () {
-        //           Get.to(RewardScreen());
-        //         },
-        //         child: Text(
-        //           'Skip',
-        //           style: GoogleFonts.poppins(color: Color(0xff0D5877), fontWeight: FontWeight.w400, fontSize: 18),
-        //         )),
-        //   )
-        // ],
+
         titleSpacing: 0,
         title: Row(
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -165,17 +160,40 @@ class _ReviewandPublishScreenState extends State<ReviewandPublishScreen> {
                       ),
 
                       if (isServiceProvide.value == true)
-                        Column(
-                          mainAxisAlignment: MainAxisAlignment.start,
-                          crossAxisAlignment: CrossAxisAlignment.start,
+                        Stack(
                           children: [
-                            Text(
-                                'Short Description: ${productDetailsModel.value.productDetails!.product!.shortDescription ?? ""}'),
-                            Text('Stock quantity: ${productDetailsModel.value.productDetails!.product!.inStock ?? ""}'),
-                            Text(
-                                'Set stock alert: ${productDetailsModel.value.productDetails!.product!.stockAlert ?? ""}'),
-                            Text('SEO Tags: ${productDetailsModel.value.productDetails!.product!.seoTags ?? ""}'),
+                            Container(
+                              width: Get.width,
+                              padding: EdgeInsets.all(10),
+                              decoration: BoxDecoration(
+                                  color: Colors.grey.shade200
+                              ),
+                              child: Column(
+                                mainAxisAlignment: MainAxisAlignment.start,
+                                crossAxisAlignment: CrossAxisAlignment.start,
+                                children: [
+                                  Text(
+                                      'product name: ${productDetailsModel.value.productDetails!.product!.pname ?? ""}'),
+                                  Text(
+                                      'product Type: ${productDetailsModel.value.productDetails!.product!.productType ?? ''}'),
+                                  Text('product ID: ${productDetailsModel.value.productDetails!.product!.id ?? ""}'),
+                                ],
+                              ),
+                            ),
+                            Positioned(
+                                right: 10,
+                                top: 20,
+                                child: GestureDetector(
+                                    onTap: (){
+                                      Get.to(ProductInformationScreens(
+                                        id: productDetailsModel.value.productDetails!.product!.id,
+                                        name: productDetailsModel.value.productDetails!.product!.pname,
+
+                                      ));
+                                    },
+                                    child: const Text('Edit',style: TextStyle(color: Colors.red,fontSize: 13),)))
                           ],
+
                         ),
 
                       const SizedBox(height: 20),
@@ -219,15 +237,45 @@ class _ReviewandPublishScreenState extends State<ReviewandPublishScreen> {
                       ),
                       const SizedBox(height: 20),
                       if (isTellUs.value == true)
-                        Column(
-                          mainAxisAlignment: MainAxisAlignment.start,
-                          crossAxisAlignment: CrossAxisAlignment.start,
+                        Stack(
                           children: [
-                            Text('Price: ${productDetailsModel.value.productDetails!.product!.pPrice ?? ""} KWD'),
-                            Text(
-                                'Fixed Discounted Price : ${productDetailsModel.value.productDetails!.product!.fixedDiscountPrice ?? ""} KWD'),
-                            Text(
-                                'Discount Percentage: ${productDetailsModel.value.productDetails!.product!.discountPrice ?? ''}'),
+                            Container(
+                              width: Get.width,
+                              padding: EdgeInsets.all(10),
+                              decoration: BoxDecoration(
+                                  color: Colors.grey.shade200
+                              ),
+                              child: Column(
+                                mainAxisAlignment: MainAxisAlignment.start,
+                                crossAxisAlignment: CrossAxisAlignment.start,
+                                children: [
+                                  Text('Price: ${productDetailsModel.value.productDetails!.product!.pPrice ?? ""} KWD'),
+                                  Text(
+                                      'Fixed Discounted Price : ${productDetailsModel.value.productDetails!.product!.fixedDiscountPrice ?? ""} KWD'),
+                                  Text(
+                                      'Discount Percentage: ${productDetailsModel.value.productDetails!.product!.discountPrice ?? ''}'),
+                                ],
+                              ),
+
+                            ),
+                            Positioned(
+                                right: 10,
+                                top: 20,
+                                child: GestureDetector(
+                                    onTap: (){
+                                      Get.to(SingleProductPriceScreen(
+                                        id: productDetailsModel.value.productDetails!.product!.id,
+                                        price: productDetailsModel.value.productDetails!.product!.pPrice,
+                                        fixDiscount: productDetailsModel.value.productDetails!.product!.fixedDiscountPrice,
+                                        percentage: productDetailsModel.value.productDetails!.product!.discountPrice,
+                                        name: '',
+                                        fetaureImage: File(''),
+
+
+                                      ));
+                                    },
+                                    child: const Text('Edit',style: TextStyle(color: Colors.red,fontSize: 13),)))
+
                           ],
                         ),
 
@@ -269,18 +317,42 @@ class _ReviewandPublishScreenState extends State<ReviewandPublishScreen> {
                       ),
                       const SizedBox(height: 20),
                       if (isDeliverySize.value == true)
-                        Column(
-                          mainAxisAlignment: MainAxisAlignment.start,
-                          crossAxisAlignment: CrossAxisAlignment.start,
-                          children: [
-                            Text(
-                                'Who will pay the shipping: ${productDetailsModel.value.productDetails!.product!.shippingPay}'),
-                            SizedBox(
-                              height: 5,
-                            ),
-                            Text(
-                                'Choose Delivery According To Package Size : ${productDetailsModel.value.productDetails!.product!.deliverySize}'),
-                          ],
+                        Stack(
+                         children: [
+                           Container(
+                             width: Get.width,
+                             padding: EdgeInsets.all(10),
+                             decoration: BoxDecoration(
+                                 color: Colors.grey.shade200
+                             ),
+                             child: Column(
+                               mainAxisAlignment: MainAxisAlignment.start,
+                               crossAxisAlignment: CrossAxisAlignment.start,
+                               children: [
+                                 Text(
+                                     'Who will pay the shipping: ${productDetailsModel.value.productDetails!.product!.shippingPay}'),
+                                 SizedBox(
+                                   height: 5,
+                                 ),
+                                 Text(
+                                     'Choose Delivery According To Package Size : ${productDetailsModel.value.productDetails!.product!.deliverySize}'),
+                               ],
+                             ),
+                           ),
+                           Positioned(
+                               right: 10,
+                               top: 20,
+                               child: GestureDetector(
+                                   onTap: (){
+                                     Get.to(SingleProductDeliverySize(
+                                       id: productDetailsModel.value.productDetails!.product!.id,
+                                         whowillpay: productDetailsModel.value.productDetails!.product!.shippingPay,
+                                         packagSize :productDetailsModel.value.productDetails!.product!.deliverySize
+                                     )
+                                     );
+                                   },
+                                   child: const Text('Edit',style: TextStyle(color: Colors.red,fontSize: 13),)))
+                         ],
                         ),
 
                       // return policy
@@ -486,23 +558,53 @@ class _ReviewandPublishScreenState extends State<ReviewandPublishScreen> {
                       ),
                       const SizedBox(height: 20),
                       if (isInternationalPolicy.value == true)
-                        Column(
-                          mainAxisAlignment: MainAxisAlignment.start,
-                          crossAxisAlignment: CrossAxisAlignment.start,
+                        Stack(
                           children: [
-                            Text(
-                                'Unit of measure: ${productDetailsModel.value.productDetails!.productDimentions!.units ?? ""}'),
-                            Text(
-                                'Weight Of the Item: ${productDetailsModel.value.productDetails!.productDimentions!.weight ?? ""}'),
-                            Text(
-                                'Select Number Of Packages: ${productDetailsModel.value.productDetails!.productDimentions!.numberOfPackage ?? ""}'),
-                            Text(
-                                'Select Type Material: ${productDetailsModel.value.productDetails!.productDimentions!.material ?? ""}'),
-                            Text(
-                                'Select Type Of Packaging: ${productDetailsModel.value.productDetails!.productDimentions!.typeOfPackages ?? ""}'),
-                            Text('Length X Width X Height: ${productDetailsModel.value.productDetails!.productDimentions!.boxLength ?? ""}X' +
-                                "${productDetailsModel.value.productDetails!.productDimentions!.boxWidth ?? ""}X"
-                                    "${productDetailsModel.value.productDetails!.productDimentions!.boxHeight ?? ""}"),
+                            Container(
+                              width: Get.width,
+                              padding: EdgeInsets.all(10),
+                              decoration: BoxDecoration(
+                                  color: Colors.grey.shade200
+                              ),
+                              child: Column(
+                                mainAxisAlignment: MainAxisAlignment.start,
+                                crossAxisAlignment: CrossAxisAlignment.start,
+                                children: [
+                                  Text(
+                                      'Unit of measure: ${productDetailsModel.value.productDetails!.productDimentions!.units ?? ""}'),
+                                  Text(
+                                      'Weight Of the Item: ${productDetailsModel.value.productDetails!.productDimentions!.weight ?? ""}'),
+                                  Text(
+                                      'Select Number Of Packages: ${productDetailsModel.value.productDetails!.productDimentions!.numberOfPackage ?? ""}'),
+                                  Text(
+                                      'Select Type Material: ${productDetailsModel.value.productDetails!.productDimentions!.material ?? ""}'),
+                                  Text(
+                                      'Select Type Of Packaging: ${productDetailsModel.value.productDetails!.productDimentions!.typeOfPackages ?? ""}'),
+                                  Text('Length X Width X Height: ${productDetailsModel.value.productDetails!.productDimentions!.boxLength ?? ""}X' +
+                                      "${productDetailsModel.value.productDetails!.productDimentions!.boxWidth ?? ""}X"
+                                          "${productDetailsModel.value.productDetails!.productDimentions!.boxHeight ?? ""}"),
+                                ],
+                              ),
+                            ),
+                            Positioned(
+                                right: 10,
+                                top: 20,
+                                child: GestureDetector(
+                                    onTap: (){
+                                      Get.to(SinglePInternationalshippingdetailsScreen(
+                                        id: productDetailsModel.value.productDetails!.product!.id,
+                                        WeightOftheItem: productDetailsModel.value.productDetails!.productDimentions!.weight,
+                                        Unitofmeasure: productDetailsModel.value.productDetails!.productDimentions!.units,
+                                        SelectTypeOfPackaging: productDetailsModel.value.productDetails!.productDimentions!.typeOfPackages,
+                                        SelectTypeMaterial:productDetailsModel.value.productDetails!.productDimentions!.material ,
+                                        SelectNumberOfPackages:productDetailsModel.value.productDetails!.productDimentions!.numberOfPackage ,
+                                        Length: "${productDetailsModel.value.productDetails!.productDimentions!.boxLength}X" ,
+                                        Width : "${productDetailsModel.value.productDetails!.productDimentions!.boxWidth ?? ""}X",
+                                        Height : "${productDetailsModel.value.productDetails!.productDimentions!.boxHeight ?? ""}X",
+                                      )
+                                      );
+                                    },
+                                    child: const Text('Edit',style: TextStyle(color: Colors.red,fontSize: 13),)))
                           ],
                         ),
                       GestureDetector(
@@ -542,15 +644,42 @@ class _ReviewandPublishScreenState extends State<ReviewandPublishScreen> {
                         ),
                       ),
                       if (optionalDescription.value == true)
-                        Column(
-                          mainAxisAlignment: MainAxisAlignment.start,
-                          crossAxisAlignment: CrossAxisAlignment.start,
+                        Stack(
                           children: [
-                            Text('Meta Title: ${productDetailsModel.value.productDetails!.product!.metaTitle ?? ""}'),
-                            Text(
-                                'Meta Description: ${productDetailsModel.value.productDetails!.product!.metaDescription ?? ""}'),
-                            Text('Meta Tags: ${productDetailsModel.value.productDetails!.product!.metaTags ?? ""}'),
-                            Text('Select Tax : ${productDetailsModel.value.productDetails!.product!.taxType ?? ""}'),
+                            Container(
+                              width: Get.width,
+                              padding: EdgeInsets.all(10),
+                              decoration: BoxDecoration(
+                                  color: Colors.grey.shade200
+                              ),
+                              child: Column(
+                                mainAxisAlignment: MainAxisAlignment.start,
+                                crossAxisAlignment: CrossAxisAlignment.start,
+                                children: [
+                                  Text('Meta Title: ${productDetailsModel.value.productDetails!.product!.metaTitle ?? ""}'),
+                                  Text(
+                                      'Meta Description: ${productDetailsModel.value.productDetails!.product!.metaDescription ?? ""}'),
+                                  Text('Meta Tags: ${productDetailsModel.value.productDetails!.product!.metaTags ?? ""}'),
+                                ],
+                              ),
+                            ),
+                            Positioned(
+                                right: 10,
+                                top: 10,
+                                child: GestureDetector(
+                                    onTap: (){
+                                      Get.to(OptionalDiscrptionsScreen(
+
+                                        id: productDetailsModel.value.productDetails!.product!.id ?? "",
+                                        MetaTitle: productDetailsModel.value.productDetails!.product!.metaTitle ?? "",
+                                        MetaDescription: productDetailsModel.value.productDetails!.product!.metaDescription ?? "",
+                                        metaTags: productDetailsModel.value.productDetails!.product!.metaTags ?? "",
+
+                                      ));
+                                    },
+                                    child: const Text('Edit',style: TextStyle(color: Colors.red,fontSize: 13),)
+                                )
+                            )
                           ],
                         ),
                       SizedBox(
@@ -593,21 +722,51 @@ class _ReviewandPublishScreenState extends State<ReviewandPublishScreen> {
                         ),
                       ),
                       if (optionalClassification.value == true)
-                        Column(
-                          mainAxisAlignment: MainAxisAlignment.start,
-                          crossAxisAlignment: CrossAxisAlignment.start,
+                        Stack(
                           children: [
-                            Text(
-                                'Product Code: ${productDetailsModel.value.productDetails!.product!.productCode ?? ""}'),
-                            Text(
-                                'Promotion Code: ${productDetailsModel.value.productDetails!.product!.promotionCode ?? ""}'),
-                            Text(
-                                'Package details: ${productDetailsModel.value.productDetails!.product!.packageDetail ?? ""}'),
-                            Text(
-                                'Serial Number: ${productDetailsModel.value.productDetails!.product!.serialNumber ?? ""}'),
-                            Text(
-                                'Product number: ${productDetailsModel.value.productDetails!.product!.productNumber ?? ""}'),
+                            Container(
+                              width: Get.width,
+                              padding: EdgeInsets.all(10),
+                              decoration: BoxDecoration(
+                                color: Colors.grey.shade200
+                              ),
+                              child: Column(
+                                mainAxisAlignment: MainAxisAlignment.start,
+                                crossAxisAlignment: CrossAxisAlignment.start,
+                                children: [
+                                  Text(
+                                      'Product Code: ${productDetailsModel.value.productDetails!.product!.productCode ?? ""}'),
+                                  Text(
+                                      'Promotion Code: ${productDetailsModel.value.productDetails!.product!.promotionCode ?? ""}'),
+                                  Text(
+                                      'Package details: ${productDetailsModel.value.productDetails!.product!.packageDetail ?? ""}'),
+                                  Text(
+                                      'Serial Number: ${productDetailsModel.value.productDetails!.product!.serialNumber ?? ""}'),
+                                  Text(
+                                      'Product number: ${productDetailsModel.value.productDetails!.product!.productNumber ?? ""}'),
+                                ],
+                              ),
+                            ),
+                            Positioned(
+                                right: 10,
+                                top: 10,
+                                child: GestureDetector(
+                                    onTap: (){
+                                      Get.to(OptionalClassificationScreen(
+
+                                        id: productDetailsModel.value.productDetails!.product!.id ?? "",
+                                        Productnumber: productDetailsModel.value.productDetails!.product!.productNumber ?? "",
+                                        ProductCode: productDetailsModel.value.productDetails!.product!.productCode ?? "",
+                                        PromotionCode: productDetailsModel.value.productDetails!.product!.promotionCode ?? "",
+                                        SerialNumber: productDetailsModel.value.productDetails!.product!.serialNumber ?? "",
+                                        Packagedetails: productDetailsModel.value.productDetails!.product!.packageDetail ?? "",
+                                      ));
+                                    },
+                                    child: const Text('Edit',style: TextStyle(color: Colors.red,fontSize: 13),)
+                                )
+                            )
                           ],
+
                         ),
                       const SizedBox(
                         height: 20,

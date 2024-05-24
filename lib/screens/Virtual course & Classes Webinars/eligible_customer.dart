@@ -223,7 +223,7 @@ class _EligibleCustomersWebinarsState extends State<EligibleCustomersWebinars> {
             const SizedBox(height: 20),
             GestureDetector(
               onTap: () {
-                Get.to(()=> const ReviewScreenSeminars());
+                // Get.to(()=> const ReviewScreenSeminars());
               },
               child: Container(
                 width: Get.width,

@@ -1,6 +1,9 @@
 import 'dart:convert';
 import 'dart:math';
+import 'package:dirise/screens/Consultation%20Sessions/set_store_time.dart';
+import 'package:dirise/screens/academic%20programs/set_store_time.dart';
 import 'package:dirise/utils/helper.dart';
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:google_fonts/google_fonts.dart';
@@ -10,20 +13,21 @@ import '../../model/jobResponceModel.dart';
 import '../../repository/repository.dart';
 import '../../utils/api_constant.dart';
 import '../../widgets/common_colour.dart';
-import 'duration_spots.dart';
+import '../../widgets/common_textfield.dart';
 
 
-class ExtendedDateRange extends StatefulWidget {
-  const ExtendedDateRange({super.key});
+class ExtendedProgramsScreenDateScreen extends StatefulWidget {
+  const ExtendedProgramsScreenDateScreen({super.key});
 
   @override
-  State<ExtendedDateRange> createState() => _ExtendedDateRangeState();
+  State<ExtendedProgramsScreenDateScreen> createState() => _ExtendedProgramsScreenDateScreenState();
 }
 
-class _ExtendedDateRangeState extends State<ExtendedDateRange> {
+class _ExtendedProgramsScreenDateScreenState extends State<ExtendedProgramsScreenDateScreen> {
   DateTime _startDate = DateTime.now();
   DateTime _endDate = DateTime.now();
   final addProductController = Get.put(AddProductController());
+  TextEditingController spotsController =  TextEditingController();
   String? formattedStartDate1;
   RxBool isServiceProvide = false.obs;
 
@@ -107,6 +111,7 @@ class _ExtendedDateRangeState extends State<ExtendedDateRange> {
     Map<String, dynamic> map3 = {};
 
     map["product_type"] = "booking";
+    map["spot"] = spotsController.text.trim();
     map["id"] =  addProductController.idProduct.value.toString();
     map["group"] = addProductController.formattedStartDate  == formattedStartDate1?"date":"range";
     if(addProductController.formattedStartDate  == formattedStartDate1){
@@ -134,15 +139,13 @@ class _ExtendedDateRangeState extends State<ExtendedDateRange> {
       JobResponceModel response = JobResponceModel.fromJson(jsonDecode(value));
       if (response.status == true) {
         showToast(response.message.toString());
-        Get.to(()=> const DurationAndSpots());
+        Get.to(()=> const SetTimeScreenAcademic());
         print('value isssss${response.toJson()}');
       }else{
         showToast(response.message.toString());
       }
     });
   }
-
-
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -245,10 +248,10 @@ class _ExtendedDateRangeState extends State<ExtendedDateRange> {
                       mainAxisAlignment: MainAxisAlignment.start,
                       children: [
                         Text('Start Date: ${formattedStartDateVacation ?? ''}',
-                      style:const TextStyle(
-                          fontSize: 17,
-                          fontWeight: FontWeight.w500
-                      ),),
+                          style:const TextStyle(
+                              fontSize: 17,
+                              fontWeight: FontWeight.w500
+                          ),),
                         10.spaceY,
                         ElevatedButton(
                           style: ButtonStyle(
@@ -267,10 +270,10 @@ class _ExtendedDateRangeState extends State<ExtendedDateRange> {
                       mainAxisAlignment: MainAxisAlignment.start,
                       children: [
                         Text('End Date: ${formattedStartDate1Vacation ?? ''}',
-                      style:const TextStyle(
-                          fontSize: 17,
-                          fontWeight: FontWeight.w500
-                      ),),
+                          style:const TextStyle(
+                              fontSize: 17,
+                              fontWeight: FontWeight.w500
+                          ),),
                         const SizedBox(height: 10),
                         ElevatedButton(
                           style: ButtonStyle(
@@ -317,6 +320,21 @@ class _ExtendedDateRangeState extends State<ExtendedDateRange> {
                 ),
               ),
             ),
+
+       SizedBox(height: 20,),
+            CommonTextField(
+              controller: spotsController,
+              obSecure: false,
+              hintText: 'Spots'.tr,
+              keyboardType: TextInputType.number,
+              validator: (value) {
+                if (value!.trim().isEmpty) {
+                  return "Spots is required".tr;
+                }
+                return null;
+              },
+
+            ),
             if(isServiceProvide.value == true)
               20.spaceY,
             if(isServiceProvide.value == true)
@@ -345,6 +363,7 @@ class _ExtendedDateRangeState extends State<ExtendedDateRange> {
                               child: GestureDetector(
                                   onTap: (){
                                     startDateList.removeAt(index);
+                                    lastDateList.removeAt(index);
                                     setState(() {});
                                     print('object');
                                   },
@@ -358,75 +377,20 @@ class _ExtendedDateRangeState extends State<ExtendedDateRange> {
                   );
                 },
               ),
-            30.spaceY,
-            Text('Programme Overview',
-                style:GoogleFonts.poppins(fontSize:19,fontWeight:FontWeight.w600)),
-            15.spaceY,
-            Text('Edit Active and off days by selection',
-                style:GoogleFonts.poppins(fontSize:15,fontWeight:FontWeight.w400)),
-            40.spaceY,
-            Row(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-              children: [
-                Expanded(
-                    child: Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      mainAxisAlignment: MainAxisAlignment.start,
-                      children: [
-                        Text('Start Date: ${formattedStartDateVacation ?? ''}',
-                          style:const TextStyle(
-                              fontSize: 17,
-                              fontWeight: FontWeight.w500
-                          ),),
-                        10.spaceY,
-                        ElevatedButton(
-                          style: ButtonStyle(
-                              backgroundColor: MaterialStateColor.resolveWith((states) => const Color(0xFF014E70))
-                          ),
-                          onPressed: () => selectStartDateVacation(context),
-                          child: const Text('Select Start Date',style: TextStyle(color: Colors.white),),
-                        ),
-                      ],
-                    )
-                ),
-                const SizedBox(width: 20),
-                Expanded(
-                    child: Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      mainAxisAlignment: MainAxisAlignment.start,
-                      children: [
-                        Text('End Date: ${formattedStartDate1Vacation ?? ''}',
-                          style:const TextStyle(
-                              fontSize: 17,
-                              fontWeight: FontWeight.w500
-                          ),),
-                        const SizedBox(height: 10),
-                        ElevatedButton(
-                          style: ButtonStyle(
-                              backgroundColor: MaterialStateColor.resolveWith((states) => const Color(0xFF014E70))
-                          ),
-                          onPressed: () => selectEndDateVacation(context),
-                          child: const Text('Select End Date',style: TextStyle(color: Colors.white),),
-                        ),
-                      ],
-                    )
-                )
-              ],
-            ),
             const SizedBox(height: 40),
             20.spaceY,
             InkWell(
               onTap: (){
+                // updateProfile();
                 updateProfile();
+                // Get.to(()=> const SetTimeScreenConsultation());
               },
               child: Container(
                 width: Get.width,
                 height: 50,
                 decoration: BoxDecoration(
                   color: const Color(0xffF5F2F2),
-                  borderRadius: BorderRadius.circular(2),
-                  border: Border.all(color: AppTheme.buttonColor)
+                  borderRadius: BorderRadius.circular(2), // Border radius
                 ),
                 padding: const EdgeInsets.all(10), // Padding inside the container
                 child: const Center(
@@ -446,8 +410,7 @@ class _ExtendedDateRangeState extends State<ExtendedDateRange> {
             ),
             InkWell(
               onTap: (){
-                // updateProfile();
-                Get.to(()=> const DurationAndSpots());
+                Get.to(()=> const SetTimeScreenAcademic());
               },
               child: Container(
                 width: Get.width,
@@ -483,7 +446,7 @@ class _ExtendedDateRangeState extends State<ExtendedDateRange> {
             ),
           ],
         ),
-       ),
+      ),
     );
   }
 }
