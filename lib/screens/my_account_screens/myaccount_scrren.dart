@@ -27,6 +27,7 @@ import '../../model/customer_profile/model_country_list.dart';
 import '../../model/customer_profile/model_state_list.dart';
 import '../../model/model_address_list.dart';
 import '../../model/model_user_delete.dart';
+import '../../personalizeyourstore/operatinghourScreen.dart';
 import '../../posts/posts_ui.dart';
 import '../../repository/repository.dart';
 import '../../singleproductScreen/itemdetailsScreen.dart';
@@ -66,13 +67,11 @@ class MyAccountScreen extends StatefulWidget {
 enum SingingCharacter { lafayette, jefferson }
 
 class _MyAccountScreenState extends State<MyAccountScreen> {
-
-
-
   updateLanguage(String gg) async {
     SharedPreferences sharedPreferences = await SharedPreferences.getInstance();
     sharedPreferences.setString("app_language", gg);
   }
+
   Rx<UserDeleteModel> deleteModal = UserDeleteModel().obs;
   checkLanguage() async {
     SharedPreferences sharedPreferences = await SharedPreferences.getInstance();
@@ -80,7 +79,7 @@ class _MyAccountScreenState extends State<MyAccountScreen> {
         sharedPreferences.getString("app_language") == "English") {
       Get.updateLocale(const Locale('en', 'US'));
       profileController.selectedLAnguage.value = "English";
-    } else{
+    } else {
       Get.updateLocale(const Locale('ar', 'Ar'));
       profileController.selectedLAnguage.value = 'عربي';
     }
@@ -102,6 +101,18 @@ class _MyAccountScreenState extends State<MyAccountScreen> {
   final profileController = Get.put(ProfileController());
   final cartController = Get.put(CartController());
   final homeController = Get.put(TrendingProductsController());
+  bool isLoggedIn = false;
+  checkUser() async {
+    SharedPreferences preferences = await SharedPreferences.getInstance();
+    if (preferences.getString('login_user') != null) {
+      isLoggedIn = true;
+    } else {
+      isLoggedIn = false;
+    }
+    if (mounted) {
+      setState(() {});
+    }
+  }
 
   showVendorDialog() {
     if (Platform.isAndroid) {
@@ -130,7 +141,7 @@ class _MyAccountScreenState extends State<MyAccountScreen> {
                             LoginScreen.route,
                           );
                         },
-                        child:  Text(AppStrings.createAccount))
+                        child: Text(AppStrings.createAccount))
                   ],
                 ),
               ),
@@ -157,7 +168,7 @@ class _MyAccountScreenState extends State<MyAccountScreen> {
                         LoginScreen.route,
                       );
                     },
-                    child:  Text("Create Account".tr))
+                    child: Text("Create Account".tr))
               ],
             );
           });
@@ -195,9 +206,7 @@ class _MyAccountScreenState extends State<MyAccountScreen> {
     final map = {'country_id': countryId};
     await repositories.postApi(url: ApiUrls.allStatesUrl, mapData: map).then((value) {
       modelStateList = ModelStateList.fromJson(jsonDecode(value));
-      setState(() {
-
-      });
+      setState(() {});
       stateRefresh.value = DateTime.now().millisecondsSinceEpoch;
     }).catchError((e) {
       stateRefresh.value = DateTime.now().millisecondsSinceEpoch;
@@ -215,21 +224,20 @@ class _MyAccountScreenState extends State<MyAccountScreen> {
     final map = {'state_id': stateId};
     await repositories.postApi(url: ApiUrls.allCityUrl, mapData: map).then((value) {
       modelCityList = ModelCityList.fromJson(jsonDecode(value));
-      setState(() {
-
-      });
+      setState(() {});
       cityRefresh.value = DateTime.now().millisecondsSinceEpoch;
     }).catchError((e) {
       cityRefresh.value = DateTime.now().millisecondsSinceEpoch;
     });
   }
+
   getCountryList() {
     if (modelCountryList != null) return;
     repositories.getApi(url: ApiUrls.allCountriesUrl).then((value) {
       modelCountryList = ModelCountryList.fromString(value);
-
     });
   }
+
   String countryIddd = '';
 
   void registerFcmToken() async {
@@ -240,6 +248,7 @@ class _MyAccountScreenState extends State<MyAccountScreen> {
       Freshchat.setPushRegistrationToken(token!);
     }
   }
+
   String APP_ID = "83a33165-1124-4e35-90f5-947c57f0ada6",
       APP_KEY = "f09bf7f2-bd19-4a81-a5e5-b2cc1f1a621a",
       DOMAIN = "msdk.freshchat.com";
@@ -247,15 +256,18 @@ class _MyAccountScreenState extends State<MyAccountScreen> {
     super.initState();
     checkLanguage();
     getCountryList();
-
+    checkUser();
     getStateList(countryId: countryIddd.toString());
     getCityList(stateId: stateIddd.toString());
-    Freshchat.init(APP_ID, APP_KEY, DOMAIN,
-      teamMemberInfoVisible:true,
-      cameraCaptureEnabled:true,
-      gallerySelectionEnabled:true,
-      responseExpectationEnabled:true,
-      showNotificationBanneriOS:true,
+    Freshchat.init(
+      APP_ID,
+      APP_KEY,
+      DOMAIN,
+      teamMemberInfoVisible: true,
+      cameraCaptureEnabled: true,
+      gallerySelectionEnabled: true,
+      responseExpectationEnabled: true,
+      showNotificationBanneriOS: true,
     );
     /**
      * This is the Firebase push notification server key for this sample app.
@@ -283,8 +295,7 @@ class _MyAccountScreenState extends State<MyAccountScreen> {
 
     if (Platform.isAndroid) {
       registerFcmToken();
-      FirebaseMessaging.instance.onTokenRefresh
-          .listen(Freshchat.setPushRegistrationToken);
+      FirebaseMessaging.instance.onTokenRefresh.listen(Freshchat.setPushRegistrationToken);
 
       Freshchat.setNotificationConfig(notificationInterceptionEnabled: true);
       var notificationInterceptStream = Freshchat.onNotificationIntercept;
@@ -301,6 +312,7 @@ class _MyAccountScreenState extends State<MyAccountScreen> {
       FirebaseMessaging.onBackgroundMessage(myBackgroundMessageHandler);
     }
   }
+
 
   @override
   Widget build(BuildContext context) {
@@ -390,46 +402,52 @@ class _MyAccountScreenState extends State<MyAccountScreen> {
                     padding: const EdgeInsets.symmetric(horizontal: 18),
                     child: Column(children: [
                       16.spaceY,
-                      profileController.userLoggedIn ?   ListTile(
-                        onTap: () {
-                          if (profileController.userLoggedIn) {
-                            Get.toNamed(ProfileScreen.route);
-                          } else {
-                            Get.toNamed(LoginScreen.route);
-                          }
-                        },
-                        dense: true,
-                        minLeadingWidth: 0,
-                        contentPadding: EdgeInsets.zero,
-                        minVerticalPadding: 0,
-                        visualDensity: const VisualDensity(vertical: -4, horizontal: -4),
-                        title: Row(
-                          children: [
-                            Image.asset(height: 25, 'assets/icons/drawerprofile.png'),
-                            const SizedBox(
-                              width: 20,
-                            ),
-                            Expanded(
-                              child: Text(
-                                AppStrings.myProfile.tr,
-                                style: GoogleFonts.poppins(
-                                    color: const Color(0xFF2A3032), fontSize: 16, fontWeight: FontWeight.w500),
+                      profileController.userLoggedIn
+                          ? ListTile(
+                              onTap: () {
+                                if (profileController.userLoggedIn) {
+                                  Get.toNamed(ProfileScreen.route);
+                                } else {
+                                  Get.toNamed(LoginScreen.route);
+                                }
+                              },
+                              dense: true,
+                              minLeadingWidth: 0,
+                              contentPadding: EdgeInsets.zero,
+                              minVerticalPadding: 0,
+                              visualDensity: const VisualDensity(vertical: -4, horizontal: -4),
+                              title: Row(
+                                children: [
+                                  Image.asset(height: 25, 'assets/icons/drawerprofile.png'),
+                                  const SizedBox(
+                                    width: 20,
+                                  ),
+                                  Expanded(
+                                    child: Text(
+                                      AppStrings.myProfile.tr,
+                                      style: GoogleFonts.poppins(
+                                          color: const Color(0xFF2A3032), fontSize: 16, fontWeight: FontWeight.w500),
+                                    ),
+                                  ),
+                                  const Icon(
+                                    Icons.arrow_forward_ios,
+                                    size: 15,
+                                  ),
+                                ],
                               ),
-                            ),
-                            const Icon(
-                              Icons.arrow_forward_ios,
-                              size: 15,
-                            ),
-                          ],
-                        ),
-                      ) :const SizedBox.shrink(),
-                      profileController.userLoggedIn ?   const Divider(
-                        thickness: 1,
-                        color: Color(0x1A000000),
-                      ): const SizedBox.shrink(),
-                      profileController.userLoggedIn ?   const SizedBox(
-                        height: 5,
-                      ) : const SizedBox.shrink(),
+                            )
+                          : const SizedBox.shrink(),
+                      profileController.userLoggedIn
+                          ? const Divider(
+                              thickness: 1,
+                              color: Color(0x1A000000),
+                            )
+                          : const SizedBox.shrink(),
+                      profileController.userLoggedIn
+                          ? const SizedBox(
+                              height: 5,
+                            )
+                          : const SizedBox.shrink(),
                       GestureDetector(
                         behavior: HitTestBehavior.translucent,
                         onTap: () {
@@ -446,7 +464,7 @@ class _MyAccountScreenState extends State<MyAccountScreen> {
                               width: 20,
                             ),
                             Text(
-                            AppStrings.eBooks.tr,
+                              AppStrings.eBooks.tr,
                               style: GoogleFonts.poppins(
                                   color: const Color(0xFF2A3032), fontSize: 16, fontWeight: FontWeight.w500),
                             ),
@@ -542,9 +560,7 @@ class _MyAccountScreenState extends State<MyAccountScreen> {
                       GestureDetector(
                         behavior: HitTestBehavior.translucent,
                         onTap: () {
-                          setState(() {
-
-                          });
+                          setState(() {});
                           Freshchat.showConversations();
                         },
                         child: Row(
@@ -690,14 +706,21 @@ class _MyAccountScreenState extends State<MyAccountScreen> {
                         onTap: () {
                           if (userLoggedIn) {
                             cartController.getAddress();
-                          cartController.addressLoaded == true ?  bottomSheetChangeAddress() : const CircularProgressIndicator();
+                            cartController.addressLoaded == true
+                                ? bottomSheetChangeAddress()
+                                : const CircularProgressIndicator();
                           } else {
                             addAddressWithoutLogin(addressData: cartController.selectedAddress);
                           }
                         },
                         child: Row(
                           children: [
-                          SvgPicture.asset('assets/images/address.svg',height: 24,width: 24,color: Colors.black,),
+                            SvgPicture.asset(
+                              'assets/images/address.svg',
+                              height: 24,
+                              width: 24,
+                              color: Colors.black,
+                            ),
                             //  SvgPicture.asset(height: 24, 'assets/images/referral_email.png'),
                             const SizedBox(
                               width: 20,
@@ -750,7 +773,7 @@ class _MyAccountScreenState extends State<MyAccountScreen> {
                                                     border: Border.all(color: const Color(0xffDCDCDC)),
                                                     borderRadius: BorderRadius.circular(15)),
                                                 child: RadioListTile(
-                                                  title:  Text('English'.tr),
+                                                  title: Text('English'.tr),
                                                   activeColor: const Color(0xff014E70),
                                                   value: "English",
                                                   groupValue: profileController.selectedLAnguage.value,
@@ -771,13 +794,13 @@ class _MyAccountScreenState extends State<MyAccountScreen> {
                                                 decoration: BoxDecoration(
                                                     border: Border.all(color: const Color(0xffDCDCDC)),
                                                     borderRadius: BorderRadius.circular(15)),
-                                                child:    RadioListTile(
-                                                  title:  Text('Arabic'.tr),
+                                                child: RadioListTile(
+                                                  title: Text('Arabic'.tr),
                                                   activeColor: const Color(0xff014E70),
                                                   value: "عربي",
                                                   groupValue: profileController.selectedLAnguage.value,
                                                   onChanged: (value) {
-                                                    locale=const Locale('ar','AR');
+                                                    locale = const Locale('ar', 'AR');
                                                     profileController.selectedLAnguage.value = value!;
                                                     updateLanguage("عربي");
                                                     setState(() {});
@@ -812,11 +835,11 @@ class _MyAccountScreenState extends State<MyAccountScreen> {
                                           InkWell(
                                             onTap: () {
                                               Get.updateLocale(locale);
-                                               Get.back();
+                                              Get.back();
                                             },
                                             child: Center(
                                               child: Padding(
-                                                padding: const EdgeInsets.only(left: 20, right: 20,bottom: 20),
+                                                padding: const EdgeInsets.only(left: 20, right: 20, bottom: 20),
                                                 child: Container(
                                                   height: 56,
                                                   width: MediaQuery.sizeOf(context).width,
@@ -906,11 +929,15 @@ class _MyAccountScreenState extends State<MyAccountScreen> {
                       GestureDetector(
                         behavior: HitTestBehavior.translucent,
                         onTap: () {
-                         Get.to(()=> const ContactUsScreen());
+                          Get.to(() => const ContactUsScreen());
                         },
                         child: Row(
                           children: [
-                          SvgPicture.asset('assets/icons/contactUs.svg',height: 24,width: 24,),
+                            SvgPicture.asset(
+                              'assets/icons/contactUs.svg',
+                              height: 24,
+                              width: 24,
+                            ),
                             //  SvgPicture.asset(height: 24, 'assets/images/referral_email.png'),
                             const SizedBox(
                               width: 20,
@@ -931,7 +958,7 @@ class _MyAccountScreenState extends State<MyAccountScreen> {
                       const SizedBox(
                         height: 5,
                       ),
-                       const Divider(
+                      const Divider(
                         thickness: 1,
                         color: Color(0x1A000000),
                       ),
@@ -1003,85 +1030,87 @@ class _MyAccountScreenState extends State<MyAccountScreen> {
                         thickness: 1,
                         color: Color(0x1A000000),
                       ),
-                      profileController.userLoggedIn ?  ListTile(
-                        onTap: () {
-
-                          showDialog<String>(
-                            context: context,
-                            builder: (BuildContext context) => AlertDialog(
-                              title:  Text('Delete Account'.tr),
-                              content:  Text('Do You Want To Delete Your Account'.tr),
-                              actions: <Widget>[
-                                TextButton(
-                                  onPressed: () => Get.back(),
-                                  child:  Text('Cancel'.tr),
-                                ),
-                                TextButton(
-                                  onPressed: () {
-                                    if (profileController.userLoggedIn) {
-                                      repositories.postApi(url: ApiUrls.deleteUser,context: context).then((value) async {
-                                        deleteModal.value = UserDeleteModel.fromJson(jsonDecode(value));
-                                        if(  deleteModal.value.status == true){
-                                          SharedPreferences shared = await SharedPreferences.getInstance();
-                                          await shared.clear();
-                                          Get.back();
-                                          setState(() {});
-                                          Get.toNamed(LoginScreen.route);
-                                          profileController.userLoggedIn = false;
-                                          profileController.updateUI();
-                                          profileController.getDataProfile();
-                                          cartController.getCart();
-                                          homeController.getAll();
-                                        }
-
-                                      });
-
-
-
-                                    } else {
-                                      showToast("Login first");
-                                      // Get.toNamed(LoginScreen.route);
-                                    }
-                                  },
-                                  child:  Text('OK'.tr),
-                                ),
-                              ],
-                            ),
-                          );
-
-                        },
-                        dense: true,
-                        minLeadingWidth: 0,
-                        contentPadding: EdgeInsets.zero,
-                        minVerticalPadding: 0,
-                        visualDensity: const VisualDensity(vertical: -4, horizontal: -4),
-                        title: Row(
-                          children: [
-                            Image.asset(height: 25, 'assets/icons/drawerprofile.png'),
-                            const SizedBox(
-                              width: 20,
-                            ),
-                            Expanded(
-                              child: Text(
-                                AppStrings.deleteAccount.tr,
-                                style: GoogleFonts.poppins(
-                                    color: const Color(0xFF2A3032), fontSize: 16, fontWeight: FontWeight.w500),
+                      profileController.userLoggedIn
+                          ? ListTile(
+                              onTap: () {
+                                showDialog<String>(
+                                  context: context,
+                                  builder: (BuildContext context) => AlertDialog(
+                                    title: Text('Delete Account'.tr),
+                                    content: Text('Do You Want To Delete Your Account'.tr),
+                                    actions: <Widget>[
+                                      TextButton(
+                                        onPressed: () => Get.back(),
+                                        child: Text('Cancel'.tr),
+                                      ),
+                                      TextButton(
+                                        onPressed: () {
+                                          if (profileController.userLoggedIn) {
+                                            repositories
+                                                .postApi(url: ApiUrls.deleteUser, context: context)
+                                                .then((value) async {
+                                              deleteModal.value = UserDeleteModel.fromJson(jsonDecode(value));
+                                              if (deleteModal.value.status == true) {
+                                                SharedPreferences shared = await SharedPreferences.getInstance();
+                                                await shared.clear();
+                                                Get.back();
+                                                setState(() {});
+                                                Get.toNamed(LoginScreen.route);
+                                                profileController.userLoggedIn = false;
+                                                profileController.updateUI();
+                                                profileController.getDataProfile();
+                                                cartController.getCart();
+                                                homeController.getAll();
+                                              }
+                                            });
+                                          } else {
+                                            showToast("Login first");
+                                            // Get.toNamed(LoginScreen.route);
+                                          }
+                                        },
+                                        child: Text('OK'.tr),
+                                      ),
+                                    ],
+                                  ),
+                                );
+                              },
+                              dense: true,
+                              minLeadingWidth: 0,
+                              contentPadding: EdgeInsets.zero,
+                              minVerticalPadding: 0,
+                              visualDensity: const VisualDensity(vertical: -4, horizontal: -4),
+                              title: Row(
+                                children: [
+                                  Image.asset(height: 25, 'assets/icons/drawerprofile.png'),
+                                  const SizedBox(
+                                    width: 20,
+                                  ),
+                                  Expanded(
+                                    child: Text(
+                                      AppStrings.deleteAccount.tr,
+                                      style: GoogleFonts.poppins(
+                                          color: const Color(0xFF2A3032), fontSize: 16, fontWeight: FontWeight.w500),
+                                    ),
+                                  ),
+                                  const Icon(
+                                    Icons.arrow_forward_ios,
+                                    size: 15,
+                                  ),
+                                ],
                               ),
-                            ),
-                            const Icon(
-                              Icons.arrow_forward_ios,
-                              size: 15,
-                            ),
-                          ],
-                        ),
-                      ) : const SizedBox.shrink(),
-                      profileController.userLoggedIn ?  const SizedBox(
-                        height: 5,
-                      ) : const SizedBox.shrink(),
-                      profileController.userLoggedIn ?  const Divider(
-                        thickness: 1,
-                        color: Color(0x1A000000),
-                      ) : const SizedBox.shrink(),
+                            )
+                          : const SizedBox.shrink(),
+                      profileController.userLoggedIn
+                          ? const SizedBox(
+                              height: 5,
+                            )
+                          : const SizedBox.shrink(),
+                      profileController.userLoggedIn
+                          ? const Divider(
+                              thickness: 1,
+                              color: Color(0x1A000000),
+                            )
+                          : const SizedBox.shrink(),
                       const SizedBox(
                         height: 5,
                       ),
@@ -1092,12 +1121,12 @@ class _MyAccountScreenState extends State<MyAccountScreen> {
                             showDialog<String>(
                               context: context,
                               builder: (BuildContext context) => AlertDialog(
-                                title:  Text('Logout Account'.tr),
-                                content:  Text('Do You Want To Logout Your Account'.tr),
+                                title: Text('Logout Account'.tr),
+                                content: Text('Do You Want To Logout Your Account'.tr),
                                 actions: <Widget>[
                                   TextButton(
                                     onPressed: () => Get.back(),
-                                    child:  Text('Cancel'.tr),
+                                    child: Text('Cancel'.tr),
                                   ),
                                   TextButton(
                                     onPressed: () async {
@@ -1112,13 +1141,12 @@ class _MyAccountScreenState extends State<MyAccountScreen> {
                                         profileController.getDataProfile();
                                         cartController.getCart();
                                         homeController.getAll();
-
                                       } else {
                                         showToast("Login first".tr);
                                         // Get.toNamed(LoginScreen.route);
                                       }
                                     },
-                                    child:  Text('OK'.tr),
+                                    child: Text('OK'.tr),
                                   ),
                                 ],
                               ),
@@ -1159,6 +1187,7 @@ class _MyAccountScreenState extends State<MyAccountScreen> {
       ),
     );
   }
+
   Future bottomSheetChangeAddress() {
     Size size = MediaQuery.of(context).size;
     cartController.getAddress();
@@ -1170,180 +1199,184 @@ class _MyAccountScreenState extends State<MyAccountScreen> {
           return Padding(
             padding: const EdgeInsets.all(20).copyWith(top: 10),
             child: SizedBox(
-              width: size.width,
-              height: size.height * .88,
-              child:
-              // cartController.addressListModel.status == true ?
-              Column(
-                children: [
-                  Row(
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    children: [
-                      Container(
-                        width: 100,
-                        height: 6,
-                        decoration: BoxDecoration(color: Colors.grey.shade400, borderRadius: BorderRadius.circular(100)),
-                      )
-                    ],
-                  ),
-                  const SizedBox(
-                    height: 10,
-                  ),
-                  CommonTextField(
-                    onTap: () {
-                      // bottomSheet();
-                    },
-                    obSecure: false,
-                    hintText: '+ Add Address',
-                  ),
-                  Expanded(
-                    child: Obx(() {
-                      if (cartController.refreshInt11.value > 0) {}
-                      List<AddressData> shippingAddress = cartController.addressListModel.address!.shipping ?? [];
-                      return CustomScrollView(
-                        shrinkWrap: true,
-                        slivers: [
-                          SliverToBoxAdapter(
-                            child: Row(
-                              children: [
-                                Expanded(
-                                  child: Text(
-                                    "Shipping Address",
-                                    style: GoogleFonts.poppins(fontWeight: FontWeight.w500, fontSize: 16),
-                                  ),
-                                ),
-                                TextButton.icon(
-                                    onPressed: () {
-                                      bottomSheet(addressData: AddressData());
-                                    },
-                                    style: TextButton.styleFrom(padding: EdgeInsets.zero),
-                                    icon: const Icon(
-                                      Icons.add,
-                                      size: 20,
+                width: size.width,
+                height: size.height * .88,
+                child:
+                    // cartController.addressListModel.status == true ?
+                    Column(
+                  children: [
+                    Row(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: [
+                        Container(
+                          width: 100,
+                          height: 6,
+                          decoration:
+                              BoxDecoration(color: Colors.grey.shade400, borderRadius: BorderRadius.circular(100)),
+                        )
+                      ],
+                    ),
+                    const SizedBox(
+                      height: 10,
+                    ),
+                    CommonTextField(
+                      onTap: () {
+                        // bottomSheet();
+                      },
+                      obSecure: false,
+                      hintText: '+ Add Address',
+                    ),
+                    Expanded(
+                      child: Obx(() {
+                        if (cartController.refreshInt11.value > 0) {}
+                        List<AddressData> shippingAddress = cartController.addressListModel.address!.shipping ?? [];
+                        return CustomScrollView(
+                          shrinkWrap: true,
+                          slivers: [
+                            SliverToBoxAdapter(
+                              child: Row(
+                                children: [
+                                  Expanded(
+                                    child: Text(
+                                      "Shipping Address",
+                                      style: GoogleFonts.poppins(fontWeight: FontWeight.w500, fontSize: 16),
                                     ),
-                                    label: Text(
-                                      "Add New",
-                                      style: GoogleFonts.poppins(fontSize: 15),
-                                    ))
-                              ],
+                                  ),
+                                  TextButton.icon(
+                                      onPressed: () {
+                                        bottomSheet(addressData: AddressData());
+                                      },
+                                      style: TextButton.styleFrom(padding: EdgeInsets.zero),
+                                      icon: const Icon(
+                                        Icons.add,
+                                        size: 20,
+                                      ),
+                                      label: Text(
+                                        "Add New",
+                                        style: GoogleFonts.poppins(fontSize: 15),
+                                      ))
+                                ],
+                              ),
                             ),
-                          ),
-                          const SliverPadding(padding: EdgeInsets.only(top: 4)),
-                          shippingAddress.isNotEmpty
-                              ? SliverList(
-                              delegate: SliverChildBuilderDelegate(
-                                childCount: shippingAddress.length,
+                            const SliverPadding(padding: EdgeInsets.only(top: 4)),
+                            shippingAddress.isNotEmpty
+                                ? SliverList(
+                                    delegate: SliverChildBuilderDelegate(
+                                    childCount: shippingAddress.length,
                                     (context, index) {
-                                  final address = shippingAddress[index];
-                                  return GestureDetector(
-                                    behavior: HitTestBehavior.translucent,
-                                    onTap: () {
-                                      cartController.selectedAddress = address;
-                                      Get.back();
-                                      setState(() {});
-                                    },
-                                    child: Container(
-                                      width: size.width,
-                                      margin: const EdgeInsets.only(bottom: 15),
-                                      padding: const EdgeInsets.all(15),
-                                      decoration: BoxDecoration(
-                                          borderRadius: BorderRadius.circular(10),
-                                          border: Border.all(color: const Color(0xffDCDCDC))),
-                                      child: IntrinsicHeight(
-                                        child: Row(
-                                          crossAxisAlignment: CrossAxisAlignment.start,
-                                          children: [
-                                            const Icon(Icons.location_on_rounded),
-                                            const SizedBox(
-                                              width: 10,
-                                            ),
-                                            Expanded(
-                                              child: Text(
-                                                address.getCompleteAddressInFormat,
-                                                style: GoogleFonts.poppins(
-                                                    fontWeight: FontWeight.w500,
-                                                    fontSize: 15,
-                                                    color: const Color(0xff585858)),
-                                              ),
-                                            ),
-                                            Column(
+                                      final address = shippingAddress[index];
+                                      return GestureDetector(
+                                        behavior: HitTestBehavior.translucent,
+                                        onTap: () {
+                                          cartController.selectedAddress = address;
+                                          Get.back();
+                                          setState(() {});
+                                        },
+                                        child: Container(
+                                          width: size.width,
+                                          margin: const EdgeInsets.only(bottom: 15),
+                                          padding: const EdgeInsets.all(15),
+                                          decoration: BoxDecoration(
+                                              borderRadius: BorderRadius.circular(10),
+                                              border: Border.all(color: const Color(0xffDCDCDC))),
+                                          child: IntrinsicHeight(
+                                            child: Row(
+                                              crossAxisAlignment: CrossAxisAlignment.start,
                                               children: [
-                                                Flexible(
-                                                  child: IconButton(
-                                                      onPressed: () {
-                                                        cartController
-                                                            .deleteAddress(
-                                                          context: context,
-                                                          id: address.id.toString(),
-                                                        )
-                                                            .then((value) {
-                                                          if (value == true) {
-                                                            cartController.addressListModel.address!.shipping!.removeWhere(
-                                                                    (element) =>
-                                                                element.id.toString() == address.id.toString());
-                                                            cartController.updateUI();
-                                                          }
-                                                        });
-                                                      },
-                                                      icon: const Icon(Icons.delete)),
+                                                const Icon(Icons.location_on_rounded),
+                                                const SizedBox(
+                                                  width: 10,
                                                 ),
-                                                InkWell(
-                                                  onTap: () {
-                                                    bottomSheet(addressData: address);
-                                                  },
+                                                Expanded(
                                                   child: Text(
-                                                    'Edit',
+                                                    address.getCompleteAddressInFormat,
                                                     style: GoogleFonts.poppins(
-                                                        shadows: [
-                                                          const Shadow(color: Color(0xff014E70), offset: Offset(0, -4))
-                                                        ],
-                                                        color: Colors.transparent,
-                                                        fontSize: 16,
                                                         fontWeight: FontWeight.w500,
-                                                        decoration: TextDecoration.underline,
-                                                        decorationColor: const Color(0xff014E70)),
+                                                        fontSize: 15,
+                                                        color: const Color(0xff585858)),
                                                   ),
                                                 ),
+                                                Column(
+                                                  children: [
+                                                    Flexible(
+                                                      child: IconButton(
+                                                          onPressed: () {
+                                                            cartController
+                                                                .deleteAddress(
+                                                              context: context,
+                                                              id: address.id.toString(),
+                                                            )
+                                                                .then((value) {
+                                                              if (value == true) {
+                                                                cartController.addressListModel.address!.shipping!
+                                                                    .removeWhere((element) =>
+                                                                        element.id.toString() == address.id.toString());
+                                                                cartController.updateUI();
+                                                              }
+                                                            });
+                                                          },
+                                                          icon: const Icon(Icons.delete)),
+                                                    ),
+                                                    InkWell(
+                                                      onTap: () {
+                                                        bottomSheet(addressData: address);
+                                                      },
+                                                      child: Text(
+                                                        'Edit',
+                                                        style: GoogleFonts.poppins(
+                                                            shadows: [
+                                                              const Shadow(
+                                                                  color: Color(0xff014E70), offset: Offset(0, -4))
+                                                            ],
+                                                            color: Colors.transparent,
+                                                            fontSize: 16,
+                                                            fontWeight: FontWeight.w500,
+                                                            decoration: TextDecoration.underline,
+                                                            decorationColor: const Color(0xff014E70)),
+                                                      ),
+                                                    ),
+                                                  ],
+                                                )
                                               ],
-                                            )
-                                          ],
+                                            ),
+                                          ),
                                         ),
-                                      ),
+                                      );
+                                    },
+                                  ))
+                                : SliverToBoxAdapter(
+                                    child: Text(
+                                      "No Shipping Address Added!",
+                                      textAlign: TextAlign.center,
+                                      style: GoogleFonts.poppins(fontWeight: FontWeight.w500, fontSize: 16),
                                     ),
-                                  );
-                                },
-                              ))
-                              : SliverToBoxAdapter(
-                            child: Text(
-                              "No Shipping Address Added!",
-                              textAlign: TextAlign.center,
-                              style: GoogleFonts.poppins(fontWeight: FontWeight.w500, fontSize: 16),
+                                  ),
+                            SliverToBoxAdapter(
+                              child: SizedBox(
+                                height: MediaQuery.of(context).viewInsets.bottom,
+                              ),
                             ),
-                          ),
-                          SliverToBoxAdapter(
-                            child: SizedBox(
-                              height: MediaQuery.of(context).viewInsets.bottom,
-                            ),
-                          ),
-                        ],
-                      );
-                    }),
-                  ),
-                ],
-              )
-                    // : const LoadingAnimation(),
-            ),
+                          ],
+                        );
+                      }),
+                    ),
+                  ],
+                )
+                // : const LoadingAnimation(),
+                ),
           );
         });
   }
-  Future bottomSheet({required AddressData addressData}) {
 
+  Future bottomSheet({required AddressData addressData}) {
     return showModalBottomSheet(
         context: context,
         isScrollControlled: true,
         backgroundColor: Colors.white,
         builder: (context12) {
-          return EditAddressSheet(addressData: addressData,);
+          return EditAddressSheet(
+            addressData: addressData,
+          );
         });
   }
 
@@ -1353,7 +1386,8 @@ class _MyAccountScreenState extends State<MyAccountScreen> {
     final TextEditingController emailController = TextEditingController(text: addressData.email ?? "");
     final TextEditingController lastNameController = TextEditingController(text: addressData.lastName ?? "");
     final TextEditingController phoneController = TextEditingController(text: addressData.phone ?? "");
-    final TextEditingController alternatePhoneController = TextEditingController(text: addressData.alternatePhone ?? "");
+    final TextEditingController alternatePhoneController =
+        TextEditingController(text: addressData.alternatePhone ?? "");
     final TextEditingController addressController = TextEditingController(text: addressData.address ?? "");
     final TextEditingController address2Controller = TextEditingController(text: addressData.address2 ?? "");
     final TextEditingController cityController = TextEditingController(text: addressData.city ?? "");
@@ -1433,7 +1467,8 @@ class _MyAccountScreenState extends State<MyAccountScreen> {
                       ),
                       Text(
                         'Phone *'.tr,
-                        style: GoogleFonts.poppins(fontWeight: FontWeight.w500, fontSize: 16, color: const Color(0xff585858)),
+                        style: GoogleFonts.poppins(
+                            fontWeight: FontWeight.w500, fontSize: 16, color: const Color(0xff585858)),
                       ),
                       const SizedBox(
                         height: 8,
@@ -1446,10 +1481,7 @@ class _MyAccountScreenState extends State<MyAccountScreen> {
                         cursorColor: Colors.black,
                         textInputAction: TextInputAction.next,
                         dropdownTextStyle: const TextStyle(color: Colors.black),
-                        style: const TextStyle(
-                            color: AppTheme.textColor
-                        ),
-
+                        style: const TextStyle(color: AppTheme.textColor),
                         controller: alternatePhoneController,
                         decoration: const InputDecoration(
                             contentPadding: EdgeInsets.zero,
@@ -1496,7 +1528,8 @@ class _MyAccountScreenState extends State<MyAccountScreen> {
                       ),
                       Text(
                         'Alternate Phone*'.tr,
-                        style: GoogleFonts.poppins(fontWeight: FontWeight.w500, fontSize: 16, color: const Color(0xff585858)),
+                        style: GoogleFonts.poppins(
+                            fontWeight: FontWeight.w500, fontSize: 16, color: const Color(0xff585858)),
                       ),
                       const SizedBox(
                         height: 8,
@@ -1509,9 +1542,7 @@ class _MyAccountScreenState extends State<MyAccountScreen> {
                         cursorColor: Colors.black,
                         textInputAction: TextInputAction.next,
                         dropdownTextStyle: const TextStyle(color: Colors.black),
-                        style: const TextStyle(
-                            color: AppTheme.textColor
-                        ),
+                        style: const TextStyle(color: AppTheme.textColor),
 
                         controller: alternatePhoneController,
                         decoration: const InputDecoration(
@@ -1532,7 +1563,7 @@ class _MyAccountScreenState extends State<MyAccountScreen> {
                           print(code.toString());
                         },
                         onChanged: (phone) {
-                        code = phone.countryISOCode.toString();
+                          code = phone.countryISOCode.toString();
                           print(phone.countryCode);
                           print(code.toString());
                         },
@@ -1585,11 +1616,12 @@ class _MyAccountScreenState extends State<MyAccountScreen> {
                           showAddressSelectorDialog(
                               addressList: modelCountryList!.country!
                                   .map((e) => CommonAddressRelatedClass(
-                                  title: e.name.toString(), addressId: e.id.toString(), flagUrl: e.icon.toString()))
+                                      title: e.name.toString(), addressId: e.id.toString(), flagUrl: e.icon.toString()))
                                   .toList(),
                               selectedAddressIdPicked: (String gg) {
                                 String previous = ((selectedCountry ?? Country()).id ?? "").toString();
-                                selectedCountry = modelCountryList!.country!.firstWhere((element) => element.id.toString() == gg);
+                                selectedCountry =
+                                    modelCountryList!.country!.firstWhere((element) => element.id.toString() == gg);
                                 cartController.countryCode = gg.toString();
                                 cartController.countryName.value = selectedCountry!.name.toString();
                                 print('countrrtr ${cartController.countryName.toString()}');
@@ -1604,7 +1636,8 @@ class _MyAccountScreenState extends State<MyAccountScreen> {
                               },
                               selectedAddressId: ((selectedCountry ?? Country()).id ?? "").toString());
                         },
-                        controller: TextEditingController(text: (selectedCountry ?? Country()).name ?? countryController.text),
+                        controller:
+                            TextEditingController(text: (selectedCountry ?? Country()).name ?? countryController.text),
                         validator: (v) {
                           if (v!.trim().isEmpty) {
                             return "Please select country";
@@ -1615,10 +1648,11 @@ class _MyAccountScreenState extends State<MyAccountScreen> {
                       ...fieldWithName(
                         title: 'State',
                         hintText: 'Select State',
-                        controller: TextEditingController(text: (selectedState ?? CountryState()).stateName ??  stateController.text),
+                        controller: TextEditingController(
+                            text: (selectedState ?? CountryState()).stateName ?? stateController.text),
                         readOnly: true,
                         onTap: () {
-                          if(countryIddd == 'null'){
+                          if (countryIddd == 'null') {
                             showToast("Select Country First");
                             return;
                           }
@@ -1631,12 +1665,19 @@ class _MyAccountScreenState extends State<MyAccountScreen> {
                           }
                           if (modelStateList!.state!.isEmpty) return;
                           showAddressSelectorDialog(
-                              addressList: profileController.selectedLAnguage.value == 'English' ?
-                              modelStateList!.state!.map((e) => CommonAddressRelatedClass(title: e.stateName.toString(), addressId: e.stateId.toString())).toList() :
-                              modelStateList!.state!.map((e) => CommonAddressRelatedClass(title: e.arabStateName.toString(), addressId: e.stateId.toString())).toList(),
+                              addressList: profileController.selectedLAnguage.value == 'English'
+                                  ? modelStateList!.state!
+                                      .map((e) => CommonAddressRelatedClass(
+                                          title: e.stateName.toString(), addressId: e.stateId.toString()))
+                                      .toList()
+                                  : modelStateList!.state!
+                                      .map((e) => CommonAddressRelatedClass(
+                                          title: e.arabStateName.toString(), addressId: e.stateId.toString()))
+                                      .toList(),
                               selectedAddressIdPicked: (String gg) {
                                 String previous = ((selectedState ?? CountryState()).stateId ?? "").toString();
-                                selectedState = modelStateList!.state!.firstWhere((element) => element.stateId.toString() == gg);
+                                selectedState =
+                                    modelStateList!.state!.firstWhere((element) => element.stateId.toString() == gg);
                                 cartController.stateCode = gg.toString();
                                 cartController.stateName.value = selectedState!.stateName.toString();
                                 print('state ${cartController.stateCode.toString()}');
@@ -1665,70 +1706,79 @@ class _MyAccountScreenState extends State<MyAccountScreen> {
                         },
                       ),
                       // if (modelCityList != null && modelCityList!.city!.isNotEmpty)
-                        ...fieldWithName(
-                          readOnly: true,
-                          title: 'City',
-                          hintText: 'Select City',
-                          controller: TextEditingController(text: (selectedCity ?? City()).cityName ?? cityController.text),
-                          onTap: () {
-                            if (modelCityList == null && cityRefresh.value > 0) {
-                              showToast("Select State First");
-                              return;
-                            }
-                            if (cityRefresh.value < 0) {
-                              return;
-                            }
-                            if (modelCityList!.city!.isEmpty) return;
-                            showAddressSelectorDialog(
-                                addressList:  profileController.selectedLAnguage.value == 'English' ? modelCityList!.city!.map((e) => CommonAddressRelatedClass(title: e.cityName.toString(), addressId: e.cityId.toString())).toList() :
-                                modelCityList!.city!.map((e) => CommonAddressRelatedClass(title: e.arabCityName.toString(), addressId: e.cityId.toString())).toList(),
-                                selectedAddressIdPicked: (String gg) {
-                                  selectedCity = modelCityList!.city!.firstWhere((element) => element.cityId.toString() == gg);
-                                  cartController.cityCode = gg.toString();
-                                  cartController.cityName.value = selectedCity!.cityName.toString();
-                                  print('state ${cartController.cityName.toString()}');
-                                  print('state Nameee ${cartController.cityCode.toString()}');
-                                  setState(() {});
-                                },
-                                selectedAddressId: ((selectedCity ?? City()).cityId ?? "").toString());
-                          },
-                          suffixIcon: Obx(() {
-                            if (cityRefresh.value > 0) {
-                              return const Icon(Icons.keyboard_arrow_down_rounded);
-                            }
-                            return const CupertinoActivityIndicator();
-                          }),
-                          validator: (v) {
-                            if (v!.trim().isEmpty) {
-                              return "Please select state";
-                            }
-                            return null;
-                          },
-                        ),
-                      if(cartController.countryName.value != 'Kuwait')
-                      ...commonField(
-                          textController: zipCodeController,
-                          title: "Zip-Code*",
-                          hintText: "Enter location Zip-Code",
-                          keyboardType: TextInputType.number,
-                          validator: (value) {
-                            if (value!.trim().isEmpty) {
-                              return "Please enter Zip-Code*";
-                            }
-                            return null;
-                          }),
-                      if(cartController.countryName.value != 'Kuwait')
-                      ...commonField(
-                          textController: landmarkController,
-                          title: "Landmark",
-                          hintText: "Enter your nearby landmark",
-                          keyboardType: TextInputType.streetAddress,
-                          validator: (value) {
-                            // if(value!.trim().isEmpty){
-                            //   return "Please enter delivery address";
-                            // }
-                            return null;
-                          }),
+                      ...fieldWithName(
+                        readOnly: true,
+                        title: 'City',
+                        hintText: 'Select City',
+                        controller:
+                            TextEditingController(text: (selectedCity ?? City()).cityName ?? cityController.text),
+                        onTap: () {
+                          if (modelCityList == null && cityRefresh.value > 0) {
+                            showToast("Select State First");
+                            return;
+                          }
+                          if (cityRefresh.value < 0) {
+                            return;
+                          }
+                          if (modelCityList!.city!.isEmpty) return;
+                          showAddressSelectorDialog(
+                              addressList: profileController.selectedLAnguage.value == 'English'
+                                  ? modelCityList!.city!
+                                      .map((e) => CommonAddressRelatedClass(
+                                          title: e.cityName.toString(), addressId: e.cityId.toString()))
+                                      .toList()
+                                  : modelCityList!.city!
+                                      .map((e) => CommonAddressRelatedClass(
+                                          title: e.arabCityName.toString(), addressId: e.cityId.toString()))
+                                      .toList(),
+                              selectedAddressIdPicked: (String gg) {
+                                selectedCity =
+                                    modelCityList!.city!.firstWhere((element) => element.cityId.toString() == gg);
+                                cartController.cityCode = gg.toString();
+                                cartController.cityName.value = selectedCity!.cityName.toString();
+                                print('state ${cartController.cityName.toString()}');
+                                print('state Nameee ${cartController.cityCode.toString()}');
+                                setState(() {});
+                              },
+                              selectedAddressId: ((selectedCity ?? City()).cityId ?? "").toString());
+                        },
+                        suffixIcon: Obx(() {
+                          if (cityRefresh.value > 0) {
+                            return const Icon(Icons.keyboard_arrow_down_rounded);
+                          }
+                          return const CupertinoActivityIndicator();
+                        }),
+                        validator: (v) {
+                          if (v!.trim().isEmpty) {
+                            return "Please select state";
+                          }
+                          return null;
+                        },
+                      ),
+                      if (cartController.countryName.value != 'Kuwait')
+                        ...commonField(
+                            textController: zipCodeController,
+                            title: "Zip-Code*",
+                            hintText: "Enter location Zip-Code",
+                            keyboardType: TextInputType.number,
+                            validator: (value) {
+                              if (value!.trim().isEmpty) {
+                                return "Please enter Zip-Code*";
+                              }
+                              return null;
+                            }),
+                      if (cartController.countryName.value != 'Kuwait')
+                        ...commonField(
+                            textController: landmarkController,
+                            title: "Landmark",
+                            hintText: "Enter your nearby landmark",
+                            keyboardType: TextInputType.streetAddress,
+                            validator: (value) {
+                              // if(value!.trim().isEmpty){
+                              //   return "Please enter delivery address";
+                              // }
+                              return null;
+                            }),
                       const SizedBox(
                         height: 16,
                       ),
@@ -1737,22 +1787,21 @@ class _MyAccountScreenState extends State<MyAccountScreen> {
                         onTap: () {
                           if (formKey.currentState!.validate()) {
                             cartController.selectedAddress = AddressData(
-                              id: "",
-                              type: titleController.text.trim(),
-                              firstName: firstNameController.text.trim(),
-                              lastName: lastNameController.text.trim(),
-                              state: stateController.text.trim(),
-                              country: countryController.text.trim(),
-                              city: cityController.text.trim(),
-                              address2: address2Controller.text.trim(),
-                              address: addressController.text.trim(),
-                              alternatePhone: alternatePhoneController.text.trim(),
-                              landmark: landmarkController.text.trim(),
-                              phone: phoneController.text.trim(),
-                              zipCode: zipCodeController.text.trim(),
-                              email: emailController.text.trim(),
-                              phoneCountryCode: profileController.code.toString()
-                            );
+                                id: "",
+                                type: titleController.text.trim(),
+                                firstName: firstNameController.text.trim(),
+                                lastName: lastNameController.text.trim(),
+                                state: stateController.text.trim(),
+                                country: countryController.text.trim(),
+                                city: cityController.text.trim(),
+                                address2: address2Controller.text.trim(),
+                                address: addressController.text.trim(),
+                                alternatePhone: alternatePhoneController.text.trim(),
+                                landmark: landmarkController.text.trim(),
+                                phone: phoneController.text.trim(),
+                                zipCode: zipCodeController.text.trim(),
+                                email: emailController.text.trim(),
+                                phoneCountryCode: profileController.code.toString());
                             setState(() {});
                             Get.back();
                             // cartController.updateAddressApi(
@@ -1779,8 +1828,8 @@ class _MyAccountScreenState extends State<MyAccountScreen> {
                           child: Align(
                               alignment: Alignment.center,
                               child: Text("Save",
-                                  style:
-                                  GoogleFonts.poppins(fontWeight: FontWeight.w500, fontSize: 19, color: Colors.white))),
+                                  style: GoogleFonts.poppins(
+                                      fontWeight: FontWeight.w500, fontSize: 19, color: Colors.white))),
                         ),
                       ),
                       SizedBox(height: MediaQuery.of(context).viewInsets.bottom),
@@ -1792,6 +1841,7 @@ class _MyAccountScreenState extends State<MyAccountScreen> {
           );
         });
   }
+
   showAddressSelectorDialog({
     required List<CommonAddressRelatedClass> addressList,
     required String selectedAddressId,
@@ -1809,7 +1859,7 @@ class _MyAccountScreenState extends State<MyAccountScreen> {
               child: StatefulBuilder(builder: (context, newState) {
                 String gg = searchController.text.trim().toLowerCase();
                 List<CommonAddressRelatedClass> filteredList =
-                addressList.where((element) => element.title.toString().toLowerCase().contains(gg)).toList();
+                    addressList.where((element) => element.title.toString().toLowerCase().contains(gg)).toList();
                 return Column(
                   mainAxisSize: MainAxisSize.min,
                   children: [
@@ -1844,29 +1894,29 @@ class _MyAccountScreenState extends State<MyAccountScreen> {
                                 },
                                 leading: filteredList[index].flagUrl != null
                                     ? SizedBox(
-                                    width: 30,
-                                    height: 30,
-                                    child: filteredList[index].flagUrl.toString().contains("svg")
-                                        ? SvgPicture.network(
-                                      filteredList[index].flagUrl.toString(),
-                                    )
-                                        : Image.network(
-                                      filteredList[index].flagUrl.toString(),
-                                      errorBuilder: (_, __, ___) => const SizedBox.shrink(),
-                                    ))
+                                        width: 30,
+                                        height: 30,
+                                        child: filteredList[index].flagUrl.toString().contains("svg")
+                                            ? SvgPicture.network(
+                                                filteredList[index].flagUrl.toString(),
+                                              )
+                                            : Image.network(
+                                                filteredList[index].flagUrl.toString(),
+                                                errorBuilder: (_, __, ___) => const SizedBox.shrink(),
+                                              ))
                                     : null,
                                 visualDensity: VisualDensity.compact,
                                 title: Text(filteredList[index].title),
                                 trailing: selectedAddressId == filteredList[index].addressId
                                     ? const Icon(
-                                  Icons.check,
-                                  color: Colors.purple,
-                                )
+                                        Icons.check,
+                                        color: Colors.purple,
+                                      )
                                     : Icon(
-                                  Icons.arrow_forward_ios_rounded,
-                                  size: 18,
-                                  color: Colors.grey.shade800,
-                                ),
+                                        Icons.arrow_forward_ios_rounded,
+                                        size: 18,
+                                        color: Colors.grey.shade800,
+                                      ),
                               );
                             }))
                   ],
@@ -1876,7 +1926,8 @@ class _MyAccountScreenState extends State<MyAccountScreen> {
           );
         });
   }
-List<Widget> vendorPartner() {
+
+  List<Widget> vendorPartner() {
     return [
       ListTile(
         contentPadding: EdgeInsets.zero,
@@ -1886,19 +1937,6 @@ List<Widget> vendorPartner() {
         iconColor: AppTheme.primaryColor,
         minLeadingWidth: 0,
         onTap: () {
-          // if (profileController.model.user == null) {
-          //   showVendorDialog();
-          //   return;
-          // }
-
-
-             Get.to(() => const AddProductOptionScreen());
-
-             return;
-
-            // return;
-
-
           _isValue.value = !_isValue.value;
           setState(() {});
         },
@@ -1945,14 +1983,26 @@ List<Widget> vendorPartner() {
                                       Expanded(
                                         child: TextButton(
                                           onPressed: () {
-                                            if(profileController.model.user!.subscriptionStatus == 'success'){
-                                              // Get.toNamed(vendorRoutes[index]);
-                                              Get.to(()=>const ExtraInformation());
-                                            }else if(vendor[index] == 'Dashboard'){
-                                              Get.to(()=>const ExtraInformation());
-                                             // Get.toNamed( VendorDashBoardScreen.route);
-                                            }else{
-                                               showToast('Your payment is not successfull'.tr);
+                                           if (vendor[index] == 'Dashboard') {
+                                               Get.toNamed( VendorDashBoardScreen.route);
+                                            }
+                                           else if(vendor[index] == 'Order'){
+                                             Get.to(const VendorOrderList());
+                                           }
+                                           else if(vendor[index] == 'Products'){
+                                             Get.to(const AddProductOptionScreen());
+                                           }
+                                           else if(vendor[index] == 'Store open time'){
+                                             Get.to(const OperatingHourScreen());
+                                           }
+                                           else if(vendor[index] == 'Bank Details'){
+                                             Get.to(const BankDetailsScreen());
+                                           }
+                                           else if(vendor[index] == 'Earnings'){
+                                             Get.to(const WithdrawMoney());
+                                           }
+                                           else {
+                                              showToast('Your payment is not successfull'.tr);
                                             }
                                           },
                                           style: TextButton.styleFrom(

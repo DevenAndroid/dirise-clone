@@ -19,22 +19,22 @@ import '../widgets/common_button.dart';
 import '../widgets/common_colour.dart';
 import '../widgets/common_textfield.dart';
 
-class ShippingPolicyScreen extends StatefulWidget {
+class SingleProductShippingPolicyScreen extends StatefulWidget {
   String? policyName;
   int? id;
   String? policydesc;
   String? policyDiscount;
   int? priceLimit;
   String? selectZone;
-  ShippingPolicyScreen(
+  SingleProductShippingPolicyScreen(
       {super.key, this.policyName, this.policydesc, this.policyDiscount, this.priceLimit, this.id, this.selectZone});
   static var route = "/shippingPolicyScreen";
 
   @override
-  State<ShippingPolicyScreen> createState() => _ShippingPolicyScreenState();
+  State<SingleProductShippingPolicyScreen> createState() => _SingleProductShippingPolicyScreenState();
 }
 
-class _ShippingPolicyScreenState extends State<ShippingPolicyScreen> {
+class _SingleProductShippingPolicyScreenState extends State<SingleProductShippingPolicyScreen> {
   TextEditingController policyNameController = TextEditingController();
   TextEditingController policyDescController = TextEditingController();
   TextEditingController policyPriceController = TextEditingController();
@@ -135,7 +135,7 @@ class _ShippingPolicyScreenState extends State<ShippingPolicyScreen> {
       showToast(response.message.toString());
       if (response.status == true) {
         log('ghfkhjsdgsd${selectZone}');
-        Get.to(const ServiceInternationalShippingService());
+        Get.to( SinglePInternationalshippingdetailsScreen());
       }
     });
   }
@@ -269,108 +269,108 @@ class _ShippingPolicyScreenState extends State<ShippingPolicyScreen> {
               ),
               selectedRadio == "free_shipping"
                   ? Column(
-                      children: [
-                        Row(
-                          crossAxisAlignment: CrossAxisAlignment.start,
-                          children: [
-                            const Expanded(
-                              child: CommonTextField(
-                                contentPadding: EdgeInsets.symmetric(horizontal: 20),
-                                readOnly: true,
-                                obSecure: false,
-                                hintText: 'Free for',
-                              ),
-                            ),
-                            const SizedBox(
-                              width: 10,
-                            ),
-                            Expanded(
-                              child: DropdownButtonFormField<String>(
-                                value: selectZone,
-                                onChanged: (String? newValue) {
-                                  setState(() {
-                                    selectZone = newValue!;
-                                  });
-                                },
-                                items: selectZoneList.map<DropdownMenuItem<String>>((String value) {
-                                  return DropdownMenuItem<String>(
-                                    value: value,
-                                    child: Text(
-                                      value,
-                                      style: GoogleFonts.poppins(fontSize: 13),
-                                    ),
-                                  );
-                                }).toList(),
-                                decoration: InputDecoration(
-                                  border: InputBorder.none,
-                                  filled: true,
-                                  fillColor: const Color(0xffE2E2E2).withOpacity(.35),
-                                  contentPadding:
-                                      const EdgeInsets.symmetric(horizontal: 15, vertical: 8).copyWith(right: 3),
-                                  focusedErrorBorder: const OutlineInputBorder(
-                                      borderRadius: BorderRadius.all(Radius.circular(8)),
-                                      borderSide: BorderSide(color: AppTheme.secondaryColor)),
-                                  errorBorder: const OutlineInputBorder(
-                                      borderRadius: BorderRadius.all(Radius.circular(8)),
-                                      borderSide: BorderSide(color: Color(0xffE2E2E2))),
-                                  focusedBorder: const OutlineInputBorder(
-                                      borderRadius: BorderRadius.all(Radius.circular(8)),
-                                      borderSide: BorderSide(color: AppTheme.secondaryColor)),
-                                  disabledBorder: const OutlineInputBorder(
-                                    borderRadius: BorderRadius.all(Radius.circular(8)),
-                                    borderSide: BorderSide(color: AppTheme.secondaryColor),
-                                  ),
-                                  enabledBorder: const OutlineInputBorder(
-                                    borderRadius: BorderRadius.all(Radius.circular(8)),
-                                    borderSide: BorderSide(color: AppTheme.secondaryColor),
-                                  ),
-                                ),
-                                validator: (value) {
-                                  if (value == null || value.isEmpty) {
-                                    return 'Please select an item';
-                                  }
-                                  return null;
-                                },
-                              ),
-                            ),
-                          ],
+                children: [
+                  Row(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      const Expanded(
+                        child: CommonTextField(
+                          contentPadding: EdgeInsets.symmetric(horizontal: 20),
+                          readOnly: true,
+                          obSecure: false,
+                          hintText: 'Free for',
                         ),
-                        Row(
-                          children: [
-                            Expanded(
-                              child: Container(
-                                height: 50,
-                                padding: const EdgeInsets.only(left: 15, top: 12),
-                                decoration: BoxDecoration(
-                                  color: Colors.grey.shade100,
-                                  border: Border.all(color: Colors.grey.shade400),
-                                  borderRadius: BorderRadius.circular(8),
-                                ),
-                                child: const Text('Shipping'),
+                      ),
+                      const SizedBox(
+                        width: 10,
+                      ),
+                      Expanded(
+                        child: DropdownButtonFormField<String>(
+                          value: selectZone,
+                          onChanged: (String? newValue) {
+                            setState(() {
+                              selectZone = newValue!;
+                            });
+                          },
+                          items: selectZoneList.map<DropdownMenuItem<String>>((String value) {
+                            return DropdownMenuItem<String>(
+                              value: value,
+                              child: Text(
+                                value,
+                                style: GoogleFonts.poppins(fontSize: 13),
                               ),
+                            );
+                          }).toList(),
+                          decoration: InputDecoration(
+                            border: InputBorder.none,
+                            filled: true,
+                            fillColor: const Color(0xffE2E2E2).withOpacity(.35),
+                            contentPadding:
+                            const EdgeInsets.symmetric(horizontal: 15, vertical: 8).copyWith(right: 3),
+                            focusedErrorBorder: const OutlineInputBorder(
+                                borderRadius: BorderRadius.all(Radius.circular(8)),
+                                borderSide: BorderSide(color: AppTheme.secondaryColor)),
+                            errorBorder: const OutlineInputBorder(
+                                borderRadius: BorderRadius.all(Radius.circular(8)),
+                                borderSide: BorderSide(color: Color(0xffE2E2E2))),
+                            focusedBorder: const OutlineInputBorder(
+                                borderRadius: BorderRadius.all(Radius.circular(8)),
+                                borderSide: BorderSide(color: AppTheme.secondaryColor)),
+                            disabledBorder: const OutlineInputBorder(
+                              borderRadius: BorderRadius.all(Radius.circular(8)),
+                              borderSide: BorderSide(color: AppTheme.secondaryColor),
                             ),
-                            const SizedBox(
-                              width: 10,
+                            enabledBorder: const OutlineInputBorder(
+                              borderRadius: BorderRadius.all(Radius.circular(8)),
+                              borderSide: BorderSide(color: AppTheme.secondaryColor),
                             ),
-                            Expanded(
-                              child: CommonTextField(
-                                contentPadding: const EdgeInsets.symmetric(horizontal: 15),
-                                controller: policyPriceController,
-                                keyboardType: TextInputType.number,
-                                obSecure: false,
-                                hintText: 'Enter Price limit',
-                                validator: (value) {
-                                  if (value!.trim().isEmpty) {
-                                    return "Enter Price limit".tr;
-                                  }
-                                  return null;
-                                },
-                              ),
-                            ),
-                          ],
+                          ),
+                          validator: (value) {
+                            if (value == null || value.isEmpty) {
+                              return 'Please select an item';
+                            }
+                            return null;
+                          },
                         ),
-                      ],
-                    )
+                      ),
+                    ],
+                  ),
+                  Row(
+                    children: [
+                      Expanded(
+                        child: Container(
+                          height: 50,
+                          padding: const EdgeInsets.only(left: 15, top: 12),
+                          decoration: BoxDecoration(
+                            color: Colors.grey.shade100,
+                            border: Border.all(color: Colors.grey.shade400),
+                            borderRadius: BorderRadius.circular(8),
+                          ),
+                          child: const Text('Shipping'),
+                        ),
+                      ),
+                      const SizedBox(
+                        width: 10,
+                      ),
+                      Expanded(
+                        child: CommonTextField(
+                          contentPadding: const EdgeInsets.symmetric(horizontal: 15),
+                          controller: policyPriceController,
+                          keyboardType: TextInputType.number,
+                          obSecure: false,
+                          hintText: 'Enter Price limit',
+                          validator: (value) {
+                            if (value!.trim().isEmpty) {
+                              return "Enter Price limit".tr;
+                            }
+                            return null;
+                          },
+                        ),
+                      ),
+                    ],
+                  ),
+                ],
+              )
                   : const SizedBox(),
               const SizedBox(
                 height: 10,
@@ -502,7 +502,7 @@ class _ShippingPolicyScreenState extends State<ShippingPolicyScreen> {
                         ),
                         Expanded(
                           child:
-                              Text("After  that  charge full to my customer", style: GoogleFonts.poppins(fontSize: 14)),
+                          Text("After  that  charge full to my customer", style: GoogleFonts.poppins(fontSize: 14)),
                         ),
                       ],
                     ),

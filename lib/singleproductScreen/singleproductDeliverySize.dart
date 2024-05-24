@@ -1,6 +1,7 @@
 import 'dart:convert';
 
 import 'package:dirise/singleproductScreen/singlePInternationalshippingdetails.dart';
+import 'package:dirise/singleproductScreen/singleProductShippingPolicy.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
@@ -14,9 +15,13 @@ import '../repository/repository.dart';
 import '../utils/api_constant.dart';
 import '../vendor/shipping_policy.dart';
 import '../widgets/common_button.dart';
+import 'ReviewandPublishScreen.dart';
 
 class SingleProductDeliverySize extends StatefulWidget {
-  const SingleProductDeliverySize({super.key});
+  String? whowillpay;
+  String? packagSize;
+  int? id;
+  SingleProductDeliverySize({super.key,this.packagSize,this.whowillpay,this.id});
 
   @override
   State<SingleProductDeliverySize> createState() => _SingleProductDeliverySizeState();
@@ -41,9 +46,38 @@ class _SingleProductDeliverySizeState extends State<SingleProductDeliverySize> {
       print('API Response Status Code: ${response.status}');
       showToast(response.message.toString());
       if (response.status == true) {
-        Get.to(ShippingPolicyScreen());
+        if(widget.id != null){
+          Get.to(ReviewandPublishScreen());
+        }else{
+          Get.to(SingleProductShippingPolicyScreen());
+
+        }
       }
     });
+  }
+
+  @override
+  void initState() {
+    // TODO: implement initState
+    super.initState();
+    if (widget.whowillpay != null) {
+      if (widget.whowillpay == 'vendor_pay') {
+        selectedRadio = 1;
+      } else if (widget.whowillpay == 'customer_pay') {
+        selectedRadio = 2;
+      }
+    }
+
+    if (widget.packagSize != null) {
+      if (widget.packagSize == 'small_car') {
+        selectedRadio1 = 3;
+      } else if (widget.packagSize == 'need_truck') {
+        selectedRadio1 = 4;
+      } else if (widget.packagSize == 'freight_cargo') {
+        selectedRadio1 = 5;
+      }
+    }
+
   }
 
   @override

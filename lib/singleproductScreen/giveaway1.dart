@@ -40,12 +40,12 @@ class _Giveway1ScreenState extends State<Giveway1Screen> {
     if (profileController.model.user!.isVendor == true) {
       // If user is a vendor, allow all radio buttons
       if (selectedRadio == 'Working') {
-        Get.to(const ItemDetailsScreens());
+        Get.to( ItemDetailsScreens());
       } else if (selectedRadio == 'NotWorking') {
-        Get.to(const ItemDetailsScreens());
+        Get.to( ItemDetailsScreens());
         // Get.to(ProductInformationScreens(fetaureImage: widget.featureImage,));
       } else if (selectedRadio == 'Scrab') {
-        Get.to(const ItemDetailsScreens());
+        Get.to( ItemDetailsScreens());
         // Get.to(JobTellusaboutyourselfScreen());
       } else {
         // Handle the case where the selected radio doesn't match any case
@@ -54,7 +54,7 @@ class _Giveway1ScreenState extends State<Giveway1Screen> {
     } else {
       // If user is not a vendor, only allow 'Giveaway' option
       if (selectedRadio == 'Giveaway') {
-        Get.to(const ItemDetailsScreens());
+        Get.to( ItemDetailsScreens());
       } else {
         showToast('Please Register As A Vendor');
       }

@@ -19,7 +19,26 @@ import '../widgets/common_colour.dart';
 import '../widgets/common_textfield.dart';
 
 class InternationalshippingdetailsScreen extends StatefulWidget {
-  const InternationalshippingdetailsScreen({super.key});
+  int? id;
+  int? Unitofmeasure;
+  String? WeightOftheItem;
+  int? SelectNumberOfPackages;
+  String? SelectTypeMaterial;
+  String? SelectTypeOfPackaging;
+  String? Length;
+  String? Width;
+  String? Height;
+  InternationalshippingdetailsScreen(
+      {super.key,
+      this.id,
+      this.WeightOftheItem,
+      this.Unitofmeasure,
+      this.SelectTypeOfPackaging,
+      this.SelectTypeMaterial,
+      this.SelectNumberOfPackages,
+      this.Length,
+      this.Height,
+      this.Width});
 
   @override
   State<InternationalshippingdetailsScreen> createState() => _InternationalshippingdetailsScreenState();
@@ -86,11 +105,26 @@ class _InternationalshippingdetailsScreenState extends State<Internationalshippi
       ModelCommonResponse response = ModelCommonResponse.fromJson(jsonDecode(value));
       showToast(response.message.toString());
       if (response.status == true) {
-        Get.to(const OptionalScreen());
+        Get.to(OptionalScreen());
       }
     });
   }
 
+  @override
+  void initState() {
+    // TODO: implement initState
+    super.initState();
+    if(widget.id != null){
+      // unitOfMeasure = widget.Unitofmeasure.toString();
+      weightController.text = widget.WeightOftheItem.toString();
+      numberOfPackageController.text = widget.SelectNumberOfPackages.toString();
+      // selectTypeMaterial = widget.SelectTypeMaterial.toString();
+      dimensionController.text = widget.Length.toString();
+      dimensionWidthController.text = widget.Width.toString();
+      dimensionHeightController.text = widget.Height.toString();
+      // selectTypeOfPackaging = widget.SelectTypeOfPackaging.toString();
+    }
+  }
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -280,66 +314,75 @@ class _InternationalshippingdetailsScreenState extends State<Internationalshippi
                   children: [
                     Expanded(
                         child: Column(
-                          mainAxisAlignment: MainAxisAlignment.start,
-                          crossAxisAlignment: CrossAxisAlignment.start,
-                          children: [
-                            Text(
-                              'Length'.tr,
-                              style: GoogleFonts.poppins(color: const Color(0xff292F45), fontWeight: FontWeight.w500, fontSize: 14),
-                            ),
-                            const SizedBox(height: 5,),
-                            CommonTextField(
-                                controller: dimensionController,
-                                obSecure: false,
-                                keyboardType: TextInputType.number,
-                                hintText: 'Length X ',
-                                validator: MultiValidator([
-                                  RequiredValidator(errorText: 'Product length is required'.tr),
-                                ])),
-                          ],
-                        )),
+                      mainAxisAlignment: MainAxisAlignment.start,
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        Text(
+                          'Length'.tr,
+                          style: GoogleFonts.poppins(
+                              color: const Color(0xff292F45), fontWeight: FontWeight.w500, fontSize: 14),
+                        ),
+                        const SizedBox(
+                          height: 5,
+                        ),
+                        CommonTextField(
+                            controller: dimensionController,
+                            obSecure: false,
+                            keyboardType: TextInputType.number,
+                            hintText: 'Length X ',
+                            validator: MultiValidator([
+                              RequiredValidator(errorText: 'Product length is required'.tr),
+                            ])),
+                      ],
+                    )),
                     10.spaceX,
                     Expanded(
                         child: Column(
-                          mainAxisAlignment: MainAxisAlignment.start,
-                          crossAxisAlignment: CrossAxisAlignment.start,
-                          children: [
-                            Text(
-                              'Width'.tr,
-                              style: GoogleFonts.poppins(color: const Color(0xff292F45), fontWeight: FontWeight.w500, fontSize: 14),
-                            ),
-                            const SizedBox(height: 5,),
-                            CommonTextField(
-                                controller: dimensionWidthController,
-                                obSecure: false,
-                                hintText: 'Width X',
-                                keyboardType: TextInputType.number,
-                                validator: MultiValidator([
-                                  RequiredValidator(errorText: 'Product Width is required'.tr),
-                                ])),
-                          ],
-                        )),
+                      mainAxisAlignment: MainAxisAlignment.start,
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        Text(
+                          'Width'.tr,
+                          style: GoogleFonts.poppins(
+                              color: const Color(0xff292F45), fontWeight: FontWeight.w500, fontSize: 14),
+                        ),
+                        const SizedBox(
+                          height: 5,
+                        ),
+                        CommonTextField(
+                            controller: dimensionWidthController,
+                            obSecure: false,
+                            hintText: 'Width X',
+                            keyboardType: TextInputType.number,
+                            validator: MultiValidator([
+                              RequiredValidator(errorText: 'Product Width is required'.tr),
+                            ])),
+                      ],
+                    )),
                     10.spaceX,
                     Expanded(
                         child: Column(
-                          mainAxisAlignment: MainAxisAlignment.start,
-                          crossAxisAlignment: CrossAxisAlignment.start,
-                          children: [
-                            Text(
-                              'Height'.tr,
-                              style: GoogleFonts.poppins(color: const Color(0xff292F45), fontWeight: FontWeight.w500, fontSize: 14),
-                            ),
-                            const SizedBox(height: 5,),
-                            CommonTextField(
-                                controller: dimensionHeightController,
-                                obSecure: false,
-                                hintText: 'Height X',
-                                keyboardType: TextInputType.number,
-                                validator: MultiValidator([
-                                  RequiredValidator(errorText: 'Product Height is required'.tr),
-                                ])),
-                          ],
-                        )),
+                      mainAxisAlignment: MainAxisAlignment.start,
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        Text(
+                          'Height'.tr,
+                          style: GoogleFonts.poppins(
+                              color: const Color(0xff292F45), fontWeight: FontWeight.w500, fontSize: 14),
+                        ),
+                        const SizedBox(
+                          height: 5,
+                        ),
+                        CommonTextField(
+                            controller: dimensionHeightController,
+                            obSecure: false,
+                            hintText: 'Height X',
+                            keyboardType: TextInputType.number,
+                            validator: MultiValidator([
+                              RequiredValidator(errorText: 'Product Height is required'.tr),
+                            ])),
+                      ],
+                    )),
                   ],
                 ),
                 Text(
@@ -403,7 +446,7 @@ class _InternationalshippingdetailsScreenState extends State<Internationalshippi
                 const SizedBox(height: 20),
                 GestureDetector(
                   onTap: () {
-                    Get.to(const OptionalScreen());
+                    Get.to( OptionalScreen());
                   },
                   child: Container(
                     width: Get.width,

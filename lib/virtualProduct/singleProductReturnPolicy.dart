@@ -487,7 +487,7 @@ class _VirtualReturnPolicyState extends State<VirtualReturnPolicy> {
                         // }
                       }
                     } else {
-                      Get.to(const SingleProductDeliverySize());
+                      Get.to( SingleProductDeliverySize());
                     }
                   }
                     // Disable button if no radio button is selected

@@ -1,5 +1,6 @@
 import 'dart:convert';
 
+import 'package:dirise/addNewProduct/reviewPublishScreen.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
@@ -13,18 +14,20 @@ import '../utils/api_constant.dart';
 import '../widgets/common_button.dart';
 
 class DeliverySizeScreen extends StatefulWidget {
-  const DeliverySizeScreen({Key? key});
+  int? id;
+  String? selectedRadio;
+  DeliverySizeScreen({Key? key, this.id, this.selectedRadio});
 
   @override
   State<DeliverySizeScreen> createState() => _DeliverySizeScreenState();
 }
 
 class _DeliverySizeScreenState extends State<DeliverySizeScreen> {
-  int? selectedRadio; // Variable to track the selected radio button
+  String? selectedRadio; // Variable to track the selected radio button
   final addProductController = Get.put(AddProductController());
-  deliverySizeApi(String deliverySize) {
+  deliverySizeApi() {
     Map<String, dynamic> map = {};
-    map['delivery_size'] = deliverySize;
+    map['delivery_size'] = selectedRadio;
     map['item_type'] = 'giveaway';
     map['id'] = addProductController.idProduct.value.toString();
 
@@ -35,9 +38,22 @@ class _DeliverySizeScreenState extends State<DeliverySizeScreen> {
       print('API Response Status Code: ${response.status}');
       showToast(response.message.toString());
       if (response.status == true) {
-        Get.to(const InternationalshippingdetailsScreen());
+        if(widget.id != null){
+          Get.to( ReviewPublishScreen());
+        }else{
+          Get.to(InternationalshippingdetailsScreen());
+        }
       }
     });
+  }
+
+  @override
+  void initState() {
+    // TODO: implement initState
+    super.initState();
+    if(widget.id != null){
+      selectedRadio = widget.selectedRadio;
+    }
   }
 
   @override
@@ -81,15 +97,91 @@ class _DeliverySizeScreenState extends State<DeliverySizeScreen> {
               const SizedBox(
                 height: 15,
               ),
-              buildRadioTile('Fits in small car'.tr, 1), // Radio button for small car
-              const SizedBox(
-                height: 15,
+              Row(
+                children: [
+                  Container(
+                    padding: const EdgeInsets.all(15),
+                    decoration: BoxDecoration(borderRadius: BorderRadius.circular(11), color: Colors.grey.shade100),
+                    child: Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      crossAxisAlignment: CrossAxisAlignment.center,
+                      children: [
+                        Text(
+                          'Fits in small car',
+                          style: GoogleFonts.poppins(color: Colors.black, fontWeight: FontWeight.w400, fontSize: 18),
+                        ),
+                        Radio(
+                          value: 'small_car',
+                          groupValue: selectedRadio,
+                          onChanged: (value) {
+                            setState(() {
+                              selectedRadio = value!;
+                            });
+                          },
+                        ),
+                      ],
+                    ),
+                  ),
+                ],
               ),
-              buildRadioTile('Need Truck'.tr, 2), // Radio button for need truck
-              const SizedBox(
-                height: 15,
+              const SizedBox(height: 10,),
+              Row(
+                children: [
+                  Container(
+                    padding: const EdgeInsets.all(15),
+                    decoration: BoxDecoration(borderRadius: BorderRadius.circular(11), color: Colors.grey.shade100),
+                    child: Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      crossAxisAlignment: CrossAxisAlignment.center,
+                      children: [
+                        Text(
+                          'Need Truck',
+                          style: GoogleFonts.poppins(color: Colors.black, fontWeight: FontWeight.w400, fontSize: 18),
+                        ),
+                        Radio(
+                          value: 'need_truck',
+                          groupValue: selectedRadio,
+                          onChanged: (value) {
+                            setState(() {
+                              selectedRadio = value!;
+                            });
+                          },
+                        ),
+                      ],
+                    ),
+                  ),
+                ],
               ),
-              buildRadioTile('Freight & Cargo'.tr, 3), // Radio button for freight cargo
+              const SizedBox(height: 10,),
+              Row(
+                children: [
+                  Container(
+                    padding: const EdgeInsets.all(15),
+                    decoration: BoxDecoration(borderRadius: BorderRadius.circular(11), color: Colors.grey.shade100),
+                    child: Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      crossAxisAlignment: CrossAxisAlignment.center,
+                      children: [
+                        Text(
+                          'Freight & Cargo',
+                          style: GoogleFonts.poppins(color: Colors.black, fontWeight: FontWeight.w400, fontSize: 18),
+                        ),
+                        Radio(
+                          value: 'freight_cargo',
+                          groupValue: selectedRadio,
+                          onChanged: (value) {
+                            setState(() {
+                              selectedRadio = value!;
+                            });
+                          },
+                        ),
+                      ],
+                    ),
+                  ),
+                ],
+              ),
+
+              // Radio button for freight cargo
               SizedBox(
                 height: 100,
               ),
@@ -97,47 +189,20 @@ class _DeliverySizeScreenState extends State<DeliverySizeScreen> {
                 title: 'Next',
                 borderRadius: 11,
                 onPressed: () {
-                  if (selectedRadio == 1) {
-                    deliverySizeApi('small_car');
-                  } else if (selectedRadio == 2) {
-                    deliverySizeApi('need_truck');
-                  } else if (selectedRadio == 3) {
-                    deliverySizeApi('freight_cargo');
-                  }else{
+                  if (selectedRadio == 'small_car') {
+                    deliverySizeApi();
+                  } else if (selectedRadio == 'need_truck') {
+                    deliverySizeApi();
+                  } else if (selectedRadio == 'freight_cargo') {
+                    deliverySizeApi();
+                  } else {
                     showToast('Select delivery size');
                   }
-
                 },
               ),
             ],
           ),
         ),
-      ),
-    );
-  }
-
-  Widget buildRadioTile(String title, int value) {
-    return Container(
-      padding: const EdgeInsets.all(15),
-      decoration: BoxDecoration(borderRadius: BorderRadius.circular(11), color: Colors.grey.shade100),
-      child: Row(
-        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-        crossAxisAlignment: CrossAxisAlignment.center,
-        children: [
-          Text(
-            title,
-            style: GoogleFonts.poppins(color: Colors.black, fontWeight: FontWeight.w400, fontSize: 18),
-          ),
-          Radio(
-            value: value,
-            groupValue: selectedRadio,
-            onChanged: (int? newValue) {
-              setState(() {
-                selectedRadio = newValue;
-              });
-            },
-          ),
-        ],
       ),
     );
   }
