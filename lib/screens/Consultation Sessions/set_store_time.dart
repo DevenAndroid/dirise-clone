@@ -78,36 +78,7 @@ class _SetTimeScreenConsultationState extends State<SetTimeScreenConsultation> {
   RxString breakEnd = "".obs;
   RxBool status = false.obs;
   int index = 0;
-  // void updateProfile() {
-  //   Map<String, dynamic> map = {};
-  //   Map<String, dynamic> map1 = {};
-  //   Map<String, dynamic> map2 = {};
-  //   Map<String, dynamic> map3 = {};
-  //   Map<String, dynamic> map4 = {};
-  //   Map<String, dynamic> map5 = {};
-  //   Map<String, dynamic> map6 = {};
-  //   map['week_day'] = map1;
-  //   map['start_time'] = map2;
-  //   map['end_time'] = map3;
-  //   map['start_break_time'] = map4;
-  //   map['end_break_time'] = map5;
-  //   map['status'] = map6;
-  //   map1['$index'] =
-  //   map["product_type"] = "booking";
-  //
-  //
-  //   repositories.postApi(url: ApiUrls.giveawayProductAddress, context: context, mapData: map).then((value) {
-  //     print('object${value.toString()}');
-  //     JobResponceModel response = JobResponceModel.fromJson(jsonDecode(value));
-  //     if (response.status == true) {
-  //       showToast(response.message.toString());
-  //       Get.to(()=> const SetTimeScreenConsultation());
-  //       print('value isssss${response.toJson()}');
-  //     }else{
-  //       showToast(response.message.toString());
-  //     }
-  //   });
-  // }
+
   void _showDialog(Widget child) {
     showCupertinoModalPopup<void>(
       context: context,

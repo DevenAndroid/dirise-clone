@@ -1,62 +1,60 @@
 import 'dart:convert';
-import 'package:dirise/controller/service_controller.dart';
-import 'package:dirise/screens/tour_travel/sponsors_screen_tour.dart';
+
+import 'package:dirise/addNewProduct/reviewPublishScreen.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 import 'package:get/get.dart';
 import 'package:google_fonts/google_fonts.dart';
-import '../../model/common_modal.dart';
-import '../../repository/repository.dart';
-import '../../utils/api_constant.dart';
-import '../../widgets/common_button.dart';
-import '../../widgets/common_colour.dart';
-import '../../widgets/common_textfield.dart';
 
-class OptionalDetailTourScreen extends StatefulWidget {
-  const OptionalDetailTourScreen({super.key});
+import '../controller/service_controller.dart';
+import '../controller/vendor_controllers/add_product_controller.dart';
+import '../model/common_modal.dart';
+import '../repository/repository.dart';
+import '../screens/Consultation Sessions/consultationReviewPublish.dart';
+import '../utils/api_constant.dart';
+import '../widgets/common_button.dart';
+import '../widgets/common_colour.dart';
+import '../widgets/common_textfield.dart';
+import 'ReviewandPublishScreen.dart';
+
+class VirtualOptionalClassificationScreen extends StatefulWidget {
+  const VirtualOptionalClassificationScreen({super.key});
 
   @override
-  State<OptionalDetailTourScreen> createState() => _OptionalDetailTourScreenState();
+  State<VirtualOptionalClassificationScreen> createState() => _VirtualOptionalClassificationScreenState();
 }
 
-class _OptionalDetailTourScreenState extends State<OptionalDetailTourScreen> {
-  final serviceController = Get.put(ServiceController());
+class _VirtualOptionalClassificationScreenState extends State<VirtualOptionalClassificationScreen> {
+  final controller = Get.put(ServiceController());
   RxBool hide = true.obs;
   RxBool hide1 = true.obs;
   bool showValidation = false;
   final Repositories repositories = Repositories();
   final formKey1 = GlobalKey<FormState>();
   String code = "+91";
-  final TextEditingController locationController = TextEditingController();
-  final TextEditingController hostNameController = TextEditingController();
-  final TextEditingController programNameController = TextEditingController();
-  final TextEditingController programGoalController = TextEditingController();
-  final TextEditingController programDescription = TextEditingController();
+  final addProductController = Get.put(AddProductController());
   optionalApi() {
     Map<String, dynamic> map = {};
 
-    map['bookable_product_location'] = locationController.text.trim();
-    map['item_type'] = 'product';
-    map['host_name'] = hostNameController.text.trim();
-    map['program_name'] = programNameController.text.trim();
-    map['program_goal'] = programGoalController.text.trim();
-    map['program_desc'] = programDescription.text.trim();
-
+    map['serial_number'] = controller.serialNumberController.text.trim();
+    map['product_number'] = controller.productNumberController.text.trim();
+    map['product_code'] = controller.productCodeController.text.trim();
+    map['promotion_code'] = controller.promotionCodeController.text.trim();
+    map['package_detail'] = controller.packageDetailsController.text.trim();
+    map['item_type'] = 'service';
+    map['id'] = addProductController.idProduct.value.toString();
     FocusManager.instance.primaryFocus!.unfocus();
     repositories.postApi(url: ApiUrls.giveawayProductAddress, context: context, mapData: map).then((value) {
       ModelCommonResponse response = ModelCommonResponse.fromJson(jsonDecode(value));
       print('API Response Status Code: ${response.status}');
-      // showToast(response.message.toString());
+      showToast(response.message.toString());
       if (response.status == true) {
-        showToast(response.message.toString());
-        if(formKey1.currentState!.validate()){
-          Get.to(() => const SponsorsTourScreen());
-        }
+        Get.to(VirtualReviewandPublishScreen());
+
       }
     });
   }
-
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -79,7 +77,7 @@ class _OptionalDetailTourScreenState extends State<OptionalDetailTourScreen> {
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: [
             Text(
-              'Optional Description'.tr,
+              'Optional Classification'.tr,
               style: GoogleFonts.poppins(color: const Color(0xff292F45), fontWeight: FontWeight.w600, fontSize: 20),
             ),
           ],
@@ -89,13 +87,63 @@ class _OptionalDetailTourScreenState extends State<OptionalDetailTourScreen> {
         child: Form(
           key: formKey1,
           child: Container(
-            margin: EdgeInsets.only(left: 15, right: 15),
+            margin: const EdgeInsets.only(left: 15, right: 15),
             child: Column(
               children: [
+                CommonTextField(
+                  controller: controller.serialNumberController,
+                  obSecure: false,
+                  hintText: 'Serial Number'.tr,
+                  validator: (value) {
+                    if (value!.trim().isEmpty) {
+                      return "Meta Title is required".tr;
+                    }
+                    return null;
+                  },
+                ),
+                CommonTextField(
+                  controller: controller.productNumberController,
+                  obSecure: false,
+                  hintText: 'Product number'.tr,
+                  validator: (value) {
+                    if (value!.trim().isEmpty) {
+                      return "Serial Number is required".tr;
+                    }
+                    return null;
+                  },
+                ),
+                CommonTextField(
+                  controller: controller.productCodeController,
+                  obSecure: false,
+                  hintText: 'Product Code'.tr,
+                  validator: (value) {
+                    if (value!.trim().isEmpty) {
+                      return "Product number is required".tr;
+                    }
+                    return null;
+                  },
+                ),
+                CommonTextField(
+                  controller: controller.promotionCodeController,
+                  obSecure: false,
+                  hintText: 'Promotion Code'.tr,
+                  validator: (value) {
+                    if (value!.trim().isEmpty) {
+                      return "Product number is required".tr;
+                    }
+                    return null;
+                  },
+                ),
                 TextFormField(
-                  controller: locationController,
-                  maxLines: 2,
-                  minLines: 2,
+                  controller: controller.packageDetailsController,
+                  maxLines: 5,
+                  minLines: 5,
+                  validator: (value) {
+                    if (value!.trim().isEmpty) {
+                      return "Package details is required".tr;
+                    }
+                    return null;
+                  },
                   decoration: InputDecoration(
                     counterStyle: GoogleFonts.poppins(
                       color: AppTheme.primaryColor,
@@ -105,7 +153,7 @@ class _OptionalDetailTourScreenState extends State<OptionalDetailTourScreen> {
                     errorMaxLines: 2,
                     contentPadding: const EdgeInsets.all(15),
                     fillColor: Colors.grey.shade100,
-                    hintText: 'Location',
+                    hintText: 'Package details',
                     hintStyle: GoogleFonts.poppins(
                       color: AppTheme.primaryColor,
                       fontSize: 15,
@@ -130,100 +178,21 @@ class _OptionalDetailTourScreenState extends State<OptionalDetailTourScreen> {
                     ),
                   ),
                 ),
-                CommonTextField(
-                  controller: hostNameController,
-                  obSecure: false,
-                  hintText: 'Host name'.tr,
-                  validator: (value) {
-                    if (value!.trim().isEmpty) {
-                      return "Host name is required".tr;
-                    }
-                    return null;
-                  },
-
-                ),
-                CommonTextField(
-                  controller: programNameController,
-                  obSecure: false,
-                  hintText: 'Program name'.tr,
-                  keyboardType: TextInputType.number,
-                  validator: (value) {
-                    if (value!.trim().isEmpty) {
-                      return "Program name is required".tr;
-                    }
-                    return null;
-                  },
-
-                ),
-                CommonTextField(
-                  controller: programGoalController,
-                  obSecure: false,
-                  hintText: 'Program goal'.tr,
-                  validator: (value) {
-                    if (value!.trim().isEmpty) {
-                      return "Program goal is required".tr;
-                    }
-                    return null;
-                  },
-                ),
-                TextFormField(
-                  maxLines: 2,
-                  controller: programDescription,
-                  minLines: 2,
-                  validator: (value) {
-                    if (value!.trim().isEmpty) {
-                      return "Program Description is required".tr;
-                    }
-                    return null;
-                  },
-                  decoration: InputDecoration(
-                    counterStyle: GoogleFonts.poppins(
-                      color: AppTheme.primaryColor,
-                      fontSize: 25,
-                    ),
-                    counter: const Offstage(),
-                    errorMaxLines: 2,
-                    contentPadding: const EdgeInsets.all(15),
-                    fillColor: Colors.grey.shade100,
-                    hintText: 'Program Description',
-                    hintStyle: GoogleFonts.poppins(
-                      color: AppTheme.primaryColor,
-                      fontSize: 15,
-                    ),
-                    border: InputBorder.none,
-                    focusedErrorBorder: const OutlineInputBorder(
-                        borderRadius: BorderRadius.all(Radius.circular(8)),
-                        borderSide: BorderSide(color: AppTheme.secondaryColor)),
-                    errorBorder: const OutlineInputBorder(
-                        borderRadius: BorderRadius.all(Radius.circular(8)),
-                        borderSide: BorderSide(color: AppTheme.secondaryColor)),
-                    focusedBorder: const OutlineInputBorder(
-                        borderRadius: BorderRadius.all(Radius.circular(8)),
-                        borderSide: BorderSide(color: AppTheme.secondaryColor)),
-                    disabledBorder: const OutlineInputBorder(
-                      borderRadius: BorderRadius.all(Radius.circular(8)),
-                      borderSide: BorderSide(color: AppTheme.secondaryColor),
-                    ),
-                    enabledBorder: const OutlineInputBorder(
-                      borderRadius: BorderRadius.all(Radius.circular(8)),
-                      borderSide: BorderSide(color: AppTheme.secondaryColor),
-                    ),
-                  ),
-                ),
-
-                const SizedBox(height: 20),
+                const SizedBox(height: 100),
                 CustomOutlineButton(
-                  title: 'Done',
+                  title: 'Next',
                   borderRadius: 11,
                   onPressed: () {
-                    optionalApi();
+                    if (formKey1.currentState!.validate()) {
+                      optionalApi();
+                    }
 
                   },
                 ),
                 const SizedBox(height: 20),
                 GestureDetector(
                   onTap: () {
-                    Get.to(() => const SponsorsTourScreen());
+                    Get.to(const VirtualReviewandPublishScreen());
                   },
                   child: Container(
                     width: Get.width,

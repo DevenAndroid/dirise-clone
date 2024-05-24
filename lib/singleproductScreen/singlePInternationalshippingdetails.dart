@@ -16,10 +16,30 @@ import '../utils/api_constant.dart';
 import '../widgets/common_button.dart';
 import '../widgets/common_colour.dart';
 import '../widgets/common_textfield.dart';
+import 'ReviewandPublishScreen.dart';
 import 'optionalDiscrptionsScreen.dart';
 
 class SinglePInternationalshippingdetailsScreen extends StatefulWidget {
-  const SinglePInternationalshippingdetailsScreen({super.key});
+  int? id;
+  String? Unitofmeasure;
+  int? WeightOftheItem;
+  int? SelectNumberOfPackages;
+  String? SelectTypeMaterial;
+  String? SelectTypeOfPackaging;
+  String? Length;
+  String? Width;
+  String? Height;
+  SinglePInternationalshippingdetailsScreen(
+      {super.key,
+        this.id,
+        this.WeightOftheItem,
+        this.Unitofmeasure,
+        this.SelectTypeOfPackaging,
+        this.SelectTypeMaterial,
+        this.SelectNumberOfPackages,
+        this.Length,
+        this.Height,
+        this.Width});
 
   @override
   State<SinglePInternationalshippingdetailsScreen> createState() => _SinglePInternationalshippingdetailsScreenState();
@@ -93,9 +113,29 @@ class _SinglePInternationalshippingdetailsScreenState extends State<SinglePInter
       ModelCommonResponse response = ModelCommonResponse.fromJson(jsonDecode(value));
       showToast(response.message.toString());
       if (response.status == true) {
-        Get.to(() => const OptionalDiscrptionsScreen());
+        if(widget.id != null){
+          Get.to(ReviewandPublishScreen());
+        }else{
+          Get.to(() => OptionalDiscrptionsScreen());
+
+        }
       }
     });
+  }
+
+  @override
+  void initState() {
+    // TODO: implement initState
+    super.initState();
+    if(widget.id != null){
+      // unitOfMeasure = widget.Unitofmeasure.toString();
+      weightController.text = widget.WeightOftheItem.toString();
+      // selectTypeMaterial = widget.SelectTypeMaterial.toString();
+      dimensionController.text = widget.Length.toString();
+      dimensionWidthController.text = widget.Width.toString();
+      dimensionHeightController.text = widget.Height.toString();
+      // selectTypeOfPackaging = widget.SelectTypeOfPackaging.toString();
+    }
   }
 
   final formKey5 = GlobalKey<FormState>();
@@ -349,7 +389,8 @@ class _SinglePInternationalshippingdetailsScreenState extends State<SinglePInter
                         }
                         return null; // Return null if validation passes
                       },
-                    )),
+                    )
+                    ),
                     10.spaceX,
                     Expanded(
                         child: CommonTextField(
@@ -423,7 +464,7 @@ class _SinglePInternationalshippingdetailsScreenState extends State<SinglePInter
                 const SizedBox(height: 20),
                 GestureDetector(
                   onTap: () {
-                    Get.to(() => const OptionalDiscrptionsScreen());
+                    Get.to(() => OptionalDiscrptionsScreen());
                   },
                   child: Container(
                     width: Get.width,

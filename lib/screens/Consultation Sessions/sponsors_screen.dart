@@ -9,6 +9,7 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:google_fonts/google_fonts.dart';
 
+import '../../controller/vendor_controllers/add_product_controller.dart';
 import '../../model/common_modal.dart';
 import '../../model/sponsors_list_model.dart';
 import '../../repository/repository.dart';
@@ -46,12 +47,14 @@ class _SponsorsScreenState extends State<SponsorsScreen> {
   TextEditingController sponsorTypeController = TextEditingController();
   TextEditingController sponsorNameController = TextEditingController();
   Rx<SponsorsDetailsModel> sponsorsDetailsModel = SponsorsDetailsModel().obs;
+  final addProductController = Get.put(AddProductController());
   addSponsors() {
     Map<String, String> map = {};
     Map<String, File> images = {};
     map['sponsor_type'] = sponsorTypeController.text.trim();
     map['sponsor_name'] = sponsorNameController.text.trim();
     images['sponsor_logo'] = idProof;
+    map["id"] =  addProductController.idProduct.value.toString();
 
     FocusManager.instance.primaryFocus!.unfocus();
     repositories.multiPartApi(onProgress: (gg,kk){},images: images,url: ApiUrls.addProductSponsor, context: context, mapData: map).then((value) {
@@ -78,7 +81,8 @@ class _SponsorsScreenState extends State<SponsorsScreen> {
   }
   createSponsors() {
     Map<String, dynamic> map = {};
-    map['product_sponsors_id '] = sponsorValue.toString();
+    map['product_sponsors_id'] = sponsorValue.toString();
+    map["id"] =  addProductController.idProduct.value.toString();
     FocusManager.instance.primaryFocus!.unfocus();
     repositories.postApi(url: ApiUrls.giveawayProductAddress, context: context, mapData: map).then((value) {
       ModelCommonResponse response = ModelCommonResponse.fromJson(jsonDecode(value));

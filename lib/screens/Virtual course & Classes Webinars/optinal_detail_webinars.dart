@@ -1,14 +1,17 @@
 import 'dart:convert';
+import 'package:dirise/Services/services_classification.dart';
 import 'package:dirise/controller/service_controller.dart';
 import 'package:dirise/screens/Consultation%20Sessions/sponsors_screen.dart';
-import 'package:dirise/screens/Seminars%20&%20%20Attendable%20Course/seminars_sponsors_screen.dart';
+import 'package:dirise/screens/Seminars%20&%20%20Attendable%20Course/sponsors_academic_screen.dart';
 import 'package:dirise/screens/Virtual%20course%20&%20Classes%20Webinars/webinars_sponsors_screen.dart';
+import 'package:dirise/screens/extendedPrograms/sponsors_academic_screen.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 import 'package:get/get.dart';
 import 'package:google_fonts/google_fonts.dart';
 
+import '../../controller/vendor_controllers/add_product_controller.dart';
 import '../../model/common_modal.dart';
 import '../../repository/repository.dart';
 import '../../utils/api_constant.dart';
@@ -29,18 +32,21 @@ class _OptionalDetailsWebiinarsScreenState extends State<OptionalDetailsWebiinar
   RxBool hide1 = true.obs;
   bool showValidation = false;
   final Repositories repositories = Repositories();
+  final addProductController = Get.put(AddProductController());
   final formKey1 = GlobalKey<FormState>();
   String code = "+91";
+  final TextEditingController locationController = TextEditingController();
   final TextEditingController hostNameController = TextEditingController();
   final TextEditingController programNameController = TextEditingController();
   final TextEditingController programGoalController = TextEditingController();
   final TextEditingController programDescription = TextEditingController();
-  final TextEditingController linkEnterController = TextEditingController();
-  final TextEditingController linkViaController = TextEditingController();
-  final TextEditingController locationController = TextEditingController();
+  final TextEditingController virtualLocationDescription = TextEditingController();
+  final TextEditingController linktoenterDescription = TextEditingController();
+  final TextEditingController linkwillbesentviaDescription = TextEditingController();
   optionalApi() {
     Map<String, dynamic> map = {};
-
+    map["id"] = addProductController.idProduct.value.toString();
+    map['bookable_product_location'] = locationController.text.trim();
     map['item_type'] = 'product';
     map['host_name'] = hostNameController.text.trim();
     map['program_name'] = programNameController.text.trim();
@@ -51,11 +57,11 @@ class _OptionalDetailsWebiinarsScreenState extends State<OptionalDetailsWebiinar
     repositories.postApi(url: ApiUrls.giveawayProductAddress, context: context, mapData: map).then((value) {
       ModelCommonResponse response = ModelCommonResponse.fromJson(jsonDecode(value));
       print('API Response Status Code: ${response.status}');
-      // showToast(response.message.toString());
       if (response.status == true) {
         showToast(response.message.toString());
-        if(formKey1.currentState!.validate()){
-          Get.to(()=> const SponsorswebinarScreen());
+
+        if (formKey1.currentState!.validate()) {
+          Get.to(() => const SponsorswebinarScreen());
         }
       }
     });
@@ -93,24 +99,10 @@ class _OptionalDetailsWebiinarsScreenState extends State<OptionalDetailsWebiinar
         child: Form(
           key: formKey1,
           child: Container(
-            margin: const EdgeInsets.only(left: 15, right: 15),
+            margin: EdgeInsets.only(left: 15, right: 15),
             child: Column(
               children: [
-                const SizedBox(
-                  height: 15,
-                ),
-                CommonTextField(
-                    controller: locationController,
-                  obSecure: false,
-                  hintText: 'Virtual Location'.tr,
-                  validator: (value) {
-                    if (value!.trim().isEmpty) {
-                      return "Host name is required".tr;
-                    }
-                    return null;
-                  },
 
-                ),
                 CommonTextField(
                   controller: hostNameController,
                   obSecure: false,
@@ -121,7 +113,6 @@ class _OptionalDetailsWebiinarsScreenState extends State<OptionalDetailsWebiinar
                     }
                     return null;
                   },
-
                 ),
                 CommonTextField(
                   controller: programNameController,
@@ -134,7 +125,6 @@ class _OptionalDetailsWebiinarsScreenState extends State<OptionalDetailsWebiinar
                     }
                     return null;
                   },
-
                 ),
                 CommonTextField(
                   controller: programGoalController,
@@ -191,41 +181,20 @@ class _OptionalDetailsWebiinarsScreenState extends State<OptionalDetailsWebiinar
                     ),
                   ),
                 ),
-                CommonTextField(
-                  controller: linkEnterController,
-                  obSecure: false,
-                  hintText: 'Link to enter'.tr,
-                  // validator: (value) {
-                  //   if (value!.trim().isEmpty) {
-                  //     return "Link will be sent via required".tr;
-                  //   }
-                  //   return null;
-                  // },
-                ),
-                CommonTextField(
-                  controller: linkEnterController,
-                  obSecure: false,
-                  hintText: 'Link will be sent via'.tr,
-                  // validator: (value) {
-                  //   if (value!.trim().isEmpty) {
-                  //     return "Link will be sent via is required".tr;
-                  //   }
-                  //   return null;
-                  // },
-                ),
+
+
                 const SizedBox(height: 20),
                 CustomOutlineButton(
                   title: 'Done',
                   borderRadius: 11,
                   onPressed: () {
                     optionalApi();
-
                   },
                 ),
                 const SizedBox(height: 20),
                 GestureDetector(
                   onTap: () {
-                    Get.to(()=> const SponsorswebinarScreen());
+                    Get.to(() => const SponsorsScreenExtendedPrograms());
                   },
                   child: Container(
                     width: Get.width,

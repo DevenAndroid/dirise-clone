@@ -19,7 +19,20 @@ import '../widgets/common_textfield.dart';
 import 'ReviewandPublishScreen.dart';
 
 class OptionalClassificationScreen extends StatefulWidget {
-  const OptionalClassificationScreen({super.key});
+  int? id;
+  String? Packagedetails;
+  int? PromotionCode;
+  int? ProductCode;
+  String? SerialNumber;
+  String? Productnumber;
+  OptionalClassificationScreen(
+      {super.key,
+      this.id,
+      this.Packagedetails,
+      this.Productnumber,
+      this.SerialNumber,
+      this.PromotionCode,
+      this.ProductCode});
 
   @override
   State<OptionalClassificationScreen> createState() => _OptionalClassificationScreenState();
@@ -37,6 +50,9 @@ class _OptionalClassificationScreenState extends State<OptionalClassificationScr
   optionalApi() {
     Map<String, dynamic> map = {};
 
+
+    TextEditingController serialNumberController = TextEditingController();
+
     map['serial_number'] = controller.serialNumberController.text.trim();
     map['product_number'] = controller.productNumberController.text.trim();
     map['product_code'] = controller.productCodeController.text.trim();
@@ -51,10 +67,23 @@ class _OptionalClassificationScreenState extends State<OptionalClassificationScr
       showToast(response.message.toString());
       if (response.status == true) {
         Get.to(ReviewandPublishScreen());
-
       }
     });
   }
+
+  @override
+  void initState() {
+    // TODO: implement initState
+    super.initState();
+    if (widget.id != null) {
+      controller.serialNumberController.text = widget.SerialNumber.toString();
+      controller.productNumberController.text = widget.Productnumber.toString();
+      controller.productCodeController.text = widget.ProductCode.toString();
+      controller.promotionCodeController.text = widget.SerialNumber.toString();
+      controller.packageDetailsController.text = widget.Productnumber.toString();
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -186,7 +215,6 @@ class _OptionalClassificationScreenState extends State<OptionalClassificationScr
                     if (formKey1.currentState!.validate()) {
                       optionalApi();
                     }
-
                   },
                 ),
                 const SizedBox(height: 20),

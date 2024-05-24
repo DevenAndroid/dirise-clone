@@ -49,7 +49,7 @@ class _SingleProductDiscriptionScreenState extends State<SingleProductDiscriptio
       if (response.status == true) {
         // addProductController.idProduct.value = response.productDetails!.product!.id.toString();
         print(addProductController.idProduct.value.toString());
-        Get.to(const VirtualProductScreen());
+        Get.to(const SingleProductReturnPolicy());
       }
     });
   }

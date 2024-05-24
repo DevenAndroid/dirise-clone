@@ -1,19 +1,21 @@
 import 'dart:convert';
 import 'package:dirise/Services/services_classification.dart';
-import 'package:dirise/screens/academic%20programs/sponsors_academic_screen.dart';
+import 'package:dirise/controller/service_controller.dart';
+import 'package:dirise/screens/Consultation%20Sessions/sponsors_screen.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 import 'package:get/get.dart';
 import 'package:google_fonts/google_fonts.dart';
-import '../../controller/service_controller.dart';
+
+import '../../controller/vendor_controllers/add_product_controller.dart';
 import '../../model/common_modal.dart';
 import '../../repository/repository.dart';
 import '../../utils/api_constant.dart';
 import '../../widgets/common_button.dart';
 import '../../widgets/common_colour.dart';
 import '../../widgets/common_textfield.dart';
-
+import 'eligible_customer_academic.dart';
 
 class OptionalDetailsAcademicScreen extends StatefulWidget {
   const OptionalDetailsAcademicScreen({super.key});
@@ -28,6 +30,7 @@ class _OptionalDetailsAcademicScreenState extends State<OptionalDetailsAcademicS
   RxBool hide1 = true.obs;
   bool showValidation = false;
   final Repositories repositories = Repositories();
+  final addProductController = Get.put(AddProductController());
   final formKey1 = GlobalKey<FormState>();
   String code = "+91";
   final TextEditingController locationController = TextEditingController();
@@ -37,7 +40,7 @@ class _OptionalDetailsAcademicScreenState extends State<OptionalDetailsAcademicS
   final TextEditingController programDescription = TextEditingController();
   optionalApi() {
     Map<String, dynamic> map = {};
-
+    map["id"] = addProductController.idProduct.value.toString();
     map['bookable_product_location'] = locationController.text.trim();
     map['item_type'] = 'product';
     map['host_name'] = hostNameController.text.trim();
@@ -49,11 +52,11 @@ class _OptionalDetailsAcademicScreenState extends State<OptionalDetailsAcademicS
     repositories.postApi(url: ApiUrls.giveawayProductAddress, context: context, mapData: map).then((value) {
       ModelCommonResponse response = ModelCommonResponse.fromJson(jsonDecode(value));
       print('API Response Status Code: ${response.status}');
-      // showToast(response.message.toString());
       if (response.status == true) {
         showToast(response.message.toString());
-        if(formKey1.currentState!.validate()){
-          Get.to(()=> const SponsorsScreenAcademic());
+
+        if (formKey1.currentState!.validate()) {
+          Get.to(() => const EligibleCustomersAcademic());
         }
       }
     });
@@ -142,7 +145,6 @@ class _OptionalDetailsAcademicScreenState extends State<OptionalDetailsAcademicS
                     }
                     return null;
                   },
-
                 ),
                 CommonTextField(
                   controller: programNameController,
@@ -155,7 +157,6 @@ class _OptionalDetailsAcademicScreenState extends State<OptionalDetailsAcademicS
                     }
                     return null;
                   },
-
                 ),
                 CommonTextField(
                   controller: programGoalController,
@@ -212,20 +213,18 @@ class _OptionalDetailsAcademicScreenState extends State<OptionalDetailsAcademicS
                     ),
                   ),
                 ),
-
                 const SizedBox(height: 20),
                 CustomOutlineButton(
                   title: 'Done',
                   borderRadius: 11,
                   onPressed: () {
                     optionalApi();
-
                   },
                 ),
                 const SizedBox(height: 20),
                 GestureDetector(
                   onTap: () {
-                    Get.to(()=> const SponsorsScreenAcademic());
+                    Get.to(() => const EligibleCustomersAcademic());
                   },
                   child: Container(
                     width: Get.width,

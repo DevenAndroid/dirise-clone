@@ -34,8 +34,9 @@ class _DurationScreenState extends State<DurationScreen> {
   createDuration() {
     Map<String, dynamic> map = {};
     map['recovery_block_time'] = timeControllerRecovery.text.trim().toString();
-    map['booking_product_type'] = timeControllerPreparation.text.trim().toString();
+    map['preparation_block_time'] = timeControllerPreparation.text.trim().toString();
     map['id'] = addProductController.idProduct.value.toString();
+    // map['product_type'] = 'booking';
     final Repositories repositories = Repositories();
     FocusManager.instance.primaryFocus!.unfocus();
     repositories.postApi(url: ApiUrls.giveawayProductAddress, context: context, mapData: map).then((value) {
@@ -55,6 +56,8 @@ class _DurationScreenState extends State<DurationScreen> {
     // map["product_id"] = addProductController.productId.toString();
     map["product_id"] =  addProductController.idProduct.value.toString();
     map["todayDate"] = addProductController.formattedStartDate.toString();
+    map['recovery_block_time'] = timeControllerRecovery.text.trim().toString();
+    map['preparation_block_time'] = timeControllerPreparation.text.trim().toString();
     map["interval"] = timeController.text.trim().toString();
     repositories.postApi(url: ApiUrls.productCreateSlots, mapData: map, context: context).then((value) {
       createSlotsModel.value = CreateSlotsModel.fromJson(jsonDecode(value));

@@ -2,6 +2,7 @@ import 'dart:async';
 import 'package:dirise/addNewProduct/internationalshippingdetailsScreem.dart';
 import 'package:dirise/language/app_strings.dart';
 import 'package:dirise/routers/my_routers.dart';
+import 'package:dirise/screens/auth_screens/login_screen.dart';
 import 'package:dirise/screens/home_pages/homepage_screen.dart';
 import 'package:dirise/screens/return_policy.dart';
 import 'package:dirise/screens/wishlist/whishlist_screen.dart';
@@ -16,6 +17,7 @@ import 'package:fluttertoast/fluttertoast.dart';
 import 'package:get/get.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:shared_preferences/shared_preferences.dart';
+import 'addNewProduct/addProductStartScreen.dart';
 import 'controller/cart_controller.dart';
 import 'controller/homepage_controller.dart';
 import 'controller/profile_controller.dart';
@@ -85,7 +87,7 @@ class _BottomNavbarState extends State<BottomNavbar> {
 
   checkUser() async {
     SharedPreferences preferences = await SharedPreferences.getInstance();
-    if (preferences.getString('user_details') != null) {
+    if (preferences.getString('login_user') != null) {
       isLoggedIn = true;
     } else {
       isLoggedIn = false;
@@ -128,9 +130,9 @@ class _BottomNavbarState extends State<BottomNavbar> {
               child: GestureDetector(
                 onTap: () {
                   if (isLoggedIn) {
-                    Get.toNamed(VendorDashBoardScreen.route);
+                    Get.to(AddProductOptionScreen());
                   } else {
-                    Get.toNamed(CreateAccountNewScreen.route);
+                    Get.to(LoginScreen());
                   }
                 },
                 child: Container(
@@ -153,10 +155,10 @@ class _BottomNavbarState extends State<BottomNavbar> {
                   child: GestureDetector(
                     onTap: () {
                       if (isLoggedIn) {
-                        Get.toNamed(CreateAccountNewScreen.route);
 
+                       Get.to(AddProductOptionScreen());
                       } else {
-                        Get.toNamed(VendorDashBoardScreen.route);
+                        Get.to(LoginScreen());
                       }
                     },
                     child: Center(

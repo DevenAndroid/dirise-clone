@@ -2,33 +2,36 @@ import 'dart:convert';
 import 'package:dirise/Services/services_classification.dart';
 import 'package:dirise/controller/service_controller.dart';
 import 'package:dirise/screens/Consultation%20Sessions/sponsors_screen.dart';
+import 'package:dirise/screens/extendedPrograms/sponsors_academic_screen.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 import 'package:get/get.dart';
 import 'package:google_fonts/google_fonts.dart';
 
+import '../../controller/vendor_controllers/add_product_controller.dart';
 import '../../model/common_modal.dart';
 import '../../repository/repository.dart';
 import '../../utils/api_constant.dart';
 import '../../widgets/common_button.dart';
 import '../../widgets/common_colour.dart';
 import '../../widgets/common_textfield.dart';
-import 'EligibleCustomers_extended.dart';
+import 'eligible_customer_academic.dart';
 
-class OptionalDetailsScreenExtended extends StatefulWidget {
-  const OptionalDetailsScreenExtended({super.key});
+class OptionalDetailsExtendedPrograms extends StatefulWidget {
+  const OptionalDetailsExtendedPrograms({super.key});
 
   @override
-  State<OptionalDetailsScreenExtended> createState() => _OptionalDetailsScreenExtendedState();
+  State<OptionalDetailsExtendedPrograms> createState() => _OptionalDetailsExtendedProgramsState();
 }
 
-class _OptionalDetailsScreenExtendedState extends State<OptionalDetailsScreenExtended> {
+class _OptionalDetailsExtendedProgramsState extends State<OptionalDetailsExtendedPrograms> {
   final serviceController = Get.put(ServiceController());
   RxBool hide = true.obs;
   RxBool hide1 = true.obs;
   bool showValidation = false;
   final Repositories repositories = Repositories();
+  final addProductController = Get.put(AddProductController());
   final formKey1 = GlobalKey<FormState>();
   String code = "+91";
   final TextEditingController locationController = TextEditingController();
@@ -38,7 +41,7 @@ class _OptionalDetailsScreenExtendedState extends State<OptionalDetailsScreenExt
   final TextEditingController programDescription = TextEditingController();
   optionalApi() {
     Map<String, dynamic> map = {};
-
+    map["id"] = addProductController.idProduct.value.toString();
     map['bookable_product_location'] = locationController.text.trim();
     map['item_type'] = 'product';
     map['host_name'] = hostNameController.text.trim();
@@ -50,11 +53,11 @@ class _OptionalDetailsScreenExtendedState extends State<OptionalDetailsScreenExt
     repositories.postApi(url: ApiUrls.giveawayProductAddress, context: context, mapData: map).then((value) {
       ModelCommonResponse response = ModelCommonResponse.fromJson(jsonDecode(value));
       print('API Response Status Code: ${response.status}');
-      // showToast(response.message.toString());
       if (response.status == true) {
         showToast(response.message.toString());
-        if(formKey1.currentState!.validate()){
-          Get.to(() => const EligibleCustomersExtended());
+
+        if (formKey1.currentState!.validate()) {
+          Get.to(() => const SponsorsScreenExtendedPrograms());
         }
       }
     });
@@ -143,7 +146,6 @@ class _OptionalDetailsScreenExtendedState extends State<OptionalDetailsScreenExt
                     }
                     return null;
                   },
-
                 ),
                 CommonTextField(
                   controller: programNameController,
@@ -156,7 +158,6 @@ class _OptionalDetailsScreenExtendedState extends State<OptionalDetailsScreenExt
                     }
                     return null;
                   },
-
                 ),
                 CommonTextField(
                   controller: programGoalController,
@@ -213,20 +214,18 @@ class _OptionalDetailsScreenExtendedState extends State<OptionalDetailsScreenExt
                     ),
                   ),
                 ),
-
                 const SizedBox(height: 20),
                 CustomOutlineButton(
                   title: 'Done',
                   borderRadius: 11,
                   onPressed: () {
                     optionalApi();
-
                   },
                 ),
                 const SizedBox(height: 20),
                 GestureDetector(
                   onTap: () {
-                    Get.to(() => const EligibleCustomersExtended());
+                    Get.to(() => const SponsorsScreenExtendedPrograms());
                   },
                   child: Container(
                     width: Get.width,
