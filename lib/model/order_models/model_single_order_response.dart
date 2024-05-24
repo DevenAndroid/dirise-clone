@@ -65,7 +65,7 @@ class SingleOrderData {
       this.currencyCode,
       this.couponId,
       this.couponCode,
-      this.orderShipping,
+        this.orderShipping,
       this.discountAmount,
       this.updatedAt,
       this.createdDate,
@@ -94,7 +94,9 @@ class SingleOrderData {
     updatedAt = json['updated_at'];
     createdDate = json['created_date'];
     orderMeta = json['order_meta'] != null ? OrderMeta.fromJson(json['order_meta']) : null;
-    orderShipping = json['order_shipping'] != null ? OrderShipping.fromJson(json['order_shipping']) : null;
+    orderShipping = json['OrderShipping'] != null
+        ? new OrderShipping.fromJson(json['OrderShipping'])
+        : null;
     expectedDate = json['expected_date'];
     if (json['order_item'] != null) {
       orderItem = <OrderItem>[];
@@ -131,8 +133,8 @@ class SingleOrderData {
     if (orderMeta != null) {
       data['order_meta'] = orderMeta!.toJson();
     }
-    if (orderShipping != null) {
-      data['order_shipping'] = orderShipping!.toJson();
+    if (this.orderShipping != null) {
+      data['OrderShipping'] = this.orderShipping!.toJson();
     }
     data['expected_date'] = expectedDate;
     if (orderItem != null) {
@@ -147,31 +149,34 @@ class SingleOrderData {
 }
 
 class OrderShipping {
-  dynamic id;
-  dynamic orderId;
-  dynamic vendorId;
-  dynamic shippingTitle;
-  dynamic shippingPrice;
-  dynamic createdAt;
-  dynamic updatedAt;
+  int? id;
+  int? orderId;
+  int? vendorId;
+  String? shippingType;
+  String? shipmentProvider;
+  String? shippingTitle;
+  double? shippingPrice;
+  String? shippingDate;
 
   OrderShipping(
       {this.id,
         this.orderId,
         this.vendorId,
+        this.shippingType,
+        this.shipmentProvider,
         this.shippingTitle,
         this.shippingPrice,
-        this.createdAt,
-        this.updatedAt});
+        this.shippingDate});
 
   OrderShipping.fromJson(Map<String, dynamic> json) {
     id = json['id'];
     orderId = json['order_id'];
     vendorId = json['vendor_id'];
+    shippingType = json['shipping_type'];
+    shipmentProvider = json['shipment_provider'];
     shippingTitle = json['shipping_title'];
     shippingPrice = json['shipping_price'];
-    createdAt = json['created_at'];
-    updatedAt = json['updated_at'];
+    shippingDate = json['shipping_date'];
   }
 
   Map<String, dynamic> toJson() {
@@ -179,10 +184,11 @@ class OrderShipping {
     data['id'] = this.id;
     data['order_id'] = this.orderId;
     data['vendor_id'] = this.vendorId;
+    data['shipping_type'] = this.shippingType;
+    data['shipment_provider'] = this.shipmentProvider;
     data['shipping_title'] = this.shippingTitle;
     data['shipping_price'] = this.shippingPrice;
-    data['created_at'] = this.createdAt;
-    data['updated_at'] = this.updatedAt;
+    data['shipping_date'] = this.shippingDate;
     return data;
   }
 }
