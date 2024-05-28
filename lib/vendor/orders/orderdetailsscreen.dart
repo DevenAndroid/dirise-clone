@@ -942,7 +942,7 @@ RxString kgValue = "".obs;
                                                     ),
                                                   ),
                                                   Text(
-                                                    createShipmentModel.value.data!.trackingNumber.toString(),
+                                                    createShipmentModel.value.data!.trackingNo.toString(),
                                                     style: GoogleFonts.poppins(
                                                         color: const Color(0xff486769),
                                                         fontWeight: FontWeight.w300,
@@ -1048,7 +1048,7 @@ RxString kgValue = "".obs;
                                                 Overlay.of(context)!.insert(loader);
 
                                                 // Use http package instead of HttpClient for simplicity
-                                                var response = await http.get(Uri.parse(createShipmentModel.value.data!.labelPdf.toString()));
+                                                var response = await http.get(Uri.parse(createShipmentModel.value.data!.url.toString()));
                                                 if (response.statusCode == 200) {
                                                   var bytes = response.bodyBytes;
 

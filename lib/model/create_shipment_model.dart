@@ -1,6 +1,6 @@
 class CreateShipmentModel {
   bool? status;
-  dynamic message;
+  String? message;
   Data? data;
 
   CreateShipmentModel({this.status, this.message, this.data});
@@ -23,20 +23,20 @@ class CreateShipmentModel {
 }
 
 class Data {
-  dynamic trackingNumber;
-  dynamic labelPdf;
+  String? trackingNo;
+  String? url;
 
-  Data({this.trackingNumber, this.labelPdf});
+  Data({this.trackingNo, this.url});
 
   Data.fromJson(Map<String, dynamic> json) {
-    trackingNumber = json['tracking_number'];
-    labelPdf = json['label_pdf'];
+    trackingNo = json['trackingNo'];
+    url = json['url'];
   }
 
   Map<String, dynamic> toJson() {
     final Map<String, dynamic> data = new Map<String, dynamic>();
-    data['tracking_number'] = this.trackingNumber;
-    data['label_pdf'] = this.labelPdf;
+    data['trackingNo'] = this.trackingNo;
+    data['url'] = this.url;
     return data;
   }
 }
