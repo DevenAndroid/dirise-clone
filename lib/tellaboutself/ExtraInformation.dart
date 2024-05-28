@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:google_fonts/google_fonts.dart';
 
+import '../iAmHereToSell/productAccountCreatedSuccessfullyScreen.dart';
 import '../screens/tell_us_about_yourself.dart';
 import '../singleproductScreen/varientsProductsScreen.dart';
 import '../vendor/products/add_product/add_product_screen.dart';
@@ -35,7 +36,7 @@ class _ExtraInformationState extends State<ExtraInformation> {
               const SizedBox(height: 20,),
               GestureDetector(
                 onTap: (){
-                  // Get.to(()=>const TellUsYourSelfScreen());
+                  Get.to(()=>const ProductAccountCreatedSuccessfullyScreen());
                 },
                 child: Container(
                   width:size.width,

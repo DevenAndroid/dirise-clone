@@ -1,3 +1,5 @@
+import 'dart:developer';
+
 class CreateSlotsModel {
   dynamic status;
   dynamic message;
@@ -9,15 +11,20 @@ class CreateSlotsModel {
     status = json['status'];
     message = json['message'];
     if (json['data'] != null) {
-      data = <Data>[];
-      json['data'].forEach((v) {
-        data!.add(new Data.fromJson(v));
-      });
+      if (json['data'] is List) {
+        data = <Data>[];
+        json['data'].forEach((v) {
+          data!.add(Data.fromJson(v));
+        });
+      } else {
+        // Log or handle the case where 'data' is not a List
+        log('Unexpected format for data field: ${json['data']}');
+      }
     }
   }
 
   Map<String, dynamic> toJson() {
-    final Map<String, dynamic> data = new Map<String, dynamic>();
+    final Map<String, dynamic> data = <String, dynamic>{};
     data['status'] = status;
     data['message'] = message;
     if (this.data != null) {
@@ -53,7 +60,7 @@ class Data {
   }
 
   Map<String, dynamic> toJson() {
-    final Map<String, dynamic> data = new Map<String, dynamic>();
+    final Map<String, dynamic> data = <String, dynamic>{};
     data['product_id'] = productId;
     data['week_day'] = weekDay;
     data['product_availability_id'] = productAvailabilityId;

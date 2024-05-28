@@ -17,14 +17,14 @@ class VendorStoreTimingController extends GetxController{
       modelStoreAvailability = ModelStoreAvailable.fromJson(jsonDecode(value));
       if(modelStoreAvailability.data == null || modelStoreAvailability.data!.isEmpty){
         modelStoreAvailability.data!.addAll([
-        Data(endTime: "19:00",startTime: "09:00",weekDay: "Master",status: false),
-          Data(endTime: "19:00",startTime: "09:00",weekDay: "Mon",status: false),
-          Data(endTime: "19:00",startTime: "09:00",weekDay: "Tue",status: false),
-          Data(endTime: "19:00",startTime: "09:00",weekDay: "Wed",status: false),
-          Data(endTime: "19:00",startTime: "09:00",weekDay: "Thu",status: false),
-          Data(endTime: "19:00",startTime: "09:00",weekDay: "Fri",status: false),
-          Data(endTime: "19:00",startTime: "09:00",weekDay: "Sat",status: false),
-          Data(endTime: "19:00",startTime: "09:00",weekDay: "Sun",status: false),
+        // Data(endTime: "19:00",startTime: "09:00",weekDay: "Master",status: false),
+          Data(endTime: "19:00",startTime: "09:00",weekDay: "Mon",status: false,startBreakTime : "09:00",endBreakTime: "19:00"),
+          Data(endTime: "19:00",startTime: "09:00",weekDay: "Tue",status: false,startBreakTime : "09:00",endBreakTime: "19:00"),
+          Data(endTime: "19:00",startTime: "09:00",weekDay: "Wed",status: false,startBreakTime : "09:00",endBreakTime: "19:00"),
+          Data(endTime: "19:00",startTime: "09:00",weekDay: "Thu",status: false,startBreakTime : "09:00",endBreakTime: "19:00"),
+          Data(endTime: "19:00",startTime: "09:00",weekDay: "Fri",status: false,startBreakTime : "09:00",endBreakTime: "19:00"),
+          Data(endTime: "19:00",startTime: "09:00",weekDay: "Sat",status: false,startBreakTime : "09:00",endBreakTime: "19:00"),
+          Data(endTime: "19:00",startTime: "09:00",weekDay: "Sun",status: false,startBreakTime : "09:00",endBreakTime: "19:00"),
         ]);
       }
       refreshInt.value = DateTime.now().millisecondsSinceEpoch;

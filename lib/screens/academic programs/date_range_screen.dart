@@ -1,8 +1,9 @@
 import 'dart:convert';
 import 'dart:math';
 import 'package:dirise/screens/Consultation%20Sessions/set_store_time.dart';
-import 'package:dirise/screens/academic%20programs/set_store_time_academic.dart';
+import 'package:dirise/screens/academic%20programs/set_store_time.dart';
 import 'package:dirise/utils/helper.dart';
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:google_fonts/google_fonts.dart';
@@ -12,6 +13,8 @@ import '../../model/jobResponceModel.dart';
 import '../../repository/repository.dart';
 import '../../utils/api_constant.dart';
 import '../../widgets/common_colour.dart';
+import '../../widgets/common_textfield.dart';
+import 'duration_screen.dart';
 
 
 class AcademicDateScreen extends StatefulWidget {
@@ -25,6 +28,7 @@ class _AcademicDateScreenState extends State<AcademicDateScreen> {
   DateTime _startDate = DateTime.now();
   DateTime _endDate = DateTime.now();
   final addProductController = Get.put(AddProductController());
+  TextEditingController spotsController =  TextEditingController();
   String? formattedStartDate1;
   RxBool isServiceProvide = false.obs;
 
@@ -108,6 +112,7 @@ class _AcademicDateScreenState extends State<AcademicDateScreen> {
     Map<String, dynamic> map3 = {};
 
     map["product_type"] = "booking";
+    map["spot"] = spotsController.text.trim();
     map["id"] =  addProductController.idProduct.value.toString();
     map["group"] = addProductController.formattedStartDate  == formattedStartDate1?"date":"range";
     if(addProductController.formattedStartDate  == formattedStartDate1){
@@ -135,7 +140,7 @@ class _AcademicDateScreenState extends State<AcademicDateScreen> {
       JobResponceModel response = JobResponceModel.fromJson(jsonDecode(value));
       if (response.status == true) {
         showToast(response.message.toString());
-        Get.to(()=> const SetTimeAcademicScreen());
+        Get.to(()=> const SetTimeScreenAcademic());
         print('value isssss${response.toJson()}');
       }else{
         showToast(response.message.toString());
@@ -316,6 +321,21 @@ class _AcademicDateScreenState extends State<AcademicDateScreen> {
                 ),
               ),
             ),
+
+       SizedBox(height: 20,),
+            CommonTextField(
+              controller: spotsController,
+              obSecure: false,
+              hintText: 'Spots'.tr,
+              keyboardType: TextInputType.number,
+              validator: (value) {
+                if (value!.trim().isEmpty) {
+                  return "Spots is required".tr;
+                }
+                return null;
+              },
+
+            ),
             if(isServiceProvide.value == true)
               20.spaceY,
             if(isServiceProvide.value == true)
@@ -391,7 +411,7 @@ class _AcademicDateScreenState extends State<AcademicDateScreen> {
             ),
             InkWell(
               onTap: (){
-                Get.to(()=> const SetTimeAcademicScreen());
+                Get.to(()=> const SetTimeScreenAcademic());
               },
               child: Container(
                 width: Get.width,

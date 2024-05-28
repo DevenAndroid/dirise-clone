@@ -18,7 +18,7 @@ import '../../widgets/common_button.dart';
 import '../../widgets/common_colour.dart';
 import '../../widgets/common_textfield.dart';
 import '../../widgets/dimension_screen.dart';
-import 'eligible_customer.dart';
+import 'optional_details_academic.dart';
 
 
 class SponsorsSeminarScreen extends StatefulWidget {
@@ -87,7 +87,7 @@ class _SponsorsSeminarScreenState extends State<SponsorsSeminarScreen> {
       if (response.status == true) {
         showToast(response.message.toString());
         if(formKey1.currentState!.validate()){
-          Get.to(()=> const EligibleCustomersSeminars());
+          Get.to(()=> const OptionalDetailsSeminarAndAttendable());
         }
       }
     });
@@ -295,7 +295,7 @@ class _SponsorsSeminarScreenState extends State<SponsorsSeminarScreen> {
                   const SizedBox(height: 20),
                   GestureDetector(
                     onTap: () {
-                      Get.to(()=> const EligibleCustomersSeminars());
+                      Get.to(()=> const OptionalDetailsSeminarAndAttendable());
                     },
                     child: Container(
                       width: Get.width,

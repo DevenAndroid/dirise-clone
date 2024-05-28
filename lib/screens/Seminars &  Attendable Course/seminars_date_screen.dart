@@ -1,7 +1,7 @@
 import 'dart:convert';
-import 'dart:developer';
-import 'dart:math';
-import 'package:dirise/screens/Consultation%20Sessions/set_store_time.dart';
+import 'package:dirise/screens/Seminars%20&%20%20Attendable%20Course/seminars_sponsors_screen.dart';
+import 'package:dirise/screens/Seminars%20&%20%20Attendable%20Course/webinarScreen.dart';
+import 'package:dirise/screens/tour_travel/dateRangemodel.dart';
 import 'package:dirise/utils/helper.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
@@ -12,7 +12,7 @@ import '../../model/jobResponceModel.dart';
 import '../../repository/repository.dart';
 import '../../utils/api_constant.dart';
 import '../../widgets/common_colour.dart';
-import 'optinal_detail_seminars.dart';
+import 'optional_details_academic.dart';
 
 
 class DateRangeSeminarsScreen extends StatefulWidget {
@@ -27,7 +27,6 @@ class _DateRangeSeminarsScreenState extends State<DateRangeSeminarsScreen> {
   DateTime _endDate = DateTime.now();
   final addProductController = Get.put(AddProductController());
   String? formattedStartDate1;
-  RxBool isServiceProvide = false.obs;
   bool sundaySelected = false;
   bool mondaySelected = false;
   bool tueSelected = false;
@@ -75,19 +74,26 @@ class _DateRangeSeminarsScreenState extends State<DateRangeSeminarsScreen> {
     map["id"] =  addProductController.idProduct.value.toString();
     map["from_date"] = addProductController.formattedStartDate.toString();
     map["to_date"] = formattedStartDate1.toString();
+    map["off_days"] = offDaysSelected;
+    map['booking_product_type'] = 'webinar';
+
 
     repositories.postApi(url: ApiUrls.giveawayProductAddress, context: context, mapData: map).then((value) {
       print('object${value.toString()}');
-      JobResponceModel response = JobResponceModel.fromJson(jsonDecode(value));
+      DateRangeInTravelModel response = DateRangeInTravelModel.fromJson(jsonDecode(value));
       if (response.status == true) {
         showToast(response.message.toString());
-        Get.to(()=> const OptionalDetailsSeminarScreen());
+        int? id = response.productDetails!.productAvailabilityId?.id;
+        // Get.to(WebinarScreen());
+         Get.to(()=> WebinarScreen(id: id,));
         print('value isssss${response.toJson()}');
       }else{
         showToast(response.message.toString());
       }
     });
   }
+  List<bool> offDaysSelected = [false, false, false, false, false, false, false];
+
   @override
   void initState() {
     super.initState();
@@ -190,126 +196,15 @@ class _DateRangeSeminarsScreenState extends State<DateRangeSeminarsScreen> {
             10.spaceY,
             Row(
               children: [
-                Column(
-                  children: [
-                    Checkbox(
-                      value: mondaySelected,
-                      onChanged: (value) {
-                        setState(() {
-                          mondaySelected = value!;
-                        });
-                      },
-                    ),
-                    const Text('Mun',
-                      style: TextStyle(
-                          fontSize: 12,
-                          fontWeight: FontWeight.w400,
-                          color: Color(0xFF9C9CB4)
-                      ),),
-                  ],
-                ),
-                Column(
-                  children: [
-                    Checkbox(
-                      value: tueSelected,
-                      onChanged: (value) {
-                        setState(() {
-                          tueSelected = value!;
-                        });
-                      },
-                    ),
-                    const Text('Tue',style: TextStyle(
-                        fontSize: 12,
-                        fontWeight: FontWeight.w400,
-                        color: Color(0xFF9C9CB4)
-                    ),),
-                  ],
-                ),
-                Column(
-                  children: [
-                    Checkbox(
-                      value: wedSelected,
-                      onChanged: (value) {
-                        setState(() {
-                          wedSelected = value!;
-                        });
-                      },
-                    ),
-                    const Text('Wed',style: TextStyle(
-                        fontSize: 12,
-                        fontWeight: FontWeight.w400,
-                        color: Color(0xFF9C9CB4)
-                    ),),
-                  ],
-                ),
-                Column(
-                  children: [
-                    Checkbox(
-                      value: thurSelected,
-                      onChanged: (value) {
-                        setState(() {
-                          thurSelected = value!;
-                        });
-                      },
-                    ),
-                    const Text('Thu',style: TextStyle(
-                        fontSize: 12,
-                        fontWeight: FontWeight.w400,
-                        color: Color(0xFF9C9CB4)
-                    ),),
-                  ],
-                ),
-                Column(
-                  children: [
-                    Checkbox(
-                      value: friSelected,
-                      onChanged: (value) {
-                        setState(() {
-                          friSelected = value!;
-                        });
-                      },
-                    ),
-                    const Text('Fri',style: TextStyle(
-                        fontSize: 12,
-                        fontWeight: FontWeight.w400,
-                        color: Color(0xFF9C9CB4)
-                    ),),
-                  ],
-                ),
-                Column(
-                  children: [
-                    Checkbox(
-                      value: satSelected,
-                      onChanged: (value) {
-                        setState(() {
-                          satSelected = value!;
-                        });
-                      },
-                    ),
-                    const Text('Sat',style: TextStyle(
-                        fontSize: 12,
-                        fontWeight: FontWeight.w400,
-                        color: Color(0xFF9C9CB4)
-                    ),),
-                  ],
-                ),
-                Column(
-                  children: [
-                    Checkbox(
-                      value: sundaySelected,
-                      onChanged: (value) {
-                        setState(() {
-                          sundaySelected = value!;
-                        });
-                      },
-                    ),
-                    const Text('Sun',style: TextStyle(
-                        fontSize: 12,
-                        fontWeight: FontWeight.w400,
-                        color: Color(0xFF9C9CB4)
-                    ),),
-                  ],
-                ),
+
+                dayCheckBox('Mon', 1),
+                dayCheckBox('Tue', 2),
+                dayCheckBox('Wed', 3),
+                dayCheckBox('Thu', 4),
+                dayCheckBox('Fri', 5),
+                dayCheckBox('Sat', 6),
+                dayCheckBox('Sun', 7),
+
               ],
             ),
             40.spaceY,
@@ -317,9 +212,7 @@ class _DateRangeSeminarsScreenState extends State<DateRangeSeminarsScreen> {
             20.spaceY,
             InkWell(
               onTap: (){
-                // updateProfile();
                 updateProfile();
-                // Get.to(()=> const SetTimeScreenConsultation());
               },
               child: Container(
                 width: Get.width,
@@ -347,7 +240,7 @@ class _DateRangeSeminarsScreenState extends State<DateRangeSeminarsScreen> {
             InkWell(
               onTap: (){
                 // updateProfile();
-                Get.to(()=> const OptionalDetailsSeminarScreen());
+                Get.to(()=> const SponsorsSeminarScreen());
               },
               child: Container(
                 width: Get.width,
@@ -386,4 +279,21 @@ class _DateRangeSeminarsScreenState extends State<DateRangeSeminarsScreen> {
       ),
     );
   }
+  Widget dayCheckBox(String label, int index) {
+    return Column(
+      mainAxisSize: MainAxisSize.min,
+      children: [
+        Checkbox(
+          value: offDaysSelected[index - 1],
+          onChanged: (bool? value) {
+            setState(() {
+              offDaysSelected[index - 1] = value!;
+            });
+          },
+        ),
+        Text(label),
+      ],
+    );
+  }
+
 }

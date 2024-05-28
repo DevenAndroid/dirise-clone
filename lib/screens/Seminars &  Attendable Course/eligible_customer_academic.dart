@@ -1,25 +1,27 @@
 import 'dart:convert';
 
 import 'package:dirise/screens/Consultation%20Sessions/review_screen.dart';
-import 'package:dirise/screens/tour_travel/review_publish_screen.dart';
+import 'package:dirise/screens/Seminars%20&%20%20Attendable%20Course/review_screen.dart';
+import 'package:dirise/screens/academic%20programs/review_screen_academic.dart';
+import 'package:dirise/screens/extendedPrograms/review_screen_academic.dart';
 import 'package:dirise/utils/helper.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:google_fonts/google_fonts.dart';
+import '../../controller/vendor_controllers/add_product_controller.dart';
 import '../../model/common_modal.dart';
 import '../../repository/repository.dart';
 import '../../utils/api_constant.dart';
 import '../../widgets/common_button.dart';
 
-
-class EligibleCustomersTourScreen extends StatefulWidget {
-  const EligibleCustomersTourScreen({super.key});
+class EligibleCustomersSeminarAndAttendable extends StatefulWidget {
+  const EligibleCustomersSeminarAndAttendable({super.key});
 
   @override
-  State<EligibleCustomersTourScreen> createState() => _EligibleCustomersTourScreenState();
+  State<EligibleCustomersSeminarAndAttendable> createState() => _EligibleCustomersSeminarAndAttendableState();
 }
 
-class _EligibleCustomersTourScreenState extends State<EligibleCustomersTourScreen> {
+class _EligibleCustomersSeminarAndAttendableState extends State<EligibleCustomersSeminarAndAttendable> {
   final Repositories repositories = Repositories();
   RangeValues currentRangeValues = const RangeValues(10, 80);
   double startValue = 0.0;
@@ -31,13 +33,14 @@ class _EligibleCustomersTourScreenState extends State<EligibleCustomersTourScree
   String endString = '';
   int endDecimalIndex = 0;
   String endDigitsBeforeDecimal = '';
-
+  final addProductController = Get.put(AddProductController());
   String selectedGender = 'Male Only';
   createEligbleCustomer() {
     Map<String, dynamic> map = {};
-    map['eligible_min_age '] = digitsBeforeDecimal.toString();
-    map['eligible_max_age '] = endDigitsBeforeDecimal.toString();
-    map['eligible_gender '] = selectedGender.toString();
+    map['eligible_min_age'] = digitsBeforeDecimal.toString();
+    map['eligible_max_age'] = endDigitsBeforeDecimal.toString();
+    map['eligible_gender'] = selectedGender.toString();
+    map["id"] = addProductController.idProduct.value.toString();
     FocusManager.instance.primaryFocus!.unfocus();
     repositories.postApi(url: ApiUrls.giveawayProductAddress, context: context, mapData: map).then((value) {
       ModelCommonResponse response = ModelCommonResponse.fromJson(jsonDecode(value));
@@ -45,10 +48,11 @@ class _EligibleCustomersTourScreenState extends State<EligibleCustomersTourScree
       // showToast(response.message.toString());
       if (response.status == true) {
         showToast(response.message.toString());
-        Get.to(()=> const ReviewandPublishTourScreenScreen());
+        Get.to(() => const ReviewScreenSeminarAndAttendable());
       }
     });
   }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -78,16 +82,14 @@ class _EligibleCustomersTourScreenState extends State<EligibleCustomersTourScree
         ),
       ),
       body: SingleChildScrollView(
-        padding: const EdgeInsets.symmetric(vertical: 20,horizontal: 10),
+        padding: const EdgeInsets.symmetric(vertical: 20, horizontal: 10),
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            Text('Eligible Customers',
-              style: GoogleFonts.poppins(
-                  color: Colors.black,
-                  fontSize: 18,
-                  fontWeight: FontWeight.w500
-              ),),
+            Text(
+              'Eligible Customers',
+              style: GoogleFonts.poppins(color: Colors.black, fontSize: 18, fontWeight: FontWeight.w500),
+            ),
             20.spaceY,
             RangeSlider(
               values: currentRangeValues,
@@ -109,9 +111,6 @@ class _EligibleCustomersTourScreenState extends State<EligibleCustomersTourScree
                   endString = endValue.toString();
                   endDecimalIndex = endString.indexOf('.');
                   endDigitsBeforeDecimal = endDecimalIndex != -1 ? endString.substring(0, decimalIndex) : endString;
-
-
-
                 });
               },
             ),
@@ -120,55 +119,37 @@ class _EligibleCustomersTourScreenState extends State<EligibleCustomersTourScree
               crossAxisAlignment: CrossAxisAlignment.center,
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
-                Text('Age range',
-                  style: GoogleFonts.poppins(
-                      color: const Color(0xFF514949),
-                      fontSize: 16,
-                      fontWeight: FontWeight.w500
-                  ),),
+                Text(
+                  'Age range',
+                  style: GoogleFonts.poppins(color: const Color(0xFF514949), fontSize: 16, fontWeight: FontWeight.w500),
+                ),
                 9.spaceX,
                 Container(
                   width: 60,
-                  padding: const EdgeInsets.symmetric(horizontal: 10,vertical: 15),
-                  decoration: BoxDecoration(
-                      color: const Color(0xFFF2F2F2),
-                      borderRadius: BorderRadius.circular(8)
-                  ),
+                  padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 15),
+                  decoration: BoxDecoration(color: const Color(0xFFF2F2F2), borderRadius: BorderRadius.circular(8)),
                   child: Center(
-                    child: Text( digitsBeforeDecimal.toString(),
-                        style: const TextStyle(
-                            color: Colors.black,
-                            fontWeight: FontWeight.w500,
-                            fontSize: 14
-                        )),
+                    child: Text(digitsBeforeDecimal.toString(),
+                        style: const TextStyle(color: Colors.black, fontWeight: FontWeight.w500, fontSize: 14)),
                   ),
                 ),
                 9.spaceX,
                 Container(
                   width: 60,
-                  padding: const EdgeInsets.symmetric(horizontal: 10,vertical: 15),
-                  decoration: BoxDecoration(
-                      color: const Color(0xFFF2F2F2),
-                      borderRadius: BorderRadius.circular(8)
-                  ),
+                  padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 15),
+                  decoration: BoxDecoration(color: const Color(0xFFF2F2F2), borderRadius: BorderRadius.circular(8)),
                   child: Center(
-                    child: Text( endDigitsBeforeDecimal.toString(),
-                        style: const TextStyle(
-                            color: Colors.black,
-                            fontWeight: FontWeight.w500,
-                            fontSize: 14
-                        )),
+                    child: Text(endDigitsBeforeDecimal.toString(),
+                        style: const TextStyle(color: Colors.black, fontWeight: FontWeight.w500, fontSize: 14)),
                   ),
                 ),
               ],
             ),
             30.spaceY,
-            Text('This program is for',
-              style: GoogleFonts.poppins(
-                  color: Colors.black,
-                  fontSize: 18,
-                  fontWeight: FontWeight.w500
-              ),),
+            Text(
+              'This program is for',
+              style: GoogleFonts.poppins(color: Colors.black, fontSize: 18, fontWeight: FontWeight.w500),
+            ),
             10.spaceY,
             RadioListTile<String>(
               contentPadding: EdgeInsets.zero,
@@ -211,18 +192,17 @@ class _EligibleCustomersTourScreenState extends State<EligibleCustomersTourScree
               title: 'Done',
               borderRadius: 11,
               onPressed: () {
-                if(selectedGender != '' && digitsBeforeDecimal != '' && endDigitsBeforeDecimal != ''){
+                if (selectedGender != '' && digitsBeforeDecimal != '' && endDigitsBeforeDecimal != '') {
                   createEligbleCustomer();
-                }else{
+                } else {
                   showToastCenter('Select Age Range'.tr);
                 }
-
               },
             ),
             const SizedBox(height: 20),
             GestureDetector(
               onTap: () {
-                Get.to(()=> const ReviewandPublishTourScreenScreen());
+                Get.to(() => const ReviewScreenExtendedPrograms());
               },
               child: Container(
                 width: Get.width,

@@ -15,6 +15,7 @@ import '../language/app_strings.dart';
 import '../newAddress/pickUpAddressScreen.dart';
 import '../singleproductScreen/giveaway1.dart';
 import '../singleproductScreen/product_information_screen.dart';
+import '../virtualProduct/product_information_screen.dart';
 import '../widgets/common_button.dart';
 
 class MyItemISScreen extends StatefulWidget {
@@ -50,7 +51,7 @@ class _MyItemISScreenState extends State<MyItemISScreen> {
       } else if (selectedRadio == 'Service') {
         Get.to(whatServiceDoYouProvide(fetaureImage: widget.featureImage,));
       } else if (selectedRadio == 'Virtual') {
-        Get.to(PickUpAddressScreen());
+        Get.to(VirtualProductInformationScreens());
       } else {
         // Handle the case where the selected radio doesn't match any case
         // For example, show a message or perform a different action
@@ -58,7 +59,7 @@ class _MyItemISScreenState extends State<MyItemISScreen> {
     } else {
       // If user is not a vendor, only allow 'Giveaway' option
       if (selectedRadio == 'Giveaway') {
-        Get.to(const ItemDetailsScreens());
+        Get.to( ItemDetailsScreens());
       } else {
         showToast('Please Register As A Vendor');
       }

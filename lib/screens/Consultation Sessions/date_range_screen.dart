@@ -2,6 +2,7 @@ import 'dart:convert';
 import 'dart:developer';
 import 'dart:math';
 import 'package:dirise/screens/Consultation%20Sessions/set_store_time.dart';
+import 'package:dirise/screens/Consultation%20Sessions/timeScreen.dart';
 import 'package:dirise/utils/helper.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
@@ -130,12 +131,12 @@ else{
       map3["$index"] = formattedStartDate1Vacation.toString();
     }
 
-    repositories.postApi(url: ApiUrls.giveawayProductAddress, context: context, mapData: map).then((value) {
+      repositories.postApi(url: ApiUrls.giveawayProductAddress, context: context, mapData: map).then((value) {
       print('object${value.toString()}');
       JobResponceModel response = JobResponceModel.fromJson(jsonDecode(value));
       if (response.status == true) {
         showToast(response.message.toString());
-       Get.to(()=> const SetTimeScreenConsultation());
+       Get.to(()=> const TimeScreen());
         print('value isssss${response.toJson()}');
       }else{
         showToast(response.message.toString());

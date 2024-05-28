@@ -17,11 +17,17 @@ import '../utils/api_constant.dart';
 import '../widgets/common_button.dart';
 import '../widgets/common_colour.dart';
 import '../widgets/common_textfield.dart';
+import 'ReviewandPublishScreen.dart';
 
 class SingleProductPriceScreen extends StatefulWidget {
+  double? price;
+  int? fixDiscount;
+  double? percentage;
+  int? id;
   File? fetaureImage;
   String? name;
-  SingleProductPriceScreen({super.key,this.fetaureImage,this.name});
+  SingleProductPriceScreen(
+      {super.key, this.fetaureImage, this.name, this.price, this.fixDiscount, this.percentage, this.id});
 
   @override
   State<SingleProductPriceScreen> createState() => _SingleProductPriceScreenState();
@@ -64,6 +70,7 @@ class _SingleProductPriceScreenState extends State<SingleProductPriceScreen> {
       });
     }
   }
+
   deliverySizeApi() {
     Map<String, dynamic> map = {};
     map['discount_percent'] = discountPrecrnt.text.toString();
@@ -81,10 +88,26 @@ class _SingleProductPriceScreenState extends State<SingleProductPriceScreen> {
       if (response.status == true) {
         // addProductController.idProduct.value = response.productDetails!.product!.id.toString();
         print(addProductController.idProduct.value.toString());
-        Get.to(const SingleProductDiscriptionScreen());
+        if (widget.id != null) {
+          Get.to(const ReviewandPublishScreen());
+        } else {
+          Get.to( SingleProductDiscriptionScreen());
+        }
       }
     });
   }
+
+  @override
+  void initState() {
+    // TODO: implement initState
+    super.initState();
+    if (widget.id != null) {
+      priceController.text = widget.price.toString();
+      discountPrecrnt.text = widget.percentage.toString();
+      fixedDiscount.text = widget.fixDiscount.toString();
+    }
+  }
+
   final formKey1 = GlobalKey<FormState>();
   @override
   Widget build(BuildContext context) {
@@ -94,7 +117,7 @@ class _SingleProductPriceScreenState extends State<SingleProductPriceScreen> {
         surfaceTintColor: Colors.white,
         elevation: 0,
         leading: GestureDetector(
-          onTap: (){
+          onTap: () {
             Get.back();
           },
           child: const Icon(
@@ -164,7 +187,6 @@ class _SingleProductPriceScreenState extends State<SingleProductPriceScreen> {
                             borderRadius: BorderRadius.circular(4),
                           ),
                           value: isDelivery.value,
-
                           side: const BorderSide(
                             color: AppTheme.buttonColor,
                           ),
@@ -176,94 +198,107 @@ class _SingleProductPriceScreenState extends State<SingleProductPriceScreen> {
                     ),
                   ],
                 ),
-                if(isDelivery.value ==  true)
-                Column(
-                  children: [
-                    const SizedBox(height: 10,),
-                    Text(
-                      'Fixed Discounted Price'.tr,
-                      style: GoogleFonts.poppins(color: const Color(0xff292F45), fontWeight: FontWeight.w400, fontSize: 14),
-                    ),
-                    CommonTextField(
-                      controller: fixedDiscount,
-                      obSecure: false,
-                      keyboardType: TextInputType.number,
-                      onChanged: (value) {
-                        discountPrecrnt.text = "";
-                        isPercentageDiscount = false;
-                        calculateDiscount();
-                        sale = value;
-                        setState(() {});
-                      },
-                      validator: (value) {
-                        if (discountPrecrnt.text.isEmpty) {
-                          if (value!.trim().isEmpty) {
-                            return 'Discount Price is required'.tr;
-                          }
-                          double? discountValue = double.tryParse(value);
-                          double? priceValue = double.tryParse(priceController.text);
-                          if (discountValue != null && priceValue != null && discountValue > priceValue) {
-                            return 'Discount Price cannot be greater than Price'.tr;
-                          }
-                        }
-                        return null; // Return null if validation passes
-                      },
-                      hintText: 'Discount Price'.tr,
-                    ),
-                    const SizedBox(height: 10,),
-                    Align(
-                      alignment: Alignment.center,
-                      child: Text(
-                        'OR'.tr,
-                        style: GoogleFonts.poppins(color: Colors.red, fontWeight: FontWeight.w400, fontSize: 14),
+                if (isDelivery.value == true)
+                  Column(
+                    children: [
+                      const SizedBox(
+                        height: 10,
                       ),
-                    ),
-                    const SizedBox(height: 10,),
-                    Text(
-                      'Discount Percentage'.tr,
-                      style: GoogleFonts.poppins(color: const Color(0xff292F45), fontWeight: FontWeight.w400, fontSize: 14),
-                    ),
-                    CommonTextField(
-                      controller: discountPrecrnt,
-                      obSecure: false,
-                      // hintText: 'Name',
-                      keyboardType: TextInputType.number,
-                      hintText: 'Percentage'.tr,
-                      onChanged: (value) {
-                        fixedDiscount.text = "";
-                        isPercentageDiscount = true;
-                        calculateDiscount();
-                        sale = value;
-                        setState(() {});
-                      },
-                      validator: (value) {
-                        if (fixedDiscount.text.isEmpty) {
-                          if (value == null || value.trim().isEmpty) {
-                            return 'Percentage is required'.tr;
-                          } else {
-                            double? percentage = double.tryParse(value);
-                            if (percentage == null || percentage > 100) {
-                              return 'Percentage must be between 0 and 100'.tr;
+                      Text(
+                        'Fixed Discounted Price'.tr,
+                        style: GoogleFonts.poppins(
+                            color: const Color(0xff292F45), fontWeight: FontWeight.w400, fontSize: 14),
+                      ),
+                      CommonTextField(
+                        controller: fixedDiscount,
+                        obSecure: false,
+                        keyboardType: TextInputType.number,
+                        onChanged: (value) {
+                          discountPrecrnt.text = "";
+                          isPercentageDiscount = false;
+                          calculateDiscount();
+                          sale = value;
+                          setState(() {});
+                        },
+                        validator: (value) {
+                          if (discountPrecrnt.text.isEmpty) {
+                            if (value!.trim().isEmpty) {
+                              return 'Discount Price is required'.tr;
+                            }
+                            double? discountValue = double.tryParse(value);
+                            double? priceValue = double.tryParse(priceController.text);
+                            if (discountValue != null && priceValue != null && discountValue > priceValue) {
+                              return 'Discount Price cannot be greater than Price'.tr;
                             }
                           }
-                        }
-                        return null; // Return null if validation passes
-                      },
-                    ),
-                    const SizedBox(height: 10,),
-                  ],
-                ),
-
+                          return null; // Return null if validation passes
+                        },
+                        hintText: 'Discount Price'.tr,
+                      ),
+                      const SizedBox(
+                        height: 10,
+                      ),
+                      Align(
+                        alignment: Alignment.center,
+                        child: Text(
+                          'OR'.tr,
+                          style: GoogleFonts.poppins(color: Colors.red, fontWeight: FontWeight.w400, fontSize: 14),
+                        ),
+                      ),
+                      const SizedBox(
+                        height: 10,
+                      ),
+                      Text(
+                        'Discount Percentage'.tr,
+                        style: GoogleFonts.poppins(
+                            color: const Color(0xff292F45), fontWeight: FontWeight.w400, fontSize: 14),
+                      ),
+                      CommonTextField(
+                        controller: discountPrecrnt,
+                        obSecure: false,
+                        // hintText: 'Name',
+                        keyboardType: TextInputType.number,
+                        hintText: 'Percentage'.tr,
+                        onChanged: (value) {
+                          fixedDiscount.text = "";
+                          isPercentageDiscount = true;
+                          calculateDiscount();
+                          sale = value;
+                          setState(() {});
+                        },
+                        validator: (value) {
+                          if (fixedDiscount.text.isEmpty) {
+                            if (value == null || value.trim().isEmpty) {
+                              return 'Percentage is required'.tr;
+                            } else {
+                              double? percentage = double.tryParse(value);
+                              if (percentage == null || percentage > 100) {
+                                return 'Percentage must be between 0 and 100'.tr;
+                              }
+                            }
+                          }
+                          return null; // Return null if validation passes
+                        },
+                      ),
+                      const SizedBox(
+                        height: 10,
+                      ),
+                    ],
+                  ),
                 Text(
                   'Calculated price'.tr,
                   style: GoogleFonts.inter(color: const Color(0xff292F45), fontWeight: FontWeight.w500, fontSize: 14),
                 ),
-                const SizedBox(height: 10,),
+                const SizedBox(
+                  height: 10,
+                ),
                 Text(
                   'This is what your customer will see after DIRISE fees.'.tr,
                   style: GoogleFonts.inter(color: const Color(0xff514949), fontWeight: FontWeight.w400, fontSize: 12),
                 ),
-                const SizedBox(height: 10,),
+                const SizedBox(
+                  height: 10,
+                ),
                 Container(
                   padding: const EdgeInsets.only(left: 10, right: 15, top: 15, bottom: 15),
                   decoration: BoxDecoration(borderRadius: BorderRadius.circular(11), color: Colors.grey.shade200),
@@ -326,17 +361,17 @@ class _SingleProductPriceScreenState extends State<SingleProductPriceScreen> {
                               const SizedBox(
                                 width: 20,
                               ),
-                              discountPrecrnt.text.isNotEmpty ?
-                               Text(
-                                "${sale} %".tr,
-                                style: GoogleFonts.poppins(
-                                    color: const Color(0xff014E70), fontWeight: FontWeight.w400, fontSize: 10),
-                              ) :
-                              Text(
-                                "${sale} KWD".tr,
-                                style: GoogleFonts.poppins(
-                                    color: const Color(0xff014E70), fontWeight: FontWeight.w400, fontSize: 10),
-                              )
+                              discountPrecrnt.text.isNotEmpty
+                                  ? Text(
+                                      "${sale} %".tr,
+                                      style: GoogleFonts.poppins(
+                                          color: const Color(0xff014E70), fontWeight: FontWeight.w400, fontSize: 10),
+                                    )
+                                  : Text(
+                                      "${sale} KWD".tr,
+                                      style: GoogleFonts.poppins(
+                                          color: const Color(0xff014E70), fontWeight: FontWeight.w400, fontSize: 10),
+                                    )
                             ],
                           ),
                           const SizedBox(
@@ -344,7 +379,9 @@ class _SingleProductPriceScreenState extends State<SingleProductPriceScreen> {
                           ),
                         ],
                       ),
-                      SizedBox(width: 10,),
+                      const SizedBox(
+                        width: 10,
+                      ),
                       Column(
                         children: [
                           Stack(
@@ -376,17 +413,21 @@ class _SingleProductPriceScreenState extends State<SingleProductPriceScreen> {
                     ],
                   ),
                 ),
-                const SizedBox(height: 20,),
+                const SizedBox(
+                  height: 20,
+                ),
                 CustomOutlineButton(
                   title: 'Next',
                   borderRadius: 11,
                   onPressed: () {
-    if (formKey1.currentState!.validate()) {
-      deliverySizeApi();
-    }
+                    if (formKey1.currentState!.validate()) {
+                      deliverySizeApi();
+                    }
                   },
                 ),
-                const SizedBox(height: 20,),
+                const SizedBox(
+                  height: 20,
+                ),
               ],
             ),
           ),
