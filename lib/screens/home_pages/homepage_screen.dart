@@ -203,7 +203,7 @@ class _HomePageState extends State<HomePage> {
   }
 
   final RxBool _isValue = false.obs;
-  final RxBool _isSearch = false.obs;
+  final RxBool search = false.obs;
   var vendor = ['Dashboard', 'Order', 'Products', 'Store open time', 'Bank Details', 'Earnings'];
   var vendorRoutes = [
     VendorDashBoardScreen.route,
@@ -305,7 +305,7 @@ class _HomePageState extends State<HomePage> {
       //     : const SizedBox(),
     ];
   }
-RxBool show = false.obs;
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -326,9 +326,10 @@ RxBool show = false.obs;
                 SizedBox(width: 13,),
                 InkWell(
                   onTap: (){
-                  setState(() {
-                    show.value =true;
-                  });
+                   setState(() {
+                     search.value = true;
+
+                   });
                   },
                   child: SvgPicture.asset(
                     'assets/svgs/search.svg',
@@ -350,53 +351,52 @@ RxBool show = false.obs;
             const CartBagCard(),
           ],
           bottom: PreferredSize(
-            preferredSize: show.value ==true? Size.fromHeight(70): Size.fromHeight(0),
-            child:
-            show.value ==true?Hero(
-                tag: "search_tag",
-                child: Material(
-                  color: Colors.transparent,
-                  surfaceTintColor: Colors.transparent,
-                  child: Padding(
-                    padding: const EdgeInsets.symmetric(horizontal: 15),
-                    child: TextField(
-                      maxLines: 1,
-                      style: GoogleFonts.poppins(fontSize: 16),
-                      textInputAction: TextInputAction.search,
-                      onSubmitted: (vb) {
-                        Get.to(() =>
-                            SearchProductsScreen(
-                              searchText: vb,
-                            ));
-                      },
-                      decoration: InputDecoration(
-                          filled: true,
-                          prefixIcon: Padding(
-                            padding: const EdgeInsets.all(10),
-                            child: Image.asset(
-                              'assets/icons/search.png',
-                              height: 5,
-                            ),
-                          ),
-                          border: InputBorder.none,
-                          enabledBorder: const OutlineInputBorder(
-                              borderRadius: BorderRadius.all(Radius.circular(8)),
-                              borderSide: BorderSide(color: AppTheme.buttonColor)),
-                          disabledBorder: const OutlineInputBorder(
-                              borderRadius: BorderRadius.all(Radius.circular(8)),
-                              borderSide: BorderSide(color: AppTheme.buttonColor)),
-                          focusedBorder: const OutlineInputBorder(
-                              borderRadius: BorderRadius.all(Radius.circular(8)),
-                              borderSide: BorderSide(color: AppTheme.buttonColor)),
-                          fillColor: Colors.white,
-                          contentPadding: const EdgeInsets.all(15),
-                          hintText: AppStrings.searchFieldText.tr,
-                          hintStyle:
-                          GoogleFonts.poppins(color: AppTheme.buttonColor, fontWeight: FontWeight.w400)),
-                    ),
-                  ),
-                ),
-              ):SizedBox.shrink(),
+            preferredSize: search.value == true?Size.fromHeight(50.0):Size.fromHeight(0.0),
+child:search.value == true?  Hero(
+  tag: "search_tag",
+  child: Material(
+    color: Colors.transparent,
+    surfaceTintColor: Colors.transparent,
+    child: Padding(
+      padding: const EdgeInsets.symmetric(horizontal: 15),
+      child: TextField(
+        maxLines: 1,
+        style: GoogleFonts.poppins(fontSize: 16),
+        textInputAction: TextInputAction.search,
+        onSubmitted: (vb) {
+          Get.to(() =>
+              SearchProductsScreen(
+                searchText: vb,
+              ));
+        },
+        decoration: InputDecoration(
+            filled: true,
+            prefixIcon: Padding(
+              padding: const EdgeInsets.all(10),
+              child: Image.asset(
+                'assets/icons/search.png',
+                height: 5,
+              ),
+            ),
+            border: InputBorder.none,
+            enabledBorder: const OutlineInputBorder(
+                borderRadius: BorderRadius.all(Radius.circular(8)),
+                borderSide: BorderSide(color: AppTheme.buttonColor)),
+            disabledBorder: const OutlineInputBorder(
+                borderRadius: BorderRadius.all(Radius.circular(8)),
+                borderSide: BorderSide(color: AppTheme.buttonColor)),
+            focusedBorder: const OutlineInputBorder(
+                borderRadius: BorderRadius.all(Radius.circular(8)),
+                borderSide: BorderSide(color: AppTheme.buttonColor)),
+            fillColor: Colors.white,
+            contentPadding: const EdgeInsets.all(15),
+            hintText: AppStrings.searchFieldText.tr,
+            hintStyle:
+            GoogleFonts.poppins(color: AppTheme.buttonColor, fontWeight: FontWeight.w400)),
+      ),
+    ),
+  ),
+):SizedBox.shrink(),
           ),
         ),
         backgroundColor: Color(0xFFF2F2F2),
@@ -561,6 +561,7 @@ RxBool show = false.obs;
                           ],
                         ),
                       ) : const SizedBox.shrink(),
+                      10.spaceY,
 
                       const SizedBox(
                         height: 8,
