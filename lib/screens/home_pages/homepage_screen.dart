@@ -406,51 +406,6 @@ child:search.value == true?  Hero(
             },
             child: Column(
               children: [
-                _isSearch.isTrue ?
-                Hero(
-                  tag: "search_tag",
-                  child: Material(
-                    color: Colors.transparent,
-                    surfaceTintColor: Colors.transparent,
-                    child: Padding(
-                      padding: const EdgeInsets.symmetric(horizontal: 10),
-                      child: TextField(
-                        maxLines: 1,
-                        style: GoogleFonts.poppins(fontSize: 16),
-                        textInputAction: TextInputAction.search,
-                        onSubmitted: (vb) {
-                          Get.to(() => SearchProductsScreen(
-                            searchText: vb,
-                          ));
-                        },
-                        decoration: InputDecoration(
-                            filled: true,
-                            prefixIcon: Padding(
-                              padding: const EdgeInsets.all(10),
-                              child: Image.asset(
-                                'assets/icons/search.png',
-                                height: 5,
-                              ),
-                            ),
-                            border: InputBorder.none,
-                            enabledBorder: const OutlineInputBorder(
-                                borderRadius: BorderRadius.all(Radius.circular(8)),
-                                borderSide: BorderSide(color: AppTheme.buttonColor)),
-                            disabledBorder: const OutlineInputBorder(
-                                borderRadius: BorderRadius.all(Radius.circular(8)),
-                                borderSide: BorderSide(color: AppTheme.buttonColor)),
-                            focusedBorder: const OutlineInputBorder(
-                                borderRadius: BorderRadius.all(Radius.circular(8)),
-                                borderSide: BorderSide(color: AppTheme.buttonColor)),
-                            fillColor: Colors.white,
-                            contentPadding: const EdgeInsets.all(10),
-                            hintText: AppStrings.searchFieldText.tr,
-                            hintStyle:
-                            GoogleFonts.poppins(color: AppTheme.buttonColor, fontWeight: FontWeight.w400)),
-                      ),
-                    ),
-                  ),
-                ): SizedBox.shrink(),
                 Container(
                   color: Colors.white,
                   child: Column(

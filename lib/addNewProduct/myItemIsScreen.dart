@@ -59,7 +59,7 @@ class _MyItemISScreenState extends State<MyItemISScreen> {
     } else {
       // If user is not a vendor, only allow 'Giveaway' option
       if (selectedRadio == 'Giveaway') {
-        Get.to(const ItemDetailsScreens());
+        Get.to(ItemDetailsScreens());
       } else if(selectedRadio == 'Job'){
         Get.to(JobTellusaboutyourselfScreen());
       }
