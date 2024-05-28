@@ -327,6 +327,7 @@ class _HomePageState extends State<HomePage> {
                   onTap: (){
                    setState(() {
                      search.value = true;
+
                    });
                   },
                   child: SvgPicture.asset(
