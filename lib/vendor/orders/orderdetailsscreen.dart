@@ -111,8 +111,9 @@ class _OrderDetailsState extends State<OrderDetails> {
       if (createShipmentModel.value.status == true) {
         showToastCenter(createShipmentModel.value.message.toString());
       } else {
-        createShipmentModelError.value = CreateShipmentModelError.fromJson(jsonDecode(value));
-        showToastCenter(createShipmentModelError.value.errorMessage!.errors!.last.message.toString());
+        // createShipmentModelError.value = CreateShipmentModelError.fromJson(jsonDecode(value));
+        createShipmentModel.value = CreateShipmentModel.fromJson(jsonDecode(value));
+        showToastCenter(createShipmentModel.value.message.toString());
       }
     });
   }

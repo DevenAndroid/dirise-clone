@@ -62,6 +62,7 @@ class ApiUrls {
   static const String productCategoryListUrl = "${baseUrl}prodect-category-list";
   static const String taxDataUrl = "${baseUrl}tax";
   static const String myProductsListUrl = "${baseUrl}my-product-list";
+  static const String myApproved = "${baseUrl}my-approved-product-list";
   static const String getProductDetailsUrl = "${baseUrl}edit-product/";
   static const String aboutUsUrl = "${baseUrl}page-data";
   static const String deleteUser = "${baseUrl}delete-user";

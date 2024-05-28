@@ -40,6 +40,7 @@ import '../../vendor/orders/vendor_order_list_screen.dart';
 import '../../vendor/payment_info/bank_account_screen.dart';
 import '../../vendor/payment_info/withdrawal_screen.dart';
 import '../../vendor/products/all_product_screen.dart';
+import '../../vendor/products/approve_product.dart';
 import '../../widgets/common_colour.dart';
 import '../../widgets/common_textfield.dart';
 import '../calender.dart';
@@ -87,11 +88,12 @@ class _MyAccountScreenState extends State<MyAccountScreen> {
 
   RxString language = "".obs;
   final RxBool _isValue = false.obs;
-  var vendor = ['Dashboard', 'Order', 'Products', 'Store open time', 'Bank Details', 'Earnings'];
+  var vendor = ['Dashboard', 'Order', 'Products', 'Approved Products','Store open time', 'Bank Details', 'Earnings'];
   var vendorRoutes = [
     VendorDashBoardScreen.route,
     VendorOrderList.route,
     VendorProductScreen.route,
+    ApproveProductScreen.route,
     SetTimeScreen.route,
     BankDetailsScreen.route,
     WithdrawMoney.route,
@@ -1990,7 +1992,10 @@ class _MyAccountScreenState extends State<MyAccountScreen> {
                                              Get.to(const VendorOrderList());
                                            }
                                            else if(vendor[index] == 'Products'){
-                                             Get.to(const AddProductOptionScreen());
+                                             Get.to(const VendorProductScreen());
+                                           }
+                                           else if(vendor[index] == 'Approved Products'){
+                                             Get.to(const ApproveProductScreen());
                                            }
                                            else if(vendor[index] == 'Store open time'){
                                              Get.to(const OperatingHourScreen());

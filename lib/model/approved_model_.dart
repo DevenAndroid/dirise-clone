@@ -1,17 +1,17 @@
-class ModelProductsList {
+class ApprovedModel {
   bool? status;
-  dynamic message;
-  List<PendingProduct>? pendingProduct = [];
+ dynamic message;
+  List<ApproveProduct>? approveProduct = [];
 
-  ModelProductsList({this.status, this.message, this.pendingProduct});
+  ApprovedModel({this.status, this.message, this.approveProduct});
 
-  ModelProductsList.fromJson(Map<String, dynamic> json) {
+  ApprovedModel.fromJson(Map<String, dynamic> json) {
     status = json['status'];
     message = json['message'];
-    if (json['pending_product'] != null) {
-      pendingProduct = <PendingProduct>[];
-      json['pending_product'].forEach((v) {
-        pendingProduct!.add(new PendingProduct.fromJson(v));
+    if (json['approve_product'] != null) {
+      approveProduct = <ApproveProduct>[];
+      json['approve_product'].forEach((v) {
+        approveProduct!.add(new ApproveProduct.fromJson(v));
       });
     }
   }
@@ -20,153 +20,151 @@ class ModelProductsList {
     final Map<String, dynamic> data = new Map<String, dynamic>();
     data['status'] = this.status;
     data['message'] = this.message;
-    if (this.pendingProduct != null) {
-      data['pending_product'] =
-          this.pendingProduct!.map((v) => v.toJson()).toList();
+    if (this.approveProduct != null) {
+      data['approve_product'] =
+          this.approveProduct!.map((v) => v.toJson()).toList();
     }
     return data;
   }
 }
 
-class PendingProduct {
+class ApproveProduct {
   dynamic id;
   dynamic vendorId;
   dynamic addressId;
-  dynamic catId;
-  dynamic catId2;
+ dynamic catId;
+ dynamic catId2;
   dynamic jobCat;
-  dynamic brandSlug;
-  dynamic slug;
-  dynamic pname;
-  dynamic prodectImage;
-  dynamic prodectName;
-  dynamic prodectSku;
-  dynamic views;
-  dynamic code;
-  dynamic bookingProductType;
-  dynamic prodectPrice;
-  dynamic prodectMinQty;
-  dynamic prodectMixQty;
-  dynamic prodectDescription;
-  dynamic image;
-  dynamic arabPname;
-  dynamic productType;
-  dynamic itemType;
-  dynamic virtualProductType;
-  dynamic skuId;
-  dynamic pPrice;
-  dynamic sPrice;
+ dynamic brandSlug;
+ dynamic slug;
+ dynamic pname;
+ dynamic prodectImage;
+ dynamic prodectName;
+ dynamic prodectSku;
+ dynamic views;
+ dynamic code;
+ dynamic bookingProductType;
+ dynamic prodectPrice;
+ dynamic prodectMinQty;
+ dynamic prodectMixQty;
+ dynamic prodectDescription;
+ dynamic image;
+ dynamic arabPname;
+ dynamic productType;
+ dynamic itemType;
+ dynamic virtualProductType;
+ dynamic skuId;
+ dynamic pPrice;
+ dynamic sPrice;
   dynamic commission;
   dynamic bestSaller;
   dynamic featured;
-  dynamic taxApply;
-  dynamic taxType;
-  dynamic shortDescription;
-  dynamic arabShortDescription;
-  dynamic longDescription;
-  dynamic arabLongDescription;
-  dynamic featuredImage;
+ dynamic taxApply;
+ dynamic taxType;
+ dynamic shortDescription;
+ dynamic arabShortDescription;
+ dynamic longDescription;
+ dynamic arabLongDescription;
+ dynamic featuredImage;
   List<String>? galleryImage;
-  dynamic virtualProductFile;
-  dynamic virtualProductFileType;
-  dynamic virtualProductFileLanguage;
-  dynamic featureImageApp;
-  dynamic featureImageWeb;
-  dynamic inStock;
+ dynamic virtualProductFile;
+ dynamic virtualProductFileType;
+ dynamic virtualProductFileLanguage;
+ dynamic featureImageApp;
+ dynamic featureImageWeb;
+ dynamic inStock;
   dynamic weight;
-  dynamic weightUnit;
+ dynamic weightUnit;
   dynamic time;
-  dynamic timePeriod;
-  dynamic stockAlert;
-  dynamic shippingCharge;
+ dynamic timePeriod;
+ dynamic stockAlert;
+ dynamic shippingCharge;
   dynamic avgRating;
-  dynamic metaTitle;
-  dynamic metaKeyword;
-  dynamic metaDescription;
-  dynamic metaTags;
-  dynamic seoTags;
+ dynamic metaTitle;
+ dynamic metaKeyword;
+ dynamic metaDescription;
+ dynamic metaTags;
+ dynamic seoTags;
   dynamic parentId;
-  dynamic serviceStartTime;
-  dynamic serviceEndTime;
+ dynamic serviceStartTime;
+ dynamic serviceEndTime;
   dynamic serviceDuration;
-  dynamic deliverySize;
-  dynamic serialNumber;
-  dynamic productNumber;
-  dynamic productCode;
-  dynamic promotionCode;
-  dynamic packageDetail;
-  dynamic jobseekingOrOffering;
-  dynamic jobType;
-  dynamic jobModel;
-  dynamic describeJobRole;
-  dynamic linkdinUrl;
-  dynamic experience;
-  dynamic salary;
-  dynamic aboutYourself;
-  dynamic jobHours;
-  dynamic jobCountryId;
-  dynamic jobStateId;
-  dynamic jobCityId;
-  dynamic uploadCv;
-  dynamic isOnsale;
+ dynamic deliverySize;
+ dynamic serialNumber;
+ dynamic productNumber;
+ dynamic productCode;
+ dynamic promotionCode;
+ dynamic packageDetail;
+ dynamic jobseekingOrOffering;
+ dynamic jobType;
+ dynamic jobModel;
+ dynamic describeJobRole;
+ dynamic linkdinUrl;
+ dynamic experience;
+ dynamic salary;
+ dynamic aboutYourself;
+ dynamic jobHours;
+ dynamic jobCountryId;
+ dynamic jobStateId;
+ dynamic jobCityId;
+ dynamic uploadCv;
+ dynamic isOnsale;
   dynamic discountPercent;
   dynamic fixedDiscountPrice;
-  dynamic shippingPay;
-  dynamic createdAt;
-  dynamic updatedAt;
+ dynamic shippingPay;
+ dynamic createdAt;
+ dynamic updatedAt;
   dynamic topHunderd;
   dynamic limitedTimeDeal;
-  dynamic returnDays;
-  dynamic keyword;
+ dynamic returnDays;
+ dynamic keyword;
   bool? isPublish;
   dynamic inOffer;
-  dynamic forAuction;
-  dynamic returnPolicyDesc;
-  dynamic shippingPolicyDesc;
-  dynamic pickupPolicyId;
-  dynamic bookableProductLocation;
-  dynamic spot;
-  dynamic hostName;
-  dynamic programName;
-  dynamic programGoal;
-  dynamic programDesc;
-  dynamic eligibleMinAge;
-  dynamic eligibleMaxAge;
-  dynamic eligibleGender;
-  dynamic fromLocation;
-  dynamic toLocation;
-  dynamic fromExtraNotes;
-  dynamic toExtraNotes;
-  dynamic startLocation;
-  dynamic endLocation;
-  dynamic timingExtraNotes;
-  dynamic productSponsorsId;
-  dynamic meetingPlatform;
-  dynamic meetingLink;
-  dynamic optionalLink;
-  dynamic linkShareVia;
+ dynamic forAuction;
+ dynamic returnPolicyDesc;
+ dynamic shippingPolicyDesc;
+ dynamic pickupPolicyId;
+ dynamic bookableProductLocation;
+ dynamic spot;
+ dynamic hostName;
+ dynamic programName;
+ dynamic programGoal;
+ dynamic programDesc;
+ dynamic eligibleMinAge;
+ dynamic eligibleMaxAge;
+ dynamic eligibleGender;
+ dynamic fromLocation;
+ dynamic toLocation;
+ dynamic fromExtraNotes;
+ dynamic toExtraNotes;
+ dynamic startLocation;
+ dynamic endLocation;
+ dynamic timingExtraNotes;
+ dynamic productSponsorsId;
+ dynamic meetingPlatform;
+ dynamic meetingLink;
+ dynamic optionalLink;
+ dynamic linkShareVia;
   dynamic seminarFullRefund;
   dynamic isTrending;
   dynamic isPopular;
   dynamic rating;
   bool? addToCart;
   bool? inCart;
-  dynamic quantity;
+ dynamic quantity;
   bool? inWishlist;
-  dynamic currencySign;
-  dynamic currencyCode;
+ dynamic currencySign;
+ dynamic currencyCode;
   Storemeta? storemeta;
   List<Null>? attributes;
   List<Null>? variants;
-  List<Null>? serviceTimeSloat;
-  dynamic productAvailability;
-  dynamic shippingDate;
-  dynamic lowestDeliveryPrice;
-  dynamic categoryName;
-  dynamic discountPrice;
-  dynamic shippingPolicy;
+ dynamic shippingDate;
+ dynamic lowestDeliveryPrice;
+ dynamic categoryName;
+ dynamic discountPrice;
+ dynamic shippingPolicy;
 
-  PendingProduct(
+  ApproveProduct(
       {this.id,
         this.vendorId,
         this.addressId,
@@ -296,15 +294,13 @@ class PendingProduct {
         this.storemeta,
         this.attributes,
         this.variants,
-        this.serviceTimeSloat,
-        this.productAvailability,
         this.shippingDate,
         this.lowestDeliveryPrice,
         this.categoryName,
         this.discountPrice,
         this.shippingPolicy});
 
-  PendingProduct.fromJson(Map<String, dynamic> json) {
+  ApproveProduct.fromJson(Map<String, dynamic> json) {
     id = json['id'];
     vendorId = json['vendor_id'];
     addressId = json['address_id'];
@@ -446,13 +442,6 @@ class PendingProduct {
     //     variants!.add(new Null.fromJson(v));
     //   });
     // }
-    // if (json['serviceTimeSloat'] != null) {
-    //   serviceTimeSloat = <Null>[];
-    //   json['serviceTimeSloat'].forEach((v) {
-    //     serviceTimeSloat!.add(new Null.fromJson(v));
-    //   });
-    // }
-    productAvailability = json['productAvailability'];
     shippingDate = json['shipping_date'];
     lowestDeliveryPrice = json['lowestDeliveryPrice'];
     categoryName = json['category_name'];
@@ -591,17 +580,12 @@ class PendingProduct {
     if (this.storemeta != null) {
       data['storemeta'] = this.storemeta!.toJson();
     }
-    // if (this.attributes != null) {
-    //   data['attributes'] = this.attributes!.map((v) => v.toJson()).toList();
-    // }
-    // if (this.variants != null) {
-    //   data['variants'] = this.variants!.map((v) => v.toJson()).toList();
-    // }
-    // if (this.serviceTimeSloat != null) {
-    //   data['serviceTimeSloat'] =
-    //       this.serviceTimeSloat!.map((v) => v.toJson()).toList();
-    // }
-    data['productAvailability'] = this.productAvailability;
+    if (this.attributes != null) {
+      // data['attributes'] = this.attributes!.map((v) => v.toJson()).toList();
+    }
+    if (this.variants != null) {
+      // data['variants'] = this.variants!.map((v) => v.toJson()).toList();
+    }
     data['shipping_date'] = this.shippingDate;
     data['lowestDeliveryPrice'] = this.lowestDeliveryPrice;
     data['category_name'] = this.categoryName;
@@ -612,11 +596,11 @@ class PendingProduct {
 }
 
 class Storemeta {
-  dynamic firstName;
-  dynamic lastName;
+ dynamic firstName;
+ dynamic lastName;
   dynamic storeId;
-  dynamic profileImg;
-  dynamic bannerImg;
+ dynamic profileImg;
+ dynamic bannerImg;
 
   Storemeta(
       {this.firstName,

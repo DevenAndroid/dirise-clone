@@ -163,21 +163,21 @@ class _VendorProductScreenState extends State<VendorProductScreen> {
                     if (productController.refreshInt.value > 0) {}
                     return ListView.builder(
                       itemCount: productController.apiLoaded
-                          ? productController.model.product!.isEmpty
+                          ? productController.model.pendingProduct!.isEmpty
                               ? 1
-                              : productController.model.product!.length
+                              : productController.model.pendingProduct!.length
                           : 5,
                       shrinkWrap: true,
                       itemBuilder: (BuildContext context, int index) {
                         if (!productController.apiLoaded) {
                           return shimmerLoader(index);
                         }
-                        if (productController.model.product!.isEmpty) {
+                        if (productController.model.pendingProduct!.isEmpty) {
                           return  Center(
                             child: Text("No Product Added".tr),
                           );
                         }
-                        final item = productController.model.product![index];
+                        final item = productController.model.pendingProduct![index];
                         return Column(
                           children: [
                             Container(
@@ -312,8 +312,7 @@ class _VendorProductScreenState extends State<VendorProductScreen> {
                                                 productController.updateProductStatus(
                                                     changed: (bool value1) {
                                                       if (value1 == true) {
-                                                        productController.model.product![index].isPublish =
-                                                            !productController.model.product![index].isPublish!;
+                                                        productController.model.pendingProduct![index].isPublish = !productController.model.pendingProduct![index].isPublish!;
                                                         setState(() {});
                                                       }
                                                     },
