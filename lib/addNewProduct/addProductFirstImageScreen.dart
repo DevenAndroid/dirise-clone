@@ -57,6 +57,8 @@ class _AddProductFirstImageScreenState extends State<AddProductFirstImageScreen>
       JobResponceModel response = JobResponceModel.fromJson(jsonDecode(value));
       addProductController.idProduct.value = response.productDetails!.product!.id.toString();
        // profileController.productID = productID;
+
+      log('hgrshgdh${profileController.productImage.toString()}');
        Get.to(MyItemISScreen(featureImage: featuredImage,));
       showToast('Add Product Image successfully');
     });
@@ -81,6 +83,10 @@ class _AddProductFirstImageScreenState extends State<AddProductFirstImageScreen>
                 validation: checkValidation(showValidation.value, featuredImage.path.isEmpty),
                 filePicked: (File g) {
                   featuredImage = g;
+
+                  setState(() {
+                    profileController.productImage = g;
+                  });
                 },
               ),
               const SizedBox(height: 20,),

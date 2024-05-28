@@ -1,4 +1,5 @@
 import 'dart:convert';
+import 'package:dirise/Services/review_publish_service.dart';
 import 'package:dirise/Services/service_international_shipping_details.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
@@ -17,8 +18,10 @@ import '../widgets/common_textfield.dart';
 import 'choose_map_service.dart';
 
 class PickUpAddressService extends StatefulWidget {
+
   final String? street;
   final String? city;
+  final int? id;
   final String? state;
   final String? country;
   final String? zipcode;
@@ -29,6 +32,7 @@ class PickUpAddressService extends StatefulWidget {
     Key? key,
     this.street,
     this.city,
+    this.id,
     this.state,
     this.country,
     this.zipcode,
@@ -87,7 +91,12 @@ class _PickUpAddressServiceState extends State<PickUpAddressService> {
       print('API Response Status Code: ${response.status}');
       showToast(response.message.toString());
       if (response.status == true) {
-        Get.to(ServiceInternationalShippingService());
+        if(widget.id != null){
+          Get.to(ReviewPublishServiceScreen());
+        }else{
+          Get.to(ServiceInternationalShippingService());
+        }
+
       }
     });
   }

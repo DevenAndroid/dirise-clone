@@ -1,16 +1,12 @@
 import 'dart:convert';
 import 'dart:io';
-
-import 'package:dirise/jobOffers/hiringReviewandPublishScreen.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
-import 'package:form_field_validator/form_field_validator.dart';
 import 'package:get/get.dart';
 import 'package:google_fonts/google_fonts.dart';
 import '../controller/vendor_controllers/add_product_controller.dart';
 import '../controller/vendor_controllers/vendor_profile_controller.dart';
-import '../model/common_modal.dart';
 import '../model/customer_profile/model_city_list.dart';
 import '../model/customer_profile/model_country_list.dart';
 import '../model/customer_profile/model_state_list.dart';
@@ -18,17 +14,47 @@ import '../model/jobResponceModel.dart';
 import '../model/modelJobList.dart';
 import '../model/modelSubcategory.dart';
 import '../model/vendor_models/model_vendor_details.dart';
-import '../model/vendor_models/vendor_category_model.dart';
 import '../repository/repository.dart';
 import '../utils/api_constant.dart';
-import '../vendor/authentication/image_widget.dart';
 import '../widgets/common_button.dart';
 import '../widgets/common_colour.dart';
 import '../widgets/common_textfield.dart';
 import 'JobReviewandPublishScreen.dart';
+import 'hiringReviewandPublishScreen.dart';
 
 class HiringJobDetailsScreen extends StatefulWidget {
-  const HiringJobDetailsScreen({super.key});
+  int? id;
+  String? jobTitle;
+  String? jobCategory;
+  String? jobSubCategory;
+  String? jobCountry;
+  String? jobState;
+  String? jobCity;
+  String? jobType;
+  String? jobModel;
+  String? experience;
+  String? salary;
+  String? linkedIn;
+  String? tellUsAboutYourSelf;
+  int? hoursPerWeek;
+  HiringJobDetailsScreen(
+      {super.key,
+        this.id,
+        this.jobCity,
+        this.jobCountry,
+        this.jobState,
+        this.salary,
+        this.experience,
+        this.jobModel,
+        this.jobType,
+        this.jobCategory,
+        this.jobSubCategory,
+        this.jobTitle,
+        this.linkedIn,
+        this.tellUsAboutYourSelf,
+        this.hoursPerWeek
+      });
+
 
   @override
   State<HiringJobDetailsScreen> createState() => _HiringJobDetailsScreenState();
@@ -217,7 +243,7 @@ class _HiringJobDetailsScreenState extends State<HiringJobDetailsScreen> {
     repositories.postApi(url: ApiUrls.giveawayProductAddress, context: context, mapData: map).then((value) {
       JobResponceModel response = JobResponceModel.fromJson(jsonDecode(value));
       if (response.status == true) {
-        Get.to(JobReviewPublishScreen());
+        Get.to(HiringReviewPublishScreen());
       }
     });
   }
@@ -227,6 +253,14 @@ class _HiringJobDetailsScreenState extends State<HiringJobDetailsScreen> {
       super.initState();
       getVendorCategories();
       getCountry();
+      if(widget.id != null){
+        describe_job_roleController.text = widget.tellUsAboutYourSelf.toString();
+        linkdin_urlController.text = widget.linkedIn.toString();
+        experienceController.text =widget.experience.toString();
+        salaryController.text = widget.salary.toString();
+        jobTitle.text = widget.jobTitle.toString();
+        hoursperweekController.text = widget.hoursPerWeek.toString();
+      }
     }
     @override
     Widget build(BuildContext context) {

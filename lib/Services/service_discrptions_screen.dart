@@ -21,7 +21,14 @@ import '../widgets/common_textfield.dart';
 import 'optional_collection.dart';
 
 class ServiceOptionalScreen extends StatefulWidget {
-  const ServiceOptionalScreen({super.key});
+  int? id;
+  String? metaTags;
+  String? MetaTitle;
+  String? MetaDescription;
+  String? longDescription;
+  String? noTax;
+
+  ServiceOptionalScreen({super.key, this.id, this.metaTags, this.MetaDescription, this.MetaTitle,this.longDescription,this.noTax});
 
   @override
   State<ServiceOptionalScreen> createState() => _ServiceOptionalScreenState();
@@ -67,6 +74,18 @@ class _ServiceOptionalScreenState extends State<ServiceOptionalScreen> {
     });
   }
 
+  @override
+  void initState() {
+    // TODO: implement initState
+    super.initState();
+    if (widget.id != null) {
+      metaTitleController.text = widget.MetaTitle.toString();
+      metaDescriptionController.text = widget.MetaDescription.toString();
+      metaTagsController.text = widget.metaTags.toString();
+      longDescriptionController.text = widget.longDescription.toString();
+      taxController.text = widget.noTax.toString();
+    }
+  }
   @override
   Widget build(BuildContext context) {
     return Scaffold(

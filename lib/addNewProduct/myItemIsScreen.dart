@@ -49,7 +49,7 @@ class _MyItemISScreenState extends State<MyItemISScreen> {
       } else if (selectedRadio == 'Job') {
         Get.to(JobTellusaboutyourselfScreen());
       } else if (selectedRadio == 'Service') {
-        Get.to(whatServiceDoYouProvide(fetaureImage: widget.featureImage,));
+        Get.to(whatServiceDoYouProvide());
       } else if (selectedRadio == 'Virtual') {
         Get.to(VirtualProductInformationScreens());
       } else {

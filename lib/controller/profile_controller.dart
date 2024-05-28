@@ -31,6 +31,7 @@ class ProfileController extends GetxController {
   String planID = '';
   String selectedPlan = '';
   int productID = 0;
+  File productImage = File('');
   Future aboutUsData() async {
     Map<String, dynamic> map = {};
     map["id"] = 12;

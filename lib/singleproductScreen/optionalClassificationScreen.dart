@@ -58,7 +58,7 @@ class _OptionalClassificationScreenState extends State<OptionalClassificationScr
     map['product_code'] = controller.productCodeController.text.trim();
     map['promotion_code'] = controller.promotionCodeController.text.trim();
     map['package_detail'] = controller.packageDetailsController.text.trim();
-    map['item_type'] = 'service';
+    map['item_type'] = 'product';
     map['id'] = addProductController.idProduct.value.toString();
     FocusManager.instance.primaryFocus!.unfocus();
     repositories.postApi(url: ApiUrls.giveawayProductAddress, context: context, mapData: map).then((value) {

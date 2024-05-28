@@ -28,7 +28,35 @@ import '../widgets/common_textfield.dart';
 import 'JobReviewandPublishScreen.dart';
 
 class JobDetailsScreen extends StatefulWidget {
-  const JobDetailsScreen({super.key});
+  int? id;
+  String? jobTitle;
+  String? jobCategory;
+  String? jobSubCategory;
+  String? jobCountry;
+  String? jobState;
+  String? jobCity;
+  String? jobType;
+  String? jobModel;
+  String? experience;
+  String? salary;
+  String? linkedIn;
+  String? tellUsAboutYourSelf;
+  JobDetailsScreen(
+      {super.key,
+        this.id,
+      this.jobCity,
+      this.jobCountry,
+      this.jobState,
+      this.salary,
+      this.experience,
+      this.jobModel,
+      this.jobType,
+      this.jobCategory,
+      this.jobSubCategory,
+      this.jobTitle,
+      this.linkedIn,
+        this.tellUsAboutYourSelf
+      });
 
   @override
   State<JobDetailsScreen> createState() => _JobDetailsScreenState();
@@ -233,7 +261,11 @@ class _JobDetailsScreenState extends State<JobDetailsScreen> {
         .then((value) {
       JobResponceModel response = JobResponceModel.fromJson(jsonDecode(value));
       if (response.status == true && idProof.path.isNotEmpty) {
-        Get.to(JobReviewPublishScreen(category: selectedCategory,subCategory: selectedSubCategory,));
+
+        Get.to(JobReviewPublishScreen(
+          category: selectedCategory,
+          subCategory: selectedSubCategory,
+        ));
       } else {
         showToast('Please Upload CV');
       }
@@ -247,6 +279,14 @@ class _JobDetailsScreenState extends State<JobDetailsScreen> {
     super.initState();
     getVendorCategories();
     getCountry();
+    if(widget.id != null){
+      describe_job_roleController.text = widget.tellUsAboutYourSelf.toString();
+      linkdin_urlController.text = widget.linkedIn.toString();
+      experienceController.text =widget.experience.toString();
+      salaryController.text = widget.salary.toString();
+      jobTitle.text = widget.jobTitle.toString();
+    }
+
   }
 
   @override
@@ -566,64 +606,65 @@ class _JobDetailsScreenState extends State<JobDetailsScreen> {
                   //       .map((e) => DropdownMenuItem(value: e, child: Text(e.stateName.toString().capitalize!)))
                   //       .toList());
                   // }
-                  return modelStateList.state!=null ?
-                  DropdownButtonFormField<CountryState>(
-                    key: categoryKey2,
-                    autovalidateMode: AutovalidateMode.onUserInteraction,
-                    icon: stateStatus.value.isLoading
-                        ? const CupertinoActivityIndicator()
-                        : const Icon(Icons.keyboard_arrow_down_rounded),
-                    iconSize: 30,
-                    iconDisabledColor: const Color(0xff97949A),
-                    iconEnabledColor: const Color(0xff97949A),
-                    value: null,
-                    style: GoogleFonts.poppins(color: Colors.black, fontSize: 16),
-                    decoration: InputDecoration(
-                      border: InputBorder.none,
-                      filled: true,
-                      fillColor: const Color(0xffE2E2E2).withOpacity(.35),
-                      contentPadding: const EdgeInsets.symmetric(horizontal: 15, vertical: 10).copyWith(right: 8),
-                      focusedErrorBorder: const OutlineInputBorder(
-                          borderRadius: BorderRadius.all(Radius.circular(8)),
-                          borderSide: BorderSide(color: AppTheme.secondaryColor)),
-                      errorBorder: const OutlineInputBorder(
-                          borderRadius: BorderRadius.all(Radius.circular(8)),
-                          borderSide: BorderSide(color: Color(0xffE2E2E2))),
-                      focusedBorder: const OutlineInputBorder(
-                          borderRadius: BorderRadius.all(Radius.circular(8)),
-                          borderSide: BorderSide(color: AppTheme.secondaryColor)),
-                      disabledBorder: const OutlineInputBorder(
-                        borderRadius: BorderRadius.all(Radius.circular(8)),
-                        borderSide: BorderSide(color: AppTheme.secondaryColor),
-                      ),
-                      enabledBorder: const OutlineInputBorder(
-                        borderRadius: BorderRadius.all(Radius.circular(8)),
-                        borderSide: BorderSide(color: AppTheme.secondaryColor),
-                      ),
-                    ),
-                    items: modelStateList.state!
-                        .map((e) => DropdownMenuItem(value: e, child: Text(e.stateName.toString().capitalize!)))
-                        .toList(),
-                    hint: Text('Search state to choose'.tr),
-                    onChanged: (value) {
-                      setState(() {
-                        stateCategory = value!.stateId.toString();
-                        stateName.value = value.stateName.toString();
-                        getCityApi(); // Assuming you want to use the ID as the category value
-                      });
-                      modelCityList = ModelCityList();
-                      // if (value == null) return;
-                      // if (allSelectedCategory2.isNotEmpty) return;
-                      // allSelectedCategory2[value.stateId.toString()] = value;
-                      // setState(() {});
-                    },
-                    // validator: (value) {
-                    //   if (allSelectedCategory2.isEmpty) {
-                    //     return "Please select state".tr;
-                    //   }
-                    //   return null;
-                    // },
-                  ): const SizedBox.shrink();
+                  return modelStateList.state != null
+                      ? DropdownButtonFormField<CountryState>(
+                          key: categoryKey2,
+                          autovalidateMode: AutovalidateMode.onUserInteraction,
+                          icon: stateStatus.value.isLoading
+                              ? const CupertinoActivityIndicator()
+                              : const Icon(Icons.keyboard_arrow_down_rounded),
+                          iconSize: 30,
+                          iconDisabledColor: const Color(0xff97949A),
+                          iconEnabledColor: const Color(0xff97949A),
+                          value: null,
+                          style: GoogleFonts.poppins(color: Colors.black, fontSize: 16),
+                          decoration: InputDecoration(
+                            border: InputBorder.none,
+                            filled: true,
+                            fillColor: const Color(0xffE2E2E2).withOpacity(.35),
+                            contentPadding: const EdgeInsets.symmetric(horizontal: 15, vertical: 10).copyWith(right: 8),
+                            focusedErrorBorder: const OutlineInputBorder(
+                                borderRadius: BorderRadius.all(Radius.circular(8)),
+                                borderSide: BorderSide(color: AppTheme.secondaryColor)),
+                            errorBorder: const OutlineInputBorder(
+                                borderRadius: BorderRadius.all(Radius.circular(8)),
+                                borderSide: BorderSide(color: Color(0xffE2E2E2))),
+                            focusedBorder: const OutlineInputBorder(
+                                borderRadius: BorderRadius.all(Radius.circular(8)),
+                                borderSide: BorderSide(color: AppTheme.secondaryColor)),
+                            disabledBorder: const OutlineInputBorder(
+                              borderRadius: BorderRadius.all(Radius.circular(8)),
+                              borderSide: BorderSide(color: AppTheme.secondaryColor),
+                            ),
+                            enabledBorder: const OutlineInputBorder(
+                              borderRadius: BorderRadius.all(Radius.circular(8)),
+                              borderSide: BorderSide(color: AppTheme.secondaryColor),
+                            ),
+                          ),
+                          items: modelStateList.state!
+                              .map((e) => DropdownMenuItem(value: e, child: Text(e.stateName.toString().capitalize!)))
+                              .toList(),
+                          hint: Text('Search state to choose'.tr),
+                          onChanged: (value) {
+                            setState(() {
+                              stateCategory = value!.stateId.toString();
+                              stateName.value = value.stateName.toString();
+                              getCityApi(); // Assuming you want to use the ID as the category value
+                            });
+                            modelCityList = ModelCityList();
+                            // if (value == null) return;
+                            // if (allSelectedCategory2.isNotEmpty) return;
+                            // allSelectedCategory2[value.stateId.toString()] = value;
+                            // setState(() {});
+                          },
+                          // validator: (value) {
+                          //   if (allSelectedCategory2.isEmpty) {
+                          //     return "Please select state".tr;
+                          //   }
+                          //   return null;
+                          // },
+                        )
+                      : const SizedBox.shrink();
                 }),
                 const SizedBox(
                   height: 20,
@@ -634,63 +675,65 @@ class _JobDetailsScreenState extends State<JobDetailsScreen> {
                   //       .map((e) => DropdownMenuItem(value: e, child: Text(e.cityName.toString().capitalize!)))
                   //       .toList());
                   // }
-                  return modelCityList.city!= null ?
-                    DropdownButtonFormField<City>(
-                    key: categoryKey3,
-                    autovalidateMode: AutovalidateMode.onUserInteraction,
-                    icon: cityStatus.value.isLoading
-                        ? const CupertinoActivityIndicator()
-                        : const Icon(Icons.keyboard_arrow_down_rounded),
-                    iconSize: 30,
-                    iconDisabledColor: const Color(0xff97949A),
-                    iconEnabledColor: const Color(0xff97949A),
-                    value: null,
-                    style: GoogleFonts.poppins(color: Colors.black, fontSize: 16),
-                    decoration: InputDecoration(
-                      border: InputBorder.none,
-                      filled: true,
-                      fillColor: const Color(0xffE2E2E2).withOpacity(.35),
-                      contentPadding: const EdgeInsets.symmetric(horizontal: 15, vertical: 10).copyWith(right: 8),
-                      focusedErrorBorder: const OutlineInputBorder(
-                          borderRadius: BorderRadius.all(Radius.circular(8)),
-                          borderSide: BorderSide(color: AppTheme.secondaryColor)),
-                      errorBorder: const OutlineInputBorder(
-                          borderRadius: BorderRadius.all(Radius.circular(8)),
-                          borderSide: BorderSide(color: Color(0xffE2E2E2))),
-                      focusedBorder: const OutlineInputBorder(
-                          borderRadius: BorderRadius.all(Radius.circular(8)),
-                          borderSide: BorderSide(color: AppTheme.secondaryColor)),
-                      disabledBorder: const OutlineInputBorder(
-                        borderRadius: BorderRadius.all(Radius.circular(8)),
-                        borderSide: BorderSide(color: AppTheme.secondaryColor),
-                      ),
-                      enabledBorder: const OutlineInputBorder(
-                        borderRadius: BorderRadius.all(Radius.circular(8)),
-                        borderSide: BorderSide(color: AppTheme.secondaryColor),
-                      ),
-                    ),
-                    items: modelCityList.city!
-                        .map((e) => DropdownMenuItem(value: e, child: Text(e.cityName.toString().capitalize!)))
-                        .toList(),
-                    hint: Text('Search city to choose'.tr),
-                    onChanged: (value) {
-                      setState(() {
-                        cityId = value!.cityId.toString(); // Assuming you want to use the ID as the category value
-                        cityName.value =
-                            value!.cityName.toString(); // Assuming you want to use the ID as the category value
-                      });
-                      // if (value == null) return;
-                      // if (allSelectedCategory3.isNotEmpty) return;
-                      // allSelectedCategory3[value.cityId.toString()] = value;
-                      // setState(() {});
-                    },
-                    // validator: (value) {
-                    //   if (allSelectedCategory3.isEmpty) {
-                    //     return "Please select city".tr;
-                    //   }
-                    //   return null;
-                    // },
-                  ): const SizedBox.shrink();
+                  return modelCityList.city != null
+                      ? DropdownButtonFormField<City>(
+                          key: categoryKey3,
+                          autovalidateMode: AutovalidateMode.onUserInteraction,
+                          icon: cityStatus.value.isLoading
+                              ? const CupertinoActivityIndicator()
+                              : const Icon(Icons.keyboard_arrow_down_rounded),
+                          iconSize: 30,
+                          iconDisabledColor: const Color(0xff97949A),
+                          iconEnabledColor: const Color(0xff97949A),
+                          value: null,
+                          style: GoogleFonts.poppins(color: Colors.black, fontSize: 16),
+                          decoration: InputDecoration(
+                            border: InputBorder.none,
+                            filled: true,
+                            fillColor: const Color(0xffE2E2E2).withOpacity(.35),
+                            contentPadding: const EdgeInsets.symmetric(horizontal: 15, vertical: 10).copyWith(right: 8),
+                            focusedErrorBorder: const OutlineInputBorder(
+                                borderRadius: BorderRadius.all(Radius.circular(8)),
+                                borderSide: BorderSide(color: AppTheme.secondaryColor)),
+                            errorBorder: const OutlineInputBorder(
+                                borderRadius: BorderRadius.all(Radius.circular(8)),
+                                borderSide: BorderSide(color: Color(0xffE2E2E2))),
+                            focusedBorder: const OutlineInputBorder(
+                                borderRadius: BorderRadius.all(Radius.circular(8)),
+                                borderSide: BorderSide(color: AppTheme.secondaryColor)),
+                            disabledBorder: const OutlineInputBorder(
+                              borderRadius: BorderRadius.all(Radius.circular(8)),
+                              borderSide: BorderSide(color: AppTheme.secondaryColor),
+                            ),
+                            enabledBorder: const OutlineInputBorder(
+                              borderRadius: BorderRadius.all(Radius.circular(8)),
+                              borderSide: BorderSide(color: AppTheme.secondaryColor),
+                            ),
+                          ),
+                          items: modelCityList.city!
+                              .map((e) => DropdownMenuItem(value: e, child: Text(e.cityName.toString().capitalize!)))
+                              .toList(),
+                          hint: Text('Search city to choose'.tr),
+                          onChanged: (value) {
+                            setState(() {
+                              cityId =
+                                  value!.cityId.toString(); // Assuming you want to use the ID as the category value
+                              cityName.value =
+                                  value!.cityName.toString(); // Assuming you want to use the ID as the category value
+                            });
+                            // if (value == null) return;
+                            // if (allSelectedCategory3.isNotEmpty) return;
+                            // allSelectedCategory3[value.cityId.toString()] = value;
+                            // setState(() {});
+                          },
+                          // validator: (value) {
+                          //   if (allSelectedCategory3.isEmpty) {
+                          //     return "Please select city".tr;
+                          //   }
+                          //   return null;
+                          // },
+                        )
+                      : const SizedBox.shrink();
                 }),
                 const SizedBox(
                   height: 20,

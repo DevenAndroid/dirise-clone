@@ -11,6 +11,7 @@ import 'package:flutter/material.dart';
 import 'package:form_field_validator/form_field_validator.dart';
 import 'package:get/get.dart';
 import 'package:google_fonts/google_fonts.dart';
+import '../controller/profile_controller.dart';
 import '../controller/vendor_controllers/vendor_profile_controller.dart';
 import '../model/common_modal.dart';
 import '../model/getSubCategoryModel.dart';
@@ -28,8 +29,10 @@ import '../widgets/common_colour.dart';
 import '../widgets/common_textfield.dart';
 
 class VirtualProductInformationScreens extends StatefulWidget {
-  File? fetaureImage;
-  VirtualProductInformationScreens({super.key,this.fetaureImage});
+
+  int? id;
+  String? name;
+  VirtualProductInformationScreens({super.key,this.id,this.name});
 
   @override
   State<VirtualProductInformationScreens> createState() => _VirtualProductInformationScreensState();
@@ -63,22 +66,23 @@ class _VirtualProductInformationScreensState extends State<VirtualProductInforma
         addProductController.idProduct.value = response.productDetails!.product!.id.toString();
         print(addProductController.idProduct.value.toString());
 
-        Get.to(VirtualPriceScreen(fetaureImage: widget.fetaureImage,name: ProductNameController.text,));
+        Get.to(VirtualPriceScreen(
+
+        ));
       }
     });
   }
 
   ModelVendorCategory modelVendorCategory = ModelVendorCategory(usphone: []);
   Rx<ModelCategoryList> productCategoryModel = ModelCategoryList().obs;
-  Rx<RxStatus> vendorCategoryStatus = RxStatus
-      .empty()
-      .obs;
+  Rx<RxStatus> vendorCategoryStatus = RxStatus.empty().obs;
   final GlobalKey categoryKey = GlobalKey();
   final GlobalKey subcategoryKey = GlobalKey();
   final GlobalKey productsubcategoryKey = GlobalKey();
   Map<String, VendorCategoriesData> allSelectedCategory = {};
 
   final Repositories repositories = Repositories();
+  final profileController = Get.put(ProfileController());
 
   VendorUser get vendorInfo => vendorProfileController.model.user!;
   final vendorProfileController = Get.put(VendorProfileController());
@@ -139,6 +143,10 @@ class _VirtualProductInformationScreensState extends State<VirtualProductInforma
     getVendorCategories();
     fetchDataBasedOnId(vendorID);
     fetchSubCategoryBasedOnId(ProductID);
+    log('dsfgds${profileController.productImage.toString()}');
+    if(widget.id != null){
+      ProductNameController.text = widget.name.toString();
+    }
   }
 
   String idChild = '';
@@ -192,68 +200,38 @@ class _VirtualProductInformationScreensState extends State<VirtualProductInforma
               const SizedBox(
                 height: 10,
               ),
-              // const Text(
-              //   'Select Vendor Category',
-              //   style: TextStyle(fontWeight: FontWeight.bold),
-              // ),
-              // /// Inside the build method of your stateful widget
-              // GestureDetector(
-              //   onTap: () {
-              //     isItemDetailsVisible = !isItemDetailsVisible;
-              //     idForChild.clear();
-              //     productCategoryModel.value = ModelCategoryList();
-              //     setState(() {});
-              //   },
-              //   child: Container(
-              //     padding: const EdgeInsets.all(10),
-              //     height: 50,
-              //     decoration: BoxDecoration(
-              //         color: Colors.grey.shade200,
-              //         borderRadius: BorderRadius.circular(10),
-              //         border: Border.all(color: Colors.grey.shade400, width: 1)),
-              //     child: Row(
-              //       mainAxisAlignment: MainAxisAlignment.spaceBetween,
-              //       children: [
-              //         Text(
-              //           categoryName.value == "" ? 'Select category to choose' : categoryName.value,
-              //         ),
-              //         Icon(Icons.arrow_drop_down_sharp),
-              //       ],
-              //     ),
-              //   ),
-              // ),
+
               Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  Text(
+                  const Text(
                     'Search Vendor Category',
                     style: TextStyle(fontWeight: FontWeight.bold),
                   ),
-                  SizedBox(height: 5),
+                  const SizedBox(height: 5),
                   TextField(
                     onChanged: (value) {
                       fetchedDropdownItems = modelVendorCategory.usphone!
-                          .where((element) =>
-                          element.name.toLowerCase().contains(value.toLowerCase()))
+                          .where((element) => element.name.toLowerCase().contains(value.toLowerCase()))
                           .map((vendorCategory) => ProductCategoryData(
-                          id: vendorCategory.id,
-                          title: vendorCategory.name)) // Convert vendor category to product category
+                              id: vendorCategory.id,
+                              title: vendorCategory.name)) // Convert vendor category to product category
                           .toList();
                       setState(() {});
                     },
                     decoration: InputDecoration(
                       hintText: 'Search',
-                      prefixIcon: Icon(Icons.search),
+                      prefixIcon: const Icon(Icons.search),
                       border: OutlineInputBorder(
                         borderRadius: BorderRadius.circular(10),
                       ),
                     ),
                   ),
-                  SizedBox(height: 10),
+                  const SizedBox(height: 10),
                   ListView.builder(
                     itemCount: fetchedDropdownItems.length,
                     shrinkWrap: true,
-                    physics: NeverScrollableScrollPhysics(),
+                    physics: const NeverScrollableScrollPhysics(),
                     itemBuilder: (context, index) {
                       var data = fetchedDropdownItems[index];
                       return GestureDetector(
@@ -267,13 +245,14 @@ class _VirtualProductInformationScreensState extends State<VirtualProductInforma
                           });
                         },
                         child: Container(
-                          margin: EdgeInsets.only(bottom: 5),
+                          margin: const EdgeInsets.only(bottom: 5),
                           padding: const EdgeInsets.all(10),
                           height: 50,
                           decoration: BoxDecoration(
                               color: Colors.grey.shade200,
                               borderRadius: BorderRadius.circular(10),
-                              border: Border.all(color: tappedIndex == index ? AppTheme.buttonColor : Colors.grey.shade400, width: 2)),
+                              border: Border.all(
+                                  color: tappedIndex == index ? AppTheme.buttonColor : Colors.grey.shade400, width: 2)),
                           child: Text(data.title),
                         ),
                       );
@@ -281,8 +260,6 @@ class _VirtualProductInformationScreensState extends State<VirtualProductInforma
                   ),
                 ],
               ),
-
-           
 
               // Visibility(
               //   visible: isItemDetailsVisible,
@@ -316,121 +293,119 @@ class _VirtualProductInformationScreensState extends State<VirtualProductInforma
                 height: 10,
               ),
               Obx(() {
-                return
-                  productCategoryModel.value.data != null ?
-                  Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: productCategoryModel.value.data!
-                        .map((e) =>
-                        Column(
-                          crossAxisAlignment: CrossAxisAlignment.start,
-                          children: [
-                            Text(
-                              'Filters(Optional)'.tr,
-                              style: GoogleFonts.poppins(color: Colors.black, fontWeight: FontWeight.w600, fontSize: 16),
-                            ),
-                            const SizedBox(
-                              height: 15,
-                            ),
-                            Text(
-                              e.title.toString(),
-                              style: normalStyle,
-                            ),
-                            const SizedBox(
-                              height: 4,
-                            ),
-                            DropdownButtonFormField<int>(
-                              isExpanded: true,
-                              icon: const Icon(Icons.keyboard_arrow_down),
-                              iconDisabledColor: const Color(0xff97949A),
-                              iconEnabledColor: const Color(0xff97949A),
-                              decoration: InputDecoration(
-                                border: InputBorder.none,
-                                filled: true,
-                                fillColor: const Color(0xffE2E2E2).withOpacity(.35),
-                                contentPadding: const EdgeInsets.symmetric(horizontal: 15, vertical: 14),
-                                focusedErrorBorder: const OutlineInputBorder(
-                                    borderRadius: BorderRadius.all(Radius.circular(8)),
-                                    borderSide: BorderSide(color: AppTheme.secondaryColor)),
-                                errorBorder: const OutlineInputBorder(
-                                    borderRadius: BorderRadius.all(Radius.circular(8)),
-                                    borderSide: BorderSide(color: Color(0xffE2E2E2))),
-                                focusedBorder: const OutlineInputBorder(
-                                    borderRadius: BorderRadius.all(Radius.circular(8)),
-                                    borderSide: BorderSide(color: AppTheme.secondaryColor)),
-                                disabledBorder: const OutlineInputBorder(
-                                  borderRadius: BorderRadius.all(Radius.circular(8)),
-                                  borderSide: BorderSide(color: AppTheme.secondaryColor),
-                                ),
-                                enabledBorder: const OutlineInputBorder(
-                                  borderRadius: BorderRadius.all(Radius.circular(8)),
-                                  borderSide: BorderSide(color: AppTheme.secondaryColor),
-                                ),
-                              ),
-                              items: e.childCategory!
-                                  .asMap()
-                                  .entries
-                                  .map((ee) =>
-                                  DropdownMenuItem(
-                                    value: ee.key,
-                                    child: Text(
-                                      ee.value.title.toString(),
-                                      overflow: TextOverflow.ellipsis,
+                return productCategoryModel.value.data != null
+                    ? Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: productCategoryModel.value.data!
+                            .map((e) => Column(
+                                  crossAxisAlignment: CrossAxisAlignment.start,
+                                  children: [
+                                    Text(
+                                      'Filters(Optional)'.tr,
                                       style: GoogleFonts.poppins(
-                                        color: const Color(0xff463B57),
-                                      ),
+                                          color: Colors.black, fontWeight: FontWeight.w600, fontSize: 16),
                                     ),
-                                  ))
-                                  .toList(),
-                              validator: (value) {
-                                if (!e.childCategory!.map((k) => k.selected).toList().contains(true)) {
-                                  return "Please select any one category".tr;
-                                }
-                                return null;
-                              },
-                              hint: Text('Select Category'.tr),
-                              onChanged: (value) {
-                                e.childCategory![value!].selected = true;
-                                idForChild.add(e.childCategory![value].id);
-                                idChild = idForChild.join(',');
-                                print('vafjdfhdjf ${idForChild.toString()}');
-                                print('vafjdfhdjf ${idChild.toString()}');
-                                setState(() {});
-                              },
-                            ),
-                            const SizedBox(
-                              height: 8,
-                            ),
-                            Wrap(
-                              alignment: WrapAlignment.start,
-                              crossAxisAlignment: WrapCrossAlignment.start,
-                              runAlignment: WrapAlignment.start,
-                              spacing: 6,
-                              children: e.childCategory!
-                                  .where((element) => element.selected == true)
-                                  .map((ee) =>
-                                  Chip(
-                                      visualDensity: const VisualDensity(vertical: -2, horizontal: -4),
-                                      label: Text(
-                                        ee.title.toString(),
-                                        style: normalStyle,
+                                    const SizedBox(
+                                      height: 15,
+                                    ),
+                                    Text(
+                                      e.title.toString(),
+                                      style: normalStyle,
+                                    ),
+                                    const SizedBox(
+                                      height: 4,
+                                    ),
+                                    DropdownButtonFormField<int>(
+                                      isExpanded: true,
+                                      icon: const Icon(Icons.keyboard_arrow_down),
+                                      iconDisabledColor: const Color(0xff97949A),
+                                      iconEnabledColor: const Color(0xff97949A),
+                                      decoration: InputDecoration(
+                                        border: InputBorder.none,
+                                        filled: true,
+                                        fillColor: const Color(0xffE2E2E2).withOpacity(.35),
+                                        contentPadding: const EdgeInsets.symmetric(horizontal: 15, vertical: 14),
+                                        focusedErrorBorder: const OutlineInputBorder(
+                                            borderRadius: BorderRadius.all(Radius.circular(8)),
+                                            borderSide: BorderSide(color: AppTheme.secondaryColor)),
+                                        errorBorder: const OutlineInputBorder(
+                                            borderRadius: BorderRadius.all(Radius.circular(8)),
+                                            borderSide: BorderSide(color: Color(0xffE2E2E2))),
+                                        focusedBorder: const OutlineInputBorder(
+                                            borderRadius: BorderRadius.all(Radius.circular(8)),
+                                            borderSide: BorderSide(color: AppTheme.secondaryColor)),
+                                        disabledBorder: const OutlineInputBorder(
+                                          borderRadius: BorderRadius.all(Radius.circular(8)),
+                                          borderSide: BorderSide(color: AppTheme.secondaryColor),
+                                        ),
+                                        enabledBorder: const OutlineInputBorder(
+                                          borderRadius: BorderRadius.all(Radius.circular(8)),
+                                          borderSide: BorderSide(color: AppTheme.secondaryColor),
+                                        ),
                                       ),
-                                      onDeleted: () {
-                                        ee.selected = false;
-                                        idForChild.remove(ee.id);
-                                        print('after remove ${idForChild.toString()}');
-                                        print('after remove ${idChild.toString()}');
+                                      items: e.childCategory!
+                                          .asMap()
+                                          .entries
+                                          .map((ee) => DropdownMenuItem(
+                                                value: ee.key,
+                                                child: Text(
+                                                  ee.value.title.toString(),
+                                                  overflow: TextOverflow.ellipsis,
+                                                  style: GoogleFonts.poppins(
+                                                    color: const Color(0xff463B57),
+                                                  ),
+                                                ),
+                                              ))
+                                          .toList(),
+                                      validator: (value) {
+                                        if (!e.childCategory!.map((k) => k.selected).toList().contains(true)) {
+                                          return "Please select any one category".tr;
+                                        }
+                                        return null;
+                                      },
+                                      hint: Text('Select Category'.tr),
+                                      onChanged: (value) {
+                                        e.childCategory![value!].selected = true;
+                                        idForChild.add(e.childCategory![value].id);
+                                        idChild = idForChild.join(',');
+                                        print('vafjdfhdjf ${idForChild.toString()}');
+                                        print('vafjdfhdjf ${idChild.toString()}');
                                         setState(() {});
-                                      }))
-                                  .toList(),
-                            ),
-                            const SizedBox(
-                              height: 4,
-                            ),
-                          ],
-                        ))
-                        .toList(),
-                  ) : SizedBox();
+                                      },
+                                    ),
+                                    const SizedBox(
+                                      height: 8,
+                                    ),
+                                    Wrap(
+                                      alignment: WrapAlignment.start,
+                                      crossAxisAlignment: WrapCrossAlignment.start,
+                                      runAlignment: WrapAlignment.start,
+                                      spacing: 6,
+                                      children: e.childCategory!
+                                          .where((element) => element.selected == true)
+                                          .map((ee) => Chip(
+                                              visualDensity: const VisualDensity(vertical: -2, horizontal: -4),
+                                              label: Text(
+                                                ee.title.toString(),
+                                                style: normalStyle,
+                                              ),
+                                              onDeleted: () {
+                                                ee.selected = false;
+                                                idForChild.remove(ee.id);
+                                                print('after remove ${idForChild.toString()}');
+                                                print('after remove ${idChild.toString()}');
+                                                setState(() {});
+                                              }))
+                                          .toList(),
+                                    ),
+                                    const SizedBox(
+                                      height: 4,
+                                    ),
+                                  ],
+                                ))
+                            .toList(),
+                      )
+                    : const SizedBox();
               }),
               const SizedBox(
                 height: 20,
@@ -439,21 +414,15 @@ class _VirtualProductInformationScreensState extends State<VirtualProductInforma
                 title: 'Confirm',
                 borderRadius: 11,
                 onPressed: () {
-                  if (ProductNameController.text
-                      .trim()
-                      .isEmpty) {
+                  if (ProductNameController.text.trim().isEmpty) {
                     showToast("Please enter product name");
-                  }
-                  else if (categoryName.value == "") {
+                  } else if (categoryName.value == "") {
                     showToast("Please Select Vendor Category");
-                  }
-                  else if (categoryName.value == "") {
+                  } else if (categoryName.value == "") {
                     showToast("Please Select Vendor Category");
-                  }
-                  else if (categoryName.value == "") {
+                  } else if (categoryName.value == "") {
                     showToast("Please Select Vendor Category");
-                  }
-                  else {
+                  } else {
                     deliverySizeApi();
                   }
                 },
