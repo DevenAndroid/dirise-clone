@@ -59,8 +59,11 @@ class _MyItemISScreenState extends State<MyItemISScreen> {
     } else {
       // If user is not a vendor, only allow 'Giveaway' option
       if (selectedRadio == 'Giveaway') {
-        Get.to( ItemDetailsScreens());
-      } else {
+        Get.to(const ItemDetailsScreens());
+      } else if(selectedRadio == 'Job'){
+        Get.to(JobTellusaboutyourselfScreen());
+      }
+      else {
         showToast('Please Register As A Vendor');
       }
     }
