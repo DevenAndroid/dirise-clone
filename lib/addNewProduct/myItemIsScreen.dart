@@ -9,6 +9,7 @@ import 'package:get/get.dart';
 import 'package:google_fonts/google_fonts.dart';
 
 import '../Services/whatServiceDoYouProvide.dart';
+import '../controller/vendor_controllers/add_product_controller.dart';
 import '../iAmHereToSell/whichplantypedescribeyouScreen.dart';
 import '../jobOffers/tellusaboutyourselfScreen.dart';
 import '../language/app_strings.dart';
@@ -39,15 +40,20 @@ class _MyItemISScreenState extends State<MyItemISScreen> {
     'Virtual',
   ];
 
+
+  final productController = Get.put(AddProductController());
   void navigateNext() {
     if (profileController.model.user!.isVendor == true) {
       // If user is a vendor, allow all radio buttons
       if (selectedRadio == 'Giveaway') {
         Get.to( Giveway1Screen());
       } else if (selectedRadio == 'Product') {
-        Get.to(ProductInformationScreens(fetaureImage: widget.featureImage,));
+        productController.getProductsCategoryList();
+        Future.delayed(const Duration(seconds: 1), () {
+          Get.to(ProductInformationScreens(fetaureImage: widget.featureImage));
+        });
       } else if (selectedRadio == 'Job') {
-        Get.to(JobTellusaboutyourselfScreen());
+        Get.to(const JobTellusaboutyourselfScreen());
       } else if (selectedRadio == 'Service') {
         Get.to(whatServiceDoYouProvide(fetaureImage: widget.featureImage,));
       } else if (selectedRadio == 'Virtual') {
@@ -61,7 +67,7 @@ class _MyItemISScreenState extends State<MyItemISScreen> {
       if (selectedRadio == 'Giveaway') {
         Get.to(ItemDetailsScreens());
       } else if(selectedRadio == 'Job'){
-        Get.to(JobTellusaboutyourselfScreen());
+        Get.to(const JobTellusaboutyourselfScreen());
       }
       else {
         showToast('Please Register As A Vendor');
@@ -104,13 +110,13 @@ class _MyItemISScreenState extends State<MyItemISScreen> {
         ),
       ),
       body: Container(
-        margin: EdgeInsets.only(left: 15, right: 15),
+        margin: const EdgeInsets.only(left: 15, right: 15),
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.stretch,
           children: [
             Expanded(
               child: GridView.builder(
-                gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
+                gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
                   crossAxisCount: 2,
                   crossAxisSpacing: 5,
                   mainAxisSpacing: 5,
@@ -127,6 +133,7 @@ class _MyItemISScreenState extends State<MyItemISScreen> {
               padding: const EdgeInsets.all(8.0),
               child: GestureDetector(
                 onTap: () {
+                  productController.getProductsCategoryList();
                   if(selectedRadio.isNotEmpty){
                     navigateNext();
                   }
@@ -180,13 +187,13 @@ class _MyItemISScreenState extends State<MyItemISScreen> {
             children: [
               Text(
                 text,
-                style: TextStyle(
+                style: const TextStyle(
                   fontSize: 28,
                   fontWeight: FontWeight.w500,
                   color: Colors.black, // Text color
                 ),
               ),
-              SizedBox(height: 10,),
+              const SizedBox(height: 10,),
               // Center(
               //   child: Padding(
               //     padding: const EdgeInsets.symmetric(horizontal: 10),
