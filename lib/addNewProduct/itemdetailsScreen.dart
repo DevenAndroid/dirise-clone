@@ -1,6 +1,7 @@
 import 'dart:convert';
 import 'dart:developer';
 import 'package:dirise/addNewProduct/pickUpAddressScreen.dart';
+import 'package:dirise/addNewProduct/reviewPublishScreen.dart';
 import 'package:dirise/controller/vendor_controllers/add_product_controller.dart';
 import 'package:dirise/singleproductScreen/singleProductPriceScreen.dart';
 import 'package:flutter/cupertino.dart';
@@ -26,7 +27,10 @@ import '../widgets/common_colour.dart';
 import '../widgets/common_textfield.dart';
 
 class ItemDetailsScreens extends StatefulWidget {
-  const ItemDetailsScreens({super.key});
+  int? id;
+  String? name;
+  int? categoryID;
+  ItemDetailsScreens({super.key,this.id,this.name,this.categoryID});
 
   @override
   State<ItemDetailsScreens> createState() => _ItemDetailsScreensState();
@@ -75,7 +79,14 @@ class _ItemDetailsScreensState extends State<ItemDetailsScreens> {
         addProductController.idProduct.value = response.productDetails!.product!.id.toString();
         print(addProductController.idProduct.value.toString());
 
-        Get.to(AddProductPickUpAddressScreen());
+
+
+        if(widget.id != null){
+          Get.to(ReviewPublishScreen());
+        }else{
+          Get.to(AddProductPickUpAddressScreen());
+        }
+
       }
     });
   }
@@ -151,6 +162,10 @@ class _ItemDetailsScreensState extends State<ItemDetailsScreens> {
     getVendorCategories();
     fetchDataBasedOnId(vendorID);
     fetchSubCategoryBasedOnId(ProductID);
+    if(widget.id != null){
+      ProductNameController.text = widget.name.toString();
+      idForChild.add(widget.categoryID);
+    }
   }
   Color borderColor = Colors.grey.shade400;
   String idChild = '';

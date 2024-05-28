@@ -84,6 +84,7 @@ class StoreData {
   List<Products>? products;
   dynamic fedexCommision;
   dynamic localShipping;
+dynamic icarryCommision;
   Shipping? shipping;
   double sPrice = 0.0;
   // List<ShippingTypes>? shippingTypes;
@@ -116,6 +117,7 @@ class StoreData {
     // fedexShipping = json['fedex_shipping'] != null ? FedexShipping.fromJson(json['fedex_shipping']) : null;
     fedexCommision = json['fedex_commision'];
     localShipping = json['local_shipping'];
+    icarryCommision = json['icarry_commision'];
   }
 
   Map<String, dynamic> toJson() {
@@ -133,6 +135,7 @@ class StoreData {
     }
     data['fedex_commision'] = fedexCommision;
     data['local_shipping'] = localShipping;
+    data['icarry_commision'] = this.icarryCommision;
     return data;
   }
 }
@@ -826,6 +829,7 @@ class RateReplyDetails {
 }
 
 class Commit {
+  DateDetail? dateDetail;
   dynamic label;
   dynamic commitMessageDetails;
   dynamic commodityName;
@@ -834,9 +838,10 @@ class Commit {
   DerivedDestinationDetail? derivedDestinationDetail;
   dynamic saturdayDelivery;
 
-  Commit({this.label, this.commitMessageDetails, this.commodityName, this.deliveryMessages, this.derivedOriginDetail, this.derivedDestinationDetail, this.saturdayDelivery});
+  Commit({this.dateDetail,this.label, this.commitMessageDetails, this.commodityName, this.deliveryMessages, this.derivedOriginDetail, this.derivedDestinationDetail, this.saturdayDelivery});
 
   Commit.fromJson(Map<String, dynamic> json) {
+    dateDetail = json['dateDetail'] != null ? new DateDetail.fromJson(json['dateDetail']) : null;
     label = json['label'];
     commitMessageDetails = json['commitMessageDetails'];
     commodityName = json['commodityName'];
@@ -849,6 +854,9 @@ class Commit {
   Map<String, dynamic> toJson() {
     final Map<String, dynamic> data = Map<String, dynamic>();
     data['label'] = label;
+    if (this.dateDetail != null) {
+      data['dateDetail'] = this.dateDetail!.toJson();
+    }
     data['commitMessageDetails'] = commitMessageDetails;
     data['commodityName'] = commodityName;
     data['deliveryMessages'] = deliveryMessages;
@@ -862,6 +870,25 @@ class Commit {
     return data;
   }
 }
+class DateDetail {
+  String? dayOfWeek;
+  String? dayFormat;
+
+  DateDetail({this.dayOfWeek, this.dayFormat});
+
+  DateDetail.fromJson(Map<String, dynamic> json) {
+    dayOfWeek = json['dayOfWeek'];
+    dayFormat = json['dayFormat'];
+  }
+
+  Map<String, dynamic> toJson() {
+    final Map<String, dynamic> data = new Map<String, dynamic>();
+    data['dayOfWeek'] = this.dayOfWeek;
+    data['dayFormat'] = this.dayFormat;
+    return data;
+  }
+}
+
 class DerivedOriginDetail {
   dynamic countryCode;
   dynamic postalCode;

@@ -15,6 +15,7 @@ import '../language/app_strings.dart';
 import '../newAddress/pickUpAddressScreen.dart';
 import '../singleproductScreen/giveaway1.dart';
 import '../singleproductScreen/product_information_screen.dart';
+import '../virtualProduct/product_information_screen.dart';
 import '../widgets/common_button.dart';
 
 class MyItemISScreen extends StatefulWidget {
@@ -50,7 +51,7 @@ class _MyItemISScreenState extends State<MyItemISScreen> {
       } else if (selectedRadio == 'Service') {
         Get.to(whatServiceDoYouProvide(fetaureImage: widget.featureImage,));
       } else if (selectedRadio == 'Virtual') {
-        Get.to(PickUpAddressScreen());
+        Get.to(VirtualProductInformationScreens());
       } else {
         // Handle the case where the selected radio doesn't match any case
         // For example, show a message or perform a different action
@@ -167,6 +168,7 @@ class _MyItemISScreenState extends State<MyItemISScreen> {
     return Stack(
       children: [
         Container(
+          width: Get.width,
           height: 300,
           decoration: BoxDecoration(
             borderRadius: BorderRadius.circular(11),
@@ -185,20 +187,20 @@ class _MyItemISScreenState extends State<MyItemISScreen> {
                 ),
               ),
               SizedBox(height: 10,),
-              Center(
-                child: Padding(
-                  padding: const EdgeInsets.symmetric(horizontal: 10),
-                  child: Text(
-                    'Some other text',
-                    style: GoogleFonts.poppins(
-                      color: Colors.black,
-                      fontWeight: FontWeight.w500,
-                      fontSize: 10,
-                    ),
-                    textAlign: TextAlign.center,
-                  ),
-                ),
-              ),
+              // Center(
+              //   child: Padding(
+              //     padding: const EdgeInsets.symmetric(horizontal: 10),
+              //     child: Text(
+              //       'Some other text',
+              //       style: GoogleFonts.poppins(
+              //         color: Colors.black,
+              //         fontWeight: FontWeight.w500,
+              //         fontSize: 10,
+              //       ),
+              //       textAlign: TextAlign.center,
+              //     ),
+              //   ),
+              // ),
             ],
           ),
         ),

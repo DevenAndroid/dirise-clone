@@ -2,6 +2,10 @@ import 'dart:convert';
 import 'dart:developer';
 import 'dart:math';
 import 'package:dirise/screens/Consultation%20Sessions/set_store_time.dart';
+import 'package:dirise/screens/Seminars%20&%20%20Attendable%20Course/seminars_sponsors_screen.dart';
+import 'package:dirise/screens/Seminars%20&%20%20Attendable%20Course/webinarScreen.dart';
+import 'package:dirise/screens/Virtual%20course%20&%20Classes%20Webinars/seminarScreen.dart';
+import 'package:dirise/screens/tour_travel/dateRangemodel.dart';
 import 'package:dirise/utils/helper.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
@@ -12,8 +16,6 @@ import '../../model/jobResponceModel.dart';
 import '../../repository/repository.dart';
 import '../../utils/api_constant.dart';
 import '../../widgets/common_colour.dart';
-import 'optinal_detail_webinars.dart';
-
 
 class DateRangeWebiinarsScreen extends StatefulWidget {
   const DateRangeWebiinarsScreen({super.key});
@@ -27,7 +29,6 @@ class _DateRangeWebiinarsScreenState extends State<DateRangeWebiinarsScreen> {
   DateTime _endDate = DateTime.now();
   final addProductController = Get.put(AddProductController());
   String? formattedStartDate1;
-  RxBool isServiceProvide = false.obs;
   bool sundaySelected = false;
   bool mondaySelected = false;
   bool tueSelected = false;
@@ -50,6 +51,7 @@ class _DateRangeWebiinarsScreenState extends State<DateRangeWebiinarsScreen> {
       });
     }
   }
+
   Future<void> _selectEndDate(BuildContext context) async {
     final DateTime? picked = await showDatePicker(
       context: context,
@@ -72,27 +74,36 @@ class _DateRangeWebiinarsScreenState extends State<DateRangeWebiinarsScreen> {
     Map<String, dynamic> map = {};
 
     map["product_type"] = "booking";
-    map["id"] =  addProductController.idProduct.value.toString();
+    map["id"] = addProductController.idProduct.value.toString();
     map["from_date"] = addProductController.formattedStartDate.toString();
     map["to_date"] = formattedStartDate1.toString();
+    map["off_days"] = offDaysSelected;
+    map['booking_product_type'] = 'webinar';
 
     repositories.postApi(url: ApiUrls.giveawayProductAddress, context: context, mapData: map).then((value) {
       print('object${value.toString()}');
-      JobResponceModel response = JobResponceModel.fromJson(jsonDecode(value));
+      DateRangeInTravelModel response = DateRangeInTravelModel.fromJson(jsonDecode(value));
       if (response.status == true) {
         showToast(response.message.toString());
-        Get.to(()=> const OptionalDetailsWebiinarsScreen());
+        int? id = response.productDetails!.productAvailabilityId?.id;
+        Get.to(() => SeminarScreenScreen(
+              id: id,
+            ));
         print('value isssss${response.toJson()}');
-      }else{
+      } else {
         showToast(response.message.toString());
       }
     });
   }
+
+  List<bool> offDaysSelected = [false, false, false, false, false, false, false];
+
   @override
   void initState() {
     super.initState();
-    addProductController.startDate.text  = '';
+    addProductController.startDate.text = '';
   }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -122,15 +133,14 @@ class _DateRangeWebiinarsScreenState extends State<DateRangeWebiinarsScreen> {
         ),
       ),
       body: SingleChildScrollView(
-        padding: const EdgeInsets.symmetric(vertical: 20,horizontal: 10),
+        padding: const EdgeInsets.symmetric(vertical: 20, horizontal: 10),
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            Text('Dates range',
-                style:GoogleFonts.poppins(fontSize:19,fontWeight:FontWeight.w600)),
+            Text('Dates range', style: GoogleFonts.poppins(fontSize: 19, fontWeight: FontWeight.w600)),
             15.spaceY,
             Text('The start date and end date which this service offered',
-                style:GoogleFonts.poppins(fontSize:15,fontWeight:FontWeight.w400)),
+                style: GoogleFonts.poppins(fontSize: 15, fontWeight: FontWeight.w400)),
             40.spaceY,
             Row(
               crossAxisAlignment: CrossAxisAlignment.start,
@@ -141,18 +151,19 @@ class _DateRangeWebiinarsScreenState extends State<DateRangeWebiinarsScreen> {
                     crossAxisAlignment: CrossAxisAlignment.start,
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
-                      Text('Start Date: ${addProductController.formattedStartDate ?? ''}',
-                        style:const TextStyle(
-                            fontSize: 17,
-                            fontWeight: FontWeight.w500
-                        ),),
+                      Text(
+                        'Start Date: ${addProductController.formattedStartDate ?? ''}',
+                        style: const TextStyle(fontSize: 17, fontWeight: FontWeight.w500),
+                      ),
                       10.spaceY,
                       ElevatedButton(
                         style: ButtonStyle(
-                            backgroundColor: MaterialStateColor.resolveWith((states) => const Color(0xff014E70))
-                        ),
+                            backgroundColor: MaterialStateColor.resolveWith((states) => const Color(0xff014E70))),
                         onPressed: () => _selectStartDate(context),
-                        child: const Text('Select Start Date',style: TextStyle(color: Colors.white),),
+                        child: const Text(
+                          'Select Start Date',
+                          style: TextStyle(color: Colors.white),
+                        ),
                       ),
                     ],
                   ),
@@ -163,18 +174,19 @@ class _DateRangeWebiinarsScreenState extends State<DateRangeWebiinarsScreen> {
                     crossAxisAlignment: CrossAxisAlignment.start,
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
-                      Text('End Date: ${formattedStartDate1 ?? ''}',
-                        style:const TextStyle(
-                            fontSize: 17,
-                            fontWeight: FontWeight.w500
-                        ),),
+                      Text(
+                        'End Date: ${formattedStartDate1 ?? ''}',
+                        style: const TextStyle(fontSize: 17, fontWeight: FontWeight.w500),
+                      ),
                       const SizedBox(height: 10),
                       ElevatedButton(
                         style: ButtonStyle(
-                            backgroundColor: MaterialStateColor.resolveWith((states) => const Color(0xff014E70))
-                        ),
+                            backgroundColor: MaterialStateColor.resolveWith((states) => const Color(0xff014E70))),
                         onPressed: () => _selectEndDate(context),
-                        child: const Text('Select End Date',style: TextStyle(color: Colors.white),),
+                        child: const Text(
+                          'Select End Date',
+                          style: TextStyle(color: Colors.white),
+                        ),
                       ),
                     ],
                   ),
@@ -182,141 +194,27 @@ class _DateRangeWebiinarsScreenState extends State<DateRangeWebiinarsScreen> {
               ],
             ),
             const SizedBox(height: 40),
-            Text('Off Days',
-                style:GoogleFonts.poppins(fontSize:19,fontWeight:FontWeight.w600)),
+            Text('Off Days', style: GoogleFonts.poppins(fontSize: 19, fontWeight: FontWeight.w600)),
             15.spaceY,
             Text('Days which service is not offered, like weekends',
-                style:GoogleFonts.poppins(fontSize:15,fontWeight:FontWeight.w400)),
+                style: GoogleFonts.poppins(fontSize: 15, fontWeight: FontWeight.w400)),
             10.spaceY,
             Row(
               children: [
-                Column(
-                  children: [
-                    Checkbox(
-                      value: mondaySelected,
-                      onChanged: (value) {
-                        setState(() {
-                          mondaySelected = value!;
-                        });
-                      },
-                    ),
-                    const Text('Mun',
-                      style: TextStyle(
-                          fontSize: 12,
-                          fontWeight: FontWeight.w400,
-                          color: Color(0xFF9C9CB4)
-                      ),),
-                  ],
-                ),
-                Column(
-                  children: [
-                    Checkbox(
-                      value: tueSelected,
-                      onChanged: (value) {
-                        setState(() {
-                          tueSelected = value!;
-                        });
-                      },
-                    ),
-                    const Text('Tue',style: TextStyle(
-                        fontSize: 12,
-                        fontWeight: FontWeight.w400,
-                        color: Color(0xFF9C9CB4)
-                    ),),
-                  ],
-                ),
-                Column(
-                  children: [
-                    Checkbox(
-                      value: wedSelected,
-                      onChanged: (value) {
-                        setState(() {
-                          wedSelected = value!;
-                        });
-                      },
-                    ),
-                    const Text('Wed',style: TextStyle(
-                        fontSize: 12,
-                        fontWeight: FontWeight.w400,
-                        color: Color(0xFF9C9CB4)
-                    ),),
-                  ],
-                ),
-                Column(
-                  children: [
-                    Checkbox(
-                      value: thurSelected,
-                      onChanged: (value) {
-                        setState(() {
-                          thurSelected = value!;
-                        });
-                      },
-                    ),
-                    const Text('Thu',style: TextStyle(
-                        fontSize: 12,
-                        fontWeight: FontWeight.w400,
-                        color: Color(0xFF9C9CB4)
-                    ),),
-                  ],
-                ),
-                Column(
-                  children: [
-                    Checkbox(
-                      value: friSelected,
-                      onChanged: (value) {
-                        setState(() {
-                          friSelected = value!;
-                        });
-                      },
-                    ),
-                    const Text('Fri',style: TextStyle(
-                        fontSize: 12,
-                        fontWeight: FontWeight.w400,
-                        color: Color(0xFF9C9CB4)
-                    ),),
-                  ],
-                ),
-                Column(
-                  children: [
-                    Checkbox(
-                      value: satSelected,
-                      onChanged: (value) {
-                        setState(() {
-                          satSelected = value!;
-                        });
-                      },
-                    ),
-                    const Text('Sat',style: TextStyle(
-                        fontSize: 12,
-                        fontWeight: FontWeight.w400,
-                        color: Color(0xFF9C9CB4)
-                    ),),
-                  ],
-                ),
-                Column(
-                  children: [
-                    Checkbox(
-                      value: sundaySelected,
-                      onChanged: (value) {
-                        setState(() {
-                          sundaySelected = value!;
-                        });
-                      },
-                    ),
-                    const Text('Sun',style: TextStyle(
-                        fontSize: 12,
-                        fontWeight: FontWeight.w400,
-                        color: Color(0xFF9C9CB4)
-                    ),),
-                  ],
-                ),
+                dayCheckBox('Mon', 1),
+                dayCheckBox('Tue', 2),
+                dayCheckBox('Wed', 3),
+                dayCheckBox('Thu', 4),
+                dayCheckBox('Fri', 5),
+                dayCheckBox('Sat', 6),
+                dayCheckBox('Sun', 7),
               ],
             ),
             40.spaceY,
             const SizedBox(height: 40),
             20.spaceY,
             InkWell(
-              onTap: (){
+              onTap: () {
                 // updateProfile();
                 updateProfile();
                 // Get.to(()=> const SetTimeScreenConsultation());
@@ -345,9 +243,9 @@ class _DateRangeWebiinarsScreenState extends State<DateRangeWebiinarsScreen> {
               height: 20,
             ),
             InkWell(
-              onTap: (){
+              onTap: () {
                 // updateProfile();
-                Get.to(()=> const OptionalDetailsWebiinarsScreen());
+                Get.to(() => SeminarScreenScreen());
               },
               child: Container(
                 width: Get.width,
@@ -384,6 +282,23 @@ class _DateRangeWebiinarsScreenState extends State<DateRangeWebiinarsScreen> {
           ],
         ),
       ),
+    );
+  }
+
+  Widget dayCheckBox(String label, int index) {
+    return Column(
+      mainAxisSize: MainAxisSize.min,
+      children: [
+        Checkbox(
+          value: offDaysSelected[index - 1],
+          onChanged: (bool? value) {
+            setState(() {
+              offDaysSelected[index - 1] = value!;
+            });
+          },
+        ),
+        Text(label),
+      ],
     );
   }
 }

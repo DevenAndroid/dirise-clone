@@ -2,16 +2,17 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'dart:convert';
-import 'package:dirise/screens/Extended%20programs/sponsors_screen_extended.dart';
 import 'package:dirise/utils/helper.dart';
 import 'package:dirise/widgets/common_textfield.dart';
+import '../../controller/vendor_controllers/add_product_controller.dart';
 import '../../model/common_modal.dart';
 import '../../repository/repository.dart';
 import '../../utils/api_constant.dart';
 import '../../widgets/common_colour.dart';
-import 'optional_detail_tour_travel.dart';
+import 'optional_details_academic.dart';
 class TimingScreenTour extends StatefulWidget {
-  const TimingScreenTour({super.key});
+  int? id;
+  TimingScreenTour({super.key,this.id});
 
   @override
   State<TimingScreenTour> createState() => _TimingScreenTourState();
@@ -29,18 +30,28 @@ class _TimingScreenTourState extends State<TimingScreenTour> {
   bool satSelected = false;
   final formKey1 = GlobalKey<FormState>();
   final Repositories repositories = Repositories();
-  TextEditingController timeController = TextEditingController();
+  TextEditingController startTimeController = TextEditingController();
+  TextEditingController endTimeController = TextEditingController();
   TextEditingController interValController = TextEditingController();
   TextEditingController spotController = TextEditingController();
   TextEditingController locationController = TextEditingController();
   TextEditingController location1Controller = TextEditingController();
+  TextEditingController notesController = TextEditingController();
+  final addProductController = Get.put(AddProductController());
   optionalApi() {
     Map<String, dynamic> map = {};
 
-    map['start_time'] = timeController.text.trim();
+    map['start_time'] = startTimeController.text.trim();
+    map['end_time'] = endTimeController.text.trim();
+    map['start_location'] = locationController.text.trim();
+    map['end_location'] = location1Controller.text.trim();
+    map['timing_extra_notes'] = notesController.text.trim();
     map['item_type'] = 'product';
-    map['interval'] = interValController.text.trim();
+    map['product_type'] = 'booking';
+    map['booking_product_type'] = 'tour_travel';
     map['spot'] = spotController.text.trim();
+    map['product_availability_id'] = widget.id;
+    map["id"] = addProductController.idProduct.value.toString();
 
     FocusManager.instance.primaryFocus!.unfocus();
     repositories.postApi(url: ApiUrls.giveawayProductAddress, context: context, mapData: map).then((value) {
@@ -50,7 +61,7 @@ class _TimingScreenTourState extends State<TimingScreenTour> {
       if (response.status == true) {
         showToast(response.message.toString());
         if(formKey1.currentState!.validate()){
-          Get.to(()=>const OptionalDetailTourScreen());
+          Get.to(()=>const OptionalDetailsTourAndTravel());
         }
       }
     });
@@ -112,7 +123,7 @@ class _TimingScreenTourState extends State<TimingScreenTour> {
                       child: CommonTextField(
                         keyboardType: TextInputType.number,
                         hintText: 'Time',
-                        controller: timeController,
+                        controller: startTimeController,
                         validator: (value){
                           if(value!.trim().isEmpty){
                             return 'Enter time here';
@@ -139,15 +150,7 @@ class _TimingScreenTourState extends State<TimingScreenTour> {
                   ),
                 ],
               ),
-              20.spaceY,
-              const Text(
-                'Duration',
-                style: TextStyle(
-                  fontSize: 16,
-                  fontWeight: FontWeight.bold,
-                  color: Colors.black, // Text color
-                ),
-              ),
+
               10.spaceY,
               Row(
                 crossAxisAlignment: CrossAxisAlignment.start,
@@ -157,10 +160,10 @@ class _TimingScreenTourState extends State<TimingScreenTour> {
                     child: Padding(
                       padding: EdgeInsets.symmetric(vertical: 15.0),
                       child: Text(
-                        'Service Slot Duration',
+                        'End  Time',
                         style: TextStyle(
-                          fontSize: 11,
-                          fontWeight: FontWeight.w300,
+                          fontSize: 16,
+                          fontWeight: FontWeight.bold,
                           color: Colors.black, // Text color
                         ),
                       ),
@@ -170,7 +173,7 @@ class _TimingScreenTourState extends State<TimingScreenTour> {
                       child: CommonTextField(
                         keyboardType: TextInputType.number,
                         hintText: 'Time',
-                        controller: interValController,
+                        controller: endTimeController,
                         validator: (value){
                           if(value!.trim().isEmpty){
                             return 'Enter time here';
@@ -232,6 +235,30 @@ class _TimingScreenTourState extends State<TimingScreenTour> {
                   ),
                 ],
               ),
+              20.spaceY,
+              const Padding(
+                padding: EdgeInsets.symmetric(vertical: 15.0),
+                child: Text(
+                  'Extra Notes',
+                  style: TextStyle(
+                    fontSize: 14,
+                    fontWeight: FontWeight.w500,
+                    color: Colors.black, // Text color
+                  ),
+                ),
+              ),
+              CommonTextField(
+                keyboardType: TextInputType.number,
+                hintText: 'Notes',
+                controller: notesController,
+                validator: (value){
+                  if(value!.trim().isEmpty){
+                    return 'Enter Notes here';
+                  }else{
+                    return null;
+                  }
+                },
+              ),
               40.spaceY,
               InkWell(
                 onTap: (){
@@ -268,7 +295,7 @@ class _TimingScreenTourState extends State<TimingScreenTour> {
               ),
               InkWell(
                 onTap: (){
-                  Get.to(()=>const OptionalDetailTourScreen());
+                  Get.to(()=>const OptionalDetailsTourAndTravel());
                 },
                 child: Container(
                   width: Get.width,

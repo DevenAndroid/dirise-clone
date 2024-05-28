@@ -25,10 +25,13 @@ import '../utils/styles.dart';
 import '../widgets/common_button.dart';
 import '../widgets/common_colour.dart';
 import '../widgets/common_textfield.dart';
+import 'ReviewandPublishScreen.dart';
 
 class ProductInformationScreens extends StatefulWidget {
+  int? id;
+  String? name;
   File? fetaureImage;
-   ProductInformationScreens({super.key,this.fetaureImage});
+   ProductInformationScreens({super.key,this.fetaureImage,this.id,this.name});
 
   @override
   State<ProductInformationScreens> createState() => _ProductInformationScreensState();
@@ -61,8 +64,12 @@ class _ProductInformationScreensState extends State<ProductInformationScreens> {
       if (response.status == true) {
         addProductController.idProduct.value = response.productDetails!.product!.id.toString();
         print(addProductController.idProduct.value.toString());
+        if(widget.id != null){
+          Get.to(ReviewandPublishScreen());
+        }else{
+          Get.to(SingleProductPriceScreen(fetaureImage: widget.fetaureImage,name: ProductNameController.text,));
 
-        Get.to(SingleProductPriceScreen(fetaureImage: widget.fetaureImage,name: ProductNameController.text,));
+        }
       }
     });
   }
@@ -138,6 +145,9 @@ class _ProductInformationScreensState extends State<ProductInformationScreens> {
     getVendorCategories();
     fetchDataBasedOnId(vendorID);
     fetchSubCategoryBasedOnId(ProductID);
+    if(widget.id != null){
+      ProductNameController.text = widget.name.toString();
+    }
   }
 
   String idChild = '';
@@ -281,16 +291,8 @@ class _ProductInformationScreensState extends State<ProductInformationScreens> {
                 ],
               ),
 
-              const SizedBox(
-                height: 15,
-              ),
-              Text(
-                'Filters(Optional)'.tr,
-                style: GoogleFonts.poppins(color: Colors.black, fontWeight: FontWeight.w600, fontSize: 16),
-              ),
-              const SizedBox(
-                height: 5,
-              ),
+           
+
               // Visibility(
               //   visible: isItemDetailsVisible,
               //   child: ListView.builder(
@@ -320,7 +322,7 @@ class _ProductInformationScreensState extends State<ProductInformationScreens> {
               //       }),
               // ),
               const SizedBox(
-                height: 20,
+                height: 10,
               ),
               Obx(() {
                 return
@@ -332,6 +334,13 @@ class _ProductInformationScreensState extends State<ProductInformationScreens> {
                         Column(
                           crossAxisAlignment: CrossAxisAlignment.start,
                           children: [
+                            Text(
+                              'Filters(Optional)'.tr,
+                              style: GoogleFonts.poppins(color: Colors.black, fontWeight: FontWeight.w600, fontSize: 16),
+                            ),
+                            const SizedBox(
+                              height: 15,
+                            ),
                             Text(
                               e.title.toString(),
                               style: normalStyle,

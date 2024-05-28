@@ -16,6 +16,7 @@ import '../../model/create_shipment_model.dart';
 import '../../model/order_models/model_single_order_response.dart';
 import '../../repository/repository.dart';
 import '../../utils/api_constant.dart';
+import '../../widgets/common_textfield.dart';
 import '../../widgets/customsize.dart';
 import '../../widgets/dimension_screen.dart';
 import '../../widgets/loading_animation.dart';
@@ -75,13 +76,37 @@ class _OrderDetailsState extends State<OrderDetails> {
   SingleOrderData get order => singleOrder.order!;
   Rx<CreateShipmentModel> createShipmentModel = CreateShipmentModel().obs;
   Rx<CreateShipmentModelError> createShipmentModelError = CreateShipmentModelError().obs;
+  void createShipment(String id, List<DynamicContainerState> containerStates) {
+    List<Map<String, dynamic>> payload = [];
 
-  createShipment(id) {
-    Map<String, String> map = {};
-    map['id'] = id;
-    map['key'] = 'label';
+    for (int i = 0; i < containerStates.length; i++) {
+      DynamicContainerState state = containerStates[i];
+      if (state.unitOfMeasure.isEmpty || state.unit.isEmpty ||
+          state.controllers['dimensionController']!.text.isEmpty ||
+          state.controllers['lengthController']!.text.isEmpty ||
+          state.controllers['dimensionWidthController']!.text.isEmpty ||
+          state.controllers['dimensionHeightController']!.text.isEmpty) {
+        showToast("Please fill all fields for container $i");
+        return;
+      }
 
-    repositories.postApi(mapData: map, url: ApiUrls.createShipment, context: context).then((value) {
+      payload.add({
+        'weight_unit': state.unitOfMeasure,
+        'weight': state.controllers['dimensionController']!.text,
+        'length': state.controllers['lengthController']!.text,
+        'width': state.controllers['dimensionWidthController']!.text,
+        'height': state.controllers['dimensionHeightController']!.text,
+        'units': state.unit,
+      });
+    }
+
+    Map<String, dynamic> map = {
+      'id': id,
+      'key': 'label',
+      'payload': payload,
+    };
+
+    repositories.postApi(mapData: map, url: ApiUrls.createShipment, context: context, showResponse: true).then((value) {
       createShipmentModel.value = CreateShipmentModel.fromJson(jsonDecode(value));
       if (createShipmentModel.value.status == true) {
         showToastCenter(createShipmentModel.value.message.toString());
@@ -91,6 +116,35 @@ class _OrderDetailsState extends State<OrderDetails> {
       }
     });
   }
+
+  // List<DynamicContainerState> containerStates = [
+  //   DynamicContainerState(
+  //     unitOfMeasure: 'KG',
+  //     unit: 'CM',
+  //     controllers: {
+  //       'dimensionController': TextEditingController(),
+  //       'lengthController': TextEditingController(),
+  //       'dimensionWidthController': TextEditingController(),
+  //       'dimensionHeightController': TextEditingController(),
+  //     },
+  //   ),
+  //   // Add more initialized containers as needed
+  // ];
+  // createShipment(id) {
+  //   Map<String, String> map = {};
+  //   map['id'] = id;
+  //   map['key'] = 'label';
+  //
+  //   repositories.postApi(mapData: map, url: ApiUrls.createShipment, context: context,showResponse: true).then((value) {
+  //     createShipmentModel.value = CreateShipmentModel.fromJson(jsonDecode(value));
+  //     if (createShipmentModel.value.status == true) {
+  //       showToastCenter(createShipmentModel.value.message.toString());
+  //     } else {
+  //       createShipmentModelError.value = CreateShipmentModelError.fromJson(jsonDecode(value));
+  //       showToastCenter(createShipmentModelError.value.errorMessage!.errors!.last.message.toString());
+  //     }
+  //   });
+  // }
 
   updateStatus(orderId,status) {
     Map<String, String> map = {};
@@ -106,12 +160,235 @@ class _OrderDetailsState extends State<OrderDetails> {
       }
     });
   }
+  List<Map<String, TextEditingController>> controllersList = [];
 
+
+  // TextEditingController dimensionController = TextEditingController();
+  // TextEditingController dimensionWidthController = TextEditingController();
+  // TextEditingController dimensionHeightController = TextEditingController();
+  // TextEditingController weightController = TextEditingController();
+  // TextEditingController lengthController = TextEditingController();
+
+
+  String unitOfMeasure = 'KG';
+  List<String> unitOfMeasureList = [
+    'KG',
+    'LB',
+  ];
+  String unit = 'CM';
+  List<String> unitList = [
+    'CM',
+    'IM',
+  ];
+  // List<Widget> dynamicContainers = [];
+  Map<String, TextEditingController> createControllers() {
+    return {
+      'dimensionController': TextEditingController(),
+      'lengthController': TextEditingController(),
+      'dimensionWidthController': TextEditingController(),
+      'dimensionHeightController': TextEditingController(),
+    };
+  }
+  void addContainer() {
+    setState(() {
+      containers.add(DynamicContainerState(unitOfMeasure: unitOfMeasure,unit:unit,controllers: createControllers(), ));
+    });
+  }
+  void removeContainer() {
+    if (containers.isNotEmpty) {
+      setState(() {
+        containers.removeLast();
+      });
+    }
+  }
+RxBool containerShow = false.obs;
+RxBool containerShow1 = false.obs;
+  List<DynamicContainerState> containers = [];
+RxString cmValue = "".obs;
+RxString kgValue = "".obs;
   @override
   void initState() {
     super.initState();
+    // Add an initial container
+    containers.add(DynamicContainerState(unitOfMeasure: unitOfMeasure,unit:unit,controllers: createControllers(), ));
     getOrderDetails();
   }
+
+  Widget buildDynamicContainer(DynamicContainerState containerState) {
+    return Column(
+      children: [
+        DropdownButtonFormField<String>(
+          value:  containerState.unitOfMeasure,
+          onChanged: (String? newValue) {
+            setState(() {
+              containerState.unitOfMeasure = newValue!;
+              // cmValue.value = newValue;
+            });
+          },
+          items: unitOfMeasureList.map<DropdownMenuItem<String>>((String value) {
+            return DropdownMenuItem<String>(
+              value: value,
+
+              child: Text(value),
+            );
+          }).toList(),
+          decoration: InputDecoration(
+            border: InputBorder.none,
+            filled: true,
+            fillColor: const Color(0xffE2E2E2).withOpacity(.35),
+            contentPadding: const EdgeInsets.symmetric(horizontal: 15, vertical: 10).copyWith(right: 8),
+            focusedErrorBorder: const OutlineInputBorder(
+                borderRadius: BorderRadius.all(Radius.circular(8)),
+                borderSide: BorderSide(color: AppTheme.secondaryColor)),
+            errorBorder: const OutlineInputBorder(
+                borderRadius: BorderRadius.all(Radius.circular(8)),
+                borderSide: BorderSide(color: Color(0xffE2E2E2))),
+            focusedBorder: const OutlineInputBorder(
+                borderRadius: BorderRadius.all(Radius.circular(8)),
+                borderSide: BorderSide(color: AppTheme.secondaryColor)),
+            disabledBorder: const OutlineInputBorder(
+              borderRadius: BorderRadius.all(Radius.circular(8)),
+              borderSide: BorderSide(color: AppTheme.secondaryColor),
+            ),
+            enabledBorder: const OutlineInputBorder(
+              borderRadius: BorderRadius.all(Radius.circular(8)),
+              borderSide: BorderSide(color: AppTheme.secondaryColor),
+            ),
+          ),
+          validator: (value) {
+            if (value == null || value.isEmpty) {
+              return 'Please select an item';
+            }
+            return null;
+          },
+        ),
+        SizedBox(height: 10,),
+        DropdownButtonFormField<String>(
+          value: containerState.unit,
+          onChanged: (String? newValue) {
+            setState(() {
+              containerState.unit = newValue!;
+              // kgValue.value = newValue;
+            });
+          },
+          items: unitList.map<DropdownMenuItem<String>>((String value) {
+            return DropdownMenuItem<String>(
+              value: value,
+              child: Text(value),
+            );
+          }).toList(),
+          decoration: InputDecoration(
+            border: InputBorder.none,
+            filled: true,
+            fillColor: const Color(0xffE2E2E2).withOpacity(.35),
+            contentPadding: const EdgeInsets.symmetric(horizontal: 15, vertical: 10).copyWith(right: 8),
+            focusedErrorBorder: const OutlineInputBorder(
+                borderRadius: BorderRadius.all(Radius.circular(8)),
+                borderSide: BorderSide(color: AppTheme.secondaryColor)),
+            errorBorder: const OutlineInputBorder(
+                borderRadius: BorderRadius.all(Radius.circular(8)),
+                borderSide: BorderSide(color: Color(0xffE2E2E2))),
+            focusedBorder: const OutlineInputBorder(
+                borderRadius: BorderRadius.all(Radius.circular(8)),
+                borderSide: BorderSide(color: AppTheme.secondaryColor)),
+            disabledBorder: const OutlineInputBorder(
+              borderRadius: BorderRadius.all(Radius.circular(8)),
+              borderSide: BorderSide(color: AppTheme.secondaryColor),
+            ),
+            enabledBorder: const OutlineInputBorder(
+              borderRadius: BorderRadius.all(Radius.circular(8)),
+              borderSide: BorderSide(color: AppTheme.secondaryColor),
+            ),
+          ),
+          validator: (value) {
+            if (value == null || value.isEmpty) {
+              return 'Please select an item';
+            }
+            return null;
+          },
+        ),
+        SizedBox(height: 10,),
+        CommonTextField(
+          controller:containerState.controllers['dimensionController']!,
+          obSecure: false,
+          keyboardType: TextInputType.number,
+          hintText: 'Weight ',
+          validator: (value) {
+            if (value!.trim().isEmpty) {
+              return 'Weight is required'.tr;
+            }
+            return null; // Return null if validation passes
+          },
+        ),
+        SizedBox(height: 8,),
+        Row(
+          children: [
+            Expanded(
+                child: CommonTextField(
+                  controller:containerState.controllers['lengthController']! ,
+                  obSecure: false,
+                  keyboardType: TextInputType.number,
+                  hintText: 'Length X ',
+                  validator: (value) {
+                    if (value!.trim().isEmpty) {
+                      return 'Product length is required'.tr;
+                    }
+                    return null; // Return null if validation passes
+                  },
+                )),
+            10.spaceX,
+            Expanded(
+                child: CommonTextField(
+                  controller: containerState.controllers['dimensionWidthController']!,
+                  obSecure: false,
+                  hintText: 'Width X',
+                  keyboardType: TextInputType.number,
+                  validator: (value) {
+                    if (value!.trim().isEmpty) {
+                      return 'Product Width is required'.tr;
+                    }
+                    return null; // Return null if validation passes
+                  },
+                )),
+            10.spaceX,
+            Expanded(
+                child: CommonTextField(
+                  controller:containerState.controllers['dimensionHeightController']! ,
+                  obSecure: false,
+                  hintText: 'Height X',
+                  keyboardType: TextInputType.number,
+                  validator: (value) {
+                    if (value!.trim().isEmpty) {
+                      return 'Product Height is required'.tr;
+                    }
+                    return null; // Return null if validation passes
+                  },
+                )),
+          ],
+        ),
+        SizedBox(height: 20,),
+      ],
+    );
+  }
+  void createShipment1(String id, List<DynamicContainerState> containerStates) {
+    List<Map<String, dynamic>> payload = [];
+
+    print('Container States: $containerStates'); // Check containerStates content
+
+    for (int i = 0; i < containerStates.length; i++) {
+      DynamicContainerState state = containerStates[i];
+      print('Container State for index $i: $state'); // Check state contents
+
+      // Add other checks and prints as needed
+
+      // Your existing code to add payload items
+    }
+
+    print('Payload: $payload'); // Check the final payload
+
+    // Rest of your code
+  }
+
   String statusValue = '';
   @override
   Widget build(BuildContext context) {
@@ -554,11 +831,11 @@ class _OrderDetailsState extends State<OrderDetails> {
                     const SizedBox(
                       height: 20,
                     ),
-                    singleOrder.order!.orderShipping!= null ?   Text(
+                    singleOrder.order!.orderShipping== null ?   const SizedBox.shrink(): Text(
                       'Shipping Detail'.tr,
                       style:
                       GoogleFonts.poppins(color: const Color(0xff303C5E), fontSize: 18, fontWeight: FontWeight.w700),
-                    ) : const SizedBox.shrink(),
+                    ) ,
                     const SizedBox(
                       height: 16,
                     ),
@@ -665,7 +942,7 @@ class _OrderDetailsState extends State<OrderDetails> {
                                                     ),
                                                   ),
                                                   Text(
-                                                    createShipmentModel.value.data!.trackingNumber.toString(),
+                                                    createShipmentModel.value.data!.trackingNo.toString(),
                                                     style: GoogleFonts.poppins(
                                                         color: const Color(0xff486769),
                                                         fontWeight: FontWeight.w300,
@@ -678,24 +955,91 @@ class _OrderDetailsState extends State<OrderDetails> {
                                           );
                                         }),
                                       createShipmentModel.value.data == null ?
-                                      ElevatedButton(
-                                          onPressed: () {
-                                            createShipment(orderId);
-                                          },
-                                          style: ElevatedButton.styleFrom(
-                                              minimumSize: const Size(double.maxFinite, 50),
-                                              backgroundColor: AppTheme.buttonColor,
-                                              elevation: 0,
-                                              shape: RoundedRectangleBorder(
-                                                  borderRadius: BorderRadius.circular(AddSize.size10)),
-                                              textStyle: GoogleFonts.poppins(
-                                                  fontSize: AddSize.font20, fontWeight: FontWeight.w600)),
-                                          child: Text(
-                                            "Create Shipment".tr,
-                                            style: GoogleFonts.poppins(
-                                              color: Colors.white, fontWeight: FontWeight.w600, fontSize: 16,
-                                            ),
-                                          )) : const SizedBox.shrink(),
+
+                                      Column(
+                                        children: [
+                                          containerShow1.value == false?
+                                          Row(
+                                            children: [
+                                              Expanded(
+                                                child: ElevatedButton(
+                                                    onPressed: () {
+                                                      // createShipment(orderId);
+
+                                                    },
+                                                    style: ElevatedButton.styleFrom(
+                                                        minimumSize: const Size(double.maxFinite, 50),
+                                                        backgroundColor: AppTheme.buttonColor,
+                                                        elevation: 0,
+                                                        shape: RoundedRectangleBorder(
+                                                            borderRadius: BorderRadius.circular(AddSize.size10)),
+                                                        textStyle: GoogleFonts.poppins(
+                                                            fontSize: AddSize.font20, fontWeight: FontWeight.w600)),
+                                                    child: Text(
+                                                      "Create Shipment".tr,
+                                                      style: GoogleFonts.poppins(
+
+                                                        color: Colors.white, fontWeight: FontWeight.w600, fontSize: 16,
+                                                      ),
+                                                      textAlign: TextAlign.center,
+                                                    )),
+                                              ),
+
+                                              SizedBox(width: 10,),
+                                              Expanded(
+                                                child: ElevatedButton(
+                                                    onPressed: () {
+                                                      // createShipment(orderId);
+
+                                                      setState(() {
+                                                        containerShow.value = true;
+                                                        containerShow1.value = true;
+                                                      });
+                                                      print( containerShow.value);
+                                                    },
+                                                    style: ElevatedButton.styleFrom(
+                                                        minimumSize: const Size(double.maxFinite, 50),
+                                                        backgroundColor: AppTheme.buttonColor,
+                                                        elevation: 0,
+                                                        shape: RoundedRectangleBorder(
+                                                            borderRadius: BorderRadius.circular(AddSize.size10)),
+                                                        textStyle: GoogleFonts.poppins(
+                                                            fontSize: AddSize.font20, fontWeight: FontWeight.w600)),
+                                                    child: Text(
+                                                      "Edit Shipment".tr,
+                                                      style: GoogleFonts.poppins(
+                                                        color: Colors.white, fontWeight: FontWeight.w600, fontSize: 16,
+                                                      ),
+                                                      textAlign: TextAlign.center,
+                                                    )),
+                                              ),
+                                            ],
+                                          ):ElevatedButton(
+                                              onPressed: () {
+                                                // createShipment(orderId);
+
+                                                // setState(() {
+                                                //   containerShow.value = true;
+                                                //   containerShow1.value = false;
+                                                // });
+                                                print( containerShow.value);
+                                              },
+                                              style: ElevatedButton.styleFrom(
+                                                  minimumSize: const Size(double.maxFinite, 50),
+                                                  backgroundColor: AppTheme.buttonColor,
+                                                  elevation: 0,
+                                                  shape: RoundedRectangleBorder(
+                                                      borderRadius: BorderRadius.circular(AddSize.size10)),
+                                                  textStyle: GoogleFonts.poppins(
+                                                      fontSize: AddSize.font20, fontWeight: FontWeight.w600)),
+                                              child: Text(
+                                                "Edit Shipment".tr,
+                                                style: GoogleFonts.poppins(
+                                                  color: Colors.white, fontWeight: FontWeight.w600, fontSize: 16,
+                                                ),
+                                              )),
+                                        ],
+                                      ) : const SizedBox.shrink(),
                                       if( createShipmentModel.value.data != null)
                                         ElevatedButton(
                                             onPressed: () async{
@@ -704,7 +1048,7 @@ class _OrderDetailsState extends State<OrderDetails> {
                                                 Overlay.of(context)!.insert(loader);
 
                                                 // Use http package instead of HttpClient for simplicity
-                                                var response = await http.get(Uri.parse(createShipmentModel.value.data!.labelPdf.toString()));
+                                                var response = await http.get(Uri.parse(createShipmentModel.value.data!.url.toString()));
                                                 if (response.statusCode == 200) {
                                                   var bytes = response.bodyBytes;
 
@@ -750,6 +1094,89 @@ class _OrderDetailsState extends State<OrderDetails> {
                     const SizedBox(
                       height: 20,
                     ),
+        containerShow.value == true?
+        Column(
+          children: [
+            for (var containerState in containers)
+              Container(
+                padding: EdgeInsets.all(8),
+                decoration: BoxDecoration(
+                  color: Colors.white,
+                  borderRadius: BorderRadius.circular(12),
+                  boxShadow: [
+                    BoxShadow(
+                      color: const Color(0xFF37C666).withOpacity(0.10),
+                      offset: const Offset(.1, .1),
+                      blurRadius: 20.0,
+                      spreadRadius: 1.0,
+                    ),
+                  ],
+                ),
+                child: buildDynamicContainer(containerState),
+              ),
+            Row(
+              mainAxisAlignment: MainAxisAlignment.end,
+              children: [
+                GestureDetector(
+                  onTap: removeContainer,
+                  child: Container(
+                    padding: EdgeInsets.all(9),
+                    decoration: BoxDecoration(
+                        shape: BoxShape.circle,
+                        color: Colors.red
+                    ),
+                    child: Text("-", style: TextStyle(
+                        color: Colors.white,
+                        fontSize: 20,
+                        fontWeight: FontWeight.w600
+                    ),),
+                  ),
+                ),
+                SizedBox(width: 15,),
+                GestureDetector(
+                  onTap: addContainer,
+                  child: Container(
+                    padding: EdgeInsets.all(8),
+                    decoration: BoxDecoration(
+                        shape: BoxShape.circle,
+                        color: Colors.green
+                    ),
+                    child: Text("+", style: TextStyle(
+                        color: Colors.white,
+                        fontSize: 20,
+                        fontWeight: FontWeight.w600
+                    ),),
+                  ),
+                ),
+              ],
+            ),
+containerShow1.value == true?
+            ElevatedButton(
+                onPressed: () {
+                 createShipment(orderId,containers );
+                  // containerShow.value == true;
+                  // containerShow1.value == false;
+                },
+                style: ElevatedButton.styleFrom(
+                    minimumSize: const Size(double.maxFinite, 50),
+                    backgroundColor: AppTheme.buttonColor,
+                    elevation: 0,
+                    shape: RoundedRectangleBorder(
+                        borderRadius: BorderRadius.circular(AddSize.size10)),
+                    textStyle: GoogleFonts.poppins(
+                        fontSize: AddSize.font20, fontWeight: FontWeight.w600)),
+                child: Text(
+                  "Create Shipment".tr,
+                  style: GoogleFonts.poppins(
+                    color: Colors.white, fontWeight: FontWeight.w600, fontSize: 16,
+                  ),
+                )):SizedBox.shrink(),
+          ],
+        ):SizedBox(),
+                    const SizedBox(
+                      height: 20,
+                    ),
+
                     ElevatedButton(
                         onPressed: () {
                           updateStatus(orderId,statusValue);
@@ -770,4 +1197,16 @@ class _OrderDetailsState extends State<OrderDetails> {
             ))
             : const LoadingAnimation());
   }
+}
+class DynamicContainerState {
+  String unitOfMeasure;
+  String unit;
+  Map<String, TextEditingController> controllers;
+
+  DynamicContainerState({
+    required this.unitOfMeasure,
+    required this.unit,
+
+    required this.controllers,
+  });
 }

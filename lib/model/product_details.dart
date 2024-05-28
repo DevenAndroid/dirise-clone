@@ -58,6 +58,16 @@ class ProductDetails {
 
 class Product {
   dynamic id;
+  dynamic spot;
+  dynamic meeting_platform;
+  dynamic eligible_min_age;
+  dynamic eligible_max_age;
+  dynamic eligible_gender;
+  dynamic host_name;
+  dynamic program_name;
+  dynamic program_goal;
+  dynamic program_desc;
+  dynamic bookable_product_location;
   dynamic jobCountry;
   dynamic jobState;
   dynamic jobCity;
@@ -155,9 +165,31 @@ class Product {
   dynamic returnPolicyDesc;
   dynamic shippingPolicyDesc;
   dynamic discountPrice;
+  dynamic startLocation;
+  dynamic endLocation;
+  dynamic timingExtraNotes;
+  ServiceTimeSloat? serviceTimeSloat;
+  ProductAvailability? productAvailability;
+  List<ProductWeeklyAvailability>? productWeeklyAvailability;
+  List<ProductVacation>? productVacation;
+
 
   Product(
       {this.id,
+        this.spot,
+        this.meeting_platform,
+        this.serviceTimeSloat,
+        this.startLocation,
+        this.endLocation,
+        this.timingExtraNotes,
+        this.eligible_min_age,
+        this.eligible_max_age,
+        this.eligible_gender,
+        this.host_name,
+        this.program_name,
+        this.program_desc,
+        this.program_goal,
+        this.bookable_product_location,
         this.jobCountry,
         this.jobState,
         this.jobCity,
@@ -258,6 +290,22 @@ class Product {
 
   Product.fromJson(Map<String, dynamic> json) {
     id = json['id'];
+    serviceTimeSloat = json['serviceTimeSloat'] != null
+        ? new ServiceTimeSloat.fromJson(json['serviceTimeSloat'])
+        : null;
+    startLocation = json['start_location'];
+    spot = json['spot'];
+    meeting_platform = json['meeting_platform'];
+    endLocation = json['end_location'];
+    timingExtraNotes = json['timing_extra_notes'];
+    eligible_min_age = json['eligible_min_age'];
+    eligible_max_age = json['eligible_max_age'];
+    eligible_gender = json['eligible_gender'];
+    bookable_product_location = json['bookable_product_location'];
+    host_name = json['host_name'];
+    program_name = json['program_name'];
+    program_goal = json['program_goal'];
+    program_desc = json['program_desc'];
     vendorId = json['vendor_id'];
     jobCountry = json['job_country_id'];
     jobState = json['job_state_id'];
@@ -355,6 +403,15 @@ class Product {
     returnPolicyDesc = json['return_policy_desc'];
     shippingPolicyDesc = json['shipping_policy_desc'];
     discountPrice = json['discount_price'];
+    productAvailability = json['productAvailability'] != null ? new ProductAvailability.fromJson(json['productAvailability']) : null;
+    if (json['product_weekly_availability'] != null) {
+      productWeeklyAvailability = <ProductWeeklyAvailability>[];
+      json['product_weekly_availability'].forEach((v) { productWeeklyAvailability!.add(new ProductWeeklyAvailability.fromJson(v)); });
+    }
+    if (json['product_vacation'] != null) {
+      productVacation = <ProductVacation>[];
+      json['product_vacation'].forEach((v) { productVacation!.add(new ProductVacation.fromJson(v)); });
+    }
   }
 
   Map<String, dynamic> toJson() {
@@ -667,6 +724,128 @@ class ProductDimentions {
     data['units'] = this.units;
     data['created_at'] = this.createdAt;
     data['updated_at'] = this.updatedAt;
+    return data;
+  }
+}
+
+
+class ProductAvailability {
+  dynamic qty;
+  dynamic type;
+  dynamic fromDate;
+  dynamic toDate;
+  dynamic interval;
+  dynamic  preparationBlockTime;
+  dynamic  recoveryBlockTime;
+
+  ProductAvailability({this.qty, this.type, this.fromDate, this.toDate, this.interval, this.preparationBlockTime, this.recoveryBlockTime});
+
+  ProductAvailability.fromJson(Map<String, dynamic> json) {
+    qty = json['qty'];
+    type = json['type'];
+    fromDate = json['from_date'];
+    toDate = json['to_date'];
+    interval = json['interval'];
+    preparationBlockTime = json['preparation_block_time'];
+    recoveryBlockTime = json['recovery_block_time'];
+  }
+
+  Map<String, dynamic> toJson() {
+    final Map<String, dynamic> data = new Map<String, dynamic>();
+    data['qty'] = this.qty;
+    data['type'] = this.type;
+    data['from_date'] = this.fromDate;
+    data['to_date'] = this.toDate;
+    data['interval'] = this.interval;
+    data['preparation_block_time'] = this.preparationBlockTime;
+    data['recovery_block_time'] = this.recoveryBlockTime;
+    return data;
+  }
+}
+
+class ProductWeeklyAvailability {
+  dynamic id;
+  dynamic weekDay;
+  dynamic startTime;
+  dynamic endTime;
+  dynamic startBreakTime;
+  dynamic endBreakTime;
+  dynamic  status;
+
+  ProductWeeklyAvailability({this.id, this.weekDay, this.startTime, this.endTime, this.startBreakTime, this.endBreakTime, this.status});
+
+  ProductWeeklyAvailability.fromJson(Map<String, dynamic> json) {
+    id = json['id'];
+    weekDay = json['week_day'];
+    startTime = json['start_time'];
+    endTime = json['end_time'];
+    startBreakTime = json['start_break_time'];
+    endBreakTime = json['end_break_time'];
+    status = json['status'];
+  }
+
+  Map<String, dynamic> toJson() {
+    final Map<String, dynamic> data = new Map<String, dynamic>();
+    data['id'] = this.id;
+    data['week_day'] = this.weekDay;
+    data['start_time'] = this.startTime;
+    data['end_time'] = this.endTime;
+    data['start_break_time'] = this.startBreakTime;
+    data['end_break_time'] = this.endBreakTime;
+    data['status'] = this.status;
+    return data;
+  }
+}
+
+class ProductVacation {
+  dynamic  id;
+  dynamic  productId;
+  dynamic  productAvailabilityId;
+  dynamic  vendorId;
+  dynamic vacationType;
+  dynamic vacationFromDate;
+  dynamic vacationToDate;
+
+  ProductVacation({this.id, this.productId, this.productAvailabilityId, this.vendorId, this.vacationType, this.vacationFromDate, this.vacationToDate});
+
+  ProductVacation.fromJson(Map<String, dynamic> json) {
+    id = json['id'];
+    productId = json['product_id'];
+    productAvailabilityId = json['product_availability_id'];
+    vendorId = json['vendor_id'];
+    vacationType = json['vacation_type'];
+    vacationFromDate = json['vacation_from_date'];
+    vacationToDate = json['vacation_to_date'];
+  }
+
+  Map<String, dynamic> toJson() {
+    final Map<String, dynamic> data = new Map<String, dynamic>();
+    data['id'] = this.id;
+    data['product_id'] = this.productId;
+    data['product_availability_id'] = this.productAvailabilityId;
+    data['vendor_id'] = this.vendorId;
+    data['vacation_type'] = this.vacationType;
+    data['vacation_from_date'] = this.vacationFromDate;
+    data['vacation_to_date'] = this.vacationToDate;
+    return data;
+  }
+}
+
+class ServiceTimeSloat {
+  String? timeSloat;
+  String? timeSloatEnd;
+
+  ServiceTimeSloat({this.timeSloat, this.timeSloatEnd});
+
+  ServiceTimeSloat.fromJson(Map<String, dynamic> json) {
+    timeSloat = json['time_sloat'];
+    timeSloatEnd = json['time_sloat_end'];
+  }
+
+  Map<String, dynamic> toJson() {
+    final Map<String, dynamic> data = new Map<String, dynamic>();
+    data['time_sloat'] = this.timeSloat;
+    data['time_sloat_end'] = this.timeSloatEnd;
     return data;
   }
 }

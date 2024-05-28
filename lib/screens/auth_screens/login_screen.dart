@@ -476,6 +476,8 @@ class _LoginScreenState extends State<LoginScreen> {
       LoginModal response = LoginModal.fromJson(jsonDecode(value));
       repositories.saveLoginDetails(jsonEncode(response));
       if (response.status == true) {
+        SharedPreferences pref = await SharedPreferences.getInstance();
+        pref.setString('login_user', jsonEncode(value));
         showToast(response.message.toString());
         profileController.userLoggedIn = true;
         Get.offAllNamed(BottomNavbar.route);

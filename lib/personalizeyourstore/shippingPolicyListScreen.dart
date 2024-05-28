@@ -47,7 +47,7 @@ class _ShippingPolicyListScreenState extends State<ShippingPolicyListScreen> {
         elevation: 0,
         leading: GestureDetector(
           onTap: () {
-            Get.back();
+            Navigator.pop(context);
           },
           child: const Icon(
             Icons.arrow_back_ios_new,
@@ -98,11 +98,14 @@ class _ShippingPolicyListScreenState extends State<ShippingPolicyListScreen> {
                       Get.to(ShippingPolicyScreen(
                         id: shippingPolicy.id,
                         policydesc: shippingPolicy.description,
-                        policyDiscount: shippingPolicy.shippingCharges,
+                        policyDiscount: shippingPolicy.shippingType,
                         policyName: shippingPolicy.title,
                         priceLimit: shippingPolicy.priceLimit,
+                        selectZone: shippingPolicy.shippingZone,
 
                       ));
+
+                      log('ddddddd${shippingPolicy.shippingType.toString()}');
                     },
                     child: Container(
                         width: Get.width,

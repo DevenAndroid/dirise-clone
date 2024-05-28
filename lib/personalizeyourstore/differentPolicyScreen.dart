@@ -2,6 +2,8 @@ import 'dart:io';
 
 import 'package:dirise/addNewProduct/itemdetailsScreen.dart';
 import 'package:dirise/controller/profile_controller.dart';
+import 'package:dirise/personalizeyourstore/pickUpPolicyScreen.dart';
+import 'package:dirise/personalizeyourstore/pickupPolicyListScreen.dart';
 import 'package:dirise/personalizeyourstore/returnPolicyListScreen.dart';
 import 'package:dirise/personalizeyourstore/returnpolicyScreen.dart';
 import 'package:dirise/personalizeyourstore/shippingPolicyListScreen.dart';
@@ -47,7 +49,7 @@ class _DifferentPolicyScreenState extends State<DifferentPolicyScreen> {
       } else if (selectedRadio == 'Shipping Policy') {
         Get.to(ShippingPolicyListScreen());
       } else if (selectedRadio == 'Pickup Policy') {
-        Get.to(const ItemDetailsScreens());
+        Get.to(PickUpPolicyListScreen());
       } else {
         // Handle the case where the selected radio doesn't match any case
         // For example, show a message or perform a different action
@@ -79,7 +81,7 @@ class _DifferentPolicyScreenState extends State<DifferentPolicyScreen> {
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: [
             Text(
-              'My Item is  a'.tr,
+              'Select Policy'.tr,
               style: GoogleFonts.poppins(
                   color: Colors.black,
                   fontWeight: FontWeight.w600,
@@ -116,7 +118,7 @@ class _DifferentPolicyScreenState extends State<DifferentPolicyScreen> {
                     navigateNext();
                   }
                   else{
-                    showToast('Please select any item type');
+                    showToast('Please select any policy');
                   }
                 },
                 child: Container(

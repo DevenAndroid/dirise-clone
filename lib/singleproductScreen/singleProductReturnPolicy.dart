@@ -93,7 +93,7 @@ class _SingleProductReturnPolicyState extends State<SingleProductReturnPolicy> {
       ModelCommonResponse response = ModelCommonResponse.fromJson(jsonDecode(value));
       showToast(response.message.toString());
       if (response.status == true) {
-        Get.to(() => const SingleProductDeliverySize());
+        Get.to(() =>  SingleProductDeliverySize());
         showToast(response.message.toString());
       }
     });
@@ -486,7 +486,7 @@ class _SingleProductReturnPolicyState extends State<SingleProductReturnPolicy> {
                         // }
                       }
                     } else {
-                      Get.to(const SingleProductDeliverySize());
+                      Get.to( SingleProductDeliverySize());
                     }
                   }
                     // Disable button if no radio button is selected

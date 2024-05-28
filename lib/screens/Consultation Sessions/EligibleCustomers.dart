@@ -5,6 +5,7 @@ import 'package:dirise/utils/helper.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:google_fonts/google_fonts.dart';
+import '../../controller/vendor_controllers/add_product_controller.dart';
 import '../../model/common_modal.dart';
 import '../../repository/repository.dart';
 import '../../utils/api_constant.dart';
@@ -30,13 +31,14 @@ class _EligibleCustomersState extends State<EligibleCustomers> {
   String endString = '';
   int endDecimalIndex = 0;
   String endDigitsBeforeDecimal = '';
-
+  final addProductController = Get.put(AddProductController());
   String selectedGender = 'Male Only';
   createEligbleCustomer() {
     Map<String, dynamic> map = {};
-    map['eligible_min_age '] = digitsBeforeDecimal.toString();
-    map['eligible_max_age '] = endDigitsBeforeDecimal.toString();
-    map['eligible_gender '] = selectedGender.toString();
+    map['eligible_min_age'] = digitsBeforeDecimal.toString();
+    map['eligible_max_age'] = endDigitsBeforeDecimal.toString();
+    map['eligible_gender'] = selectedGender.toString();
+    map["id"] =  addProductController.idProduct.value.toString();
     FocusManager.instance.primaryFocus!.unfocus();
     repositories.postApi(url: ApiUrls.giveawayProductAddress, context: context, mapData: map).then((value) {
       ModelCommonResponse response = ModelCommonResponse.fromJson(jsonDecode(value));

@@ -173,7 +173,7 @@ class AddProductController extends GetxController {
   final TextEditingController languageController = TextEditingController();
   String weightUnit = "";
   final GlobalKey weightUnitKey = GlobalKey();
-RxString idProduct = "".obs;
+  RxString idProduct = "".obs;
   RxString productFileType = "".obs;
   File productImage = File("");
   RxInt virtualRefreshInt = 0.obs;
@@ -182,7 +182,7 @@ RxString idProduct = "".obs;
   List<File> galleryImages = [];
   String selectedTax = "";
   // String selectedCategory = "";
-  String productType = "Simple Product";
+  String productType = "variants";
   bool showValidations = false;
   DateTime? selectedStartDateTime;
   DateTime? selectedEndDateTIme;
@@ -236,7 +236,7 @@ RxString idProduct = "".obs;
     if (valuesAssigned) return;
     ModelVendorProductDetailsData item = productDetails.product!;
     if (productId.isNotEmpty && item.productType == "variants") {
-      productType = "Variants Product";
+      productType = "variants";
     }
     if (modelAttributes.data != null && modelAttributes.data!.isNotEmpty) {
       for (var element in item.variantData!) {
@@ -252,7 +252,9 @@ RxString idProduct = "".obs;
             filePath: element.variantImages.toString(),
             variantSkuLive: element.variantSku.toString(),
             variantPriceLive: element.variantPrice.toString(),
-            variantStockLive: element.variantStock.toString()));
+            variantStockLive: element.variantStock.toString(),
+            shortDescriptionLive: element.shortDescription.toString(),
+            longDescriptionLive: element.longDescription.toString()));
       }
       valuesAssigned = true;
 
@@ -276,16 +278,16 @@ RxString idProduct = "".obs;
     getTaxType = productDetails.product!.taxType;
 
     /// Description Part
-    if (item.productType == "virtual_product") {
-      productType = "Virtual Product";
-    }
+    // if (item.productType == "virtual_product") {
+    //   productType = "Virtual Product";
+    // }
 
     updateVariants();
 
-    if (item.productType == "booking") {
-      productType = "Booking Product";
-      serviceTimeSloat = item.serviceTimeSloat ?? [];
-    }
+    // if (item.productType == "booking") {
+    //   productType = "Booking Product";
+    //   serviceTimeSloat = item.serviceTimeSloat ?? [];
+    // }
     updateUI;
     productNameController.text = item.pName.toString();
     weightController.text = (item.weight ?? "").toString();
@@ -317,33 +319,33 @@ RxString idProduct = "".obs;
     productImage = File((item.featuredImage ?? "").toString());
 
     /// Virtual Part
-    if (productType == "Virtual Product") {
-      if (item.virtualProductFileType == "pdf") {
-        productFileType.value = "pdf";
-        pdfFile = File(item.virtualProductFile.toString());
-      } else {
-        productFileType.value = "voice";
-        voiceFile = File(item.virtualProductFile.toString());
-      }
-      // productFileType
-    }
+    // if (productType == "Virtual Product") {
+    //   if (item.virtualProductFileType == "pdf") {
+    //     productFileType.value = "pdf";
+    //     pdfFile = File(item.virtualProductFile.toString());
+    //   } else {
+    //     productFileType.value = "voice";
+    //     voiceFile = File(item.virtualProductFile.toString());
+    //   }
+    //   // productFileType
+    // }
 
     /// Booking Part
-    if (productType == "Booking Product") {
-      // 1. First Booking Type
-      if (item.bookingProductType.toString() == "Personal") {
-        bookingType.value = "Personal";
-      } else {
-        bookingType = "Virtual".obs;
-      }
-
-      // 2. Product Availability
-      if (item.productAvailability != null) {
-        dateType.value = (item.productAvailability!.type ?? "date").toString();
-        updateStartDateTime();
-        updateEndDateTime();
-      }
-    }
+    // if (productType == "Booking Product") {
+    //   // 1. First Booking Type
+    //   if (item.bookingProductType.toString() == "Personal") {
+    //     bookingType.value = "Personal";
+    //   } else {
+    //     bookingType = "Virtual".obs;
+    //   }
+    //
+    //   // 2. Product Availability
+    //   if (item.productAvailability != null) {
+    //     dateType.value = (item.productAvailability!.type ?? "date").toString();
+    //     updateStartDateTime();
+    //     updateEndDateTime();
+    //   }
+    // }
     print("object........................................444");
     updateUI;
   }
@@ -360,7 +362,8 @@ RxString idProduct = "".obs;
 
   updateEndDateTime() {
     try {
-      selectedEndDateTIme = DateFormat("yyyy-MM-dd").parse(productDetails.product!.productAvailability!.toDate.toString());
+      selectedEndDateTIme =
+          DateFormat("yyyy-MM-dd").parse(productDetails.product!.productAvailability!.toDate.toString());
       endDate.text = DateFormat("dd-MMM-yyyy").format(selectedEndDateTIme!);
     } catch (e) {
       throw Exception(e);
@@ -393,6 +396,7 @@ RxString idProduct = "".obs;
       }
     });
   }
+
   deleteProductForAll(BuildContext context) {
     repositories.postApi(url: ApiUrls.deleteProductUrl, context: context, mapData: {
       'product_id': productId.toString(),
@@ -420,8 +424,8 @@ RxString idProduct = "".obs;
     } else if (slots.isNotEmpty) {
       timeslots = slots.entries
           .where((element) => element.value == true)
-          .map(
-              (e) => "${timeFormatWithoutAMPM.format(e.key.keys.first)},${timeFormatWithoutAMPM.format(e.key.values.first)}")
+          .map((e) =>
+              "${timeFormatWithoutAMPM.format(e.key.keys.first)},${timeFormatWithoutAMPM.format(e.key.values.first)}")
           .toList();
     }
 
@@ -454,7 +458,7 @@ RxString idProduct = "".obs;
       if (shortDescriptionController.checkEmpty) return;
       if (longDescriptionController.checkEmpty) return;
 
-      if (productType == "Variants Product") {
+      if (productType == "variants") {
         if (attributeList.isEmpty) {
           attributeListKey.currentContext!.navigate;
           return;
@@ -471,22 +475,22 @@ RxString idProduct = "".obs;
         }
       }
 
-      if (productType == "Booking Product") {
-        if (startTime.checkEmpty) return;
-        if (endTime.checkEmpty) return;
-        if (serviceDuration.checkEmpty) return;
-        if (startDate.checkEmpty) return;
-        if (selectedEndDateTIme == null && dateType.value == "range") {
-          if (serviceDuration.checkEmpty) return;
-        }
-      }
+      // if (productType == "Booking Product") {
+      //   if (startTime.checkEmpty) return;
+      //   if (endTime.checkEmpty) return;
+      //   if (serviceDuration.checkEmpty) return;
+      //   if (startDate.checkEmpty) return;
+      //   if (selectedEndDateTIme == null && dateType.value == "range") {
+      //     if (serviceDuration.checkEmpty) return;
+      //   }
+      // }
 
       categoryKey.currentContext!.navigate;
       return;
     }
 
     /// Other Validation
-    if (productType == "Variants Product") {
+    if (productType == "variants") {
       // print("testing...    ${}")
       if (!attributeList
               .map((e) => e.getAttrvalues!.map((e2) => e2.selectedVariant).toList().contains(true))
@@ -536,70 +540,73 @@ RxString idProduct = "".obs;
       }
     }
 
-    if (productType == "Booking Product") {
-      if (timeslots.isEmpty) {
-        showToast("Please select slot");
-        slotKey.currentContext!.navigate;
-        return;
-      }
-      if (selectedStartDateTime == null) {
-        showToast("Please select product availability");
-        productAvailabilityKey.currentContext!.navigate;
-      }
-      if (selectedEndDateTIme == null && dateType.value == "range") {
-        showToast("Please select product availability");
-        productAvailabilityKey.currentContext!.navigate;
-      }
-    }
+    // if (productType == "Booking Product") {
+    //   if (timeslots.isEmpty) {
+    //     showToast("Please select slot");
+    //     slotKey.currentContext!.navigate;
+    //     return;
+    //   }
+    //   if (selectedStartDateTime == null) {
+    //     showToast("Please select product availability");
+    //     productAvailabilityKey.currentContext!.navigate;
+    //   }
+    //   if (selectedEndDateTIme == null && dateType.value == "range") {
+    //     showToast("Please select product availability");
+    //     productAvailabilityKey.currentContext!.navigate;
+    //   }
+    // }
 
-    if (galleryImages.isEmpty) {
-      return showToast("Please select product gallery images");
-    }
-    if (productImage.path.isEmpty) {
-      return showToast("Please select product images");
-    }
+    // if (galleryImages.isEmpty) {
+    //   return showToast("Please select product gallery images");
+    // }
+    // if (productImage.path.isEmpty) {
+    //   return showToast("Please select product images");
+    // }
 
     // return;
     Map<String, String> map = {};
     // single,variants,booking,virtual_product
-    map["product_type"] = productType.replaceAll("Product", "").replaceAll("Simple", "single").trim().toLowerCase();
-    map["weight"] = weightController.text.trim();
-    map["weight_unit"] = weightUnit;
+    // map["product_type"] = productType.replaceAll("Product", "").replaceAll("Simple", "single").trim().toLowerCase();
+    // map["weight"] = weightController.text.trim();
+    // map["weight_unit"] = weightUnit;
 
-    if (productDurationValueController.text.isNotEmpty) {
-      map["time"] = productDurationValueController.text.trim();
-    }
-    if (productDurationTypeValue.isNotEmpty && productDurationTypeValue != "none") {
-      map["time_period"] = productDurationTypeValue;
-    }
+    // if (productDurationValueController.text.isNotEmpty) {
+    //   map["time"] = productDurationValueController.text.trim();
+    // }
+    // if (productDurationTypeValue.isNotEmpty && productDurationTypeValue != "none") {
+    //   map["time_period"] = productDurationTypeValue;
+    // }
 
-    if (productType.replaceAll("Product", "").trim().toLowerCase() == "virtual") {
-      // "virtual_product"
-      map["product_type"] = "virtual_product";
-      map["virtual_product_type"] = productFileType.value == "pdf" ? "digital_reader" : "voice";
-    }
+    // if (productType.replaceAll("Product", "").trim().toLowerCase() == "virtual") {
+    //   // "virtual_product"
+    //   map["product_type"] = "virtual_product";
+    //   map["virtual_product_type"] = productFileType.value == "pdf" ? "digital_reader" : "voice";
+    // }
 
-    if (productType == "Booking Product") {
-      final DateFormat dateFormat = DateFormat("yyyy-MM-dd");
+    // if (productType == "Booking Product") {
+    //   final DateFormat dateFormat = DateFormat("yyyy-MM-dd");
+    //
+    //   map["group[0]"] = dateType.value;
+    //   map["booking_product_type"] = bookingType.value;
+    //   if (dateType.value == "date") {
+    //     map["single_date[0]"] = dateFormat.format(selectedStartDateTime!);
+    //   } else {
+    //     map["from_date[0]"] = dateFormat.format(selectedStartDateTime!);
+    //     map["to_date[0]"] = dateFormat.format(selectedEndDateTIme!);
+    //   }
+    //   timeslots.asMap().entries.forEach((element) {
+    //     map["sloat[${element.key}]"] = element.value;
+    //   });
+    // }
 
-      map["group[0]"] = dateType.value;
-      map["booking_product_type"] = bookingType.value;
-      if (dateType.value == "date") {
-        map["single_date[0]"] = dateFormat.format(selectedStartDateTime!);
-      } else {
-        map["from_date[0]"] = dateFormat.format(selectedStartDateTime!);
-        map["to_date[0]"] = dateFormat.format(selectedEndDateTIme!);
-      }
-      timeslots.asMap().entries.forEach((element) {
-        map["sloat[${element.key}]"] = element.value;
-      });
-    }
-
-    if (productType == "Variants Product") {
+    if (productType == "variants") {
       addMultipleItems.asMap().entries.forEach((element) {
+        map['product_type'] = 'variants';
         map["variant_sku[${element.key}]"] = element.value.variantSku.text.trim();
         map["variant_price[${element.key}]"] = element.value.variantPrice.text.trim();
         map["variant_stock[${element.key}]"] = element.value.variantStock.text.trim();
+        map["variant_short_description[${element.key}]"] = element.value.shortDescription.text.trim();
+        map["variant_long_description[${element.key}]"] = element.value.longDescription.text.trim();
         Map<String, String> kk = {};
         for (var element11 in element.value.attributes!.entries) {
           kk[element11.key] = element11.value.id.toString();
@@ -607,6 +614,8 @@ RxString idProduct = "".obs;
         map["variant_value[${element.key}]"] = jsonEncode(kk);
       });
     }
+
+    log("Map Data: $map");
     if (taxId != null) {
       map["tax_type"] = taxId!;
     }
@@ -629,12 +638,12 @@ RxString idProduct = "".obs;
     }
 
     Map<String, File> imageMap = {};
-    if (productType == "Virtual Product") {
-      imageMap["virtual_product_file"] = productFileType.value == "pdf" ? pdfFile : voiceFile;
-    }
+    // if (productType == "Virtual Product") {
+    //   imageMap["virtual_product_file"] = productFileType.value == "pdf" ? pdfFile : voiceFile;
+    // }
     imageMap["featured_image"] = productImage;
 
-    if (productType == "Variants Product") {
+    if (productType == "variants") {
       addMultipleItems.asMap().entries.forEach((element) {
         if (element.value.variantImages.path.checkHTTP.isEmpty) {
           imageMap["variant_images[${element.key}]"] = element.value.variantImages;
@@ -649,8 +658,11 @@ RxString idProduct = "".obs;
     });
 
     map["category_id"] = categoryIds.join(",");
-    map["galleryTempData"] =
-        galleryImages.where((element) => element.path.checkHTTP.isNotEmpty).map((e) => e.path.checkHTTP).toList().join(",");
+    map["galleryTempData"] = galleryImages
+        .where((element) => element.path.checkHTTP.isNotEmpty)
+        .map((e) => e.path.checkHTTP)
+        .toList()
+        .join(",");
 
     imageMap.removeWhere((key, value) => value.path.checkHTTP.isNotEmpty);
     map.removeWhere((key, value) => value.isEmpty);

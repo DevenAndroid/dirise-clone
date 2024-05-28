@@ -4,6 +4,7 @@ import 'package:flutter/widgets.dart';
 import 'package:get/get.dart';
 
 import '../screens/tell_us_about_yourself.dart';
+import '../vendor/products/multiple_Product_screen.dart';
 import 'addProductFirstImageScreen.dart';
 
 class AddProductOptionScreen extends StatefulWidget {
@@ -59,7 +60,7 @@ class _AddProductOptionScreenState extends State<AddProductOptionScreen> {
             ),
             InkWell(
               onTap: (){
-                Get.to(()=> const TellUsYourSelfScreen());
+                Get.to(()=> const AddMultipleProductScreen());
               },
               child: Container(
                 padding: const EdgeInsets.all(15),

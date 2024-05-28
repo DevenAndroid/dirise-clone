@@ -19,18 +19,24 @@ import '../widgets/common_colour.dart';
 import '../widgets/common_textfield.dart';
 
 class OptionalScreen extends StatefulWidget {
-  const OptionalScreen({super.key});
+  int? id;
+  String? LongDescription;
+  String? MetaTitle;
+  String? MetaDescription;
+  String? SerialNumber;
+  String? Productnumber;
+  OptionalScreen({super.key,this.id,this.LongDescription,this.Productnumber,this.SerialNumber,this.MetaDescription,this.MetaTitle});
 
   @override
   State<OptionalScreen> createState() => _OptionalScreenState();
 }
 
 class _OptionalScreenState extends State<OptionalScreen> {
-  final TextEditingController metaTitleController = TextEditingController();
+  final TextEditingController metaTitleController       = TextEditingController();
   final TextEditingController metaDescriptionController = TextEditingController();
   final TextEditingController longDescriptionController = TextEditingController();
-  final TextEditingController serialNumberController = TextEditingController();
-  final TextEditingController productNumberController = TextEditingController();
+  final TextEditingController serialNumberController    = TextEditingController();
+  final TextEditingController productNumberController   = TextEditingController();
   RxBool hide = true.obs;
   RxBool hide1 = true.obs;
   bool showValidation = false;
@@ -120,6 +126,19 @@ class _OptionalScreenState extends State<OptionalScreen> {
     });
   }
 
+  @override
+  void initState() {
+    // TODO: implement initState
+    super.initState();
+    if(widget.id != null){
+      metaTitleController.text = widget.MetaTitle.toString();
+      metaDescriptionController.text = widget.MetaDescription.toString();
+      longDescriptionController.text = widget.LongDescription.toString();
+      serialNumberController.text = widget.SerialNumber.toString();
+      productNumberController.text = widget.Productnumber.toString();
+    }
+
+  }
   @override
   Widget build(BuildContext context) {
     return Scaffold(

@@ -305,7 +305,7 @@ class _HomePageState extends State<HomePage> {
       //     : const SizedBox(),
     ];
   }
-
+RxBool show = false.obs;
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -324,11 +324,11 @@ class _HomePageState extends State<HomePage> {
                   // color: Colors.white,
                 ),
                 SizedBox(width: 13,),
-                GestureDetector(
+                InkWell(
                   onTap: (){
-                    setState(() {
-                      _isSearch.value = !_isSearch.value;
-                    });
+                  setState(() {
+                    show.value =true;
+                  });
                   },
                   child: SvgPicture.asset(
                     'assets/svgs/search.svg',
@@ -349,6 +349,55 @@ class _HomePageState extends State<HomePage> {
             ...vendorPartner(),
             const CartBagCard(),
           ],
+          bottom: PreferredSize(
+            preferredSize: show.value ==true? Size.fromHeight(70): Size.fromHeight(0),
+            child:
+            show.value ==true?Hero(
+                tag: "search_tag",
+                child: Material(
+                  color: Colors.transparent,
+                  surfaceTintColor: Colors.transparent,
+                  child: Padding(
+                    padding: const EdgeInsets.symmetric(horizontal: 15),
+                    child: TextField(
+                      maxLines: 1,
+                      style: GoogleFonts.poppins(fontSize: 16),
+                      textInputAction: TextInputAction.search,
+                      onSubmitted: (vb) {
+                        Get.to(() =>
+                            SearchProductsScreen(
+                              searchText: vb,
+                            ));
+                      },
+                      decoration: InputDecoration(
+                          filled: true,
+                          prefixIcon: Padding(
+                            padding: const EdgeInsets.all(10),
+                            child: Image.asset(
+                              'assets/icons/search.png',
+                              height: 5,
+                            ),
+                          ),
+                          border: InputBorder.none,
+                          enabledBorder: const OutlineInputBorder(
+                              borderRadius: BorderRadius.all(Radius.circular(8)),
+                              borderSide: BorderSide(color: AppTheme.buttonColor)),
+                          disabledBorder: const OutlineInputBorder(
+                              borderRadius: BorderRadius.all(Radius.circular(8)),
+                              borderSide: BorderSide(color: AppTheme.buttonColor)),
+                          focusedBorder: const OutlineInputBorder(
+                              borderRadius: BorderRadius.all(Radius.circular(8)),
+                              borderSide: BorderSide(color: AppTheme.buttonColor)),
+                          fillColor: Colors.white,
+                          contentPadding: const EdgeInsets.all(15),
+                          hintText: AppStrings.searchFieldText.tr,
+                          hintStyle:
+                          GoogleFonts.poppins(color: AppTheme.buttonColor, fontWeight: FontWeight.w400)),
+                    ),
+                  ),
+                ),
+              ):SizedBox.shrink(),
+          ),
         ),
         backgroundColor: Color(0xFFF2F2F2),
         body: RefreshIndicator(
@@ -512,52 +561,7 @@ class _HomePageState extends State<HomePage> {
                           ],
                         ),
                       ) : const SizedBox.shrink(),
-                      10.spaceY,
-                      // Hero(
-                      //   tag: "search_tag",
-                      //   child: Material(
-                      //     color: Colors.transparent,
-                      //     surfaceTintColor: Colors.transparent,
-                      //     child: Padding(
-                      //       padding: const EdgeInsets.symmetric(horizontal: 15),
-                      //       child: TextField(
-                      //         maxLines: 1,
-                      //         style: GoogleFonts.poppins(fontSize: 16),
-                      //         textInputAction: TextInputAction.search,
-                      //         onSubmitted: (vb) {
-                      //           Get.to(() =>
-                      //               SearchProductsScreen(
-                      //                 searchText: vb,
-                      //               ));
-                      //         },
-                      //         decoration: InputDecoration(
-                      //             filled: true,
-                      //             prefixIcon: Padding(
-                      //               padding: const EdgeInsets.all(10),
-                      //               child: Image.asset(
-                      //                 'assets/icons/search.png',
-                      //                 height: 5,
-                      //               ),
-                      //             ),
-                      //             border: InputBorder.none,
-                      //             enabledBorder: const OutlineInputBorder(
-                      //                 borderRadius: BorderRadius.all(Radius.circular(8)),
-                      //                 borderSide: BorderSide(color: AppTheme.buttonColor)),
-                      //             disabledBorder: const OutlineInputBorder(
-                      //                 borderRadius: BorderRadius.all(Radius.circular(8)),
-                      //                 borderSide: BorderSide(color: AppTheme.buttonColor)),
-                      //             focusedBorder: const OutlineInputBorder(
-                      //                 borderRadius: BorderRadius.all(Radius.circular(8)),
-                      //                 borderSide: BorderSide(color: AppTheme.buttonColor)),
-                      //             fillColor: Colors.white,
-                      //             contentPadding: const EdgeInsets.all(15),
-                      //             hintText: AppStrings.searchFieldText.tr,
-                      //             hintStyle:
-                      //             GoogleFonts.poppins(color: AppTheme.buttonColor, fontWeight: FontWeight.w400)),
-                      //       ),
-                      //     ),
-                      //   ),
-                      // ),
+
                       const SizedBox(
                         height: 8,
                       ),

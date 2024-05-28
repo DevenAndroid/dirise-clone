@@ -794,17 +794,52 @@ class _JobDetailsScreenState extends State<JobDetailsScreen> {
                 const SizedBox(
                   height: 20,
                 ),
-                CommonTextField(
+                TextFormField(
+                  maxLines: 2,
+                  minLines: 2,
                   controller: describe_job_roleController,
-                  obSecure: false,
-                  hintText: 'Tell Us About Yourself'.tr,
                   validator: (value) {
                     if (value!.trim().isEmpty) {
-                      return 'Tell Us About Yourself is required';
+                      return 'Tell Us About Yourself';
                     }
                     return null; // Return null if validation passes
                   },
+                  decoration: InputDecoration(
+                    counterStyle: GoogleFonts.poppins(
+                      color: AppTheme.primaryColor,
+                      fontSize: 25,
+                    ),
+                    counter: const Offstage(),
+                    errorMaxLines: 2,
+                    contentPadding: const EdgeInsets.all(15),
+                    fillColor: Colors.grey.shade100,
+                    filled: true,
+                    hintText: 'Tell Us About Yourself',
+                    hintStyle: GoogleFonts.poppins(
+                      color: AppTheme.primaryColor,
+                      fontSize: 15,
+                    ),
+                    border: InputBorder.none,
+                    focusedErrorBorder: const OutlineInputBorder(
+                        borderRadius: BorderRadius.all(Radius.circular(8)),
+                        borderSide: BorderSide(color: AppTheme.secondaryColor)),
+                    errorBorder: const OutlineInputBorder(
+                        borderRadius: BorderRadius.all(Radius.circular(8)),
+                        borderSide: BorderSide(color: AppTheme.secondaryColor)),
+                    focusedBorder: const OutlineInputBorder(
+                        borderRadius: BorderRadius.all(Radius.circular(8)),
+                        borderSide: BorderSide(color: AppTheme.secondaryColor)),
+                    disabledBorder: const OutlineInputBorder(
+                      borderRadius: BorderRadius.all(Radius.circular(8)),
+                      borderSide: BorderSide(color: AppTheme.secondaryColor),
+                    ),
+                    enabledBorder: const OutlineInputBorder(
+                      borderRadius: BorderRadius.all(Radius.circular(8)),
+                      borderSide: BorderSide(color: AppTheme.secondaryColor),
+                    ),
+                  ),
                 ),
+
                 const SizedBox(
                   height: 10,
                 ),

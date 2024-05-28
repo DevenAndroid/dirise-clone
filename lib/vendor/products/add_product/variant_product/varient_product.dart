@@ -306,6 +306,29 @@ class _ProductVarientState extends State<ProductVarient> {
                                         return null;
                                       }),
                                   18.spaceY,
+                                  VendorCommonTextfield(
+                                      controller: e.shortDescription,
+                                      key: e.shortDescription.getKey,
+                                      keyboardType: TextInputType.text,
+                                      hintText: "short Description",
+                                      validator: (value) {
+                                        if (value!.trim().isEmpty) {
+                                          return "short Description is required";
+                                        }
+                                        return null;
+                                      }),
+                                  18.spaceY,
+                                  VendorCommonTextfield(
+                                      controller: e.longDescription,
+                                      key: e.longDescription.getKey,
+                                      keyboardType: TextInputType.text,
+                                      hintText: "long Description",
+                                      validator: (value) {
+                                        if (value!.trim().isEmpty) {
+                                          return "long Description is required";
+                                        }
+                                        return null;
+                                      }),
                                 ],
                               ))
                           .toList(),

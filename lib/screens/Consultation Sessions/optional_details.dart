@@ -8,6 +8,7 @@ import 'package:flutter/widgets.dart';
 import 'package:get/get.dart';
 import 'package:google_fonts/google_fonts.dart';
 
+import '../../controller/vendor_controllers/add_product_controller.dart';
 import '../../model/common_modal.dart';
 import '../../repository/repository.dart';
 import '../../utils/api_constant.dart';
@@ -28,6 +29,7 @@ class _OptionalDetailsScreenState extends State<OptionalDetailsScreen> {
   RxBool hide1 = true.obs;
   bool showValidation = false;
   final Repositories repositories = Repositories();
+  final addProductController = Get.put(AddProductController());
   final formKey1 = GlobalKey<FormState>();
   String code = "+91";
   final TextEditingController locationController = TextEditingController();
@@ -37,7 +39,7 @@ class _OptionalDetailsScreenState extends State<OptionalDetailsScreen> {
   final TextEditingController programDescription = TextEditingController();
   optionalApi() {
     Map<String, dynamic> map = {};
-
+    map["id"] =  addProductController.idProduct.value.toString();
     map['bookable_product_location'] = locationController.text.trim();
     map['item_type'] = 'product';
     map['host_name'] = hostNameController.text.trim();
@@ -49,9 +51,9 @@ class _OptionalDetailsScreenState extends State<OptionalDetailsScreen> {
     repositories.postApi(url: ApiUrls.giveawayProductAddress, context: context, mapData: map).then((value) {
       ModelCommonResponse response = ModelCommonResponse.fromJson(jsonDecode(value));
       print('API Response Status Code: ${response.status}');
-      // showToast(response.message.toString());
       if (response.status == true) {
         showToast(response.message.toString());
+
         if(formKey1.currentState!.validate()){
           Get.to(()=> const SponsorsScreen());
         }
