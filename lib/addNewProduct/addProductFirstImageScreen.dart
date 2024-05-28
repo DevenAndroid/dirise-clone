@@ -61,6 +61,7 @@ class _AddProductFirstImageScreenState extends State<AddProductFirstImageScreen>
       showToast('Add Product Image successfully');
     });
   }
+  final productController = Get.put(AddProductController());
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -98,6 +99,7 @@ class _AddProductFirstImageScreenState extends State<AddProductFirstImageScreen>
                 title: 'Next',
                 onPressed: () {
                   if(featuredImage.path.isNotEmpty && galleryImage.path.isNotEmpty){
+                    productController.getProductsCategoryList();
                     addProduct();
                   }else{
                     showToast('Please select Image');

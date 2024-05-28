@@ -327,7 +327,7 @@ class _HomePageState extends State<HomePage> {
                 InkWell(
                   onTap: (){
                    setState(() {
-                     search.value = true;
+                     search.value = !search.value;
 
                    });
                   },

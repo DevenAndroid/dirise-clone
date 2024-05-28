@@ -2,12 +2,15 @@ class ModelCategoryList {
   bool? status;
   dynamic message;
   List<Data>? data;
-
-  ModelCategoryList({this.status, this.message, this.data});
+  dynamic vendorCategoryName;
+  dynamic adminFees;
+  ModelCategoryList({this.status, this.message, this.data,this.adminFees,this.vendorCategoryName});
 
   ModelCategoryList.fromJson(Map<String, dynamic> json) {
     status = json['status'];
     message = json['message'];
+    vendorCategoryName = json['vendor_category_name'];
+    adminFees = json['admin_fees'];
     if (json['data'] != null) {
       data = <Data>[];
       json['data'].forEach((v) {
@@ -20,6 +23,8 @@ class ModelCategoryList {
     final Map<String, dynamic> data = <String, dynamic>{};
     data['status'] = status;
     data['message'] = message;
+    data['vendor_category_name'] = vendorCategoryName;
+    data['admin_fees'] = adminFees;
     if (this.data != null) {
       data['data'] = this.data!.map((v) => v.toJson()).toList();
     }
