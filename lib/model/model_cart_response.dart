@@ -871,8 +871,8 @@ class Commit {
   }
 }
 class DateDetail {
-  String? dayOfWeek;
-  String? dayFormat;
+ dynamic dayOfWeek;
+ dynamic dayFormat;
 
   DateDetail({this.dayOfWeek, this.dayFormat});
 
