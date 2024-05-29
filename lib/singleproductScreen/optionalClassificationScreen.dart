@@ -130,6 +130,7 @@ class _OptionalClassificationScreenState extends State<OptionalClassificationScr
                     return null;
                   },
                 ),
+                const SizedBox(height: 10),
                 CommonTextField(
                   controller: controller.productNumberController,
                   obSecure: false,
@@ -141,6 +142,7 @@ class _OptionalClassificationScreenState extends State<OptionalClassificationScr
                     return null;
                   },
                 ),
+                const SizedBox(height: 10),
                 CommonTextField(
                   controller: controller.productCodeController,
                   obSecure: false,
@@ -152,6 +154,7 @@ class _OptionalClassificationScreenState extends State<OptionalClassificationScr
                     return null;
                   },
                 ),
+                const SizedBox(height: 10),
                 CommonTextField(
                   controller: controller.promotionCodeController,
                   obSecure: false,
@@ -163,6 +166,7 @@ class _OptionalClassificationScreenState extends State<OptionalClassificationScr
                     return null;
                   },
                 ),
+                const SizedBox(height: 10),
                 TextFormField(
                   controller: controller.packageDetailsController,
                   maxLines: 5,

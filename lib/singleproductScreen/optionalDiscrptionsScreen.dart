@@ -156,6 +156,7 @@ class _OptionalDiscrptionsScreenState extends State<OptionalDiscrptionsScreen> {
                     ),
                   ),
                 ),
+                const SizedBox(height: 10),
                 CommonTextField(
                   controller: metaTitleController,
                   obSecure: false,
@@ -167,6 +168,7 @@ class _OptionalDiscrptionsScreenState extends State<OptionalDiscrptionsScreen> {
                     return null; // Return null if validation passes
                   },
                 ),
+                const SizedBox(height: 10),
                 TextFormField(
                   maxLines: 2,
                   controller: metaDescriptionController,

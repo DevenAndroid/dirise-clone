@@ -7,6 +7,7 @@ import 'package:dirise/singleproductScreen/product_information_screen.dart';
 import 'package:dirise/singleproductScreen/singlePInternationalshippingdetails.dart';
 import 'package:dirise/singleproductScreen/singleProductDiscriptionScreen.dart';
 import 'package:dirise/singleproductScreen/singleProductPriceScreen.dart';
+import 'package:dirise/singleproductScreen/singleProductReturnPolicy.dart';
 import 'package:dirise/singleproductScreen/singleproductDeliverySize.dart';
 import 'package:dirise/tellaboutself/ExtraInformation.dart';
 import 'package:flutter/cupertino.dart';
@@ -39,7 +40,6 @@ class _ProductReviewPublicScreenState extends State<ProductReviewPublicScreen> {
   RxBool isServiceProvide = false.obs;
   RxBool isTellUs = false.obs;
   RxBool isReturnPolicy = false.obs;
-  RxBool isLocationPolicy = false.obs;
   RxBool isInternationalPolicy = false.obs;
   RxBool optionalDescription = false.obs;
   RxBool optionalClassification = false.obs;
@@ -333,8 +333,8 @@ class _ProductReviewPublicScreenState extends State<ProductReviewPublicScreen> {
                                 mainAxisAlignment: MainAxisAlignment.start,
                                 crossAxisAlignment: CrossAxisAlignment.start,
                                 children: [
-                                  Text('Short Description: ${productDetailsModel.value.productDetails!.product!.shortDescription ?? ""} KWD'),
-                                  Text('Stock/spot quantity : ${productDetailsModel.value.productDetails!.product!.inStock ?? ""} KWD'),
+                                  Text('Short Description: ${productDetailsModel.value.productDetails!.product!.shortDescription ?? ""}'),
+                                  Text('Stock/spot quantity : ${productDetailsModel.value.productDetails!.product!.inStock ?? ""}'),
                                   Text('Set stock/spot alert: ${productDetailsModel.value.productDetails!.product!.stockAlert ?? ''}'),
                                   Text('SEO Tags: ${productDetailsModel.value.productDetails!.product!.seoTags ?? ''}'),
                                 ],
@@ -478,130 +478,75 @@ class _ProductReviewPublicScreenState extends State<ProductReviewPublicScreen> {
                       ),
                       const SizedBox(height: 20),
                       if (isReturnPolicy.value == true)
-                        modelReturnPolicy != null
-                            ? ListView.builder(
-                                shrinkWrap: true,
-                                physics: AlwaysScrollableScrollPhysics(),
-                                itemCount: modelReturnPolicy!.returnPolicy!.length,
-                                itemBuilder: (context, index) {
-                                  var returnPolicy = modelReturnPolicy!.returnPolicy![index];
-                                  return Container(
-                                    padding: EdgeInsets.all(10),
-                                    decoration: BoxDecoration(border: Border.all(color: Colors.grey)),
-                                    child: Column(
-                                      mainAxisAlignment: MainAxisAlignment.start,
-                                      crossAxisAlignment: CrossAxisAlignment.start,
-                                      children: [
-                                        Text('Policy Name: ${returnPolicy.title ?? ""}'),
-                                        Text('Return Policy Description : ${returnPolicy.policyDiscreption ?? ""}'),
-                                        Text('Return Within: ${returnPolicy.days ?? ""}'),
-                                        Text('Return Shipping Fees: ${returnPolicy.returnShippingFees ?? ""}'),
-                                      ],
-                                    ),
-                                  );
-                                })
-                            : const CircularProgressIndicator(),
-
-                      GestureDetector(
-                        onTap: () {
-                          setState(() {
-                            isLocationPolicy.toggle();
-                          });
-                        },
-                        child: Container(
-                          padding: const EdgeInsets.symmetric(vertical: 12, horizontal: 12),
-                          decoration: BoxDecoration(
-                              color: Colors.white,
-                              borderRadius: BorderRadius.circular(8),
-                              border: Border.all(color: AppTheme.secondaryColor)),
-                          child: Row(
-                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                            children: [
-                              Text(
-                                'Location where customer will join ',
-                                style: GoogleFonts.poppins(
-                                  color: AppTheme.primaryColor,
-                                  fontSize: 15,
-                                ),
-                              ),
-                              GestureDetector(
-                                child: isReturnPolicy.value == true
-                                    ? const Icon(Icons.keyboard_arrow_up_rounded)
-                                    : const Icon(Icons.keyboard_arrow_down_outlined),
-                                onTap: () {
-                                  setState(() {
-                                    isReturnPolicy.toggle();
-                                  });
-                                },
-                              ),
-                            ],
-                          ),
-                        ),
-                      ),
-                      if (isLocationPolicy.value == true)
-                        Column(
-                          mainAxisAlignment: MainAxisAlignment.start,
-                          crossAxisAlignment: CrossAxisAlignment.start,
+                        Stack(
                           children: [
-                            Text('Town: ${productDetailsModel.value.productDetails!.address!.town ?? ""}'),
-                            Text('city: ${productDetailsModel.value.productDetails!.address!.city ?? ""}'),
-                            Text('state: ${productDetailsModel.value.productDetails!.address!.state ?? ""}'),
-                            Text('address: ${productDetailsModel.value.productDetails!.address!.address ?? ""}'),
-                            Text('zip code: ${productDetailsModel.value.productDetails!.address!.zipCode ?? ""}'),
+                            Container(
+                              width: Get.width,
+                              padding: EdgeInsets.all(10),
+                              decoration: BoxDecoration(
+                                  color: Colors.grey.shade200
+                              ),
+                              child: Column(
+                                mainAxisAlignment: MainAxisAlignment.start,
+                                crossAxisAlignment: CrossAxisAlignment.start,
+                                children: [
+                                  Text(
+                                      'Policy Name: ${productDetailsModel.value.productDetails!.product!.returnPolicyDesc!.title ?? ""}'),
+                                  const SizedBox(height: 5,),
+                                  Text(
+                                      'Policy Description: ${productDetailsModel.value.productDetails!.product!.returnPolicyDesc!.policyDiscreption ?? ""}'),
+                                  const SizedBox(height: 5,),
+                                  Text(
+                                      'Return with In: ${productDetailsModel.value.productDetails!.product!.returnPolicyDesc!.days ?? ""}'),
+                                  const SizedBox(height: 5,),
+                                  Text(
+                                      'Return Shipping Fees: ${productDetailsModel.value.productDetails!.product!.returnPolicyDesc!.returnShippingFees ?? ""}'),
+
+                                ],
+                              ),
+                            ),
+                            Positioned(
+                                right: 10,
+                                top: 20,
+                                child: GestureDetector(
+                                    onTap: (){
+                                      Get.to(SingleProductReturnPolicy(
+                                        id: productDetailsModel.value.productDetails!.product!.id,
+                                        policyName: productDetailsModel.value.productDetails!.product!.returnPolicyDesc!.title,
+                                        policyDescription: productDetailsModel.value.productDetails!.product!.returnPolicyDesc!.policyDiscreption,
+                                        returnShippingFees: productDetailsModel.value.productDetails!.product!.returnPolicyDesc!.returnShippingFees,
+                                        returnWithIn: productDetailsModel.value.productDetails!.product!.returnPolicyDesc!.days,
+                                      )
+                                      );
+                                    },
+                                    child: const Text('Edit',style: TextStyle(color: Colors.red,fontSize: 13),)))
                           ],
                         ),
+                        // modelReturnPolicy != null
+                        //     ? ListView.builder(
+                        //         shrinkWrap: true,
+                        //         physics: AlwaysScrollableScrollPhysics(),
+                        //         itemCount: modelReturnPolicy!.returnPolicy!.length,
+                        //         itemBuilder: (context, index) {
+                        //           var returnPolicy = modelReturnPolicy!.returnPolicy![index];
+                        //           return Container(
+                        //             padding: EdgeInsets.all(10),
+                        //             decoration: BoxDecoration(border: Border.all(color: Colors.grey)),
+                        //             child: Column(
+                        //               mainAxisAlignment: MainAxisAlignment.start,
+                        //               crossAxisAlignment: CrossAxisAlignment.start,
+                        //               children: [
+                        //                 Text('Policy Name: ${returnPolicy.title ?? ""}'),
+                        //                 Text('Return Policy Description : ${returnPolicy.policyDiscreption ?? ""}'),
+                        //                 Text('Return Within: ${returnPolicy.days ?? ""}'),
+                        //                 Text('Return Shipping Fees: ${returnPolicy.returnShippingFees ?? ""}'),
+                        //               ],
+                        //             ),
+                        //           );
+                        //         })
+                        //     : const CircularProgressIndicator(),
 
-                      const SizedBox(height: 20),
 
-                      GestureDetector(
-                        onTap: () {
-                          setState(() {
-                            isShippingPolicy.toggle();
-                          });
-                        },
-                        child: Container(
-                          padding: const EdgeInsets.symmetric(vertical: 12, horizontal: 12),
-                          decoration: BoxDecoration(
-                              color: Colors.white,
-                              borderRadius: BorderRadius.circular(8),
-                              border: Border.all(color: AppTheme.secondaryColor)),
-                          child: Row(
-                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                            children: [
-                              Text(
-                                'Location where customer will join ',
-                                style: GoogleFonts.poppins(
-                                  color: AppTheme.primaryColor,
-                                  fontSize: 15,
-                                ),
-                              ),
-                              GestureDetector(
-                                child: isShippingPolicy.value == true
-                                    ? const Icon(Icons.keyboard_arrow_up_rounded)
-                                    : const Icon(Icons.keyboard_arrow_down_outlined),
-                                onTap: () {
-                                  setState(() {
-                                    isShippingPolicy.toggle();
-                                  });
-                                },
-                              ),
-                            ],
-                          ),
-                        ),
-                      ),
-                      if (isShippingPolicy.value == true)
-                        Column(
-                          mainAxisAlignment: MainAxisAlignment.start,
-                          crossAxisAlignment: CrossAxisAlignment.start,
-                          children: [
-                            Text('Town: ${productDetailsModel.value.productDetails!.address!.town ?? ""}'),
-                            Text('city: ${productDetailsModel.value.productDetails!.address!.city ?? ""}'),
-                            Text('state: ${productDetailsModel.value.productDetails!.address!.state ?? ""}'),
-                            Text('address: ${productDetailsModel.value.productDetails!.address!.address ?? ""}'),
-                            Text('zip code: ${productDetailsModel.value.productDetails!.address!.zipCode ?? ""}'),
-                          ],
-                        ),
-                      const SizedBox(height: 20),
 
                       GestureDetector(
                         onTap: () {

@@ -18,7 +18,14 @@ import '../widgets/vendor_common_textfield.dart';
 import 'locationwherecustomerwilljoin.dart';
 
 class ServicesReturnPolicy extends StatefulWidget {
-  const ServicesReturnPolicy({super.key});
+  String? policyName;
+  String? policyDescription;
+  String? returnWithIn;
+  String? returnShippingFees;
+  int? id;
+  ServicesReturnPolicy(
+      {super.key, this.policyName, this.policyDescription, this.returnShippingFees, this.returnWithIn, this.id});
+
 
   @override
   State<ServicesReturnPolicy> createState() => _ServicesReturnPolicyState();
@@ -28,7 +35,8 @@ class _ServicesReturnPolicyState extends State<ServicesReturnPolicy> {
   final Repositories repositories = Repositories();
   final formKey1 = GlobalKey<FormState>();
   bool isRadioButtonSelected = false;
-
+  TextEditingController titleController = TextEditingController();
+  TextEditingController descController = TextEditingController();
   String selectedItem = '1';
   String selectedItemDay = 'Days';
 
@@ -65,14 +73,13 @@ class _ServicesReturnPolicyState extends State<ServicesReturnPolicy> {
       setState(() {
         singleModelReturnPolicy.value = SingleReturnPolicy.fromJson(jsonDecode(value));
         radioButtonValue = singleModelReturnPolicy.value.data!.returnShippingFees.toString();
-        serviceController.titleController.text = singleModelReturnPolicy.value.data!.title.toString();
-        serviceController.descController.text = singleModelReturnPolicy.value.data!.policyDiscreption.toString();
+        titleController.text = singleModelReturnPolicy.value.data!.title.toString();
+        descController.text = singleModelReturnPolicy.value.data!.policyDiscreption.toString();
       });
       returnPolicyLoaded.value = DateTime.now().millisecondsSinceEpoch;
     });
   }
 
-  final serviceController = Get.put(ServiceController());
   bool? noReturn;
   bool noReturnSelected = false;
   String radioButtonValue = 'buyer_pays';
@@ -80,10 +87,10 @@ class _ServicesReturnPolicyState extends State<ServicesReturnPolicy> {
   returnPolicyApi() {
     Map<String, dynamic> map = {};
 
-    map['title'] = serviceController.titleController.text.trim();
+    map['title'] = titleController.text.trim();
     map['days'] = selectedItem;
     map['item_type'] = 'service';
-    map['policy_description'] = serviceController.descController.text.trim();
+    map['policy_description'] = descController.text.trim();
     map['return_shipping_fees'] = radioButtonValue.toString();
     map['no_return'] = noReturnSelected;
     map['id'] = addProductController.idProduct.value.toString();
@@ -104,6 +111,10 @@ class _ServicesReturnPolicyState extends State<ServicesReturnPolicy> {
     // TODO: implement initState
     super.initState();
     getReturnPolicyData();
+    if(widget.id != null){
+      titleController.text = widget.policyName.toString();
+      descController.text = widget.policyDescription.toString();
+    }
   }
 
   @override
@@ -236,7 +247,7 @@ class _ServicesReturnPolicyState extends State<ServicesReturnPolicy> {
                           ),
                           VendorCommonTextfield(
                               readOnly: singleModelReturnPolicy.value.data!= null ? true : false,
-                              controller: serviceController.titleController,
+                              controller: titleController,
                               hintText: selectedReturnPolicy != null
                                   ? selectedReturnPolicy!.title.toString()
                                   : 'DIRISE Standard Policy',
@@ -430,7 +441,7 @@ class _ServicesReturnPolicyState extends State<ServicesReturnPolicy> {
                               }
                               return null;
                             },
-                            controller: serviceController.descController,
+                            controller: descController,
                             decoration: InputDecoration(
                               counterStyle: GoogleFonts.poppins(
                                 color: AppTheme.primaryColor,

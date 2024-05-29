@@ -60,7 +60,7 @@ class _SingleProductDiscriptionScreenState extends State<SingleProductDiscriptio
         if(widget.id != null){
           Get.to(const ProductReviewPublicScreen());
         }
-        Get.to(const SingleProductReturnPolicy());
+        Get.to( SingleProductReturnPolicy());
       }
     });
   }
