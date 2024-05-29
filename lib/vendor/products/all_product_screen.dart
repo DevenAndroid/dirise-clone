@@ -14,6 +14,7 @@ import '../../controller/vendor_controllers/add_product_controller.dart';
 import '../../controller/vendor_controllers/products_controller.dart';
 import '../../widgets/common_colour.dart';
 import '../../widgets/dimension_screen.dart';
+import '../orders/remark_screen.dart';
 import 'add_product/add_product_screen.dart';
 
 class VendorProductScreen extends StatefulWidget {
@@ -297,7 +298,7 @@ class _VendorProductScreenState extends State<VendorProductScreen> {
                                             FlutterSwitch(
                                               showOnOff: true,
                                               width: AddSize.size30 * 2.2,
-                                              height: AddSize.size20 * 1.4,
+                                              height: AddSize.size20 * 1.3,
                                               padding: 2,
                                               valueFontSize: AddSize.font12,
                                               activeTextFontWeight: FontWeight.w600,
@@ -322,13 +323,31 @@ class _VendorProductScreenState extends State<VendorProductScreen> {
                                               value: item.isPublish!,
                                             )
                                           ]),
-                                          Text(
-                                            "${("${item.productType ?? ""}".capitalize!).toString().replaceAll("_product", "").replaceAll("Single", "Simple")} Product",
-                                            style: GoogleFonts.poppins(
-                                              color: AppTheme.buttonColor,
-                                              fontWeight: FontWeight.w500,
-                                              fontSize: 15,
-                                            ),
+                                          Row(
+                                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                                            children: [
+                                              Text(
+                                                "${("${item.productType ?? ""}".capitalize!).toString().replaceAll("_product", "").replaceAll("Single", "Simple")} Product",
+                                                style: GoogleFonts.poppins(
+                                                  color: AppTheme.buttonColor,
+                                                  fontWeight: FontWeight.w500,
+                                                  fontSize: 15,
+                                                ),
+                                              ),
+                                              InkWell(
+                                                onTap: (){
+                                                  Get.to(()=>RemarkScreen(),arguments: [  productController.model.pendingProduct![index].id.toString()]);
+                                                },
+                                                child: Text(
+                                                  "Remark",
+                                                  style: GoogleFonts.poppins(
+                                                    color: AppTheme.buttonColor,
+                                                    fontWeight: FontWeight.w500,
+                                                    fontSize: 15,
+                                                  ),
+                                                ),
+                                              ),
+                                            ],
                                           ),
                                         ],
                                       ),
