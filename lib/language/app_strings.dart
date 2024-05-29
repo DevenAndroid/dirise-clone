@@ -32,6 +32,7 @@ class AppStrings{
   static String vendorPartner = "Sell Better";
   static String language = "Language";
   static String aboutUs = "About Us";
+  static String remark = "Remark";
   static String termsCondition = "Terms and Conditions";
   static String returnPolicy = "Return Policy";
   static String signOut = "Logout";
