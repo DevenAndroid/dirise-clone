@@ -33,6 +33,7 @@ class _RemarkScreenState extends State<RemarkScreen> {
   Rx<ModelProductRemark> modelRemark = ModelProductRemark().obs;
   TextEditingController remarkController = TextEditingController();
   var id = Get.arguments[0];
+
   getRemarkDetails()  {
     repositories.getApi(url: ApiUrls.productRemark+id).then((value) {
       modelRemark.value = ModelProductRemark.fromJson(jsonDecode(value));
