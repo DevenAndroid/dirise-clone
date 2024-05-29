@@ -19,7 +19,7 @@ class TrendingProductsController extends GetxController {
   RxInt updateCate = 0.obs;
 
   Future trendingData() async {
-    await repositories.postApi(url: ApiUrls.trendingProductsUrl, mapData: {}).then((value) {
+    await repositories.postApi(url: ApiUrls.trendingProductsUrl, mapData: {},showResponse: true).then((value) {
       trendingModel.value = TendingModel.fromJson(jsonDecode(value));
     });
   }

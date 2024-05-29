@@ -527,7 +527,7 @@ class _HomePageState extends State<HomePage> {
                 Expanded(
                   child: Container(
                     color: Color(0xFFF2F2F2).withOpacity(0.6),
-                    child:  SingleChildScrollView(
+                    child:  const SingleChildScrollView(
                         child: Column(children: [
                           SliderWidget(),
                           CategoryItems(),
