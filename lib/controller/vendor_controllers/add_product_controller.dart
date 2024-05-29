@@ -1,6 +1,7 @@
 import 'dart:convert';
 import 'dart:developer';
 import 'dart:io';
+import 'package:dirise/iAmHereToSell/productAccountCreatedSuccessfullyScreen.dart';
 import 'package:flutter/material.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:get/get.dart';
@@ -691,7 +692,7 @@ class AddProductController extends GetxController {
       showToast(response.message.toString());
       if (response.status == true) {
         productController.getProductList();
-        Get.back();
+        Get.to(ProductAccountCreatedSuccessfullyScreen());
         productListController.getProductList();
       }
     }).catchError((e) {
