@@ -9,6 +9,7 @@ import 'package:flutter_switch/flutter_switch.dart';
 import 'package:get/get.dart';
 import 'package:google_fonts/google_fonts.dart';
 import '../../addNewProduct/addProductScreen.dart';
+import '../../addNewProduct/addProductStartScreen.dart';
 import '../../addNewProduct/myItemIsScreen.dart';
 import '../../controller/vendor_controllers/add_product_controller.dart';
 import '../../controller/vendor_controllers/products_controller.dart';
@@ -131,7 +132,7 @@ class _ApproveProductScreenState extends State<ApproveProductScreen> {
                   ),
                   GestureDetector(
                     onTap: () {
-                      Get.to(()=> MyItemISScreen());
+                      Get.to(()=> const AddProductOptionScreen());
                     },
                     child: Container(
                       height: AddSize.size20 * 2.5,

@@ -1,4 +1,5 @@
 import 'dart:async';
+import 'package:dirise/addNewProduct/addProductStartScreen.dart';
 import 'package:dirise/repository/repository.dart';
 import 'package:dirise/utils/helper.dart';
 import 'package:dirise/utils/shimmer_extension.dart';
@@ -132,7 +133,7 @@ class _VendorProductScreenState extends State<VendorProductScreen> {
                     ),
                     GestureDetector(
                       onTap: () {
-                        Get.to(()=> MyItemISScreen());
+                        Get.to(()=> const AddProductOptionScreen());
                       },
                       child: Container(
                         height: AddSize.size20 * 2.5,
