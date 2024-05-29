@@ -25,7 +25,7 @@ dependencies:
   get: ^4.6.5
   shared_preferences: ^2.2.1
   flutter_svg: ^2.0.7
-  google_fonts:
+  google_fonts: ^6.1.0
   collection:
   http: ^1.1.0
   sign_in_with_apple:
@@ -41,7 +41,7 @@ dependencies:
   flutter_switch: ^0.3.2
   loading_animation_widget: ^1.2.0+4
   shimmer: ^3.0.0
-  intl: ^0.18.1
+  intl: ^0.19.0
   card_swiper: ^3.0.1
   file_picker: ^5.5.0
   image_picker: ^1.0.4
@@ -55,19 +55,19 @@ dependencies:
   firebase_messaging: ^14.6.8
   flutter_html: ^3.0.0-beta.2
   flutter_animate: ^4.2.0+1
-  syncfusion_flutter_pdfviewer: ^23.1.38
-  audioplayers: ^5.1.0
+  syncfusion_flutter_pdfviewer: ^25.2.6
+  audioplayers: ^6.0.0
   audio_video_progress_bar: ^2.0.0
   flutter_local_notifications: ^15.1.1
   flutter_exif_rotation: ^0.5.1
   webview_flutter: ^4.2.4
   url_launcher: ^6.1.14
   freshchat_sdk: ^0.10.13
-  better_player_plus: ^1.0.5
+  better_player_plus:
   chewie: ^1.7.4
   video_player: ^2.8.1
   full_screen_image: ^2.0.0
-  image_cropper: ^5.0.1
+  image_cropper: ^6.0.0
   hive:
   hive_flutter:
   firebase_crashlytics:

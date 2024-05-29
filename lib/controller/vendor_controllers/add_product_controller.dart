@@ -698,6 +698,293 @@ class AddProductController extends GetxController {
       NotificationService().hideAllNotifications();
     });
   }
+  addProduct1({required BuildContext context}) {
+    if (showValidations == false) {
+      showValidations = true;
+      updateUI;
+    }
+    List<String> timeslots = [];
+    if (productId.isNotEmpty && serviceTimeSloat.isNotEmpty && resetSlots == false) {
+      timeslots = serviceTimeSloat
+          .map((e) => "${convertToTime(e.timeSloat.toString())},${convertToTime(e.timeSloatEnd.toString())}")
+          .toList();
+    } else if (slots.isNotEmpty) {
+      timeslots = slots.entries
+          .where((element) => element.value == true)
+          .map((e) =>
+              "${timeFormatWithoutAMPM.format(e.key.keys.first)},${timeFormatWithoutAMPM.format(e.key.values.first)}")
+          .toList();
+    }
+
+    /// Form Validation
+    if (!formKey.currentState!.validate()) {
+      if (productNameController.checkEmpty) return;
+      if (skuController.checkEmpty) return;
+      if (purchasePriceController.checkBothWithNum) return;
+      if (sellingPriceController.checkBothWithNum) return;
+      if (stockController.checkBothWithNum) return;
+      if (weightController.checkBothWithNum) return;
+      if (weightUnit.isEmpty) {
+        if (weightUnitKey.currentContext != null) {
+          Scrollable.ensureVisible(weightUnitKey.currentContext!,
+              alignment: .25, duration: const Duration(milliseconds: 600));
+          return;
+        }
+        if (taxKey.currentContext != null) {
+          Scrollable.ensureVisible(taxKey.currentContext!, alignment: .25, duration: const Duration(milliseconds: 600));
+          return;
+        }
+      }
+      // if (selectedCategory.isEmpty) {
+      //   if (categoryKey.currentContext != null) {
+      //     Scrollable.ensureVisible(categoryKey.currentContext!,
+      //         alignment: .25, duration: const Duration(milliseconds: 600));
+      //     return;
+      //   }
+      // }
+      if (shortDescriptionController.checkEmpty) return;
+      if (longDescriptionController.checkEmpty) return;
+
+      if (productType == "variants") {
+        if (attributeList.isEmpty) {
+          attributeListKey.currentContext!.navigate;
+          return;
+        }
+        for (var element in addMultipleItems) {
+          if (element.variantImages.path.isEmpty) {
+            element.variantImageKey.currentContext!.navigate;
+            showToast("Select Variant Image", center: true);
+            return;
+          }
+          if (element.variantSku.checkEmpty) return;
+          if (element.variantPrice.checkBothWithNum) return;
+          if (element.variantStock.checkBothWithNum) return;
+        }
+      }
+
+      // if (productType == "Booking Product") {
+      //   if (startTime.checkEmpty) return;
+      //   if (endTime.checkEmpty) return;
+      //   if (serviceDuration.checkEmpty) return;
+      //   if (startDate.checkEmpty) return;
+      //   if (selectedEndDateTIme == null && dateType.value == "range") {
+      //     if (serviceDuration.checkEmpty) return;
+      //   }
+      // }
+
+      categoryKey.currentContext!.navigate;
+      return;
+    }
+
+    /// Other Validation
+    if (productType == "variants") {
+      // print("testing...    ${}")
+      if (!attributeList
+              .map((e) => e.getAttrvalues!.map((e2) => e2.selectedVariant).toList().contains(true))
+              .toList()
+              .contains(true) &&
+          addMultipleItems.isEmpty) {
+        showToast("Please select at least 1 variant", gravity: ToastGravity.CENTER);
+        attributeEmptyListKey.currentContext!.navigate;
+        return;
+      }
+      if (attributeList
+              .map((e) => e.getAttrvalues!.map((e2) => e2.selectedVariant).toList().contains(true))
+              .toList()
+              .contains(true) &&
+          addMultipleItems.isEmpty) {
+        createAttributeButton.currentContext!.navigate.then((value) {
+          filterClearAttributes();
+          combinations(attributeList
+                  .map((e) => e.getAttrvalues!.where((element) => element.selectedVariant == true).toList())
+                  .toList())
+              .forEach((element) {
+            log(element.map((e) => e.aboveParentSlug).toList().toString());
+            Map<String, GetAttrvalues> tempMap = {};
+            for (var element1 in element) {
+              tempMap[element1.aboveParentSlug] = element1;
+            }
+            addMultipleItems.add(AddMultipleItems(
+              attributes: tempMap,
+            ));
+          });
+          Future.delayed(const Duration(milliseconds: 200)).then((value) {
+            showToast("Fill available fields properly.", gravity: ToastGravity.CENTER);
+          });
+          variation.value = DateTime.now().millisecondsSinceEpoch;
+        });
+        return;
+      }
+      for (var element in addMultipleItems) {
+        if (element.variantImages.path.isEmpty) {
+          element.variantImageKey.currentContext!.navigate;
+          showToast("Select Variant Image", center: true);
+          return;
+        }
+        if (element.variantSku.checkEmpty) return;
+        if (element.variantPrice.checkBothWithNum) return;
+        if (element.variantStock.checkBothWithNum) return;
+      }
+    }
+
+    // if (productType == "Booking Product") {
+    //   if (timeslots.isEmpty) {
+    //     showToast("Please select slot");
+    //     slotKey.currentContext!.navigate;
+    //     return;
+    //   }
+    //   if (selectedStartDateTime == null) {
+    //     showToast("Please select product availability");
+    //     productAvailabilityKey.currentContext!.navigate;
+    //   }
+    //   if (selectedEndDateTIme == null && dateType.value == "range") {
+    //     showToast("Please select product availability");
+    //     productAvailabilityKey.currentContext!.navigate;
+    //   }
+    // }
+
+    // if (galleryImages.isEmpty) {
+    //   return showToast("Please select product gallery images");
+    // }
+    // if (productImage.path.isEmpty) {
+    //   return showToast("Please select product images");
+    // }
+
+    // return;
+    Map<String, String> map = {};
+    // single,variants,booking,virtual_product
+    // map["product_type"] = productType.replaceAll("Product", "").replaceAll("Simple", "single").trim().toLowerCase();
+    // map["weight"] = weightController.text.trim();
+    // map["weight_unit"] = weightUnit;
+
+    // if (productDurationValueController.text.isNotEmpty) {
+    //   map["time"] = productDurationValueController.text.trim();
+    // }
+    // if (productDurationTypeValue.isNotEmpty && productDurationTypeValue != "none") {
+    //   map["time_period"] = productDurationTypeValue;
+    // }
+
+    // if (productType.replaceAll("Product", "").trim().toLowerCase() == "virtual") {
+    //   // "virtual_product"
+    //   map["product_type"] = "virtual_product";
+    //   map["virtual_product_type"] = productFileType.value == "pdf" ? "digital_reader" : "voice";
+    // }
+
+    // if (productType == "Booking Product") {
+    //   final DateFormat dateFormat = DateFormat("yyyy-MM-dd");
+    //
+    //   map["group[0]"] = dateType.value;
+    //   map["booking_product_type"] = bookingType.value;
+    //   if (dateType.value == "date") {
+    //     map["single_date[0]"] = dateFormat.format(selectedStartDateTime!);
+    //   } else {
+    //     map["from_date[0]"] = dateFormat.format(selectedStartDateTime!);
+    //     map["to_date[0]"] = dateFormat.format(selectedEndDateTIme!);
+    //   }
+    //   timeslots.asMap().entries.forEach((element) {
+    //     map["sloat[${element.key}]"] = element.value;
+    //   });
+    // }
+
+    if (productType == "variants") {
+      addMultipleItems.asMap().entries.forEach((element) {
+        map['product_type'] = 'variants';
+        map["variant_sku[${element.key}]"] = element.value.variantSku.text.trim();
+        map["variant_price[${element.key}]"] = element.value.variantPrice.text.trim();
+        map["variant_stock[${element.key}]"] = element.value.variantStock.text.trim();
+        map["variant_short_description[${element.key}]"] = element.value.shortDescription.text.trim();
+        map["variant_long_description[${element.key}]"] = element.value.longDescription.text.trim();
+        Map<String, String> kk = {};
+        for (var element11 in element.value.attributes!.entries) {
+          kk[element11.key] = element11.value.id.toString();
+        }
+        map["variant_value[${element.key}]"] = jsonEncode(kk);
+      });
+    }
+
+    log("Map Data: $map");
+    if (taxId != null) {
+      map["tax_type"] = taxId!;
+    }
+    map["virtual_product_file_language"] = languageController.text;
+    map["tax_apply"] = tax;
+    map["stock_alert"] = stockAlertController.text.trim();
+    map["product_name"] = productNameController.text.trim();
+    map["sku_id"] = skuController.text.trim();
+    map["purchase_price"] = purchasePriceController.text.trim();
+    map["selling_price"] = sellingPriceController.text.trim();
+    map["stock"] = stockController.text.trim();
+    if (selectedReturnPolicy != null) {
+      map["return_policy_desc"] = selectedReturnPolicy!.id.toString();
+    }
+    // map["category_id"] = selectedCategory;
+    map["short_description"] = shortDescriptionController.text.trim();
+    map["long_description"] = longDescriptionController.text.trim();
+    if (productId.isNotEmpty) {
+      map["id"] = productId;
+    }
+
+    Map<String, File> imageMap = {};
+    // if (productType == "Virtual Product") {
+    //   imageMap["virtual_product_file"] = productFileType.value == "pdf" ? pdfFile : voiceFile;
+    // }
+    imageMap["featured_image"] = productImage;
+
+    if (productType == "variants") {
+      addMultipleItems.asMap().entries.forEach((element) {
+        if (element.value.variantImages.path.checkHTTP.isEmpty) {
+          imageMap["variant_images[${element.key}]"] = element.value.variantImages;
+        } else {
+          map["variant_images[${element.key}]"] = element.value.variantImages.path;
+        }
+      });
+    }
+
+    galleryImages.asMap().forEach((key, value) {
+      imageMap["gallery_image[$key]"] = value;
+    });
+
+    map["category_id"] = categoryIds.join(",");
+    map["galleryTempData"] = galleryImages
+        .where((element) => element.path.checkHTTP.isNotEmpty)
+        .map((e) => e.path.checkHTTP)
+        .toList()
+        .join(",");
+
+    imageMap.removeWhere((key, value) => value.path.checkHTTP.isNotEmpty);
+    map.removeWhere((key, value) => value.isEmpty);
+    log(map.toString());
+    log(imageMap.toString());
+    // if(productId.isNotEmpty)return;
+    // return;
+    repositories
+        .multiPartApi(
+            mapData: map,
+            images: imageMap,
+            url: ApiUrls.addVendorProductUrl,
+            context: context,
+            onProgress: (int bytes, int totalBytes) {
+              NotificationService().showNotificationWithProgress(
+                  title: "Uploading Images",
+                  body: "Uploading Images are in progress",
+                  payload: "payload",
+                  maxProgress: 100,
+                  progress: ((bytes / totalBytes) * 100).toInt(),
+                  progressId: 770);
+            })
+        .then((value) {
+      NotificationService().hideAllNotifications();
+      ModelCommonResponse response = ModelCommonResponse.fromJson(jsonDecode(value));
+      showToast(response.message.toString());
+      if (response.status == true) {
+        productController.getProductList();
+        Get.back();
+        productListController.getProductList();
+      }
+    }).catchError((e) {
+      NotificationService().hideAllNotifications();
+    });
+  }
 
   Future getProductDetails({String? idd}) async {
     productDetails = ModelVendorProductDetails();
