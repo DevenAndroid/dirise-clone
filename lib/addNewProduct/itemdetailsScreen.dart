@@ -91,6 +91,7 @@ class _ItemDetailsScreensState extends State<ItemDetailsScreens> {
     });
   }
   int tappedIndex = -1;
+  String selectedValue = "";
   ModelVendorCategory modelVendorCategory = ModelVendorCategory(usphone: []);
   Rx<ModelCategoryList> productCategoryModel = ModelCategoryList().obs;
   Rx<RxStatus> vendorCategoryStatus = RxStatus
@@ -252,35 +253,37 @@ class _ItemDetailsScreensState extends State<ItemDetailsScreens> {
               Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  Text(
+                  const Text(
                     'Search Vendor Category',
                     style: TextStyle(fontWeight: FontWeight.bold),
                   ),
-                  SizedBox(height: 5),
+                  const SizedBox(height: 5),
                   TextField(
                     onChanged: (value) {
+                      selectedValue = '';
                       fetchedDropdownItems = modelVendorCategory.usphone!
                           .where((element) =>
                           element.name.toLowerCase().contains(value.toLowerCase()))
                           .map((vendorCategory) => ProductCategoryData(
                           id: vendorCategory.id,
-                          title: vendorCategory.name)) // Convert vendor category to product category
+                          title: vendorCategory.name))
                           .toList();
                       setState(() {});
                     },
                     decoration: InputDecoration(
                       hintText: 'Search',
-                      prefixIcon: Icon(Icons.search),
+                      prefixIcon: const Icon(Icons.search),
                       border: OutlineInputBorder(
                         borderRadius: BorderRadius.circular(10),
                       ),
                     ),
                   ),
-                  SizedBox(height: 10),
+                  const SizedBox(height: 10),
+                  if (selectedValue.isEmpty)
                   ListView.builder(
                     itemCount: fetchedDropdownItems.length,
                     shrinkWrap: true,
-                    physics: NeverScrollableScrollPhysics(),
+                    physics: const NeverScrollableScrollPhysics(),
                     itemBuilder: (context, index) {
                       var data = fetchedDropdownItems[index];
                       return GestureDetector(
@@ -290,11 +293,12 @@ class _ItemDetailsScreensState extends State<ItemDetailsScreens> {
                           categoryName.value = data.title.toString();
                           id.value = data.id.toString();
                           setState(() {
+                            selectedValue = data.title;
                             tappedIndex = index;
                           });
                         },
                         child: Container(
-                          margin: EdgeInsets.only(bottom: 5),
+                          margin: const EdgeInsets.only(bottom: 5),
                           padding: const EdgeInsets.all(10),
                           height: 50,
                           decoration: BoxDecoration(
@@ -306,6 +310,17 @@ class _ItemDetailsScreensState extends State<ItemDetailsScreens> {
                       );
                     },
                   ),
+                  if (selectedValue.isNotEmpty)
+                  Container(
+                    padding: const EdgeInsets.all(10),
+                    height: 50,
+                    width: Get.width,
+                    decoration: BoxDecoration(
+                        color: Colors.grey.shade200,
+                        borderRadius: BorderRadius.circular(10),
+                        border: Border.all(color: AppTheme.buttonColor, width: 2)),
+                    child: Text(selectedValue),
+                  ),
                 ],
               ),
 
@@ -316,7 +331,7 @@ class _ItemDetailsScreensState extends State<ItemDetailsScreens> {
               Text(
                 'Filters(Optional)'.tr,
                 style: GoogleFonts.poppins(color: Colors.black, fontWeight: FontWeight.w600, fontSize: 16),
-              ):SizedBox(),
+              ):const SizedBox(),
               const SizedBox(
                 height: 5,
               ),
@@ -459,7 +474,7 @@ class _ItemDetailsScreensState extends State<ItemDetailsScreens> {
                           ],
                         ))
                         .toList(),
-                  ) : SizedBox();
+                  ) : const SizedBox();
               }),
               const SizedBox(
                 height: 20,

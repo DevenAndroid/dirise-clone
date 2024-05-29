@@ -105,6 +105,7 @@ class _HiringJobDetailsScreenState extends State<HiringJobDetailsScreen> {
   final GlobalKey categoryKey3 = GlobalKey();
   Map<String, SubCategory> allSelectedCategory4 = {};
   String? cityId;
+  String selectedValue = "";
   String? selectedSubCategory;
   String? stateCategory;
   String? idCountry;
@@ -289,7 +290,7 @@ class _HiringJobDetailsScreenState extends State<HiringJobDetailsScreen> {
           child: Form(
             key: formKey1,
             child: Container(
-              margin: EdgeInsets.only(left: 15, right: 15),
+              margin: const EdgeInsets.only(left: 15, right: 15),
               child: Column(
                 mainAxisAlignment: MainAxisAlignment.start,
                 crossAxisAlignment: CrossAxisAlignment.start,
@@ -384,6 +385,7 @@ class _HiringJobDetailsScreenState extends State<HiringJobDetailsScreen> {
                      SizedBox(height: 8),
                      TextField(
                        onChanged: (value) {
+                         selectedValue = '';
                          fetchedDropdownItems = modelSubCategory.subCategory!
                              .where((element) =>
                              element.title!.toLowerCase().contains(value.toLowerCase()))
@@ -395,13 +397,14 @@ class _HiringJobDetailsScreenState extends State<HiringJobDetailsScreen> {
                        },
                        decoration: InputDecoration(
                          hintText: 'Search',
-                         prefixIcon: Icon(Icons.search),
+                         prefixIcon: const Icon(Icons.search),
                          border: OutlineInputBorder(
                            borderRadius: BorderRadius.circular(10),
                          ),
                        ),
                      ),
                      SizedBox(height: 5),
+                     if (selectedValue.isEmpty)
                      ListView.builder(
                        padding: EdgeInsets.zero,
                        itemCount: fetchedDropdownItems.length,
@@ -413,9 +416,10 @@ class _HiringJobDetailsScreenState extends State<HiringJobDetailsScreen> {
                            onTap: () {
                              // fetchDataBasedOnId(data.id);
                              isItemDetailsVisible = !isItemDetailsVisible;
-                             selectedSubCategory = data.id.toString(); // Assuming you want to use the ID as the category value
+                             selectedSubCategory = data.id.toString();
                              subCategoryName.value = data.title.toString();
                              setState(() {
+                               selectedValue = data.title!;
                                tappedIndex = index;
                              });
                            },
@@ -432,6 +436,17 @@ class _HiringJobDetailsScreenState extends State<HiringJobDetailsScreen> {
                          );
                        },
                      ),
+                     if (selectedValue.isNotEmpty)
+                       Container(
+                         padding: const EdgeInsets.all(10),
+                         height: 50,
+                         width: Get.width,
+                         decoration: BoxDecoration(
+                             color: Colors.grey.shade200,
+                             borderRadius: BorderRadius.circular(10),
+                             border: Border.all(color: AppTheme.buttonColor, width: 2)),
+                         child: Text(selectedValue),
+                       ),
                    ],
                  ),
                   // Obx(() {
@@ -1055,8 +1070,8 @@ class _HiringJobDetailsScreenState extends State<HiringJobDetailsScreen> {
                         else if (subCategoryName.value =="") {showToast("Please select sub category");}
                         else  if(countryName.value ==""){showToast("Please select country");}
                         else if (stateName.value =="") {showToast("Please select state");}
-                        else if (cityName.value =="") {showToast("Please select city");}
-else {
+                        // else if (cityName.value =="") {showToast("Please select city");}
+                        else {
                            updateProfile();
                          }    }
 

@@ -211,7 +211,7 @@ class _SingleCategoryScreenState extends State<SingleCategoryScreen> with Single
                   child: Padding(
                     padding: const EdgeInsets.symmetric(horizontal: 18).copyWith(top: 20,left: 5),
                     child: ProgressBar(
-                      progress: snapshot.data!.position ?? Duration.zero,
+                      progress: snapshot.data!.duration ?? Duration.zero,
                       buffered: Duration.zero,
                       total: totalDuration,
                       onSeek: (duration) {

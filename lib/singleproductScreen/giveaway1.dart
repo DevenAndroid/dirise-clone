@@ -41,7 +41,7 @@ class _Giveway1ScreenState extends State<Giveway1Screen> {
       // If user is a vendor, allow all radio buttons
       if (selectedRadio == 'Working') {
         Get.to( ItemDetailsScreens());
-      } else if (selectedRadio == 'NotWorking') {
+      } else if (selectedRadio == 'Not Working') {
         Get.to( ItemDetailsScreens());
         // Get.to(ProductInformationScreens(fetaureImage: widget.featureImage,));
       } else if (selectedRadio == 'Scrab') {

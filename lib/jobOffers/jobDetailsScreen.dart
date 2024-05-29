@@ -125,6 +125,7 @@ class _JobDetailsScreenState extends State<JobDetailsScreen> {
   RxString countryName = "".obs;
   RxString stateName = "".obs;
   RxString cityName = "".obs;
+  String selectedValue = "";
   final Repositories repositories = Repositories();
   VendorUser get vendorInfo => vendorProfileController.model.user!;
   final vendorProfileController = Get.put(VendorProfileController());
@@ -414,11 +415,12 @@ class _JobDetailsScreenState extends State<JobDetailsScreen> {
                           const SizedBox(height: 8),
                           TextField(
                             onChanged: (value) {
+                              selectedValue = '';
                               fetchedDropdownItems = modelSubCategory.subCategory!
                                   .where((element) => element.title!.toLowerCase().contains(value.toLowerCase()))
                                   .map((vendorCategory) => SubCategory(
                                       id: vendorCategory.id,
-                                      title: vendorCategory.title)) // Convert vendor category to product category
+                                      title: vendorCategory.title))
                                   .toList();
                               setState(() {});
                             },
@@ -431,7 +433,8 @@ class _JobDetailsScreenState extends State<JobDetailsScreen> {
                             ),
                           ),
                           const SizedBox(height: 5),
-                          ListView.builder(
+                          if (selectedValue.isEmpty)
+                            ListView.builder(
                             padding: EdgeInsets.zero,
                             itemCount: fetchedDropdownItems.length,
                             shrinkWrap: true,
@@ -443,9 +446,10 @@ class _JobDetailsScreenState extends State<JobDetailsScreen> {
                                   // fetchDataBasedOnId(data.id);
                                   isItemDetailsVisible = !isItemDetailsVisible;
                                   selectedSubCategory =
-                                      data.id.toString(); // Assuming you want to use the ID as the category value
+                                      data.id.toString();
                                   subCategoryName.value = data.title.toString();
                                   setState(() {
+                                    selectedValue = data.title!;
                                     tappedIndex = index;
                                   });
                                 },
@@ -464,6 +468,17 @@ class _JobDetailsScreenState extends State<JobDetailsScreen> {
                               );
                             },
                           ),
+                          if (selectedValue.isNotEmpty)
+                            Container(
+                              padding: const EdgeInsets.all(10),
+                              height: 50,
+                              width: Get.width,
+                              decoration: BoxDecoration(
+                                  color: Colors.grey.shade200,
+                                  borderRadius: BorderRadius.circular(10),
+                                  border: Border.all(color: AppTheme.buttonColor, width: 2)),
+                              child: Text(selectedValue),
+                            ),
                         ],
                       ),
                 // Obx(() {
