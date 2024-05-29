@@ -9,6 +9,7 @@ import 'package:form_field_validator/form_field_validator.dart';
 import 'package:get/get.dart';
 import 'package:google_fonts/google_fonts.dart';
 
+import '../controller/profile_controller.dart';
 import '../controller/vendor_controllers/add_product_controller.dart';
 import '../language/app_strings.dart';
 import '../model/vendor_models/add_product_model.dart';
@@ -24,10 +25,9 @@ class SingleProductPriceScreen extends StatefulWidget {
   int? fixDiscount;
   double? percentage;
   int? id;
-  File? fetaureImage;
-  String? name;
+
   SingleProductPriceScreen(
-      {super.key, this.fetaureImage, this.name, this.price, this.fixDiscount, this.percentage, this.id});
+      {super.key,  this.price, this.fixDiscount, this.percentage, this.id});
 
   @override
   State<SingleProductPriceScreen> createState() => _SingleProductPriceScreenState();
@@ -38,6 +38,7 @@ class _SingleProductPriceScreenState extends State<SingleProductPriceScreen> {
   TextEditingController discountPrecrnt = TextEditingController();
   TextEditingController fixedDiscount = TextEditingController();
   final addProductController = Get.put(AddProductController());
+  final profileController = Get.put(ProfileController());
 
   RxBool isShow = false.obs;
   String realPrice = "";
@@ -89,7 +90,7 @@ class _SingleProductPriceScreenState extends State<SingleProductPriceScreen> {
         // addProductController.idProduct.value = response.productDetails!.product!.id.toString();
         print(addProductController.idProduct.value.toString());
         if (widget.id != null) {
-          Get.to(const ReviewandPublishScreen());
+          Get.to(const ProductReviewPublicScreen());
         } else {
           Get.to( SingleProductDiscriptionScreen());
         }
@@ -392,7 +393,7 @@ class _SingleProductPriceScreenState extends State<SingleProductPriceScreen> {
                                 height: 150,
                                 width: 130,
                                 decoration: BoxDecoration(borderRadius: BorderRadius.circular(11), color: Colors.white),
-                                child: Image.file(widget.fetaureImage!),
+                                child: Image.file(profileController.productImage),
                               ),
                               // const Positioned(
                               //     right: 20,
@@ -403,11 +404,11 @@ class _SingleProductPriceScreenState extends State<SingleProductPriceScreen> {
                               //     ))
                             ],
                           ),
-                          Text(
-                            widget.name.toString().tr,
-                            style: GoogleFonts.inter(
-                                color: const Color(0xff014E70), fontWeight: FontWeight.w600, fontSize: 12),
-                          ),
+                          // Text(
+                          //   widget.name.toString().tr,
+                          //   style: GoogleFonts.inter(
+                          //       color: const Color(0xff014E70), fontWeight: FontWeight.w600, fontSize: 12),
+                          // ),
                         ],
                       )
                     ],

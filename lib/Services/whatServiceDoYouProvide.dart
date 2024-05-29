@@ -1,6 +1,7 @@
 import 'dart:convert';
 import 'dart:io';
 
+import 'package:dirise/Services/review_publish_service.dart';
 import 'package:dirise/Services/tellUsscreen.dart';
 import 'package:dirise/controller/profile_controller.dart';
 import 'package:flutter/cupertino.dart';
@@ -23,8 +24,9 @@ class whatServiceDoYouProvide extends StatefulWidget {
   int? percentage;
   int? id;
   String? name;
+  RxBool? isDelivery = false.obs;
 
-  whatServiceDoYouProvide({super.key, this.percentage, this.price, this.fixedPrice, this.id, this.name});
+  whatServiceDoYouProvide({super.key, this.percentage, this.price, this.fixedPrice, this.id, this.name,this.isDelivery});
 
   @override
   State<whatServiceDoYouProvide> createState() => _whatServiceDoYouProvideState();
@@ -101,7 +103,12 @@ class _whatServiceDoYouProvideState extends State<whatServiceDoYouProvide> {
       print('API Response Status Code: ${response.status}');
       // showToast(response.message.toString());
       if (response.status == true) {
-        Get.to(TellUsScreen());
+        if(widget.id != null){
+          Get.to(const ReviewPublishServiceScreen());
+        }else{
+          Get.to(TellUsScreen());
+        }
+
       }
     });
   }
@@ -113,8 +120,9 @@ class _whatServiceDoYouProvideState extends State<whatServiceDoYouProvide> {
     if (widget.id != null) {
       serviceNameController.text = widget.name.toString();
       priceController.text = widget.price.toString();
-      discountPrecrnt.text = widget.percentage.toString() ?? "";
-      fixedDiscount.text = widget.fixedPrice.toString() ?? "";
+      discountPrecrnt.text = widget.percentage.toString();
+      fixedDiscount.text = widget.fixedPrice.toString();
+      isDelivery = widget.isDelivery!;
     }
   }
 

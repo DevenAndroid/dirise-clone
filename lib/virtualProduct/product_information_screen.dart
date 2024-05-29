@@ -1,5 +1,6 @@
 import 'dart:convert';
 import 'dart:developer';
+import 'dart:ffi';
 import 'dart:io';
 import 'package:dirise/addNewProduct/pickUpAddressScreen.dart';
 import 'package:dirise/controller/vendor_controllers/add_product_controller.dart';
@@ -11,7 +12,6 @@ import 'package:flutter/material.dart';
 import 'package:form_field_validator/form_field_validator.dart';
 import 'package:get/get.dart';
 import 'package:google_fonts/google_fonts.dart';
-import '../controller/profile_controller.dart';
 import '../controller/vendor_controllers/vendor_profile_controller.dart';
 import '../model/common_modal.dart';
 import '../model/getSubCategoryModel.dart';
@@ -27,12 +27,15 @@ import '../utils/styles.dart';
 import '../widgets/common_button.dart';
 import '../widgets/common_colour.dart';
 import '../widgets/common_textfield.dart';
+import 'ReviewandPublishScreen.dart';
 
 class VirtualProductInformationScreens extends StatefulWidget {
-
   int? id;
-  String? name;
-  VirtualProductInformationScreens({super.key,this.id,this.name});
+
+  VirtualProductInformationScreens({
+    super.key,
+    this.id,
+  });
 
   @override
   State<VirtualProductInformationScreens> createState() => _VirtualProductInformationScreensState();
@@ -43,7 +46,6 @@ class _VirtualProductInformationScreensState extends State<VirtualProductInforma
   SubProductData? selectedProductSubcategory;
 
   final TextEditingController ProductNameController = TextEditingController();
-
   int vendorID = 0;
   int ProductID = 0;
   int tappedIndex = -1;
@@ -65,10 +67,11 @@ class _VirtualProductInformationScreensState extends State<VirtualProductInforma
       if (response.status == true) {
         addProductController.idProduct.value = response.productDetails!.product!.id.toString();
         print(addProductController.idProduct.value.toString());
-
-        Get.to(VirtualPriceScreen(
-
-        ));
+        if (widget.id != null) {
+          Get.to(const VirtualReviewandPublishScreen());
+        } else {
+          Get.to(VirtualPriceScreen());
+        }
       }
     });
   }
@@ -82,7 +85,6 @@ class _VirtualProductInformationScreensState extends State<VirtualProductInforma
   Map<String, VendorCategoriesData> allSelectedCategory = {};
 
   final Repositories repositories = Repositories();
-  final profileController = Get.put(ProfileController());
 
   VendorUser get vendorInfo => vendorProfileController.model.user!;
   final vendorProfileController = Get.put(VendorProfileController());
@@ -135,18 +137,18 @@ class _VirtualProductInformationScreensState extends State<VirtualProductInforma
   bool isItemDetailsVisible1 = false;
   bool isItemDetailsVisible2 = false;
   bool isItemDetailsVisible3 = false;
-
+  final productController = Get.put(AddProductController());
   @override
   void initState() {
     // TODO: implement initState
     super.initState();
     getVendorCategories();
-    fetchDataBasedOnId(vendorID);
+    productController.getProductsCategoryList();
+    fetchDataBasedOnId(productController.modelCategoryList!.data![0].vendorCategory);
     fetchSubCategoryBasedOnId(ProductID);
-    log('dsfgds${profileController.productImage.toString()}');
-    if(widget.id != null){
-      ProductNameController.text = widget.name.toString();
-    }
+    // if(widget.id != null){
+    //   ProductNameController.text = widget.name.toString();
+    // }
   }
 
   String idChild = '';
@@ -200,66 +202,104 @@ class _VirtualProductInformationScreensState extends State<VirtualProductInforma
               const SizedBox(
                 height: 10,
               ),
-
-              Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  const Text(
-                    'Search Vendor Category',
-                    style: TextStyle(fontWeight: FontWeight.bold),
-                  ),
-                  const SizedBox(height: 5),
-                  TextField(
-                    onChanged: (value) {
-                      fetchedDropdownItems = modelVendorCategory.usphone!
-                          .where((element) => element.name.toLowerCase().contains(value.toLowerCase()))
-                          .map((vendorCategory) => ProductCategoryData(
-                              id: vendorCategory.id,
-                              title: vendorCategory.name)) // Convert vendor category to product category
-                          .toList();
-                      setState(() {});
-                    },
-                    decoration: InputDecoration(
-                      hintText: 'Search',
-                      prefixIcon: const Icon(Icons.search),
-                      border: OutlineInputBorder(
-                        borderRadius: BorderRadius.circular(10),
-                      ),
-                    ),
-                  ),
-                  const SizedBox(height: 10),
-                  ListView.builder(
-                    itemCount: fetchedDropdownItems.length,
-                    shrinkWrap: true,
-                    physics: const NeverScrollableScrollPhysics(),
-                    itemBuilder: (context, index) {
-                      var data = fetchedDropdownItems[index];
-                      return GestureDetector(
-                        onTap: () {
-                          fetchDataBasedOnId(data.id);
-                          isItemDetailsVisible = !isItemDetailsVisible;
-                          categoryName.value = data.title.toString();
-                          id.value = data.id.toString();
-                          setState(() {
-                            tappedIndex = index;
-                          });
-                        },
-                        child: Container(
-                          margin: const EdgeInsets.only(bottom: 5),
-                          padding: const EdgeInsets.all(10),
-                          height: 50,
-                          decoration: BoxDecoration(
-                              color: Colors.grey.shade200,
-                              borderRadius: BorderRadius.circular(10),
-                              border: Border.all(
-                                  color: tappedIndex == index ? AppTheme.buttonColor : Colors.grey.shade400, width: 2)),
-                          child: Text(data.title),
-                        ),
-                      );
-                    },
-                  ),
-                ],
+              Text(
+                productController.modelCategoryList!.vendorCategoryName.toString(),
+                style: GoogleFonts.poppins(color: Colors.black, fontWeight: FontWeight.w500, fontSize: 18),
               ),
+              const SizedBox(
+                height: 10,
+              ),
+              // const Text(
+              //   'Select Vendor Category',
+              //   style: TextStyle(fontWeight: FontWeight.bold),
+              // ),
+              // /// Inside the build method of your stateful widget
+              // GestureDetector(
+              //   onTap: () {
+              //     isItemDetailsVisible = !isItemDetailsVisible;
+              //     idForChild.clear();
+              //     productCategoryModel.value = ModelCategoryList();
+              //     setState(() {});
+              //   },
+              //   child: Container(
+              //     padding: const EdgeInsets.all(10),
+              //     height: 50,
+              //     decoration: BoxDecoration(
+              //         color: Colors.grey.shade200,
+              //         borderRadius: BorderRadius.circular(10),
+              //         border: Border.all(color: Colors.grey.shade400, width: 1)),
+              //     child: Row(
+              //       mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              //       children: [
+              //         Text(
+              //           categoryName.value == "" ? 'Select category to choose' : categoryName.value,
+              //         ),
+              //         Icon(Icons.arrow_drop_down_sharp),
+              //       ],
+              //     ),
+              //   ),
+              // ),
+
+              // this is for search
+              // Column(
+              //   crossAxisAlignment: CrossAxisAlignment.start,
+              //   children: [
+              //     const Text(
+              //       'Search Vendor Category',
+              //       style: TextStyle(fontWeight: FontWeight.bold),
+              //     ),
+              //     const SizedBox(height: 5),
+              //     TextField(
+              //       onChanged: (value) {
+              //         fetchedDropdownItems = modelVendorCategory.usphone!
+              //             .where((element) =>
+              //             element.name.toLowerCase().contains(value.toLowerCase()))
+              //             .map((vendorCategory) => ProductCategoryData(
+              //             id: vendorCategory.id,
+              //             title: vendorCategory.name)) // Convert vendor category to product category
+              //             .toList();
+              //         setState(() {});
+              //       },
+              //       decoration: InputDecoration(
+              //         hintText: 'Search',
+              //         prefixIcon: const Icon(Icons.search),
+              //         border: OutlineInputBorder(
+              //           borderRadius: BorderRadius.circular(10),
+              //         ),
+              //       ),
+              //     ),
+              //     const SizedBox(height: 10),
+              //     ListView.builder(
+              //       itemCount: fetchedDropdownItems.length,
+              //       shrinkWrap: true,
+              //       physics: const NeverScrollableScrollPhysics(),
+              //       itemBuilder: (context, index) {
+              //         var data = fetchedDropdownItems[index];
+              //         return GestureDetector(
+              //           onTap: () {
+              //             fetchDataBasedOnId(data.id);
+              //             isItemDetailsVisible = !isItemDetailsVisible;
+              //             categoryName.value = data.title.toString();
+              //             id.value = data.id.toString();
+              //             setState(() {
+              //               tappedIndex = index;
+              //             });
+              //           },
+              //           child: Container(
+              //             margin: const EdgeInsets.only(bottom: 5),
+              //             padding: const EdgeInsets.all(10),
+              //             height: 50,
+              //             decoration: BoxDecoration(
+              //                 color: Colors.grey.shade200,
+              //                 borderRadius: BorderRadius.circular(10),
+              //                 border: Border.all(color: tappedIndex == index ? AppTheme.buttonColor : Colors.grey.shade400, width: 2)),
+              //             child: Text(data.title),
+              //           ),
+              //         );
+              //       },
+              //     ),
+              //   ],
+              // ),
 
               // Visibility(
               //   visible: isItemDetailsVisible,
@@ -416,13 +456,17 @@ class _VirtualProductInformationScreensState extends State<VirtualProductInforma
                 onPressed: () {
                   if (ProductNameController.text.trim().isEmpty) {
                     showToast("Please enter product name");
-                  } else if (categoryName.value == "") {
-                    showToast("Please Select Vendor Category");
-                  } else if (categoryName.value == "") {
-                    showToast("Please Select Vendor Category");
-                  } else if (categoryName.value == "") {
-                    showToast("Please Select Vendor Category");
-                  } else {
+                  }
+                  // else if (categoryName.value == "") {
+                  //   showToast("Please Select Vendor Category");
+                  // }
+                  // else if (categoryName.value == "") {
+                  //   showToast("Please Select Vendor Category");
+                  // }
+                  // else if (categoryName.value == "") {
+                  //   showToast("Please Select Vendor Category");
+                  // }
+                  else {
                     deliverySizeApi();
                   }
                 },

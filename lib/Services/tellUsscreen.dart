@@ -65,7 +65,7 @@ class _TellUsScreenState extends State<TellUsScreen> {
         if(widget.id != null){
           Get.to(const ReviewPublishServiceScreen());
         }
-        Get.to(const ServicesReturnPolicy());
+        Get.to(ServicesReturnPolicy());
       }
     });
   }

@@ -1,173 +1,273 @@
-class ModelProductsList {
+class ModelShopByProduct {
   bool? status;
-  dynamic message;
-  List<PendingProduct>? pendingProduct = [];
+  String? message;
+  String? categoryName;
+  Product? product;
+  GoldData? goldData;
+  GoldData? silverData;
+  GoldData? bronzeData;
 
-  ModelProductsList({this.status, this.message, this.pendingProduct});
+  ModelShopByProduct(
+      {this.status,
+        this.message,
+        this.categoryName,
+        this.product,
+        this.goldData,
+        this.silverData,
+        this.bronzeData});
 
-  ModelProductsList.fromJson(Map<String, dynamic> json) {
+  ModelShopByProduct.fromJson(Map<String, dynamic> json) {
     status = json['status'];
     message = json['message'];
-    if (json['pending_product'] != null) {
-      pendingProduct = <PendingProduct>[];
-      json['pending_product'].forEach((v) {
-        pendingProduct!.add(new PendingProduct.fromJson(v));
-      });
-    }
+    categoryName = json['category_name'];
+    product =
+    json['product'] != null ? new Product.fromJson(json['product']) : null;
+    goldData = json['goldData'] != null
+        ? new GoldData.fromJson(json['goldData'])
+        : null;
+    silverData = json['silverData'] != null
+        ? new GoldData.fromJson(json['silverData'])
+        : null;
+    bronzeData = json['bronzeData'] != null
+        ? new GoldData.fromJson(json['bronzeData'])
+        : null;
   }
 
   Map<String, dynamic> toJson() {
     final Map<String, dynamic> data = new Map<String, dynamic>();
     data['status'] = this.status;
     data['message'] = this.message;
-    if (this.pendingProduct != null) {
-      data['pending_product'] =
-          this.pendingProduct!.map((v) => v.toJson()).toList();
+    data['category_name'] = this.categoryName;
+    if (this.product != null) {
+      data['product'] = this.product!.toJson();
+    }
+    if (this.goldData != null) {
+      data['goldData'] = this.goldData!.toJson();
+    }
+    if (this.silverData != null) {
+      data['silverData'] = this.silverData!.toJson();
+    }
+    if (this.bronzeData != null) {
+      data['bronzeData'] = this.bronzeData!.toJson();
     }
     return data;
   }
 }
 
-class PendingProduct {
-  dynamic id;
-  dynamic vendorId;
-  dynamic addressId;
-  dynamic catId;
-  dynamic catId2;
-  dynamic jobCat;
-  dynamic brandSlug;
-  dynamic slug;
-  dynamic pname;
-  dynamic prodectImage;
-  dynamic prodectName;
-  dynamic prodectSku;
-  dynamic views;
-  dynamic code;
-  dynamic bookingProductType;
-  dynamic prodectPrice;
-  dynamic prodectMinQty;
-  dynamic prodectMixQty;
-  dynamic prodectDescription;
-  dynamic image;
-  dynamic arabPname;
-  dynamic productType;
-  dynamic itemType;
-  dynamic virtualProductType;
-  dynamic skuId;
-  dynamic pPrice;
-  dynamic sPrice;
-  dynamic commission;
-  dynamic bestSaller;
-  dynamic featured;
-  dynamic taxApply;
-  dynamic taxType;
-  dynamic shortDescription;
-  dynamic arabShortDescription;
-  dynamic longDescription;
-  dynamic arabLongDescription;
-  dynamic featuredImage;
+class Product {
+  int? currentPage;
+  List<Data>? data;
+  String? firstPageUrl;
+  int? from;
+  int? lastPage;
+  String? lastPageUrl;
+  List<Links>? links;
+  String? nextPageUrl;
+  String? path;
+  String? perPage;
+  Null? prevPageUrl;
+  int? to;
+  int? total;
+
+  Product(
+      {this.currentPage,
+        this.data,
+        this.firstPageUrl,
+        this.from,
+        this.lastPage,
+        this.lastPageUrl,
+        this.links,
+        this.nextPageUrl,
+        this.path,
+        this.perPage,
+        this.prevPageUrl,
+        this.to,
+        this.total});
+
+  Product.fromJson(Map<String, dynamic> json) {
+    currentPage = json['current_page'];
+    if (json['data'] != null) {
+      data = <Data>[];
+      json['data'].forEach((v) {
+        data!.add(new Data.fromJson(v));
+      });
+    }
+    firstPageUrl = json['first_page_url'];
+    from = json['from'];
+    lastPage = json['last_page'];
+    lastPageUrl = json['last_page_url'];
+    if (json['links'] != null) {
+      links = <Links>[];
+      json['links'].forEach((v) {
+        links!.add(new Links.fromJson(v));
+      });
+    }
+    nextPageUrl = json['next_page_url'];
+    path = json['path'];
+    perPage = json['per_page'];
+    prevPageUrl = json['prev_page_url'];
+    to = json['to'];
+    total = json['total'];
+  }
+
+  Map<String, dynamic> toJson() {
+    final Map<String, dynamic> data = new Map<String, dynamic>();
+    data['current_page'] = this.currentPage;
+    if (this.data != null) {
+      data['data'] = this.data!.map((v) => v.toJson()).toList();
+    }
+    data['first_page_url'] = this.firstPageUrl;
+    data['from'] = this.from;
+    data['last_page'] = this.lastPage;
+    data['last_page_url'] = this.lastPageUrl;
+    if (this.links != null) {
+      data['links'] = this.links!.map((v) => v.toJson()).toList();
+    }
+    data['next_page_url'] = this.nextPageUrl;
+    data['path'] = this.path;
+    data['per_page'] = this.perPage;
+    data['prev_page_url'] = this.prevPageUrl;
+    data['to'] = this.to;
+    data['total'] = this.total;
+    return data;
+  }
+}
+
+class Data {
+  int? id;
+  int? vendorId;
+  int? addressId;
+  String? catId;
+  Null? catId2;
+  int? jobCat;
+  Null? brandSlug;
+  String? slug;
+  String? pname;
+  Null? prodectImage;
+  Null? prodectName;
+  String? prodectSku;
+  Null? views;
+  Null? code;
+  Null? bookingProductType;
+  Null? prodectPrice;
+  Null? prodectMinQty;
+  Null? prodectMixQty;
+  Null? prodectDescription;
+  String? image;
+  Null? arabPname;
+  String? productType;
+  String? itemType;
+  String? virtualProductType;
+  Null? skuId;
+  String? pPrice;
+  String? sPrice;
+  Null? commission;
+  int? bestSaller;
+  int? featured;
+  String? taxApply;
+  Null? taxType;
+  String? shortDescription;
+  Null? arabShortDescription;
+  String? longDescription;
+  Null? arabLongDescription;
+  String? featuredImage;
   List<String>? galleryImage;
-  dynamic virtualProductFile;
-  dynamic virtualProductFileType;
-  dynamic virtualProductFileLanguage;
-  dynamic featureImageApp;
-  dynamic featureImageWeb;
-  dynamic inStock;
-  dynamic weight;
-  dynamic weightUnit;
-  dynamic time;
-  dynamic timePeriod;
-  dynamic stockAlert;
-  dynamic shippingCharge;
-  dynamic avgRating;
-  dynamic metaTitle;
-  dynamic metaKeyword;
-  dynamic metaDescription;
-  dynamic metaTags;
-  dynamic seoTags;
-  dynamic parentId;
-  dynamic serviceStartTime;
-  dynamic serviceEndTime;
-  dynamic serviceDuration;
-  dynamic deliverySize;
-  dynamic serialNumber;
-  dynamic productNumber;
-  dynamic productCode;
-  dynamic promotionCode;
-  dynamic packageDetail;
-  dynamic jobseekingOrOffering;
-  dynamic jobType;
-  dynamic jobModel;
-  dynamic describeJobRole;
-  dynamic linkdinUrl;
-  dynamic experience;
-  dynamic salary;
-  dynamic aboutYourself;
-  dynamic jobHours;
-  dynamic jobCountryId;
-  dynamic jobStateId;
-  dynamic jobCityId;
-  dynamic uploadCv;
-  dynamic isOnsale;
-  dynamic discountPercent;
-  dynamic fixedDiscountPrice;
-  dynamic shippingPay;
-  dynamic createdAt;
-  dynamic updatedAt;
-  dynamic topHunderd;
-  dynamic limitedTimeDeal;
-  dynamic returnDays;
-  dynamic keyword;
-  bool? isPublish;
-  dynamic inOffer;
-  dynamic forAuction;
-  dynamic returnPolicyDesc;
-  dynamic shippingPolicyDesc;
-  dynamic pickupPolicyId;
-  dynamic bookableProductLocation;
-  dynamic spot;
-  dynamic hostName;
-  dynamic programName;
-  dynamic programGoal;
-  dynamic programDesc;
-  dynamic eligibleMinAge;
-  dynamic eligibleMaxAge;
-  dynamic eligibleGender;
-  dynamic fromLocation;
-  dynamic toLocation;
-  dynamic fromExtraNotes;
-  dynamic toExtraNotes;
-  dynamic startLocation;
-  dynamic endLocation;
-  dynamic timingExtraNotes;
-  dynamic productSponsorsId;
-  dynamic meetingPlatform;
-  dynamic meetingLink;
-  dynamic optionalLink;
-  dynamic linkShareVia;
-  dynamic seminarFullRefund;
-  dynamic isTrending;
-  dynamic isPopular;
-  dynamic rating;
+  String? virtualProductFile;
+  Null? virtualProductFileType;
+  Null? virtualProductFileLanguage;
+  String? featureImageApp;
+  String? featureImageWeb;
+  String? inStock;
+  int? weight;
+  String? weightUnit;
+  int? time;
+  String? timePeriod;
+  String? stockAlert;
+  Null? shippingCharge;
+  int? avgRating;
+  String? metaTitle;
+  Null? metaKeyword;
+  String? metaDescription;
+  Null? metaTags;
+  Null? seoTags;
+  int? parentId;
+  Null? serviceStartTime;
+  Null? serviceEndTime;
+  Null? serviceDuration;
+  String? deliverySize;
+  Null? serialNumber;
+  Null? productNumber;
+  Null? productCode;
+  Null? promotionCode;
+  Null? packageDetail;
+  Null? jobseekingOrOffering;
+  Null? jobType;
+  Null? jobModel;
+  Null? describeJobRole;
+  Null? linkdinUrl;
+  Null? experience;
+  Null? salary;
+  Null? aboutYourself;
+  Null? jobHours;
+  Null? jobCountryId;
+  Null? jobStateId;
+  Null? jobCityId;
+  Null? uploadCv;
+  Null? isOnsale;
+  int? discountPercent;
+  int? fixedDiscountPrice;
+  Null? shippingPay;
+  String? createdAt;
+  String? updatedAt;
+  int? topHunderd;
+  int? limitedTimeDeal;
+  Null? returnDays;
+  String? keyword;
+  int? isPublish;
+  int? inOffer;
+  String? forAuction;
+  String? returnPolicyDesc;
+  int? shippingPolicyDesc;
+  Null? pickupPolicyId;
+  Null? bookableProductLocation;
+  Null? spot;
+  Null? hostName;
+  Null? programName;
+  Null? programGoal;
+  Null? programDesc;
+  Null? eligibleMinAge;
+  Null? eligibleMaxAge;
+  Null? eligibleGender;
+  Null? fromLocation;
+  Null? toLocation;
+  Null? fromExtraNotes;
+  Null? toExtraNotes;
+  Null? startLocation;
+  Null? endLocation;
+  Null? timingExtraNotes;
+  Null? productSponsorsId;
+  Null? meetingPlatform;
+  String? meetingLink;
+  Null? optionalLink;
+  Null? linkShareVia;
+  int? seminarFullRefund;
+  int? isTrending;
+  int? isPopular;
+  int? rating;
   bool? addToCart;
   bool? inCart;
-  dynamic quantity;
   bool? inWishlist;
-  dynamic currencySign;
-  dynamic currencyCode;
+  String? currencySign;
+  String? currencyCode;
   Storemeta? storemeta;
   List<Null>? attributes;
   List<Null>? variants;
-  List<Null>? serviceTimeSloat;
-  dynamic productAvailability;
-  dynamic shippingDate;
-  dynamic lowestDeliveryPrice;
-  dynamic categoryName;
-  dynamic discountPrice;
-  dynamic discountOff;
-  dynamic shippingPolicy;
+  String? shippingDate;
+  String? lowestDeliveryPrice;
+  int? discountPrice;
+  ShippingPolicy? shippingPolicy;
 
-  PendingProduct(
+  Data(
       {this.id,
         this.vendorId,
         this.addressId,
@@ -290,23 +390,18 @@ class PendingProduct {
         this.rating,
         this.addToCart,
         this.inCart,
-        this.quantity,
         this.inWishlist,
         this.currencySign,
         this.currencyCode,
         this.storemeta,
         this.attributes,
         this.variants,
-        this.serviceTimeSloat,
-        this.productAvailability,
         this.shippingDate,
         this.lowestDeliveryPrice,
-        this.categoryName,
         this.discountPrice,
-        this.discountOff,
         this.shippingPolicy});
 
-  PendingProduct.fromJson(Map<String, dynamic> json) {
+  Data.fromJson(Map<String, dynamic> json) {
     id = json['id'];
     vendorId = json['vendor_id'];
     addressId = json['address_id'];
@@ -344,7 +439,7 @@ class PendingProduct {
     longDescription = json['long_description'];
     arabLongDescription = json['arab_long_description'];
     featuredImage = json['featured_image'];
-    galleryImage =List<String>.from(json['gallery_image'] ?? []) ;
+    galleryImage = json['gallery_image'].cast<String>();
     virtualProductFile = json['virtual_product_file'];
     virtualProductFileType = json['virtual_product_file_type'];
     virtualProductFileLanguage = json['virtual_product_file_language'];
@@ -396,7 +491,7 @@ class PendingProduct {
     limitedTimeDeal = json['limited_time_deal'];
     returnDays = json['return_days'];
     keyword = json['keyword'];
-    isPublish = json['is_publish'].toString() == "1" ? true : false;
+    isPublish = json['is_publish'];
     inOffer = json['in_offer'];
     forAuction = json['for_auction'];
     returnPolicyDesc = json['return_policy_desc'];
@@ -429,21 +524,20 @@ class PendingProduct {
     rating = json['rating'];
     addToCart = json['add_to_cart'];
     inCart = json['in_cart'];
-    quantity = json['quantity'];
     inWishlist = json['in_wishlist'];
     currencySign = json['currency_sign'];
     currencyCode = json['currency_code'];
     storemeta = json['storemeta'] != null
         ? new Storemeta.fromJson(json['storemeta'])
         : null;
-  
-    productAvailability = json['productAvailability'];
+
+
     shippingDate = json['shipping_date'];
     lowestDeliveryPrice = json['lowestDeliveryPrice'];
-    categoryName = json['category_name'];
     discountPrice = json['discount_price'];
-    discountOff = json['discount_off'];
-    shippingPolicy = json['shipping_policy'];
+    shippingPolicy = json['shipping_policy'] != null
+        ? new ShippingPolicy.fromJson(json['shipping_policy'])
+        : null;
   }
 
   Map<String, dynamic> toJson() {
@@ -570,31 +664,29 @@ class PendingProduct {
     data['rating'] = this.rating;
     data['add_to_cart'] = this.addToCart;
     data['in_cart'] = this.inCart;
-    data['quantity'] = this.quantity;
     data['in_wishlist'] = this.inWishlist;
     data['currency_sign'] = this.currencySign;
     data['currency_code'] = this.currencyCode;
     if (this.storemeta != null) {
       data['storemeta'] = this.storemeta!.toJson();
     }
-  
-    data['productAvailability'] = this.productAvailability;
+
     data['shipping_date'] = this.shippingDate;
     data['lowestDeliveryPrice'] = this.lowestDeliveryPrice;
-    data['category_name'] = this.categoryName;
     data['discount_price'] = this.discountPrice;
-    data['discount_off'] = this.discountOff;
-    data['shipping_policy'] = this.shippingPolicy;
+    if (this.shippingPolicy != null) {
+      data['shipping_policy'] = this.shippingPolicy!.toJson();
+    }
     return data;
   }
 }
 
 class Storemeta {
-  dynamic firstName;
-  dynamic lastName;
-  dynamic storeId;
-  dynamic profileImg;
-  dynamic bannerImg;
+  String? firstName;
+  String? lastName;
+  int? storeId;
+  String? profileImg;
+  String? bannerImg;
 
   Storemeta(
       {this.firstName,
@@ -618,6 +710,146 @@ class Storemeta {
     data['store_id'] = this.storeId;
     data['profile_img'] = this.profileImg;
     data['banner_img'] = this.bannerImg;
+    return data;
+  }
+}
+
+class ShippingPolicy {
+  int? id;
+  int? vendorId;
+  String? title;
+  int? days;
+  String? description;
+  String? shippingType;
+  Null? freeFor;
+  Null? aboveShipping;
+  Null? shippingZone;
+  Null? range1Min;
+  Null? range1Max;
+  Null? range1Percent;
+  Null? range2Min;
+  Null? range2Max;
+  Null? range2Percent;
+  Null? priceLimit;
+  int? isDefault;
+  String? createdAt;
+  String? updatedAt;
+
+  ShippingPolicy(
+      {this.id,
+        this.vendorId,
+        this.title,
+        this.days,
+        this.description,
+        this.shippingType,
+        this.freeFor,
+        this.aboveShipping,
+        this.shippingZone,
+        this.range1Min,
+        this.range1Max,
+        this.range1Percent,
+        this.range2Min,
+        this.range2Max,
+        this.range2Percent,
+        this.priceLimit,
+        this.isDefault,
+        this.createdAt,
+        this.updatedAt});
+
+  ShippingPolicy.fromJson(Map<String, dynamic> json) {
+    id = json['id'];
+    vendorId = json['vendor_id'];
+    title = json['title'];
+    days = json['days'];
+    description = json['description'];
+    shippingType = json['shipping_type'];
+    freeFor = json['free_for'];
+    aboveShipping = json['above_shipping'];
+    shippingZone = json['shipping_zone'];
+    range1Min = json['range1_min'];
+    range1Max = json['range1_max'];
+    range1Percent = json['range1_percent'];
+    range2Min = json['range2_min'];
+    range2Max = json['range2_max'];
+    range2Percent = json['range2_percent'];
+    priceLimit = json['price_limit'];
+    isDefault = json['is_default'];
+    createdAt = json['created_at'];
+    updatedAt = json['updated_at'];
+  }
+
+  Map<String, dynamic> toJson() {
+    final Map<String, dynamic> data = new Map<String, dynamic>();
+    data['id'] = this.id;
+    data['vendor_id'] = this.vendorId;
+    data['title'] = this.title;
+    data['days'] = this.days;
+    data['description'] = this.description;
+    data['shipping_type'] = this.shippingType;
+    data['free_for'] = this.freeFor;
+    data['above_shipping'] = this.aboveShipping;
+    data['shipping_zone'] = this.shippingZone;
+    data['range1_min'] = this.range1Min;
+    data['range1_max'] = this.range1Max;
+    data['range1_percent'] = this.range1Percent;
+    data['range2_min'] = this.range2Min;
+    data['range2_max'] = this.range2Max;
+    data['range2_percent'] = this.range2Percent;
+    data['price_limit'] = this.priceLimit;
+    data['is_default'] = this.isDefault;
+    data['created_at'] = this.createdAt;
+    data['updated_at'] = this.updatedAt;
+    return data;
+  }
+}
+
+class Links {
+  String? url;
+  String? label;
+  bool? active;
+
+  Links({this.url, this.label, this.active});
+
+  Links.fromJson(Map<String, dynamic> json) {
+    url = json['url'];
+    label = json['label'];
+    active = json['active'];
+  }
+
+  Map<String, dynamic> toJson() {
+    final Map<String, dynamic> data = new Map<String, dynamic>();
+    data['url'] = this.url;
+    data['label'] = this.label;
+    data['active'] = this.active;
+    return data;
+  }
+}
+
+class GoldData {
+  String? promotionLevel;
+  String? promotionType;
+  int? productStoreId;
+  String? banner;
+
+  GoldData(
+      {this.promotionLevel,
+        this.promotionType,
+        this.productStoreId,
+        this.banner});
+
+  GoldData.fromJson(Map<String, dynamic> json) {
+    promotionLevel = json['promotion_level'];
+    promotionType = json['promotion_type'];
+    productStoreId = json['product_store_id'];
+    banner = json['banner'];
+  }
+
+  Map<String, dynamic> toJson() {
+    final Map<String, dynamic> data = new Map<String, dynamic>();
+    data['promotion_level'] = this.promotionLevel;
+    data['promotion_type'] = this.promotionType;
+    data['product_store_id'] = this.productStoreId;
+    data['banner'] = this.banner;
     return data;
   }
 }

@@ -87,7 +87,7 @@ class _VirtualProductScreenState extends State<VirtualProductScreen> {
       log(response.message.toString());
       showToast(response.message.toString());
       if (response.status == true) {
-        Get.to(const SingleProductReturnPolicy());
+        Get.to(SingleProductReturnPolicy());
       }
     });
 

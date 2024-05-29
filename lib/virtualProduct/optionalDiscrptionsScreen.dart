@@ -56,7 +56,7 @@ class _VirtualOptionalDiscrptionsScreenState extends State<VirtualOptionalDiscrp
     Map<String, dynamic> map = {};
 
     map['meta_title'] = metaTitleController.text.trim();
-    map['item_type'] = 'giveaway';
+    map['item_type'] = 'virtual_product';
     map['meta_description'] = metaDescriptionController.text.trim();
     map['meta_tags'] = metaTagsController.text.trim();
     map['id'] = addProductController.idProduct.value.toString();

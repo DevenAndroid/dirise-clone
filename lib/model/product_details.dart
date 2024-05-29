@@ -162,12 +162,12 @@ class Product {
   dynamic isPublish;
   dynamic inOffer;
   dynamic forAuction;
-  dynamic returnPolicyDesc;
   dynamic shippingPolicyDesc;
   dynamic discountPrice;
   dynamic startLocation;
   dynamic endLocation;
   dynamic timingExtraNotes;
+  ReturnPolicyDesc? returnPolicyDesc;
   ServiceTimeSloat? serviceTimeSloat;
   ProductAvailability? productAvailability;
   List<ProductWeeklyAvailability>? productWeeklyAvailability;
@@ -400,7 +400,9 @@ class Product {
     isPublish = json['is_publish'];
     inOffer = json['in_offer'];
     forAuction = json['for_auction'];
-    returnPolicyDesc = json['return_policy_desc'];
+
+    returnPolicyDesc = json['return_policy_desc'] != null ?  ReturnPolicyDesc.fromJson(json['return_policy_desc']) : null;
+
     shippingPolicyDesc = json['shipping_policy_desc'];
     discountPrice = json['discount_price'];
     productAvailability = json['productAvailability'] != null ? new ProductAvailability.fromJson(json['productAvailability']) : null;
@@ -729,6 +731,7 @@ class ProductDimentions {
 }
 
 
+
 class ProductAvailability {
   dynamic qty;
   dynamic type;
@@ -846,6 +849,55 @@ class ServiceTimeSloat {
     final Map<String, dynamic> data = new Map<String, dynamic>();
     data['time_sloat'] = this.timeSloat;
     data['time_sloat_end'] = this.timeSloatEnd;
+    return data;
+  }
+}
+
+class ReturnPolicyDesc {
+  dynamic  id;
+  dynamic userId;
+  dynamic title;
+  dynamic days;
+  dynamic policyDiscreption;
+  dynamic returnShippingFees;
+  dynamic noReturn;
+  dynamic unit;
+  dynamic isDefault;
+
+  ReturnPolicyDesc(
+      {this.id,
+        this.userId,
+        this.title,
+        this.days,
+        this.policyDiscreption,
+        this.returnShippingFees,
+        this.noReturn,
+        this.unit,
+        this.isDefault});
+
+  ReturnPolicyDesc.fromJson(Map<String, dynamic> json) {
+    id = json['id'];
+    userId = json['user_id'];
+    title = json['title'];
+    days = json['days'];
+    policyDiscreption = json['policy_discreption'];
+    returnShippingFees = json['return_shipping_fees'];
+    noReturn = json['no_return'];
+    unit = json['unit'];
+    isDefault = json['is_default'];
+  }
+
+  Map<String, dynamic> toJson() {
+    final Map<String, dynamic> data = new Map<String, dynamic>();
+    data['id'] = this.id;
+    data['user_id'] = this.userId;
+    data['title'] = this.title;
+    data['days'] = this.days;
+    data['policy_discreption'] = this.policyDiscreption;
+    data['return_shipping_fees'] = this.returnShippingFees;
+    data['no_return'] = this.noReturn;
+    data['unit'] = this.unit;
+    data['is_default'] = this.isDefault;
     return data;
   }
 }

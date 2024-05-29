@@ -2,6 +2,7 @@ import 'dart:convert';
 import 'package:dirise/Services/pick_up_address_service.dart';
 import 'package:dirise/Services/service_discrptions_screen.dart';
 import 'package:dirise/Services/service_international_shipping_details.dart';
+import 'package:dirise/Services/servicesReturnPolicyScreen.dart';
 import 'package:dirise/Services/tellUsscreen.dart';
 import 'package:dirise/Services/whatServiceDoYouProvide.dart';
 import 'package:dirise/addNewProduct/rewardScreen.dart';
@@ -197,6 +198,7 @@ class _ReviewPublishServiceScreenState extends State<ReviewPublishServiceScreen>
                                         fixedPrice:
                                             productDetailsModel.value.productDetails!.product!.fixedDiscountPrice,
                                         name: productDetailsModel.value.productDetails!.product!.pname,
+                                        isDelivery: true.obs,
                                       ));
                                     },
                                     child: const Text(
@@ -330,29 +332,73 @@ class _ReviewPublishServiceScreenState extends State<ReviewPublishServiceScreen>
                       ),
                       const SizedBox(height: 20),
                       if (isReturnPolicy.value == true)
-                        modelReturnPolicy != null
-                            ? ListView.builder(
-                                shrinkWrap: true,
-                                physics: AlwaysScrollableScrollPhysics(),
-                                itemCount: modelReturnPolicy!.returnPolicy!.length,
-                                itemBuilder: (context, index) {
-                                  var returnPolicy = modelReturnPolicy!.returnPolicy![index];
-                                  return Container(
-                                    padding: EdgeInsets.all(10),
-                                    decoration: BoxDecoration(border: Border.all(color: Colors.grey)),
-                                    child: Column(
-                                      mainAxisAlignment: MainAxisAlignment.start,
-                                      crossAxisAlignment: CrossAxisAlignment.start,
-                                      children: [
-                                        Text('Policy Name: ${returnPolicy.title ?? ""}'),
-                                        Text('Return Policy Description : ${returnPolicy.policyDiscreption ?? ""}'),
-                                        Text('Return Within: ${returnPolicy.days ?? ""}'),
-                                        Text('Return Shipping Fees: ${returnPolicy.returnShippingFees ?? ""}'),
-                                      ],
-                                    ),
-                                  );
-                                })
-                            : const CircularProgressIndicator(),
+                        Stack(
+                          children: [
+                            Container(
+                              width: Get.width,
+                              padding: EdgeInsets.all(10),
+                              decoration: BoxDecoration(
+                                  color: Colors.grey.shade200
+                              ),
+                              child: Column(
+                                mainAxisAlignment: MainAxisAlignment.start,
+                                crossAxisAlignment: CrossAxisAlignment.start,
+                                children: [
+                                  Text(
+                                      'Policy Name: ${productDetailsModel.value.productDetails!.product!.returnPolicyDesc!.title ?? ""}'),
+                                  const SizedBox(height: 5,),
+                                  Text(
+                                      'Policy Description: ${productDetailsModel.value.productDetails!.product!.returnPolicyDesc!.policyDiscreption ?? ""}'),
+                                  const SizedBox(height: 5,),
+                                  Text(
+                                      'Return with In: ${productDetailsModel.value.productDetails!.product!.returnPolicyDesc!.days ?? ""}'),
+                                  const SizedBox(height: 5,),
+                                  Text(
+                                      'Return Shipping Fees: ${productDetailsModel.value.productDetails!.product!.returnPolicyDesc!.returnShippingFees ?? ""}'),
+
+                                ],
+                              ),
+                            ),
+                            Positioned(
+                                right: 10,
+                                top: 20,
+                                child: GestureDetector(
+                                    onTap: (){
+                                      Get.to(ServicesReturnPolicy(
+                                        id: productDetailsModel.value.productDetails!.product!.id,
+                                        policyName: productDetailsModel.value.productDetails!.product!.returnPolicyDesc!.title,
+                                        policyDescription: productDetailsModel.value.productDetails!.product!.returnPolicyDesc!.policyDiscreption,
+                                        returnShippingFees: productDetailsModel.value.productDetails!.product!.returnPolicyDesc!.returnShippingFees,
+                                        returnWithIn: productDetailsModel.value.productDetails!.product!.returnPolicyDesc!.days,
+                                      )
+                                      );
+                                    },
+                                    child: const Text('Edit',style: TextStyle(color: Colors.red,fontSize: 13),)))
+                          ],
+                        ),
+                        // modelReturnPolicy != null
+                        //     ? ListView.builder(
+                        //         shrinkWrap: true,
+                        //         physics: AlwaysScrollableScrollPhysics(),
+                        //         itemCount: modelReturnPolicy!.returnPolicy!.length,
+                        //         itemBuilder: (context, index) {
+                        //           var returnPolicy = modelReturnPolicy!.returnPolicy![index];
+                        //           return Container(
+                        //             padding: EdgeInsets.all(10),
+                        //             decoration: BoxDecoration(border: Border.all(color: Colors.grey)),
+                        //             child: Column(
+                        //               mainAxisAlignment: MainAxisAlignment.start,
+                        //               crossAxisAlignment: CrossAxisAlignment.start,
+                        //               children: [
+                        //                 Text('Policy Name: ${returnPolicy.title ?? ""}'),
+                        //                 Text('Return Policy Description : ${returnPolicy.policyDiscreption ?? ""}'),
+                        //                 Text('Return Within: ${returnPolicy.days ?? ""}'),
+                        //                 Text('Return Shipping Fees: ${returnPolicy.returnShippingFees ?? ""}'),
+                        //               ],
+                        //             ),
+                        //           );
+                        //         })
+                        //     : const CircularProgressIndicator(),
 
                       GestureDetector(
                         onTap: () {

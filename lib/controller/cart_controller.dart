@@ -18,6 +18,7 @@ import '../screens/check_out/order_completed_screen.dart';
 import '../utils/api_constant.dart';
 import '../vendor/authentication/payment_screen.dart';
 import '../vendor/authentication/thank_you_screen.dart';
+import 'location_controller.dart';
 
 enum PurchaseType { buy, cart }
 
@@ -38,7 +39,7 @@ class CartController extends GetxController {
   bool addressLoaded = false;
   String shippingId = "";
   AddressData selectedAddress = AddressData();
-
+  // final locationController = Get.put(LocationController());
   final GlobalKey addressKey = GlobalKey();
   RxString deliveryOption1 = "delivery".obs;
   RxBool showValidation = false.obs;
@@ -514,6 +515,7 @@ class CartController extends GetxController {
     // map["country_id"]= profileController.model.user!= null && countryId.isEmpty ? profileController.model.user!.country_id : countryId.toString();
     map["country_id"]= countryId.toString();
     map["zip_code"]= zipCode.toString();
+    map["identifier_key"]= "checkout screen";
 
     log("mappppppp::::::$map");
     await repositories.postApi(url: ApiUrls.cartListUrl,mapData: map ).then((value) {
