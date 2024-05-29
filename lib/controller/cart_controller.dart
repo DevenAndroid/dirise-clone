@@ -503,6 +503,7 @@ class CartController extends GetxController {
   }
   String countryId = '';
   String zipCode = '';
+  String zipCode1 = '';
 
   Future getCart() async {
     // if (cartModel.cart != null) {
@@ -515,12 +516,13 @@ class CartController extends GetxController {
     // map["country_id"]= profileController.model.user!= null && countryId.isEmpty ? profileController.model.user!.country_id : countryId.toString();
     map["country_id"]= countryId.toString();
     map["zip_code"]= zipCode.toString();
-    map["identifier_key"]= "checkout screen";
+    map["identifier_key"]= "checkout";
 
     log("mappppppp::::::$map");
     await repositories.postApi(url: ApiUrls.cartListUrl,mapData: map ).then((value) {
      cartModel = ModelCartResponse.fromJson(jsonDecode(value));
       log('cart model is ${cartModel.toJson()}');
+      print("zip:::::::::::"+zipCode1);
       apiLoaded = true;
       updateUI();
     });
