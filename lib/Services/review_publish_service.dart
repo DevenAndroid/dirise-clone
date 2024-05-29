@@ -197,6 +197,7 @@ class _ReviewPublishServiceScreenState extends State<ReviewPublishServiceScreen>
                                         fixedPrice:
                                             productDetailsModel.value.productDetails!.product!.fixedDiscountPrice,
                                         name: productDetailsModel.value.productDetails!.product!.pname,
+                                        isDelivery: true.obs,
                                       ));
                                     },
                                     child: const Text(

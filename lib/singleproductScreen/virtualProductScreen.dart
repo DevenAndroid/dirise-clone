@@ -16,6 +16,7 @@ import '../model/virtualProductModel.dart';
 import '../repository/repository.dart';
 import '../utils/api_constant.dart';
 import '../vendor/authentication/image_widget.dart';
+import '../virtualProduct/optionalDiscrptionsScreen.dart';
 import '../virtualProduct/singleProductReturnPolicy.dart';
 import '../widgets/common_button.dart';
 import '../widgets/common_colour.dart';
@@ -88,7 +89,7 @@ class _VirtualProductScreenState extends State<VirtualProductScreen> {
       log(response.message.toString());
       showToast(response.message.toString());
       if (response.status == true) {
-        Get.to(const VirtualReturnPolicy());
+        Get.to(VirtualOptionalDiscrptionsScreen());
       }
     });
 

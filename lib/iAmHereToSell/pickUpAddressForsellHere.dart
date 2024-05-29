@@ -219,6 +219,24 @@ class _SellingPickupAddressState extends State<SellingPickupAddress> {
                 ),
                 const SizedBox(height: 10,),
                 Text(
+                  "Country*".tr,
+                  style: GoogleFonts.poppins(color: const Color(0xff044484), fontWeight: FontWeight.w600, fontSize: 14),
+                ),
+                const SizedBox(height: 5,),
+                CommonTextField(
+                  controller: countryController,
+                  obSecure: false,
+                  hintText: 'Country'.tr,
+                  validator: (value) {
+                    if (value!.trim().isEmpty) {
+                      return 'Country is required';
+                    }
+                    return null; // Return null if validation passes
+                  },
+
+                ),
+                const SizedBox(height: 10,),
+                Text(
                   "Zip Code".tr,
                   style: GoogleFonts.poppins(color: const Color(0xff044484), fontWeight: FontWeight.w600, fontSize: 14),
                 ),
