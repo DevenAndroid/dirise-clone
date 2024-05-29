@@ -73,6 +73,21 @@ class _MyAccountScreenState extends State<MyAccountScreen> {
     sharedPreferences.setString("app_language", gg);
   }
 
+  bool isLoggedIn = false;
+
+  checkUser() async {
+    SharedPreferences preferences = await SharedPreferences.getInstance();
+    if (preferences.getString('login_user') != null) {
+      isLoggedIn = true;
+    } else {
+      isLoggedIn = false;
+    }
+    if(mounted){
+      setState(() {
+
+      });
+    }
+  }
   Rx<UserDeleteModel> deleteModal = UserDeleteModel().obs;
   checkLanguage() async {
     SharedPreferences sharedPreferences = await SharedPreferences.getInstance();
@@ -103,18 +118,7 @@ class _MyAccountScreenState extends State<MyAccountScreen> {
   final profileController = Get.put(ProfileController());
   final cartController = Get.put(CartController());
   final homeController = Get.put(TrendingProductsController());
-  bool isLoggedIn = false;
-  checkUser() async {
-    SharedPreferences preferences = await SharedPreferences.getInstance();
-    if (preferences.getString('login_user') != null) {
-      isLoggedIn = true;
-    } else {
-      isLoggedIn = false;
-    }
-    if (mounted) {
-      setState(() {});
-    }
-  }
+
 
   showVendorDialog() {
     if (Platform.isAndroid) {
@@ -314,6 +318,8 @@ class _MyAccountScreenState extends State<MyAccountScreen> {
       FirebaseMessaging.onBackgroundMessage(myBackgroundMessageHandler);
     }
   }
+
+
 
 
   @override
@@ -1939,8 +1945,13 @@ class _MyAccountScreenState extends State<MyAccountScreen> {
         iconColor: AppTheme.primaryColor,
         minLeadingWidth: 0,
         onTap: () {
-          _isValue.value = !_isValue.value;
-          setState(() {});
+          if(isLoggedIn){
+            _isValue.value = !_isValue.value;
+            setState(() {});
+          }else{
+            Get.to(const LoginScreen());
+          }
+
         },
         title: Row(
           children: [
@@ -1967,6 +1978,8 @@ class _MyAccountScreenState extends State<MyAccountScreen> {
           ],
         ),
       ),
+
+
       _isValue.value == true
           ? Obx(() {
               if (profileController.refreshInt.value > 0) {}
@@ -1985,6 +1998,10 @@ class _MyAccountScreenState extends State<MyAccountScreen> {
                                       Expanded(
                                         child: TextButton(
                                           onPressed: () {
+
+
+
+
                                            if (vendor[index] == 'Dashboard') {
                                                Get.toNamed( VendorDashBoardScreen.route);
                                             }
@@ -2039,6 +2056,8 @@ class _MyAccountScreenState extends State<MyAccountScreen> {
                   : const SizedBox();
             })
           : const SizedBox(),
+
+
     ];
   }
 }

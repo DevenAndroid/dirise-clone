@@ -25,14 +25,14 @@ import '../widgets/common_colour.dart';
 import 'optionalClassificationScreen.dart';
 import 'optionalDiscrptionsScreen.dart';
 
-class ReviewandPublishScreen extends StatefulWidget {
-  const ReviewandPublishScreen({super.key});
+class ProductReviewPublicScreen extends StatefulWidget {
+  const ProductReviewPublicScreen({super.key});
 
   @override
-  State<ReviewandPublishScreen> createState() => _ReviewandPublishScreenState();
+  State<ProductReviewPublicScreen> createState() => _ProductReviewPublicScreenState();
 }
 
-class _ReviewandPublishScreenState extends State<ReviewandPublishScreen> {
+class _ProductReviewPublicScreenState extends State<ProductReviewPublicScreen> {
   String selectedItem = 'Item 1';
   final serviceController = Get.put(ServiceController());
 
@@ -175,10 +175,9 @@ class _ReviewandPublishScreenState extends State<ReviewandPublishScreen> {
                                 mainAxisAlignment: MainAxisAlignment.start,
                                 crossAxisAlignment: CrossAxisAlignment.start,
                                 children: [
-                                  Text(
-                                      'product name: ${productDetailsModel.value.productDetails!.product!.pname ?? ""}'),
-                                  Text(
-                                      'product Type: ${productDetailsModel.value.productDetails!.product!.productType ?? ''}'),
+                                  Text('product name: ${productDetailsModel.value.productDetails!.product!.pname ?? ""}'),
+                                  Text('product Type: ${productDetailsModel.value.productDetails!.product!.productType ?? ''}'),
+                                  Text('Category ID: ${productDetailsModel.value.productDetails!.product!.catId ?? ''}'),
                                   Text('product ID: ${productDetailsModel.value.productDetails!.product!.id ?? ""}'),
                                 ],
                               ),
@@ -190,7 +189,8 @@ class _ReviewandPublishScreenState extends State<ReviewandPublishScreen> {
                                     onTap: (){
                                       Get.to(ProductInformationScreens(
                                         id: productDetailsModel.value.productDetails!.product!.id,
-                                        // name: productDetailsModel.value.productDetails!.product!.pname,
+                                         name: productDetailsModel.value.productDetails!.product!.pname,
+                                         catid: productDetailsModel.value.productDetails!.product!.pname,
 
                                       ));
                                     },

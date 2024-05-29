@@ -58,7 +58,7 @@ class _SingleProductDiscriptionScreenState extends State<SingleProductDiscriptio
         // addProductController.idProduct.value = response.productDetails!.product!.id.toString();
         print(addProductController.idProduct.value.toString());
         if(widget.id != null){
-          Get.to(const ReviewandPublishScreen());
+          Get.to(const ProductReviewPublicScreen());
         }
         Get.to(const SingleProductReturnPolicy());
       }

@@ -30,8 +30,11 @@ import 'ReviewandPublishScreen.dart';
 
 class ProductInformationScreens extends StatefulWidget {
   int? id;
+  int? catid;
+  String? name;
 
-  ProductInformationScreens({super.key,this.id,});
+
+  ProductInformationScreens({super.key,this.id,this.name,this.catid});
 
   @override
   State<ProductInformationScreens> createState() => _ProductInformationScreensState();
@@ -64,7 +67,7 @@ class _ProductInformationScreensState extends State<ProductInformationScreens> {
         addProductController.idProduct.value = response.productDetails!.product!.id.toString();
         print(addProductController.idProduct.value.toString());
         if(widget.id != null){
-          Get.to(const ReviewandPublishScreen());
+          Get.to(const ProductReviewPublicScreen());
         }else{
           Get.to(SingleProductPriceScreen());
 
@@ -145,9 +148,10 @@ class _ProductInformationScreensState extends State<ProductInformationScreens> {
     productController.getProductsCategoryList();
     fetchDataBasedOnId(productController.modelCategoryList!.data![0].vendorCategory);
     fetchSubCategoryBasedOnId(ProductID);
-    // if(widget.id != null){
-    //   ProductNameController.text = widget.name.toString();
-    // }
+    if(widget.id != null){
+      ProductNameController.text = widget.name.toString();
+      // productController.modelCategoryList!.vendorCategoryName = widget.catid.toString();
+    }
   }
 
   String idChild = '';

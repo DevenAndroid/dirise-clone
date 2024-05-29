@@ -90,7 +90,7 @@ class _SingleProductPriceScreenState extends State<SingleProductPriceScreen> {
         // addProductController.idProduct.value = response.productDetails!.product!.id.toString();
         print(addProductController.idProduct.value.toString());
         if (widget.id != null) {
-          Get.to(const ReviewandPublishScreen());
+          Get.to(const ProductReviewPublicScreen());
         } else {
           Get.to( SingleProductDiscriptionScreen());
         }

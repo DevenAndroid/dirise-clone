@@ -66,7 +66,7 @@ class _OptionalClassificationScreenState extends State<OptionalClassificationScr
       print('API Response Status Code: ${response.status}');
       showToast(response.message.toString());
       if (response.status == true) {
-        Get.to(ReviewandPublishScreen());
+        Get.to(ProductReviewPublicScreen());
       }
     });
   }
@@ -220,7 +220,7 @@ class _OptionalClassificationScreenState extends State<OptionalClassificationScr
                 const SizedBox(height: 20),
                 GestureDetector(
                   onTap: () {
-                    Get.to(const ReviewandPublishScreen());
+                    Get.to(const ProductReviewPublicScreen());
                   },
                   child: Container(
                     width: Get.width,

@@ -63,7 +63,7 @@ class _OptionalDiscrptionsScreenState extends State<OptionalDiscrptionsScreen> {
       if (response.status == true) {
 
         if(widget.id != null){
-          Get.to(ReviewandPublishScreen());
+          Get.to(ProductReviewPublicScreen());
         }else{
           Get.to(() => OptionalClassificationScreen());
         }

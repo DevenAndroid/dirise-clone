@@ -47,7 +47,7 @@ class _SingleProductDeliverySizeState extends State<SingleProductDeliverySize> {
       showToast(response.message.toString());
       if (response.status == true) {
         if(widget.id != null){
-          Get.to(ReviewandPublishScreen());
+          Get.to(ProductReviewPublicScreen());
         }else{
           Get.to(SingleProductShippingPolicyScreen());
 
