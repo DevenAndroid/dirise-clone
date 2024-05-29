@@ -126,7 +126,7 @@ class _HomeAddEditAddressLoginState extends State<HomeAddEditAddressLogin> {
                   });
                 },
                 child: Text(
-                  "Enter an zip code".tr,
+                  "Enter your zip code".tr,
                   style: GoogleFonts.poppins(color: const Color(0xff044484), fontWeight: FontWeight.w400, fontSize: 14),
                 ),
               ),

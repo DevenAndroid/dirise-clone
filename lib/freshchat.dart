@@ -389,7 +389,7 @@ class _MyHomePageState extends State<MyHomePage> {
                             padding: const EdgeInsets.fromLTRB(0, 70, 0, 0),
                             child: Text(
                               "FAQs",
-                              style: Theme.of(context).textTheme.headline5,
+                              style: Theme.of(context).textTheme.headlineSmall,
                               textAlign: TextAlign.center,
                             )),
                       ),
@@ -409,7 +409,7 @@ class _MyHomePageState extends State<MyHomePage> {
                             padding: const EdgeInsets.fromLTRB(0, 70, 0, 0),
                             child: Text(
                               "Unread Count",
-                              style: Theme.of(context).textTheme.headline5,
+                              style: Theme.of(context).textTheme.headlineSmall,
                               textAlign: TextAlign.center,
                             )),
                       ),
@@ -433,7 +433,7 @@ class _MyHomePageState extends State<MyHomePage> {
                             padding: const EdgeInsets.fromLTRB(0, 70, 0, 0),
                             child: Text(
                               "Reset User",
-                              style: Theme.of(context).textTheme.headline5,
+                              style: Theme.of(context).textTheme.headlineSmall,
                               textAlign: TextAlign.center,
                             )),
                       ),
@@ -449,7 +449,7 @@ class _MyHomePageState extends State<MyHomePage> {
                             padding: const EdgeInsets.fromLTRB(0, 70, 0, 0),
                             child: Text(
                               "Restore User",
-                              style: Theme.of(context).textTheme.headline5,
+                              style: Theme.of(context).textTheme.headlineSmall,
                               textAlign: TextAlign.center,
                             )),
                       ),
@@ -465,7 +465,7 @@ class _MyHomePageState extends State<MyHomePage> {
                             padding: const EdgeInsets.fromLTRB(0, 70, 0, 0),
                             child: Text(
                               "Set User Properties",
-                              style: Theme.of(context).textTheme.headline5,
+                              style: Theme.of(context).textTheme.headlineSmall,
                               textAlign: TextAlign.center,
                             )),
                       ),
@@ -481,7 +481,7 @@ class _MyHomePageState extends State<MyHomePage> {
                             padding: const EdgeInsets.fromLTRB(0, 70, 0, 0),
                             child: Text(
                               "Send Message",
-                              style: Theme.of(context).textTheme.headline5,
+                              style: Theme.of(context).textTheme.headlineSmall,
                               textAlign: TextAlign.center,
                             )),
                       ),
@@ -493,7 +493,7 @@ class _MyHomePageState extends State<MyHomePage> {
                   return Center(
                     child: Text(
                       'Item $index',
-                      style: Theme.of(context).textTheme.headline5,
+                      style: Theme.of(context).textTheme.headlineSmall,
                     ),
                   );
                   break;

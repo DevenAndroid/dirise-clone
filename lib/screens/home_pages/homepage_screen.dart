@@ -8,6 +8,7 @@ import 'package:dirise/widgets/common_colour.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/scheduler.dart';
+import 'package:flutter/widgets.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:geocoding/geocoding.dart';
 import 'package:geolocator/geolocator.dart';
@@ -202,6 +203,7 @@ class _HomePageState extends State<HomePage> {
   }
 
   final RxBool _isValue = false.obs;
+  final RxBool search = false.obs;
   var vendor = ['Dashboard', 'Order', 'Products', 'Store open time', 'Bank Details', 'Earnings'];
   var vendorRoutes = [
     VendorDashBoardScreen.route,
@@ -322,10 +324,17 @@ class _HomePageState extends State<HomePage> {
                   // color: Colors.white,
                 ),
                 SizedBox(width: 13,),
-                SvgPicture.asset(
+                InkWell(
+                  onTap: (){
+                   setState(() {
+                     search.value = !search.value;
 
-                  'assets/svgs/search.svg',
-                  // color: Colors.white,
+                   });
+                  },
+                  child: SvgPicture.asset(
+                    'assets/svgs/search.svg',
+                    // color: Colors.white,
+                  ),
                 ),
               ],
             ),
@@ -341,6 +350,54 @@ class _HomePageState extends State<HomePage> {
             ...vendorPartner(),
             const CartBagCard(),
           ],
+          bottom: PreferredSize(
+            preferredSize: search.value == true ? Size.fromHeight(50.0) : Size.fromHeight(0.0),
+            child: search.value == true
+                ? Hero(
+                    tag: "search_tag",
+                    child: Material(
+                      color: Colors.transparent,
+                      surfaceTintColor: Colors.transparent,
+                      child: Padding(
+                        padding: const EdgeInsets.symmetric(horizontal: 15),
+                        child: TextField(
+                          maxLines: 1,
+                          style: GoogleFonts.poppins(fontSize: 16),
+                          textInputAction: TextInputAction.search,
+                          onSubmitted: (vb) {
+                            Get.to(() => SearchProductsScreen(
+                                  searchText: vb,
+                                ));
+                          },
+                          decoration: InputDecoration(
+                              filled: true,
+                              prefixIcon: Padding(
+                                padding: const EdgeInsets.all(10),
+                                child: Image.asset(
+                                  'assets/icons/search.png',
+                                  height: 5,
+                                ),
+                              ),
+                              border: InputBorder.none,
+                              enabledBorder: const OutlineInputBorder(
+                                  borderRadius: BorderRadius.all(Radius.circular(8)),
+                                  borderSide: BorderSide(color: AppTheme.buttonColor)),
+                              disabledBorder: const OutlineInputBorder(
+                                  borderRadius: BorderRadius.all(Radius.circular(8)),
+                                  borderSide: BorderSide(color: AppTheme.buttonColor)),
+                              focusedBorder: const OutlineInputBorder(
+                                  borderRadius: BorderRadius.all(Radius.circular(8)),
+                                  borderSide: BorderSide(color: AppTheme.buttonColor)),
+                              fillColor: Colors.white,
+                              contentPadding: const EdgeInsets.all(15),
+                              hintText: AppStrings.searchFieldText.tr,
+                              hintStyle: GoogleFonts.poppins(color: AppTheme.buttonColor, fontWeight: FontWeight.w400)),
+                        ),
+                      ),
+                    ),
+                  )
+                : SizedBox.shrink(),
+          ),
         ),
         backgroundColor: Color(0xFFF2F2F2),
         body: RefreshIndicator(
@@ -460,51 +517,7 @@ class _HomePageState extends State<HomePage> {
                         ),
                       ) : const SizedBox.shrink(),
                       10.spaceY,
-                      // Hero(
-                      //   tag: "search_tag",
-                      //   child: Material(
-                      //     color: Colors.transparent,
-                      //     surfaceTintColor: Colors.transparent,
-                      //     child: Padding(
-                      //       padding: const EdgeInsets.symmetric(horizontal: 15),
-                      //       child: TextField(
-                      //         maxLines: 1,
-                      //         style: GoogleFonts.poppins(fontSize: 16),
-                      //         textInputAction: TextInputAction.search,
-                      //         onSubmitted: (vb) {
-                      //           Get.to(() =>
-                      //               SearchProductsScreen(
-                      //                 searchText: vb,
-                      //               ));
-                      //         },
-                      //         decoration: InputDecoration(
-                      //             filled: true,
-                      //             prefixIcon: Padding(
-                      //               padding: const EdgeInsets.all(10),
-                      //               child: Image.asset(
-                      //                 'assets/icons/search.png',
-                      //                 height: 5,
-                      //               ),
-                      //             ),
-                      //             border: InputBorder.none,
-                      //             enabledBorder: const OutlineInputBorder(
-                      //                 borderRadius: BorderRadius.all(Radius.circular(8)),
-                      //                 borderSide: BorderSide(color: AppTheme.buttonColor)),
-                      //             disabledBorder: const OutlineInputBorder(
-                      //                 borderRadius: BorderRadius.all(Radius.circular(8)),
-                      //                 borderSide: BorderSide(color: AppTheme.buttonColor)),
-                      //             focusedBorder: const OutlineInputBorder(
-                      //                 borderRadius: BorderRadius.all(Radius.circular(8)),
-                      //                 borderSide: BorderSide(color: AppTheme.buttonColor)),
-                      //             fillColor: Colors.white,
-                      //             contentPadding: const EdgeInsets.all(15),
-                      //             hintText: AppStrings.searchFieldText.tr,
-                      //             hintStyle:
-                      //             GoogleFonts.poppins(color: AppTheme.buttonColor, fontWeight: FontWeight.w400)),
-                      //       ),
-                      //     ),
-                      //   ),
-                      // ),
+
                       const SizedBox(
                         height: 8,
                       ),

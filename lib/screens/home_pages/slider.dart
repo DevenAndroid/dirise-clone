@@ -81,18 +81,19 @@ class _SliderWidgetState extends State<SliderWidget> {
             Padding(
                 padding: const EdgeInsets.fromLTRB(0, 0, 0, 18),
                 child: SizedBox(
-              height: size.height * 0.19,
+                  height: size.height * 0.35,
                   child: Swiper(
                     autoplay: true,
                     outer: false,
                     autoplayDelay: 5000,
                     autoplayDisableOnInteraction: false,
                     pagination:  const SwiperPagination(
-                        // margin: EdgeInsets.only(top: 30),
+                        margin: EdgeInsets.only(top: 40),
                       builder: DotSwiperPaginationBuilder(
                         color: Colors.grey,
+                       space: 4,
                         // Inactive dot color
-                        activeColor: AppTheme.buttonColor, // Active dot color
+                        activeColor: AppTheme.buttonColor,
                       ),
                     ),
                     itemBuilder: (BuildContext context, int index) {

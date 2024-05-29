@@ -1,5 +1,6 @@
 import 'dart:convert';
 import 'dart:developer';
+import 'dart:ffi';
 import 'dart:io';
 import 'package:dirise/addNewProduct/pickUpAddressScreen.dart';
 import 'package:dirise/controller/vendor_controllers/add_product_controller.dart';
@@ -42,7 +43,6 @@ class _ProductInformationScreensState extends State<ProductInformationScreens> {
   SubProductData? selectedProductSubcategory;
 
   final TextEditingController ProductNameController = TextEditingController();
-
   int vendorID = 0;
   int ProductID = 0;
   int tappedIndex = -1;
@@ -65,7 +65,7 @@ class _ProductInformationScreensState extends State<ProductInformationScreens> {
         addProductController.idProduct.value = response.productDetails!.product!.id.toString();
         print(addProductController.idProduct.value.toString());
         if(widget.id != null){
-          Get.to(ReviewandPublishScreen());
+          Get.to(const ReviewandPublishScreen());
         }else{
           Get.to(SingleProductPriceScreen(fetaureImage: widget.fetaureImage,name: ProductNameController.text,));
 
@@ -137,13 +137,14 @@ class _ProductInformationScreensState extends State<ProductInformationScreens> {
   bool isItemDetailsVisible1 = false;
   bool isItemDetailsVisible2 = false;
   bool isItemDetailsVisible3 = false;
-
+  final productController = Get.put(AddProductController());
   @override
   void initState() {
     // TODO: implement initState
     super.initState();
     getVendorCategories();
-    fetchDataBasedOnId(vendorID);
+    productController.getProductsCategoryList();
+    fetchDataBasedOnId(productController.modelCategoryList!.data![0].vendorCategory);
     fetchSubCategoryBasedOnId(ProductID);
     if(widget.id != null){
       ProductNameController.text = widget.name.toString();
@@ -201,6 +202,13 @@ class _ProductInformationScreensState extends State<ProductInformationScreens> {
               const SizedBox(
                 height: 10,
               ),
+              Text(
+                productController.modelCategoryList!.vendorCategoryName.toString(),
+                style: GoogleFonts.poppins(color: Colors.black, fontWeight: FontWeight.w500, fontSize: 18),
+              ),
+              const SizedBox(
+                height: 10,
+              ),
               // const Text(
               //   'Select Vendor Category',
               //   style: TextStyle(fontWeight: FontWeight.bold),
@@ -231,65 +239,67 @@ class _ProductInformationScreensState extends State<ProductInformationScreens> {
               //     ),
               //   ),
               // ),
-              Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  Text(
-                    'Search Vendor Category',
-                    style: TextStyle(fontWeight: FontWeight.bold),
-                  ),
-                  SizedBox(height: 5),
-                  TextField(
-                    onChanged: (value) {
-                      fetchedDropdownItems = modelVendorCategory.usphone!
-                          .where((element) =>
-                          element.name.toLowerCase().contains(value.toLowerCase()))
-                          .map((vendorCategory) => ProductCategoryData(
-                          id: vendorCategory.id,
-                          title: vendorCategory.name)) // Convert vendor category to product category
-                          .toList();
-                      setState(() {});
-                    },
-                    decoration: InputDecoration(
-                      hintText: 'Search',
-                      prefixIcon: Icon(Icons.search),
-                      border: OutlineInputBorder(
-                        borderRadius: BorderRadius.circular(10),
-                      ),
-                    ),
-                  ),
-                  SizedBox(height: 10),
-                  ListView.builder(
-                    itemCount: fetchedDropdownItems.length,
-                    shrinkWrap: true,
-                    physics: NeverScrollableScrollPhysics(),
-                    itemBuilder: (context, index) {
-                      var data = fetchedDropdownItems[index];
-                      return GestureDetector(
-                        onTap: () {
-                          fetchDataBasedOnId(data.id);
-                          isItemDetailsVisible = !isItemDetailsVisible;
-                          categoryName.value = data.title.toString();
-                          id.value = data.id.toString();
-                          setState(() {
-                            tappedIndex = index;
-                          });
-                        },
-                        child: Container(
-                          margin: EdgeInsets.only(bottom: 5),
-                          padding: const EdgeInsets.all(10),
-                          height: 50,
-                          decoration: BoxDecoration(
-                              color: Colors.grey.shade200,
-                              borderRadius: BorderRadius.circular(10),
-                              border: Border.all(color: tappedIndex == index ? AppTheme.buttonColor : Colors.grey.shade400, width: 2)),
-                          child: Text(data.title),
-                        ),
-                      );
-                    },
-                  ),
-                ],
-              ),
+
+              // this is for search
+              // Column(
+              //   crossAxisAlignment: CrossAxisAlignment.start,
+              //   children: [
+              //     const Text(
+              //       'Search Vendor Category',
+              //       style: TextStyle(fontWeight: FontWeight.bold),
+              //     ),
+              //     const SizedBox(height: 5),
+              //     TextField(
+              //       onChanged: (value) {
+              //         fetchedDropdownItems = modelVendorCategory.usphone!
+              //             .where((element) =>
+              //             element.name.toLowerCase().contains(value.toLowerCase()))
+              //             .map((vendorCategory) => ProductCategoryData(
+              //             id: vendorCategory.id,
+              //             title: vendorCategory.name)) // Convert vendor category to product category
+              //             .toList();
+              //         setState(() {});
+              //       },
+              //       decoration: InputDecoration(
+              //         hintText: 'Search',
+              //         prefixIcon: const Icon(Icons.search),
+              //         border: OutlineInputBorder(
+              //           borderRadius: BorderRadius.circular(10),
+              //         ),
+              //       ),
+              //     ),
+              //     const SizedBox(height: 10),
+              //     ListView.builder(
+              //       itemCount: fetchedDropdownItems.length,
+              //       shrinkWrap: true,
+              //       physics: const NeverScrollableScrollPhysics(),
+              //       itemBuilder: (context, index) {
+              //         var data = fetchedDropdownItems[index];
+              //         return GestureDetector(
+              //           onTap: () {
+              //             fetchDataBasedOnId(data.id);
+              //             isItemDetailsVisible = !isItemDetailsVisible;
+              //             categoryName.value = data.title.toString();
+              //             id.value = data.id.toString();
+              //             setState(() {
+              //               tappedIndex = index;
+              //             });
+              //           },
+              //           child: Container(
+              //             margin: const EdgeInsets.only(bottom: 5),
+              //             padding: const EdgeInsets.all(10),
+              //             height: 50,
+              //             decoration: BoxDecoration(
+              //                 color: Colors.grey.shade200,
+              //                 borderRadius: BorderRadius.circular(10),
+              //                 border: Border.all(color: tappedIndex == index ? AppTheme.buttonColor : Colors.grey.shade400, width: 2)),
+              //             child: Text(data.title),
+              //           ),
+              //         );
+              //       },
+              //     ),
+              //   ],
+              // ),
 
            
 
@@ -439,7 +449,7 @@ class _ProductInformationScreensState extends State<ProductInformationScreens> {
                           ],
                         ))
                         .toList(),
-                  ) : SizedBox();
+                  ) : const SizedBox();
               }),
               const SizedBox(
                 height: 20,

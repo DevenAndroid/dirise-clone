@@ -58,6 +58,8 @@ class CartController extends GetxController {
   String shippingTitle = '';
   String shippingPrices = '';
   String shippingPrices1 = '';
+  String shippingPrices2 = '';
+  String shippingPrices3 = '';
   final TextEditingController billingFirstName = TextEditingController();
   final TextEditingController billingLastName = TextEditingController();
   final TextEditingController billingEmail = TextEditingController();
@@ -65,7 +67,9 @@ class CartController extends GetxController {
   RxInt countDown = 30.obs;
   Timer? _timer;
   String formattedTotal = '';
+  String formattedTotal3 = '';
   String formattedTotal2 = '';
+  String formattedTotal4 = '';
   String shippingDates = '';
   double formattedTotal1 = 0.0;
   List<String> shippingList = [];
