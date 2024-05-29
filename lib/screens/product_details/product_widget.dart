@@ -346,12 +346,17 @@ class _ProductUIState extends State<ProductUI> {
                                   color: Color(0xFF19313B),
                                 ),
                               ),
-                              Text(
-                                '${widget.productElement.discountPrice.toString().split('.')[1]}',
-                                style: TextStyle(
-                                  fontSize: 8,
-                                  fontWeight: FontWeight.w600,
-                                  color: Color(0xFF19313B),
+                              InkWell(
+                                onTap: (){
+                                  print( "date:::::::::::"+ widget.productElement.shippingDate);
+                                },
+                                child: Text(
+                                  '${widget.productElement.discountPrice.toString().split('.')[1]}',
+                                  style: TextStyle(
+                                    fontSize: 8,
+                                    fontWeight: FontWeight.w600,
+                                    color: Color(0xFF19313B),
+                                  ),
                                 ),
                               ),
                             ],
@@ -433,7 +438,7 @@ SizedBox(height: 8,),
                         ],
                       ),
                     ),
-                    if (canBuyProduct)
+                    // if (canBuyProduct)
                     Expanded(
                       child: Column(
                         children: [

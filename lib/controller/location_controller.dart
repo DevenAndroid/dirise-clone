@@ -100,6 +100,7 @@ class LocationController extends GetxController {
           ));
     }
   }
+
   final cartController = Get.put(CartController());
   final Repositories repositories = Repositories();
   Rx<AddCurrentAddressModel> addCurrentAddress = AddCurrentAddressModel().obs;
@@ -173,6 +174,7 @@ class LocationController extends GetxController {
         state = placemark.administrativeArea ?? '';
         countryName = placemark.country ?? '';
         zipcode.value = placemark.postalCode ?? '';
+      cartController.zipCode = placemark.postalCode ?? '';
         town = placemark.subAdministrativeArea ?? '';
     print('object ${street.toString()}');
       // });
