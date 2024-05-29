@@ -60,7 +60,7 @@ class _LocationwherecustomerwilljoinState extends State<Locationwherecustomerwil
       ModelCommonResponse response = ModelCommonResponse.fromJson(jsonDecode(value));
       showToast(response.message.toString());
       if (response.status == true) {
-        Get.to(const ServiceInternationalShippingService());
+        Get.to(ServiceInternationalShippingService());
       }
     });
   }
@@ -161,86 +161,87 @@ class _LocationwherecustomerwilljoinState extends State<Locationwherecustomerwil
                   ),
                 ),
               ),
-              Padding(
-                padding: const EdgeInsets.symmetric(horizontal: 12),
-                child: TextButton(
-                  onPressed: () {
-                    Get.toNamed(PickUpAddressService.route);
-                  },
-                  child: Text(
-                    'Choose my default shipping address',
-                    style: GoogleFonts.poppins(
-                      color: AppTheme.primaryColor,
-                      fontSize: 15,
-                    ),
-                  ),
-                ),
-              ),
-              addressListModel.address?.shipping != null
-                  ? ListView.builder(
-                physics: const NeverScrollableScrollPhysics(),
-                itemCount: addressListModel.address!.shipping!.length,
-                shrinkWrap: true,
-                itemBuilder: (context, index) {
-                  var addressList = addressListModel.address!.shipping![index];
-                  city = addressList.city.toString();
-                  state = addressList.state.toString();
-                  zip_code = addressList.zipCode.toString();
-                  country = addressList.country.toString();
-                  street = addressList.address.toString();
-                  town = addressList.town.toString();
-
-                  return Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                    children: [
-                      Column(
-                        children: [
-                          Container(
-                            decoration: BoxDecoration(
-                                borderRadius: const BorderRadius.all(Radius.circular(15)),
-                                border: Border.all(color: const Color(0xffE4E2E2))),
-                            child: Column(
-                              crossAxisAlignment: CrossAxisAlignment.start,
-                              children: [
-                                Container(
-                                  padding: const EdgeInsets.all(15),
-                                  child: Column(
-                                    crossAxisAlignment: CrossAxisAlignment.start,
-                                    children: [
-                                      Text('City - $city'),
-                                      Text('State - $state'),
-                                      Text('Country - $country'),
-                                      Text('Zip code - $zip_code'),
-                                      Text('Street - $street'),
-                                      Text('Town - $town'),
-                                      const SizedBox(
-                                        height: 8,
-                                      ),
-                                    ],
-                                  ),
-                                )
-                              ],
-                            ),
-                          ),
-                          const SizedBox(
-                            height: 15,
-                          ),
-                        ],
-                      ),
-                      Radio<String>(
-                        value: 'address_$index',
-                        groupValue: selectedRadio,
-                        onChanged: (value) {
-                          setState(() {
-                            selectedRadio = value!;
-                          });
-                        },
-                      ),
-                    ],
-                  );
-                },
-              )
-                  : const Center(child: SizedBox()),
+              SizedBox(height: 20,),
+              // Padding(
+              //   padding: const EdgeInsets.symmetric(horizontal: 12),
+              //   child: TextButton(
+              //     onPressed: () {
+              //       Get.toNamed(PickUpAddressService.route);
+              //     },
+              //     child: Text(
+              //       'Choose my default shipping address',
+              //       style: GoogleFonts.poppins(
+              //         color: AppTheme.primaryColor,
+              //         fontSize: 15,
+              //       ),
+              //     ),
+              //   ),
+              // ),
+              // addressListModel.address?.shipping != null
+              //     ? ListView.builder(
+              //   physics: const NeverScrollableScrollPhysics(),
+              //   itemCount: addressListModel.address!.shipping!.length,
+              //   shrinkWrap: true,
+              //   itemBuilder: (context, index) {
+              //     var addressList = addressListModel.address!.shipping![index];
+              //     city = addressList.city.toString();
+              //     state = addressList.state.toString();
+              //     zip_code = addressList.zipCode.toString();
+              //     country = addressList.country.toString();
+              //     street = addressList.address.toString();
+              //     town = addressList.town.toString();
+              //
+              //     return Row(
+              //       mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              //       children: [
+              //         Column(
+              //           children: [
+              //             Container(
+              //               decoration: BoxDecoration(
+              //                   borderRadius: const BorderRadius.all(Radius.circular(15)),
+              //                   border: Border.all(color: const Color(0xffE4E2E2))),
+              //               child: Column(
+              //                 crossAxisAlignment: CrossAxisAlignment.start,
+              //                 children: [
+              //                   Container(
+              //                     padding: const EdgeInsets.all(15),
+              //                     child: Column(
+              //                       crossAxisAlignment: CrossAxisAlignment.start,
+              //                       children: [
+              //                         Text('City - $city'),
+              //                         Text('State - $state'),
+              //                         Text('Country - $country'),
+              //                         Text('Zip code - $zip_code'),
+              //                         Text('Street - $street'),
+              //                         Text('Town - $town'),
+              //                         const SizedBox(
+              //                           height: 8,
+              //                         ),
+              //                       ],
+              //                     ),
+              //                   )
+              //                 ],
+              //               ),
+              //             ),
+              //             const SizedBox(
+              //               height: 15,
+              //             ),
+              //           ],
+              //         ),
+              //         Radio<String>(
+              //           value: 'address_$index',
+              //           groupValue: selectedRadio,
+              //           onChanged: (value) {
+              //             setState(() {
+              //               selectedRadio = value!;
+              //             });
+              //           },
+              //         ),
+              //       ],
+              //     );
+              //   },
+              // )
+              //     : const Center(child: SizedBox()),
               InkWell(
                 onTap: () {
                   setState(() {
@@ -310,7 +311,7 @@ class _LocationwherecustomerwilljoinState extends State<Locationwherecustomerwil
                     }
                     editAddressApi(addressData);
                   } else if (selectedRadio == 'online') {
-                    Get.to(const ServiceInternationalShippingService());
+                    Get.to(ServiceInternationalShippingService());
                   } else {
                     showToast('Please select Address Type');
                   }

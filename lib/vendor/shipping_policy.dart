@@ -135,7 +135,7 @@ class _ShippingPolicyScreenState extends State<ShippingPolicyScreen> {
       showToast(response.message.toString());
       if (response.status == true) {
         log('ghfkhjsdgsd${selectZone}');
-        Get.to(const ServiceInternationalShippingService());
+        Get.to(ServiceInternationalShippingService());
       }
     });
   }

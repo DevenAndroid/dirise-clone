@@ -8,6 +8,7 @@ import 'package:dirise/singleproductScreen/singlePInternationalshippingdetails.d
 import 'package:dirise/singleproductScreen/singleProductDiscriptionScreen.dart';
 import 'package:dirise/singleproductScreen/singleProductPriceScreen.dart';
 import 'package:dirise/singleproductScreen/singleproductDeliverySize.dart';
+import 'package:dirise/tellaboutself/ExtraInformation.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
@@ -189,7 +190,7 @@ class _ReviewandPublishScreenState extends State<ReviewandPublishScreen> {
                                     onTap: (){
                                       Get.to(ProductInformationScreens(
                                         id: productDetailsModel.value.productDetails!.product!.id,
-                                        name: productDetailsModel.value.productDetails!.product!.pname,
+                                        // name: productDetailsModel.value.productDetails!.product!.pname,
 
                                       ));
                                     },
@@ -270,8 +271,7 @@ class _ReviewandPublishScreenState extends State<ReviewandPublishScreen> {
                                         price: productDetailsModel.value.productDetails!.product!.pPrice,
                                         fixDiscount: productDetailsModel.value.productDetails!.product!.fixedDiscountPrice,
                                         percentage: productDetailsModel.value.productDetails!.product!.discountPrice,
-                                        name: '',
-                                        fetaureImage: File(''),
+
 
 
                                       ));
@@ -859,7 +859,8 @@ class _ReviewandPublishScreenState extends State<ReviewandPublishScreen> {
                         title: 'Confirm',
                         borderRadius: 11,
                         onPressed: () {
-                          Get.to(RewardScreen());
+                          Get.to(ExtraInformation());
+                          // Get.to(RewardScreen());
                         },
                       ),
                     ],

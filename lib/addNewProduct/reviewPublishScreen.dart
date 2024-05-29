@@ -206,7 +206,8 @@ class _ReviewPublishScreenState extends State<ReviewPublishScreen> {
                                         },
                                         child: const Text('Edit',style: TextStyle(color: Colors.red,fontSize: 13),)))
                               ],
-                            )),
+                            )
+                        ),
                         const SizedBox(height: 20),
                         GestureDetector(
                           onTap: () {
@@ -457,7 +458,8 @@ class _ReviewPublishScreenState extends State<ReviewPublishScreen> {
                                         child: const Text('Edit',style: TextStyle(color: Colors.red,fontSize: 13),)))
 
                               ],
-                            )),
+                            )
+                        ),
                         const SizedBox(height: 20),
                         CustomOutlineButton(
                           title: 'Confirm',
