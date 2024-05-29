@@ -1,6 +1,7 @@
 import 'dart:convert';
 import 'dart:io';
 
+import 'package:dirise/controller/profile_controller.dart';
 import 'package:dirise/singleproductScreen/singleProductDiscriptionScreen.dart';
 import 'package:dirise/virtualProduct/singleProductDiscriptionScreen.dart';
 import 'package:flutter/cupertino.dart';
@@ -20,9 +21,14 @@ import '../widgets/common_colour.dart';
 import '../widgets/common_textfield.dart';
 
 class VirtualPriceScreen extends StatefulWidget {
-  File? fetaureImage;
-  String? name;
-  VirtualPriceScreen({super.key,this.fetaureImage,this.name});
+
+  int? price;
+  int? fixedPrice;
+  int? percentage;
+  int? id;
+
+
+  VirtualPriceScreen({super.key,this.percentage,this.price,this.fixedPrice,this.id});
 
   @override
   State<VirtualPriceScreen> createState() => _VirtualPriceScreenState();
@@ -33,6 +39,7 @@ class _VirtualPriceScreenState extends State<VirtualPriceScreen> {
   TextEditingController discountPrecrnt = TextEditingController();
   TextEditingController fixedDiscount = TextEditingController();
   final addProductController = Get.put(AddProductController());
+  final profileController = Get.put(ProfileController());
 
   RxBool isShow = false.obs;
   String realPrice = "";
@@ -85,6 +92,19 @@ class _VirtualPriceScreenState extends State<VirtualPriceScreen> {
         Get.to(const VirtualDiscriptionScreen());
       }
     });
+  }
+
+
+
+  @override
+  void initState() {
+    // TODO: implement initState
+    super.initState();
+    if(widget.id != null){
+      priceController.text = widget.price.toString();
+      discountPrecrnt.text = widget.percentage.toString() ?? "";
+          fixedDiscount.text = widget.fixedPrice.toString() ?? "";
+    }
   }
   final formKey1 = GlobalKey<FormState>();
   @override
@@ -356,7 +376,7 @@ class _VirtualPriceScreenState extends State<VirtualPriceScreen> {
                                 height: 150,
                                 width: 130,
                                 decoration: BoxDecoration(borderRadius: BorderRadius.circular(11), color: Colors.white),
-                                child: Image.file(widget.fetaureImage!),
+                                child: Image.file(profileController.productImage!),
                               ),
                               // const Positioned(
                               //     right: 20,
@@ -367,11 +387,11 @@ class _VirtualPriceScreenState extends State<VirtualPriceScreen> {
                               //     ))
                             ],
                           ),
-                          Text(
-                            widget.name.toString().tr,
-                            style: GoogleFonts.inter(
-                                color: const Color(0xff014E70), fontWeight: FontWeight.w600, fontSize: 12),
-                          ),
+                          // Text(
+                          //   widget.name.toString().tr,
+                          //   style: GoogleFonts.inter(
+                          //       color: const Color(0xff014E70), fontWeight: FontWeight.w600, fontSize: 12),
+                          // ),
                         ],
                       )
                     ],

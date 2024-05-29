@@ -21,8 +21,8 @@ import '../widgets/common_button.dart';
 
 class MyItemISScreen extends StatefulWidget {
   static String route = "/TellUsAboutYourSelf";
-  File? featureImage;
-  MyItemISScreen({Key? key,this.featureImage}) : super(key: key);
+
+  MyItemISScreen({Key? key}) : super(key: key);
 
   @override
   State<MyItemISScreen> createState() => _MyItemISScreenState();
@@ -50,12 +50,12 @@ class _MyItemISScreenState extends State<MyItemISScreen> {
       } else if (selectedRadio == 'Product') {
         productController.getProductsCategoryList();
         Future.delayed(const Duration(seconds: 1), () {
-          Get.to(ProductInformationScreens(fetaureImage: widget.featureImage));
+          Get.to(ProductInformationScreens());
         });
       } else if (selectedRadio == 'Job') {
         Get.to(const JobTellusaboutyourselfScreen());
       } else if (selectedRadio == 'Service') {
-        Get.to(whatServiceDoYouProvide(fetaureImage: widget.featureImage,));
+        Get.to(whatServiceDoYouProvide());
       } else if (selectedRadio == 'Virtual') {
         Get.to(VirtualProductInformationScreens());
       } else {
@@ -137,8 +137,8 @@ class _MyItemISScreenState extends State<MyItemISScreen> {
                   if(selectedRadio.isNotEmpty){
                     navigateNext();
                   }
-                 else{
-                   showToast('Please select any item type');
+                  else{
+                    showToast('Please select any item type');
                   }
                 },
                 child: Container(

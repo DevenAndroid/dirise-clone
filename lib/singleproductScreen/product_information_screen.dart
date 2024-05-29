@@ -30,9 +30,8 @@ import 'ReviewandPublishScreen.dart';
 
 class ProductInformationScreens extends StatefulWidget {
   int? id;
-  String? name;
-  File? fetaureImage;
-   ProductInformationScreens({super.key,this.fetaureImage,this.id,this.name});
+
+  ProductInformationScreens({super.key,this.id,});
 
   @override
   State<ProductInformationScreens> createState() => _ProductInformationScreensState();
@@ -67,7 +66,7 @@ class _ProductInformationScreensState extends State<ProductInformationScreens> {
         if(widget.id != null){
           Get.to(const ReviewandPublishScreen());
         }else{
-          Get.to(SingleProductPriceScreen(fetaureImage: widget.fetaureImage,name: ProductNameController.text,));
+          Get.to(SingleProductPriceScreen());
 
         }
       }
@@ -146,9 +145,9 @@ class _ProductInformationScreensState extends State<ProductInformationScreens> {
     productController.getProductsCategoryList();
     fetchDataBasedOnId(productController.modelCategoryList!.data![0].vendorCategory);
     fetchSubCategoryBasedOnId(ProductID);
-    if(widget.id != null){
-      ProductNameController.text = widget.name.toString();
-    }
+    // if(widget.id != null){
+    //   ProductNameController.text = widget.name.toString();
+    // }
   }
 
   String idChild = '';
@@ -301,7 +300,7 @@ class _ProductInformationScreensState extends State<ProductInformationScreens> {
               //   ],
               // ),
 
-           
+
 
               // Visibility(
               //   visible: isItemDetailsVisible,
@@ -463,15 +462,15 @@ class _ProductInformationScreensState extends State<ProductInformationScreens> {
                       .isEmpty) {
                     showToast("Please enter product name");
                   }
-                  else if (categoryName.value == "") {
-                    showToast("Please Select Vendor Category");
-                  }
-                  else if (categoryName.value == "") {
-                    showToast("Please Select Vendor Category");
-                  }
-                  else if (categoryName.value == "") {
-                    showToast("Please Select Vendor Category");
-                  }
+                  // else if (categoryName.value == "") {
+                  //   showToast("Please Select Vendor Category");
+                  // }
+                  // else if (categoryName.value == "") {
+                  //   showToast("Please Select Vendor Category");
+                  // }
+                  // else if (categoryName.value == "") {
+                  //   showToast("Please Select Vendor Category");
+                  // }
                   else {
                     deliverySizeApi();
                   }

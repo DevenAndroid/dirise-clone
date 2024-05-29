@@ -476,21 +476,19 @@ class _ServicesReturnPolicyState extends State<ServicesReturnPolicy> {
                 CustomOutlineButton(
                   title: 'Next',
                   borderRadius: 11,
-                  onPressed: isButtonEnabled || noReturnSelected == true
-                      ? () {
-                          if (noReturnSelected == false) {
-                            if (formKey1.currentState!.validate()) {
-                              if (radioButtonValue != '') {
-                                returnPolicyApi();
-                              } else {
-                                showToastCenter('Select Return shipping fees');
-                              }
-                            }
-                          } else {
-                            Get.to(const Locationwherecustomerwilljoin());
-                          }
+                  onPressed: (){
+                    if (noReturnSelected == false) {
+                      if (formKey1.currentState!.validate()) {
+                        if (radioButtonValue != '') {
+                          returnPolicyApi();
+                        } else {
+                          showToastCenter('Select Return shipping fees');
                         }
-                      : null, // Disable button if no radio button is selected
+                      }
+                    } else {
+                      Get.to(const Locationwherecustomerwilljoin());
+                    }
+                  } // Disable button if no radio button is selected
                 ),
               ],
             ),

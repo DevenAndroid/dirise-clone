@@ -94,7 +94,7 @@ class _VirtualReturnPolicyState extends State<VirtualReturnPolicy> {
       ModelCommonResponse response = ModelCommonResponse.fromJson(jsonDecode(value));
       showToast(response.message.toString());
       if (response.status == true) {
-        Get.to(() => const VirtualOptionalDiscrptionsScreen());
+        Get.to(() => VirtualOptionalDiscrptionsScreen());
         showToast(response.message.toString());
       }
     });

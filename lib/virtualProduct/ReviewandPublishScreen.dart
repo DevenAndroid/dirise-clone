@@ -2,6 +2,9 @@ import 'dart:convert';
 
 import 'package:dirise/addNewProduct/rewardScreen.dart';
 import 'package:dirise/controller/vendor_controllers/add_product_controller.dart';
+import 'package:dirise/tellaboutself/ExtraInformation.dart';
+import 'package:dirise/virtualProduct/product_information_screen.dart';
+import 'package:dirise/virtualProduct/singleProductPriceScreen.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
@@ -15,6 +18,8 @@ import '../repository/repository.dart';
 import '../utils/api_constant.dart';
 import '../widgets/common_button.dart';
 import '../widgets/common_colour.dart';
+import 'optionalClassificationScreen.dart';
+import 'optionalDiscrptionsScreen.dart';
 
 class VirtualReviewandPublishScreen extends StatefulWidget {
   const VirtualReviewandPublishScreen({super.key});
@@ -30,12 +35,8 @@ class _VirtualReviewandPublishScreenState extends State<VirtualReviewandPublishS
   RxBool isServiceProvide = false.obs;
   RxBool isTellUs = false.obs;
   RxBool isReturnPolicy = false.obs;
-  RxBool isLocationPolicy = false.obs;
-  RxBool isInternationalPolicy = false.obs;
   RxBool optionalDescription = false.obs;
   RxBool optionalClassification = false.obs;
-  RxBool isDeliverySize = false.obs;
-  RxBool isShippingPolicy = false.obs;
 
   final Repositories repositories = Repositories();
   RxInt returnPolicyLoaded = 0.obs;
@@ -165,16 +166,40 @@ class _VirtualReviewandPublishScreenState extends State<VirtualReviewandPublishS
                       ),
 
                       if (isServiceProvide.value == true)
-                        Column(
-                          mainAxisAlignment: MainAxisAlignment.start,
-                          crossAxisAlignment: CrossAxisAlignment.start,
+                        Stack(
                           children: [
-                            Text(
-                                'Short Description: ${productDetailsModel.value.productDetails!.product!.shortDescription ?? ""}'),
-                            Text('Stock quantity: ${productDetailsModel.value.productDetails!.product!.inStock ?? ""}'),
-                            Text(
-                                'Set stock alert: ${productDetailsModel.value.productDetails!.product!.stockAlert ?? ""}'),
-                            Text('SEO Tags: ${productDetailsModel.value.productDetails!.product!.seoTags ?? ""}'),
+                            Container(
+                              margin: EdgeInsets.only(top: 10),
+                              width: Get.width,
+                              padding: EdgeInsets.all(10),
+                              decoration:
+                                  BoxDecoration(color: Colors.grey.shade200, borderRadius: BorderRadius.circular(11)),
+                              child: Column(
+                                mainAxisAlignment: MainAxisAlignment.start,
+                                crossAxisAlignment: CrossAxisAlignment.start,
+                                children: [
+                                  Text(
+                                      'product name: ${productDetailsModel.value.productDetails!.product!.pname ?? ""}'),
+                                  Text(
+                                      'product Type: ${productDetailsModel.value.productDetails!.product!.productType ?? ''}'),
+                                  Text('product ID: ${productDetailsModel.value.productDetails!.product!.id ?? ""}'),
+                                ],
+                              ),
+                            ),
+                            Positioned(
+                                right: 10,
+                                top: 20,
+                                child: GestureDetector(
+                                    onTap: () {
+                                      Get.to(VirtualProductInformationScreens(
+                                        id: productDetailsModel.value.productDetails!.product!.id,
+                                        // name: productDetailsModel.value.productDetails!.product!.pname,
+                                      ));
+                                    },
+                                    child: const Text(
+                                      'Edit',
+                                      style: TextStyle(color: Colors.red, fontSize: 13),
+                                    )))
                           ],
                         ),
 
@@ -219,305 +244,110 @@ class _VirtualReviewandPublishScreenState extends State<VirtualReviewandPublishS
                       ),
                       const SizedBox(height: 20),
                       if (isTellUs.value == true)
-                        Column(
-                          mainAxisAlignment: MainAxisAlignment.start,
-                          crossAxisAlignment: CrossAxisAlignment.start,
+                        Stack(
                           children: [
-                            Text('Price: ${productDetailsModel.value.productDetails!.product!.pPrice ?? ""} KWD'),
-                            Text(
-                                'Fixed Discounted Price : ${productDetailsModel.value.productDetails!.product!.fixedDiscountPrice ?? ""} KWD'),
-                            Text(
-                                'Discount Percentage: ${productDetailsModel.value.productDetails!.product!.discountPrice ?? ''}'),
-                          ],
-                        ),
-
-                      GestureDetector(
-                        onTap: () {
-                          setState(() {
-                            isDeliverySize.toggle();
-                          });
-                        },
-                        child: Container(
-                          padding: const EdgeInsets.symmetric(vertical: 12, horizontal: 12),
-                          decoration: BoxDecoration(
-                              color: Colors.white,
-                              borderRadius: BorderRadius.circular(8),
-                              border: Border.all(color: AppTheme.secondaryColor)),
-                          child: Row(
-                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                            children: [
-                              Text(
-                                'Delivery Size',
-                                style: GoogleFonts.poppins(
-                                  color: AppTheme.primaryColor,
-                                  fontSize: 15,
-                                ),
+                            Container(
+                              margin: EdgeInsets.only(top: 10),
+                              width: Get.width,
+                              padding: EdgeInsets.all(10),
+                              decoration:
+                                  BoxDecoration(color: Colors.grey.shade200, borderRadius: BorderRadius.circular(11)),
+                              child: Column(
+                                mainAxisAlignment: MainAxisAlignment.start,
+                                crossAxisAlignment: CrossAxisAlignment.start,
+                                children: [
+                                  Text('Price: ${productDetailsModel.value.productDetails!.product!.pPrice ?? ""} KWD'),
+                                  Text(
+                                      'Fixed Discounted Price : ${productDetailsModel.value.productDetails!.product!.fixedDiscountPrice ?? ""} KWD'),
+                                  Text(
+                                      'Discount Percentage: ${productDetailsModel.value.productDetails!.product!.discountPrice ?? ''}'),
+                                ],
                               ),
-                              GestureDetector(
-                                child: isDeliverySize.value == true
-                                    ? const Icon(Icons.keyboard_arrow_up_rounded)
-                                    : const Icon(Icons.keyboard_arrow_down_outlined),
-                                onTap: () {
-                                  setState(() {
-                                    isDeliverySize.toggle();
-                                  });
-                                },
-                              ),
-                            ],
-                          ),
-                        ),
-                      ),
-                      const SizedBox(height: 20),
-                      if (isDeliverySize.value == true)
-                        Column(
-                          mainAxisAlignment: MainAxisAlignment.start,
-                          crossAxisAlignment: CrossAxisAlignment.start,
-                          children: [
-                            Text(
-                                'Who will pay the shipping: ${productDetailsModel.value.productDetails!.product!.shippingPay}'),
-                            SizedBox(
-                              height: 5,
                             ),
-                            Text(
-                                'Choose Delivery According To Package Size : ${productDetailsModel.value.productDetails!.product!.deliverySize}'),
+                            Positioned(
+                                right: 10,
+                                top: 20,
+                                child: GestureDetector(
+                                    onTap: () {
+                                      Get.to(VirtualPriceScreen(
+                                        id: productDetailsModel.value.productDetails!.product!.id,
+                                        price: productDetailsModel.value.productDetails!.product!.pPrice,
+                                        percentage: productDetailsModel.value.productDetails!.product!.discountPercent,
+                                        fixedPrice:
+                                            productDetailsModel.value.productDetails!.product!.fixedDiscountPrice,
+                                      ));
+                                    },
+                                    child: const Text(
+                                      'Edit',
+                                      style: TextStyle(color: Colors.red, fontSize: 13),
+                                    )))
                           ],
                         ),
 
                       // return policy
 
-                      GestureDetector(
-                        onTap: () {
-                          setState(() {
-                            isReturnPolicy.toggle();
-                          });
-                        },
-                        child: Container(
-                          padding: const EdgeInsets.symmetric(vertical: 12, horizontal: 12),
-                          decoration: BoxDecoration(
-                              color: Colors.white,
-                              borderRadius: BorderRadius.circular(8),
-                              border: Border.all(color: AppTheme.secondaryColor)),
-                          child: Row(
-                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                            children: [
-                              Text(
-                                'return policy',
-                                style: GoogleFonts.poppins(
-                                  color: AppTheme.primaryColor,
-                                  fontSize: 15,
-                                ),
-                              ),
-                              GestureDetector(
-                                child: isReturnPolicy.value == true
-                                    ? const Icon(Icons.keyboard_arrow_up_rounded)
-                                    : const Icon(Icons.keyboard_arrow_down_outlined),
-                                onTap: () {
-                                  setState(() {
-                                    isReturnPolicy.toggle();
-                                  });
-                                },
-                              ),
-                            ],
-                          ),
-                        ),
-                      ),
-                      const SizedBox(height: 20),
-                      if (isReturnPolicy.value == true)
-                        modelReturnPolicy != null
-                            ? ListView.builder(
-                                shrinkWrap: true,
-                                physics: AlwaysScrollableScrollPhysics(),
-                                itemCount: modelReturnPolicy!.returnPolicy!.length,
-                                itemBuilder: (context, index) {
-                                  var returnPolicy = modelReturnPolicy!.returnPolicy![index];
-                                  return Container(
-                                    padding: EdgeInsets.all(10),
-                                    decoration: BoxDecoration(border: Border.all(color: Colors.grey)),
-                                    child: Column(
-                                      mainAxisAlignment: MainAxisAlignment.start,
-                                      crossAxisAlignment: CrossAxisAlignment.start,
-                                      children: [
-                                        Text('Policy Name: ${returnPolicy.title ?? ""}'),
-                                        Text('Return Policy Description : ${returnPolicy.policyDiscreption ?? ""}'),
-                                        Text('Return Within: ${returnPolicy.days ?? ""}'),
-                                        Text('Return Shipping Fees: ${returnPolicy.returnShippingFees ?? ""}'),
-                                      ],
-                                    ),
-                                  );
-                                })
-                            : const CircularProgressIndicator(),
+                      // GestureDetector(
+                      //   onTap: () {
+                      //     setState(() {
+                      //       isReturnPolicy.toggle();
+                      //     });
+                      //   },
+                      //   child: Container(
+                      //     padding: const EdgeInsets.symmetric(vertical: 12, horizontal: 12),
+                      //     decoration: BoxDecoration(
+                      //         color: Colors.white,
+                      //         borderRadius: BorderRadius.circular(8),
+                      //         border: Border.all(color: AppTheme.secondaryColor)),
+                      //     child: Row(
+                      //       mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      //       children: [
+                      //         Text(
+                      //           'return policy',
+                      //           style: GoogleFonts.poppins(
+                      //             color: AppTheme.primaryColor,
+                      //             fontSize: 15,
+                      //           ),
+                      //         ),
+                      //         GestureDetector(
+                      //           child: isReturnPolicy.value == true
+                      //               ? const Icon(Icons.keyboard_arrow_up_rounded)
+                      //               : const Icon(Icons.keyboard_arrow_down_outlined),
+                      //           onTap: () {
+                      //             setState(() {
+                      //               isReturnPolicy.toggle();
+                      //             });
+                      //           },
+                      //         ),
+                      //       ],
+                      //     ),
+                      //   ),
+                      // ),
+                      // const SizedBox(height: 20),
+                      // if (isReturnPolicy.value == true)
+                      //   modelReturnPolicy != null
+                      //       ? ListView.builder(
+                      //           shrinkWrap: true,
+                      //           physics: const AlwaysScrollableScrollPhysics(),
+                      //           itemCount: modelReturnPolicy!.returnPolicy!.length,
+                      //           itemBuilder: (context, index) {
+                      //             var returnPolicy = modelReturnPolicy!.returnPolicy![index];
+                      //             return Container(
+                      //               padding: const EdgeInsets.all(10),
+                      //               decoration: BoxDecoration(border: Border.all(color: Colors.grey)),
+                      //               child: Column(
+                      //                 mainAxisAlignment: MainAxisAlignment.start,
+                      //                 crossAxisAlignment: CrossAxisAlignment.start,
+                      //                 children: [
+                      //                   Text('Policy Name: ${returnPolicy.title ?? ""}'),
+                      //                   Text('Return Policy Description : ${returnPolicy.policyDiscreption ?? ""}'),
+                      //                   Text('Return Within: ${returnPolicy.days ?? ""}'),
+                      //                   Text('Return Shipping Fees: ${returnPolicy.returnShippingFees ?? ""}'),
+                      //                 ],
+                      //               ),
+                      //             );
+                      //           })
+                      //       : const CircularProgressIndicator(),
 
-                      GestureDetector(
-                        onTap: () {
-                          setState(() {
-                            isLocationPolicy.toggle();
-                          });
-                        },
-                        child: Container(
-                          padding: const EdgeInsets.symmetric(vertical: 12, horizontal: 12),
-                          decoration: BoxDecoration(
-                              color: Colors.white,
-                              borderRadius: BorderRadius.circular(8),
-                              border: Border.all(color: AppTheme.secondaryColor)),
-                          child: Row(
-                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                            children: [
-                              Text(
-                                'Location where customer will join ',
-                                style: GoogleFonts.poppins(
-                                  color: AppTheme.primaryColor,
-                                  fontSize: 15,
-                                ),
-                              ),
-                              GestureDetector(
-                                child: isReturnPolicy.value == true
-                                    ? const Icon(Icons.keyboard_arrow_up_rounded)
-                                    : const Icon(Icons.keyboard_arrow_down_outlined),
-                                onTap: () {
-                                  setState(() {
-                                    isReturnPolicy.toggle();
-                                  });
-                                },
-                              ),
-                            ],
-                          ),
-                        ),
-                      ),
-                      if (isLocationPolicy.value == true)
-                        Column(
-                          mainAxisAlignment: MainAxisAlignment.start,
-                          crossAxisAlignment: CrossAxisAlignment.start,
-                          children: [
-                            Text('Town: ${productDetailsModel.value.productDetails!.address!.town ?? ""}'),
-                            Text('city: ${productDetailsModel.value.productDetails!.address!.city ?? ""}'),
-                            Text('state: ${productDetailsModel.value.productDetails!.address!.state ?? ""}'),
-                            Text('address: ${productDetailsModel.value.productDetails!.address!.address ?? ""}'),
-                            Text('zip code: ${productDetailsModel.value.productDetails!.address!.zipCode ?? ""}'),
-                          ],
-                        ),
-
-                      const SizedBox(height: 20),
-
-                      GestureDetector(
-                        onTap: () {
-                          setState(() {
-                            isShippingPolicy.toggle();
-                          });
-                        },
-                        child: Container(
-                          padding: const EdgeInsets.symmetric(vertical: 12, horizontal: 12),
-                          decoration: BoxDecoration(
-                              color: Colors.white,
-                              borderRadius: BorderRadius.circular(8),
-                              border: Border.all(color: AppTheme.secondaryColor)),
-                          child: Row(
-                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                            children: [
-                              Text(
-                                'Location where customer will join ',
-                                style: GoogleFonts.poppins(
-                                  color: AppTheme.primaryColor,
-                                  fontSize: 15,
-                                ),
-                              ),
-                              GestureDetector(
-                                child: isShippingPolicy.value == true
-                                    ? const Icon(Icons.keyboard_arrow_up_rounded)
-                                    : const Icon(Icons.keyboard_arrow_down_outlined),
-                                onTap: () {
-                                  setState(() {
-                                    isShippingPolicy.toggle();
-                                  });
-                                },
-                              ),
-                            ],
-                          ),
-                        ),
-                      ),
-                      if (isShippingPolicy.value == true)
-
-                        modelShippingPolicy != null
-                            ? ListView.builder(
-                            shrinkWrap: true,
-                            physics: AlwaysScrollableScrollPhysics(),
-                            itemCount: modelShippingPolicy!.shippingPolicy!.length,
-                            itemBuilder: (context, index) {
-                              var shippingPolicy = modelShippingPolicy!.shippingPolicy![index];
-                              return Container(
-                                padding: EdgeInsets.all(10),
-                                decoration: BoxDecoration(border: Border.all(color: Colors.grey)),
-                                child: Column(
-                                  mainAxisAlignment: MainAxisAlignment.start,
-                                  crossAxisAlignment: CrossAxisAlignment.start,
-                                  children: [
-                                    Text('Policy Name: ${shippingPolicy.title ?? ""}'),
-                                    Text('Return Policy Description : ${shippingPolicy.description ?? ""}'),
-                                    Text('Return Within: ${shippingPolicy.days ?? ""}'),
-                                    Text('Return Shipping Fees: ${shippingPolicy.shippingType ?? ""}'),
-                                  ],
-                                ),
-                              );
-                            })
-                            : const CircularProgressIndicator(),
-                      const SizedBox(height: 20),
-
-                      GestureDetector(
-                        onTap: () {
-                          setState(() {
-                            isInternationalPolicy.toggle();
-                          });
-                        },
-                        child: Container(
-                          padding: const EdgeInsets.symmetric(vertical: 12, horizontal: 12),
-                          decoration: BoxDecoration(
-                              color: Colors.white,
-                              borderRadius: BorderRadius.circular(8),
-                              border: Border.all(color: AppTheme.secondaryColor)),
-                          child: Row(
-                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                            children: [
-                              Text(
-                                'International Shipping Details',
-                                style: GoogleFonts.poppins(
-                                  color: AppTheme.primaryColor,
-                                  fontSize: 15,
-                                ),
-                              ),
-                              GestureDetector(
-                                child: isInternationalPolicy.value == true
-                                    ? const Icon(Icons.keyboard_arrow_up_rounded)
-                                    : const Icon(Icons.keyboard_arrow_down_outlined),
-                                onTap: () {
-                                  setState(() {
-                                    isInternationalPolicy.toggle();
-                                  });
-                                },
-                              ),
-                            ],
-                          ),
-                        ),
-                      ),
-                      const SizedBox(height: 20),
-                      if (isInternationalPolicy.value == true)
-                        Column(
-                          mainAxisAlignment: MainAxisAlignment.start,
-                          crossAxisAlignment: CrossAxisAlignment.start,
-                          children: [
-                            Text(
-                                'Unit of measure: ${productDetailsModel.value.productDetails!.productDimentions!.units ?? ""}'),
-                            Text(
-                                'Weight Of the Item: ${productDetailsModel.value.productDetails!.productDimentions!.weight ?? ""}'),
-                            Text(
-                                'Select Number Of Packages: ${productDetailsModel.value.productDetails!.productDimentions!.numberOfPackage ?? ""}'),
-                            Text(
-                                'Select Type Material: ${productDetailsModel.value.productDetails!.productDimentions!.material ?? ""}'),
-                            Text(
-                                'Select Type Of Packaging: ${productDetailsModel.value.productDetails!.productDimentions!.typeOfPackages ?? ""}'),
-                            Text('Length X Width X Height: ${productDetailsModel.value.productDetails!.productDimentions!.boxLength ?? ""}X' +
-                                "${productDetailsModel.value.productDetails!.productDimentions!.boxWidth ?? ""}X"
-                                    "${productDetailsModel.value.productDetails!.productDimentions!.boxHeight ?? ""}"),
-                          ],
-                        ),
                       GestureDetector(
                         onTap: () {
                           setState(() {
@@ -555,18 +385,47 @@ class _VirtualReviewandPublishScreenState extends State<VirtualReviewandPublishS
                         ),
                       ),
                       if (optionalDescription.value == true)
-                        Column(
-                          mainAxisAlignment: MainAxisAlignment.start,
-                          crossAxisAlignment: CrossAxisAlignment.start,
+                        Stack(
                           children: [
-                            Text('Meta Title: ${productDetailsModel.value.productDetails!.product!.metaTitle ?? ""}'),
-                            Text(
-                                'Meta Description: ${productDetailsModel.value.productDetails!.product!.metaDescription ?? ""}'),
-                            Text('Meta Tags: ${productDetailsModel.value.productDetails!.product!.metaTags ?? ""}'),
-                            Text('Select Tax : ${productDetailsModel.value.productDetails!.product!.taxType ?? ""}'),
+                            Container(
+                              margin: EdgeInsets.only(top: 10),
+                              width: Get.width,
+                              padding: EdgeInsets.all(10),
+                              decoration:
+                                  BoxDecoration(color: Colors.grey.shade200, borderRadius: BorderRadius.circular(11)),
+                              child: Column(
+                                mainAxisAlignment: MainAxisAlignment.start,
+                                crossAxisAlignment: CrossAxisAlignment.start,
+                                children: [
+                                  Text(
+                                      'Meta Tags: ${productDetailsModel.value.productDetails!.product!.metaTags ?? ""}'),
+                                  Text(
+                                      'Meta Title: ${productDetailsModel.value.productDetails!.product!.metaTitle ?? ""}'),
+                                  Text(
+                                      'Meta Description: ${productDetailsModel.value.productDetails!.product!.metaDescription ?? ""}'),
+                                ],
+                              ),
+                            ),
+                            Positioned(
+                                right: 10,
+                                top: 20,
+                                child: GestureDetector(
+                                    onTap: () {
+                                      Get.to(VirtualOptionalDiscrptionsScreen(
+                                        id: productDetailsModel.value.productDetails!.product!.id,
+                                        metaTitle: productDetailsModel.value.productDetails!.product!.metaTitle,
+                                        metaDescription:
+                                            productDetailsModel.value.productDetails!.product!.metaDescription,
+                                        metaTags: productDetailsModel.value.productDetails!.product!.metaTags,
+                                      ));
+                                    },
+                                    child: const Text(
+                                      'Edit',
+                                      style: TextStyle(color: Colors.red, fontSize: 13),
+                                    )))
                           ],
                         ),
-                      SizedBox(
+                      const SizedBox(
                         height: 20,
                       ),
                       GestureDetector(
@@ -606,20 +465,49 @@ class _VirtualReviewandPublishScreenState extends State<VirtualReviewandPublishS
                         ),
                       ),
                       if (optionalClassification.value == true)
-                        Column(
-                          mainAxisAlignment: MainAxisAlignment.start,
-                          crossAxisAlignment: CrossAxisAlignment.start,
+                        Stack(
                           children: [
-                            Text(
-                                'Product Code: ${productDetailsModel.value.productDetails!.product!.productCode ?? ""}'),
-                            Text(
-                                'Promotion Code: ${productDetailsModel.value.productDetails!.product!.promotionCode ?? ""}'),
-                            Text(
-                                'Package details: ${productDetailsModel.value.productDetails!.product!.packageDetail ?? ""}'),
-                            Text(
-                                'Serial Number: ${productDetailsModel.value.productDetails!.product!.serialNumber ?? ""}'),
-                            Text(
-                                'Product number: ${productDetailsModel.value.productDetails!.product!.productNumber ?? ""}'),
+                            Container(
+                              margin: EdgeInsets.only(top: 10),
+                              width: Get.width,
+                              padding: EdgeInsets.all(10),
+                              decoration:
+                                  BoxDecoration(color: Colors.grey.shade200, borderRadius: BorderRadius.circular(11)),
+                              child: Column(
+                                mainAxisAlignment: MainAxisAlignment.start,
+                                crossAxisAlignment: CrossAxisAlignment.start,
+                                children: [
+                                  Text(
+                                      'Serial Number: ${productDetailsModel.value.productDetails!.product!.serialNumber ?? ""}'),
+                                  Text(
+                                      'Product Number: ${productDetailsModel.value.productDetails!.product!.productNumber ?? ""}'),
+                                  Text(
+                                      'Product Code: ${productDetailsModel.value.productDetails!.product!.productCode ?? ""}'),
+                                  Text(
+                                      'Promotion Code: ${productDetailsModel.value.productDetails!.product!.promotionCode ?? ""}'),
+                                  Text(
+                                      'Package details: ${productDetailsModel.value.productDetails!.product!.packageDetail ?? ""}'),
+                                ],
+                              ),
+                            ),
+                            Positioned(
+                                right: 10,
+                                top: 20,
+                                child: GestureDetector(
+                                    onTap: () {
+                                      Get.to(VirtualOptionalClassificationScreen(
+                                        id: productDetailsModel.value.productDetails!.product!.id,
+                                        packageDetail: productDetailsModel.value.productDetails!.product!.packageDetail,
+                                        productCode: productDetailsModel.value.productDetails!.product!.productCode,
+                                        productNumber: productDetailsModel.value.productDetails!.product!.productNumber,
+                                        promotionCode: productDetailsModel.value.productDetails!.product!.promotionCode,
+                                        serialNumber: productDetailsModel.value.productDetails!.product!.serialNumber,
+                                      ));
+                                    },
+                                    child: const Text(
+                                      'Edit',
+                                      style: TextStyle(color: Colors.red, fontSize: 13),
+                                    )))
                           ],
                         ),
                       const SizedBox(
@@ -630,12 +518,12 @@ class _VirtualReviewandPublishScreenState extends State<VirtualReviewandPublishS
                         title: 'Confirm',
                         borderRadius: 11,
                         onPressed: () {
-                          Get.to(RewardScreen());
+                          Get.to(const ExtraInformation());
                         },
                       ),
                     ],
                   )
-                : Center(
+                : const Center(
                     child: CircularProgressIndicator(
                     color: Colors.grey,
                   ));

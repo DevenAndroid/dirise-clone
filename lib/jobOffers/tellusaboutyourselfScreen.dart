@@ -32,9 +32,9 @@ class _JobTellusaboutyourselfScreenState extends State<JobTellusaboutyourselfScr
   final addProductController = Get.put(AddProductController());
   void navigateNext() {
     if (selectedRadio == 'job_seeking') {
-      Get.to(const JobDetailsScreen());
+      Get.to( JobDetailsScreen());
     } else if (selectedRadio == 'job_hiring') {
-      Get.to(const  HiringJobDetailsScreen());
+      Get.to(  HiringJobDetailsScreen());
     }
   }
   jobTypeApi(String jobType) {

@@ -91,38 +91,6 @@ class _OptionalScreenState extends State<OptionalScreen> {
         Get.to(()=>ReviewPublishScreen());
       }
 
-      // if (response.status == true) {
-      //   // productName = response.productDetails!.product!.pname.toString();
-      //   // productID = response.productDetails!.product!.id.toString();
-      //   // productPrice = response.productDetails!.product!.pPrice.toString();
-      //   // productType = response.productDetails!.product!.productType.toString();
-      //   // shortDes = response.productDetails!.product!.shortDescription.toString();
-      //   //
-      //   // // town =     response.productDetails!.address!.town.toString();
-      //   // // city =     response.productDetails!.address!.city.toString();
-      //   // state =    response.productDetails!.address!.state.toString();
-      //   // address =  response.productDetails!.address!.address.toString();
-      //   // zip_code = response.productDetails!.address!.zipCode.toString();
-      //   //
-      //   // Unitofmeasure = response.productDetails!.internaionalShipping!.units.toString();
-      //   // WeightOftheItem = response.productDetails!.internaionalShipping!.weight.toString();
-      //   // SelectNumberOfPackages = response.productDetails!.internaionalShipping!.numberOfPackage.toString();
-      //   // SelectTypeMaterial = response.productDetails!.internaionalShipping!.material.toString();
-      //   // LengthWidthHeight = response.productDetails!.internaionalShipping!.boxDimension.toString();
-      //   // SelectTypeOfPackaging = response.productDetails!.internaionalShipping!.typeOfPackages.toString();
-      //   //
-      //   // LongDescription =response.productDetails!.product!.longDescription.toString();
-      //   // MetaTitle = response.productDetails!.product!.metaTitle.toString();
-      //   // MetaDescription = response.productDetails!.product!.metaDescription.toString();
-      //   // SerialNumber = response.productDetails!.product!.serialNumber.toString();
-      //   // Productnumber = response.productDetails!.product!.productNumber.toString();
-      //   //
-      //   // deliverySize = response.productDetails!.product!.deliverySize.toString();
-      //   // log('ddddddd' + response.productDetails!.product!.vendorId.toString());
-      //   // if (formKey1.currentState!.validate()) {
-      //   //
-      //   // }
-      // }
     });
   }
 
