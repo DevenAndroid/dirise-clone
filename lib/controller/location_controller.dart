@@ -174,9 +174,10 @@ class LocationController extends GetxController {
         state = placemark.administrativeArea ?? '';
         countryName = placemark.country ?? '';
         zipcode.value = placemark.postalCode ?? '';
-      cartController.zipCode = placemark.postalCode ?? '';
+cartController.zipCode1 = placemark.postalCode ?? '';
         town = placemark.subAdministrativeArea ?? '';
     print('object ${street.toString()}');
+    print('object ${cartController.zipCode1}');
       // });
     }
     await placemarkFromCoordinates(_currentPosition!.latitude, _currentPosition!.longitude)
