@@ -29,6 +29,8 @@ class CartController extends GetxController {
   String stateCode = '';
   String cityCode = '';
   RxString countryName = ''.obs;
+  RxString address = ''.obs;
+  RxString city = ''.obs;
   // int isKuwait = 0;
   RxString stateName = ''.obs;
   RxString cityName = ''.obs;
@@ -504,7 +506,7 @@ class CartController extends GetxController {
   String countryId = '';
   String zipCode = '';
   String zipCode1 = '';
-
+  TextEditingController addressController = TextEditingController();
   Future getCart() async {
     // if (cartModel.cart != null) {
     //   for (var element in cartModel.cart!) {
@@ -516,6 +518,8 @@ class CartController extends GetxController {
     // map["country_id"]= profileController.model.user!= null && countryId.isEmpty ? profileController.model.user!.country_id : countryId.toString();
     map["country_id"]= countryId.toString();
     map["zip_code"]= zipCode.toString();
+    map["city"]= city.value.toString();
+    map["address"]= address.value.toString();
     map["identifier_key"]= "checkout";
 
     log("mappppppp::::::$map");
