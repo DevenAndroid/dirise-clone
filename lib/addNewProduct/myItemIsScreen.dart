@@ -70,7 +70,7 @@ class _MyItemISScreenState extends State<MyItemISScreen> {
         Get.to(const JobTellusaboutyourselfScreen());
       }
       else {
-        showToast('Please Register As A Vendor');
+        showToast('Kindly, register as a vendor, its very simple and opening your store have never been easier');
       }
     }
   }

@@ -104,7 +104,10 @@ class _MyAccountScreenState extends State<MyAccountScreen> {
 
   RxString language = "".obs;
   final RxBool _isValue = false.obs;
+
   var vendor = ['Dashboard', 'Order', 'Pending Products', 'Approved Products','Operating Hours', 'Bank Details', 'Earnings'];
+  var vendor1 = ['Login as vendor', 'Pending Products', 'Approved Products',];
+
   var vendorRoutes = [
     VendorDashBoardScreen.route,
     VendorOrderList.route,
@@ -113,6 +116,12 @@ class _MyAccountScreenState extends State<MyAccountScreen> {
     SetTimeScreen.route,
     BankDetailsScreen.route,
     WithdrawMoney.route,
+  ];
+  var vendorRoutes1 = [
+    LoginScreen.route,
+    VendorProductScreen.route,
+    ApproveProductScreen.route,
+
   ];
   defaultAddressApi() async {
     Map<String, dynamic> map = {};
@@ -458,14 +467,12 @@ class _MyAccountScreenState extends State<MyAccountScreen> {
                               ),
                             )
                           : const SizedBox.shrink(),
-                      profileController.userLoggedIn
-                          ? const Divider(
+                        profileController.userLoggedIn ? const Divider(
                               thickness: 1,
                               color: Color(0x1A000000),
                             )
                           : const SizedBox.shrink(),
-                      profileController.userLoggedIn
-                          ? const SizedBox(
+                      profileController.userLoggedIn ? const SizedBox(
                               height: 5,
                             )
                           : const SizedBox.shrink(),
@@ -2159,11 +2166,58 @@ class _MyAccountScreenState extends State<MyAccountScreen> {
                                       ),
                                     ],
                                   ))
-                          : [],
+                          : List.generate(
+                          vendor1.length,
+                              (index) => Row(
+                            children: [
+                              const SizedBox(
+                                width: 30,
+                              ),
+                              Expanded(
+                                child: TextButton(
+                                  onPressed: () {
+                                    if (vendor1[index] == 'Login as vendor') {
+                                      Get.toNamed( LoginScreen.route);
+                                    }
+                                    else if(vendor1[index] == 'Pending Products'){
+                                      Get.to(const VendorProductScreen());
+                                    }
+                                    else if(vendor1[index] == 'Approved Products'){
+                                      Get.to(const ApproveProductScreen());
+                                    }
+                                    else {
+                                      showToast('Your payment is not successfull'.tr);
+                                    }
+                                  },
+                                  style: TextButton.styleFrom(
+                                      visualDensity: const VisualDensity(vertical: -3, horizontal: -3),
+
+                                 padding: EdgeInsets.zero.copyWith(left: 16)),
+                                  child: Row(
+                                    children: [
+                                      Expanded(
+                                        child: Text(
+                                          vendor1[index],
+                                          style: GoogleFonts.poppins(
+                                              fontSize: 16,
+                                              fontWeight: FontWeight.w400,
+                                              color: Colors.grey.shade500),
+                                        ),
+                                      ),
+                                      const Icon(
+                                        Icons.arrow_forward_ios_rounded,
+                                        size: 14,
+                                      )
+                                    ],
+                                  ),
+                                ),
+                              ),
+                            ],
+                          )),
                     )
                   : const SizedBox();
             })
-          : const SizedBox(),
+          : SizedBox.shrink()
 
 
     ];
