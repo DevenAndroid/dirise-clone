@@ -120,7 +120,8 @@ class Items {
   dynamic inOffer;
   dynamic forAuction;
   dynamic returnPolicyDesc;
-
+  dynamic discountOff;
+  dynamic discountPrice;
   Items(
       {this.id,
         this.vendorId,
@@ -188,6 +189,8 @@ class Items {
         this.isPublish,
         this.inOffer,
         this.forAuction,
+        this.discountOff,
+        this.discountPrice,
         this.returnPolicyDesc});
 
   Items.fromJson(Map<String, dynamic> json) {
@@ -258,6 +261,8 @@ class Items {
     inOffer = json['in_offer'];
     forAuction = json['for_auction'];
     returnPolicyDesc = json['return_policy_desc'];
+    discountOff = json['discount_off'];
+    discountPrice = json['discount_price'];
   }
 
   Map<String, dynamic> toJson() {
@@ -329,6 +334,8 @@ class Items {
     data['in_offer'] = inOffer;
     data['for_auction'] = forAuction;
     data['return_policy_desc'] = returnPolicyDesc;
+    data['discount_off'] = discountOff;
+    data['discount_price'] = discountPrice;
     return data;
   }
 }
