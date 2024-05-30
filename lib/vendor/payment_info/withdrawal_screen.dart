@@ -43,9 +43,7 @@ class _WithdrawMoneyState extends State<WithdrawMoney> {
   //   });
   // }
   getEarnings() {
-    repositories.getApi(url: ApiUrls.vendorEarning).then((value) {
-
-
+    repositories.getApi(url: ApiUrls.vendorEarningNew).then((value) {
       vendorEarningsModel.value = VendorEarningsModel.fromJson(jsonDecode(value));
       setState(() {
 

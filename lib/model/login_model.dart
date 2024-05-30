@@ -59,7 +59,7 @@ class User {
   dynamic updatedAt;
   dynamic deletedAt;
   dynamic loginMethod;
-
+  dynamic alreadyRegistered;
   User(
       {this.id,
       this.name,
@@ -93,7 +93,8 @@ class User {
       this.createdAt,
       this.updatedAt,
       this.deletedAt,
-      this.loginMethod});
+      this.loginMethod,
+      this.alreadyRegistered});
 
   User.fromJson(Map<String, dynamic> json) {
     id = json['id'];
@@ -129,6 +130,7 @@ class User {
     updatedAt = json['updated_at'];
     deletedAt = json['deleted_at'];
     loginMethod = json['login_method'];
+    alreadyRegistered = json['already_registered'];
   }
 
   Map<String, dynamic> toJson() {
@@ -166,6 +168,7 @@ class User {
     data['updated_at'] = updatedAt;
     data['deleted_at'] = deletedAt;
     data['login_method'] = loginMethod;
+    data['already_registered'] = alreadyRegistered;
     return data;
   }
 }

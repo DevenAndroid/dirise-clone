@@ -33,6 +33,7 @@ import '../../vendor/products/all_product_screen.dart';
 import '../../widgets/cart_widget.dart';
 import '../auth_screens/login_screen.dart';
 import '../search_products.dart';
+import '../wishlist/whishlist_screen.dart';
 import 'ad_banner.dart';
 import 'add-edit-address.dart';
 import 'addedit_withlogin.dart';
@@ -236,20 +237,21 @@ class _HomePageState extends State<HomePage> {
 
       GestureDetector(
         onTap: () {
-          if (profileController.model.user == null) {
-            showVendorDialog();
-            return;
-          }
-          if (profileController.model.user!.isVendor != true) {
-            Get.to(() => const VendorPlansScreen());
-            return;
-          }
-          if (profileController.model.user!.isVendor == true) {
-            Get.to(() => const VendorDashBoardScreen());
-            return;
-          }
-          _isValue.value = !_isValue.value;
-          setState(() {});
+          // if (profileController.model.user == null) {
+          //   showVendorDialog();
+          //   return;
+          // }
+          // if (profileController.model.user!.isVendor != true) {
+          //   Get.to(() => const VendorPlansScreen());
+          //   return;
+          // }
+          // if (profileController.model.user!.isVendor == true) {
+          //   Get.to(() => const VendorDashBoardScreen());
+          //   return;
+          // }
+          // _isValue.value = !_isValue.value;
+          // setState(() {});
+          Get.to(()=> const WishListScreen());
         },
         child:SvgPicture.asset("assets/svgs/heart.svg"),
       ),
