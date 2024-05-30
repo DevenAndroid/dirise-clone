@@ -224,7 +224,7 @@ class _OptionalClassificationScreenState extends State<OptionalClassificationScr
                 const SizedBox(height: 20),
                 GestureDetector(
                   onTap: () {
-                    Get.to(const ProductReviewPublicScreen());
+                    Get.to( ProductReviewPublicScreen());
                   },
                   child: Container(
                     width: Get.width,

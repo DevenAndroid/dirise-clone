@@ -405,11 +405,12 @@ shipmentProvider: shipmentProvider.value.toString(),
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
               Text("Total".tr, style: GoogleFonts.poppins(fontWeight: FontWeight.w500, fontSize: 18)),
-              total == 0.0
-                  ? Text("KWD ${cartController.cartModel.subtotal.toString()}",
+              //total == 0.0
+                  //?
+        Text("KWD ${cartController.cartModel.subtotal.toString()}",
                       style: GoogleFonts.poppins(fontWeight: FontWeight.w500, fontSize: 18))
-                  : Text("KWD ${cartController.formattedTotal.toString()}",
-                      style: GoogleFonts.poppins(fontWeight: FontWeight.w500, fontSize: 18)),
+                  // : Text("KWD ${cartController.formattedTotal.toString()}",
+                  //     style: GoogleFonts.poppins(fontWeight: FontWeight.w500, fontSize: 18)),
             ],
           ),
         ],
@@ -560,7 +561,7 @@ shipmentProvider: shipmentProvider.value.toString(),
                                               height: 6,
                                             ),
                                             Text(
-                                              'KWD ${product.sPrice}',
+                                              'KWD ${product.discountPrice}',
                                               style: GoogleFonts.poppins(fontSize: 15, fontWeight: FontWeight.w400),
                                             ),
                                             const SizedBox(
