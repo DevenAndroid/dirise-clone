@@ -21,9 +21,9 @@ import '../widgets/common_textfield.dart';
 import 'ReviewandPublishScreen.dart';
 
 class SingleProductPriceScreen extends StatefulWidget {
-  double? price;
-  int? fixDiscount;
-  double? percentage;
+  dynamic price;
+  dynamic fixDiscount;
+  dynamic percentage;
   int? id;
 
   SingleProductPriceScreen(

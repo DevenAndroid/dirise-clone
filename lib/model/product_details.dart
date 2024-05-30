@@ -8,9 +8,7 @@ class ModelProductDetails {
   ModelProductDetails.fromJson(Map<String, dynamic> json) {
     status = json['status'];
     message = json['message'];
-    productDetails = json['product_details'] != null
-        ? new ProductDetails.fromJson(json['product_details'])
-        : null;
+    productDetails = json['product_details'] != null ? new ProductDetails.fromJson(json['product_details']) : null;
   }
 
   Map<String, dynamic> toJson() {
@@ -28,17 +26,16 @@ class ProductDetails {
   Product? product;
   Address? address;
   ProductDimentions? productDimentions;
+  dynamic diriseFess;
 
-  ProductDetails({this.product, this.address, this.productDimentions});
+  ProductDetails({this.product, this.address, this.productDimentions,this.diriseFess});
 
   ProductDetails.fromJson(Map<String, dynamic> json) {
-    product =
-    json['product'] != null ? Product.fromJson(json['product']) : null;
-    address =
-    json['address'] != null ? Address.fromJson(json['address']) : null;
-    productDimentions = json['product_dimentions'] != null
-        ? ProductDimentions.fromJson(json['product_dimentions'])
-        : null;
+    product = json['product'] != null ? Product.fromJson(json['product']) : null;
+    address = json['address'] != null ? Address.fromJson(json['address']) : null;
+    productDimentions =
+        json['product_dimentions'] != null ? ProductDimentions.fromJson(json['product_dimentions']) : null;
+    diriseFess = json['dirise_fess'];
   }
 
   Map<String, dynamic> toJson() {
@@ -52,6 +49,7 @@ class ProductDetails {
     if (this.productDimentions != null) {
       data['product_dimentions'] = this.productDimentions!.toJson();
     }
+    data['dirise_fess'] = this.diriseFess;
     return data;
   }
 }
@@ -173,126 +171,124 @@ class Product {
   List<ProductWeeklyAvailability>? productWeeklyAvailability;
   List<ProductVacation>? productVacation;
 
-
   Product(
       {this.id,
-        this.spot,
-        this.meeting_platform,
-        this.serviceTimeSloat,
-        this.startLocation,
-        this.endLocation,
-        this.timingExtraNotes,
-        this.eligible_min_age,
-        this.eligible_max_age,
-        this.eligible_gender,
-        this.host_name,
-        this.program_name,
-        this.program_desc,
-        this.program_goal,
-        this.bookable_product_location,
-        this.jobCountry,
-        this.jobState,
-        this.jobCity,
-        this.vendorId,
-        this.addressId,
-        this.catId,
-        this.catId2,
-        this.jobCat,
-        this.jobParentCat,
-        this.brandSlug,
-        this.slug,
-        this.pname,
-        this.prodectImage,
-        this.prodectName,
-        this.prodectSku,
-        this.views,
-        this.code,
-        this.bookingProductType,
-        this.prodectPrice,
-        this.prodectMinQty,
-        this.prodectMixQty,
-        this.prodectDescription,
-        this.image,
-        this.arabPname,
-        this.productType,
-        this.itemType,
-        this.virtualProductType,
-        this.skuId,
-        this.pPrice,
-        this.sPrice,
-        this.commission,
-        this.newP,
-        this.bestSaller,
-        this.featured,
-        this.taxApply,
-        this.taxType,
-        this.shortDescription,
-        this.arabShortDescription,
-        this.longDescription,
-        this.arabLongDescription,
-        this.featuredImage,
-        this.galleryImage,
-        this.virtualProductFile,
-        this.virtualProductFileType,
-        this.virtualProductFileLanguage,
-        this.featureImageApp,
-        this.featureImageWeb,
-        this.inStock,
-        this.weight,
-        this.weightUnit,
-        this.time,
-        this.timePeriod,
-        this.stockAlert,
-        this.shippingType,
-        this.shippingCharge,
-        this.avgRating,
-        this.metaTitle,
-        this.metaKeyword,
-        this.metaDescription,
-        this.metaTags,
-        this.seoTags,
-        this.parentId,
-        this.serviceStartTime,
-        this.serviceEndTime,
-        this.serviceDuration,
-        this.deliverySize,
-        this.serialNumber,
-        this.productNumber,
-        this.productCode,
-        this.promotionCode,
-        this.packageDetail,
-        this.jobseekingOrOffering,
-        this.jobType,
-        this.jobModel,
-        this.describeJobRole,
-        this.linkdinUrl,
-        this.experience,
-        this.salary,
-        this.aboutYourself,
-        this.jobHours,
-        this.uploadCv,
-        this.isOnsale,
-        this.discountPercent,
-        this.fixedDiscountPrice,
-        this.shippingPay,
-        this.createdAt,
-        this.updatedAt,
-        this.topHunderd,
-        this.limitedTimeDeal,
-        this.returnDays,
-        this.keyword,
-        this.isPublish,
-        this.inOffer,
-        this.forAuction,
-        this.returnPolicyDesc,
-        this.shippingPolicyDesc,
-        this.discountPrice});
+      this.spot,
+      this.meeting_platform,
+      this.serviceTimeSloat,
+      this.startLocation,
+      this.endLocation,
+      this.timingExtraNotes,
+      this.eligible_min_age,
+      this.eligible_max_age,
+      this.eligible_gender,
+      this.host_name,
+      this.program_name,
+      this.program_desc,
+      this.program_goal,
+      this.bookable_product_location,
+      this.jobCountry,
+      this.jobState,
+      this.jobCity,
+      this.vendorId,
+      this.addressId,
+      this.catId,
+      this.catId2,
+      this.jobCat,
+      this.jobParentCat,
+      this.brandSlug,
+      this.slug,
+      this.pname,
+      this.prodectImage,
+      this.prodectName,
+      this.prodectSku,
+      this.views,
+      this.code,
+      this.bookingProductType,
+      this.prodectPrice,
+      this.prodectMinQty,
+      this.prodectMixQty,
+      this.prodectDescription,
+      this.image,
+      this.arabPname,
+      this.productType,
+      this.itemType,
+      this.virtualProductType,
+      this.skuId,
+      this.pPrice,
+      this.sPrice,
+      this.commission,
+      this.newP,
+      this.bestSaller,
+      this.featured,
+      this.taxApply,
+      this.taxType,
+      this.shortDescription,
+      this.arabShortDescription,
+      this.longDescription,
+      this.arabLongDescription,
+      this.featuredImage,
+      this.galleryImage,
+      this.virtualProductFile,
+      this.virtualProductFileType,
+      this.virtualProductFileLanguage,
+      this.featureImageApp,
+      this.featureImageWeb,
+      this.inStock,
+      this.weight,
+      this.weightUnit,
+      this.time,
+      this.timePeriod,
+      this.stockAlert,
+      this.shippingType,
+      this.shippingCharge,
+      this.avgRating,
+      this.metaTitle,
+      this.metaKeyword,
+      this.metaDescription,
+      this.metaTags,
+      this.seoTags,
+      this.parentId,
+      this.serviceStartTime,
+      this.serviceEndTime,
+      this.serviceDuration,
+      this.deliverySize,
+      this.serialNumber,
+      this.productNumber,
+      this.productCode,
+      this.promotionCode,
+      this.packageDetail,
+      this.jobseekingOrOffering,
+      this.jobType,
+      this.jobModel,
+      this.describeJobRole,
+      this.linkdinUrl,
+      this.experience,
+      this.salary,
+      this.aboutYourself,
+      this.jobHours,
+      this.uploadCv,
+      this.isOnsale,
+      this.discountPercent,
+      this.fixedDiscountPrice,
+      this.shippingPay,
+      this.createdAt,
+      this.updatedAt,
+      this.topHunderd,
+      this.limitedTimeDeal,
+      this.returnDays,
+      this.keyword,
+      this.isPublish,
+      this.inOffer,
+      this.forAuction,
+      this.returnPolicyDesc,
+      this.shippingPolicyDesc,
+      this.discountPrice});
 
   Product.fromJson(Map<String, dynamic> json) {
     id = json['id'];
-    serviceTimeSloat = json['serviceTimeSloat'] != null
-        ? new ServiceTimeSloat.fromJson(json['serviceTimeSloat'])
-        : null;
+    serviceTimeSloat =
+        json['serviceTimeSloat'] != null ? new ServiceTimeSloat.fromJson(json['serviceTimeSloat']) : null;
     startLocation = json['start_location'];
     spot = json['spot'];
     meeting_platform = json['meeting_platform'];
@@ -401,18 +397,24 @@ class Product {
     inOffer = json['in_offer'];
     forAuction = json['for_auction'];
 
-    returnPolicyDesc = json['return_policy_desc'] != null ?  ReturnPolicyDesc.fromJson(json['return_policy_desc']) : null;
+    returnPolicyDesc =
+        json['return_policy_desc'] != null ? ReturnPolicyDesc.fromJson(json['return_policy_desc']) : null;
 
     shippingPolicyDesc = json['shipping_policy_desc'];
     discountPrice = json['discount_price'];
-    productAvailability = json['productAvailability'] != null ? new ProductAvailability.fromJson(json['productAvailability']) : null;
+    productAvailability =
+        json['productAvailability'] != null ? new ProductAvailability.fromJson(json['productAvailability']) : null;
     if (json['product_weekly_availability'] != null) {
       productWeeklyAvailability = <ProductWeeklyAvailability>[];
-      json['product_weekly_availability'].forEach((v) { productWeeklyAvailability!.add(new ProductWeeklyAvailability.fromJson(v)); });
+      json['product_weekly_availability'].forEach((v) {
+        productWeeklyAvailability!.add(new ProductWeeklyAvailability.fromJson(v));
+      });
     }
     if (json['product_vacation'] != null) {
       productVacation = <ProductVacation>[];
-      json['product_vacation'].forEach((v) { productVacation!.add(new ProductVacation.fromJson(v)); });
+      json['product_vacation'].forEach((v) {
+        productVacation!.add(new ProductVacation.fromJson(v));
+      });
     }
   }
 
@@ -532,7 +534,7 @@ class Address {
   dynamic alterPhoneCountryCode;
   dynamic addressType;
   dynamic type;
- dynamic isDefault;
+  dynamic isDefault;
   dynamic address;
   dynamic address2;
   dynamic city;
@@ -551,36 +553,36 @@ class Address {
 
   Address(
       {this.id,
-        this.userId,
-        this.isLogin,
-        this.giveawayId,
-        this.firstName,
-        this.lastName,
-        this.email,
-        this.companyName,
-        this.orderId,
-        this.phone,
-        this.phoneCountryCode,
-        this.alternatePhone,
-        this.alterPhoneCountryCode,
-        this.addressType,
-        this.type,
-        this.isDefault,
-        this.address,
-        this.address2,
-        this.city,
-        this.country,
-        this.state,
-        this.town,
-        this.countryId,
-        this.stateId,
-        this.cityId,
-        this.title,
-        this.zipCode,
-        this.instruction,
-        this.landmark,
-        this.createdAt,
-        this.updatedAt});
+      this.userId,
+      this.isLogin,
+      this.giveawayId,
+      this.firstName,
+      this.lastName,
+      this.email,
+      this.companyName,
+      this.orderId,
+      this.phone,
+      this.phoneCountryCode,
+      this.alternatePhone,
+      this.alterPhoneCountryCode,
+      this.addressType,
+      this.type,
+      this.isDefault,
+      this.address,
+      this.address2,
+      this.city,
+      this.country,
+      this.state,
+      this.town,
+      this.countryId,
+      this.stateId,
+      this.cityId,
+      this.title,
+      this.zipCode,
+      this.instruction,
+      this.landmark,
+      this.createdAt,
+      this.updatedAt});
 
   Address.fromJson(Map<String, dynamic> json) {
     id = json['id'];
@@ -673,21 +675,21 @@ class ProductDimentions {
 
   ProductDimentions(
       {this.id,
-        this.giveawayId,
-        this.productId,
-        this.weight,
-        this.weightUnit,
-        this.material,
-        this.typeOfPackages,
-        this.numberOfPackage,
-        this.description,
-        this.boxDimension,
-        this.boxHeight,
-        this.boxWidth,
-        this.boxLength,
-        this.units,
-        this.createdAt,
-        this.updatedAt});
+      this.giveawayId,
+      this.productId,
+      this.weight,
+      this.weightUnit,
+      this.material,
+      this.typeOfPackages,
+      this.numberOfPackage,
+      this.description,
+      this.boxDimension,
+      this.boxHeight,
+      this.boxWidth,
+      this.boxLength,
+      this.units,
+      this.createdAt,
+      this.updatedAt});
 
   ProductDimentions.fromJson(Map<String, dynamic> json) {
     id = json['id'];
@@ -730,18 +732,23 @@ class ProductDimentions {
   }
 }
 
-
-
 class ProductAvailability {
   dynamic qty;
   dynamic type;
   dynamic fromDate;
   dynamic toDate;
   dynamic interval;
-  dynamic  preparationBlockTime;
-  dynamic  recoveryBlockTime;
+  dynamic preparationBlockTime;
+  dynamic recoveryBlockTime;
 
-  ProductAvailability({this.qty, this.type, this.fromDate, this.toDate, this.interval, this.preparationBlockTime, this.recoveryBlockTime});
+  ProductAvailability(
+      {this.qty,
+      this.type,
+      this.fromDate,
+      this.toDate,
+      this.interval,
+      this.preparationBlockTime,
+      this.recoveryBlockTime});
 
   ProductAvailability.fromJson(Map<String, dynamic> json) {
     qty = json['qty'];
@@ -773,9 +780,10 @@ class ProductWeeklyAvailability {
   dynamic endTime;
   dynamic startBreakTime;
   dynamic endBreakTime;
-  dynamic  status;
+  dynamic status;
 
-  ProductWeeklyAvailability({this.id, this.weekDay, this.startTime, this.endTime, this.startBreakTime, this.endBreakTime, this.status});
+  ProductWeeklyAvailability(
+      {this.id, this.weekDay, this.startTime, this.endTime, this.startBreakTime, this.endBreakTime, this.status});
 
   ProductWeeklyAvailability.fromJson(Map<String, dynamic> json) {
     id = json['id'];
@@ -801,15 +809,22 @@ class ProductWeeklyAvailability {
 }
 
 class ProductVacation {
-  dynamic  id;
-  dynamic  productId;
-  dynamic  productAvailabilityId;
-  dynamic  vendorId;
+  dynamic id;
+  dynamic productId;
+  dynamic productAvailabilityId;
+  dynamic vendorId;
   dynamic vacationType;
   dynamic vacationFromDate;
   dynamic vacationToDate;
 
-  ProductVacation({this.id, this.productId, this.productAvailabilityId, this.vendorId, this.vacationType, this.vacationFromDate, this.vacationToDate});
+  ProductVacation(
+      {this.id,
+      this.productId,
+      this.productAvailabilityId,
+      this.vendorId,
+      this.vacationType,
+      this.vacationFromDate,
+      this.vacationToDate});
 
   ProductVacation.fromJson(Map<String, dynamic> json) {
     id = json['id'];
@@ -854,7 +869,7 @@ class ServiceTimeSloat {
 }
 
 class ReturnPolicyDesc {
-  dynamic  id;
+  dynamic id;
   dynamic userId;
   dynamic title;
   dynamic days;
@@ -866,14 +881,14 @@ class ReturnPolicyDesc {
 
   ReturnPolicyDesc(
       {this.id,
-        this.userId,
-        this.title,
-        this.days,
-        this.policyDiscreption,
-        this.returnShippingFees,
-        this.noReturn,
-        this.unit,
-        this.isDefault});
+      this.userId,
+      this.title,
+      this.days,
+      this.policyDiscreption,
+      this.returnShippingFees,
+      this.noReturn,
+      this.unit,
+      this.isDefault});
 
   ReturnPolicyDesc.fromJson(Map<String, dynamic> json) {
     id = json['id'];

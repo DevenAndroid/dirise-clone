@@ -179,8 +179,12 @@ class _ImageWidget1State extends State<ImageWidget1> {
     NewHelper().addFilePicker().then((value) {
       if (value == null) return;
 
-      // Check if the file is a CSV
-      if (value.path.endsWith('.csv')) {
+      // List of allowed file extensions
+      List<String> allowedExtensions = ['.csv', '.xlsx', '.xls'];
+
+      // Check if the file has an allowed extension
+      String fileExtension = value.path.split('.').last;
+      if (allowedExtensions.contains('.$fileExtension')) {
         int sizeInBytes = value.lengthSync();
         double sizeInMb = sizeInBytes / (1024 * 1024);
         if (sizeInMb > 10) {
@@ -191,10 +195,11 @@ class _ImageWidget1State extends State<ImageWidget1> {
         file = value;
         setState(() {});
       } else {
-        showToast("Please upload a CSV file.".tr);
+        showToast("Please upload a CSV, XLSX, or XLS file.".tr);
       }
     });
   }
+
 
   @override
   void initState() {
