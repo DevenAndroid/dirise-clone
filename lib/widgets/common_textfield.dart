@@ -76,6 +76,19 @@ class _CommonTextFieldState extends State<CommonTextField> {
           maxLines: widget.isMulti ? null : 1,
           onTap: widget.onTap,
           enabled: widget.enabled,
+
+          contentPadding: const EdgeInsets.all(15),
+          //   fillColor: Colors.transparent,
+          hintText: widget.hintText,
+          errorText: widget.errorText,
+          labelText: widget.labelText,
+          prefixIcon: widget.prefix,
+          suffixIcon: widget.suffixIcon,
+          hintStyle: GoogleFonts.poppins(
+            color: AppTheme.primaryColor,
+            fontSize: 15,
+          ),
+
           readOnly: widget.readOnly,
           keyboardType: widget.keyboardType,
           controller: widget.controller,
@@ -85,6 +98,7 @@ class _CommonTextFieldState extends State<CommonTextField> {
               fontSize: 25,
             ),
             counter: const Offstage(),
+
 
             errorMaxLines: 2,
             enabled: widget.enabled,

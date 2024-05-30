@@ -1,6 +1,9 @@
 import 'dart:convert';
 import 'package:dirise/language/app_strings.dart';
+import 'package:dirise/newAuthScreens/tellUsAboutYourself.dart';
 import 'package:dirise/widgets/common_colour.dart';
+import 'package:firebase_auth/firebase_auth.dart';
+import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/gestures.dart';
@@ -8,13 +11,16 @@ import 'package:flutter/material.dart';
 import 'package:form_field_validator/form_field_validator.dart';
 import 'package:get/get.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:google_sign_in/google_sign_in.dart';
 import 'package:intl_phone_field/countries.dart';
 import 'package:intl_phone_field/intl_phone_field.dart';
 import 'package:url_launcher/url_launcher.dart';
 import '../../widgets/common_button.dart';
 import '../../widgets/common_textfield.dart';
+import '../bottomavbar.dart';
 import '../controller/profile_controller.dart';
 import '../model/common_modal.dart';
+import '../model/login_model.dart';
 import '../repository/repository.dart';
 import '../screens/auth_screens/otp_screen.dart';
 import '../utils/api_constant.dart';
@@ -75,7 +81,7 @@ class _CreateAccountNewScreenState extends State<CreateAccountNewScreen> {
       throw 'Could not launch $url';
     }
   }
-
+  final GoogleSignIn _googleSignIn = GoogleSignIn();
   _termsCondition() async {
     var url = Uri.parse('https://diriseapp.com/en/terms-and-conditions/');
     if (await canLaunchUrl(url)) {
@@ -84,7 +90,37 @@ class _CreateAccountNewScreenState extends State<CreateAccountNewScreen> {
       throw 'Could not launch $url';
     }
   }
-
+  signInWithGoogle() async {
+    var fcmToken = await FirebaseMessaging.instance.getToken();
+    await GoogleSignIn().signOut();
+    final GoogleSignInAccount? googleUser = await _googleSignIn.signIn();
+    final GoogleSignInAuthentication googleAuth = await googleUser!.authentication;
+    final credential = GoogleAuthProvider.credential(
+      idToken: googleAuth.idToken,
+      accessToken: googleAuth.accessToken,
+    );
+    await FirebaseAuth.instance.signInWithCredential(credential).then((value) {
+      Map<String, dynamic> map = {};
+      map['provider'] = "google";
+      map['access_token'] = value.credential!.accessToken!;
+      repositories.postApi(url: ApiUrls.socialLoginUrl, context: context, mapData: map).then((value) async {
+        LoginModal response = LoginModal.fromJson(jsonDecode(value));
+        repositories.saveLoginDetails(jsonEncode(response));
+        if (response.status == true) {
+          showToast(response.message.toString());
+          profileController.userLoggedIn = true;
+          repositories.saveLoginDetails(jsonEncode(response));
+          if(response.user!.alreadyRegistered == true){
+              Get.offAllNamed(BottomNavbar.route);
+          }else{
+            Get.to(const TellUsAboutYourSelf());
+          }
+        } else {
+          showToast(response.message.toString());
+        }
+      });
+    });
+  }
   @override
   void dispose() {
     super.dispose();
@@ -142,7 +178,10 @@ class _CreateAccountNewScreenState extends State<CreateAccountNewScreen> {
                     if (value!.trim().isEmpty) {
                       return 'Please enter your first name';
                     }
-                    return null; // Return null if validation passes
+                    if (value.trim().length < 3) {
+                      return 'Please enter at least 3 latter\'s';
+                    }
+                    return null;
                   },
                 ),
                 SizedBox(
@@ -157,7 +196,10 @@ class _CreateAccountNewScreenState extends State<CreateAccountNewScreen> {
                     if (value!.trim().isEmpty) {
                       return 'Last Name is required';
                     }
-                    return null; // Return null if validation passes
+                    if (value.trim().length < 3) {
+                      return 'Please enter at least 3 latter\'s';
+                    }
+                    return null;
                   },
                 ),
                 SizedBox(
@@ -448,16 +490,21 @@ class _CreateAccountNewScreenState extends State<CreateAccountNewScreen> {
                     SizedBox(
                       width: size.width * .02,
                     ),
-                    Container(
-                      height: 62,
-                      width: 62,
-                      decoration: BoxDecoration(
-                          borderRadius: BorderRadius.circular(10),
-                          border: Border.all(color: const Color(0xffCACACA), width: 2)),
-                      child: Center(
-                        child: Image.asset(
-                          'assets/icons/google.png',
-                          height: 27,
+                    InkWell(
+                      onTap: () {
+                        signInWithGoogle();
+                      },
+                      child: Container(
+                        height: 62,
+                        width: 62,
+                        decoration: BoxDecoration(
+                            borderRadius: BorderRadius.circular(10),
+                            border: Border.all(color: const Color(0xffCACACA), width: 2)),
+                        child: Center(
+                          child: Image.asset(
+                            'assets/icons/google.png',
+                            height: 27,
+                          ),
                         ),
                       ),
                     ),

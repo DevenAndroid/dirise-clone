@@ -791,7 +791,7 @@ shipmentProvider: shipmentProvider.value.toString(),
                       // e.vendorCountryId != '117'  && e.isShipping == true) || cartController.countryName.value != 'Kuwait' && cartController.myDefaultAddressModel.value.defaultAddress!.country != 'Kuwait')
                       //   cartController.selectedAddress.id != null ||
                       //       cartController.myDefaultAddressModel.value.defaultAddress != null?
-                        if(e.value.localShipping != true)
+                        if(e.value.shipping!.fedexShipping!.output != null)
                         Container(
                           color: Colors.white,
                           child: Padding(
@@ -812,16 +812,16 @@ shipmentProvider: shipmentProvider.value.toString(),
                       // if (e.value.products!.any((e) =>
                       // e.vendorCountryId != '117'  && e.isShipping == true) || cartController.countryName.value != 'Kuwait' &&  cartController.myDefaultAddressModel.value.defaultAddress!.country != 'Kuwait'
                       // )
-                        if( e.value.localShipping != true && e.value.shipping!.fedexShipping!.output == null)
-                          Padding(
-                            padding: const EdgeInsets.all(8.0),
-                            child: Text('FedEx service is not currently available to this origin / destination combination. Enter new information or contact FedEx Customer Service.'.tr,style: const TextStyle(
-                              fontSize: 17
-                                                    ),),
-                          ),
+                      //   if( e.value.localShipping != true && e.value.shipping!.fedexShipping!.output == null)
+                      //     Padding(
+                      //       padding: const EdgeInsets.all(8.0),
+                      //       child: Text('FedEx service is not currently available to this origin / destination combination. Enter new information or contact FedEx Customer Service.'.tr,style: const TextStyle(
+                      //         fontSize: 17
+                      //                               ),),
+                      //     ),
                       //   cartController.selectedAddress.id != null || cartController.myDefaultAddressModel.value.defaultAddress != null ?
                       //   e.value.fedexShipping!.output !=null ?
-                      if(e.value.localShipping != true && e.value.shipping!.fedexShipping!.output != null)
+                      if(e.value.shipping!.fedexShipping!.output != null)
                         Container(
                           color: Colors.white,
                           child: ListView.builder(
@@ -953,7 +953,7 @@ shipmentProvider: shipmentProvider.value.toString(),
                       //   )  : const LoadingAnimation() : const SizedBox(),
                         ),
 
-                      if(e.value.shipping!.icarryShipping!=null)
+                      if(e.value.shipping!.icarryShipping!.isNotEmpty )
                         Container(
                           color: Colors.white,
                           child: Padding(
@@ -969,7 +969,7 @@ shipmentProvider: shipmentProvider.value.toString(),
                             ),
                           ),
                         ),
-                      if(e.value.shipping!.icarryShipping!=null)
+                      if(e.value.shipping!.icarryShipping!.isNotEmpty)
                         Container(
                           color: Colors.white,
                           child: ListView.builder(
