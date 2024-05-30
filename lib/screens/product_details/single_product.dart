@@ -340,7 +340,7 @@ class _SingleProductDetailsState extends State<SingleProductDetails> {
                                   crossAxisAlignment: CrossAxisAlignment.start,
                                   children: [
                                     Text(
-                                      "${productDetails.discountPercentage} ${'%'} Off",
+                                      "${productDetails.discountOff} ${'%'} Off",
                                       style: GoogleFonts.poppins(
                                           fontSize: 14, fontWeight: FontWeight.w500, color: const Color(0xffC22E2E)),
                                     ),
@@ -364,7 +364,7 @@ class _SingleProductDetailsState extends State<SingleProductDetails> {
                                     Row(
                                       children: [
                                         Text(
-                                          'KWD ${productDetails.sPrice.toString()}',
+                                          'KWD ${productDetails.discountPrice.toString()}',
                                           style: GoogleFonts.poppins(fontSize: 16, fontWeight: FontWeight.w500),
                                         ),
                                         const SizedBox(
