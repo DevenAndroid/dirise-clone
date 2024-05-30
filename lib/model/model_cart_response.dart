@@ -150,17 +150,17 @@ class Shipping {
   Shipping.fromJson(Map<String, dynamic> json) {
     if (json['icarry_shipping'] != null) {
       icarryShipping = <IcarryShipping>[];
-      json['icarry_shipping'].forEach((v) { icarryShipping!.add(new IcarryShipping.fromJson(v)); });
+      json['icarry_shipping'].forEach((v) { icarryShipping!.add( IcarryShipping.fromJson(v)); });
     }
     if (json['local_shipping'] != null) {
       localShipping = <LocalShipping>[];
-      json['local_shipping'].forEach((v) { localShipping!.add(new LocalShipping.fromJson(v)); });
+      json['local_shipping'].forEach((v) { localShipping!.add( LocalShipping.fromJson(v)); });
     }
-    fedexShipping = json['fedex_shipping'] != null ? new FedexShipping.fromJson(json['fedex_shipping']) : null;
+    fedexShipping = json['fedex_shipping'] != null ?  FedexShipping.fromJson(json['fedex_shipping']) : null;
   }
 
   Map<String, dynamic> toJson() {
-    final Map<String, dynamic> data = new Map<String, dynamic>();
+    final Map<String, dynamic> data =  Map<String, dynamic>();
     if (icarryShipping != null) {
       data['icarry_shipping'] = icarryShipping!.map((v) => v.toJson()).toList();
     }

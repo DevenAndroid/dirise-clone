@@ -17,6 +17,7 @@ import 'package:google_fonts/google_fonts.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 import '../../controller/cart_controller.dart';
 import '../../controller/home_controller.dart';
+import '../../controller/homepage_controller.dart';
 import '../../controller/location_controller.dart';
 import '../../controller/profile_controller.dart';
 import '../../language/app_strings.dart';
@@ -38,6 +39,7 @@ import 'ad_banner.dart';
 import 'add-edit-address.dart';
 import 'addedit_withlogin.dart';
 import 'authers.dart';
+import 'coustom_drawer.dart';
 import 'popular_products.dart';
 import 'category_items.dart';
 import 'slider.dart';
@@ -55,7 +57,7 @@ class _HomePageState extends State<HomePage> {
   final cartController = Get.put(CartController());
   final Completer<GoogleMapController> googleMapController = Completer();
   GoogleMapController? mapController;
-
+  final bottomController = Get.put(BottomNavBarController());
   String? _address = "";
   Position? _currentPosition;
 
@@ -319,7 +321,7 @@ class _HomePageState extends State<HomePage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-
+        key: bottomController.scaffoldKey,
         appBar: AppBar(
           toolbarHeight: kToolbarHeight + 10,
           backgroundColor: Color(0xFFF2F2F2),
@@ -328,10 +330,19 @@ class _HomePageState extends State<HomePage> {
             padding: const EdgeInsets.only(left: 8.0),
             child: Row(
               children: [
-                SvgPicture.asset(
+                InkWell(
+                  onTap: (){
 
-                  'assets/svgs/drawer.svg',
-                  // color: Colors.white,
+                    bottomController.scaffoldKey.currentState!.openDrawer();
+
+
+                    // bottomController.updateIndexValue(3);
+                  },
+                  child: SvgPicture.asset(
+
+                    'assets/svgs/drawer.svg',
+                    // color: Colors.white,
+                  ),
                 ),
                 SizedBox(width: 13,),
                 InkWell(
@@ -357,7 +368,7 @@ class _HomePageState extends State<HomePage> {
               ),
           centerTitle: true,
           actions: [
-            ...vendorPartner(),
+            // ...vendorPartner(),
             const CartBagCard(),
           ],
           bottom: PreferredSize(
@@ -409,6 +420,8 @@ class _HomePageState extends State<HomePage> {
                 : SizedBox.shrink(),
           ),
         ),
+
+        drawer: const CustomDrawer(),
         backgroundColor: Color(0xFFF2F2F2),
         body:  RefreshIndicator(
             onRefresh: () async {
