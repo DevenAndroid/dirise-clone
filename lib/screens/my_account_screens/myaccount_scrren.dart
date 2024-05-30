@@ -104,7 +104,7 @@ class _MyAccountScreenState extends State<MyAccountScreen> {
 
   RxString language = "".obs;
   final RxBool _isValue = false.obs;
-  var vendor = ['Dashboard', 'Order', 'Pending Products', 'Approved Products','Store open time', 'Bank Details', 'Earnings'];
+  var vendor = ['Dashboard', 'Order', 'Pending Products', 'Approved Products','Operating Hours', 'Bank Details', 'Earnings'];
   var vendorRoutes = [
     VendorDashBoardScreen.route,
     VendorOrderList.route,
@@ -2122,7 +2122,7 @@ class _MyAccountScreenState extends State<MyAccountScreen> {
                                            else if(vendor[index] == 'Approved Products'){
                                              Get.to(const ApproveProductScreen());
                                            }
-                                           else if(vendor[index] == 'Store open time'){
+                                           else if(vendor[index] == 'Operating Hours'){
                                              Get.to(const OperatingHourScreen());
                                            }
                                            else if(vendor[index] == 'Bank Details'){
