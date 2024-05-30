@@ -26,7 +26,7 @@ class TrendingProductsController extends GetxController {
     Map<String, dynamic> map = {};
 
     // map["country_id"]= profileController.model.user!= null && countryId.isEmpty ? profileController.model.user!.country_id : countryId.toString();
-    map["country_id"]=cartController.countryId.toString();
+    map["country_id"]= cartController.countryId.toString();
       map["zip_code"]= locationController.zipcode.value.toString();
       map["state"]= locationController.state.toString();
     await repositories.postApi(url: ApiUrls.trendingProductsUrl, mapData:map,showResponse: true).then((value) {
@@ -44,7 +44,7 @@ class TrendingProductsController extends GetxController {
     Map<String, dynamic> map = {};
 
     // map["country_id"]= profileController.model.user!= null && countryId.isEmpty ? profileController.model.user!.country_id : countryId.toString();
-    map["country_id"]=cartController.countryId.toString();
+    map["country_id"]= cartController.countryId.isNotEmpty ? cartController.countryId.toString() : '117';
     map["zip_code"]= locationController.zipcode.value.toString();
     map["state"]= locationController.state.toString();
     await repositories.postApi(url: ApiUrls.popularProductUrl, mapData: map).then((value) {
