@@ -222,12 +222,20 @@ class _HomePageState extends State<HomePage> {
     super.initState();
     locationController.checkGps(context);
     profileController.aboutUsData();
-    SchedulerBinding.instance.addPostFrameCallback((timeStamp) {
-      getAllAsync();
-    });
     WidgetsBinding.instance.addPostFrameCallback((timeStamp) {
       _getCurrentPosition();
+
+      Future.delayed(const Duration(seconds: 5), () {
+
+        SchedulerBinding.instance.addPostFrameCallback((timeStamp) {
+          getAllAsync();
+        });
+      });
     });
+    // SchedulerBinding.instance.addPostFrameCallback((timeStamp) {
+    //
+    // });
+
   }
 
   final profileController = Get.put(ProfileController());
@@ -402,7 +410,7 @@ class _HomePageState extends State<HomePage> {
           ),
         ),
         backgroundColor: Color(0xFFF2F2F2),
-        body: RefreshIndicator(
+        body:  RefreshIndicator(
             onRefresh: () async {
               await getAllAsync();
             },

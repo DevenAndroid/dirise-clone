@@ -38,8 +38,10 @@ class LocationController extends GetxController {
   // RxString zipcode = ''.obs;
   RxString zipcode = ''.obs;
   String town = '';
+  String countryId = '';
   RxString cityHome = ''.obs;
   checkGps(context) async {
+    log('firstttttt callllllll.....');
     servicestatus.value = await Geolocator.isLocationServiceEnabled();
     if (servicestatus.value) {
       permission = await Geolocator.checkPermission();
