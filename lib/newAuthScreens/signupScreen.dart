@@ -1,4 +1,5 @@
 import 'dart:convert';
+import 'dart:io';
 import 'package:dirise/language/app_strings.dart';
 import 'package:dirise/newAuthScreens/tellUsAboutYourself.dart';
 import 'package:dirise/widgets/common_colour.dart';
@@ -472,6 +473,7 @@ class _CreateAccountNewScreenState extends State<CreateAccountNewScreen> {
                 Row(
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: [
+                   if(Platform.isIOS)
                     Container(
                       height: 62,
                       width: 62,
