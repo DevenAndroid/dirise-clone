@@ -243,7 +243,8 @@ class _SearchProductsScreenState extends State<SearchProductsScreen> {
                                           height: 10,
                                         ),
                                         Text(
-                                          "${item.discountPercentage ?? ((((item.pPrice.toString().toNum - item.sPrice.toString().toNum) / item.pPrice.toString().toNum) * 100).toStringAsFixed(2))}${''} Off",
+                                          // "${item.discountPercentage ?? ((((item.pPrice.toString().toNum - item.sPrice.toString().toNum) / item.pPrice.toString().toNum) * 100).toStringAsFixed(2))}${''} Off",
+                                          '${item.discountOff.toString()}% Off',
                                           style: GoogleFonts.poppins(fontSize: 16, fontWeight: FontWeight.w500, color: const Color(0xffC22E2E)),
                                         ),
                                         const SizedBox(
@@ -269,7 +270,7 @@ class _SearchProductsScreenState extends State<SearchProductsScreen> {
                                           children: [
                                             Expanded(
                                               child: Text(
-                                                'KWD ${item.sPrice.toString()}',
+                                                'KWD ${item.discountPrice.toString()}',
                                                 style: GoogleFonts.poppins(fontSize: 14, fontWeight: FontWeight.w500),
                                               ),
                                             ),
