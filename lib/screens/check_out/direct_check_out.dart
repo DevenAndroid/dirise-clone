@@ -555,7 +555,7 @@ RxString shippingType= "".obs;
     }
     total = subtotal + sPrice1;
     print('total isss${total.toString()}');
-    cartController.formattedTotal = total.toStringAsFixed(3);
+    // cartController.formattedTotal = total.toStringAsFixed(3);
 
 
     });

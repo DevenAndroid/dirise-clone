@@ -14,6 +14,7 @@ import '../utils/api_constant.dart';
 import '../widgets/common_button.dart';
 import '../widgets/common_colour.dart';
 import 'congratulationScreen.dart';
+import 'hiringJobDetailsScreen.dart';
 
 class HiringReviewPublishScreen extends StatefulWidget {
   String? jobcat;
@@ -122,33 +123,62 @@ class _HiringReviewPublishScreenState extends State<HiringReviewPublishScreen> {
 
               Visibility(
                   visible: isItemDetailsVisible,
-                  child:Container(
-                    margin: EdgeInsets.only(top: 10),
-                    width: Get.width,
-                    padding: EdgeInsets.all(10),
-                    decoration: BoxDecoration(
-                        color: Colors.grey.shade200,
-                        borderRadius: BorderRadius.circular(11)
-                    ),
-                    child: Column(
-                      mainAxisAlignment: MainAxisAlignment.start,
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
-                        Text('Job title: ${productDetailsModel.value.productDetails!.product!.pname ?? ""}'),
-                        Text('Job Category: ${productDetailsModel.value.productDetails!.product!.jobParentCat ?? ""}'),
-                        Text('Job Category: ${productDetailsModel.value.productDetails!.product!.jobCat ?? ""}'),
-                        Text('Job Country: ${productDetailsModel.value.productDetails!.product!.jobCountry ?? ""}'),
-                        Text('Job State: ${productDetailsModel.value.productDetails!.product!.jobState ?? ""}'),
-                        Text('Job City: ${productDetailsModel.value.productDetails!.product!.jobCity ?? ""}'),
-                        Text('product Price: ${widget.jobtype.toString()}'),
-                        Text('product Type: ${widget.jobmodel.toString()}'),
-                        Text('product ID: ${widget.experince.toString()}'),
-                        Text('Salary: ${widget.salery.toString()}'),
-                        Text('linkedIN : ${widget.linkedIN.toString()}'),
-                        Text('Experience : ${widget.experince.toString()}'),
+                  child:Stack(
+                    children: [
+                      Container(
+                        margin: EdgeInsets.only(top: 10),
+                        width: Get.width,
+                        padding: EdgeInsets.all(10),
+                        decoration: BoxDecoration(
+                            color: Colors.grey.shade200,
+                            borderRadius: BorderRadius.circular(11)
+                        ),
+                        child: Column(
+                          mainAxisAlignment: MainAxisAlignment.start,
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
+                            Text('Job title: ${productDetailsModel.value.productDetails!.product!.pname ?? ""}'),
+                            Text('Job Category: ${productDetailsModel.value.productDetails!.product!.jobParentCat ?? ""}'),
+                            Text('Job Category: ${productDetailsModel.value.productDetails!.product!.jobCat ?? ""}'),
+                            Text('Job Country: ${productDetailsModel.value.productDetails!.product!.jobCountry ?? ""}'),
+                            Text('Job State: ${productDetailsModel.value.productDetails!.product!.jobState ?? ""}'),
+                            Text('Job City: ${productDetailsModel.value.productDetails!.product!.jobCity ?? ""}'),
+                            Text('product Price: ${productDetailsModel.value.productDetails!.product!.pPrice ?? ""}'),
+                            Text('product Type: ${productDetailsModel.value.productDetails!.product!.productType ?? ""}'),
+                            Text('product ID: ${productDetailsModel.value.productDetails!.product!.id ?? ""}'),
+                            Text('Salary: ${productDetailsModel.value.productDetails!.product!.salary ?? ""}'),
+                            Text('linkedIN : ${productDetailsModel.value.productDetails!.product!.linkdinUrl ?? ""}'),
+                            Text('Experience : ${productDetailsModel.value.productDetails!.product!.experience ?? ""}'),
+                            Text('Hours Per Week :${productDetailsModel.value.productDetails!.product!.jobHours ?? ""}'),
 
-                      ],
-                    ),
+                          ],
+                        ),
+                      ),
+                      Positioned(
+                          right: 10,
+                          top: 20,
+                          child: GestureDetector(
+                              onTap: (){
+                                Get.to(HiringJobDetailsScreen(
+                                  id: productDetailsModel.value.productDetails!.product!.id,
+                                  experience: productDetailsModel.value.productDetails!.product!.experience,
+                                  jobCategory: productDetailsModel.value.productDetails!.product!.jobParentCat,
+                                  jobCity: productDetailsModel.value.productDetails!.product!.jobCity,
+                                  jobCountry: productDetailsModel.value.productDetails!.product!.jobCountry,
+                                  jobModel:productDetailsModel.value.productDetails!.product!.jobModel ,
+                                  jobState: productDetailsModel.value.productDetails!.product!.jobState,
+                                  jobSubCategory: productDetailsModel.value.productDetails!.product!.jobCat,
+                                  jobTitle: productDetailsModel.value.productDetails!.product!.pname,
+                                  jobType: productDetailsModel.value.productDetails!.product!.jobType,
+                                  linkedIn: productDetailsModel.value.productDetails!.product!.linkdinUrl,
+                                  salary:productDetailsModel.value.productDetails!.product!.salary ,
+                                  tellUsAboutYourSelf: productDetailsModel.value.productDetails!.product!.describeJobRole,
+                                  hoursPerWeek: productDetailsModel.value.productDetails!.product!.jobHours,
+
+                                ));
+                              },
+                              child: const Text('Edit',style: TextStyle(color: Colors.red,fontSize: 13),)))
+                    ],
                   )
 
 
@@ -188,7 +218,7 @@ class _HiringReviewPublishScreenState extends State<HiringReviewPublishScreen> {
                       mainAxisAlignment: MainAxisAlignment.start,
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
-                        Text('Tell us about yourself: ${widget.jobdesc.toString()}'),
+                        Text('Tell us about yourself: ${productDetailsModel.value.productDetails!.product!.describeJobRole}'),
 
 
                       ],

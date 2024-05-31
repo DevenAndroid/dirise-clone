@@ -200,7 +200,7 @@ class _EditAddressSheetState extends State<EditAddressSheet> {
     phoneController = TextEditingController(text: addressData.phone ?? "");
     emailController = TextEditingController(text: addressData.email ?? "");
     alternatePhoneController = TextEditingController(text: addressData.alternatePhone ?? "");
-    addressController = TextEditingController(text: addressData.address ?? "");
+   addressController = TextEditingController(text: addressData.address ?? "");
     address2Controller = TextEditingController(text: addressData.address2 ?? "");
     zipCodeController = TextEditingController(text: addressData.zipCode ?? "");
     landmarkController = TextEditingController(text: addressData.landmark ?? "");
@@ -654,6 +654,7 @@ class _EditAddressSheetState extends State<EditAddressSheet> {
                           phoneCountryCode: profileController.code.toString(),
                           id: addressData.id);
                     }
+                    cartController.getCart();
                   },
                   child: Container(
                     decoration: const BoxDecoration(color: Color(0xff014E70)),

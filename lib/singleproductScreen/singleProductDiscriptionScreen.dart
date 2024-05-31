@@ -15,9 +15,17 @@ import '../repository/repository.dart';
 import '../utils/api_constant.dart';
 import '../widgets/common_colour.dart';
 import '../widgets/common_textfield.dart';
+import 'ReviewandPublishScreen.dart';
 
 class SingleProductDiscriptionScreen extends StatefulWidget {
-  const SingleProductDiscriptionScreen({super.key});
+
+  String? description;
+  String? stockquantity;
+  String? setstock;
+  String? sEOTags;
+  int? id;
+
+  SingleProductDiscriptionScreen({super.key,this.description,this.sEOTags,this.setstock,this.stockquantity,this.id});
 
   @override
   State<SingleProductDiscriptionScreen> createState() => _SingleProductDiscriptionScreenState();
@@ -27,9 +35,9 @@ class _SingleProductDiscriptionScreenState extends State<SingleProductDiscriptio
   final addProductController = Get.put(AddProductController());
   final formKey1 = GlobalKey<FormState>();
   TextEditingController inStockController = TextEditingController();
-  TextEditingController shortController = TextEditingController();
-  TextEditingController alertDiscount = TextEditingController();
-  TextEditingController tagDiscount = TextEditingController();
+  TextEditingController shortController   = TextEditingController();
+  TextEditingController alertDiscount    = TextEditingController();
+  TextEditingController tagDiscount      = TextEditingController();
   RxBool isDelivery = false.obs;
   deliverySizeApi() {
     Map<String, dynamic> map = {};
@@ -49,9 +57,24 @@ class _SingleProductDiscriptionScreenState extends State<SingleProductDiscriptio
       if (response.status == true) {
         // addProductController.idProduct.value = response.productDetails!.product!.id.toString();
         print(addProductController.idProduct.value.toString());
-        Get.to(const SingleProductReturnPolicy());
+        if(widget.id != null){
+          Get.to(const ProductReviewPublicScreen());
+        }
+        Get.to( SingleProductReturnPolicy());
       }
     });
+  }
+
+  @override
+  void initState() {
+    // TODO: implement initState
+    super.initState();
+    if(widget.id != null){
+      inStockController.text=widget.stockquantity.toString();
+      shortController.text=widget.description.toString();
+      alertDiscount.text=widget.setstock.toString();
+      tagDiscount.text=widget.sEOTags.toString();
+    }
   }
   @override
   Widget build(BuildContext context) {

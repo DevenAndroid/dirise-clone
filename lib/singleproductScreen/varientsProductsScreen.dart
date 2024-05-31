@@ -26,9 +26,8 @@ import '../widgets/loading_animation.dart';
 import '../widgets/vendor_common_textfield.dart';
 
 class VarientProductsScreen extends StatefulWidget {
-
   String? productType;
-  VarientProductsScreen({super.key,this.productType});
+  VarientProductsScreen({super.key, this.productType});
 
   @override
   State<VarientProductsScreen> createState() => _VarientProductsScreenState();
@@ -37,7 +36,6 @@ class VarientProductsScreen extends StatefulWidget {
 class _VarientProductsScreenState extends State<VarientProductsScreen> {
   final controller = Get.put(AddProductController(), permanent: true);
   final addProductController = Get.put(AddProductController());
-
 
   TextEditingController variant_skuController = TextEditingController();
   TextEditingController variant_priceController = TextEditingController();
@@ -438,7 +436,6 @@ class _VarientProductsScreenState extends State<VarientProductsScreen> {
   addProduct({required BuildContext context}) {
     Map<String, String> map = {};
 
-
     addMultipleItems.asMap().entries.forEach((element) {
       map["variant_sku[${element.key}]"] = element.value.variantSku.text.trim();
       map["variant_price[${element.key}]"] = element.value.variantPrice.text.trim();
@@ -449,10 +446,6 @@ class _VarientProductsScreenState extends State<VarientProductsScreen> {
       }
       map["variant_value[${element.key}]"] = jsonEncode(kk);
     });
-
-
-
-
 
     log("Map Data: $map");
     Map<String, File> imageMap = {};
@@ -479,6 +472,7 @@ class _VarientProductsScreenState extends State<VarientProductsScreen> {
       showToast(response.message.toString());
 
       if (response.status == true) {
+        showToast('message');
         showToast(response.message.toString());
       }
     }).catchError((e) {

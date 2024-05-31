@@ -114,7 +114,7 @@ class _SinglePInternationalshippingdetailsScreenState extends State<SinglePInter
       showToast(response.message.toString());
       if (response.status == true) {
         if(widget.id != null){
-          Get.to(ReviewandPublishScreen());
+          Get.to(ProductReviewPublicScreen());
         }else{
           Get.to(() => OptionalDiscrptionsScreen());
 

@@ -8,6 +8,7 @@ import 'package:dirise/widgets/common_colour.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/scheduler.dart';
+import 'package:flutter/widgets.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:geocoding/geocoding.dart';
 import 'package:geolocator/geolocator.dart';
@@ -16,6 +17,7 @@ import 'package:google_fonts/google_fonts.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 import '../../controller/cart_controller.dart';
 import '../../controller/home_controller.dart';
+import '../../controller/homepage_controller.dart';
 import '../../controller/location_controller.dart';
 import '../../controller/profile_controller.dart';
 import '../../language/app_strings.dart';
@@ -36,6 +38,7 @@ import 'ad_banner.dart';
 import 'add-edit-address.dart';
 import 'addedit_withlogin.dart';
 import 'authers.dart';
+import 'coustom_drawer.dart';
 import 'popular_products.dart';
 import 'category_items.dart';
 import 'slider.dart';
@@ -53,7 +56,7 @@ class _HomePageState extends State<HomePage> {
   final cartController = Get.put(CartController());
   final Completer<GoogleMapController> googleMapController = Completer();
   GoogleMapController? mapController;
-
+  final bottomController = Get.put(BottomNavBarController());
   String? _address = "";
   Position? _currentPosition;
 
@@ -202,6 +205,7 @@ class _HomePageState extends State<HomePage> {
   }
 
   final RxBool _isValue = false.obs;
+  final RxBool search = false.obs;
   var vendor = ['Dashboard', 'Order', 'Products', 'Store open time', 'Bank Details', 'Earnings'];
   var vendorRoutes = [
     VendorDashBoardScreen.route,
@@ -307,7 +311,7 @@ class _HomePageState extends State<HomePage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-
+        key: bottomController.scaffoldKey,
         appBar: AppBar(
           toolbarHeight: kToolbarHeight + 10,
           backgroundColor: Color(0xFFF2F2F2),
@@ -316,16 +320,32 @@ class _HomePageState extends State<HomePage> {
             padding: const EdgeInsets.only(left: 8.0),
             child: Row(
               children: [
-                SvgPicture.asset(
+                InkWell(
+                  onTap: (){
 
-                  'assets/svgs/drawer.svg',
-                  // color: Colors.white,
+                    bottomController.scaffoldKey.currentState!.openDrawer();
+
+
+                    // bottomController.updateIndexValue(3);
+                  },
+                  child: SvgPicture.asset(
+
+                    'assets/svgs/drawer.svg',
+                    // color: Colors.white,
+                  ),
                 ),
                 SizedBox(width: 13,),
-                SvgPicture.asset(
+                InkWell(
+                  onTap: (){
+                   setState(() {
+                     search.value = !search.value;
 
-                  'assets/svgs/search.svg',
-                  // color: Colors.white,
+                   });
+                  },
+                  child: SvgPicture.asset(
+                    'assets/svgs/search.svg',
+                    // color: Colors.white,
+                  ),
                 ),
               ],
             ),
@@ -338,10 +358,60 @@ class _HomePageState extends State<HomePage> {
               ),
           centerTitle: true,
           actions: [
-            ...vendorPartner(),
+            // ...vendorPartner(),
             const CartBagCard(),
           ],
+          bottom: PreferredSize(
+            preferredSize: search.value == true ? Size.fromHeight(50.0) : Size.fromHeight(0.0),
+            child: search.value == true
+                ? Hero(
+                    tag: "search_tag",
+                    child: Material(
+                      color: Colors.transparent,
+                      surfaceTintColor: Colors.transparent,
+                      child: Padding(
+                        padding: const EdgeInsets.symmetric(horizontal: 15),
+                        child: TextField(
+                          maxLines: 1,
+                          style: GoogleFonts.poppins(fontSize: 16),
+                          textInputAction: TextInputAction.search,
+                          onSubmitted: (vb) {
+                            Get.to(() => SearchProductsScreen(
+                                  searchText: vb,
+                                ));
+                          },
+                          decoration: InputDecoration(
+                              filled: true,
+                              prefixIcon: Padding(
+                                padding: const EdgeInsets.all(10),
+                                child: Image.asset(
+                                  'assets/icons/search.png',
+                                  height: 5,
+                                ),
+                              ),
+                              border: InputBorder.none,
+                              enabledBorder: const OutlineInputBorder(
+                                  borderRadius: BorderRadius.all(Radius.circular(8)),
+                                  borderSide: BorderSide(color: AppTheme.buttonColor)),
+                              disabledBorder: const OutlineInputBorder(
+                                  borderRadius: BorderRadius.all(Radius.circular(8)),
+                                  borderSide: BorderSide(color: AppTheme.buttonColor)),
+                              focusedBorder: const OutlineInputBorder(
+                                  borderRadius: BorderRadius.all(Radius.circular(8)),
+                                  borderSide: BorderSide(color: AppTheme.buttonColor)),
+                              fillColor: Colors.white,
+                              contentPadding: const EdgeInsets.all(15),
+                              hintText: AppStrings.searchFieldText.tr,
+                              hintStyle: GoogleFonts.poppins(color: AppTheme.buttonColor, fontWeight: FontWeight.w400)),
+                        ),
+                      ),
+                    ),
+                  )
+                : SizedBox.shrink(),
+          ),
         ),
+
+        drawer: const CustomDrawer(),
         backgroundColor: Color(0xFFF2F2F2),
         body: RefreshIndicator(
             onRefresh: () async {
@@ -460,51 +530,7 @@ class _HomePageState extends State<HomePage> {
                         ),
                       ) : const SizedBox.shrink(),
                       10.spaceY,
-                      // Hero(
-                      //   tag: "search_tag",
-                      //   child: Material(
-                      //     color: Colors.transparent,
-                      //     surfaceTintColor: Colors.transparent,
-                      //     child: Padding(
-                      //       padding: const EdgeInsets.symmetric(horizontal: 15),
-                      //       child: TextField(
-                      //         maxLines: 1,
-                      //         style: GoogleFonts.poppins(fontSize: 16),
-                      //         textInputAction: TextInputAction.search,
-                      //         onSubmitted: (vb) {
-                      //           Get.to(() =>
-                      //               SearchProductsScreen(
-                      //                 searchText: vb,
-                      //               ));
-                      //         },
-                      //         decoration: InputDecoration(
-                      //             filled: true,
-                      //             prefixIcon: Padding(
-                      //               padding: const EdgeInsets.all(10),
-                      //               child: Image.asset(
-                      //                 'assets/icons/search.png',
-                      //                 height: 5,
-                      //               ),
-                      //             ),
-                      //             border: InputBorder.none,
-                      //             enabledBorder: const OutlineInputBorder(
-                      //                 borderRadius: BorderRadius.all(Radius.circular(8)),
-                      //                 borderSide: BorderSide(color: AppTheme.buttonColor)),
-                      //             disabledBorder: const OutlineInputBorder(
-                      //                 borderRadius: BorderRadius.all(Radius.circular(8)),
-                      //                 borderSide: BorderSide(color: AppTheme.buttonColor)),
-                      //             focusedBorder: const OutlineInputBorder(
-                      //                 borderRadius: BorderRadius.all(Radius.circular(8)),
-                      //                 borderSide: BorderSide(color: AppTheme.buttonColor)),
-                      //             fillColor: Colors.white,
-                      //             contentPadding: const EdgeInsets.all(15),
-                      //             hintText: AppStrings.searchFieldText.tr,
-                      //             hintStyle:
-                      //             GoogleFonts.poppins(color: AppTheme.buttonColor, fontWeight: FontWeight.w400)),
-                      //       ),
-                      //     ),
-                      //   ),
-                      // ),
+
                       const SizedBox(
                         height: 8,
                       ),
@@ -514,7 +540,7 @@ class _HomePageState extends State<HomePage> {
                 Expanded(
                   child: Container(
                     color: Color(0xFFF2F2F2).withOpacity(0.6),
-                    child:  SingleChildScrollView(
+                    child:  const SingleChildScrollView(
                         child: Column(children: [
                           SliderWidget(),
                           CategoryItems(),

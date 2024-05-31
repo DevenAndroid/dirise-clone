@@ -18,6 +18,7 @@ import '../screens/check_out/order_completed_screen.dart';
 import '../utils/api_constant.dart';
 import '../vendor/authentication/payment_screen.dart';
 import '../vendor/authentication/thank_you_screen.dart';
+import 'location_controller.dart';
 
 enum PurchaseType { buy, cart }
 
@@ -28,6 +29,8 @@ class CartController extends GetxController {
   String stateCode = '';
   String cityCode = '';
   RxString countryName = ''.obs;
+  RxString address = ''.obs;
+  RxString city = ''.obs;
   // int isKuwait = 0;
   RxString stateName = ''.obs;
   RxString cityName = ''.obs;
@@ -38,7 +41,7 @@ class CartController extends GetxController {
   bool addressLoaded = false;
   String shippingId = "";
   AddressData selectedAddress = AddressData();
-
+  // final locationController = Get.put(LocationController());
   final GlobalKey addressKey = GlobalKey();
   RxString deliveryOption1 = "delivery".obs;
   RxBool showValidation = false.obs;
@@ -58,6 +61,8 @@ class CartController extends GetxController {
   String shippingTitle = '';
   String shippingPrices = '';
   String shippingPrices1 = '';
+  String shippingPrices2 = '';
+  String shippingPrices3 = '';
   final TextEditingController billingFirstName = TextEditingController();
   final TextEditingController billingLastName = TextEditingController();
   final TextEditingController billingEmail = TextEditingController();
@@ -65,7 +70,9 @@ class CartController extends GetxController {
   RxInt countDown = 30.obs;
   Timer? _timer;
   String formattedTotal = '';
+  String formattedTotal3 = '';
   String formattedTotal2 = '';
+  String formattedTotal4 = '';
   String shippingDates = '';
   double formattedTotal1 = 0.0;
   List<String> shippingList = [];
@@ -498,7 +505,8 @@ class CartController extends GetxController {
   }
   String countryId = '';
   String zipCode = '';
-
+  String zipCode1 = '';
+  TextEditingController addressController = TextEditingController();
   Future getCart() async {
     // if (cartModel.cart != null) {
     //   for (var element in cartModel.cart!) {
@@ -510,11 +518,15 @@ class CartController extends GetxController {
     // map["country_id"]= profileController.model.user!= null && countryId.isEmpty ? profileController.model.user!.country_id : countryId.toString();
     map["country_id"]= countryId.toString();
     map["zip_code"]= zipCode.toString();
+    map["city"]= city.value.toString();
+    map["address"]= address.value.toString();
+    map["identifier_key"]= "checkout";
 
     log("mappppppp::::::$map");
     await repositories.postApi(url: ApiUrls.cartListUrl,mapData: map ).then((value) {
      cartModel = ModelCartResponse.fromJson(jsonDecode(value));
       log('cart model is ${cartModel.toJson()}');
+      print("zip:::::::::::"+zipCode1);
       apiLoaded = true;
       updateUI();
     });

@@ -5,6 +5,7 @@ import 'package:dirise/repository/repository.dart';
 import 'package:dirise/utils/helper.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_rating_bar/flutter_rating_bar.dart';
 import 'package:get/get.dart';
 import 'package:google_fonts/google_fonts.dart';
 import '../../controller/cart_controller.dart';
@@ -249,7 +250,7 @@ class _ProductUIState extends State<ProductUI> {
                           style: GoogleFonts.poppins(fontSize: 12, fontWeight: FontWeight.w700, color:  Color(0xFFFFDF33)),
                         ),
                         Text(
-                          " ${widget.productElement.discountPercentage ?? ((((widget.productElement.pPrice.toString().toNum - widget.productElement.sPrice.toString().toNum) / widget.productElement.pPrice.toString().toNum) * 100).toStringAsFixed(2))}${'%'}  ",
+                          " ${widget.productElement.discountOff ?? ((((widget.productElement.pPrice.toString().toNum - widget.productElement.sPrice.toString().toNum) / widget.productElement.pPrice.toString().toNum) * 100).toStringAsFixed(2))}${'%'}  ",
                           style: GoogleFonts.poppins(fontSize: 12, fontWeight: FontWeight.w700, color:  Colors.white),
                         ),
                       ],
@@ -325,7 +326,7 @@ class _ProductUIState extends State<ProductUI> {
                   SizedBox(width: 7,),
                   Text.rich(
                     TextSpan(
-                      text: '${widget.productElement.sPrice.toString().split('.')[0]}.',
+                      text: '${widget.productElement.discountPrice.toString().split('.')[0]}.',
                       style: TextStyle(
                         fontSize: 24,
                         fontWeight: FontWeight.w600,
@@ -345,12 +346,17 @@ class _ProductUIState extends State<ProductUI> {
                                   color: Color(0xFF19313B),
                                 ),
                               ),
-                              Text(
-                                '${widget.productElement.sPrice.toString().split('.')[1]}',
-                                style: TextStyle(
-                                  fontSize: 8,
-                                  fontWeight: FontWeight.w600,
-                                  color: Color(0xFF19313B),
+                              InkWell(
+                                onTap: (){
+                                  print( "date:::::::::::"+ widget.productElement.shippingDate);
+                                },
+                                child: Text(
+                                  '${widget.productElement.discountPrice.toString().split('.')[1]}',
+                                  style: TextStyle(
+                                    fontSize: 8,
+                                    fontWeight: FontWeight.w600,
+                                    color: Color(0xFF19313B),
+                                  ),
                                 ),
                               ),
                             ],
@@ -375,24 +381,23 @@ SizedBox(height: 8,),
                         crossAxisAlignment: CrossAxisAlignment.start ,
                         children: [
 
-                          Row(
-                            children: [
-                              Icon(Icons.star,color: Color(
-                                  0xFFE0AD60
-                              ),size: 20,),
-                              Icon(Icons.star,color: Color(
-                                  0xFFE0AD60
-                              ),size: 20,),
-                              Icon(Icons.star,color: Color(
-                                  0xFFE0AD60
-                              ),size: 20,),
-                              Icon(Icons.star,color: Color(
-                                  0xFFE0AD60
-                              ),size: 20,),
-                              Icon(Icons.star,color: Color(
-                                  0xFFE0AD60
-                              ),size: 20,),
-                            ],
+                          RatingBar.builder(
+                            initialRating: double.parse(widget.productElement.rating.toString()),
+                            minRating: 1,
+                            direction: Axis.horizontal,
+                            updateOnDrag: false,
+                            tapOnlyMode: false,
+                            allowHalfRating: true,
+                            itemSize: 30,
+                            itemCount: 5,
+                            itemBuilder: (context, _) => Icon(
+                              Icons.star,
+                              size: 10,
+                              color: Colors.amber,
+                            ),
+                            onRatingUpdate: (rating) {
+                              print(rating);
+                            },
                           ),
                           // ,Text(
                           //   '${widget.productElement.inStock.toString()} ${'pieces'.tr}',
@@ -433,7 +438,7 @@ SizedBox(height: 8,),
                         ],
                       ),
                     ),
-                    if (canBuyProduct)
+                    // if (canBuyProduct)
                     Expanded(
                       child: Column(
                         children: [

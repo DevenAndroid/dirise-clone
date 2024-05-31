@@ -2,6 +2,7 @@ import 'dart:convert';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
+import 'package:geolocator/geolocator.dart';
 import 'package:get/get.dart';
 import 'package:google_fonts/google_fonts.dart';
 import '../../addNewProduct/locationScreen.dart';
@@ -60,6 +61,21 @@ class _HomeAddEditAddressState extends State<HomeAddEditAddress> {
   RxBool isSelect = false.obs;
   final TextEditingController zipcodeController = TextEditingController();
 
+  Position? _currentPosition;
+  String? _currentAddress;
+  bool isLoading = false;
+
+  Future<Position> _getPosition() async {
+    LocationPermission permission;
+
+    permission = await Geolocator.checkPermission();
+    if(permission == LocationPermission.deniedForever){
+      return Future.error('Location not available');
+    }else{
+      print('Location not available');
+    }
+    return await Geolocator.getCurrentPosition();
+  }
   @override
   Widget build(BuildContext context) {
     Size size = MediaQuery.of(context).size;
@@ -104,6 +120,19 @@ class _HomeAddEditAddressState extends State<HomeAddEditAddress> {
                   height: size.height * .02,
                 ),
 
+                // InkWell(
+                //  onTap: (){
+                //
+                //  },
+                //   child: Text(
+                //     "Find my location".tr,
+                //     style: GoogleFonts.poppins(color: const Color(0xff044484), fontWeight: FontWeight.w400, fontSize: 14),
+                //   ),
+                // ),
+                // SizedBox(
+                //   height: size.height * .02,
+                // ),
+
                 InkWell(
                   onTap: () {
                     setState(() {
@@ -111,7 +140,7 @@ class _HomeAddEditAddressState extends State<HomeAddEditAddress> {
                     });
                   },
                   child: Text(
-                    "Enter an zip code".tr,
+                    "Enter your zip code".tr,
                     style: GoogleFonts.poppins(color: const Color(0xff044484), fontWeight: FontWeight.w400, fontSize: 14),
                   ),
                 ),

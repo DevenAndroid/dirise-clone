@@ -11,6 +11,7 @@ import '../repository/repository.dart';
 import '../utils/api_constant.dart';
 import '../widgets/common_button.dart';
 import 'congratulationScreen.dart';
+import 'jobDetailsScreen.dart';
 
 class JobReviewPublishScreen extends StatefulWidget {
   String? category;
@@ -100,35 +101,62 @@ class _JobReviewPublishScreenState extends State<JobReviewPublishScreen> {
                         ),
                         Visibility(
                             visible: isItemDetailsVisible,
-                            child: Container(
-                              margin: const EdgeInsets.only(top: 10),
-                              width: Get.width,
-                              padding: const EdgeInsets.all(10),
-                              decoration:
+                            child: Stack(
+                              children: [
+                                Container(
+                                  margin: const EdgeInsets.only(top: 10),
+                                  width: Get.width,
+                                  padding: const EdgeInsets.all(10),
+                                  decoration:
                                   BoxDecoration(color: Colors.grey.shade200, borderRadius: BorderRadius.circular(11)),
-                              child: Column(
-                                mainAxisAlignment: MainAxisAlignment.start,
-                                crossAxisAlignment: CrossAxisAlignment.start,
-                                children: [
-                                  Text('Job title: ${productDetailsModel.value.productDetails!.product!.pname ?? ""}'),
-                                  Text('Job Category: ${productDetailsModel.value.productDetails!.product!.jobParentCat ?? ""}'),
-                                  Text(
-                                      'Job Sub Category: ${productDetailsModel.value.productDetails!.product!.jobCat ?? ""}'),
-                                  Text(
-                                      'Job Country: ${productDetailsModel.value.productDetails!.product!.jobCountry ?? ""}'),
-                                  Text(
-                                      'Job State: ${productDetailsModel.value.productDetails!.product!.jobState ?? ""}'),
-                                  Text('Job City: ${productDetailsModel.value.productDetails!.product!.jobCity ?? ""}'),
-                                  Text('Job Type: ${productDetailsModel.value.productDetails!.product!.jobType ?? ""}'),
-                                  Text(
-                                      'Job Model: ${productDetailsModel.value.productDetails!.product!.jobModel ?? ""}'),
-                                  Text(
-                                      'Experience: ${productDetailsModel.value.productDetails!.product!.experience ?? ""}'),
-                                  Text('Salary: ${productDetailsModel.value.productDetails!.product!.salary ?? ""}'),
-                                  Text(
-                                      'LinkedIn Url: ${productDetailsModel.value.productDetails!.product!.linkdinUrl ?? ""}'),
-                                ],
-                              ),
+                                  child: Column(
+                                    mainAxisAlignment: MainAxisAlignment.start,
+                                    crossAxisAlignment: CrossAxisAlignment.start,
+                                    children: [
+                                      Text('Job title: ${productDetailsModel.value.productDetails!.product!.pname ?? ""}'),
+                                      Text('Job Category: ${productDetailsModel.value.productDetails!.product!.jobParentCat ?? ""}'),
+                                      Text(
+                                          'Job Sub Category: ${productDetailsModel.value.productDetails!.product!.jobCat ?? ""}'),
+                                      Text(
+                                          'Job Country: ${productDetailsModel.value.productDetails!.product!.jobCountry ?? ""}'),
+                                      Text(
+                                          'Job State: ${productDetailsModel.value.productDetails!.product!.jobState ?? ""}'),
+                                      Text('Job City: ${productDetailsModel.value.productDetails!.product!.jobCity ?? ""}'),
+                                      Text('Job Type: ${productDetailsModel.value.productDetails!.product!.jobType ?? ""}'),
+                                      Text(
+                                          'Job Model: ${productDetailsModel.value.productDetails!.product!.jobModel ?? ""}'),
+                                      Text(
+                                          'Experience: ${productDetailsModel.value.productDetails!.product!.experience ?? ""}'),
+                                      Text('Salary: ${productDetailsModel.value.productDetails!.product!.salary ?? ""}'),
+                                      Text('LinkedIn Url: ${productDetailsModel.value.productDetails!.product!.linkdinUrl ?? ""}'),
+                                    ],
+                                  ),
+                                ),
+                                Positioned(
+                                    right: 10,
+                                    top: 20,
+                                    child: GestureDetector(
+                                        onTap: (){
+                                          Get.to(JobDetailsScreen(
+                                            id: productDetailsModel.value.productDetails!.product!.id,
+                                            experience: productDetailsModel.value.productDetails!.product!.experience,
+                                            jobCategory: productDetailsModel.value.productDetails!.product!.jobParentCat,
+                                            jobCity: productDetailsModel.value.productDetails!.product!.jobCity,
+                                            jobCountry: productDetailsModel.value.productDetails!.product!.jobCountry,
+                                            jobModel:productDetailsModel.value.productDetails!.product!.jobModel ,
+                                            jobState: productDetailsModel.value.productDetails!.product!.jobState,
+                                            jobSubCategory: productDetailsModel.value.productDetails!.product!.jobCat,
+                                            jobTitle: productDetailsModel.value.productDetails!.product!.pname,
+                                            jobType: productDetailsModel.value.productDetails!.product!.jobType,
+                                            linkedIn: productDetailsModel.value.productDetails!.product!.linkdinUrl,
+                                            salary:productDetailsModel.value.productDetails!.product!.salary ,
+                                            tellUsAboutYourSelf: productDetailsModel.value.productDetails!.product!.describeJobRole,
+
+                                          ));
+                                        },
+                                        child: const Text('Edit',style: TextStyle(color: Colors.red,fontSize: 13),)))
+                              ],
+
                             )),
                         const SizedBox(height: 20),
                         GestureDetector(

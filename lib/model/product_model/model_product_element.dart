@@ -72,6 +72,9 @@ class ProductElement {
   dynamic lowestDeliveryPrice;
   dynamic shippingDate;
   dynamic bidStatus;
+  dynamic discountPrice;
+  dynamic discountOff;
+  dynamic rating;
 
   ProductElement({
     this.id,
@@ -138,6 +141,7 @@ class ProductElement {
     this.minBidPrice,
     this.stepPrice,
     this.currentBid,
+    this.discountPrice,
 
     // this.attributes,
     this.serviceTimeSloat,
@@ -146,6 +150,8 @@ class ProductElement {
     this.lowestDeliveryPrice,
     this.shippingDate,
     this.bidStatus,
+    this.discountOff,
+    this.rating,
   });
 
   ProductElement.fromJson(Map<String, dynamic> json) {
@@ -183,6 +189,9 @@ class ProductElement {
     featuredImage = json["featured_image"];
     beforePurchase = json['before_purchase'];
     localShipping = json['local_shipping'];
+    discountPrice = json['discount_price'];
+    rating = json['rating'];
+    discountOff = json['discount_off'];
     try {
       galleryImage = json["gallery_image"] == null ? [] : List<String>.from(json["gallery_image"]!.map((x) => x));
     } catch(e){
@@ -216,6 +225,7 @@ class ProductElement {
     endTime = json["end_time"];
     minBidPrice = json["min_bid_price"];
     stepPrice = json["step_price"];
+    rating = json["rating"];
     currentBid = json["current_bid"];
     lowestDeliveryPrice = json['lowestDeliveryPrice'];
     shippingDate = json['shipping_date'];
@@ -276,6 +286,9 @@ class ProductElement {
     "featured": featured,
     "tax_apply": taxApply,
     "tax_type": taxType,
+    "discount_price": discountPrice,
+    "rating": rating,
+    "discount_off": discountOff,
     "short_description": shortDescription,
     "arab_short_description": arabShortDescription,
     "long_description": longDescription,

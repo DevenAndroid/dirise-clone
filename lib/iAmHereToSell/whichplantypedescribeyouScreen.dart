@@ -146,6 +146,15 @@ class _WhichplantypedescribeyouScreenState extends State<Whichplantypedescribeyo
                         ],
                       ),
                     ),
+
+
+
+
+
+
+
+
+
                     Radio(
                       value: 1,
                       groupValue: _selectedOption,
@@ -160,124 +169,172 @@ class _WhichplantypedescribeyouScreenState extends State<Whichplantypedescribeyo
                 ),
 
               ),
+
+
                 SizedBox(height: 10,),
               if (_selectedOption == 1) ...[
+                // Container(
+                //   height: 410,
+                //   padding: const EdgeInsets.only(left: 5,right: 5),
+                //   margin: const EdgeInsets.only(left: 10, right: 10),
+                //   decoration: BoxDecoration(
+                //     borderRadius: BorderRadius.circular(11),
+                //     border: Border.all(color: const Color(0xff0D5877), width: 1.0),
+                //   ),
+                //   child: Column(
+                //     mainAxisAlignment: MainAxisAlignment.start,
+                //     crossAxisAlignment: CrossAxisAlignment.start,
+                //     children: [
+                //       Row(
+                //         children: [
+                //           Expanded(
+                //             child: Align(
+                //               alignment: Alignment.center,
+                //               child: Text(
+                //                 'Individuals'.tr,
+                //                 style: GoogleFonts.raleway(
+                //                   color: const Color(0xff0D5877),
+                //                   fontWeight: FontWeight.w500,
+                //                   fontSize: 20,
+                //                 ),
+                //               ),
+                //             ),
+                //           ),
+                //
+                //         ],
+                //       ),
+                //       const Divider(thickness: 1,color: Colors.grey,),
+                //       Text(
+                //         'Plan'.tr,
+                //         style: GoogleFonts.poppins(
+                //           color: const Color(0xff0D5877),
+                //           fontWeight: FontWeight.w600,
+                //           fontSize: 18,
+                //         ),
+                //       ),
+                //       Text(
+                //         '10 KWD will charge for 1st month. 11 Months Free'.tr,
+                //         style: GoogleFonts.poppins(
+                //           color: const Color(0xff514949),
+                //           fontWeight: FontWeight.w400,
+                //           fontSize: 16,
+                //         ),
+                //       ),
+                //       Text(
+                //         'Limited to advertising only, any payments will be done outside the platform.'.tr,
+                //         style: GoogleFonts.poppins(
+                //           color: const Color(0xff514949),
+                //           fontWeight: FontWeight.w500,
+                //           fontSize: 13,
+                //         ),
+                //       ),
+                //
+                //         Column(
+                //           crossAxisAlignment: CrossAxisAlignment.start,
+                //           children: [
+                //             Padding(
+                //               padding: const EdgeInsets.symmetric(horizontal: 15),
+                //               child: Text(
+                //                 'PLANS'.tr,
+                //                 style: GoogleFonts.poppins(
+                //                   color: const Color(0xFF111727),
+                //                   fontSize: 18,
+                //                   fontWeight: FontWeight.w600,
+                //                 ),
+                //               ),
+                //             ),
+                //             modelPlansList?.plans!.advertisement != null ?
+                //             ListView.builder(
+                //               physics: const NeverScrollableScrollPhysics(),
+                //                 shrinkWrap: true,
+                //                 itemCount: modelPlansList!.plans!.advertisement!.length,
+                //                 itemBuilder: (context, index) {
+                //                   var advertisement = modelPlansList!.plans!.advertisement![index];
+                //               return  Row(
+                //                 children: [
+                //                   Radio<Advertisement?>(
+                //                       value: advertisement,
+                //                       groupValue: selectedPlan,
+                //                       visualDensity:
+                //                       const VisualDensity(horizontal: -4, vertical: -2),
+                //                       onChanged: (value) {
+                //                         selectedPlan = value;
+                //                         profileController.planID = value!.id.toString();
+                //                         if (selectedPlan == null) return;
+                //                         setState(() {});
+                //                       }),
+                //                   const SizedBox(
+                //                     width: 5,
+                //                   ),
+                //                   Expanded(
+                //                       flex: 3,
+                //                       child: Text(
+                //                         advertisement.label,
+                //                         style: titleStyle,
+                //                       )),
+                //                   Expanded(
+                //                       flex: 2,
+                //                       child: Text(
+                //                         "${advertisement.amount} ${advertisement.currency ?? 'KWD'}",
+                //                         style: titleStyle.copyWith(
+                //                             fontWeight: FontWeight.w400, fontSize: 14),
+                //                       )),
+                //                 ],
+                //               );
+                //             }) : const CircularProgressIndicator()
+                //
+                //           ],
+                //         )
+                //
+                //
+                //     ],
+                //   ),
+                // ),
                 Container(
-                  height: 410,
-                  padding: const EdgeInsets.only(left: 5,right: 5),
-                  margin: const EdgeInsets.only(left: 10, right: 10),
-                  decoration: BoxDecoration(
-                    borderRadius: BorderRadius.circular(11),
-                    border: Border.all(color: const Color(0xff0D5877), width: 1.0),
-                  ),
-                  child: Column(
-                    mainAxisAlignment: MainAxisAlignment.start,
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      Row(
-                        children: [
-                          Expanded(
-                            child: Align(
-                              alignment: Alignment.center,
-                              child: Text(
-                                'Individuals'.tr,
-                                style: GoogleFonts.raleway(
-                                  color: const Color(0xff0D5877),
-                                  fontWeight: FontWeight.w500,
-                                  fontSize: 20,
-                                ),
-                              ),
-                            ),
-                          ),
+                    padding: EdgeInsets.all(10),
+                    width: Get.width,
+                    decoration: BoxDecoration(
+                        color: Colors.white,
+                        borderRadius: BorderRadius.circular(10),
+                        boxShadow: [
+                          BoxShadow(
+                              offset: Offset(1,1),
+                              color: Colors.grey,
+                              blurRadius: 1,
+                              blurStyle: BlurStyle.outer,
+                              spreadRadius: 1
+                          )
+                        ]
+                    ),
+                    child: Column(
+                      children: [
+                        Text("Showcasing Cloud Space ",style: GoogleFonts.poppins(color: const Color(0xff111727), fontWeight: FontWeight.w600, fontSize: 16),
+                        ),
+                        Row(
+                          mainAxisAlignment: MainAxisAlignment.start,
 
-                        ],
-                      ),
-                      const Divider(thickness: 1,color: Colors.grey,),
-                      Text(
-                        'Plan'.tr,
-                        style: GoogleFonts.poppins(
-                          color: const Color(0xff0D5877),
-                          fontWeight: FontWeight.w600,
-                          fontSize: 18,
-                        ),
-                      ),
-                      Text(
-                        '10 KWD will charge for 1st month. 11 Months Free'.tr,
-                        style: GoogleFonts.poppins(
-                          color: const Color(0xff514949),
-                          fontWeight: FontWeight.w400,
-                          fontSize: 16,
-                        ),
-                      ),
-                      Text(
-                        'Limited to advertising only, any payments will be done outside the platform.'.tr,
-                        style: GoogleFonts.poppins(
-                          color: const Color(0xff514949),
-                          fontWeight: FontWeight.w500,
-                          fontSize: 13,
-                        ),
-                      ),
-
-                        Column(
-                          crossAxisAlignment: CrossAxisAlignment.start,
                           children: [
-                            Padding(
-                              padding: const EdgeInsets.symmetric(horizontal: 15),
-                              child: Text(
-                                'PLANS'.tr,
-                                style: GoogleFonts.poppins(
-                                  color: const Color(0xFF111727),
-                                  fontSize: 18,
-                                  fontWeight: FontWeight.w600,
-                                ),
-                              ),
+                            SizedBox(width: 10,),
+                            Column(mainAxisAlignment: MainAxisAlignment.start,
+                              crossAxisAlignment:
+                              CrossAxisAlignment.start,
+                              children: [
+                                Text("Cloud Description  ",style: GoogleFonts.poppins(color: const Color(0xff111727), fontWeight: FontWeight.w600, fontSize: 12),    ),
+                                SizedBox(height: 10,),
+                                Text("Limited to showcasing only  ",style: GoogleFonts.poppins(color: const Color(0xff111727), fontWeight: FontWeight.w600, fontSize: 10),),
+
+                              ],
                             ),
-                            modelPlansList?.plans!.advertisement != null ?
-                            ListView.builder(
-                              physics: const NeverScrollableScrollPhysics(),
-                                shrinkWrap: true,
-                                itemCount: modelPlansList!.plans!.advertisement!.length,
-                                itemBuilder: (context, index) {
-                                  var advertisement = modelPlansList!.plans!.advertisement![index];
-                              return  Row(
-                                children: [
-                                  Radio<Advertisement?>(
-                                      value: advertisement,
-                                      groupValue: selectedPlan,
-                                      visualDensity:
-                                      const VisualDensity(horizontal: -4, vertical: -2),
-                                      onChanged: (value) {
-                                        selectedPlan = value;
-                                        profileController.planID = value!.id.toString();
-                                        if (selectedPlan == null) return;
-                                        setState(() {});
-                                      }),
-                                  const SizedBox(
-                                    width: 5,
-                                  ),
-                                  Expanded(
-                                      flex: 3,
-                                      child: Text(
-                                        advertisement.label,
-                                        style: titleStyle,
-                                      )),
-                                  Expanded(
-                                      flex: 2,
-                                      child: Text(
-                                        "${advertisement.amount} ${advertisement.currency ?? 'KWD'}",
-                                        style: titleStyle.copyWith(
-                                            fontWeight: FontWeight.w400, fontSize: 14),
-                                      )),
-                                ],
-                              );
-                            }) : const CircularProgressIndicator()
-
+                            SizedBox(width: 20,),
+                            Image.asset("assets/images/trial.png",width: 80,),
                           ],
-                        )
-
-
-                    ],
-                  ),
+                        ),
+                        Text("Owners of the Showcasing cloud can only showcase their products, all payments will be done outside of the DIRISE platform. Customers will contact the vendor directly through a phone number or messages  ",style: GoogleFonts.poppins(color: const Color(0xff111727), fontWeight: FontWeight.w600, fontSize: 10),),
+                        SizedBox(height: 10,),
+                        Center(child: Image.asset("assets/images/p1.png",)),
+                        Center(child: Image.asset("assets/images/plan1.png",)),
+                      ],
+                    )
                 ),
               ],
               const SizedBox(height: 20,),
@@ -324,109 +381,156 @@ class _WhichplantypedescribeyouScreenState extends State<Whichplantypedescribeyo
               ),
               SizedBox(height: 10,),
               if (_selectedOption == 2) ...[
+                // Container(
+                //   height: 400,
+                //   padding: const EdgeInsets.only(left: 5,right: 5),
+                //   margin: const EdgeInsets.only(left: 10, right: 10),
+                //   decoration: BoxDecoration(
+                //     borderRadius: BorderRadius.circular(11),
+                //     border: Border.all(color: const Color(0xff0D5877), width: 1.0),
+                //   ),
+                //   child: Column(
+                //     mainAxisAlignment: MainAxisAlignment.start,
+                //     crossAxisAlignment: CrossAxisAlignment.start,
+                //     children: [
+                //       Row(
+                //         children: [
+                //           Expanded(
+                //             child: Align(
+                //               alignment: Alignment.center,
+                //               child: Text(
+                //                 'Startup stores'.tr,
+                //                 style: GoogleFonts.raleway(
+                //                   color: const Color(0xff0D5877),
+                //                   fontWeight: FontWeight.w500,
+                //                   fontSize: 20,
+                //                 ),
+                //               ),
+                //             ),
+                //           ),
+                //           const Radio(
+                //             value: 1,
+                //             groupValue: 1,
+                //             onChanged: null,
+                //           ),
+                //         ],
+                //       ),
+                //       const Divider(thickness: 1,color: Colors.grey,),
+                //       Text(
+                //         'Plan'.tr,
+                //         style: GoogleFonts.poppins(
+                //           color: const Color(0xff0D5877),
+                //           fontWeight: FontWeight.w600,
+                //           fontSize: 18,
+                //         ),
+                //       ),
+                //       Text(
+                //         '10 KWD will charge for 1st month. 11 Months Free'.tr,
+                //         style: GoogleFonts.poppins(
+                //           color: const Color(0xff514949),
+                //           fontWeight: FontWeight.w400,
+                //           fontSize: 16,
+                //         ),
+                //       ),
+                //       Text(
+                //         'Limited to advertising only, any payments will be done outside the platform.'.tr,
+                //         style: GoogleFonts.poppins(
+                //           color: const Color(0xff514949),
+                //           fontWeight: FontWeight.w500,
+                //           fontSize: 13,
+                //         ),
+                //       ),
+                //       modelPlansList?.plans!.personal != null ?
+                //       ListView.builder(
+                //           physics: const NeverScrollableScrollPhysics(),
+                //           shrinkWrap: true,
+                //           itemCount: modelPlansList!.plans!.personal!.length,
+                //           itemBuilder: (context, index) {
+                //             var personal = modelPlansList!.plans!.personal![index];
+                //             return  Row(
+                //               children: [
+                //                 Radio<Personal?>(
+                //                     value: personal,
+                //                     groupValue: selectedPlan1,
+                //                     visualDensity:
+                //                     const VisualDensity(horizontal: -4, vertical: -2),
+                //                     onChanged: (value) {
+                //                       setState(() {
+                //                         selectedPlan1 = value;
+                //                         profileController.planID = value!.id.toString();
+                //                         if (selectedPlan == null) return;
+                //                       });
+                //
+                //
+                //                     }),
+                //                 const SizedBox(
+                //                   width: 5,
+                //                 ),
+                //                 Expanded(
+                //                     flex: 3,
+                //                     child: Text(
+                //                       personal.label,
+                //                       style: titleStyle,
+                //                     )),
+                //                 Expanded(
+                //                     flex: 2,
+                //                     child: Text(
+                //                       "${personal.amount} ${personal.currency ?? 'KWD'}",
+                //                       style: titleStyle.copyWith(
+                //                           fontWeight: FontWeight.w400, fontSize: 14),
+                //                     )),
+                //               ],
+                //             );
+                //           }) : const CircularProgressIndicator()
+                //     ],
+                //   ),
+                // ),
                 Container(
-                  height: 400,
-                  padding: const EdgeInsets.only(left: 5,right: 5),
-                  margin: const EdgeInsets.only(left: 10, right: 10),
-                  decoration: BoxDecoration(
-                    borderRadius: BorderRadius.circular(11),
-                    border: Border.all(color: const Color(0xff0D5877), width: 1.0),
-                  ),
-                  child: Column(
-                    mainAxisAlignment: MainAxisAlignment.start,
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      Row(
-                        children: [
-                          Expanded(
-                            child: Align(
-                              alignment: Alignment.center,
-                              child: Text(
-                                'Startup stores'.tr,
-                                style: GoogleFonts.raleway(
-                                  color: const Color(0xff0D5877),
-                                  fontWeight: FontWeight.w500,
-                                  fontSize: 20,
-                                ),
-                              ),
-                            ),
-                          ),
-                          const Radio(
-                            value: 1,
-                            groupValue: 1,
-                            onChanged: null,
-                          ),
-                        ],
-                      ),
-                      const Divider(thickness: 1,color: Colors.grey,),
-                      Text(
-                        'Plan'.tr,
-                        style: GoogleFonts.poppins(
-                          color: const Color(0xff0D5877),
-                          fontWeight: FontWeight.w600,
-                          fontSize: 18,
+                    padding: EdgeInsets.all(10),
+                    width: Get.width,
+                    decoration: BoxDecoration(
+                        color: Colors.white,
+                        borderRadius: BorderRadius.circular(10),
+                        boxShadow: [
+                          BoxShadow(
+                              offset: Offset(1,1),
+                              color: Colors.grey,
+                              blurRadius: 1,
+                              blurStyle: BlurStyle.outer,
+                              spreadRadius: 1
+                          )
+                        ]
+                    ),
+                    child: Column(
+                      children: [
+                        Text("Cloud Office Space ",style: GoogleFonts.poppins(color: const Color(0xff111727), fontWeight: FontWeight.w600, fontSize: 16),
                         ),
-                      ),
-                      Text(
-                        '10 KWD will charge for 1st month. 11 Months Free'.tr,
-                        style: GoogleFonts.poppins(
-                          color: const Color(0xff514949),
-                          fontWeight: FontWeight.w400,
-                          fontSize: 16,
-                        ),
-                      ),
-                      Text(
-                        'Limited to advertising only, any payments will be done outside the platform.'.tr,
-                        style: GoogleFonts.poppins(
-                          color: const Color(0xff514949),
-                          fontWeight: FontWeight.w500,
-                          fontSize: 13,
-                        ),
-                      ),
-                      modelPlansList?.plans!.personal != null ?
-                      ListView.builder(
-                          physics: const NeverScrollableScrollPhysics(),
-                          shrinkWrap: true,
-                          itemCount: modelPlansList!.plans!.personal!.length,
-                          itemBuilder: (context, index) {
-                            var personal = modelPlansList!.plans!.personal![index];
-                            return  Row(
+                        Row(
+                          mainAxisAlignment: MainAxisAlignment.start,
+
+                          children: [
+                            SizedBox(width: 10,),
+                            Column(mainAxisAlignment: MainAxisAlignment.start,
+                              crossAxisAlignment:
+                              CrossAxisAlignment.start,
                               children: [
-                                Radio<Personal?>(
-                                    value: personal,
-                                    groupValue: selectedPlan1,
-                                    visualDensity:
-                                    const VisualDensity(horizontal: -4, vertical: -2),
-                                    onChanged: (value) {
-                                      setState(() {
-                                        selectedPlan1 = value;
-                                        profileController.planID = value!.id.toString();
-                                        if (selectedPlan == null) return;
-                                      });
+                                Text("Cloud Description  ",style: GoogleFonts.poppins(color: const Color(0xff111727), fontWeight: FontWeight.w600, fontSize: 12),    ),
+                                SizedBox(height: 10,),
+                                Text("Small businesses & start ups  ",style: GoogleFonts.poppins(color: const Color(0xff111727), fontWeight: FontWeight.w600, fontSize: 10),),
 
-
-                                    }),
-                                const SizedBox(
-                                  width: 5,
-                                ),
-                                Expanded(
-                                    flex: 3,
-                                    child: Text(
-                                      personal.label,
-                                      style: titleStyle,
-                                    )),
-                                Expanded(
-                                    flex: 2,
-                                    child: Text(
-                                      "${personal.amount} ${personal.currency ?? 'KWD'}",
-                                      style: titleStyle.copyWith(
-                                          fontWeight: FontWeight.w400, fontSize: 14),
-                                    )),
                               ],
-                            );
-                          }) : const CircularProgressIndicator()
-                    ],
-                  ),
+                            ),
+                            SizedBox(width: 20,),
+                            Image.asset("assets/images/trial.png",width: 80,),
+                          ],
+                        ),
+                        Text("For businesses that are working on getting the required official document to be recognized as an official company",style: GoogleFonts.poppins(color: const Color(0xff111727), fontWeight: FontWeight.w600, fontSize: 10),),
+                        SizedBox(height: 10,),
+                        Center(child: Image.asset("assets/images/p2.png",)),
+                        SizedBox(height: 10,),
+                        Center(child: Image.asset("assets/images/plan2.png",)),
+                      ],
+                    )
                 ),
               ],
               const SizedBox(height: 20,),
@@ -474,108 +578,157 @@ class _WhichplantypedescribeyouScreenState extends State<Whichplantypedescribeyo
               ),
               SizedBox(height: 10,),
               if (_selectedOption == 3) ...[
+                // Container(
+                //   height: 400,
+                //   padding: const EdgeInsets.only(left: 5,right: 5),
+                //   margin: const EdgeInsets.only(left: 10, right: 10),
+                //   decoration: BoxDecoration(
+                //     borderRadius: BorderRadius.circular(11),
+                //     border: Border.all(color: const Color(0xff0D5877), width: 1.0),
+                //   ),
+                //   child: Column(
+                //     mainAxisAlignment: MainAxisAlignment.start,
+                //     crossAxisAlignment: CrossAxisAlignment.start,
+                //     children: [
+                //       Row(
+                //         children: [
+                //           Expanded(
+                //             child: Align(
+                //               alignment: Alignment.center,
+                //               child: Text(
+                //                 'Enterprise stores'.tr,
+                //                 style: GoogleFonts.raleway(
+                //                   color: const Color(0xff0D5877),
+                //                   fontWeight: FontWeight.w500,
+                //                   fontSize: 20,
+                //                 ),
+                //               ),
+                //             ),
+                //           ),
+                //           const Radio(
+                //             value: 1,
+                //             groupValue: 1,
+                //             onChanged: null,
+                //           ),
+                //         ],
+                //       ),
+                //       const Divider(thickness: 1,color: Colors.grey,),
+                //       Text(
+                //         'Plan'.tr,
+                //         style: GoogleFonts.poppins(
+                //           color: const Color(0xff0D5877),
+                //           fontWeight: FontWeight.w600,
+                //           fontSize: 18,
+                //         ),
+                //       ),
+                //       Text(
+                //         '10 KWD will charge for 1st month. 11 Months Free'.tr,
+                //         style: GoogleFonts.poppins(
+                //           color: const Color(0xff514949),
+                //           fontWeight: FontWeight.w400,
+                //           fontSize: 16,
+                //         ),
+                //       ),
+                //       Text(
+                //         'Limited to advertising only, any payments will be done outside the platform.'.tr,
+                //         style: GoogleFonts.poppins(
+                //           color: const Color(0xff514949),
+                //           fontWeight: FontWeight.w500,
+                //           fontSize: 13,
+                //         ),
+                //       ),
+                //       modelPlansList?.plans!.company != null ?
+                //       ListView.builder(
+                //           physics: const NeverScrollableScrollPhysics(),
+                //           shrinkWrap: true,
+                //           itemCount: modelPlansList!.plans!.company!.length,
+                //           itemBuilder: (context, index) {
+                //             var company = modelPlansList!.plans!.company![index];
+                //             return  Row(
+                //               children: [
+                //                 Radio<Company?>(
+                //                     value: company,
+                //                     groupValue: selectedPlan2,
+                //                     visualDensity:
+                //                     const VisualDensity(horizontal: -4, vertical: -2),
+                //                     onChanged: (value) {
+                //                       setState(() {
+                //                         selectedPlan2 = value;
+                //                         profileController.planID = value!.id.toString();
+                //                         if (value == null) return;
+                //                       });
+                //                     },
+                //                 ),
+                //                 const SizedBox(
+                //                   width: 5,
+                //                 ),
+                //                 Expanded(
+                //                     flex: 3,
+                //                     child: Text(
+                //                       company.label,
+                //                       style: titleStyle,
+                //                     )),
+                //                 Expanded(
+                //                     flex: 2,
+                //                     child: Text(
+                //                       "${company.amount} ${company.currency ?? 'KWD'}",
+                //                       style: titleStyle.copyWith(
+                //                           fontWeight: FontWeight.w400, fontSize: 14),
+                //                     )),
+                //               ],
+                //             );
+                //           }) : const CircularProgressIndicator()
+                //     ],
+                //   ),
+                // ),
                 Container(
-                  height: 400,
-                  padding: const EdgeInsets.only(left: 5,right: 5),
-                  margin: const EdgeInsets.only(left: 10, right: 10),
-                  decoration: BoxDecoration(
-                    borderRadius: BorderRadius.circular(11),
-                    border: Border.all(color: const Color(0xff0D5877), width: 1.0),
-                  ),
-                  child: Column(
-                    mainAxisAlignment: MainAxisAlignment.start,
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      Row(
-                        children: [
-                          Expanded(
-                            child: Align(
-                              alignment: Alignment.center,
-                              child: Text(
-                                'Enterprise stores'.tr,
-                                style: GoogleFonts.raleway(
-                                  color: const Color(0xff0D5877),
-                                  fontWeight: FontWeight.w500,
-                                  fontSize: 20,
-                                ),
+                    padding: EdgeInsets.all(10),
+                    width: Get.width,
+                    decoration: BoxDecoration(
+                        color: Colors.white,
+                        borderRadius: BorderRadius.circular(10),
+                        boxShadow: [
+                          BoxShadow(
+                              offset: Offset(1,1),
+                              color: Colors.grey,
+                              blurRadius: 1,
+                              blurStyle: BlurStyle.outer,
+                              spreadRadius: 1
+                          )
+                        ]
+                    ),
+                    child: Column(
+                      children: [
+                        Text("Enterprise Cloud Space  ",style: GoogleFonts.poppins(color: const Color(0xff111727), fontWeight: FontWeight.w600, fontSize: 16),
+                        ),
+                        Row(
+                          mainAxisAlignment: MainAxisAlignment.start,
+
+                          children: [
+                            SizedBox(width: 10,),
+                            Expanded(
+                              child: Column(mainAxisAlignment: MainAxisAlignment.start,
+                                crossAxisAlignment:
+                                CrossAxisAlignment.start,
+                                children: [
+                                  Text("Official businesses  ",style: GoogleFonts.poppins(color: const Color(0xff111727), fontWeight: FontWeight.w600, fontSize: 12),    ),
+                                  SizedBox(height: 10,),
+                                  Text("This Cloud is suitable for any official business that has already been established with a corporate bank account",style: GoogleFonts.poppins(color: const Color(0xff111727), fontWeight: FontWeight.w600, fontSize: 10),),
+                              
+                                ],
                               ),
                             ),
-                          ),
-                          const Radio(
-                            value: 1,
-                            groupValue: 1,
-                            onChanged: null,
-                          ),
-                        ],
-                      ),
-                      const Divider(thickness: 1,color: Colors.grey,),
-                      Text(
-                        'Plan'.tr,
-                        style: GoogleFonts.poppins(
-                          color: const Color(0xff0D5877),
-                          fontWeight: FontWeight.w600,
-                          fontSize: 18,
+                            SizedBox(width: 20,),
+                            Image.asset("assets/images/trial.png",width: 80,),
+                          ],
                         ),
-                      ),
-                      Text(
-                        '10 KWD will charge for 1st month. 11 Months Free'.tr,
-                        style: GoogleFonts.poppins(
-                          color: const Color(0xff514949),
-                          fontWeight: FontWeight.w400,
-                          fontSize: 16,
-                        ),
-                      ),
-                      Text(
-                        'Limited to advertising only, any payments will be done outside the platform.'.tr,
-                        style: GoogleFonts.poppins(
-                          color: const Color(0xff514949),
-                          fontWeight: FontWeight.w500,
-                          fontSize: 13,
-                        ),
-                      ),
-                      modelPlansList?.plans!.company != null ?
-                      ListView.builder(
-                          physics: const NeverScrollableScrollPhysics(),
-                          shrinkWrap: true,
-                          itemCount: modelPlansList!.plans!.company!.length,
-                          itemBuilder: (context, index) {
-                            var company = modelPlansList!.plans!.company![index];
-                            return  Row(
-                              children: [
-                                Radio<Company?>(
-                                    value: company,
-                                    groupValue: selectedPlan2,
-                                    visualDensity:
-                                    const VisualDensity(horizontal: -4, vertical: -2),
-                                    onChanged: (value) {
-                                      setState(() {
-                                        selectedPlan2 = value;
-                                        profileController.planID = value!.id.toString();
-                                        if (value == null) return;
-                                      });
-                                    },
-                                ),
-                                const SizedBox(
-                                  width: 5,
-                                ),
-                                Expanded(
-                                    flex: 3,
-                                    child: Text(
-                                      company.label,
-                                      style: titleStyle,
-                                    )),
-                                Expanded(
-                                    flex: 2,
-                                    child: Text(
-                                      "${company.amount} ${company.currency ?? 'KWD'}",
-                                      style: titleStyle.copyWith(
-                                          fontWeight: FontWeight.w400, fontSize: 14),
-                                    )),
-                              ],
-                            );
-                          }) : const CircularProgressIndicator()
-                    ],
-                  ),
+                        Text("Owners of the Showcasing cloud can only showcase their products, all payments will be done outside of the DIRISE platform. Customers will contact the vendor directly through a phone number or messages  ",style: GoogleFonts.poppins(color: const Color(0xff111727), fontWeight: FontWeight.w600, fontSize: 10),),
+                        SizedBox(height: 10,),
+                        Center(child: Image.asset("assets/images/p3.png",)),
+                        SizedBox(height: 10,),
+                        Center(child: Image.asset("assets/images/plan3.png",)),
+                      ],
+                    )
                 ),
               ],
               const SizedBox(height: 20,),

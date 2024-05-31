@@ -3,6 +3,7 @@ import 'package:dirise/addNewProduct/internationalshippingdetailsScreem.dart';
 import 'package:dirise/language/app_strings.dart';
 import 'package:dirise/routers/my_routers.dart';
 import 'package:dirise/screens/auth_screens/login_screen.dart';
+import 'package:dirise/screens/home_pages/coustom_drawer.dart';
 import 'package:dirise/screens/home_pages/homepage_screen.dart';
 import 'package:dirise/screens/return_policy.dart';
 import 'package:dirise/screens/wishlist/whishlist_screen.dart';
@@ -110,6 +111,7 @@ class _BottomNavbarState extends State<BottomNavbar> {
     // FirebaseMessaging.instance.getToken().then((value) {
     //   print(value);
     // });
+
     return WillPopScope(
       onWillPop: () async {
         if (bottomController.pageIndex.value != 0) {
@@ -121,6 +123,7 @@ class _BottomNavbarState extends State<BottomNavbar> {
       },
       child: Obx(() {
         return Scaffold(
+
             body: pages[bottomController.pageIndex.value],
             backgroundColor: Color(0xFFEBF3F6),
             bottomNavigationBar: buildMyNavBar(),
