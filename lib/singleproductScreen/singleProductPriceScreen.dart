@@ -21,9 +21,9 @@ import '../widgets/common_textfield.dart';
 import 'ReviewandPublishScreen.dart';
 
 class SingleProductPriceScreen extends StatefulWidget {
-  double? price;
-  int? fixDiscount;
-  double? percentage;
+  dynamic price;
+  dynamic fixDiscount;
+  dynamic percentage;
   int? id;
 
   SingleProductPriceScreen(
@@ -90,7 +90,7 @@ class _SingleProductPriceScreenState extends State<SingleProductPriceScreen> {
         // addProductController.idProduct.value = response.productDetails!.product!.id.toString();
         print(addProductController.idProduct.value.toString());
         if (widget.id != null) {
-          Get.to(const ProductReviewPublicScreen());
+          Get.to( ProductReviewPublicScreen());
         } else {
           Get.to( SingleProductDiscriptionScreen());
         }

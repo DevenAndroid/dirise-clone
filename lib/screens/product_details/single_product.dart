@@ -178,7 +178,7 @@ class _SingleProductDetailsState extends State<SingleProductDetails> {
     map["product_id"] = productDetails.id.toString();
     map["quantity"] = map["quantity"] = int.tryParse(productQuantity.value.toString());
     map["key"] = 'fedexRate';
-    map["country_id"]=profileController.model.user!.country_id;
+    map["country_id"]= profileController.model.user!= null ? profileController.model.user!.country_id : '117';
 
     if (isBookingProduct) {
       map["start_date"] = selectedDate.text.trim();
@@ -340,7 +340,7 @@ class _SingleProductDetailsState extends State<SingleProductDetails> {
                                   crossAxisAlignment: CrossAxisAlignment.start,
                                   children: [
                                     Text(
-                                      "${productDetails.discountPercentage} ${'%'} Off",
+                                      "${productDetails.discountOff} ${'%'} Off",
                                       style: GoogleFonts.poppins(
                                           fontSize: 14, fontWeight: FontWeight.w500, color: const Color(0xffC22E2E)),
                                     ),
@@ -364,7 +364,7 @@ class _SingleProductDetailsState extends State<SingleProductDetails> {
                                     Row(
                                       children: [
                                         Text(
-                                          'KWD ${productDetails.sPrice.toString()}',
+                                          'KWD ${productDetails.discountPrice.toString()}',
                                           style: GoogleFonts.poppins(fontSize: 16, fontWeight: FontWeight.w500),
                                         ),
                                         const SizedBox(

@@ -8,7 +8,7 @@ import '../../utils/api_constant.dart';
 class BankDetailsController extends GetxController{
   final Repositories repositories = Repositories();
 
-  ModelBankList modelBankList = ModelBankList();
+  Rx<ModelBankList> modelBankList = ModelBankList().obs;
   ModelBankInfo modelBankInfo = ModelBankInfo();
 
   Future getBankDetails() async {
@@ -19,7 +19,7 @@ class BankDetailsController extends GetxController{
 
   Future getBankList() async {
     await repositories.getApi(url: ApiUrls.bankListUrl).then((value) {
-      modelBankList = ModelBankList.fromJson(jsonDecode(value));
+      modelBankList.value = ModelBankList.fromJson(jsonDecode(value));
     });
   }
 

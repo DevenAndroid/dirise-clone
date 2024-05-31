@@ -21,6 +21,7 @@ import 'package:shared_preferences/shared_preferences.dart';
 import 'addNewProduct/addProductStartScreen.dart';
 import 'controller/cart_controller.dart';
 import 'controller/homepage_controller.dart';
+import 'controller/location_controller.dart';
 import 'controller/profile_controller.dart';
 import 'newAuthScreens/signupScreen.dart';
 import 'screens/categories/categories_screen.dart';
@@ -80,6 +81,7 @@ class _BottomNavbarState extends State<BottomNavbar> {
     }
   }
 
+
   @override
   void dispose() {
     super.dispose();
@@ -99,10 +101,13 @@ class _BottomNavbarState extends State<BottomNavbar> {
       });
     }
   }
+
+  final locationController = Get.put(LocationController());
   @override
   void initState() {
     // TODO: implement initState
     super.initState();
+    locationController.checkGps(context);
     checkUser();
   }
 

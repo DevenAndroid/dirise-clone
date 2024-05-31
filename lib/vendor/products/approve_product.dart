@@ -8,11 +8,16 @@ import 'package:flutter/scheduler.dart';
 import 'package:flutter_switch/flutter_switch.dart';
 import 'package:get/get.dart';
 import 'package:google_fonts/google_fonts.dart';
+import '../../Services/review_publish_service.dart';
 import '../../addNewProduct/addProductScreen.dart';
 import '../../addNewProduct/addProductStartScreen.dart';
 import '../../addNewProduct/myItemIsScreen.dart';
+import '../../addNewProduct/reviewPublishScreen.dart';
 import '../../controller/vendor_controllers/add_product_controller.dart';
 import '../../controller/vendor_controllers/products_controller.dart';
+import '../../jobOffers/JobReviewandPublishScreen.dart';
+import '../../singleproductScreen/ReviewandPublishScreen.dart';
+import '../../virtualProduct/ReviewandPublishScreen.dart';
 import '../../widgets/common_colour.dart';
 import '../../widgets/dimension_screen.dart';
 import 'add_product/add_product_screen.dart';
@@ -213,7 +218,22 @@ class _ApproveProductScreenState extends State<ApproveProductScreen> {
                                             ),
                                             GestureDetector(
                                               onTap: () {
-                                                Get.to(()=> AddProductScreen(productId: (item.id ?? "").toString(),));
+                                                if(item.itemType == "Giveaway"){
+                                                  Get.to(ReviewPublishScreen());
+                                                }
+                                                if(item.itemType == "Product"){
+                                                  Get.to(ProductReviewPublicScreen());
+                                                }
+                                                if(item.itemType == "Job"){
+                                                  Get.to(JobReviewPublishScreen());
+                                                }
+                                                if(item.itemType == "Service"){
+                                                  Get.to(ReviewPublishServiceScreen());
+                                                }
+                                                if(item.itemType == "Virtual"){
+                                                  Get.to(VirtualReviewandPublishScreen());
+                                                }
+
                                               },
                                               child: Container(
                                                   height: AddSize.size25,

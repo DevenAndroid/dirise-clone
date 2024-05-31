@@ -125,6 +125,7 @@ class ApiUrls {
   static const String defaultAddressStatus = "${baseUrl}default-address";
   static const String myDefaultAddressStatus = "${baseUrl}my-default-address";
   static const String vendorEarning = "${baseUrl}vendor-earning";
+  static const String vendorEarningNew = "${baseUrl}get-vendor-earnings";
   static const String addCurrentAddress = "${baseUrl}add-current-address";
   static const String productCreateSlots = "${baseUrl}product-create-slots";
   static const String addProductSponsor = "${baseUrl}add-product-sponsor";

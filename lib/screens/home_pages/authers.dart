@@ -27,9 +27,9 @@ class _AuthorScreenState extends State<AuthorScreen> {
     return Obx(() {
       return homeController.authorModal.value.data != null
           ? Column(
-              children: [  homeController.authorModal.value.data!.isNotEmpty ?
-
-              Padding(
+              children: [
+                homeController.authorModal.value.data != null &&  homeController.authorModal.value.data!.isNotEmpty
+                    ?  Padding(
                   padding: const EdgeInsets.fromLTRB(0, 20, 0, 18),
                   child: SizedBox(
                     height: size.height * 0.28,
@@ -193,8 +193,7 @@ SvgPicture.asset("assets/svgs/fb.svg",height: 30,width: 30,),
 
                     ),
                   )
-              ):LoadingAnimation(),
-
+              ): const SizedBox.shrink()
                             ])  : const SizedBox.shrink();
 
     });

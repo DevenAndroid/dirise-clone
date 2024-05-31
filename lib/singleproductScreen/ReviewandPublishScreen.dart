@@ -27,6 +27,7 @@ import 'optionalClassificationScreen.dart';
 import 'optionalDiscrptionsScreen.dart';
 
 class ProductReviewPublicScreen extends StatefulWidget {
+
   const ProductReviewPublicScreen({super.key});
 
   @override
@@ -256,7 +257,7 @@ class _ProductReviewPublicScreenState extends State<ProductReviewPublicScreen> {
                                   Text(
                                       'Fixed Discounted Price : ${productDetailsModel.value.productDetails!.product!.fixedDiscountPrice ?? ""} KWD'),
                                   Text(
-                                      'Discount Percentage: ${productDetailsModel.value.productDetails!.product!.discountPrice ?? ''}'),
+                                      'Discount Percentage: ${productDetailsModel.value.productDetails!.product!.discountPercent ?? ''}'),
                                 ],
                               ),
 
@@ -270,7 +271,7 @@ class _ProductReviewPublicScreenState extends State<ProductReviewPublicScreen> {
                                         id: productDetailsModel.value.productDetails!.product!.id,
                                         price: productDetailsModel.value.productDetails!.product!.pPrice,
                                         fixDiscount: productDetailsModel.value.productDetails!.product!.fixedDiscountPrice,
-                                        percentage: productDetailsModel.value.productDetails!.product!.discountPrice,
+                                        percentage: productDetailsModel.value.productDetails!.product!.discountPercent,
 
 
 

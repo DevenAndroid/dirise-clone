@@ -1,4 +1,5 @@
 import 'dart:convert';
+import 'dart:developer';
 import 'dart:io';
 
 import 'package:dirise/Services/review_publish_service.dart';
@@ -12,6 +13,7 @@ import 'package:google_fonts/google_fonts.dart';
 import '../controller/service_controller.dart';
 import '../controller/vendor_controllers/add_product_controller.dart';
 import '../model/common_modal.dart';
+import '../model/product_details.dart';
 import '../repository/repository.dart';
 import '../utils/api_constant.dart';
 import '../widgets/common_button.dart';
@@ -26,7 +28,8 @@ class whatServiceDoYouProvide extends StatefulWidget {
   String? name;
   RxBool? isDelivery = false.obs;
 
-  whatServiceDoYouProvide({super.key, this.percentage, this.price, this.fixedPrice, this.id, this.name,this.isDelivery});
+  whatServiceDoYouProvide(
+      {super.key, this.percentage, this.price, this.fixedPrice, this.id, this.name, this.isDelivery});
 
   @override
   State<whatServiceDoYouProvide> createState() => _whatServiceDoYouProvideState();
@@ -37,17 +40,20 @@ class _whatServiceDoYouProvideState extends State<whatServiceDoYouProvide> {
   final profileController = Get.put(ProfileController());
   RxBool isShow = false.obs;
   String realPrice = "";
+  String fees = "";
   String discounted = "";
   String sale = "";
   String productName = "";
   String discountedPrice = "";
   bool isPercentageDiscount = true;
-
+  double discountAmount12 =0.0;
+  double afterCalculation = 0.0;
   void calculateDiscount() {
-    double realPrice = double.tryParse(priceController.text) ?? 0.0;
+    double realPrice = afterCalculation ?? 0.0;
     double sale = double.tryParse(percentageController.text) ?? 0.0;
     double fixedPrice = double.tryParse(fixedPriceController.text) ?? 0.0;
-
+    // double fees = productDetailsModel.value.productDetails!.diriseFess ?? 0.0;
+    // discountAmount12 = (realPrice * fees) / 100;
     // Check the current discount type and calculate discounted price accordingly
     if (isPercentageDiscount && realPrice > 0 && sale > 0) {
       double discountAmount = (realPrice * sale) / 100;
@@ -82,9 +88,10 @@ class _whatServiceDoYouProvideState extends State<whatServiceDoYouProvide> {
   TextEditingController priceController = TextEditingController();
   TextEditingController fixedPriceController = TextEditingController();
   TextEditingController percentageController = TextEditingController();
-
+  double realPrice1 = 0.0;
   final formKey = GlobalKey<FormState>();
   final addProductController = Get.put(AddProductController());
+
   serviceApi() {
     Map<String, dynamic> map = {};
     map['product_name'] = serviceNameController.text.trim();
@@ -103,15 +110,25 @@ class _whatServiceDoYouProvideState extends State<whatServiceDoYouProvide> {
       print('API Response Status Code: ${response.status}');
       // showToast(response.message.toString());
       if (response.status == true) {
-        if(widget.id != null){
+        if (widget.id != null) {
           Get.to(const ReviewPublishServiceScreen());
-        }else{
+        } else {
           Get.to(TellUsScreen());
         }
-
       }
     });
   }
+
+  final Repositories repositories = Repositories();
+  Rx<ModelProductDetails> productDetailsModel = ModelProductDetails().obs;
+
+  getVendorCategories(id) {
+    repositories.getApi(url: ApiUrls.getProductDetailsUrl + id).then((value) {
+      productDetailsModel.value = ModelProductDetails.fromJson(jsonDecode(value));
+      setState(() {});
+    });
+  }
+
 
   @override
   void initState() {
@@ -124,10 +141,12 @@ class _whatServiceDoYouProvideState extends State<whatServiceDoYouProvide> {
       fixedDiscount.text = widget.fixedPrice.toString();
       isDelivery = widget.isDelivery!;
     }
+    getVendorCategories(addProductController.idProduct.value.toString());
   }
 
   RxBool isDelivery = false.obs;
   RxBool isPercantage = false.obs;
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -191,7 +210,17 @@ class _whatServiceDoYouProvideState extends State<whatServiceDoYouProvide> {
                   onChanged: (value) {
                     calculateDiscount();
                     realPrice = value;
-                    setState(() {});
+                    realPrice1 = double.tryParse(value) ?? 0.0;
+                    String? diriseFeesAsString = productDetailsModel.value.productDetails!.diriseFess;
+
+                    double fees = diriseFeesAsString != null ? double.parse(diriseFeesAsString) : 0.0;
+
+                    discountAmount12 = (realPrice1 * fees) / 100;
+                    afterCalculation = realPrice1 + discountAmount12;
+                    log('value${realPrice1.toString()}');
+                    setState(() {
+
+                    });
                   },
                   validator: (value) {
                     if (value!.trim().isEmpty) {
@@ -200,6 +229,21 @@ class _whatServiceDoYouProvideState extends State<whatServiceDoYouProvide> {
                     return null; // Return null if validation passes
                   },
                 ),
+                Text(
+                  'Dirise Fee'.tr,
+                  style: GoogleFonts.inter(color: const Color(0xff292F45), fontWeight: FontWeight.w500, fontSize: 14),
+                ),
+                Container(
+                  height: 50,
+                  width: Get.width,
+                  padding: const EdgeInsets.symmetric(vertical: 12, horizontal: 12),
+                  decoration: BoxDecoration(
+                      color: Colors.white,
+                      borderRadius: BorderRadius.circular(8),
+                      border: Border.all(color: AppTheme.secondaryColor)),
+                  child: Text(discountAmount12.toString()),
+                ),
+                const SizedBox(height: 10,),
                 Container(
                   padding: const EdgeInsets.symmetric(vertical: 12, horizontal: 12),
                   decoration: BoxDecoration(
@@ -368,7 +412,7 @@ class _whatServiceDoYouProvideState extends State<whatServiceDoYouProvide> {
                                 width: 20,
                               ),
                               Text(
-                                "${realPrice} KWD".tr,
+                                "${afterCalculation} KWD".tr,
                                 style: GoogleFonts.poppins(
                                     color: const Color(0xff014E70), fontWeight: FontWeight.w400, fontSize: 10),
                               ),
@@ -411,15 +455,15 @@ class _whatServiceDoYouProvideState extends State<whatServiceDoYouProvide> {
                               ),
                               isPercantage.value == true
                                   ? Text(
-                                      "${sale} %".tr,
-                                      style: GoogleFonts.poppins(
-                                          color: const Color(0xff014E70), fontWeight: FontWeight.w400, fontSize: 10),
-                                    )
+                                "${sale} %".tr,
+                                style: GoogleFonts.poppins(
+                                    color: const Color(0xff014E70), fontWeight: FontWeight.w400, fontSize: 10),
+                              )
                                   : Text(
-                                      "${sale} KWD".tr,
-                                      style: GoogleFonts.poppins(
-                                          color: const Color(0xff014E70), fontWeight: FontWeight.w400, fontSize: 10),
-                                    )
+                                "${sale} KWD".tr,
+                                style: GoogleFonts.poppins(
+                                    color: const Color(0xff014E70), fontWeight: FontWeight.w400, fontSize: 10),
+                              )
                             ],
                           ),
                           const SizedBox(
@@ -449,7 +493,9 @@ class _whatServiceDoYouProvideState extends State<whatServiceDoYouProvide> {
                             ],
                           ),
                           Text(
-                            serviceNameController.text.toString().tr,
+                            serviceNameController.text
+                                .toString()
+                                .tr,
                             style: GoogleFonts.inter(
                                 color: const Color(0xff014E70), fontWeight: FontWeight.w600, fontSize: 12),
                           ),

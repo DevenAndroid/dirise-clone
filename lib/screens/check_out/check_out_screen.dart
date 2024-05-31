@@ -405,11 +405,12 @@ shipmentProvider: shipmentProvider.value.toString(),
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
               Text("Total".tr, style: GoogleFonts.poppins(fontWeight: FontWeight.w500, fontSize: 18)),
-              total == 0.0
-                  ? Text("KWD ${cartController.cartModel.subtotal.toString()}",
+              //total == 0.0
+                  //?
+        Text("KWD ${cartController.cartModel.subtotal.toString()}",
                       style: GoogleFonts.poppins(fontWeight: FontWeight.w500, fontSize: 18))
-                  : Text("KWD ${cartController.formattedTotal.toString()}",
-                      style: GoogleFonts.poppins(fontWeight: FontWeight.w500, fontSize: 18)),
+                  // : Text("KWD ${cartController.formattedTotal.toString()}",
+                  //     style: GoogleFonts.poppins(fontWeight: FontWeight.w500, fontSize: 18)),
             ],
           ),
         ],
@@ -560,7 +561,7 @@ shipmentProvider: shipmentProvider.value.toString(),
                                               height: 6,
                                             ),
                                             Text(
-                                              'KWD ${product.sPrice}',
+                                              'KWD ${product.discountPrice}',
                                               style: GoogleFonts.poppins(fontSize: 15, fontWeight: FontWeight.w400),
                                             ),
                                             const SizedBox(
@@ -791,7 +792,7 @@ shipmentProvider: shipmentProvider.value.toString(),
                       // e.vendorCountryId != '117'  && e.isShipping == true) || cartController.countryName.value != 'Kuwait' && cartController.myDefaultAddressModel.value.defaultAddress!.country != 'Kuwait')
                       //   cartController.selectedAddress.id != null ||
                       //       cartController.myDefaultAddressModel.value.defaultAddress != null?
-                        if(e.value.localShipping != true)
+                        if(e.value.shipping!.fedexShipping!.output != null)
                         Container(
                           color: Colors.white,
                           child: Padding(
@@ -812,16 +813,16 @@ shipmentProvider: shipmentProvider.value.toString(),
                       // if (e.value.products!.any((e) =>
                       // e.vendorCountryId != '117'  && e.isShipping == true) || cartController.countryName.value != 'Kuwait' &&  cartController.myDefaultAddressModel.value.defaultAddress!.country != 'Kuwait'
                       // )
-                        if( e.value.localShipping != true && e.value.shipping!.fedexShipping!.output == null)
-                          Padding(
-                            padding: const EdgeInsets.all(8.0),
-                            child: Text('FedEx service is not currently available to this origin / destination combination. Enter new information or contact FedEx Customer Service.'.tr,style: const TextStyle(
-                              fontSize: 17
-                                                    ),),
-                          ),
+                      //   if( e.value.localShipping != true && e.value.shipping!.fedexShipping!.output == null)
+                      //     Padding(
+                      //       padding: const EdgeInsets.all(8.0),
+                      //       child: Text('FedEx service is not currently available to this origin / destination combination. Enter new information or contact FedEx Customer Service.'.tr,style: const TextStyle(
+                      //         fontSize: 17
+                      //                               ),),
+                      //     ),
                       //   cartController.selectedAddress.id != null || cartController.myDefaultAddressModel.value.defaultAddress != null ?
                       //   e.value.fedexShipping!.output !=null ?
-                      if(e.value.localShipping != true && e.value.shipping!.fedexShipping!.output != null)
+                      if(e.value.shipping!.fedexShipping!.output != null)
                         Container(
                           color: Colors.white,
                           child: ListView.builder(
@@ -953,7 +954,7 @@ shipmentProvider: shipmentProvider.value.toString(),
                       //   )  : const LoadingAnimation() : const SizedBox(),
                         ),
 
-                      if(e.value.shipping!.icarryShipping!=null)
+                      if(e.value.shipping!.icarryShipping!.isNotEmpty )
                         Container(
                           color: Colors.white,
                           child: Padding(
@@ -969,7 +970,7 @@ shipmentProvider: shipmentProvider.value.toString(),
                             ),
                           ),
                         ),
-                      if(e.value.shipping!.icarryShipping!=null)
+                      if(e.value.shipping!.icarryShipping!.isNotEmpty)
                         Container(
                           color: Colors.white,
                           child: ListView.builder(
