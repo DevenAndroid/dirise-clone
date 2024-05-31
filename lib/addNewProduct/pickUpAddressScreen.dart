@@ -31,6 +31,12 @@ class AddProductPickUpAddressScreen extends StatefulWidget {
   final String? town;
   int? id;
 
+  final String? locationstreet;
+  final String? locationcity;
+  final String? locationstate;
+  final String? locationcountry;
+  final String? locationzipcode;
+  final String? locationtown;
   AddProductPickUpAddressScreen({
     Key? key,
     this.street,
@@ -40,6 +46,12 @@ class AddProductPickUpAddressScreen extends StatefulWidget {
     this.zipcode,
     this.town,
     this.id,
+    this.locationcity,
+    this.locationcountry,
+    this.locationstate,
+    this.locationstreet,
+    this.locationtown,
+    this.locationzipcode
   }) : super(key: key);
 
   @override
@@ -52,6 +64,7 @@ class _AddProductPickUpAddressScreenState extends State<AddProductPickUpAddressS
   final TextEditingController stateController = TextEditingController();
   final TextEditingController zipcodeController = TextEditingController();
   final TextEditingController townController = TextEditingController();
+  final TextEditingController countryController = TextEditingController();
   final TextEditingController specialInstructionController = TextEditingController();
   final addProductController = Get.put(AddProductController());
   RxBool hide = true.obs;
@@ -72,6 +85,7 @@ class _AddProductPickUpAddressScreenState extends State<AddProductPickUpAddressS
       map['state'] =  stateController.text.trim();
       map['zip_code'] = zipcodeController.text.trim();
       map['town'] = townController.text.trim();
+      map['country'] = countryController.text.trim();
       map['id'] = addProductController.idProduct.value.toString();
       map['street'] =  streetController.text.trim();
       map['special_instruction'] = specialInstructionController.text.trim();
@@ -81,6 +95,7 @@ class _AddProductPickUpAddressScreenState extends State<AddProductPickUpAddressS
       map['state'] = stateController.text.trim();
       map['zip_code'] = zipcodeController.text.trim();
       map['town'] = townController.text.trim();
+      map['country'] = countryController.text.trim();
       map['street'] = streetController.text.trim();
       map['id'] = addProductController.idProduct.value.toString();
       map['special_instruction'] = specialInstructionController.text.trim();
@@ -111,8 +126,18 @@ class _AddProductPickUpAddressScreenState extends State<AddProductPickUpAddressS
       streetController.text = widget.street!;
       cityController.text = widget.city ?? '';
       stateController.text = widget.state ?? '';
+      countryController.text = widget.country ?? '';
       zipcodeController.text = widget.zipcode ?? '';
       townController.text = widget.town ?? '';
+    }
+
+    if(widget.locationzipcode != null){
+      streetController.text = widget.locationstreet!;
+      cityController.text = widget.locationcity ?? '';
+      stateController.text = widget.locationstate ?? '';
+      countryController.text = widget.locationcountry ?? '';
+      zipcodeController.text = widget.locationzipcode ?? '';
+      townController.text = widget.locationtown ?? '';
     }
   }
 

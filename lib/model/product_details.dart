@@ -57,6 +57,10 @@ class ProductDetails {
 class Product {
   dynamic id;
   dynamic spot;
+  dynamic fromLocation;
+  dynamic toLocation;
+  dynamic fromExtraNotes;
+  dynamic toExtraNotes;
   dynamic meeting_platform;
   dynamic eligible_min_age;
   dynamic eligible_max_age;
@@ -174,6 +178,10 @@ class Product {
   Product(
       {this.id,
       this.spot,
+        this.fromLocation,
+        this.toLocation,
+        this.fromExtraNotes,
+        this.toExtraNotes,
       this.meeting_platform,
       this.serviceTimeSloat,
       this.startLocation,
@@ -291,6 +299,10 @@ class Product {
         json['serviceTimeSloat'] != null ? new ServiceTimeSloat.fromJson(json['serviceTimeSloat']) : null;
     startLocation = json['start_location'];
     spot = json['spot'];
+    fromLocation = json['from_location'];
+    toLocation = json['to_location'];
+    fromExtraNotes = json['from_extra_notes'];
+    toExtraNotes = json['to_extra_notes'];
     meeting_platform = json['meeting_platform'];
     endLocation = json['end_location'];
     timingExtraNotes = json['timing_extra_notes'];
@@ -421,6 +433,10 @@ class Product {
   Map<String, dynamic> toJson() {
     final Map<String, dynamic> data = new Map<String, dynamic>();
     data['id'] = this.id;
+    data['from_location'] = this.fromLocation;
+    data['to_location'] = this.toLocation;
+    data['from_extra_notes'] = this.fromExtraNotes;
+    data['to_extra_notes'] = this.toExtraNotes;
     data['vendor_id'] = this.vendorId;
     data['address_id'] = this.addressId;
     data['cat_id'] = this.catId;

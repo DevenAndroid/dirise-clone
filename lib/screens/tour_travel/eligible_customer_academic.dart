@@ -16,7 +16,12 @@ import '../../widgets/common_button.dart';
 import '../Seminars &  Attendable Course/review_screen.dart';
 
 class EligibleCustomersTourAndTravel extends StatefulWidget {
-  const EligibleCustomersTourAndTravel({super.key});
+  int? id;
+  int? eligibleMinAge;
+  int? eligibleMaxAge;
+  String? eligibleGender;
+
+  EligibleCustomersTourAndTravel({super.key,this.id,this.eligibleGender,this.eligibleMaxAge,this.eligibleMinAge});
 
   @override
   State<EligibleCustomersTourAndTravel> createState() => _EligibleCustomersTourAndTravelState();
@@ -49,11 +54,20 @@ class _EligibleCustomersTourAndTravelState extends State<EligibleCustomersTourAn
       // showToast(response.message.toString());
       if (response.status == true) {
         showToast(response.message.toString());
-        Get.to(() => const ReviewScreenSeminarAndAttendable());
+        Get.to(() => const ReviewandPublishTourScreenScreen());
       }
     });
   }
-
+  @override
+  void initState() {
+    // TODO: implement initState
+    super.initState();
+    if(widget.id != null){
+      digitsBeforeDecimal = widget.eligibleMinAge.toString();
+      endDigitsBeforeDecimal = widget.eligibleMaxAge.toString();
+      selectedGender = widget.eligibleGender.toString();
+    }
+  }
   @override
   Widget build(BuildContext context) {
     return Scaffold(

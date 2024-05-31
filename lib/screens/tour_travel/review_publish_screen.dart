@@ -2,6 +2,7 @@ import 'dart:convert';
 import 'dart:developer';
 
 import 'package:dirise/addNewProduct/rewardScreen.dart';
+import 'package:dirise/screens/tour_travel/sponsors_academic_screen.dart';
 import 'package:dirise/widgets/loading_animation.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
@@ -18,6 +19,9 @@ import '../../widgets/common_button.dart';
 import '../../widgets/common_colour.dart';
 import '../../widgets/common_textfield.dart';
 import '../Consultation Sessions/consultation_session_thankyou.dart';
+import 'date_range_screen_tour.dart';
+import 'eligible_customer_academic.dart';
+import 'optional_details_academic.dart';
 
 class ReviewandPublishTourScreenScreen extends StatefulWidget {
   const ReviewandPublishTourScreenScreen({super.key});
@@ -122,7 +126,7 @@ class _ReviewandPublishTourScreenScreenState extends State<ReviewandPublishTourS
                             mainAxisAlignment: MainAxisAlignment.spaceBetween,
                             children: [
                               Text(
-                                'Tour & Travel',
+                                'Date Range',
                                 style: GoogleFonts.poppins(
                                   color: AppTheme.primaryColor,
                                   fontSize: 15,
@@ -143,16 +147,49 @@ class _ReviewandPublishTourScreenScreenState extends State<ReviewandPublishTourS
                         ),
                       ),
                       if (isServiceProvide.value == true)
-                        Column(
-                          mainAxisAlignment: MainAxisAlignment.start,
-                          crossAxisAlignment: CrossAxisAlignment.start,
+                        Stack(
                           children: [
-                            Text(
-                                'timeSloat : ${productDetailsModel.value.productDetails!.product!.serviceTimeSloat!.timeSloat ?? ""}'),
-                            Text('timeSloatEnd : ${productDetailsModel.value.productDetails!.product!.serviceTimeSloat!.timeSloatEnd ?? ""}'),
+                            Container(
+                              margin: EdgeInsets.only(top: 10),
+                              width: Get.width,
+                              padding: EdgeInsets.all(10),
+                              decoration:
+                              BoxDecoration(color: Colors.grey.shade200, borderRadius: BorderRadius.circular(11)),
+                              child: Column(
+                                mainAxisAlignment: MainAxisAlignment.start,
+                                crossAxisAlignment: CrossAxisAlignment.start,
+                                children: [
+                                  Text('Dates range: ${productDetailsModel.value.productDetails!.product!.productAvailability!.fromDate ?? ""} to ${productDetailsModel.value.productDetails!.product!.productAvailability!.toDate ?? ""}'),
+                                  Text('From Location: ${productDetailsModel.value.productDetails!.product!.fromLocation ?? ""} '),
+                                  Text('To Location: ${productDetailsModel.value.productDetails!.product!.toLocation ?? ""} '),
+                                  Text('From ExtraNotes: ${productDetailsModel.value.productDetails!.product!.fromExtraNotes ?? ""} '),
+                                  Text('To ExtraNotes: ${productDetailsModel.value.productDetails!.product!.toExtraNotes ?? ""} '),
 
+                                ],
+                              ),
+                            ),
+                            Positioned(
+                                right: 10,
+                                top: 20,
+                                child: GestureDetector(
+                                    onTap: () {
+                                      Get.to(DateRangeScreenTour(
+                                        id: productDetailsModel.value.productDetails!.product!.id,
+                                         from_date: productDetailsModel.value.productDetails!.product!.productAvailability!.fromDate,
+                                        to_date: productDetailsModel.value.productDetails!.product!.productAvailability!.toDate,
+                                        fromLocation: productDetailsModel.value.productDetails!.product!.startLocation,
+                                        toLocation: productDetailsModel.value.productDetails!.product!.endLocation,
+                                        formExtraNotes: productDetailsModel.value.productDetails!.product!.fromExtraNotes,
+                                        toExtraNotes: productDetailsModel.value.productDetails!.product!.toExtraNotes,
+                                      ));
+                                    },
+                                    child: const Text(
+                                      'Edit',
+                                      style: TextStyle(color: Colors.red, fontSize: 13),
+                                    )))
                           ],
                         ),
+
                       const SizedBox(height: 20),
                       GestureDetector(
                         onTap: () {
@@ -240,19 +277,54 @@ class _ReviewandPublishTourScreenScreenState extends State<ReviewandPublishTourS
                         ),
                       ),
                       if (isOperational.value == true)
-                        Column(
-                          mainAxisAlignment: MainAxisAlignment.start,
-                          crossAxisAlignment: CrossAxisAlignment.start,
+                        Stack(
                           children: [
-                            Text(
-                                'Location: ${productDetailsModel.value.productDetails!.product!.bookable_product_location ?? ""}'),
-                            Text('Host name: ${productDetailsModel.value.productDetails!.product!.host_name ?? ""}'),
-                            Text(
-                                'Program name: ${productDetailsModel.value.productDetails!.product!.program_name ?? ""}'),
-                            Text(
-                                'Program goal: ${productDetailsModel.value.productDetails!.product!.program_goal ?? ""}'),
-                            Text(
-                                'Program Description: ${productDetailsModel.value.productDetails!.product!.program_desc ?? ""}'),
+                            Container(
+                              margin: EdgeInsets.only(top: 10),
+                              width: Get.width,
+                              padding: EdgeInsets.all(10),
+                              decoration:
+                              BoxDecoration(color: Colors.grey.shade200, borderRadius: BorderRadius.circular(11)),
+                              child: Column(
+                                mainAxisAlignment: MainAxisAlignment.start,
+                                crossAxisAlignment: CrossAxisAlignment.start,
+                                children: [
+                                  Text(
+                                      'Location: ${productDetailsModel.value.productDetails!.product!.bookable_product_location ?? ""}'),
+                                  Text(
+                                      'Host name: ${productDetailsModel.value.productDetails!.product!.host_name ?? ""}'),
+                                  Text(
+                                      'Program name: ${productDetailsModel.value.productDetails!.product!.program_name ?? ""}'),
+                                  Text(
+                                      'Program goal: ${productDetailsModel.value.productDetails!.product!.program_goal ?? ""}'),
+                                  Text(
+                                      'Program Description: ${productDetailsModel.value.productDetails!.product!.program_desc ?? ""}'),
+                                ],
+                              ),
+                            ),
+                            Positioned(
+                                right: 10,
+                                top: 20,
+                                child: GestureDetector(
+                                    onTap: () {
+                                      Get.to(OptionalDetailsTourAndTravel(
+                                        id: productDetailsModel.value.productDetails!.product!.id,
+                                        hostNameController:
+                                        productDetailsModel.value.productDetails!.product!.host_name,
+                                        locationController: productDetailsModel
+                                            .value.productDetails!.product!.bookable_product_location,
+                                        programDescription:
+                                        productDetailsModel.value.productDetails!.product!.program_desc,
+                                        programGoalController:
+                                        productDetailsModel.value.productDetails!.product!.program_goal,
+                                        programNameController:
+                                        productDetailsModel.value.productDetails!.product!.program_name,
+                                      ));
+                                    },
+                                    child: const Text(
+                                      'Edit',
+                                      style: TextStyle(color: Colors.red, fontSize: 13),
+                                    )))
                           ],
                         ),
                       const SizedBox(height: 20),
@@ -293,13 +365,40 @@ class _ReviewandPublishTourScreenScreenState extends State<ReviewandPublishTourS
                         ),
                       ),
                       if (isSponsors.value == true)
-                        Column(
-                          mainAxisAlignment: MainAxisAlignment.start,
-                          crossAxisAlignment: CrossAxisAlignment.start,
+                        Stack(
                           children: [
-                            Text(
-                                'Sponsor type: ${productDetailsModel.value.productDetails!.product!.bookable_product_location ?? ""}'),
-                            Text('Sponsor name: ${productDetailsModel.value.productDetails!.product!.host_name ?? ""}'),
+                            Container(
+                              margin: EdgeInsets.only(top: 10),
+                              width: Get.width,
+                              padding: EdgeInsets.all(10),
+                              decoration:
+                              BoxDecoration(color: Colors.grey.shade200, borderRadius: BorderRadius.circular(11)),
+                              child: Column(
+                                mainAxisAlignment: MainAxisAlignment.start,
+                                crossAxisAlignment: CrossAxisAlignment.start,
+                                children: [
+                                  Text(
+                                      'Sponsor type: ${productDetailsModel.value.productDetails!.product!.bookable_product_location ?? ""}'),
+                                  Text(
+                                      'Sponsor name: ${productDetailsModel.value.productDetails!.product!.host_name ?? ""}'),
+                                ],
+                              ),
+                            ),
+                            Positioned(
+                                right: 10,
+                                top: 20,
+                                child: GestureDetector(
+                                    onTap: () {
+                                      Get.to(SponsorsScreenTourAndTravel(
+                                        id: productDetailsModel.value.productDetails!.product!.id,
+                                        sponsorName: productDetailsModel.value.productDetails!.product!.host_name,
+                                        sponsorType: productDetailsModel.value.productDetails!.product!.bookable_product_location,
+                                      ));
+                                    },
+                                    child: const Text(
+                                      'Edit',
+                                      style: TextStyle(color: Colors.red, fontSize: 13),
+                                    )))
                           ],
                         ),
                       const SizedBox(height: 20),
@@ -340,14 +439,41 @@ class _ReviewandPublishTourScreenScreenState extends State<ReviewandPublishTourS
                         ),
                       ),
                       if (eligibleCustomer.value == true)
-                        Column(
-                          mainAxisAlignment: MainAxisAlignment.start,
-                          crossAxisAlignment: CrossAxisAlignment.start,
+                        Stack(
                           children: [
-                            Text(
-                                'Age range: ${productDetailsModel.value.productDetails!.product!.eligible_min_age ?? ""} to  ${productDetailsModel.value.productDetails!.product!.eligible_max_age ?? ""}'),
-                            Text(
-                                'eligible gender : ${productDetailsModel.value.productDetails!.product!.eligible_gender ?? ""}'),
+                            Container(
+                              margin: EdgeInsets.only(top: 10),
+                              width: Get.width,
+                              padding: EdgeInsets.all(10),
+                              decoration:
+                              BoxDecoration(color: Colors.grey.shade200, borderRadius: BorderRadius.circular(11)),
+                              child:  Column(
+                                mainAxisAlignment: MainAxisAlignment.start,
+                                crossAxisAlignment: CrossAxisAlignment.start,
+                                children: [
+                                  Text(
+                                      'Age range: ${productDetailsModel.value.productDetails!.product!.eligible_min_age ?? ""} to  ${productDetailsModel.value.productDetails!.product!.eligible_max_age ?? ""}'),
+                                  Text(
+                                      'eligible gender : ${productDetailsModel.value.productDetails!.product!.eligible_gender ?? ""}'),
+                                ],
+                              ),
+                            ),
+                            Positioned(
+                                right: 10,
+                                top: 20,
+                                child: GestureDetector(
+                                    onTap: () {
+                                      Get.to(EligibleCustomersTourAndTravel(
+                                        id: productDetailsModel.value.productDetails!.product!.id,
+                                        eligibleGender: productDetailsModel.value.productDetails!.product!.eligible_gender,
+                                        eligibleMaxAge: productDetailsModel.value.productDetails!.product!.eligible_max_age,
+                                        eligibleMinAge: productDetailsModel.value.productDetails!.product!.eligible_min_age,
+                                      ));
+                                    },
+                                    child: const Text(
+                                      'Edit',
+                                      style: TextStyle(color: Colors.red, fontSize: 13),
+                                    )))
                           ],
                         ),
                       const SizedBox(height: 20),

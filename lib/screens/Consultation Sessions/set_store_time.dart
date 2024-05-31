@@ -66,7 +66,7 @@ class _SetTimeScreenConsultationState extends State<SetTimeScreenConsultation> {
       showToast(modelCommonResponse.message.toString());
       controller.getTime( addProductController.idProduct.value.toString());
       if (modelCommonResponse.status == true) {
-        Get.to(()=> const DurationScreen());
+        Get.to(()=> DurationScreen());
         // Get.back();
       }
     });
@@ -432,7 +432,7 @@ print( status.value.toString());
             InkWell(
               onTap: (){
                 // updateTime();
-           Get.to(()=> const DurationScreen());
+           Get.to(()=>  DurationScreen());
               },
               child: Container(
                 width: Get.width,

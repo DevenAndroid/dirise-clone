@@ -1,6 +1,7 @@
 import 'dart:convert';
 import 'package:dirise/Services/services_classification.dart';
 import 'package:dirise/controller/service_controller.dart';
+import 'package:dirise/screens/Consultation%20Sessions/review_screen.dart';
 import 'package:dirise/screens/Consultation%20Sessions/sponsors_screen.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
@@ -17,7 +18,20 @@ import '../../widgets/common_colour.dart';
 import '../../widgets/common_textfield.dart';
 
 class OptionalDetailsScreen extends StatefulWidget {
-  const OptionalDetailsScreen({super.key});
+  int? id;
+  String? locationController;
+  String? hostNameController;
+  String? programNameController;
+  String? programGoalController;
+  String? programDescription;
+  OptionalDetailsScreen(
+      {super.key,
+        this.id,
+      this.locationController,
+      this.programDescription,
+      this.hostNameController,
+      this.programGoalController,
+      this.programNameController});
 
   @override
   State<OptionalDetailsScreen> createState() => _OptionalDetailsScreenState();
@@ -39,7 +53,7 @@ class _OptionalDetailsScreenState extends State<OptionalDetailsScreen> {
   final TextEditingController programDescription = TextEditingController();
   optionalApi() {
     Map<String, dynamic> map = {};
-    map["id"] =  addProductController.idProduct.value.toString();
+    map["id"] = addProductController.idProduct.value.toString();
     map['bookable_product_location'] = locationController.text.trim();
     map['item_type'] = 'product';
     map['host_name'] = hostNameController.text.trim();
@@ -54,11 +68,29 @@ class _OptionalDetailsScreenState extends State<OptionalDetailsScreen> {
       if (response.status == true) {
         showToast(response.message.toString());
 
-        if(formKey1.currentState!.validate()){
-          Get.to(()=> const SponsorsScreen());
+        if (formKey1.currentState!.validate()) {
+          if(widget.id != null){
+            Get.to(() => const ReviewScreen());
+          }else{
+            Get.to(() =>  SponsorsScreen());
+          }
+
         }
       }
     });
+  }
+
+  @override
+  void initState() {
+    // TODO: implement initState
+    super.initState();
+    if(widget.id != null){
+      locationController.text = widget.locationController.toString();
+      hostNameController.text  =  widget.hostNameController.toString();
+      programNameController.text =  widget.programNameController.toString();
+      programGoalController.text = widget.programGoalController.toString();
+      programDescription.text = widget.programDescription.toString();
+    }
   }
 
   @override
@@ -144,7 +176,6 @@ class _OptionalDetailsScreenState extends State<OptionalDetailsScreen> {
                     }
                     return null;
                   },
-
                 ),
                 CommonTextField(
                   controller: programNameController,
@@ -157,7 +188,6 @@ class _OptionalDetailsScreenState extends State<OptionalDetailsScreen> {
                     }
                     return null;
                   },
-
                 ),
                 CommonTextField(
                   controller: programGoalController,
@@ -214,20 +244,18 @@ class _OptionalDetailsScreenState extends State<OptionalDetailsScreen> {
                     ),
                   ),
                 ),
-
                 const SizedBox(height: 20),
                 CustomOutlineButton(
                   title: 'Done',
                   borderRadius: 11,
                   onPressed: () {
                     optionalApi();
-
                   },
                 ),
                 const SizedBox(height: 20),
                 GestureDetector(
                   onTap: () {
-                    Get.to(()=> const SponsorsScreen());
+                    Get.to(() =>  SponsorsScreen());
                   },
                   child: Container(
                     width: Get.width,

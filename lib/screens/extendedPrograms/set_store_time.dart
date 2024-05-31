@@ -77,7 +77,7 @@ import 'optional_details_academic.dart';
 
   if (modelCommonResponse.status == true) {
   log("dfsgsdfg${modelCommonResponse.uRL.toString()}");
-  Get.to(const OptionalDetailsExtendedPrograms());
+  Get.to(OptionalDetailsExtendedPrograms());
   }
   });
   }

@@ -13,7 +13,12 @@ import '../../widgets/common_button.dart';
 
 
 class EligibleCustomers extends StatefulWidget {
-  const EligibleCustomers({super.key});
+  int? id;
+  int? eligibleMinAge;
+  int? eligibleMaxAge;
+  String? eligibleGender;
+
+  EligibleCustomers({super.key,this.id,this.eligibleGender,this.eligibleMaxAge,this.eligibleMinAge});
 
   @override
   State<EligibleCustomers> createState() => _EligibleCustomersState();
@@ -46,9 +51,25 @@ class _EligibleCustomersState extends State<EligibleCustomers> {
       // showToast(response.message.toString());
       if (response.status == true) {
         showToast(response.message.toString());
-        Get.to(()=> const ReviewScreen());
+        if(widget.id != null){
+          Get.to(()=> const ReviewScreen());
+        }else{
+          Get.to(()=> const ReviewScreen());
+        }
+
       }
     });
+  }
+
+  @override
+  void initState() {
+    // TODO: implement initState
+    super.initState();
+    if(widget.id != null){
+      digitsBeforeDecimal = widget.eligibleMinAge.toString();
+      endDigitsBeforeDecimal = widget.eligibleMaxAge.toString();
+      selectedGender = widget.eligibleGender.toString();
+    }
   }
   @override
   Widget build(BuildContext context) {

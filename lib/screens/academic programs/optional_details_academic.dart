@@ -18,7 +18,20 @@ import '../../widgets/common_textfield.dart';
 import 'eligible_customer_academic.dart';
 
 class OptionalDetailsAcademicScreen extends StatefulWidget {
-  const OptionalDetailsAcademicScreen({super.key});
+  int? id;
+  String? locationController;
+  String? hostNameController;
+  String? programNameController;
+  String? programGoalController;
+  String? programDescription;
+  OptionalDetailsAcademicScreen(
+      {super.key,
+        this.id,
+        this.locationController,
+        this.programDescription,
+        this.hostNameController,
+        this.programGoalController,
+        this.programNameController});
 
   @override
   State<OptionalDetailsAcademicScreen> createState() => _OptionalDetailsAcademicScreenState();
@@ -56,10 +69,23 @@ class _OptionalDetailsAcademicScreenState extends State<OptionalDetailsAcademicS
         showToast(response.message.toString());
 
         if (formKey1.currentState!.validate()) {
-          Get.to(() => const EligibleCustomersAcademic());
+          Get.to(() =>  EligibleCustomersAcademic());
         }
       }
     });
+  }
+
+  @override
+  void initState() {
+    // TODO: implement initState
+    super.initState();
+    if(widget.id != null){
+      locationController.text = widget.locationController.toString();
+      hostNameController.text  =  widget.hostNameController.toString();
+      programNameController.text =  widget.programNameController.toString();
+      programGoalController.text = widget.programGoalController.toString();
+      programDescription.text = widget.programDescription.toString();
+    }
   }
 
   @override
@@ -224,7 +250,7 @@ class _OptionalDetailsAcademicScreenState extends State<OptionalDetailsAcademicS
                 const SizedBox(height: 20),
                 GestureDetector(
                   onTap: () {
-                    Get.to(() => const EligibleCustomersAcademic());
+                    Get.to(() =>  EligibleCustomersAcademic());
                   },
                   child: Container(
                     width: Get.width,

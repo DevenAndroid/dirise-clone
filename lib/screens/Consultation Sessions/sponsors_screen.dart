@@ -23,7 +23,11 @@ import 'EligibleCustomers.dart';
 
 
 class SponsorsScreen extends StatefulWidget {
-  const SponsorsScreen({super.key});
+  int? id;
+  String? sponsorType;
+  String? sponsorName;
+
+  SponsorsScreen({super.key,this.id,this.sponsorName,this.sponsorType});
 
   @override
   State<SponsorsScreen> createState() => _SponsorsScreenState();
@@ -91,7 +95,12 @@ class _SponsorsScreenState extends State<SponsorsScreen> {
       if (response.status == true) {
         showToast(response.message.toString());
         if(formKey1.currentState!.validate()){
-          Get.to(()=> const EligibleCustomers());
+          if(widget.id != null){
+            Get.to(()=> ReviewScreen());
+          }else{
+            Get.to(()=> EligibleCustomers());
+          }
+
         }
       }
     });
@@ -102,6 +111,10 @@ class _SponsorsScreenState extends State<SponsorsScreen> {
     WidgetsBinding.instance.addPostFrameCallback((timeStamp) {
       getSponsors();
     });
+    if(widget.id != null){
+      sponsorTypeController.text = widget.sponsorType.toString();
+      sponsorNameController.text = widget.sponsorName.toString();
+    }
   }
   @override
   Widget build(BuildContext context) {
@@ -217,7 +230,7 @@ class _SponsorsScreenState extends State<SponsorsScreen> {
 
                 ),
                 25.spaceY,
-               if( sponsorImage != '' )
+               if( sponsorImage == '' )
                 ImageWidget(
                   // key: paymentReceiptCertificateKey,
                   title: "Upload Sponsor logo".tr,
@@ -227,7 +240,7 @@ class _SponsorsScreenState extends State<SponsorsScreen> {
                     idProof = g;
                   },
                 ),
-                if(sponsorImage == '' )
+                if(sponsorImage != '' )
                 Text(
                   "Upload Sponsor logo".tr,
                   style: GoogleFonts.poppins(fontWeight: FontWeight.w500, color: const Color(0xff2F2F2F), fontSize: 16),
@@ -299,7 +312,7 @@ class _SponsorsScreenState extends State<SponsorsScreen> {
                 const SizedBox(height: 20),
                 GestureDetector(
                   onTap: () {
-                    Get.to(()=> const EligibleCustomers());
+                    Get.to(()=> EligibleCustomers());
                   },
                   child: Container(
                     width: Get.width,
