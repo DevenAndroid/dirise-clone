@@ -54,6 +54,10 @@
 	<true/>
 	<key>NSCameraUsageDescription</key>
 	<string>Dirise would like to use your camera</string>
+	<key>NSLocationAlwaysUsageDescription</key>
+	<string>Allow it to access your current location to show products at that location.</string>
+	<key>NSLocationWhenInUseUsageDescription</key>
+	<string>Allow it to access your current location to show products at that location.</string>
 	<key>NSMicrophoneUsageDescription</key>
 	<string>This App needs microphone access</string>
 	<key>NSPhotoLibraryUsageDescription</key>
