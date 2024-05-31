@@ -38,7 +38,7 @@ class _BagsScreenState extends State<BagsScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
         backgroundColor: Colors.grey.shade50,
-        appBar: customAppBar(title: "Bag".tr),
+        appBar: customAppBar(title: "Cart".tr),
         body: RefreshIndicator(
           onRefresh: () async {
             await cartController.getCart();
@@ -421,7 +421,7 @@ class _BagsScreenState extends State<BagsScreen> {
                           Center(
                             child: Text(
                               "${'Your cart is currently empty'.tr}\n"
-                              "Checkout products to added them in bag".tr,
+                              "Checkout products to added them in cart".tr,
                               textAlign: TextAlign.center,
                             ),
                           ),
@@ -438,7 +438,7 @@ class _BagsScreenState extends State<BagsScreen> {
                                 onPressed: () {
                                   Get.back();
                                 },
-                                child:  Text("Return To Shop".tr,style: const TextStyle(
+                                child:  Text("Continue shopping".tr,style: const TextStyle(
                                   color: Colors.white
                                 ),)),
                           ),

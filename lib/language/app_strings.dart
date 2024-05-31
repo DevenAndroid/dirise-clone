@@ -104,7 +104,7 @@ class AppStrings{
   static String relatedProduct = "Related Products";
   static String product = "product";
   static String generalLibraries = "General Libraries";
-  static String bagEmpty = "Your bag is empty";
+  static String bagEmpty = "Your cart is empty";
   static String schoolNursery = "School & Nurseries";
   static String audio = "Audio";
   static String shopNow = "Shop now!";
