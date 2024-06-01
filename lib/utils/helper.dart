@@ -171,7 +171,7 @@ class NewHelper {
                   ],
                 );
                 if (croppedFile != null) {
-                  gotImage(await FlutterExifRotation.rotateImage(path: v.path));
+                  gotImage(await FlutterExifRotation.rotateImage(path: croppedFile.path));
                   Get.back();
                 }
 

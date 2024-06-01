@@ -14,7 +14,12 @@ import '../../utils/api_constant.dart';
 import '../../widgets/common_button.dart';
 
 class EligibleCustomersExtendedPrograms extends StatefulWidget {
-  const EligibleCustomersExtendedPrograms({super.key});
+  int? id;
+  int? eligibleMinAge;
+  int? eligibleMaxAge;
+  String? eligibleGender;
+
+  EligibleCustomersExtendedPrograms({super.key,this.id,this.eligibleGender,this.eligibleMaxAge,this.eligibleMinAge});
 
   @override
   State<EligibleCustomersExtendedPrograms> createState() => _EligibleCustomersExtendedProgramsState();
@@ -50,6 +55,16 @@ class _EligibleCustomersExtendedProgramsState extends State<EligibleCustomersExt
         Get.to(() => const ReviewScreenExtendedPrograms());
       }
     });
+  }
+  @override
+  void initState() {
+    // TODO: implement initState
+    super.initState();
+    if(widget.id != null){
+      digitsBeforeDecimal = widget.eligibleMinAge.toString();
+      endDigitsBeforeDecimal = widget.eligibleMaxAge.toString();
+      selectedGender = widget.eligibleGender.toString();
+    }
   }
 
   @override

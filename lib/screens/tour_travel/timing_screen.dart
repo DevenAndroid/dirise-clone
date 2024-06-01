@@ -61,7 +61,7 @@ class _TimingScreenTourState extends State<TimingScreenTour> {
       if (response.status == true) {
         showToast(response.message.toString());
         if(formKey1.currentState!.validate()){
-          Get.to(()=>const OptionalDetailsTourAndTravel());
+          Get.to(()=> OptionalDetailsTourAndTravel());
         }
       }
     });
@@ -295,7 +295,7 @@ class _TimingScreenTourState extends State<TimingScreenTour> {
               ),
               InkWell(
                 onTap: (){
-                  Get.to(()=>const OptionalDetailsTourAndTravel());
+                  Get.to(()=> OptionalDetailsTourAndTravel());
                 },
                 child: Container(
                   width: Get.width,

@@ -265,7 +265,7 @@ class _OptionalDetailsSeminarAndAttendableState extends State<OptionalDetailsSem
                 const SizedBox(height: 20),
                 GestureDetector(
                   onTap: () {
-                    Get.to(() => const SponsorsScreenExtendedPrograms());
+                    Get.to(() =>  SponsorsScreenExtendedPrograms());
                   },
                   child: Container(
                     width: Get.width,

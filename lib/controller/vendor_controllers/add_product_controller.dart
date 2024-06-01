@@ -26,6 +26,7 @@ class AddProductController extends GetxController {
   ModelCategoryList? modelCategoryList;
   RxInt categoryLoadingInt = 0.obs;
   String? formattedStartDate;
+  RxBool check = false.obs;
   final productController = Get.put(ProductsController());
   Future getProductsCategoryList() async {
     // if (modelCategoryList != null) {

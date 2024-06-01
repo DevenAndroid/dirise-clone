@@ -76,7 +76,7 @@ class _TimeScreenState extends State<TimeScreen> {
 
       if (modelCommonResponse.status == true) {
         log("dfsgsdfg${modelCommonResponse.uRL.toString()}");
-        Get.to(const DurationScreen());
+        Get.to( DurationScreen());
       }
     });
   }

@@ -314,12 +314,12 @@ class _ChooseAddressForGiveawayState extends State<ChooseAddressForGiveaway> {
                                 borderRadius: 11,
                                 onPressed: () {
                                   Get.to( AddProductPickUpAddressScreen(
-                                    street: street,
-                                    city: city,
-                                    state: state,
-                                    country: country,
-                                    town: town,
-                                    zipcode: zipcode,
+                                    locationstreet: street,
+                                    locationcity: city,
+                                    locationstate: state,
+                                    locationcountry: country,
+                                    locationtown: town,
+                                    locationzipcode: zipcode,
                                   ));
                                 },
                               ),

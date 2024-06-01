@@ -23,7 +23,11 @@ import 'eligible_customer_academic.dart';
 import 'optional_details_academic.dart';
 
 class SponsorsScreenExtendedPrograms extends StatefulWidget {
-  const SponsorsScreenExtendedPrograms({super.key});
+  int? id;
+  String? sponsorType;
+  String? sponsorName;
+
+  SponsorsScreenExtendedPrograms({super.key,this.id,this.sponsorName,this.sponsorType});
 
   @override
   State<SponsorsScreenExtendedPrograms> createState() => _SponsorsScreenExtendedProgramsState();
@@ -83,6 +87,7 @@ class _SponsorsScreenExtendedProgramsState extends State<SponsorsScreenExtendedP
         showToast(sponsorsDetailsModel.value.message.toString());
       }
     });
+
   }
 
   createSponsors() {
@@ -97,7 +102,7 @@ class _SponsorsScreenExtendedProgramsState extends State<SponsorsScreenExtendedP
       if (response.status == true) {
         showToast(response.message.toString());
         if (formKey1.currentState!.validate()) {
-          Get.to(() => const EligibleCustomersExtendedPrograms());
+          Get.to(() => EligibleCustomersExtendedPrograms());
         }
       }
     });
@@ -109,6 +114,10 @@ class _SponsorsScreenExtendedProgramsState extends State<SponsorsScreenExtendedP
     WidgetsBinding.instance.addPostFrameCallback((timeStamp) {
       getSponsors();
     });
+    if(widget.id != null){
+      sponsorTypeController.text = widget.sponsorType.toString();
+      sponsorNameController.text = widget.sponsorName.toString();
+    }
   }
 
   @override
@@ -305,7 +314,7 @@ class _SponsorsScreenExtendedProgramsState extends State<SponsorsScreenExtendedP
                         const SizedBox(height: 20),
                         GestureDetector(
                           onTap: () {
-                            Get.to(() => const EligibleCustomersExtendedPrograms());
+                            Get.to(() =>  EligibleCustomersExtendedPrograms());
                           },
                           child: Container(
                             width: Get.width,

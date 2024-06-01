@@ -23,7 +23,11 @@ import 'eligible_customer_academic.dart';
 import 'optional_details_academic.dart';
 
 class SponsorsScreenTourAndTravel extends StatefulWidget {
-  const SponsorsScreenTourAndTravel({super.key});
+  int? id;
+  String? sponsorType;
+  String? sponsorName;
+
+  SponsorsScreenTourAndTravel({super.key,this.id,this.sponsorName,this.sponsorType});
 
   @override
   State<SponsorsScreenTourAndTravel> createState() => _SponsorsScreenTourAndTravelState();
@@ -97,7 +101,7 @@ class _SponsorsScreenTourAndTravelState extends State<SponsorsScreenTourAndTrave
       if (response.status == true) {
         showToast(response.message.toString());
         if (formKey1.currentState!.validate()) {
-          Get.to(() => const EligibleCustomersTourAndTravel());
+          Get.to(() =>  EligibleCustomersTourAndTravel());
         }
       }
     });
@@ -109,6 +113,10 @@ class _SponsorsScreenTourAndTravelState extends State<SponsorsScreenTourAndTrave
     WidgetsBinding.instance.addPostFrameCallback((timeStamp) {
       getSponsors();
     });
+    if(widget.id != null){
+      sponsorTypeController.text = widget.sponsorType.toString();
+      sponsorNameController.text = widget.sponsorName.toString();
+    }
   }
 
   @override
@@ -305,7 +313,7 @@ class _SponsorsScreenTourAndTravelState extends State<SponsorsScreenTourAndTrave
                         const SizedBox(height: 20),
                         GestureDetector(
                           onTap: () {
-                            Get.to(() => const EligibleCustomersTourAndTravel());
+                            Get.to(() =>  EligibleCustomersTourAndTravel());
                           },
                           child: Container(
                             width: Get.width,

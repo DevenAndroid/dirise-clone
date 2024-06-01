@@ -16,7 +16,13 @@ import 'optional_details_academic.dart';
 
 
 class AcademicDurationScreen extends StatefulWidget {
-  const  AcademicDurationScreen({super.key});
+  int? id;
+  dynamic recoveryBlockTime;
+  dynamic preparationBlockTime;
+  dynamic interval;
+
+  AcademicDurationScreen({super.key,this.recoveryBlockTime,this.preparationBlockTime,this.interval,this.id});
+
 
   @override
   State<AcademicDurationScreen> createState() => _AcademicDurationScreenState();
@@ -47,7 +53,7 @@ class _AcademicDurationScreenState extends State<AcademicDurationScreen> {
       if (response.status == true) {
         addProductController.idProduct.value = response.productDetails!.product!.id.toString();
         print(addProductController.idProduct.value.toString());
-        Get.to(()=>const SponsorsScreenAcademic());
+        Get.to(()=> SponsorsScreenAcademic());
       }
     });
   }
@@ -64,6 +70,19 @@ class _AcademicDurationScreenState extends State<AcademicDurationScreen> {
       createSlotsModel.value = CreateSlotsModel.fromJson(jsonDecode(value));
       showToast(createSlotsModel.value.message.toString());
     });
+  }
+
+
+  @override
+  void initState() {
+    // TODO: implement initState
+    super.initState();
+    if(widget.id != null){
+      timeControllerRecovery.text = widget.recoveryBlockTime.toString();
+      timeControllerPreparation.text = widget.preparationBlockTime.toString();
+      timeController.text = widget.interval.toString();
+    }
+
   }
   @override
   Widget build(BuildContext context) {
@@ -539,7 +558,7 @@ class _AcademicDurationScreenState extends State<AcademicDurationScreen> {
               ),
               InkWell(
                 onTap: (){
-                  Get.to(()=>const SponsorsScreenAcademic());
+                  Get.to(()=> SponsorsScreenAcademic());
                 },
                 child: Container(
                   width: Get.width,

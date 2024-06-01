@@ -78,7 +78,7 @@ class _SetTimeScreenAcademicState extends State<SetTimeScreenAcademic> {
 
       if (modelCommonResponse.status == true) {
         log("dfsgsdfg${modelCommonResponse.uRL.toString()}");
-        Get.to(const OptionalDetailsExtendedPrograms());
+        Get.to(AcademicDurationScreen());
       }
     });
   }

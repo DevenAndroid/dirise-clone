@@ -19,7 +19,20 @@ import '../../widgets/common_textfield.dart';
 import 'eligible_customer_academic.dart';
 
 class OptionalDetailsExtendedPrograms extends StatefulWidget {
-  const OptionalDetailsExtendedPrograms({super.key});
+  int? id;
+  String? locationController;
+  String? hostNameController;
+  String? programNameController;
+  String? programGoalController;
+  String? programDescription;
+  OptionalDetailsExtendedPrograms(
+      {super.key,
+        this.id,
+        this.locationController,
+        this.programDescription,
+        this.hostNameController,
+        this.programGoalController,
+        this.programNameController});
 
   @override
   State<OptionalDetailsExtendedPrograms> createState() => _OptionalDetailsExtendedProgramsState();
@@ -57,12 +70,24 @@ class _OptionalDetailsExtendedProgramsState extends State<OptionalDetailsExtende
         showToast(response.message.toString());
 
         if (formKey1.currentState!.validate()) {
-          Get.to(() => const SponsorsScreenExtendedPrograms());
+          Get.to(() =>  SponsorsScreenExtendedPrograms());
         }
       }
     });
   }
 
+  @override
+  void initState() {
+    // TODO: implement initState
+    super.initState();
+    if(widget.id != null){
+      locationController.text = widget.locationController.toString();
+      hostNameController.text  =  widget.hostNameController.toString();
+      programNameController.text =  widget.programNameController.toString();
+      programGoalController.text = widget.programGoalController.toString();
+      programDescription.text = widget.programDescription.toString();
+    }
+  }
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -225,7 +250,7 @@ class _OptionalDetailsExtendedProgramsState extends State<OptionalDetailsExtende
                 const SizedBox(height: 20),
                 GestureDetector(
                   onTap: () {
-                    Get.to(() => const SponsorsScreenExtendedPrograms());
+                    Get.to(() =>  SponsorsScreenExtendedPrograms());
                   },
                   child: Container(
                     width: Get.width,

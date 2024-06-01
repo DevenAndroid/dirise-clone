@@ -194,7 +194,7 @@ class _OptionalDetailsWebiinarsScreenState extends State<OptionalDetailsWebiinar
                 const SizedBox(height: 20),
                 GestureDetector(
                   onTap: () {
-                    Get.to(() => const SponsorsScreenExtendedPrograms());
+                    Get.to(() =>  SponsorsScreenExtendedPrograms());
                   },
                   child: Container(
                     width: Get.width,

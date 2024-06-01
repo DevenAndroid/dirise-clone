@@ -27,6 +27,8 @@ class PickUpAddressScreen extends StatefulWidget {
   final String? town;
 
 
+
+
   PickUpAddressScreen({
     Key? key,
     this.street,
@@ -35,6 +37,7 @@ class PickUpAddressScreen extends StatefulWidget {
     this.country,
     this.zipcode,
     this.town,
+
   }) : super(key: key);
 
   @override
@@ -104,6 +107,8 @@ class _PickUpAddressScreenState extends State<PickUpAddressScreen> {
       zipcodeController.text = widget.zipcode ?? '';
       townController.text = widget.town ?? '';
     }
+
+
   }
   @override
   Widget build(BuildContext context) {

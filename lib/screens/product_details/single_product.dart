@@ -339,11 +339,11 @@ class _SingleProductDetailsState extends State<SingleProductDetails> {
                                     child: Column(
                                   crossAxisAlignment: CrossAxisAlignment.start,
                                   children: [
-                                    Text(
+                                    productDetails.itemType != 'giveaway'? Text(
                                       "${productDetails.discountOff} ${'%'} Off",
                                       style: GoogleFonts.poppins(
                                           fontSize: 14, fontWeight: FontWeight.w500, color: const Color(0xffC22E2E)),
-                                    ),
+                                    ): const SizedBox.shrink(),
                                     const SizedBox(
                                       height: 5,
                                     ),
@@ -358,10 +358,10 @@ class _SingleProductDetailsState extends State<SingleProductDetails> {
                                       '${productDetails.inStock.toString()} pieces',
                                       style: GoogleFonts.poppins(color: const Color(0xff858484), fontSize: 17),
                                     ),
-                                    const SizedBox(
+                                    productDetails.itemType != 'giveaway'?    const SizedBox(
                                       height: 5,
-                                    ),
-                                    Row(
+                                    ): const   SizedBox.shrink(),
+                                    productDetails.itemType != 'giveaway'?    Row(
                                       children: [
                                         Text(
                                           'KWD ${productDetails.discountPrice.toString()}',
@@ -381,7 +381,7 @@ class _SingleProductDetailsState extends State<SingleProductDetails> {
                                           ),
                                         ),
                                       ],
-                                    ),
+                                    ) : const SizedBox.shrink(),
                                   ],
                                 )),
                                 if (isVirtualProduct)
@@ -449,46 +449,44 @@ class _SingleProductDetailsState extends State<SingleProductDetails> {
                             const SizedBox(
                               height: 20,
                             ),
-                           modelSingleProduct.product?.shippingDate!="No Internation Shipping Available"?
-                         Column(crossAxisAlignment: CrossAxisAlignment.start,
-                           children: [
-                             modelSingleProduct.product?.shippingDate!=null&&modelSingleProduct.product!=null?
-                             Text('Shipping : ${modelSingleProduct.product!.shippingDate.toString()}'
-                                   .tr,
-                               style: GoogleFonts.poppins(
-                                 shadows: [const Shadow(color: Colors.black, offset: Offset(0, -4))],
-                                 color: Colors.transparent,
-                                 fontSize: 18,
-                                 fontWeight: FontWeight.w500,
-                                 decoration: TextDecoration.underline,
-                               ),
-                             ):const CircularProgressIndicator(),
-                             const SizedBox(
-                               height: 20,
-                             ),
-                             if(modelSingleProduct.product?.lowestDeliveryPrice!=null)
-                               Row(
-                                 children: [
-                                   Text('KWD ${modelSingleProduct.product!.lowestDeliveryPrice.toString()}'
-                                         .tr,
-                                     style: GoogleFonts.poppins(
-                                       shadows: [const Shadow(color: Colors.black, offset: Offset(0, -4))],
-                                       color: Colors.transparent,
-                                       fontSize: 18,
-                                       fontWeight: FontWeight.w500,
-                                       decoration: TextDecoration.underline,
-                                     ),
-                                   ),
-                                 ],
-                               ),
-                           ],
-                         ):Text("No Internation Shipping Available",style: GoogleFonts.poppins(
-                             shadows: [const Shadow(color: Colors.black, offset: Offset(0, -4))],
-                             color: Colors.transparent,
-                             fontSize: 18,
-                             fontWeight: FontWeight.w500,
-                             decoration: TextDecoration.underline,
-                           ),),
+                            if(modelSingleProduct.product!= null)
+                            modelSingleProduct.product?.shippingDate != "No Internation Shipping Available"?
+                            Column(crossAxisAlignment: CrossAxisAlignment.start,
+                              children: [
+                                Text(
+                                  'shipping',
+                                  style: GoogleFonts.poppins(
+                                      color: const Color(0xff858484),
+                                      fontSize: 13,
+                                      fontWeight: FontWeight.w500),
+                                ),
+                                if(modelSingleProduct.product!= null)
+                                if(modelSingleProduct.product?.lowestDeliveryPrice!=null)
+                                  Text(
+                                    'KWD${modelSingleProduct.product!.lowestDeliveryPrice.toString()}',
+                                    style: GoogleFonts.poppins(
+                                        color: const Color(0xff858484),
+                                        fontSize: 13,
+                                        fontWeight: FontWeight.w500),
+                                  ),
+                                if(modelSingleProduct.product!= null)
+                                if(modelSingleProduct.product!.shippingDate!=null)
+                                  Text(
+                                    modelSingleProduct.product!.shippingDate.toString(),
+                                    style: GoogleFonts.poppins(
+                                        color: const Color(0xff858484),
+                                        fontSize: 13,
+                                        fontWeight: FontWeight.w500),
+                                  ),
+                              ],
+                            ): Text("No Internation Shipping Available",
+                              style: GoogleFonts.poppins(
+                                shadows: [const Shadow(color: Colors.black, offset: Offset(0, -4))],
+                                color: Colors.transparent,
+                                fontSize: 18,
+                                fontWeight: FontWeight.w500,
+                                decoration: TextDecoration.underline,
+                              ),),
                             const SizedBox(height: 15,),
                             Align(
                               alignment: Alignment.topLeft,

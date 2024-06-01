@@ -1,6 +1,7 @@
 import 'dart:convert';
 import 'dart:math';
 import 'package:dirise/screens/Consultation%20Sessions/set_store_time.dart';
+import 'package:dirise/screens/tour_travel/review_publish_screen.dart';
 import 'package:dirise/screens/tour_travel/timing_screen.dart';
 import 'package:dirise/utils/helper.dart';
 import 'package:flutter/material.dart';
@@ -16,7 +17,18 @@ import '../../widgets/common_textfield.dart';
 import 'dateRangemodel.dart';
 
 class DateRangeScreenTour extends StatefulWidget {
-  const DateRangeScreenTour({super.key});
+  int? id;
+  String? from_date;
+  String? to_date;
+  String? fromLocation;
+  String? toLocation;
+  String? formExtraNotes;
+  String? toExtraNotes;
+
+
+  DateRangeScreenTour(
+      {super.key, this.from_date, this.to_date, this.fromLocation, this.toLocation, this.id, this.formExtraNotes,this.toExtraNotes});
+
 
   @override
   State<DateRangeScreenTour> createState() => _DateRangeScreenTourState();
@@ -86,7 +98,12 @@ class _DateRangeScreenTourState extends State<DateRangeScreenTour> {
       if (response.status == true) {
         int? id = response.productDetails!.productAvailabilityId?.id;
         showToast(response.message.toString());
-        Get.to(() => TimingScreenTour(id: id,));
+        if(widget.id != null){
+          Get.to(() => ReviewandPublishTourScreenScreen());
+        }else{
+          Get.to(() => TimingScreenTour(id: id,));
+        }
+
         print('value isssss${response.toJson()}');
       } else {
         showToast(response.message.toString());
@@ -94,6 +111,19 @@ class _DateRangeScreenTourState extends State<DateRangeScreenTour> {
     });
   }
 
+  @override
+  void initState() {
+    // TODO: implement initState
+    super.initState();
+    if (widget.id != null) {
+      addProductController.formattedStartDate = widget.from_date;
+      formattedStartDate1 = widget.to_date;
+      fromController.text = widget.fromLocation.toString();
+      toController.text = widget.toLocation.toString();
+      notesController.text = widget.formExtraNotes.toString();
+      extraController.text = widget.toExtraNotes.toString();
+    }
+  }
   final formKey = GlobalKey<FormState>();
   @override
   Widget build(BuildContext context) {
@@ -117,7 +147,7 @@ class _DateRangeScreenTourState extends State<DateRangeScreenTour> {
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: [
             Text(
-              'Date dddd'.tr,
+              'Date'.tr,
               style: GoogleFonts.poppins(color: const Color(0xff292F45), fontWeight: FontWeight.w600, fontSize: 20),
             ),
           ],

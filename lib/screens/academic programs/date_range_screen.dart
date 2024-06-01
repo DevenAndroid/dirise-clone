@@ -18,7 +18,15 @@ import 'duration_screen.dart';
 
 
 class AcademicDateScreen extends StatefulWidget {
-  const AcademicDateScreen({super.key});
+  int? id;
+  String? from_date;
+  String? to_date;
+  String? vacation_from_date;
+  String? vacation_to_date;
+  int? spot;
+
+  AcademicDateScreen({super.key, this.from_date, this.to_date, this.vacation_from_date, this.vacation_to_date, this.id,this.spot});
+
 
   @override
   State<AcademicDateScreen> createState() => _AcademicDateScreenState();
@@ -146,6 +154,17 @@ class _AcademicDateScreenState extends State<AcademicDateScreen> {
         showToast(response.message.toString());
       }
     });
+  }
+
+  @override
+  void initState() {
+    // TODO: implement initState
+    super.initState();
+    if (widget.id != null) {
+      addProductController.formattedStartDate = widget.from_date;
+      formattedStartDate1 = widget.to_date;
+      spotsController.text = widget.spot.toString();
+    }
   }
   @override
   Widget build(BuildContext context) {

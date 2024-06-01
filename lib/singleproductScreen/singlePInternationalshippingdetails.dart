@@ -173,10 +173,20 @@ class _SinglePInternationalshippingdetailsScreenState extends State<SinglePInter
           child: Form(
             key: formKey5,
             child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                SizedBox(
+                Text(
+                  'We use this information to estimate your shipping prices. If you plan to ship internationally or your item is bigger than 5kg or 0.05 CBM then you must fill all the details below.'.tr,
+                  style: GoogleFonts.poppins(color: const Color(0xff292F45), fontWeight: FontWeight.w500, fontSize: 18),
+                ),
+                const SizedBox(
                   height: 10,
                 ),
+                Text(
+                  'Unit of measure'.tr,
+                  style: GoogleFonts.poppins(color: const Color(0xff292F45), fontWeight: FontWeight.w500, fontSize: 16),
+                ),
+                const SizedBox(height: 5),
                 DropdownButtonFormField<String>(
                   value: unitOfMeasure,
                   onChanged: (String? newValue) {
@@ -221,6 +231,11 @@ class _SinglePInternationalshippingdetailsScreenState extends State<SinglePInter
                   },
                 ),
                 const SizedBox(height: 20),
+                Text(
+                  'Weight'.tr,
+                  style: GoogleFonts.poppins(color: const Color(0xff292F45), fontWeight: FontWeight.w500, fontSize: 16),
+                ),
+                const SizedBox(height: 5),
                 TextFormField(
                   controller: weightController,
                   keyboardType: TextInputType.number,
@@ -265,6 +280,11 @@ class _SinglePInternationalshippingdetailsScreenState extends State<SinglePInter
                   },
                 ),
                 const SizedBox(height: 20),
+                Text(
+                  'Number of packages'.tr,
+                  style: GoogleFonts.poppins(color: const Color(0xff292F45), fontWeight: FontWeight.w500, fontSize: 16),
+                ),
+                const SizedBox(height: 5),
                 DropdownButtonFormField<String>(
                   value: selectedItem,
                   onChanged: (String? newValue) {
@@ -309,6 +329,11 @@ class _SinglePInternationalshippingdetailsScreenState extends State<SinglePInter
                   },
                 ),
                 const SizedBox(height: 20),
+                Text(
+                  'Material'.tr,
+                  style: GoogleFonts.poppins(color: const Color(0xff292F45), fontWeight: FontWeight.w500, fontSize: 16),
+                ),
+              const SizedBox(height: 5),
                 DropdownButtonFormField<String>(
                   value: selectNumberOfPackages,
                   onChanged: (String? newValue) {
@@ -357,10 +382,32 @@ class _SinglePInternationalshippingdetailsScreenState extends State<SinglePInter
                   alignment: Alignment.topLeft,
                   child: Text(
                     'Box dimension L X W X H (Optional)'.tr,
-                    style:
-                        GoogleFonts.poppins(color: const Color(0xff463B57), fontWeight: FontWeight.w500, fontSize: 14),
+                    style: GoogleFonts.poppins(color: const Color(0xff292F45), fontWeight: FontWeight.w500, fontSize: 16),
                   ),
                 ),
+                const SizedBox(height: 10),
+                Row(
+                  children: [
+                    Expanded(
+                        child: Text(
+                          'Length'.tr,
+                          style: GoogleFonts.poppins(color: const Color(0xff292F45), fontWeight: FontWeight.w500, fontSize: 16),
+                        ),),
+                    10.spaceX,
+                    Expanded(
+                      child: Text(
+                        'Width'.tr,
+                        style: GoogleFonts.poppins(color: const Color(0xff292F45), fontWeight: FontWeight.w500, fontSize: 16),
+                      ),),
+                    10.spaceX,
+                    Expanded(
+                      child: Text(
+                        'Height'.tr,
+                        style: GoogleFonts.poppins(color: const Color(0xff292F45), fontWeight: FontWeight.w500, fontSize: 16),
+                      ),),
+                  ],
+                ),
+                const SizedBox(height: 6),
                 Row(
                   children: [
                     Expanded(
