@@ -2,6 +2,7 @@ import 'dart:convert';
 import 'dart:developer';
 
 import 'dart:io';
+import 'package:device_info_plus/device_info_plus.dart';
 import 'package:dirise/language/app_strings.dart';
 import 'package:dirise/utils/styles.dart';
 import 'package:dirise/widgets/common_colour.dart';
@@ -19,6 +20,7 @@ import 'package:hive/hive.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 // import 'package:sign_in_with_apple/sign_in_with_apple.dart';
 import '../../controller/profile_controller.dart';
+import '../../model/AppleLoginModel.dart';
 import '../../model/login_model.dart';
 import '../../model/social_login_model.dart';
 import '../../newAuthScreens/signupScreen.dart';
@@ -67,7 +69,33 @@ class _LoginScreenState extends State<LoginScreen> {
   RxString messageForEmail = ''.obs;
   RxString messageForPass = ''.obs;
   String? token = "";
-
+  String deviceName = '';
+  String operatingSystem = '';
+  String deviceId = '';
+  String location = '';
+  getDeviveInfo() async {
+    DeviceInfoPlugin deviceInfo = DeviceInfoPlugin();
+    if (Platform.isAndroid) {
+      AndroidDeviceInfo info = await deviceInfo.androidInfo;
+      print("Device details is1..${info.model}");
+      print("Device details is2..${info.id}");
+      print("Device details is3..${info.hardware}");
+      print("Device details is4..${info.data}");
+      print("Device details is5..${info.device}");
+      print("Device details is6..${info.brand}");
+      // deviceName = info.brand + info.device;
+      deviceName = info.model;
+      deviceId = info.id;
+      log("Device details is..${deviceName}");
+    }
+    else if (Platform.isIOS) {
+      IosDeviceInfo info = await deviceInfo.iosInfo;
+      deviceName = info.utsname.machine.toString();
+      deviceId = info.localizedModel.toString();
+    }
+    final info = await deviceInfo.deviceInfo;
+    print(info.toMap());
+  }
   loginUserApi() async {
     String? token1 = await FirebaseMessaging.instance.getAPNSToken();
     String? token = await FirebaseMessaging.instance.getToken();
@@ -335,28 +363,27 @@ class _LoginScreenState extends State<LoginScreen> {
                   Row(
                     mainAxisAlignment: MainAxisAlignment.center,
                     children: [
-                      if(Platform.isIOS)
-                        InkWell(
-                          onTap: () {
-                            // loginWithApple1();
-                            // _signInWithApple();
-                          },
-                          child: Container(
-                            height: 62,
-                            width: 62,
-                            decoration: BoxDecoration(
-                              borderRadius: BorderRadius.circular(10),
-                              color: Colors.black,
-                            ),
-                            child: const Center(
-                              child: Icon(
-                                Icons.apple,
-                                color: Colors.white,
-                                size: 35,
-                              ),
-                            ),
-                          ),
-                        ),
+                      // if(Platform.isIOS)
+                      //   InkWell(
+                      //     onTap: () {
+                      //       loginWithApple();
+                      //     },
+                      //     child: Container(
+                      //       height: 62,
+                      //       width: 62,
+                      //       decoration: BoxDecoration(
+                      //         borderRadius: BorderRadius.circular(10),
+                      //         color: Colors.black,
+                      //       ),
+                      //       child: const Center(
+                      //         child: Icon(
+                      //           Icons.apple,
+                      //           color: Colors.white,
+                      //           size: 35,
+                      //         ),
+                      //       ),
+                      //     ),
+                      //   ),
                       const SizedBox(
                         width: 20,
                       ),
@@ -562,4 +589,29 @@ class _LoginScreenState extends State<LoginScreen> {
 //       });
 //   });
 // }
+
+  loginWithApple() async {
+    // var fcmToken = await FirebaseMessaging.instance.getToken();
+    final appleProvider = AppleAuthProvider().addScope("email").addScope("FullName");
+    await FirebaseAuth.instance.signInWithProvider(appleProvider).then((value1) async {
+      Map<String, dynamic> map = {};
+      map['provider'] = "apple";
+      map['access_token'] = value1.credential!.accessToken!;
+      log(value1.credential!.accessToken.toString());
+      repositories.postApi(url: ApiUrls.socialLoginUrl, context: context, mapData: map,showResponse: true).then((value)  async {
+        LoginModal response = LoginModal.fromJson(jsonDecode(value));
+        repositories.saveLoginDetails(jsonEncode(response));
+        if (response.status == true) {
+          SharedPreferences pref = await SharedPreferences.getInstance();
+          pref.setString('login_user', jsonEncode(value));
+          showToast(response.message);
+          profileController.userLoggedIn = true;
+
+         Get.offAllNamed(BottomNavbar.route);
+        } else {
+          showToast(response.message);
+        }
+      });
+    });
+  }
 }
