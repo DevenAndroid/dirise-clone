@@ -14,6 +14,7 @@ import '../controller/vendor_controllers/add_product_controller.dart';
 import '../model/product_details.dart';
 import '../model/reviewAndPublishModel.dart';
 import '../repository/repository.dart';
+import '../tellaboutself/ExtraInformation.dart';
 import '../widgets/common_button.dart';
 import '../widgets/common_colour.dart';
 import 'deliverySizeScreen.dart';
@@ -465,12 +466,12 @@ class _ReviewPublishScreenState extends State<ReviewPublishScreen> {
                           title: 'Confirm',
                           borderRadius: 11,
                           onPressed: () {
-                            Get.to(const RewardScreen());
+                            Get.to(const ExtraInformation());
                           },
                         ),
                       ],
                     )
-                  : Center(
+                  : const Center(
                       child: CircularProgressIndicator(
                       color: Colors.grey,
                     ));

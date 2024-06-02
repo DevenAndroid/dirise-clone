@@ -1,6 +1,6 @@
 class AuthorModal {
   bool? status;
-  String? message;
+  dynamic message;
   List<Data>? data;
 
   AuthorModal({this.status, this.message, this.data});
@@ -29,8 +29,8 @@ class AuthorModal {
 
 class Data {
   int? id;
-  String? name;
-  String? profileImage;
+  dynamic name;
+  dynamic profileImage;
   int? itemsCount;
 
   Data({this.id, this.name, this.profileImage, this.itemsCount});

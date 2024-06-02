@@ -75,7 +75,7 @@ class ProductElement {
   dynamic discountPrice;
   dynamic discountOff;
   dynamic rating;
-
+  dynamic itemType;
   ProductElement({
     this.id,
     this.vendorId,
@@ -142,7 +142,7 @@ class ProductElement {
     this.stepPrice,
     this.currentBid,
     this.discountPrice,
-
+    this.itemType,
     // this.attributes,
     this.serviceTimeSloat,
     this.productAvailability,
@@ -229,6 +229,7 @@ class ProductElement {
     currentBid = json["current_bid"];
     lowestDeliveryPrice = json['lowestDeliveryPrice'];
     shippingDate = json['shipping_date'];
+    itemType = json['item_type'];
     if (json['serviceTimeSloat'] != null) {
       serviceTimeSloat = <ServiceTimeSloat>[];
       json['serviceTimeSloat'].forEach((v) {
@@ -328,6 +329,7 @@ class ProductElement {
     "variants": variants == null ? [] : List<dynamic>.from(variants!.map((x) => x)),
     "bid_status": bidStatus,
     'local_shipping' : localShipping,
+    'item_type' : itemType
   };
 }
 
