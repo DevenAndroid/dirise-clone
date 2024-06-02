@@ -23,7 +23,12 @@ import 'eligible_customer_academic.dart';
 import 'optional_details_academic.dart';
 
 class SponsorsScreenSeminarAndAttendable extends StatefulWidget {
-  const SponsorsScreenSeminarAndAttendable({super.key});
+  int? id;
+  String? sponsorType;
+  String? sponsorName;
+
+  SponsorsScreenSeminarAndAttendable({super.key,this.id,this.sponsorName,this.sponsorType});
+
 
   @override
   State<SponsorsScreenSeminarAndAttendable> createState() => _SponsorsScreenSeminarAndAttendableState();
@@ -68,7 +73,7 @@ class _SponsorsScreenSeminarAndAttendableState extends State<SponsorsScreenSemin
       if (response.status == true) {
         showToast(response.message.toString());
         if (formKey1.currentState!.validate()) {
-          Get.to(()=> const EligibleCustomersSeminarAndAttendable());
+          Get.to(()=>  EligibleCustomersSeminarAndAttendable());
         }
       }
     });
@@ -97,7 +102,7 @@ class _SponsorsScreenSeminarAndAttendableState extends State<SponsorsScreenSemin
       if (response.status == true) {
         showToast(response.message.toString());
         if (formKey1.currentState!.validate()) {
-          Get.to(() => const EligibleCustomersSeminarAndAttendable());
+          Get.to(() =>  EligibleCustomersSeminarAndAttendable());
         }
       }
     });
@@ -109,6 +114,10 @@ class _SponsorsScreenSeminarAndAttendableState extends State<SponsorsScreenSemin
     WidgetsBinding.instance.addPostFrameCallback((timeStamp) {
       getSponsors();
     });
+    if(widget.id != null){
+      sponsorTypeController.text = widget.sponsorType.toString();
+      sponsorNameController.text = widget.sponsorName.toString();
+    }
   }
 
   @override
@@ -305,7 +314,7 @@ class _SponsorsScreenSeminarAndAttendableState extends State<SponsorsScreenSemin
                         const SizedBox(height: 20),
                         GestureDetector(
                           onTap: () {
-                            Get.to(() => const EligibleCustomersSeminarAndAttendable());
+                            Get.to(() =>  EligibleCustomersSeminarAndAttendable());
                           },
                           child: Container(
                             width: Get.width,

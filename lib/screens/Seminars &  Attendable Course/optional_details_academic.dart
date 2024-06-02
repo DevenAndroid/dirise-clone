@@ -20,7 +20,28 @@ import '../../widgets/common_textfield.dart';
 import 'eligible_customer_academic.dart';
 
 class OptionalDetailsSeminarAndAttendable extends StatefulWidget {
-  const OptionalDetailsSeminarAndAttendable({super.key});
+  int? id;
+  String? locationController;
+  String? hostNameController;
+  String? programNameController;
+  String? programGoalController;
+  String? programDescription;
+  String? virtualLocation;
+  String? linkToEnter;
+  String? linkWillBeSendVia;
+
+  OptionalDetailsSeminarAndAttendable(
+      {super.key,
+        this.id,
+        this.locationController,
+        this.programDescription,
+        this.hostNameController,
+        this.programGoalController,
+        this.programNameController,
+        this.linkToEnter,
+        this.virtualLocation,
+        this.linkWillBeSendVia
+      });
 
   @override
   State<OptionalDetailsSeminarAndAttendable> createState() => _OptionalDetailsSeminarAndAttendableState();
@@ -64,10 +85,25 @@ class _OptionalDetailsSeminarAndAttendableState extends State<OptionalDetailsSem
         showToast(response.message.toString());
 
         if (formKey1.currentState!.validate()) {
-          Get.to(() => const SponsorsScreenSeminarAndAttendable());
+          Get.to(() =>  SponsorsScreenSeminarAndAttendable());
         }
       }
     });
+  }
+  @override
+  void initState() {
+    // TODO: implement initState
+    super.initState();
+    if(widget.id != null){
+      locationController.text = widget.locationController.toString();
+      hostNameController.text  =  widget.hostNameController.toString();
+      programNameController.text =  widget.programNameController.toString();
+      programGoalController.text = widget.programGoalController.toString();
+      programDescription.text = widget.programDescription.toString();
+      virtualLocationDescription.text = widget.virtualLocation.toString();
+      linktoenterDescription.text = widget.linkToEnter.toString();
+      linkwillbesentviaDescription.text = widget.linkWillBeSendVia.toString();
+    }
   }
 
   @override

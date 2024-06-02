@@ -222,7 +222,7 @@ class _TellUsYourSelfScreenState extends State<TellUsYourSelfScreen> {
                     repositories.postApi(url: ApiUrls.giveawayProductAddress, context: context, mapData: map).then((value) {
                       ModelCommonResponse response = ModelCommonResponse.fromJson(jsonDecode(value));
                       if (response.status == true) {
-                        Get.to(()=> const DateRangeSeminarsScreen());
+                        Get.to(()=> DateRangeSeminarsScreen());
                       }
                     });
                   },
@@ -262,7 +262,7 @@ class _TellUsYourSelfScreenState extends State<TellUsYourSelfScreen> {
                     repositories.postApi(url: ApiUrls.giveawayProductAddress, context: context, mapData: map).then((value) {
                       ModelCommonResponse response = ModelCommonResponse.fromJson(jsonDecode(value));
                       if (response.status == true) {
-                        Get.to(()=> const DateRangeWebiinarsScreen());
+                        Get.to(()=> DateRangeWebiinarsScreen());
                       }
                     });
                   },

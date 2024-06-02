@@ -1,5 +1,6 @@
 import 'dart:convert';
 import 'dart:math';
+import 'package:dirise/controller/profile_controller.dart';
 import 'package:dirise/screens/Consultation%20Sessions/set_store_time.dart';
 import 'package:dirise/screens/tour_travel/review_publish_screen.dart';
 import 'package:dirise/screens/tour_travel/timing_screen.dart';
@@ -25,16 +26,23 @@ class DateRangeScreenTour extends StatefulWidget {
   String? formExtraNotes;
   String? toExtraNotes;
 
-
   DateRangeScreenTour(
-      {super.key, this.from_date, this.to_date, this.fromLocation, this.toLocation, this.id, this.formExtraNotes,this.toExtraNotes});
-
+      {super.key,
+      this.from_date,
+      this.to_date,
+      this.fromLocation,
+      this.toLocation,
+      this.id,
+      this.formExtraNotes,
+      this.toExtraNotes});
 
   @override
   State<DateRangeScreenTour> createState() => _DateRangeScreenTourState();
 }
 
 class _DateRangeScreenTourState extends State<DateRangeScreenTour> {
+  final profileController = Get.put(ProfileController());
+
   DateTime _startDate = DateTime.now();
   DateTime _endDate = DateTime.now();
   String? formattedStartDate;
@@ -96,12 +104,12 @@ class _DateRangeScreenTourState extends State<DateRangeScreenTour> {
       print('object${value.toString()}');
       DateRangeInTravelModel response = DateRangeInTravelModel.fromJson(jsonDecode(value));
       if (response.status == true) {
-        int? id = response.productDetails!.productAvailabilityId?.id;
+        profileController.productAvailabilityId = response.productDetails!.productAvailabilityId!.id!;
         showToast(response.message.toString());
-        if(widget.id != null){
+        if (widget.id != null) {
           Get.to(() => ReviewandPublishTourScreenScreen());
-        }else{
-          Get.to(() => TimingScreenTour(id: id,));
+        } else {
+          Get.to(() => TimingScreenTour());
         }
 
         print('value isssss${response.toJson()}');
@@ -124,6 +132,7 @@ class _DateRangeScreenTourState extends State<DateRangeScreenTour> {
       extraController.text = widget.toExtraNotes.toString();
     }
   }
+
   final formKey = GlobalKey<FormState>();
   @override
   Widget build(BuildContext context) {
@@ -404,7 +413,7 @@ class _DateRangeScreenTourState extends State<DateRangeScreenTour> {
               InkWell(
                 onTap: () {
                   // updateProfile();
-                  Get.to(() =>  TimingScreenTour());
+                  Get.to(() => TimingScreenTour());
                 },
                 child: Container(
                   width: Get.width,

@@ -4,6 +4,7 @@ import 'package:google_fonts/google_fonts.dart';
 import 'dart:convert';
 import 'package:dirise/utils/helper.dart';
 import 'package:dirise/widgets/common_textfield.dart';
+import '../../controller/profile_controller.dart';
 import '../../controller/vendor_controllers/add_product_controller.dart';
 import '../../model/common_modal.dart';
 import '../../repository/repository.dart';
@@ -12,7 +13,14 @@ import '../../widgets/common_colour.dart';
 import 'optional_details_academic.dart';
 class TimingScreenTour extends StatefulWidget {
   int? id;
-  TimingScreenTour({super.key,this.id});
+  String? startLocation;
+  String? endLocation;
+  String? startTime;
+  String? endEndTime;
+  String? spot;
+  String? timingExtraNotes;
+  TimingScreenTour({super.key,this.id,this.endLocation,this.startLocation,this.timingExtraNotes,
+  this.spot,this.startTime,this.endEndTime});
 
   @override
   State<TimingScreenTour> createState() => _TimingScreenTourState();
@@ -38,6 +46,7 @@ class _TimingScreenTourState extends State<TimingScreenTour> {
   TextEditingController location1Controller = TextEditingController();
   TextEditingController notesController = TextEditingController();
   final addProductController = Get.put(AddProductController());
+  final profileController = Get.put(ProfileController());
   optionalApi() {
     Map<String, dynamic> map = {};
 
@@ -50,7 +59,7 @@ class _TimingScreenTourState extends State<TimingScreenTour> {
     map['product_type'] = 'booking';
     map['booking_product_type'] = 'tour_travel';
     map['spot'] = spotController.text.trim();
-    map['product_availability_id'] = widget.id;
+    map['product_availability_id'] = profileController.productAvailabilityId;
     map["id"] = addProductController.idProduct.value.toString();
 
     FocusManager.instance.primaryFocus!.unfocus();
@@ -65,6 +74,20 @@ class _TimingScreenTourState extends State<TimingScreenTour> {
         }
       }
     });
+  }
+
+  @override
+  void initState() {
+    // TODO: implement initState
+    super.initState();
+    if(widget.id != null){
+      startTimeController.text = widget.startTime.toString();
+      endTimeController.text =widget.endEndTime.toString();
+          locationController.text =widget.startLocation.toString();
+          location1Controller.text =widget.endLocation.toString();
+          notesController.text =widget.timingExtraNotes.toString();
+          spotController.text =widget.spot.toString();
+    }
   }
   @override
   Widget build(BuildContext context) {

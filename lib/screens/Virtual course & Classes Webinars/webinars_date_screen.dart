@@ -1,6 +1,7 @@
 import 'dart:convert';
 import 'dart:developer';
 import 'dart:math';
+import 'package:dirise/controller/profile_controller.dart';
 import 'package:dirise/screens/Consultation%20Sessions/set_store_time.dart';
 import 'package:dirise/screens/Seminars%20&%20%20Attendable%20Course/seminars_sponsors_screen.dart';
 import 'package:dirise/screens/Seminars%20&%20%20Attendable%20Course/webinarScreen.dart';
@@ -18,7 +19,17 @@ import '../../utils/api_constant.dart';
 import '../../widgets/common_colour.dart';
 
 class DateRangeWebiinarsScreen extends StatefulWidget {
-  const DateRangeWebiinarsScreen({super.key});
+  int? id;
+  String? from_date;
+  String? to_date;
+
+
+  DateRangeWebiinarsScreen(
+      {super.key,
+        this.id,
+        this.from_date,
+        this.to_date,
+      });
 
   @override
   State<DateRangeWebiinarsScreen> createState() => _DateRangeWebiinarsScreenState();
@@ -28,6 +39,7 @@ class _DateRangeWebiinarsScreenState extends State<DateRangeWebiinarsScreen> {
   DateTime _startDate = DateTime.now();
   DateTime _endDate = DateTime.now();
   final addProductController = Get.put(AddProductController());
+  final profileController = Get.put(ProfileController());
   String? formattedStartDate1;
   bool sundaySelected = false;
   bool mondaySelected = false;
@@ -85,9 +97,8 @@ class _DateRangeWebiinarsScreenState extends State<DateRangeWebiinarsScreen> {
       DateRangeInTravelModel response = DateRangeInTravelModel.fromJson(jsonDecode(value));
       if (response.status == true) {
         showToast(response.message.toString());
-        int? id = response.productDetails!.productAvailabilityId?.id;
+        profileController.productAvailabilityId = response.productDetails!.productAvailabilityId!.id!;
         Get.to(() => SeminarScreenScreen(
-              id: id,
             ));
         print('value isssss${response.toJson()}');
       } else {
@@ -102,7 +113,13 @@ class _DateRangeWebiinarsScreenState extends State<DateRangeWebiinarsScreen> {
   void initState() {
     super.initState();
     addProductController.startDate.text = '';
+    if (widget.id != null) {
+      addProductController.formattedStartDate = widget.from_date;
+      formattedStartDate1 = widget.to_date;
+    }
   }
+
+
 
   @override
   Widget build(BuildContext context) {

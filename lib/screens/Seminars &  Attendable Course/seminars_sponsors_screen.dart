@@ -22,7 +22,11 @@ import 'optional_details_academic.dart';
 
 
 class SponsorsSeminarScreen extends StatefulWidget {
-  const SponsorsSeminarScreen({super.key});
+  int? id;
+  String? sponsorType;
+  String? sponsorName;
+
+  SponsorsSeminarScreen({super.key,this.id,this.sponsorName,this.sponsorType});
 
   @override
   State<SponsorsSeminarScreen> createState() => _SponsorsSeminarScreenState();
@@ -87,7 +91,7 @@ class _SponsorsSeminarScreenState extends State<SponsorsSeminarScreen> {
       if (response.status == true) {
         showToast(response.message.toString());
         if(formKey1.currentState!.validate()){
-          Get.to(()=> const OptionalDetailsSeminarAndAttendable());
+          Get.to(()=>  OptionalDetailsSeminarAndAttendable());
         }
       }
     });
@@ -98,6 +102,10 @@ class _SponsorsSeminarScreenState extends State<SponsorsSeminarScreen> {
     WidgetsBinding.instance.addPostFrameCallback((timeStamp) {
       getSponsors();
     });
+    if(widget.id != null){
+      sponsorTypeController.text = widget.sponsorType.toString();
+      sponsorNameController.text = widget.sponsorName.toString();
+    }
   }
   @override
   Widget build(BuildContext context) {
@@ -295,7 +303,7 @@ class _SponsorsSeminarScreenState extends State<SponsorsSeminarScreen> {
                   const SizedBox(height: 20),
                   GestureDetector(
                     onTap: () {
-                      Get.to(()=> const OptionalDetailsSeminarAndAttendable());
+                      Get.to(()=>  OptionalDetailsSeminarAndAttendable());
                     },
                     child: Container(
                       width: Get.width,

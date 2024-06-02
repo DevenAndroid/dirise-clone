@@ -2,6 +2,9 @@ import 'dart:convert';
 import 'dart:developer';
 
 import 'package:dirise/addNewProduct/rewardScreen.dart';
+import 'package:dirise/screens/Virtual%20course%20&%20Classes%20Webinars/seminarScreen.dart';
+import 'package:dirise/screens/Virtual%20course%20&%20Classes%20Webinars/webinars_date_screen.dart';
+import 'package:dirise/screens/Virtual%20course%20&%20Classes%20Webinars/webinars_sponsors_screen.dart';
 import 'package:dirise/widgets/loading_animation.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
@@ -18,6 +21,8 @@ import '../../widgets/common_button.dart';
 import '../../widgets/common_colour.dart';
 import '../../widgets/common_textfield.dart';
 import '../Consultation Sessions/consultation_session_thankyou.dart';
+import 'eligible_customer.dart';
+import 'optinal_detail_webinars.dart';
 
 class ReviewScreenWebinars extends StatefulWidget {
   const ReviewScreenWebinars({super.key});
@@ -30,6 +35,7 @@ class _ReviewScreenWebinarsState extends State<ReviewScreenWebinars> {
   String selectedItem = 'Item 1';
   RxBool isServiceProvide = false.obs;
   RxBool isTime = false.obs;
+  RxBool isWebinar = false.obs;
   RxBool isDuration = false.obs;
   RxBool isOperational = false.obs;
   RxBool isSponsors = false.obs;
@@ -143,30 +149,133 @@ class _ReviewScreenWebinarsState extends State<ReviewScreenWebinars> {
                         ),
                       ),
                       if (isServiceProvide.value == true)
-                        Column(
-                          mainAxisAlignment: MainAxisAlignment.start,
-                          crossAxisAlignment: CrossAxisAlignment.start,
+                        Stack(
                           children: [
-                            Text(
-                                'Dates range: ${productDetailsModel.value.productDetails!.product!.productAvailability!.fromDate ?? ""} to ${productDetailsModel.value.productDetails!.product!.productAvailability!.toDate ?? ""}'),
-                            ListView.builder(
-                                itemCount: productDetailsModel
-                                    .value.productDetails!.product!.productWeeklyAvailability!.length,
-                                shrinkWrap: true,
-                                physics: const NeverScrollableScrollPhysics(),
-                                itemBuilder: (context, index) {
-                                  var productWeeklyAvailability = productDetailsModel
-                                      .value.productDetails!.product!.productWeeklyAvailability![index];
-                                  log('${productDetailsModel.value.productDetails!.product!.productWeeklyAvailability!.length.toString()}');
-                                  return Column(
-                                    mainAxisAlignment: MainAxisAlignment.start,
-                                    crossAxisAlignment: CrossAxisAlignment.start,
-                                    children: [
-                                      Text('Day : ${productWeeklyAvailability.weekDay ?? ""}'),
-                                      Text('status : ${productWeeklyAvailability.status ?? ""}'),
-                                    ],
-                                  );
-                                }),
+                            Container(
+                              margin: EdgeInsets.only(top: 10),
+                              width: Get.width,
+                              padding: EdgeInsets.all(10),
+                              decoration:
+                              BoxDecoration(color: Colors.grey.shade200, borderRadius: BorderRadius.circular(11)),
+                              child:   Column(
+                                mainAxisAlignment: MainAxisAlignment.start,
+                                crossAxisAlignment: CrossAxisAlignment.start,
+                                children: [
+                                  Text('Dates range: ${productDetailsModel.value.productDetails!.product!.productAvailability!.fromDate ?? ""} to ${productDetailsModel.value.productDetails!.product!.productAvailability!.toDate ?? ""}'),
+                                  ListView.builder(
+                                      itemCount:
+                                      productDetailsModel.value.productDetails!.product!.productWeeklyAvailability!.length,
+                                      shrinkWrap: true,
+                                      physics: const NeverScrollableScrollPhysics(),
+                                      itemBuilder: (context, index) {
+                                        var productWeeklyAvailability = productDetailsModel
+                                            .value.productDetails!.product!.productWeeklyAvailability![index];
+                                        log('${productDetailsModel.value.productDetails!.product!.productWeeklyAvailability!.length.toString()}');
+                                        return Column(
+                                          mainAxisAlignment: MainAxisAlignment.start,
+                                          crossAxisAlignment: CrossAxisAlignment.start,
+                                          children: [
+                                            Text('Day : ${productWeeklyAvailability.weekDay ?? ""}'),
+                                            Text('status : ${productWeeklyAvailability.status ?? ""}'),
+                                          ],
+                                        );
+                                      }),
+                                ],
+                              ),
+                            ),
+                            Positioned(
+                                right: 10,
+                                top: 20,
+                                child: GestureDetector(
+                                    onTap: () {
+                                      Get.to(DateRangeWebiinarsScreen(
+                                        id: productDetailsModel.value.productDetails!.product!.id,
+                                        from_date: productDetailsModel.value.productDetails!.product!.productAvailability!.fromDate,
+                                        to_date: productDetailsModel.value.productDetails!.product!.productAvailability!.toDate,
+
+                                      ));
+                                    },
+                                    child: const Text(
+                                      'Edit',
+                                      style: TextStyle(color: Colors.red, fontSize: 13),
+                                    )))
+                          ],
+                        ),
+                      const SizedBox(height: 20),
+                      GestureDetector(
+                        onTap: () {
+                          setState(() {
+                            isWebinar.toggle();
+                          });
+                        },
+                        child: Container(
+                          padding: const EdgeInsets.symmetric(vertical: 12, horizontal: 12),
+                          decoration: BoxDecoration(
+                              color: Colors.white,
+                              borderRadius: BorderRadius.circular(8),
+                              border: Border.all(color: AppTheme.secondaryColor)),
+                          child: Row(
+                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                            children: [
+                              Text(
+                                'Date',
+                                style: GoogleFonts.poppins(
+                                  color: AppTheme.primaryColor,
+                                  fontSize: 15,
+                                ),
+                              ),
+                              GestureDetector(
+                                child: isWebinar.value == true
+                                    ? const Icon(Icons.keyboard_arrow_up_rounded)
+                                    : const Icon(Icons.keyboard_arrow_down_outlined),
+                                onTap: () {
+                                  setState(() {
+                                    isWebinar.toggle();
+                                  });
+                                },
+                              ),
+                            ],
+                          ),
+                        ),
+                      ),
+                      if (isWebinar.value == true)
+                        Stack(
+                          children: [
+                            Container(
+                              margin: EdgeInsets.only(top: 10),
+                              width: Get.width,
+                              padding: EdgeInsets.all(10),
+                              decoration:
+                              BoxDecoration(color: Colors.grey.shade200, borderRadius: BorderRadius.circular(11)),
+                              child:   Column(
+                                mainAxisAlignment: MainAxisAlignment.start,
+                                crossAxisAlignment: CrossAxisAlignment.start,
+                                children: [
+                                  Text('Metting will be at: ${productDetailsModel.value.productDetails!.product!.productAvailability!.toDate ?? ""}'),
+                                  Text('Start time: ${productDetailsModel.value.productDetails!.product!.productAvailability!.toDate ?? ""}'),
+                                  Text('End Time: ${productDetailsModel.value.productDetails!.product!.productAvailability!.toDate ?? ""}'),
+                                  Text('Extra notes: ${productDetailsModel.value.productDetails!.product!.productAvailability!.toDate ?? ""}'),
+
+                                ],
+                              ),
+                            ),
+                            Positioned(
+                                right: 10,
+                                top: 20,
+                                child: GestureDetector(
+                                    onTap: () {
+                                      Get.to(SeminarScreenScreen(
+                                        id: productDetailsModel.value.productDetails!.product!.id,
+                                        startTime: productDetailsModel.value.productDetails!.product!.productAvailability!.fromDate,
+                                        endTime: productDetailsModel.value.productDetails!.product!.productAvailability!.toDate,
+                                        extraNotes: productDetailsModel.value.productDetails!.product!.productAvailability!.toDate,
+
+                                      ));
+                                    },
+                                    child: const Text(
+                                      'Edit',
+                                      style: TextStyle(color: Colors.red, fontSize: 13),
+                                    )))
                           ],
                         ),
                       const SizedBox(height: 20),
@@ -262,17 +371,54 @@ class _ReviewScreenWebinarsState extends State<ReviewScreenWebinars> {
                         ),
                       ),
                       if (isOperational.value == true)
-                        Column(
-                          mainAxisAlignment: MainAxisAlignment.start,
-                          crossAxisAlignment: CrossAxisAlignment.start,
+                        Stack(
                           children: [
-                            Text('Host name: ${productDetailsModel.value.productDetails!.product!.host_name ?? ""}'),
-                            Text(
-                                'Program name: ${productDetailsModel.value.productDetails!.product!.program_name ?? ""}'),
-                            Text(
-                                'Program goal: ${productDetailsModel.value.productDetails!.product!.program_goal ?? ""}'),
-                            Text(
-                                'Program Description: ${productDetailsModel.value.productDetails!.product!.program_desc ?? ""}'),
+                            Container(
+                              margin: EdgeInsets.only(top: 10),
+                              width: Get.width,
+                              padding: EdgeInsets.all(10),
+                              decoration:
+                              BoxDecoration(color: Colors.grey.shade200, borderRadius: BorderRadius.circular(11)),
+                              child: Column(
+                                mainAxisAlignment: MainAxisAlignment.start,
+                                crossAxisAlignment: CrossAxisAlignment.start,
+                                children: [
+                                  Text(
+                                      'Location: ${productDetailsModel.value.productDetails!.product!.bookable_product_location ?? ""}'),
+                                  Text(
+                                      'Host name: ${productDetailsModel.value.productDetails!.product!.host_name ?? ""}'),
+                                  Text(
+                                      'Program name: ${productDetailsModel.value.productDetails!.product!.program_name ?? ""}'),
+                                  Text(
+                                      'Program goal: ${productDetailsModel.value.productDetails!.product!.program_goal ?? ""}'),
+                                  Text(
+                                      'Program Description: ${productDetailsModel.value.productDetails!.product!.program_desc ?? ""}'),
+                                ],
+                              ),
+                            ),
+                            Positioned(
+                                right: 10,
+                                top: 20,
+                                child: GestureDetector(
+                                    onTap: () {
+                                      Get.to(OptionalDetailsWebiinarsScreen(
+                                        id: productDetailsModel.value.productDetails!.product!.id,
+                                        hostNameController:
+                                        productDetailsModel.value.productDetails!.product!.host_name,
+                                        locationController: productDetailsModel
+                                            .value.productDetails!.product!.bookable_product_location,
+                                        programDescription:
+                                        productDetailsModel.value.productDetails!.product!.program_desc,
+                                        programGoalController:
+                                        productDetailsModel.value.productDetails!.product!.program_goal,
+                                        programNameController:
+                                        productDetailsModel.value.productDetails!.product!.program_name,
+                                      ));
+                                    },
+                                    child: const Text(
+                                      'Edit',
+                                      style: TextStyle(color: Colors.red, fontSize: 13),
+                                    )))
                           ],
                         ),
                       const SizedBox(height: 20),
@@ -313,13 +459,40 @@ class _ReviewScreenWebinarsState extends State<ReviewScreenWebinars> {
                         ),
                       ),
                       if (isSponsors.value == true)
-                        Column(
-                          mainAxisAlignment: MainAxisAlignment.start,
-                          crossAxisAlignment: CrossAxisAlignment.start,
+                        Stack(
                           children: [
-                            Text(
-                                'Sponsor type: ${productDetailsModel.value.productDetails!.product!.bookable_product_location ?? ""}'),
-                            Text('Sponsor name: ${productDetailsModel.value.productDetails!.product!.host_name ?? ""}'),
+                            Container(
+                              margin: EdgeInsets.only(top: 10),
+                              width: Get.width,
+                              padding: EdgeInsets.all(10),
+                              decoration:
+                              BoxDecoration(color: Colors.grey.shade200, borderRadius: BorderRadius.circular(11)),
+                              child: Column(
+                                mainAxisAlignment: MainAxisAlignment.start,
+                                crossAxisAlignment: CrossAxisAlignment.start,
+                                children: [
+                                  Text(
+                                      'Sponsor type: ${productDetailsModel.value.productDetails!.product!.bookable_product_location ?? ""}'),
+                                  Text(
+                                      'Sponsor name: ${productDetailsModel.value.productDetails!.product!.host_name ?? ""}'),
+                                ],
+                              ),
+                            ),
+                            Positioned(
+                                right: 10,
+                                top: 20,
+                                child: GestureDetector(
+                                    onTap: () {
+                                      Get.to(SponsorswebinarScreen(
+                                        id: productDetailsModel.value.productDetails!.product!.id,
+                                        sponsorName: productDetailsModel.value.productDetails!.product!.host_name,
+                                        sponsorType: productDetailsModel.value.productDetails!.product!.bookable_product_location,
+                                      ));
+                                    },
+                                    child: const Text(
+                                      'Edit',
+                                      style: TextStyle(color: Colors.red, fontSize: 13),
+                                    )))
                           ],
                         ),
                       const SizedBox(height: 20),
@@ -360,14 +533,41 @@ class _ReviewScreenWebinarsState extends State<ReviewScreenWebinars> {
                         ),
                       ),
                       if (eligibleCustomer.value == true)
-                        Column(
-                          mainAxisAlignment: MainAxisAlignment.start,
-                          crossAxisAlignment: CrossAxisAlignment.start,
+                        Stack(
                           children: [
-                            Text(
-                                'Age range: ${productDetailsModel.value.productDetails!.product!.eligible_min_age ?? ""} to  ${productDetailsModel.value.productDetails!.product!.eligible_max_age ?? ""}'),
-                            Text(
-                                'eligible gender : ${productDetailsModel.value.productDetails!.product!.eligible_gender ?? ""}'),
+                            Container(
+                              margin: EdgeInsets.only(top: 10),
+                              width: Get.width,
+                              padding: EdgeInsets.all(10),
+                              decoration:
+                              BoxDecoration(color: Colors.grey.shade200, borderRadius: BorderRadius.circular(11)),
+                              child:  Column(
+                                mainAxisAlignment: MainAxisAlignment.start,
+                                crossAxisAlignment: CrossAxisAlignment.start,
+                                children: [
+                                  Text(
+                                      'Age range: ${productDetailsModel.value.productDetails!.product!.eligible_min_age ?? ""} to  ${productDetailsModel.value.productDetails!.product!.eligible_max_age ?? ""}'),
+                                  Text(
+                                      'eligible gender : ${productDetailsModel.value.productDetails!.product!.eligible_gender ?? ""}'),
+                                ],
+                              ),
+                            ),
+                            Positioned(
+                                right: 10,
+                                top: 20,
+                                child: GestureDetector(
+                                    onTap: () {
+                                      Get.to(EligibleCustomersWebinars(
+                                        id: productDetailsModel.value.productDetails!.product!.id,
+                                        eligibleGender: productDetailsModel.value.productDetails!.product!.eligible_gender,
+                                        eligibleMaxAge: productDetailsModel.value.productDetails!.product!.eligible_max_age,
+                                        eligibleMinAge: productDetailsModel.value.productDetails!.product!.eligible_min_age,
+                                      ));
+                                    },
+                                    child: const Text(
+                                      'Edit',
+                                      style: TextStyle(color: Colors.red, fontSize: 13),
+                                    )))
                           ],
                         ),
                       const SizedBox(height: 20),
