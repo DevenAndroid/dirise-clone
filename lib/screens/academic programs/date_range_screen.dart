@@ -148,7 +148,7 @@ class _AcademicDateScreenState extends State<AcademicDateScreen> {
       JobResponceModel response = JobResponceModel.fromJson(jsonDecode(value));
       if (response.status == true) {
         showToast(response.message.toString());
-        Get.to(()=> const SetTimeScreenAcademic());
+        Get.to(()=>  SetTimeScreenAcademic());
         print('value isssss${response.toJson()}');
       }else{
         showToast(response.message.toString());
@@ -430,7 +430,7 @@ class _AcademicDateScreenState extends State<AcademicDateScreen> {
             ),
             InkWell(
               onTap: (){
-                Get.to(()=> const SetTimeScreenAcademic());
+                Get.to(()=>  SetTimeScreenAcademic());
               },
               child: Container(
                 width: Get.width,

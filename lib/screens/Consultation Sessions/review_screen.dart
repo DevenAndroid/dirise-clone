@@ -2,6 +2,7 @@ import 'dart:convert';
 import 'dart:developer';
 
 import 'package:dirise/addNewProduct/rewardScreen.dart';
+import 'package:dirise/screens/Consultation%20Sessions/set_store_time.dart';
 import 'package:dirise/screens/Consultation%20Sessions/sponsors_screen.dart';
 import 'package:dirise/widgets/loading_animation.dart';
 import 'package:flutter/cupertino.dart';
@@ -230,27 +231,45 @@ class _ReviewScreenState extends State<ReviewScreen> {
                         ),
                       ),
                       if (isTime.value == true)
-                        Container(
-                          child: ListView.builder(
-                              itemCount:
+                        Stack(
+                          children: [
+                            Container(
+                              child: ListView.builder(
+                                  itemCount:
                                   productDetailsModel.value.productDetails!.product!.productWeeklyAvailability!.length,
-                              shrinkWrap: true,
-                              physics: const NeverScrollableScrollPhysics(),
-                              itemBuilder: (context, index) {
-                                var productWeeklyAvailability = productDetailsModel
-                                    .value.productDetails!.product!.productWeeklyAvailability![index];
-                                return Column(
-                                  children: [
-                                    Text(
-                                        'Time : ${productWeeklyAvailability.startTime ?? ""} to ${productWeeklyAvailability.endTime ?? ""}'),
-                                    Text(
-                                        'Break : ${productWeeklyAvailability.startBreakTime ?? ""} to ${productWeeklyAvailability.endBreakTime ?? ""}'),
-                                    Text('Day : ${productWeeklyAvailability.weekDay ?? ""}'),
-                                    Text('status : ${productWeeklyAvailability.status ?? ""}'),
-                                  ],
-                                );
-                              }),
+                                  shrinkWrap: true,
+                                  physics: const NeverScrollableScrollPhysics(),
+                                  itemBuilder: (context, index) {
+                                    var productWeeklyAvailability = productDetailsModel
+                                        .value.productDetails!.product!.productWeeklyAvailability![index];
+                                    return Column(
+                                      children: [
+                                        Text(
+                                            'Time : ${productWeeklyAvailability.startTime ?? ""} to ${productWeeklyAvailability.endTime ?? ""}'),
+                                        Text(
+                                            'Break : ${productWeeklyAvailability.startBreakTime ?? ""} to ${productWeeklyAvailability.endBreakTime ?? ""}'),
+                                        Text('Day : ${productWeeklyAvailability.weekDay ?? ""}'),
+                                        Text('status : ${productWeeklyAvailability.status ?? ""}'),
+                                      ],
+                                    );
+                                  }),
+                            ),
+                            Positioned(
+                                right: 10,
+                                top: 20,
+                                child: GestureDetector(
+                                    onTap: () {
+                                      Get.to(SetTimeScreenConsultation(
+                                        id: productDetailsModel.value.productDetails!.product!.id,
+                                      ));
+                                    },
+                                    child: const Text(
+                                      'Edit',
+                                      style: TextStyle(color: Colors.red, fontSize: 13),
+                                    )))
+                          ],
                         ),
+
                       const SizedBox(height: 20),
                       GestureDetector(
                         onTap: () {
