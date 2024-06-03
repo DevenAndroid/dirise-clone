@@ -54,6 +54,7 @@ class _WhatdoyousellScreenState extends State<WhatdoyousellScreen> {
   TextEditingController storeNumber = TextEditingController();
   bool showValidation = false;
   bool? _isValue = false;
+  bool showResend = false;
   final Repositories repositories = Repositories();
 
   VendorUser get vendorInfo => vendorProfileController.model.user!;
@@ -124,6 +125,7 @@ class _WhatdoyousellScreenState extends State<WhatdoyousellScreen> {
         vendorRegister = 'done';
         showToast('Otp send Successfully');
         isOtpDone = true;
+        showResend = true;
       }
     });
   }
@@ -446,7 +448,7 @@ class _WhatdoyousellScreenState extends State<WhatdoyousellScreen> {
                       if (formKey1.currentState!.validate()) {
                         if (_isValue == true) {
                           response.value.message ==
-                                  'You are successfully registered as a seller , Please check your mail for verify your account.'
+                                  'You are successfully registered as a seller Please check your mail for verify your account.'
                               ? const SizedBox()
                               : vendorregister();
                         } else {
@@ -455,7 +457,7 @@ class _WhatdoyousellScreenState extends State<WhatdoyousellScreen> {
                       }
                     },
                     child: response.value.message ==
-                            'You are successfully registered as a seller , Please check your mail for verify your account.'
+                        'You are successfully registered as a seller Please check your mail for verify your account.'
                         ? Container(
                             width: Get.width,
                             height: 50,
@@ -558,8 +560,7 @@ class _WhatdoyousellScreenState extends State<WhatdoyousellScreen> {
                 const SizedBox(
                   height: 10,
                 ),
-                response.value.message ==
-                        'You are successfully registered as a seller , Please check your mail for verify your account.'
+                showResend == true
                     ? RichText(
                         text: TextSpan(
                           text: 'If you don\'t receive a code, ',

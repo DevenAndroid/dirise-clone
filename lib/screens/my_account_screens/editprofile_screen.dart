@@ -3,6 +3,7 @@ import 'dart:io';
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:dirise/model/common_modal.dart';
 import 'package:dirise/model/customer_profile/model_country_list.dart';
+import 'package:dirise/screens/my_account_screens/profile_screen.dart';
 import 'package:dirise/utils/helper.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
@@ -70,7 +71,7 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
         showToast(response.message.toString());
         if (response.status == true) {
           profileController.getDataProfile();
-          Get.back();
+          Get.to(const ProfileScreen());
         }else{
           Get.back();
         }

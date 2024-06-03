@@ -6,6 +6,7 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:google_fonts/google_fonts.dart';
 
+import '../Services/locationwherecustomerwilljoin.dart';
 import '../controller/service_controller.dart';
 import '../controller/vendor_controllers/add_product_controller.dart';
 import '../model/common_modal.dart';
@@ -46,7 +47,7 @@ class _SingleProductReturnPolicyState extends State<SingleProductReturnPolicy> {
   RxInt returnPolicyLoaded = 0.obs;
   ReturnPolicyModel? modelReturnPolicy;
   ReturnPolicy? selectedReturnPolicy;
-
+  String returnSelectId = '';
   bool isButtonEnabled = false;
   void updateButtonState() {
     setState(() {
@@ -83,7 +84,6 @@ class _SingleProductReturnPolicyState extends State<SingleProductReturnPolicy> {
   bool noReturnSelected = false;
   String radioButtonValue = 'buyer_pays';
   final addProductController = Get.put(AddProductController());
-
   returnPolicyApi() {
     Map<String, dynamic> map = {};
 
@@ -100,7 +100,25 @@ class _SingleProductReturnPolicyState extends State<SingleProductReturnPolicy> {
       ModelCommonResponse response = ModelCommonResponse.fromJson(jsonDecode(value));
       showToast(response.message.toString());
       if (response.status == true) {
-        Get.to(() => SingleProductDeliverySize());
+        Get.to(() =>  SingleProductDeliverySize());
+        showToast(response.message.toString());
+      }
+    });
+  }
+
+  nextPageApi() {
+    Map<String, dynamic> map = {};
+    map['return_policy_desc'] = selectedReturnPolicy!.id.toString();
+    map['item_type'] = 'Product';
+
+    FocusManager.instance.primaryFocus!.unfocus();
+    repositories.postApi(url: ApiUrls.giveawayProductAddress, context: context, mapData: map).then((value) {
+      ModelCommonResponse response = ModelCommonResponse.fromJson(jsonDecode(value));
+      print('API Response Status Code: ${response.status}');
+      showToast(response.message.toString());
+      if (response.status == true) {
+        Get.to(() =>  SingleProductDeliverySize());
+      } else {
         showToast(response.message.toString());
       }
     });
@@ -115,6 +133,12 @@ class _SingleProductReturnPolicyState extends State<SingleProductReturnPolicy> {
       titleController.text = widget.policyName.toString();
       descController.text = widget.policyDescription.toString();
     }
+  }
+
+  @override
+  void dispose() {
+    super.dispose();
+    getReturnPolicyData();
   }
 
   @override
@@ -219,6 +243,7 @@ class _SingleProductReturnPolicyState extends State<SingleProductReturnPolicy> {
                                 setState(() {
                                   selectedReturnPolicy = value;
                                   getSingleReturnPolicyData(selectedReturnPolicy!.id.toString());
+                                  returnSelectId = selectedReturnPolicy!.id.toString();
                                 });
                               },
                               // validator: (value){
@@ -488,18 +513,20 @@ class _SingleProductReturnPolicyState extends State<SingleProductReturnPolicy> {
                     onPressed: () {
                       if (noReturnSelected == false) {
                         if (formKey1.currentState!.validate()) {
-                          returnPolicyApi();
-                          // if (radioButtonValue != '') {
-                          //
-                          // } else {
-                          //   showToastCenter('Select Return shipping fees');
-                          // }
+                          if (radioButtonValue != '') {
+                            if (returnSelectId.isEmpty) {
+                              returnPolicyApi();
+                            } else {
+                              nextPageApi();
+                            }
+                          } else {
+                            showToastCenter('Select Return shipping fees');
+                          }
                         }
                       } else {
-                        Get.to(SingleProductDeliverySize());
+                        Get.to(const Locationwherecustomerwilljoin());
                       }
-                    }
-                    // Disable button if no radio button is selected
+                    } // Disable button if no radio button is selected
                     ),
               ],
             ),

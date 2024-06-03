@@ -99,11 +99,11 @@ class _OptionalScreenState extends State<OptionalScreen> {
     // TODO: implement initState
     super.initState();
     if(widget.id != null){
-      metaTitleController.text = widget.MetaTitle.toString();
-      metaDescriptionController.text = widget.MetaDescription.toString();
-      longDescriptionController.text = widget.LongDescription.toString();
-      serialNumberController.text = widget.SerialNumber.toString();
-      productNumberController.text = widget.Productnumber.toString();
+      metaTitleController.text = widget.MetaTitle ?? "";
+      metaDescriptionController.text = widget.MetaDescription ?? "";
+      longDescriptionController.text = widget.LongDescription ?? "";
+      serialNumberController.text = widget.SerialNumber ?? "";
+      productNumberController.text = widget.Productnumber ?? "";
     }
 
   }

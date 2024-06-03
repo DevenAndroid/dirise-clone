@@ -72,7 +72,12 @@ class _ReviewPublishServiceScreenState extends State<ReviewPublishServiceScreen>
     getVendorCategories(addProductController.idProduct.value.toString());
     getReturnPolicyData();
   }
-
+@override
+  void dispose() {
+    super.dispose();
+    getVendorCategories(addProductController.idProduct.value.toString());
+    getReturnPolicyData();
+  }
   @override
   Widget build(BuildContext context) {
     return Scaffold(
