@@ -568,7 +568,7 @@ class _ProductReviewPublicScreenState extends State<ProductReviewPublicScreen> {
                             mainAxisAlignment: MainAxisAlignment.spaceBetween,
                             children: [
                               Text(
-                                'International Shipping Details',
+                                'Item Weight & Dimensions',
                                 style: GoogleFonts.poppins(
                                   color: AppTheme.primaryColor,
                                   fontSize: 15,

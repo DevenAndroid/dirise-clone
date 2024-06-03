@@ -323,7 +323,7 @@ class _ProductUIState extends State<ProductUI> {
                         fontSize: 16,
                         fontWeight: FontWeight.w600),
                   ),
-                  SizedBox(width: 7,),
+                  const SizedBox(width: 7,),
                   Text.rich(
                     TextSpan(
                       text: '${widget.productElement.discountPrice.toString().split('.')[0]}.',
