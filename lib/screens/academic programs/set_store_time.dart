@@ -3,6 +3,7 @@ import 'dart:convert';
 import 'dart:developer';
 import 'package:dirise/model/common_modal.dart';
 import 'package:dirise/repository/repository.dart';
+import 'package:dirise/screens/academic%20programs/review_screen_academic.dart';
 import 'package:dirise/utils/api_constant.dart';
 import 'package:dirise/utils/helper.dart';
 import 'package:dirise/widgets/common_colour.dart';
@@ -18,7 +19,8 @@ import '../extendedPrograms/optional_details_academic.dart';
 import 'duration_screen.dart';
 
 class SetTimeScreenAcademic extends StatefulWidget {
-  const SetTimeScreenAcademic({Key? key}) : super(key: key);
+  int? id;
+   SetTimeScreenAcademic({Key? key,this.id}) : super(key: key);
   static var route = "/setTimeScreen";
 
   @override
@@ -78,7 +80,12 @@ class _SetTimeScreenAcademicState extends State<SetTimeScreenAcademic> {
 
       if (modelCommonResponse.status == true) {
         log("dfsgsdfg${modelCommonResponse.uRL.toString()}");
-        Get.to(AcademicDurationScreen());
+        if(widget.id != null){
+          Get.to(const ReviewScreenAcademic());
+        }else{
+          Get.to(AcademicDurationScreen());
+        }
+
       }
     });
   }
