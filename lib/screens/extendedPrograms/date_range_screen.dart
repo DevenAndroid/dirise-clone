@@ -148,7 +148,7 @@ class _ExtendedProgramsScreenDateScreenState extends State<ExtendedProgramsScree
       JobResponceModel response = JobResponceModel.fromJson(jsonDecode(value));
       if (response.status == true) {
         showToast(response.message.toString());
-        Get.to(() => const SetTimeScreenExtendedPrograms());
+        Get.to(() =>  SetTimeScreenExtendedPrograms());
         print('value isssss${response.toJson()}');
       } else {
         showToast(response.message.toString());
@@ -435,7 +435,7 @@ class _ExtendedProgramsScreenDateScreenState extends State<ExtendedProgramsScree
             ),
             InkWell(
               onTap: () {
-                Get.to(() => const SetTimeScreenAcademic());
+                Get.to(() =>  SetTimeScreenAcademic());
               },
               child: Container(
                 width: Get.width,
