@@ -368,10 +368,10 @@ RxString shippingType= "".obs;
                             child: ListView.builder(
                               physics: const NeverScrollableScrollPhysics(),
                               shrinkWrap: true,
-                              itemCount: directOrderResponse.shippingType!.icarryShipping!.length,
+                              itemCount: directOrderResponse.shippingType!.localShipping!.length,
                               padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 15).copyWith(top: 0),
                               itemBuilder: (context, ii) {
-                                var product = directOrderResponse.shippingType!.icarryShipping![ii];
+                                var product = directOrderResponse.shippingType!.localShipping![ii];
 
                                 return Obx(() {
                                   return Column(
@@ -386,7 +386,7 @@ RxString shippingType= "".obs;
                                       Row(
                                         children: [
                                           Radio(
-                                            value: product.carrierModel!.id.toString(),
+                                            value: product.id.toString(),
                                             groupValue: directOrderResponse.shippingOption.value,
                                             visualDensity: const VisualDensity(horizontal: -4.0),
                                             onChanged: (value) {
@@ -397,7 +397,7 @@ RxString shippingType= "".obs;
                                                 //   return e.value.toString();
                                                 // });
                                                 double subtotal = double.parse(directOrderResponse.icarryCommision.toString());
-                                                double shipping = double.parse(product.rate.toString());
+                                                double shipping = double.parse(product.value.toString());
                                                 total = subtotal + shipping;
                                                 cartController.formattedTotal = total.toString();
                                                 print('total isss${cartController.formattedTotal.toString()}');
@@ -414,11 +414,11 @@ RxString shippingType= "".obs;
                                                   style:
                                                   GoogleFonts.poppins(fontWeight: FontWeight.w500, fontSize: 16)),
                                               3.spaceY,
-                                              // Text('kwd ${product.value.toString()}',
-                                              //     style: GoogleFonts.poppins(
-                                              //         fontWeight: FontWeight.w400,
-                                              //         fontSize: 16,
-                                              //         color: const Color(0xFF03a827))),
+                                              Text('kwd ${product.value.toString()}',
+                                                  style: GoogleFonts.poppins(
+                                                      fontWeight: FontWeight.w400,
+                                                      fontSize: 16,
+                                                      color: const Color(0xFF03a827))),
                                             ],
                                           ),
                                           // Text(product.name.toString().capitalize!.replaceAll('_', ' '),
@@ -437,6 +437,7 @@ RxString shippingType= "".obs;
 
                       // selectedAddress.id != null
                       //     ?
+                    if(directOrderResponse.shippingType!.fedexShipping!=null)
                     Column(
                       children: [
                       if(directOrderResponse.shippingType!.fedexShipping!.output != null)

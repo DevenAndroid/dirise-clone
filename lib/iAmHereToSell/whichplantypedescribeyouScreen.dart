@@ -127,12 +127,12 @@ class _WhichplantypedescribeyouScreenState extends State<Whichplantypedescribeyo
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
                           Text(
-                            'Individuals:'.tr,
+                            'Showcasing Cloud Space '.tr,
                             style: GoogleFonts.poppins(
                                 color: const Color(0xff111727), fontWeight: FontWeight.w600, fontSize: 16),
                           ),
                           Text(
-                            'Advertising only'.tr,
+                            'Showcasing only'.tr,
                             style: GoogleFonts.poppins(
                                 color: const Color(0xff111727), fontWeight: FontWeight.w400, fontSize: 13),
                           ),
@@ -169,11 +169,11 @@ class _WhichplantypedescribeyouScreenState extends State<Whichplantypedescribeyo
                     ]),
                     child: Column(
                       children: [
-                        Text(
-                          "Showcasing Cloud Space ",
-                          style: GoogleFonts.poppins(
-                              color: const Color(0xff111727), fontWeight: FontWeight.w600, fontSize: 16),
-                        ),
+                        // Text(
+                        //   "Showcasing Cloud Space ",
+                        //   style: GoogleFonts.poppins(
+                        //       color: const Color(0xff111727), fontWeight: FontWeight.w600, fontSize: 16),
+                        // ),
                         Row(
                           mainAxisAlignment: MainAxisAlignment.start,
                           children: [
@@ -242,12 +242,12 @@ class _WhichplantypedescribeyouScreenState extends State<Whichplantypedescribeyo
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
                           Text(
-                            'Startup stores'.tr,
+                            'Cloud Office Space'.tr,
                             style: GoogleFonts.poppins(
                                 color: const Color(0xff111727), fontWeight: FontWeight.w600, fontSize: 16),
                           ),
                           Text(
-                            'Just started the business journey'.tr,
+                            'Small businesses & start ups '.tr,
                             style: GoogleFonts.poppins(
                                 color: const Color(0xff111727), fontWeight: FontWeight.w400, fontSize: 13),
                           ),
@@ -284,11 +284,11 @@ class _WhichplantypedescribeyouScreenState extends State<Whichplantypedescribeyo
                     ]),
                     child: Column(
                       children: [
-                        Text(
-                          "Cloud Office Space ",
-                          style: GoogleFonts.poppins(
-                              color: const Color(0xff111727), fontWeight: FontWeight.w600, fontSize: 16),
-                        ),
+                        // Text(
+                        //   "Cloud Office Space ",
+                        //   style: GoogleFonts.poppins(
+                        //       color: const Color(0xff111727), fontWeight: FontWeight.w600, fontSize: 16),
+                        // ),
                         Row(
                           mainAxisAlignment: MainAxisAlignment.start,
                           children: [
@@ -360,12 +360,12 @@ class _WhichplantypedescribeyouScreenState extends State<Whichplantypedescribeyo
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
                           Text(
-                            'Enterprise stores:'.tr,
+                            'Enterprise Cloud Space '.tr,
                             style: GoogleFonts.poppins(
                                 color: const Color(0xff111727), fontWeight: FontWeight.w600, fontSize: 16),
                           ),
                           Text(
-                            'Advertising only'.tr,
+                            'Established official businesses '.tr,
                             style: GoogleFonts.poppins(
                                 color: const Color(0xff111727), fontWeight: FontWeight.w400, fontSize: 13),
                           ),
@@ -402,11 +402,11 @@ class _WhichplantypedescribeyouScreenState extends State<Whichplantypedescribeyo
                     ]),
                     child: Column(
                       children: [
-                        Text(
-                          "Enterprise Cloud Space  ",
-                          style: GoogleFonts.poppins(
-                              color: const Color(0xff111727), fontWeight: FontWeight.w600, fontSize: 16),
-                        ),
+                        // Text(
+                        //   "Enterprise Cloud Space  ",
+                        //   style: GoogleFonts.poppins(
+                        //       color: const Color(0xff111727), fontWeight: FontWeight.w600, fontSize: 16),
+                        // ),
                         Row(
                           mainAxisAlignment: MainAxisAlignment.start,
                           children: [
