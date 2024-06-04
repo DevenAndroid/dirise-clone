@@ -124,8 +124,10 @@ class _WhatdoyousellScreenState extends State<WhatdoyousellScreen> {
         log('message ${response.value.message.toString()}');
         vendorRegister = 'done';
         showToast('Otp send Successfully');
-        isOtpDone = true;
-        showResend = true;
+       setState(() {
+         isOtpDone = true;
+         showResend = true;
+       });
       }
     });
   }

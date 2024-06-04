@@ -12,6 +12,8 @@ import '../../model/model_address_list.dart';
 import '../../repository/repository.dart';
 import '../../utils/api_constant.dart';
 import '../../widgets/common_textfield.dart';
+import '../check_out/address/edit_address.dart';
+import 'find_my_location.dart';
 
 
 class HomeAddEditAddressLogin extends StatefulWidget {
@@ -114,6 +116,30 @@ class _HomeAddEditAddressLoginState extends State<HomeAddEditAddressLogin> {
               Text(
                 "Where do you want to receive your orders".tr,
                 style: GoogleFonts.poppins(color: Color(0xff292F45), fontWeight: FontWeight.w600, fontSize: 16),
+              ),
+              SizedBox(
+                height: size.height * .02,
+              ),
+              InkWell(
+                onTap: (){
+                  Get.to(()=>FindMyLocation());
+                },
+                child: Text(
+                  "Find my location".tr,
+                  style: GoogleFonts.poppins(color: const Color(0xff044484), fontWeight: FontWeight.w400, fontSize: 14),
+                ),
+              ),
+              SizedBox(
+                height: size.height * .02,
+              ),
+              InkWell(
+                onTap: (){
+                  bottomSheet(addressData: AddressData());
+                },
+                child: Text(
+                  "Add new location".tr,
+                  style: GoogleFonts.poppins(color: const Color(0xff044484), fontWeight: FontWeight.w400, fontSize: 14),
+                ),
               ),
               SizedBox(
                 height: size.height * .02,
@@ -342,6 +368,17 @@ class _HomeAddEditAddressLoginState extends State<HomeAddEditAddressLogin> {
             : const LoadingAnimation();
       }),
     );
+  }
+  Future bottomSheet({required AddressData addressData}) {
+    return showModalBottomSheet(
+        context: context,
+        isScrollControlled: true,
+        backgroundColor: Colors.white,
+        builder: (context12) {
+          return EditAddressSheet(
+            addressData: addressData,
+          );
+        });
   }
 }
 

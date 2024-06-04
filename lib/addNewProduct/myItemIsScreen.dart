@@ -70,7 +70,23 @@ class _MyItemISScreenState extends State<MyItemISScreen> {
         Get.to(const JobTellusaboutyourselfScreen());
       }
       else {
-        showToast('Kindly, register as a vendor, its very simple and opening your store have never been easier');
+        final snackBar = SnackBar(
+          content: const Text('Customer accounts are limited to jobs and Giveaways. Click here to Register as a vendor in few steps '),
+          action: SnackBarAction(
+            label: 'Click here',
+            onPressed: () {
+              Get.to(()=> const WhichplantypedescribeyouScreen());
+            },
+          ),
+        );
+
+        ScaffoldMessenger.of(context).showSnackBar(snackBar);
+         // GestureDetector(
+         //   onTap: (){
+         //     Get.to(()=> const WhichplantypedescribeyouScreen());
+         //   },
+         //   child:  showToast('Customer accounts are limited to jobs and Giveaways. Click here to Register as a vendor in few steps '),
+         // );
       }
     }
   }
