@@ -363,27 +363,27 @@ class _LoginScreenState extends State<LoginScreen> {
                   Row(
                     mainAxisAlignment: MainAxisAlignment.center,
                     children: [
-                      // if(Platform.isIOS)
-                      //   InkWell(
-                      //     onTap: () {
-                      //       loginWithApple();
-                      //     },
-                      //     child: Container(
-                      //       height: 62,
-                      //       width: 62,
-                      //       decoration: BoxDecoration(
-                      //         borderRadius: BorderRadius.circular(10),
-                      //         color: Colors.black,
-                      //       ),
-                      //       child: const Center(
-                      //         child: Icon(
-                      //           Icons.apple,
-                      //           color: Colors.white,
-                      //           size: 35,
-                      //         ),
-                      //       ),
-                      //     ),
-                      //   ),
+                      if(Platform.isIOS)
+                        InkWell(
+                          onTap: () {
+                            loginWithApple();
+                          },
+                          child: Container(
+                            height: 62,
+                            width: 62,
+                            decoration: BoxDecoration(
+                              borderRadius: BorderRadius.circular(10),
+                              color: Colors.black,
+                            ),
+                            child: const Center(
+                              child: Icon(
+                                Icons.apple,
+                                color: Colors.white,
+                                size: 35,
+                              ),
+                            ),
+                          ),
+                        ),
                       const SizedBox(
                         width: 20,
                       ),
@@ -591,7 +591,7 @@ class _LoginScreenState extends State<LoginScreen> {
 // }
 
   loginWithApple() async {
-    // var fcmToken = await FirebaseMessaging.instance.getToken();
+    var fcmToken = await FirebaseMessaging.instance.getToken();
     final appleProvider = AppleAuthProvider().addScope("email").addScope("FullName");
     await FirebaseAuth.instance.signInWithProvider(appleProvider).then((value1) async {
       Map<String, dynamic> map = {};
@@ -600,13 +600,12 @@ class _LoginScreenState extends State<LoginScreen> {
       log(value1.credential!.accessToken.toString());
       repositories.postApi(url: ApiUrls.socialLoginUrl, context: context, mapData: map,showResponse: true).then((value)  async {
         LoginModal response = LoginModal.fromJson(jsonDecode(value));
-        repositories.saveLoginDetails(jsonEncode(response));
+        log('value isss${response.toJson()}');
+        // repositories.saveLoginDetails(jsonEncode(response));
         if (response.status == true) {
-          SharedPreferences pref = await SharedPreferences.getInstance();
-          pref.setString('login_user', jsonEncode(value));
+          repositories.saveLoginDetails(jsonEncode(response));
           showToast(response.message);
           profileController.userLoggedIn = true;
-
          Get.offAllNamed(BottomNavbar.route);
         } else {
           showToast(response.message);

@@ -1,4 +1,5 @@
 import 'dart:convert';
+import 'dart:developer';
 import 'dart:io';
 import 'package:dirise/language/app_strings.dart';
 import 'package:dirise/newAuthScreens/tellUsAboutYourself.dart';
@@ -15,6 +16,7 @@ import 'package:google_fonts/google_fonts.dart';
 import 'package:google_sign_in/google_sign_in.dart';
 import 'package:intl_phone_field/countries.dart';
 import 'package:intl_phone_field/intl_phone_field.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 import 'package:url_launcher/url_launcher.dart';
 import '../../widgets/common_button.dart';
 import '../../widgets/common_textfield.dart';
@@ -113,6 +115,32 @@ class _CreateAccountNewScreenState extends State<CreateAccountNewScreen> {
           repositories.saveLoginDetails(jsonEncode(response));
           if(response.user!.alreadyRegistered == true){
               Get.offAllNamed(BottomNavbar.route);
+          }else{
+            Get.to(const TellUsAboutYourSelf());
+          }
+        } else {
+          showToast(response.message.toString());
+        }
+      });
+    });
+  }
+  loginWithApple() async {
+    // var fcmToken = await FirebaseMessaging.instance.getToken();
+    final appleProvider = AppleAuthProvider().addScope("email").addScope("FullName");
+    await FirebaseAuth.instance.signInWithProvider(appleProvider).then((value1) async {
+      Map<String, dynamic> map = {};
+      map['provider'] = "apple";
+      map['access_token'] = value1.credential!.accessToken!;
+      log(value1.credential!.accessToken.toString());
+      repositories.postApi(url: ApiUrls.socialLoginUrl, context: context, mapData: map,showResponse: true).then((value)  async {
+        LoginModal response = LoginModal.fromJson(jsonDecode(value));
+        repositories.saveLoginDetails(jsonEncode(response));
+        if (response.status == true) {
+          showToast(response.message.toString());
+          profileController.userLoggedIn = true;
+          repositories.saveLoginDetails(jsonEncode(response));
+          if(response.user!.alreadyRegistered == true){
+            Get.offAllNamed(BottomNavbar.route);
           }else{
             Get.to(const TellUsAboutYourSelf());
           }
@@ -474,18 +502,23 @@ class _CreateAccountNewScreenState extends State<CreateAccountNewScreen> {
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: [
                    if(Platform.isIOS)
-                    Container(
-                      height: 62,
-                      width: 62,
-                      decoration: BoxDecoration(
-                        borderRadius: BorderRadius.circular(10),
-                        color: Colors.black,
-                      ),
-                      child: const Center(
-                        child: Icon(
-                          Icons.apple,
-                          color: Colors.white,
-                          size: 35,
+                    GestureDetector(
+                      onTap: (){
+                        loginWithApple();
+                      },
+                      child: Container(
+                        height: 62,
+                        width: 62,
+                        decoration: BoxDecoration(
+                          borderRadius: BorderRadius.circular(10),
+                          color: Colors.black,
+                        ),
+                        child: const Center(
+                          child: Icon(
+                            Icons.apple,
+                            color: Colors.white,
+                            size: 35,
+                          ),
                         ),
                       ),
                     ),
