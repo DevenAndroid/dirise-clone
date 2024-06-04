@@ -76,8 +76,10 @@ class _AuthorScreenState extends State<AuthorScreen> {
                                         // SizedBox(height: 20,),
 
                                                 Image.asset(
-                                                    'assets/svgs/man.png'
-                                                )
+                                                    'assets/svgs/man.png',
+                                                  height: 160,
+                                               fit: BoxFit.fill,
+                                                ),
                                         // Text(
                                         //   getStarVendorModel.value.data![index].ofTheMonth!.storeName.toString(),
                                         //   maxLines: 1,

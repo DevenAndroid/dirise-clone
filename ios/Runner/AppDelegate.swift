@@ -2,6 +2,7 @@ import UIKit
 import Flutter
 import Firebase
 import FirebaseMessaging
+import GoogleMaps
 
 @main
 @objc class AppDelegate: FlutterAppDelegate {
@@ -11,6 +12,7 @@ import FirebaseMessaging
   ) -> Bool {
     FirebaseApp.configure()
     GeneratedPluginRegistrant.register(with: self)
+    GMSServices.provideAPIKey("AIzaSyDDl-_JOy_bj4MyQhYbKbGkZ0sfpbTZDNU")
     return super.application(application, didFinishLaunchingWithOptions: launchOptions)
   }
     override func application(_ application: UIApplication,
