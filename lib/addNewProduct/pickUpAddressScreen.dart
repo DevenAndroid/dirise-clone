@@ -60,11 +60,12 @@ class AddProductPickUpAddressScreen extends StatefulWidget {
 
 class _AddProductPickUpAddressScreenState extends State<AddProductPickUpAddressScreen> {
   final TextEditingController streetController = TextEditingController();
+  final TextEditingController countryController = TextEditingController();
   final TextEditingController cityController = TextEditingController();
   final TextEditingController stateController = TextEditingController();
   final TextEditingController zipcodeController = TextEditingController();
   final TextEditingController townController = TextEditingController();
-  final TextEditingController countryController = TextEditingController();
+  // final TextEditingController countryController = TextEditingController();
   final TextEditingController specialInstructionController = TextEditingController();
   final addProductController = Get.put(AddProductController());
   RxBool hide = true.obs;
@@ -209,12 +210,30 @@ class _AddProductPickUpAddressScreenState extends State<AddProductPickUpAddressS
                 ),
                 SizedBox(height: 5,),
                 CommonTextField(
-                   controller: streetController,
+                  controller: streetController,
+                  obSecure: false,
+                  hintText: 'Street'.tr,
+                  validator: (value) {
+                    if (value!.trim().isEmpty) {
+                      return 'Street is required'.tr;
+                    }
+                    return null; // Return null if validation passes
+                  },
+                ),
+
+                SizedBox(height: 20,),
+                Text(
+                  "Country*".tr,
+                  style: GoogleFonts.poppins(color: Color(0xff044484), fontWeight: FontWeight.w600, fontSize: 14),
+                ),
+                SizedBox(height: 5,),
+                CommonTextField(
+                   controller: countryController,
                     obSecure: false,
-                    hintText: 'Street'.tr,
+                    hintText: 'Country'.tr,
                     validator: (value) {
                       if (value!.trim().isEmpty) {
-                        return 'Street is required'.tr;
+                        return 'Country is required'.tr;
                       }
                       return null; // Return null if validation passes
                     },

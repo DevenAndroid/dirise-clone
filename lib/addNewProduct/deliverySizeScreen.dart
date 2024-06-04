@@ -41,7 +41,7 @@ class _DeliverySizeScreenState extends State<DeliverySizeScreen> {
         if(widget.id != null){
           Get.to( ReviewPublishScreen());
         }else{
-          Get.to(InternationalshippingdetailsScreen());
+          Get.to(InternationalshippingdetailsScreen(),arguments:[selectedRadio]);
         }
       }
     });

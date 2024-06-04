@@ -48,11 +48,12 @@ class _PickUpAddressServiceState extends State<PickUpAddressService> {
   final formKey1 = GlobalKey<FormState>();
   String code = "+91";
   final TextEditingController streetController = TextEditingController();
+  final TextEditingController countryController = TextEditingController();
   final TextEditingController cityController = TextEditingController();
   final TextEditingController stateController = TextEditingController();
   final TextEditingController zipcodeController = TextEditingController();
   final TextEditingController townController = TextEditingController();
-  final TextEditingController countryController = TextEditingController();
+  // final TextEditingController countryController = TextEditingController();
   final TextEditingController specialInstructionController = TextEditingController();
   final addProductController = Get.put(AddProductController());
   editAddressApi() {
@@ -65,6 +66,7 @@ class _PickUpAddressServiceState extends State<PickUpAddressService> {
       map['city'] = cityController.text.trim();
       map['item_type'] = 'giveaway';
       map['state'] = stateController.text.trim();
+      map['country'] = countryController.text.trim();
       map['zip_code'] = zipcodeController.text.trim();
       map['town'] = townController.text.trim();
       map['id'] = addProductController.idProduct.value.toString();
@@ -73,6 +75,7 @@ class _PickUpAddressServiceState extends State<PickUpAddressService> {
     } else {
       map['city'] = cityController.text.trim();
       map['item_type'] = 'giveaway';
+      map['country'] = countryController.text.trim();
       map['state'] = stateController.text.trim();
       map['zip_code'] = zipcodeController.text.trim();
       map['town'] = townController.text.trim();
@@ -188,6 +191,27 @@ class _PickUpAddressServiceState extends State<PickUpAddressService> {
                   validator: (value) {
                     if (value!.trim().isEmpty) {
                       return 'Street is required'.tr;
+                    }
+                    return null; // Return null if validation passes
+                  },
+                ),
+                const SizedBox(
+                  height: 10,
+                ),
+                Text(
+                  "Country*".tr,
+                  style: GoogleFonts.poppins(color: const Color(0xff044484), fontWeight: FontWeight.w600, fontSize: 14),
+                ),
+                const SizedBox(
+                  height: 5,
+                ),
+                CommonTextField(
+                  controller: countryController,
+                  obSecure: false,
+                  hintText: 'Country'.tr,
+                  validator: (value) {
+                    if (value!.trim().isEmpty) {
+                      return 'Country is required'.tr;
                     }
                     return null; // Return null if validation passes
                   },
