@@ -227,16 +227,16 @@ class _HomePageState extends State<HomePage> {
     WidgetsBinding.instance.addPostFrameCallback((timeStamp) {
       _getCurrentPosition();
 
-      Future.delayed(const Duration(seconds: 5), () {
-
-        SchedulerBinding.instance.addPostFrameCallback((timeStamp) {
-          getAllAsync();
-        });
-      });
+      // Future.delayed(const Duration(seconds: 5), () {
+      //
+      //   SchedulerBinding.instance.addPostFrameCallback((timeStamp) {
+      //     getAllAsync();
+      //   });
+      // });
     });
-    // SchedulerBinding.instance.addPostFrameCallback((timeStamp) {
-    //
-    // });
+    SchedulerBinding.instance.addPostFrameCallback((timeStamp) {
+      getAllAsync();
+    });
 
   }
 
