@@ -1,6 +1,7 @@
 import 'dart:convert';
 
 import 'package:dirise/addNewProduct/optionalScreen.dart';
+import 'package:dirise/addNewProduct/reviewPublishScreen.dart';
 import 'package:dirise/utils/helper.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
@@ -104,12 +105,16 @@ class _InternationalshippingdetailsScreenState extends State<Internationalshippi
     repositories.postApi(url: ApiUrls.giveawayProductAddress, context: context, mapData: map).then((value) {
       ModelCommonResponse response = ModelCommonResponse.fromJson(jsonDecode(value));
       showToast(response.message.toString());
-      if (response.status == true) {
+      if(widget.id != null){
+        Get.to(ReviewPublishScreen());
+      }else{
         Get.to(OptionalScreen());
       }
+
+
     });
   }
-
+  var id = Get.arguments[0];
   @override
   void initState() {
     // TODO: implement initState
@@ -444,6 +449,7 @@ class _InternationalshippingdetailsScreenState extends State<Internationalshippi
                   },
                 ),
                 const SizedBox(height: 20),
+                id == "need_truck"?SizedBox():
                 GestureDetector(
                   onTap: () {
                     Get.to( OptionalScreen());
