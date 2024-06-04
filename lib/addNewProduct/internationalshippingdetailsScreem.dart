@@ -386,7 +386,7 @@ class _InternationalshippingdetailsScreenState extends State<Internationalshippi
                   ],
                 ),
                 Text(
-                  'Select Type Of Packaging '.tr,
+                  'Package type '.tr,
                   style: GoogleFonts.poppins(color: const Color(0xff292F45), fontWeight: FontWeight.w500, fontSize: 18),
                 ),
                 const SizedBox(height: 5),

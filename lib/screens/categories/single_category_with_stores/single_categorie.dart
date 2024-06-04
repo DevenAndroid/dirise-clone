@@ -148,25 +148,25 @@ class _SingleCategoriesState extends State<SingleCategories> {
   List<Widget> vendorPartner() {
     return [
 
-      GestureDetector(
-        onTap: () {
-          if (profileController.model.user == null) {
-            showVendorDialog();
-            return;
-          }
-          if (profileController.model.user!.isVendor != true) {
-            Get.to(() => const VendorPlansScreen());
-            return;
-          }
-          if (profileController.model.user!.isVendor == true) {
-            Get.to(() => const VendorDashBoardScreen());
-            return;
-          }
-          _isValue.value = !_isValue.value;
-          setState(() {});
-        },
-        child:SvgPicture.asset("assets/svgs/heart.svg"),
-      ),
+      // GestureDetector(
+      //   onTap: () {
+      //     if (profileController.model.user == null) {
+      //       showVendorDialog();
+      //       return;
+      //     }
+      //     if (profileController.model.user!.isVendor != true) {
+      //       Get.to(() => const VendorPlansScreen());
+      //       return;
+      //     }
+      //     if (profileController.model.user!.isVendor == true) {
+      //       Get.to(() => const VendorDashBoardScreen());
+      //       return;
+      //     }
+      //     _isValue.value = !_isValue.value;
+      //     setState(() {});
+      //   },
+      //   child:SvgPicture.asset("assets/svgs/heart.svg"),
+      // ),
 
       // _isValue.value == true
       //     ? Obx(() {

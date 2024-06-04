@@ -17,6 +17,7 @@ import '../../utils/api_constant.dart';
 import '../../widgets/common_colour.dart';
 import '../../widgets/like_button.dart';
 import '../check_out/direct_check_out.dart';
+import '../my_account_screens/contact_us_screen.dart';
 import 'single_product.dart';
 
 class ProductUI extends StatefulWidget {
@@ -431,10 +432,34 @@ SizedBox(height: 8,),
                                 ),
                             ],
                           )
-                              :Text("No Internation Shipping Available",  style: GoogleFonts.poppins(
-                              color: const Color(0xff858484),
-                              fontSize: 13,
-                              fontWeight: FontWeight.w500),),
+                              : GestureDetector(
+                                onTap: () {
+                                  Get.to(() => const ContactUsScreen());
+                                },
+                                child: RichText(
+                                  text: TextSpan(
+                                      text: 'vendor doesn\'t ship internationally',
+                                      style: GoogleFonts.poppins(
+                                          color: const Color(0xff858484), fontSize: 13, fontWeight: FontWeight.w500),
+                                      children: [
+                                        TextSpan(
+                                            text: ' contact us',
+                                            style: GoogleFonts.poppins(
+                                                decoration: TextDecoration.underline,
+                                                color: AppTheme.buttonColor,
+                                                fontSize: 13,
+                                                fontWeight: FontWeight.w500)),
+                                        TextSpan(
+                                            text: ' for the soloution',
+                                            style: GoogleFonts.poppins(
+                                                color: const Color(0xff858484), fontSize: 13, fontWeight: FontWeight.w500)),
+                                      ]),
+                                ),
+                              )
+                        // Text("vendor doesn't ship internationally, contact us for the soloution",  style: GoogleFonts.poppins(
+                          //     color: const Color(0xff858484),
+                          //     fontSize: 13,
+                          //     fontWeight: FontWeight.w500),),
                         ],
                       ),
                     ),

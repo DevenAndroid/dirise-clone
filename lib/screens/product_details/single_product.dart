@@ -26,6 +26,7 @@ import '../../utils/styles.dart';
 import '../../widgets/common_colour.dart';
 import '../../widgets/loading_animation.dart';
 import '../check_out/direct_check_out.dart';
+import '../my_account_screens/contact_us_screen.dart';
 
 class SingleProductDetails extends StatefulWidget {
   const SingleProductDetails({super.key, required this.productDetails});
@@ -204,7 +205,7 @@ class _SingleProductDetailsState extends State<SingleProductDetails> {
     map["product_id"] = productDetails.id.toString();
     map["quantity"] = map["quantity"] = int.tryParse(productQuantity.value.toString());
     map["key"] = 'fedexRate';
-    map["country_id"]=profileController.model.user!.country_id;
+    map["country_id"]= profileController.model.user!.country_id!= null ? profileController.model.user!.country_id : '117';
 
     if (isBookingProduct) {
       map["start_date"] = selectedDate.text.trim();
@@ -479,14 +480,38 @@ class _SingleProductDetailsState extends State<SingleProductDetails> {
                                         fontWeight: FontWeight.w500),
                                   ),
                               ],
-                            ): Text("No Internation Shipping Available",
-                              style: GoogleFonts.poppins(
-                                shadows: [const Shadow(color: Colors.black, offset: Offset(0, -4))],
-                                color: Colors.transparent,
-                                fontSize: 18,
-                                fontWeight: FontWeight.w500,
-                                decoration: TextDecoration.underline,
-                              ),),
+                            ): GestureDetector(
+                              onTap: () {
+                                Get.to(() => const ContactUsScreen());
+                              },
+                              child: RichText(
+                                text: TextSpan(
+                                    text: 'vendor doesn\'t ship internationally',
+                                    style: GoogleFonts.poppins(
+                                        color: const Color(0xff858484), fontSize: 13, fontWeight: FontWeight.w500),
+                                    children: [
+                                      TextSpan(
+                                          text: ' contact us',
+                                          style: GoogleFonts.poppins(
+                                              decoration: TextDecoration.underline,
+                                              color: AppTheme.buttonColor,
+                                              fontSize: 13,
+                                              fontWeight: FontWeight.w500)),
+                                      TextSpan(
+                                          text: ' for the soloution',
+                                          style: GoogleFonts.poppins(
+                                              color: const Color(0xff858484), fontSize: 13, fontWeight: FontWeight.w500)),
+                                    ]),
+                              ),
+                            ),
+                            // Text("No Internation Shipping Available",
+                            //   style: GoogleFonts.poppins(
+                            //     shadows: [const Shadow(color: Colors.black, offset: Offset(0, -4))],
+                            //     color: Colors.transparent,
+                            //     fontSize: 18,
+                            //     fontWeight: FontWeight.w500,
+                            //     decoration: TextDecoration.underline,
+                            //   ),),
                             const SizedBox(height: 15,),
                             Align(
                               alignment: Alignment.topLeft,

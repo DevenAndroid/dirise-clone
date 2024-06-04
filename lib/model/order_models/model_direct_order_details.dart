@@ -127,20 +127,20 @@ class IcarryShipping {
   dynamic shippingRateComputationMethodSystemName;
   dynamic methodName;
   dynamic methodId;
-  Null methodBodyInfo;
+  dynamic methodBodyInfo;
  dynamic carrierTransportationTypeId;
  dynamic carrierAdminVehicleTypeId;
-  Null description;
+  dynamic description;
   dynamic price;
-  Null cODCurrency;
+  dynamic cODCurrency;
   dynamic rate;
   Finance? finance;
-  Null deliveryDateFormat;
+  dynamic deliveryDateFormat;
  dynamic displayOrder;
   bool? selected;
   WorkingCurrency? workingCurrency;
   List<Null>? customProperties;
-  Null friendlyPluginName;
+  dynamic friendlyPluginName;
 
   IcarryShipping(
       {this.name,
@@ -283,7 +283,7 @@ class CarrierModel {
   List<Null>? availableCountries;
   List<Null>? selectedVendors;
   List<Null>? selectedCountries;
-  Null primaryStoreCurrencyCode;
+ dynamic primaryStoreCurrencyCode;
  dynamic vatPercentage;
   bool? isICarryCarrier;
   bool? isAvailableForOnDemand;
@@ -623,7 +623,7 @@ class Finance {
   dynamic deliveryCharge;
  dynamic cODCharge;
   dynamic serviceFee;
-  Null subscriptionplanVendorID;
+ dynamic subscriptionplanVendorID;
   dynamic revenues;
  dynamic taxRate;
  dynamic taxValue;
@@ -854,7 +854,7 @@ class ProdcutData {
   dynamic prodectMixQty;
   dynamic prodectDescription;
   dynamic image;
-  Null arabPname;
+  dynamic arabPname;
   dynamic productType;
   dynamic itemType;
  dynamic virtualProductType;
@@ -865,16 +865,16 @@ class ProdcutData {
  dynamic bestSaller;
  dynamic featured;
   dynamic taxApply;
-  Null taxType;
+  dynamic taxType;
   dynamic shortDescription;
-  Null arabShortDescription;
+  dynamic arabShortDescription;
   dynamic longDescription;
-  Null arabLongDescription;
+  dynamic arabLongDescription;
   dynamic featuredImage;
   List<String>? galleryImage;
-  Null virtualProductFile;
-  Null virtualProductFileType;
-  Null virtualProductFileLanguage;
+  dynamic virtualProductFile;
+  dynamic virtualProductFileType;
+  dynamic virtualProductFileLanguage;
   dynamic featureImageApp;
   dynamic featureImageWeb;
   dynamic inStock;
@@ -883,13 +883,13 @@ class ProdcutData {
  dynamic time;
   dynamic timePeriod;
   dynamic stockAlert;
-  Null shippingCharge;
+  dynamic shippingCharge;
  dynamic avgRating;
   dynamic metaTitle;
   dynamic metaKeyword;
   dynamic metaDescription;
-  Null metaTags;
-  Null seoTags;
+  dynamic metaTags;
+  dynamic seoTags;
  dynamic parentId;
   dynamic serviceStartTime;
   dynamic serviceEndTime;
@@ -916,12 +916,12 @@ class ProdcutData {
   dynamic isOnsale;
  dynamic discountPercent;
  dynamic fixedDiscountPrice;
-  Null shippingPay;
+  dynamic shippingPay;
   dynamic createdAt;
   dynamic updatedAt;
  dynamic topHunderd;
  dynamic limitedTimeDeal;
-  Null returnDays;
+  dynamic returnDays;
   dynamic keyword;
  dynamic isPublish;
  dynamic inOffer;
