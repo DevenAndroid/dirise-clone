@@ -9,6 +9,7 @@ import 'package:flutter_rating_bar/flutter_rating_bar.dart';
 import 'package:get/get.dart';
 import 'package:google_fonts/google_fonts.dart';
 import '../../controller/cart_controller.dart';
+import '../../controller/profile_controller.dart';
 import '../../controller/wish_list_controller.dart';
 import '../../model/model_single_product.dart';
 import '../../model/order_models/model_direct_order_details.dart';
@@ -148,32 +149,32 @@ class _ProductUIState extends State<ProductUI> {
     }
     return map;
   }
-  addToCartProduct() {
-    if (!validateSlots()) return;
-    repositories.postApi(url: ApiUrls.addToCartUrl, mapData: getMap, context: context).then((value) {
-      ModelCommonResponse response = ModelCommonResponse.fromJson(jsonDecode(value));
-      showToast(response.message.toString());
-      if (response.status == true) {
-        Get.back();
-        cartController.getCart();
-      }
-    });
-  }
+  // addToCartProduct() {
+  //   if (!validateSlots()) return;
+  //   repositories.postApi(url: ApiUrls.addToCartUrl, mapData: getMap, context: context).then((value) {
+  //     ModelCommonResponse response = ModelCommonResponse.fromJson(jsonDecode(value));
+  //     showToast(response.message.toString());
+  //     if (response.status == true) {
+  //       Get.back();
+  //       cartController.getCart();
+  //     }
+  //   });
+  // }
 
-  directBuyProduct() {
-    if (!validateSlots()) return;
-    repositories.postApi(url: ApiUrls.buyNowDetailsUrl, mapData: getMap, context: context).then((value) {
-      ModelDirectOrderResponse response = ModelDirectOrderResponse.fromJson(jsonDecode(value));
-      showToast(response.message.toString());
-      if (response.status == true) {
-        response.prodcutData!.inStock = productQuantity.value;
-        if (kDebugMode) {
-          print(response.prodcutData!.inStock);
-        }
-        Get.toNamed(DirectCheckOutScreen.route, arguments: response);
-      }
-    });
-  }
+  // directBuyProduct() {
+  //   if (!validateSlots()) return;
+  //   repositories.postApi(url: ApiUrls.buyNowDetailsUrl, mapData: getMap, context: context).then((value) {
+  //     ModelDirectOrderResponse response = ModelDirectOrderResponse.fromJson(jsonDecode(value));
+  //     showToast(response.message.toString());
+  //     if (response.status == true) {
+  //       response.prodcutData!.inStock = productQuantity.value;
+  //       if (kDebugMode) {
+  //         print(response.prodcutData!.inStock);
+  //       }
+  //       Get.toNamed(DirectCheckOutScreen.route, arguments: response);
+  //     }
+  //   });
+  // }
   ProductElement productElement = ProductElement();
   // final Repositories repositories = Repositories();
   List<String> imagesList = [];
@@ -199,6 +200,63 @@ class _ProductUIState extends State<ProductUI> {
   // }
 
   bool get canBuyProduct => productElement.addToCart == true;
+  final profileController = Get.put(ProfileController());
+  directBuyProduct() {
+    if (!validateSlots()) return;
+    Map<String, dynamic> map = {};
+    map["product_id"] = widget.productElement.id.toString();
+    map["quantity"] = map["quantity"] = int.tryParse(productQuantity.value.toString());
+    map["key"] = 'fedexRate';
+    map["country_id"]= profileController.model.user!.country_id!= null ? profileController.model.user!.country_id : '117';
+
+    if (isBookingProduct) {
+      map["start_date"] = selectedDate.text.trim();
+      map["time_sloat"] = selectedSlot.split("--").first;
+      map["sloat_end_time"] = selectedSlot.split("--").last;
+    }
+    if (isVariantType) {
+      map["variation"] = selectedVariant!.id.toString();
+    }
+    repositories.postApi(url: ApiUrls.buyNowDetailsUrl, mapData: map, context: context).then((value) {
+
+      ModelDirectOrderResponse response = ModelDirectOrderResponse.fromJson(jsonDecode(value));
+
+      showToast(response.message.toString());
+      if (response.status == true) {
+
+        response.prodcutData!.inStock = productQuantity.value;
+        if (kDebugMode) {
+          print(response.prodcutData!.inStock);
+        }
+        Get.toNamed(DirectCheckOutScreen.route, arguments: response);
+      }
+    });
+  }
+  addToCartProduct() {
+    if (!validateSlots()) return;
+    Map<String, dynamic> map = {};
+    map["product_id"] = widget.productElement.id.toString();
+    map["quantity"] = map["quantity"] = int.tryParse(productQuantity.value.toString());
+    map["key"] = 'fedexRate';
+    map["country_id"]= profileController.model.user!= null ? profileController.model.user!.country_id : '117';
+
+    if (isBookingProduct) {
+      map["start_date"] = selectedDate.text.trim();
+      map["time_sloat"] = selectedSlot.split("--").first;
+      map["sloat_end_time"] = selectedSlot.split("--").last;
+    }
+    if (isVariantType) {
+      map["variation"] = selectedVariant!.id.toString();
+    }
+    repositories.postApi(url: ApiUrls.addToCartUrl, mapData: map, context: context).then((value) {
+      ModelCommonResponse response = ModelCommonResponse.fromJson(jsonDecode(value));
+      showToast(response.message.toString());
+      if (response.status == true) {
+        Get.back();
+        cartController.getCart();
+      }
+    });
+  }
 
   @override
   Widget build(BuildContext context) {

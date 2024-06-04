@@ -185,7 +185,7 @@ class _HomePageState extends State<HomePage> {
             return CupertinoAlertDialog(
               title: Text(
                 "${'To register as vendor partner need to '.tr}"
-                    "${'create an account first.'.tr}",
+                "${'create an account first.'.tr}",
                 textAlign: TextAlign.center,
                 style: GoogleFonts.poppins(fontWeight: FontWeight.w600, fontSize: 16),
               ),
@@ -237,14 +237,12 @@ class _HomePageState extends State<HomePage> {
     SchedulerBinding.instance.addPostFrameCallback((timeStamp) {
       getAllAsync();
     });
-
   }
 
   final profileController = Get.put(ProfileController());
 
   List<Widget> vendorPartner() {
     return [
-
       GestureDetector(
         onTap: () {
           // if (profileController.model.user == null) {
@@ -261,9 +259,9 @@ class _HomePageState extends State<HomePage> {
           // }
           // _isValue.value = !_isValue.value;
           // setState(() {});
-          Get.to(()=> const WishListScreen());
+          Get.to(() => const WishListScreen());
         },
-        child:SvgPicture.asset("assets/svgs/heart.svg"),
+        child: SvgPicture.asset("assets/svgs/heart.svg"),
       ),
 
       // _isValue.value == true
@@ -331,26 +329,24 @@ class _HomePageState extends State<HomePage> {
             child: Row(
               children: [
                 InkWell(
-                  onTap: (){
-
+                  onTap: () {
                     bottomController.scaffoldKey.currentState!.openDrawer();
-
 
                     // bottomController.updateIndexValue(3);
                   },
                   child: SvgPicture.asset(
-
                     'assets/svgs/drawer.svg',
                     // color: Colors.white,
                   ),
                 ),
-                SizedBox(width: 13,),
+                SizedBox(
+                  width: 13,
+                ),
                 InkWell(
-                  onTap: (){
-                   setState(() {
-                     search.value = !search.value;
-
-                   });
+                  onTap: () {
+                    setState(() {
+                      search.value = !search.value;
+                    });
                   },
                   child: SvgPicture.asset(
                     'assets/svgs/search.svg',
@@ -361,11 +357,10 @@ class _HomePageState extends State<HomePage> {
             ),
           ),
           leadingWidth: 120,
-          title:  Image.asset(
-
-                'assets/svgs/live.png',
+          title: Image.asset(
+            'assets/svgs/live.png',
             // color: Colors.white,
-              ),
+          ),
           centerTitle: true,
           actions: [
             // ...vendorPartner(),
@@ -420,10 +415,9 @@ class _HomePageState extends State<HomePage> {
                 : SizedBox.shrink(),
           ),
         ),
-
         drawer: const CustomDrawer(),
         backgroundColor: Color(0xFFF2F2F2),
-        body:  RefreshIndicator(
+        body: RefreshIndicator(
             onRefresh: () async {
               await getAllAsync();
             },
@@ -436,111 +430,110 @@ class _HomePageState extends State<HomePage> {
                       const SizedBox(
                         height: 5,
                       ),
-                      profileController.userLoggedIn ?
-                      locationController.zipcode.isNotEmpty ?
-                      Padding(
-                        padding: const EdgeInsets.symmetric(horizontal: 15),
-                        child: Column(
-                          crossAxisAlignment: CrossAxisAlignment.start,
-                          children: [
-                            // Text(
-                            //   'Address',
-                            //   style: GoogleFonts.poppins(
-                            //     color: Colors.white,
-                            //     fontSize: 18,
-                            //     fontWeight: FontWeight.w500,
-                            //   ),
-                            // ),
-                            4.spaceY,
-                            GestureDetector(onTap: () {
-                              Get.to(() => const HomeAddEditAddressLogin(), arguments: 'home');
-                            }, child: Row(
-                              // mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                              children: [
-                                SvgPicture.asset(
-                                  'assets/images/location.svg',
-                                  height: 20,
-                                  color: Colors.black,
-                                ),
-                                5.spaceX,
-                                Flexible(
-                                    child: Obx(() {
-                                      return Text(
-                                        "Deliver to ${locationController.city.toString()} , ${locationController.zipcode ??
-                                            ''}",
+                      profileController.userLoggedIn
+                          ? locationController.zipcode.isNotEmpty
+                              ? Padding(
+                                  padding: const EdgeInsets.symmetric(horizontal: 15),
+                                  child: Column(
+                                    crossAxisAlignment: CrossAxisAlignment.start,
+                                    children: [
+                                      // Text(
+                                      //   'Address',
+                                      //   style: GoogleFonts.poppins(
+                                      //     color: Colors.white,
+                                      //     fontSize: 18,
+                                      //     fontWeight: FontWeight.w500,
+                                      //   ),
+                                      // ),
+                                      4.spaceY,
+                                      GestureDetector(
+                                          onTap: () {
+                                            Get.to(() => const HomeAddEditAddressLogin(), arguments: 'home');
+                                          },
+                                          child: Row(
+                                            // mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                                            children: [
+                                              SvgPicture.asset(
+                                                'assets/images/location.svg',
+                                                height: 20,
+                                                color: Colors.black,
+                                              ),
+                                              5.spaceX,
+                                              Flexible(child: Obx(() {
+                                                return Text(
+                                                  "Deliver to ${locationController.city.toString()} , ${locationController.zipcode ?? ''}",
+                                                  style: GoogleFonts.poppins(
+                                                    color: Colors.black,
+                                                    fontSize: 14,
+                                                    fontWeight: FontWeight.w400,
+                                                  ),
+                                                );
+                                              })),
+                                              5.spaceX,
+                                              SvgPicture.asset(
+                                                'assets/images/pencilImg.svg',
+                                                height: 18,
+                                                color: Colors.white,
+                                              ),
+                                            ],
+                                          )),
+                                    ],
+                                  ),
+                                )
+                              : const SizedBox.shrink()
+                          : locationController.zipcode.isNotEmpty
+                              ? Padding(
+                                  padding: const EdgeInsets.symmetric(horizontal: 15),
+                                  child: Column(
+                                    crossAxisAlignment: CrossAxisAlignment.start,
+                                    children: [
+                                      Text(
+                                        'Address',
                                         style: GoogleFonts.poppins(
                                           color: Colors.black,
-                                          fontSize: 14,
-                                          fontWeight: FontWeight.w400,
+                                          fontSize: 18,
+                                          fontWeight: FontWeight.w500,
                                         ),
-                                      );
-                                    })
-                                ),
-                                5.spaceX,
-                                SvgPicture.asset(
-                                  'assets/images/pencilImg.svg',
-                                  height: 18,
-                                  color: Colors.white,
-                                ),
-                              ],
-                            )
-                            ),
-                          ],
-                        ),
-                      ) : const SizedBox.shrink() :
-                      locationController.zipcode.isNotEmpty ?
-                      Padding(
-                        padding: const EdgeInsets.symmetric(horizontal: 15),
-                        child: Column(
-                          crossAxisAlignment: CrossAxisAlignment.start,
-                          children: [
-                            Text(
-                              'Address',
-                              style: GoogleFonts.poppins(
-                                color: Colors.black,
-                                fontSize: 18,
-                                fontWeight: FontWeight.w500,
-                              ),
-                            ),
-                            4.spaceY,
-                            GestureDetector(onTap: () {
-                              Get.to(() => HomeAddEditAddress(), arguments: 'home');
-                            }, child: Row(
-                              // mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                              children: [
-                                SvgPicture.asset(
-                                  'assets/images/location.svg',
-                                  height: 20,
-                                  color: Colors.black,
-                                ),
-                                5.spaceX,
-                                Flexible(
-                                  child: Obx(() {
-                                    return Text(
-                                      "Deliver to ${locationController.city.toString()} , ${locationController.zipcode
-                                          .toString()}",
-                                      style: GoogleFonts.poppins(
-                                        color: Colors.black,
-                                        fontSize: 14,
-                                        fontWeight: FontWeight.w400,
                                       ),
-                                    );
-                                  }),
-                                ),
-                                5.spaceX,
-                                SvgPicture.asset(
-                                  'assets/images/pencilImg.svg',
-                                  height: 18,
-                                  color: Colors.white,
-                                ),
-                              ],
-                            )
-                            ),
-                          ],
-                        ),
-                      ) : const SizedBox.shrink(),
+                                      4.spaceY,
+                                      GestureDetector(
+                                          onTap: () {
+                                            Get.to(() => HomeAddEditAddress(), arguments: 'home');
+                                          },
+                                          child: Row(
+                                            // mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                                            children: [
+                                              SvgPicture.asset(
+                                                'assets/images/location.svg',
+                                                height: 20,
+                                                color: Colors.black,
+                                              ),
+                                              5.spaceX,
+                                              Flexible(
+                                                child: Obx(() {
+                                                  return Text(
+                                                    "Deliver to ${locationController.city.toString()} , ${locationController.zipcode.toString()}",
+                                                    style: GoogleFonts.poppins(
+                                                      color: Colors.black,
+                                                      fontSize: 14,
+                                                      fontWeight: FontWeight.w400,
+                                                    ),
+                                                  );
+                                                }),
+                                              ),
+                                              5.spaceX,
+                                              SvgPicture.asset(
+                                                'assets/images/pencilImg.svg',
+                                                height: 18,
+                                                color: Colors.white,
+                                              ),
+                                            ],
+                                          )),
+                                    ],
+                                  ),
+                                )
+                              : const SizedBox.shrink(),
                       10.spaceY,
-
                       const SizedBox(
                         height: 8,
                       ),
@@ -550,30 +543,30 @@ class _HomePageState extends State<HomePage> {
                 Expanded(
                   child: Container(
                     color: Color(0xFFF2F2F2).withOpacity(0.6),
-                    child:  const SingleChildScrollView(
+                    child: const SingleChildScrollView(
                         child: Column(children: [
-                          SliderWidget(),
-                          CategoryItems(),
-                          // Row(
-                          //   mainAxisAlignment: MainAxisAlignment.end,
-                          //   children: [
-                          //     Text(
-                          //       "Edit categories order",
-                          //       style: GoogleFonts.poppins(fontWeight: FontWeight.w600, fontSize: 16, color: AppTheme.buttonColor),
-                          //
-                          //     ),
-                          //     SizedBox(width: 18,)
-                          //   ],
-                          // ),
-                          TrendingProducts(),
-                          AdBannerUI(),
-                          PopularProducts(),
-                          StarOfMonthScreen(),
-                          AuthorScreen(),
-                          SizedBox(
-                            height: 30,
-                          ),
-                        ])),
+                      SliderWidget(),
+                      CategoryItems(),
+                      // Row(
+                      //   mainAxisAlignment: MainAxisAlignment.end,
+                      //   children: [
+                      //     Text(
+                      //       "Edit categories order",
+                      //       style: GoogleFonts.poppins(fontWeight: FontWeight.w600, fontSize: 16, color: AppTheme.buttonColor),
+                      //
+                      //     ),
+                      //     SizedBox(width: 18,)
+                      //   ],
+                      // ),
+                      TrendingProducts(),
+                      AdBannerUI(),
+                      PopularProducts(),
+                      StarOfMonthScreen(),
+                      AuthorScreen(),
+                      SizedBox(
+                        height: 30,
+                      ),
+                    ])),
                   ),
                 ),
               ],

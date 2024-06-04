@@ -144,7 +144,7 @@ class _VirtualProductInformationScreensState extends State<VirtualProductInforma
     super.initState();
     getVendorCategories();
     productController.getProductsCategoryList();
-    fetchDataBasedOnId(productController.modelCategoryList!.data![0].vendorCategory);
+     fetchDataBasedOnId(productController.modelCategoryList!.data![0].vendorCategory);
     fetchSubCategoryBasedOnId(ProductID);
     // if(widget.id != null){
     //   ProductNameController.text = widget.name.toString();

@@ -534,12 +534,6 @@ class _VendorProfileScreenState extends State<VendorProfileScreen> {
     }
 
     if (selectedPlan == PlansType.company) {
-      // Memorandum of Association  ✅
-      // Commercial license ✅
-      // Signature approval ✅
-      // Extract from the Ministry of Commerce ✅
-      // Original civil information ✅
-      // Company bank account ✅
       images["memorandum_of_association"] = memorandumAssociation;
       images["commercial_license"] = commercialLicense;
       images["signature_approval"] = signatureApproval;

@@ -114,7 +114,7 @@ class _SingleProductDiscriptionScreenState extends State<SingleProductDiscriptio
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 Text(
-                  'Long Description'.tr,
+                  'short description '.tr,
                   style: GoogleFonts.poppins(color: Colors.black, fontWeight: FontWeight.w600, fontSize: 18),
                 ),
                 const SizedBox(
@@ -135,7 +135,7 @@ class _SingleProductDiscriptionScreenState extends State<SingleProductDiscriptio
                     errorMaxLines: 2,
                     contentPadding: const EdgeInsets.all(15),
                     fillColor: Colors.grey.shade100,
-                    hintText: 'Long Description(optional)',
+                    hintText: 'short description (optional)',
                     hintStyle: GoogleFonts.poppins(
                       color: AppTheme.primaryColor,
                       fontSize: 15,

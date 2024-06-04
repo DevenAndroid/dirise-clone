@@ -61,7 +61,7 @@ class _ProductAccountCreatedSuccessfullyScreenState extends State<ProductAccount
                   height: 60,
                 ),
                 Text(
-                  "Product account created successfully ".tr,
+                  "Product have been added  successfully ".tr,
                   textAlign: TextAlign.center,
                   style: Theme.of(context)
                       .textTheme

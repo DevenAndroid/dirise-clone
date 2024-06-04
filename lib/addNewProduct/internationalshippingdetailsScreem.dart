@@ -244,6 +244,7 @@ class _InternationalshippingdetailsScreenState extends State<Internationalshippi
                     controller: weightController,
                     obSecure: false,
                     hintText: 'Weight Of the Item ',
+                    keyboardType: TextInputType.number,
                     validator: MultiValidator([
                       RequiredValidator(errorText: 'Weight Of the Itemis required'.tr),
                     ])),
