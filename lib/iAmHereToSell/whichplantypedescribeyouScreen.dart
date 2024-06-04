@@ -4,9 +4,11 @@ import 'dart:developer';
 import 'package:dirise/controller/profile_controller.dart';
 import 'package:dirise/iAmHereToSell/whatdoyousellScreen.dart';
 import 'package:dirise/model/vendor_models/newVendorPlanlist.dart';
+import 'package:dirise/utils/helper.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
+import 'package:flutter_svg/flutter_svg.dart';
 import 'package:get/get.dart';
 import 'package:google_fonts/google_fonts.dart';
 
@@ -68,7 +70,7 @@ class _WhichplantypedescribeyouScreenState extends State<Whichplantypedescribeyo
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: [
             Text(
-              'Which plan type describe you?'.tr,
+              'Which Cloud type suits you?'.tr,
               style: GoogleFonts.poppins(color: const Color(0xff292F45), fontWeight: FontWeight.w600, fontSize: 18),
             ),
           ],
@@ -81,39 +83,121 @@ class _WhichplantypedescribeyouScreenState extends State<Whichplantypedescribeyo
             mainAxisAlignment: MainAxisAlignment.start,
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              Text(
-                'Individuals:'.tr,
-                style: GoogleFonts.poppins(color: const Color(0xff0D5877), fontWeight: FontWeight.w500, fontSize: 16),
+              20.spaceY,
+              Center(
+                child: Text(
+                  'DIRISE CLOUD SPACE'.tr,
+                  style: GoogleFonts.poppins(color: const Color(0xff0D5877), fontWeight: FontWeight.w500, fontSize: 19),
+                ),
+              ),
+              30.spaceY,
+              Center(
+                child: Text(
+                  'A Cloud Area Is The Area That You Are Going To Rent From Dirise For A Period Of 12 Months For Your Business'.tr,
+                  textAlign: TextAlign.center,
+                  style: GoogleFonts.poppins(color: const Color(0xff514949), fontWeight: FontWeight.w400, fontSize: 13),
+                ),
+              ),
+              // Text(
+              //   'Startups:'.tr,
+              //   style: GoogleFonts.poppins(color: const Color(0xff0D5877), fontWeight: FontWeight.w500, fontSize: 16),
+              // ),
+              // Text(
+              //   'For start ups that want to sell their products in the Dirise platform.'.tr,
+              //   style: GoogleFonts.poppins(color: const Color(0xff514949), fontWeight: FontWeight.w400, fontSize: 13),
+              // ),
+              // Text(
+              //   'Enterprise:'.tr,
+              //   style: GoogleFonts.poppins(color: const Color(0xff0D5877), fontWeight: FontWeight.w500, fontSize: 16),
+              // ),
+              // Text(
+              //   'For companies with commercial license and corporate bank account.'.tr,
+              //   style: GoogleFonts.poppins(color: const Color(0xff514949), fontWeight: FontWeight.w400, fontSize: 13),
+              // ),
+              const SizedBox(
+                height: 20,
+              ),   
+              Row(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                mainAxisAlignment: MainAxisAlignment.end,
+                children: [
+                  Image.asset('assets/images/monthtrail.png',width: 120,),
+                ],
+              ),
+              const SizedBox(
+                height: 20,
               ),
               Text(
-                'Limited to advertising only, any payments will be done outside the platform.'.tr,
-                style: GoogleFonts.poppins(color: const Color(0xff514949), fontWeight: FontWeight.w400, fontSize: 13),
+                'Showcasing Cloud Space'.tr,
+                style: GoogleFonts.poppins(color: const Color(0xff0D5877), fontWeight: FontWeight.w600, fontSize: 19),
               ),
               Text(
-                'Startups:'.tr,
-                style: GoogleFonts.poppins(color: const Color(0xff0D5877), fontWeight: FontWeight.w500, fontSize: 16),
+                'S-SPACE'.tr,
+                style: GoogleFonts.poppins(color: const Color(0xff0D5877), fontWeight: FontWeight.w600, fontSize: 19),
               ),
               Text(
-                'For start ups that want to sell their products in the Dirise platform.'.tr,
-                style: GoogleFonts.poppins(color: const Color(0xff514949), fontWeight: FontWeight.w400, fontSize: 13),
-              ),
-              Text(
-                'Enterprise:'.tr,
-                style: GoogleFonts.poppins(color: const Color(0xff0D5877), fontWeight: FontWeight.w500, fontSize: 16),
-              ),
-              Text(
-                'For companies with commercial license and corporate bank account.'.tr,
+                'Limited to showcasing only, any payments will be done outside the platform.'.tr,
                 style: GoogleFonts.poppins(color: const Color(0xff514949), fontWeight: FontWeight.w400, fontSize: 13),
               ),
               const SizedBox(
                 height: 20,
               ),
               Text(
-                'Click here for Full comparison'.tr,
-                style: GoogleFonts.poppins(color: const Color(0xff0D5877), fontWeight: FontWeight.w400, fontSize: 16),
+                'Cloud Office Space'.tr,
+                style: GoogleFonts.poppins(color: const Color(0xff0D5877), fontWeight: FontWeight.w600, fontSize: 19),
+              ),
+              Text(
+                'C-SPACE'.tr,
+                style: GoogleFonts.poppins(color: const Color(0xff0D5877), fontWeight: FontWeight.w600, fontSize: 19),
+              ),
+              Text(
+                'For small business that are in the process of becoming an official business'.tr,
+                style: GoogleFonts.poppins(color: const Color(0xff514949), fontWeight: FontWeight.w400, fontSize: 13),
+              ),
+               const SizedBox(
+                height: 20,
+              ),
+              Text(
+                'Cloud Office Space'.tr,
+                style: GoogleFonts.poppins(color: const Color(0xff0D5877), fontWeight: FontWeight.w600, fontSize: 19),
+              ),
+              Text(
+                'C-SPACE'.tr,
+                style: GoogleFonts.poppins(color: const Color(0xff0D5877), fontWeight: FontWeight.w600, fontSize: 19),
+              ),
+              Text(
+                'For small business that are in the process of becoming an official business'.tr,
+                style: GoogleFonts.poppins(color: const Color(0xff514949), fontWeight: FontWeight.w400, fontSize: 13),
               ),
               const SizedBox(
                 height: 20,
+              ),
+              Row(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                mainAxisAlignment: MainAxisAlignment.end,
+                children: [
+                  Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    mainAxisAlignment: MainAxisAlignment.end,
+                    children: [
+                      Text(
+                        'Full comparison'.tr,
+                        style: GoogleFonts.poppins(color: const Color(0xff0D5877), fontWeight: FontWeight.w500, fontSize: 15,
+                        decoration: TextDecoration.underline
+                        ),
+                      ),
+                      Text(
+                        'Read more info'.tr,
+                        style: GoogleFonts.poppins(color: const Color(0xff0D5877), fontWeight: FontWeight.w500, fontSize: 15,
+                        decoration: TextDecoration.underline
+                        ),
+                      ),
+                    ],
+                  ),
+                ],
+              ),
+              const SizedBox(
+                height: 50,
               ),
               Container(
                 width: Get.width,
@@ -392,8 +476,8 @@ class _WhichplantypedescribeyouScreenState extends State<Whichplantypedescribeyo
                 Container(
                     padding: const EdgeInsets.all(10),
                     width: Get.width,
-                    decoration: BoxDecoration(color: Colors.white, borderRadius: BorderRadius.circular(10), boxShadow: [
-                      const BoxShadow(
+                    decoration: BoxDecoration(color: Colors.white, borderRadius: BorderRadius.circular(10), boxShadow: const[
+                       BoxShadow(
                           offset: Offset(1, 1),
                           color: Colors.grey,
                           blurRadius: 1,
@@ -471,243 +555,244 @@ class _WhichplantypedescribeyouScreenState extends State<Whichplantypedescribeyo
               Align(
                 alignment: Alignment.center,
                 child: Text(
-                  'Our Plans'.tr,
+                  'Clouds Comparison'.tr,
                   style: GoogleFonts.poppins(color: const Color(0xff014E70), fontWeight: FontWeight.w500, fontSize: 24),
                 ),
               ),
               const SizedBox(
                 height: 10,
               ),
-              Container(
-                padding: const EdgeInsets.only(bottom: 10, top: 10),
-                margin: const EdgeInsets.only(left: 10, right: 10),
-                decoration: BoxDecoration(
-                  borderRadius: BorderRadius.circular(4),
-                  border: Border.all(color: const Color(0xff353A21), width: 1.0),
-                ),
-                child: Column(
-                  mainAxisAlignment: MainAxisAlignment.start,
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    Container(
-                      color: Colors.white,
-                      child: Table(
-                        // Remove TableBorder to remove lines between columns
-                        // border: TableBorder.all(color: Colors.black),
-                        columnWidths: const {
-                          0: FlexColumnWidth(3),
-                        },
-                        children: [
-                          TableRow(children: [
-                            Text(
-                              'Service'.tr,
-                              style: GoogleFonts.poppins(
-                                color: const Color(0xff0D0C0C),
-                                fontWeight: FontWeight.w600,
-                                fontSize: 10,
-                              ),
-                            ),
-                            Text(
-                              'Individuals'.tr,
-                              style: GoogleFonts.poppins(
-                                color: const Color(0xff0D0C0C),
-                                fontWeight: FontWeight.w600,
-                                fontSize: 10,
-                              ),
-                            ),
-                            Text(
-                              'Startup Stores'.tr,
-                              style: GoogleFonts.poppins(
-                                color: const Color(0xff0D0C0C),
-                                fontWeight: FontWeight.w600,
-                                fontSize: 10,
-                              ),
-                            ),
-                            Text(
-                              'Enterprise Stores'.tr,
-                              style: GoogleFonts.poppins(
-                                color: const Color(0xff0D0C0C),
-                                fontWeight: FontWeight.w600,
-                                fontSize: 10,
-                              ),
-                            ),
-                          ]),
-                        ],
-                      ),
-                    ),
-                    Container(
-                      color: Colors.white,
-                      child: Table(
-                        border: TableBorder.all(color: Colors.black),
-                        columnWidths: const {
-                          0: FlexColumnWidth(3), // Adjust the value (3) as needed to increase or decrease the width
-                        },
-                        children: const [
-                          TableRow(children: [
-                            Text(
-                              '11 Month + 500 Products',
-                              style: TextStyle(fontSize: 12, fontWeight: FontWeight.bold),
-                            ),
-                            Text(
-                              '10 KWD',
-                              style: TextStyle(fontSize: 12),
-                            ),
-                            Text(
-                              '11 KWD',
-                              style: TextStyle(fontSize: 12),
-                            ),
-                            Text(
-                              '12 KWD',
-                              style: TextStyle(fontSize: 12),
-                            ),
-                          ]),
-                          TableRow(children: [
-                            Text(
-                              '1st Month Charge Only',
-                              style: TextStyle(fontSize: 12, fontWeight: FontWeight.bold),
-                            ),
-                            Icon(
-                              Icons.check,
-                              color: Colors.green,
-                            ),
-                            Icon(
-                              Icons.check,
-                              color: Colors.green,
-                            ),
-                            Icon(
-                              Icons.check,
-                              color: Colors.green,
-                            ),
-                          ]),
-                          TableRow(children: [
-                            Text(
-                              '1st Month Charge Only',
-                              style: TextStyle(fontSize: 12, fontWeight: FontWeight.bold),
-                            ),
-                            Icon(
-                              Icons.cancel_outlined,
-                              color: Colors.red,
-                            ),
-                            Icon(
-                              Icons.cancel_outlined,
-                              color: Colors.red,
-                            ),
-                            Text(
-                              'Must',
-                              style: TextStyle(fontSize: 12),
-                            ),
-                          ]),
-                          TableRow(children: [
-                            Text(
-                              'Selling ',
-                              style: TextStyle(fontSize: 12, fontWeight: FontWeight.bold),
-                            ),
-                            Text(
-                              'Advertising only',
-                              style: TextStyle(fontSize: 12),
-                            ),
-                            Icon(
-                              Icons.check,
-                              color: Colors.green,
-                            ),
-                            Icon(
-                              Icons.check,
-                              color: Colors.green,
-                            ),
-                          ]),
-                          TableRow(children: [
-                            Text(
-                              'Receiving Money',
-                              style: TextStyle(fontSize: 12, fontWeight: FontWeight.bold),
-                            ),
-                            Icon(
-                              Icons.cancel_outlined,
-                              color: Colors.red,
-                            ),
-                            Icon(
-                              Icons.check,
-                              color: Colors.green,
-                            ),
-                            Icon(
-                              Icons.check,
-                              color: Colors.green,
-                            ),
-                          ]),
-                          TableRow(children: [
-                            Text(
-                              'Withdrawing earning',
-                              style: TextStyle(fontSize: 12, fontWeight: FontWeight.bold),
-                            ),
-                            Icon(
-                              Icons.cancel_outlined,
-                              color: Colors.red,
-                            ),
-                            Text(
-                              'Verified deliveries',
-                              style: TextStyle(fontSize: 12),
-                            ),
-                            Text(
-                              'Documents Review',
-                              style: TextStyle(fontSize: 12),
-                            ),
-                          ]),
-                          TableRow(children: [
-                            Text(
-                              'Fees',
-                              style: TextStyle(fontSize: 12, fontWeight: FontWeight.bold),
-                            ),
-                            Icon(
-                              Icons.cancel_outlined,
-                              color: Colors.red,
-                            ),
-                            Text(
-                              'Up to 5%',
-                              style: TextStyle(fontSize: 12),
-                            ),
-                            Text(
-                              'Up to 5%',
-                              style: TextStyle(fontSize: 12),
-                            ),
-                          ]),
-                        ],
-                      ),
-                    ),
-                    Container(
-                      color: Colors.white,
-                      child: Table(
-                        border: TableBorder.all(color: Colors.black),
-                        columnWidths: const {
-                          0: FlexColumnWidth(1), // Adjust the value (3) as needed to increase or decrease the width
-                        },
-                        children: const [
-                          TableRow(children: [
-                            Text('Extra 500 products', style: TextStyle(fontSize: 12, fontWeight: FontWeight.bold)),
-                            Text(
-                              '4 KWD',
-                              style: TextStyle(fontSize: 12),
-                            ),
-                          ]),
-                          TableRow(children: [
-                            Text('Photography session', style: TextStyle(fontSize: 12, fontWeight: FontWeight.bold)),
-                            Text(
-                              'Available upon request',
-                              style: TextStyle(fontSize: 12),
-                            ),
-                          ]),
-                          TableRow(children: [
-                            Text('Photography session with discription',
-                                style: TextStyle(fontSize: 12, fontWeight: FontWeight.bold)),
-                            Text(
-                              'Available upon request',
-                              style: TextStyle(fontSize: 12),
-                            ),
-                          ]),
-                        ],
-                      ),
-                    ),
-                  ],
-                ),
-              ),
+              // Container(
+              //   padding: const EdgeInsets.only(bottom: 10, top: 10),
+              //   margin: const EdgeInsets.only(left: 10, right: 10),
+              //   decoration: BoxDecoration(
+              //     borderRadius: BorderRadius.circular(4),
+              //     border: Border.all(color: const Color(0xff353A21), width: 1.0),
+              //   ),
+              //   child: Column(
+              //     mainAxisAlignment: MainAxisAlignment.start,
+              //     crossAxisAlignment: CrossAxisAlignment.start,
+              //     children: [
+              //       Container(
+              //         color: Colors.white,
+              //         child: Table(
+              //           // Remove TableBorder to remove lines between columns
+              //           // border: TableBorder.all(color: Colors.black),
+              //           columnWidths: const {
+              //             0: FlexColumnWidth(3),
+              //           },
+              //           children: [
+              //             TableRow(children: [
+              //               Text(
+              //                 'Cloud'.tr,
+              //                 style: GoogleFonts.poppins(
+              //                   color: const Color(0xff0D0C0C),
+              //                   fontWeight: FontWeight.w600,
+              //                   fontSize: 10,
+              //                 ),
+              //               ),
+              //               Text(
+              //                 'Showcasing'.tr,
+              //                 style: GoogleFonts.poppins(
+              //                   color: const Color(0xff0D0C0C),
+              //                   fontWeight: FontWeight.w600,
+              //                   fontSize: 10,
+              //                 ),
+              //               ),
+              //               Text(
+              //                 'Office'.tr,
+              //                 style: GoogleFonts.poppins(
+              //                   color: const Color(0xff0D0C0C),
+              //                   fontWeight: FontWeight.w600,
+              //                   fontSize: 10,
+              //                 ),
+              //               ),
+              //               Text(
+              //                 'Enterprise'.tr,
+              //                 style: GoogleFonts.poppins(
+              //                   color: const Color(0xff0D0C0C),
+              //                   fontWeight: FontWeight.w600,
+              //                   fontSize: 10,
+              //                 ),
+              //               ),
+              //             ]),
+              //           ],
+              //         ),
+              //       ),
+              //       Container(
+              //         color: Colors.white,
+              //         child: Table(
+              //           border: TableBorder.all(color: Colors.black),
+              //           columnWidths: const {
+              //             0: FlexColumnWidth(3), // Adjust the value (3) as needed to increase or decrease the width
+              //           },
+              //           children: const [
+              //             TableRow(children: [
+              //               Text(
+              //                 '11 Month + 500 Products',
+              //                 style: TextStyle(fontSize: 12, fontWeight: FontWeight.bold),
+              //               ),
+              //               Text(
+              //                 '10 KWD',
+              //                 style: TextStyle(fontSize: 12),
+              //               ),
+              //               Text(
+              //                 '11 KWD',
+              //                 style: TextStyle(fontSize: 12),
+              //               ),
+              //               Text(
+              //                 '12 KWD',
+              //                 style: TextStyle(fontSize: 12),
+              //               ),
+              //             ]),
+              //             TableRow(children: [
+              //               Text(
+              //                 '1st Month Charge Only',
+              //                 style: TextStyle(fontSize: 12, fontWeight: FontWeight.bold),
+              //               ),
+              //               Icon(
+              //                 Icons.check,
+              //                 color: Colors.green,
+              //               ),
+              //               Icon(
+              //                 Icons.check,
+              //                 color: Colors.green,
+              //               ),
+              //               Icon(
+              //                 Icons.check,
+              //                 color: Colors.green,
+              //               ),
+              //             ]),
+              //             TableRow(children: [
+              //               Text(
+              //                 '1st Month Charge Only',
+              //                 style: TextStyle(fontSize: 12, fontWeight: FontWeight.bold),
+              //               ),
+              //               Icon(
+              //                 Icons.cancel_outlined,
+              //                 color: Colors.red,
+              //               ),
+              //               Icon(
+              //                 Icons.cancel_outlined,
+              //                 color: Colors.red,
+              //               ),
+              //               Text(
+              //                 'Must',
+              //                 style: TextStyle(fontSize: 12),
+              //               ),
+              //             ]),
+              //             TableRow(children: [
+              //               Text(
+              //                 'Selling ',
+              //                 style: TextStyle(fontSize: 12, fontWeight: FontWeight.bold),
+              //               ),
+              //               Text(
+              //                 'Advertising only',
+              //                 style: TextStyle(fontSize: 12),
+              //               ),
+              //               Icon(
+              //                 Icons.check,
+              //                 color: Colors.green,
+              //               ),
+              //               Icon(
+              //                 Icons.check,
+              //                 color: Colors.green,
+              //               ),
+              //             ]),
+              //             TableRow(children: [
+              //               Text(
+              //                 'Receiving Money',
+              //                 style: TextStyle(fontSize: 12, fontWeight: FontWeight.bold),
+              //               ),
+              //               Icon(
+              //                 Icons.cancel_outlined,
+              //                 color: Colors.red,
+              //               ),
+              //               Icon(
+              //                 Icons.check,
+              //                 color: Colors.green,
+              //               ),
+              //               Icon(
+              //                 Icons.check,
+              //                 color: Colors.green,
+              //               ),
+              //             ]),
+              //             TableRow(children: [
+              //               Text(
+              //                 'Withdrawing earning',
+              //                 style: TextStyle(fontSize: 12, fontWeight: FontWeight.bold),
+              //               ),
+              //               Icon(
+              //                 Icons.cancel_outlined,
+              //                 color: Colors.red,
+              //               ),
+              //               Text(
+              //                 'Verified deliveries',
+              //                 style: TextStyle(fontSize: 12),
+              //               ),
+              //               Text(
+              //                 'Documents Review',
+              //                 style: TextStyle(fontSize: 12),
+              //               ),
+              //             ]),
+              //             TableRow(children: [
+              //               Text(
+              //                 'Fees',
+              //                 style: TextStyle(fontSize: 12, fontWeight: FontWeight.bold),
+              //               ),
+              //               Icon(
+              //                 Icons.cancel_outlined,
+              //                 color: Colors.red,
+              //               ),
+              //               Text(
+              //                 'Up to 5%',
+              //                 style: TextStyle(fontSize: 12),
+              //               ),
+              //               Text(
+              //                 'Up to 5%',
+              //                 style: TextStyle(fontSize: 12),
+              //               ),
+              //             ]),
+              //           ],
+              //         ),
+              //       ),
+              //       Container(
+              //         color: Colors.white,
+              //         child: Table(
+              //           border: TableBorder.all(color: Colors.black),
+              //           columnWidths: const {
+              //             0: FlexColumnWidth(1), // Adjust the value (3) as needed to increase or decrease the width
+              //           },
+              //           children: const [
+              //             TableRow(children: [
+              //               Text('Extra 500 products', style: TextStyle(fontSize: 12, fontWeight: FontWeight.bold)),
+              //               Text(
+              //                 '4 KWD',
+              //                 style: TextStyle(fontSize: 12),
+              //               ),
+              //             ]),
+              //             TableRow(children: [
+              //               Text('Photography session', style: TextStyle(fontSize: 12, fontWeight: FontWeight.bold)),
+              //               Text(
+              //                 'Available upon request',
+              //                 style: TextStyle(fontSize: 12),
+              //               ),
+              //             ]),
+              //             TableRow(children: [
+              //               Text('Photography session with discription',
+              //                   style: TextStyle(fontSize: 12, fontWeight: FontWeight.bold)),
+              //               Text(
+              //                 'Available upon request',
+              //                 style: TextStyle(fontSize: 12),
+              //               ),
+              //             ]),
+              //           ],
+              //         ),
+              //       ),
+              //     ],
+              //   ),
+              // ),
+              Image.asset('assets/images/table_img.png'),
               const SizedBox(
                 height: 10,
               ),

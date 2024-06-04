@@ -22,6 +22,7 @@ import '../../controller/cart_controller.dart';
 import '../../controller/home_controller.dart';
 import '../../controller/profile_controller.dart';
 import '../../freshchat.dart';
+import '../../iAmHereToSell/whichplantypedescribeyouScreen.dart';
 import '../../model/common_modal.dart';
 import '../../model/customer_profile/model_city_list.dart';
 import '../../model/customer_profile/model_country_list.dart';
@@ -106,7 +107,7 @@ class _MyAccountScreenState extends State<MyAccountScreen> {
   final RxBool _isValue = false.obs;
 
   var vendor = ['Dashboard', 'Order', 'Pending Products', 'Approved Products','Operating Hours', 'Bank Details', 'Earnings'];
-  var vendor1 = ['Login as vendor', 'Pending Products', 'Approved Products',];
+  var vendor1 = ['Become a vendor', 'Pending Products', 'Approved Products',];
 
   var vendorRoutes = [
     VendorDashBoardScreen.route,
@@ -2176,8 +2177,8 @@ class _MyAccountScreenState extends State<MyAccountScreen> {
                               Expanded(
                                 child: TextButton(
                                   onPressed: () {
-                                    if (vendor1[index] == 'Login as vendor') {
-                                      Get.toNamed( LoginScreen.route);
+                                    if (vendor1[index] == 'Become a vendor') {
+                                      Get.to(()=> const WhichplantypedescribeyouScreen());
                                     }
                                     else if(vendor1[index] == 'Pending Products'){
                                       Get.to(const VendorProductScreen());
