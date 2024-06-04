@@ -437,320 +437,335 @@ RxString shippingType= "".obs;
 
                       // selectedAddress.id != null
                       //     ?
-                 Column(
-                        children: [
-                          if(directOrderResponse.localShipping != true)
-                            Container(
-                              color: Colors.white,
-                              child: Padding(
-                                padding: const EdgeInsets.symmetric(horizontal: 24, vertical: 16),
-                                child: Row(
-                                  crossAxisAlignment: CrossAxisAlignment.center,
-                                  children: [
-                                    Image.asset('assets/images/shipping_icon.png', height: 32, width: 32),
-                                    20.spaceX,
-                                    Text("Fedex Shipping Method".tr,
-                                        style: GoogleFonts.poppins(fontWeight: FontWeight.w500, fontSize: 18)),
-                                  ],
-                                ),
+                    Column(
+                      children: [
+                      if(directOrderResponse.shippingType!.fedexShipping!.output != null)
+                          Container(
+                            color: Colors.white,
+                            child: Padding(
+                              padding: const EdgeInsets.symmetric(horizontal: 24, vertical: 16),
+                              child: Row(
+                                crossAxisAlignment: CrossAxisAlignment.center,
+                                children: [
+                                  Image.asset('assets/images/shipping_icon.png', height: 32, width: 32),
+                                  20.spaceX,
+                                  Text("Fedex Shipping Method".tr,
+                                      style: GoogleFonts.poppins(fontWeight: FontWeight.w500, fontSize: 18)),
+                                ],
                               ),
                             ),
+                          ),
 
-                          if( directOrderResponse.localShipping != true && directOrderResponse.shippingType!.fedexShipping!.output == null)
+                        // if( directOrderResponse.localShipping != true &&
+                        //     directOrderResponse.shippingType!.fedexShipping!.output == null)
+                        //
+                        //   Padding(
+                        //     padding: const EdgeInsets.all(8.0),
+                        //     child: Text(
+                        //       'FedEx service is not currently available to this origin / destination combination. Enter new information or contact FedEx Customer Service.'
+                        //           .tr, style: const TextStyle(
+                        //         fontSize: 17
+                        //     ),),),
 
-                            Padding(
-                              padding: const EdgeInsets.all(8.0),
-                              child: Text('FedEx service is not currently available to this origin / destination combination. Enter new information or contact FedEx Customer Service.'.tr,style: const TextStyle(
-                                  fontSize: 17
-                              ),),),
+                        if(directOrderResponse.shippingType!.fedexShipping!.output != null)
+                          Container(
+                            color: Colors.white,
+                            child: ListView.builder(
+                              physics: const NeverScrollableScrollPhysics(),
+                              shrinkWrap: true,
+                              itemCount: directOrderResponse.shippingType!.fedexShipping!.output!.rateReplyDetails!.length,
+                              padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 15).copyWith(top: 0),
+                              itemBuilder: (context, ii) {
+                                return directOrderResponse.shippingType!.fedexShipping!.output != null ?
+                                ListView.builder(
+                                  shrinkWrap: true,
+                                  physics: const NeverScrollableScrollPhysics(),
+                                  itemCount: directOrderResponse.shippingType!.fedexShipping!.output!.rateReplyDetails![ii]
+                                      .ratedShipmentDetails!.length,
+                                  itemBuilder: (context, index) {
+                                    cartController.storeIdShipping = directOrderResponse.prodcutData!.vendorId.toString();
+                                    RateReplyDetails product = directOrderResponse.shippingType!.fedexShipping!.output!
+                                        .rateReplyDetails![ii];
+                                    RatedShipmentDetails product1 = directOrderResponse.shippingType!.fedexShipping!.output!
+                                        .rateReplyDetails![ii].ratedShipmentDetails![index];
+                                    double subtotal = double.parse(directOrderResponse.fedexCommision.toString());
+                                    double shipping = double.parse(product1.totalNetCharge.toString());
+                                    total = subtotal + shipping;
+                                    cartController.formattedTotal = total.toStringAsFixed(3);
+                                    print("icarryCommision" + directOrderResponse.fedexCommision.toString());
+                                    print("rate" + product1.totalNetCharge.toString());
+                                    print('total isss${cartController.formattedTotal.toString()}');
+                                    cartController.shippingPrices = cartController.formattedTotal.toString();
+                                    return Obx(() {
+                                      return Column(
+                                        children: [
+                                          10.spaceY,
+                                          index == 0
+                                              ? 0.spaceY
+                                              : const Divider(
+                                            color: Color(0xFFD9D9D9),
+                                            thickness: 0.8,
+                                          ),
+                                          Row(
+                                            children: [
+                                              Radio(
+                                                value: product.serviceType.toString(),
+                                                groupValue: directOrderResponse.fedexShippingOption.value,
+                                                visualDensity: const VisualDensity(horizontal: -4.0),
+                                                fillColor: directOrderResponse.fedexShippingOption.value.isEmpty
+                                                    ? MaterialStateProperty.all(Colors.red)
+                                                    : null,
+                                                onChanged: (value) {
+                                                  log("which is selected + $value");
+                                                  setState(() {
+                                                    directOrderResponse.fedexShippingOption.value = value.toString();
+                                                    shippingType.value = "fedex_shipping";
+                                                    shipId.value = "";
+                                                    shipmentProvider.value = "";
+                                                    cartController.shippingDates = product.commit!.dateDetail!.dayFormat!
+                                                        .toString();
+                                                    // e.value.shipping![ii].output!.rateReplyDetails![index].shippingDate = product.operationalDetail!.deliveryDate;
+                                                    cartController.shippingTitle = product.serviceName.toString();
+                                                    // cartController.shippingPrices = product.ratedShipmentDetails![index].totalNetCharge.toString();
+                                                    directOrderResponse.shippingOption.value = value.toString();
+                                                    print(directOrderResponse.fedexShippingOption.value.toString());
+                                                    print(cartController.shippingTitle.toString());
+                                                    print('select value${cartController.shippingPrices.toString()}');
+                                                    print(cartController.shippingPrices.toString());
+                                                    double subtotal = double.parse(
+                                                        directOrderResponse.fedexCommision.toString());
+                                                    double shipping = double.parse(product1.totalNetCharge.toString());
+                                                    total = subtotal + shipping;
+                                                    cartController.formattedTotal2 = total.toStringAsFixed(3);
+                                                    print("icarryCommision" + directOrderResponse.fedexCommision.toString());
+                                                    print("rate" + product1.totalNetCharge.toString());
+                                                    print('total isss${cartController.formattedTotal2.toString()}');
+                                                    cartController.shippingPrices1 = cartController.formattedTotal2
+                                                        .toString();
+                                                    // e.value.shippingId.value = product.id.toString();
+                                                    // e.value.vendorId.value = e.value.shipping![ii].vendorId!;
+                                                    // directOrderResponse.s.value = product.serviceName.toString();
+                                                    // e.value.vendorPrice.value = product.ratedShipmentDetails![index].totalNetCharge.toString();
 
-    if(directOrderResponse.localShipping != true && directOrderResponse.shippingType!.fedexShipping!.output != null)
-    Container(
-    color: Colors.white,
-    child: ListView.builder(
-    physics: const NeverScrollableScrollPhysics(),
-    shrinkWrap: true,
-    itemCount:directOrderResponse.shippingType!.fedexShipping!.output!.rateReplyDetails!.length,
-    padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 15).copyWith(top: 0),
-    itemBuilder: (context, ii) {
-    return directOrderResponse.shippingType!.fedexShipping!.output!= null ?
-    ListView.builder(
-    shrinkWrap: true,
-    physics: const NeverScrollableScrollPhysics(),
-    itemCount: directOrderResponse.shippingType!.fedexShipping!.output!.rateReplyDetails![ii].ratedShipmentDetails!.length,
-    itemBuilder: (context, index) {
-      cartController.storeIdShipping = directOrderResponse.prodcutData!.vendorId.toString();
-    RateReplyDetails product = directOrderResponse.shippingType!.fedexShipping!.output!.rateReplyDetails![ii];
-    RatedShipmentDetails product1 = directOrderResponse.shippingType!.fedexShipping!.output!.rateReplyDetails![ii].ratedShipmentDetails![index];
-    double subtotal = double.parse(directOrderResponse.fedexCommision.toString());
-    double shipping = double.parse(product1.totalNetCharge.toString());
-    total = subtotal + shipping;
-    cartController.formattedTotal = total.toStringAsFixed(3);
-    print("icarryCommision"+directOrderResponse.fedexCommision.toString());
-    print("rate"+product1.totalNetCharge.toString());
-    print('total isss${cartController.formattedTotal.toString()}');
-    cartController.shippingPrices = cartController.formattedTotal.toString();
-    return Obx(() {
-    return Column(
-    children: [
-    10.spaceY,
-    index == 0
-    ? 0.spaceY
-        : const Divider(
-    color: Color(0xFFD9D9D9),
-    thickness: 0.8,
-    ),
-    Row(
-    children: [
-    Radio(
-    value: product.serviceType.toString(),
-    groupValue:  directOrderResponse.fedexShippingOption.value,
-    visualDensity: const VisualDensity(horizontal: -4.0),
-    fillColor:  directOrderResponse.fedexShippingOption.value.isEmpty
-    ? MaterialStateProperty.all(Colors.red)
-        : null,
-    onChanged: (value) {
-    log("which is selected + $value");
-    setState(() {
-    directOrderResponse.fedexShippingOption.value = value.toString();
-    shippingType.value = "fedex_shipping";
-    shipId.value ="";
-    shipmentProvider.value ="";
-    cartController.shippingDates=product.commit!.dateDetail!.dayFormat!.toString();
-    // e.value.shipping![ii].output!.rateReplyDetails![index].shippingDate = product.operationalDetail!.deliveryDate;
-    cartController.shippingTitle = product.serviceName.toString();
-    // cartController.shippingPrices = product.ratedShipmentDetails![index].totalNetCharge.toString();
-    directOrderResponse.shippingOption.value = value.toString();
-    print( directOrderResponse.fedexShippingOption.value.toString());
-    print(cartController.shippingTitle.toString());
-    print('select value${cartController.shippingPrices.toString()}');
-    print(cartController.shippingPrices.toString());
-    double subtotal = double.parse(directOrderResponse.fedexCommision.toString());
-    double shipping = double.parse(product1.totalNetCharge.toString());
-    total = subtotal + shipping;
-    cartController.formattedTotal2 = total.toStringAsFixed(3);
-    print("icarryCommision"+directOrderResponse.fedexCommision.toString());
-    print("rate"+product1.totalNetCharge.toString());
-    print('total isss${cartController.formattedTotal2.toString()}');
-    cartController.shippingPrices1 = cartController.formattedTotal2.toString();
-    // e.value.shippingId.value = product.id.toString();
-    // e.value.vendorId.value = e.value.shipping![ii].vendorId!;
-    // directOrderResponse.s.value = product.serviceName.toString();
-    // e.value.vendorPrice.value = product.ratedShipmentDetails![index].totalNetCharge.toString();
+                                                    directOrderResponse.prodcutData!.sPrice = product
+                                                        .ratedShipmentDetails![index].totalNetCharge;
 
-    directOrderResponse.prodcutData!.sPrice = product.ratedShipmentDetails![index].totalNetCharge;
+                                                    log("Initial sPrice:$sPrice1");
+                                                    log("Initial sPrice" + cartController.shippingTitle);
+                                                    log(product.serviceType.toString());
+                                                    sPrice1 = 0.0;
 
-    log("Initial sPrice:$sPrice1");
-    log("Initial sPrice"+ cartController.shippingTitle);
-    log( product.serviceType.toString());
-    sPrice1 = 0.0;
-
-    // sPrice1 = 0.0;
-    if (directOrderResponse.fedexShippingOption.value.isNotEmpty) {
-    log("kiska price hai + ${directOrderResponse.prodcutData!.sPrice }");
-    log("kiska price hai :::::::::::::::s+ ${shippingType.value.toString()}");
-    sPrice1 = sPrice1 + directOrderResponse.prodcutData!.sPrice ;
-    // sPrice.toStringAsFixed(fractionDigits)
-    // Update sPrice directly without reassigning
-    }
-    total = subtotal + sPrice1;
-    print('total isss${total.toString()}');
-    // cartController.formattedTotal = total.toStringAsFixed(3);
-
-
-    });
-    },
-    ),
-    20.spaceX,
-    Expanded(
-    child: Column(
-    crossAxisAlignment: CrossAxisAlignment.start,
-    children: [
-    Text(product.serviceName.toString().capitalize!.replaceAll('_', ' '),
-    style: GoogleFonts.poppins(fontWeight: FontWeight.w500, fontSize: 16)),
-    3.spaceY,
-    Text('kwd ${  cartController.shippingPrices.toString()}',
-    style: GoogleFonts.poppins(fontWeight: FontWeight.w400,
-    fontSize: 16,
-    color: const Color(0xFF03a827))),
-    3.spaceY,
-    // Text('${product.operationalDetail!.deliveryDay ?? ''}  ${product.operationalDetail!.deliveryDate ?? ''}',
-    // style: GoogleFonts.poppins(fontWeight: FontWeight.w400,
-    // fontSize: 15,
-    // fontStyle: FontStyle.italic,
-    // color: const Color(0xFF000000))),
-    ],
-    ),
-    ),
-    ],
-    ),
-    ],
-    );
-    });
-    },
-    )
-        : const LoadingAnimation();
-    // : 0.spaceY,;
-    },
-    ),
-    //   )  : const LoadingAnimation() : const SizedBox(),
-    ),
-
-    if(directOrderResponse.shippingType!.icarryShipping!=null)
-    Container(
-    color: Colors.white,
-    child: Padding(
-    padding: const EdgeInsets.symmetric(horizontal: 24, vertical: 16),
-    child: Row(
-    crossAxisAlignment: CrossAxisAlignment.center,
-    children: [
-    Image.asset('assets/images/shipping_icon.png', height: 32, width: 32),
-    20.spaceX,
-    Text("Icarry Shipping Method".tr,
-    style: GoogleFonts.poppins(fontWeight: FontWeight.w500, fontSize: 18)),
-    ],
-    ),
-    ),
-    ),
-    if(directOrderResponse.shippingType!.icarryShipping!=null)
-    Container(
-    color: Colors.white,
-    child: ListView.builder(
-    physics: const NeverScrollableScrollPhysics(),
-    shrinkWrap: true,
-    itemCount: directOrderResponse.shippingType!.icarryShipping!.length,
-    padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 15).copyWith(top: 0),
-    itemBuilder: (context, ii) {
-      cartController.storeIdShipping = directOrderResponse.prodcutData!.vendorId.toString();
-    IcarryShipping product = directOrderResponse.shippingType!.icarryShipping![ii];
-    double subtotal = double.parse(directOrderResponse.icarryCommision.toString());
-    double shipping = double.parse(product.rate.toString());
-    total = subtotal + shipping;
-    cartController.formattedTotal = total.toStringAsFixed(3);
-    print("icarryCommision"+directOrderResponse.icarryCommision.toString());
-    print("rate"+product.rate.toString());
-    print('total isss${cartController.formattedTotal.toString()}');
-    cartController.shippingPrices = cartController.formattedTotal.toString();
-    return Obx(() {
-    return Column(
-    children: [
-    10.spaceY,
-    ii == 0
-    ? 0.spaceY
-        : const Divider(
-    color: Color(0xFFD9D9D9),
-    thickness: 0.8,
-    ),
-
-    Row(
-    children: [
-    Radio(
-    value: product.methodId.toString(),
-    groupValue: directOrderResponse.fedexShippingOption.value,
-    visualDensity: const VisualDensity(horizontal: -4.0),
-    fillColor: directOrderResponse.fedexShippingOption.value.isEmpty
-    ? MaterialStateProperty.all(Colors.red)
-        : null,
-    onChanged: (value) {
-    setState(() {
-      shippingType.value = "icarry_shipping";
-      shipId.value =product.methodId.toString();
-      shipmentProvider.value =product.carrierModel!.systemName.toString();
-    directOrderResponse.shippingOption.value = value.toString();
-    directOrderResponse.fedexShippingOption.value = value.toString();
-    cartController.shippingTitle =  product.name.toString();
-      cartController.shippingDates=product.methodName.toString();
-     //  double subtotal = double.parse(directOrderResponse.icarryCommision.toString());
-     //  double shipping = double.parse(product.rate.toString());
-     //  total = subtotal + shipping;
-     //  cartController.formattedTotal = total.toString();
-     //  print("icarryCommision"+directOrderResponse.icarryCommision.toString());
-     //  print("rate"+product.rate.toString());
-     //  print('total isss${cartController.formattedTotal.toString()}');
-     // cartController.shippingPrices = cartController.formattedTotal.toString();
-    print( directOrderResponse.fedexShippingOption.value.toString());
-    print(cartController.shippingTitle.toString());
-    print('select value${cartController.shippingPrices.toString()}');
-    print(cartController.shippingPrices.toString());
-
-      double subtotal = double.parse(directOrderResponse.icarryCommision.toString());
-      double shipping = double.parse(product.rate.toString());
-      total = subtotal + shipping;
-      cartController.formattedTotal2 = total.toStringAsFixed(3);
-      print("icarryCommision"+directOrderResponse.icarryCommision.toString());
-      print("rate"+product.rate.toString());
-      print('total isss${cartController.formattedTotal2.toString()}');
-      cartController.shippingPrices1 = cartController.formattedTotal2.toString();
-    // shippingPrice =   product.price.toString();
-    // double subtotal = double.parse(cartController.cartModel.subtotal.toString());
-    // double shipping = double.parse(shippingPrice.toString());
-    // total = subtotal + shipping;
-    // cartController.formattedTotal = total.toStringAsFixed(3);
-    // e.value.shippingId.value = product.id.toString();
-    // e.value.vendorId.value = e.value.shipping![ii].vendorId!;
-    // e.value.shippingVendorName.value = product.serviceName.toString();
-    // e.value.vendorPrice.value = product.ratedShipmentDetails![index].totalNetCharge.toString();
-
-    directOrderResponse.prodcutData!.sPrice = product.rate;
-
-    log("Initial sPrice:$sPrice1");
-    log("Initial sPrice::::::::"+shipId.value.toString());
-    log("Initial sPrice::::::fdsggsgggggggg::"+cartController.shippingDates.toString());
-      log("Initial sPrice:"+  cartController.shippingTitle.toString());
-    log("Initial sPrice::"+shipmentProvider.value.toString());
-    sPrice1 = 0.0;
-      log("kiska price hai :::::::::::::::s+ ${shippingType.value.toString()}");
-    // sPrice1 = 0.0;
-    if (directOrderResponse.fedexShippingOption.value.isNotEmpty) {
-    log("kiska price hai + ${directOrderResponse.prodcutData!.sPrice }");
-    sPrice1 = sPrice1 + directOrderResponse.prodcutData!.sPrice ;
-    // sPrice.toStringAsFixed(fractionDigits)
-    // Update sPrice directly without reassigning
-    }
-    total = subtotal + sPrice1;
-    print('total isss${total.toString()}');
-    cartController.formattedTotal = total.toStringAsFixed(3);
+                                                    // sPrice1 = 0.0;
+                                                    if (directOrderResponse.fedexShippingOption.value.isNotEmpty) {
+                                                      log("kiska price hai + ${directOrderResponse.prodcutData!.sPrice }");
+                                                      log("kiska price hai :::::::::::::::s+ ${shippingType.value
+                                                          .toString()}");
+                                                      sPrice1 = sPrice1 + directOrderResponse.prodcutData!.sPrice;
+                                                      // sPrice.toStringAsFixed(fractionDigits)
+                                                      // Update sPrice directly without reassigning
+                                                    }
+                                                    total = subtotal + sPrice1;
+                                                    print('total isss${total.toString()}');
+                                                    // cartController.formattedTotal = total.toStringAsFixed(3);
 
 
-    });
-    },
-    ),
-    20.spaceX,
-    Expanded(
-    child: Column(
-    crossAxisAlignment: CrossAxisAlignment.start,
-    children: [
-    Text(product.name
-        .toString()
-        .capitalize!
-        .replaceAll('_', ' '),
-    style: GoogleFonts.poppins(fontWeight: FontWeight.w500, fontSize: 16)),
-    3.spaceY,
-    Text( "KWD "+cartController.shippingPrices.toString(),
-    style: GoogleFonts.poppins(fontWeight: FontWeight.w400,
-    fontSize: 16,
-    color: const Color(0xFF03a827))),
-    3.spaceY,
-    Text(product.methodName.toString(),
-    style: GoogleFonts.poppins(fontWeight: FontWeight.w400,
-    fontSize: 16,
-    color: Colors.black)),
-    ],
-    ),
-    ),
-    ],
-    ),
-    ],
-    );
-    });
-    // : 0.spaceY,;
-    },
-    ),
-    ),
+                                                  });
+                                                },
+                                              ),
+                                              20.spaceX,
+                                              Expanded(
+                                                child: Column(
+                                                  crossAxisAlignment: CrossAxisAlignment.start,
+                                                  children: [
+                                                    Text(product.serviceName
+                                                        .toString()
+                                                        .capitalize!
+                                                        .replaceAll('_', ' '),
+                                                        style: GoogleFonts.poppins(fontWeight: FontWeight.w500,
+                                                            fontSize: 16)),
+                                                    3.spaceY,
+                                                    Text('kwd ${ cartController.shippingPrices.toString()}',
+                                                        style: GoogleFonts.poppins(fontWeight: FontWeight.w400,
+                                                            fontSize: 16,
+                                                            color: const Color(0xFF03a827))),
+                                                    3.spaceY,
+                                                    // Text('${product.operationalDetail!.deliveryDay ?? ''}  ${product.operationalDetail!.deliveryDate ?? ''}',
+                                                    // style: GoogleFonts.poppins(fontWeight: FontWeight.w400,
+                                                    // fontSize: 15,
+                                                    // fontStyle: FontStyle.italic,
+                                                    // color: const Color(0xFF000000))),
+                                                  ],
+                                                ),
+                                              ),
+                                            ],
+                                          ),
+                                        ],
+                                      );
+                                    });
+                                  },
+                                )
+                                    : const LoadingAnimation();
+                                // : 0.spaceY,;
+                              },
+                            ),
+                            //   )  : const LoadingAnimation() : const SizedBox(),
+                          ),
+
+                        if(directOrderResponse.shippingType!.icarryShipping!.isNotEmpty)
+                          Container(
+                            color: Colors.white,
+                            child: Padding(
+                              padding: const EdgeInsets.symmetric(horizontal: 24, vertical: 16),
+                              child: Row(
+                                crossAxisAlignment: CrossAxisAlignment.center,
+                                children: [
+                                  Image.asset('assets/images/shipping_icon.png', height: 32, width: 32),
+                                  20.spaceX,
+                                  Text("Icarry Shipping Method".tr,
+                                      style: GoogleFonts.poppins(fontWeight: FontWeight.w500, fontSize: 18)),
+                                ],
+                              ),
+                            ),
+                          ),
+                        if(directOrderResponse.shippingType!.icarryShipping!.isNotEmpty)
+                          Container(
+                            color: Colors.white,
+                            child: ListView.builder(
+                              physics: const NeverScrollableScrollPhysics(),
+                              shrinkWrap: true,
+                              itemCount: directOrderResponse.shippingType!.icarryShipping!.length,
+                              padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 15).copyWith(top: 0),
+                              itemBuilder: (context, ii) {
+                                cartController.storeIdShipping = directOrderResponse.prodcutData!.vendorId.toString();
+                                IcarryShipping product = directOrderResponse.shippingType!.icarryShipping![ii];
+                                double subtotal = double.parse(directOrderResponse.icarryCommision.toString());
+                                double shipping = double.parse(product.rate.toString());
+                                total = subtotal + shipping;
+                                cartController.formattedTotal = total.toStringAsFixed(3);
+                                print("icarryCommision" + directOrderResponse.icarryCommision.toString());
+                                print("rate" + product.rate.toString());
+                                print('total isss${cartController.formattedTotal.toString()}');
+                                cartController.shippingPrices = cartController.formattedTotal.toString();
+                                return Obx(() {
+                                  return Column(
+                                    children: [
+                                      10.spaceY,
+                                      ii == 0
+                                          ? 0.spaceY
+                                          : const Divider(
+                                        color: Color(0xFFD9D9D9),
+                                        thickness: 0.8,
+                                      ),
+
+                                      Row(
+                                        children: [
+                                          Radio(
+                                            value: product.methodId.toString(),
+                                            groupValue: directOrderResponse.fedexShippingOption.value,
+                                            visualDensity: const VisualDensity(horizontal: -4.0),
+                                            fillColor: directOrderResponse.fedexShippingOption.value.isEmpty
+                                                ? MaterialStateProperty.all(Colors.red)
+                                                : null,
+                                            onChanged: (value) {
+                                              setState(() {
+                                                shippingType.value = "icarry_shipping";
+                                                shipId.value = product.methodId.toString();
+                                                shipmentProvider.value = product.carrierModel!.systemName.toString();
+                                                directOrderResponse.shippingOption.value = value.toString();
+                                                directOrderResponse.fedexShippingOption.value = value.toString();
+                                                cartController.shippingTitle = product.name.toString();
+                                                cartController.shippingDates = product.methodName.toString();
+                                                //  double subtotal = double.parse(directOrderResponse.icarryCommision.toString());
+                                                //  double shipping = double.parse(product.rate.toString());
+                                                //  total = subtotal + shipping;
+                                                //  cartController.formattedTotal = total.toString();
+                                                //  print("icarryCommision"+directOrderResponse.icarryCommision.toString());
+                                                //  print("rate"+product.rate.toString());
+                                                //  print('total isss${cartController.formattedTotal.toString()}');
+                                                // cartController.shippingPrices = cartController.formattedTotal.toString();
+                                                print(directOrderResponse.fedexShippingOption.value.toString());
+                                                print(cartController.shippingTitle.toString());
+                                                print('select value${cartController.shippingPrices.toString()}');
+                                                print(cartController.shippingPrices.toString());
+
+                                                double subtotal = double.parse(
+                                                    directOrderResponse.icarryCommision.toString());
+                                                double shipping = double.parse(product.rate.toString());
+                                                total = subtotal + shipping;
+                                                cartController.formattedTotal2 = total.toStringAsFixed(3);
+                                                print("icarryCommision" + directOrderResponse.icarryCommision.toString());
+                                                print("rate" + product.rate.toString());
+                                                print('total isss${cartController.formattedTotal2.toString()}');
+                                                cartController.shippingPrices1 = cartController.formattedTotal2.toString();
+                                                // shippingPrice =   product.price.toString();
+                                                // double subtotal = double.parse(cartController.cartModel.subtotal.toString());
+                                                // double shipping = double.parse(shippingPrice.toString());
+                                                // total = subtotal + shipping;
+                                                // cartController.formattedTotal = total.toStringAsFixed(3);
+                                                // e.value.shippingId.value = product.id.toString();
+                                                // e.value.vendorId.value = e.value.shipping![ii].vendorId!;
+                                                // e.value.shippingVendorName.value = product.serviceName.toString();
+                                                // e.value.vendorPrice.value = product.ratedShipmentDetails![index].totalNetCharge.toString();
+
+                                                directOrderResponse.prodcutData!.sPrice = product.rate;
+
+                                                log("Initial sPrice:$sPrice1");
+                                                log("Initial sPrice::::::::" + shipId.value.toString());
+                                                log("Initial sPrice::::::fdsggsgggggggg::" +
+                                                    cartController.shippingDates.toString());
+                                                log("Initial sPrice:" + cartController.shippingTitle.toString());
+                                                log("Initial sPrice::" + shipmentProvider.value.toString());
+                                                sPrice1 = 0.0;
+                                                log("kiska price hai :::::::::::::::s+ ${shippingType.value.toString()}");
+                                                // sPrice1 = 0.0;
+                                                if (directOrderResponse.fedexShippingOption.value.isNotEmpty) {
+                                                  log("kiska price hai + ${directOrderResponse.prodcutData!.sPrice }");
+                                                  sPrice1 = sPrice1 + directOrderResponse.prodcutData!.sPrice;
+                                                  // sPrice.toStringAsFixed(fractionDigits)
+                                                  // Update sPrice directly without reassigning
+                                                }
+                                                total = subtotal + sPrice1;
+                                                print('total isss${total.toString()}');
+                                                cartController.formattedTotal = total.toStringAsFixed(3);
+                                              });
+                                            },
+                                          ),
+                                          20.spaceX,
+                                          Expanded(
+                                            child: Column(
+                                              crossAxisAlignment: CrossAxisAlignment.start,
+                                              children: [
+                                                Text(product.name
+                                                    .toString()
+                                                    .capitalize!
+                                                    .replaceAll('_', ' '),
+                                                    style: GoogleFonts.poppins(fontWeight: FontWeight.w500, fontSize: 16)),
+                                                3.spaceY,
+                                                Text("KWD " + cartController.shippingPrices.toString(),
+                                                    style: GoogleFonts.poppins(fontWeight: FontWeight.w400,
+                                                        fontSize: 16,
+                                                        color: const Color(0xFF03a827))),
+                                                3.spaceY,
+                                                Text(product.methodName.toString(),
+                                                    style: GoogleFonts.poppins(fontWeight: FontWeight.w400,
+                                                        fontSize: 16,
+                                                        color: Colors.black)),
+                                              ],
+                                            ),
+                                          ),
+                                        ],
+                                      ),
+                                    ],
+                                  );
+                                });
+                                // : 0.spaceY,;
+                              },
+                            ),
+                          ),
 
 
-                        ],
-                      )
+                      ],
+                    )
                           // : const SizedBox()
                   ],
                 )

@@ -310,7 +310,7 @@ class _ProductUIState extends State<ProductUI> {
 
 
 
-              Row(
+              widget.productElement.itemType != 'giveaway'?    Row(
                 children: [
                   Text(
                     'KWD ${widget.productElement.pPrice.toString()}',
@@ -323,7 +323,7 @@ class _ProductUIState extends State<ProductUI> {
                         fontSize: 16,
                         fontWeight: FontWeight.w600),
                   ),
-                  SizedBox(width: 7,),
+                  const SizedBox(width: 7,),
                   Text.rich(
                     TextSpan(
                       text: '${widget.productElement.discountPrice.toString().split('.')[0]}.',
@@ -366,7 +366,7 @@ class _ProductUIState extends State<ProductUI> {
                     ),
                   ),
                 ],
-              ),
+              ) : const SizedBox.shrink(),
 
 
 SizedBox(height: 8,),

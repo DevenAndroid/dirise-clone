@@ -147,7 +147,7 @@ class _InternationalshippingdetailsScreenState extends State<Internationalshippi
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: [
             Text(
-              'International shipping details'.tr,
+              'Item Weight & Dimensions'.tr,
               style: GoogleFonts.poppins(color: const Color(0xff292F45), fontWeight: FontWeight.w600, fontSize: 20),
             ),
           ],

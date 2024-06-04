@@ -1,4 +1,5 @@
 import 'dart:convert';
+import 'dart:developer';
 import 'dart:io';
 
 import 'package:dirise/singleproductScreen/singleProductDiscriptionScreen.dart';
@@ -12,6 +13,7 @@ import 'package:google_fonts/google_fonts.dart';
 import '../controller/profile_controller.dart';
 import '../controller/vendor_controllers/add_product_controller.dart';
 import '../language/app_strings.dart';
+import '../model/product_details.dart';
 import '../model/vendor_models/add_product_model.dart';
 import '../repository/repository.dart';
 import '../utils/api_constant.dart';
@@ -48,6 +50,9 @@ class _SingleProductPriceScreenState extends State<SingleProductPriceScreen> {
   String discountedPrice = "";
   bool isPercentageDiscount = true;
   RxBool isDelivery = false.obs;
+  double discountAmount12 =0.0;
+  double afterCalculation = 0.0;
+  double realPrice1 = 0.0;
   void calculateDiscount() {
     double realPrice = double.tryParse(priceController.text) ?? 0.0;
     double sale = double.tryParse(discountPrecrnt.text) ?? 0.0;
@@ -97,6 +102,15 @@ class _SingleProductPriceScreenState extends State<SingleProductPriceScreen> {
       }
     });
   }
+  final Repositories repositories = Repositories();
+  Rx<ModelProductDetails> productDetailsModel = ModelProductDetails().obs;
+
+  getVendorCategories(id) {
+    repositories.getApi(url: ApiUrls.getProductDetailsUrl + id).then((value) {
+      productDetailsModel.value = ModelProductDetails.fromJson(jsonDecode(value));
+      setState(() {});
+    });
+  }
 
   @override
   void initState() {
@@ -107,6 +121,7 @@ class _SingleProductPriceScreenState extends State<SingleProductPriceScreen> {
       discountPrecrnt.text = widget.percentage.toString();
       fixedDiscount.text = widget.fixDiscount.toString();
     }
+    getVendorCategories(addProductController.idProduct.value.toString());
   }
 
   final formKey1 = GlobalKey<FormState>();
@@ -163,6 +178,17 @@ class _SingleProductPriceScreenState extends State<SingleProductPriceScreen> {
                     isPercentageDiscount = true;
                     calculateDiscount();
                     realPrice = value;
+                    realPrice1 = double.tryParse(value) ?? 0.0;
+                    String? diriseFeesAsString = productDetailsModel.value.productDetails!.diriseFess;
+
+                    double fees = diriseFeesAsString != null ? double.parse(diriseFeesAsString) : 0.0;
+
+                    discountAmount12 = (realPrice1 * fees) / 100;
+                    afterCalculation = realPrice1 + discountAmount12;
+                    log('value${realPrice1.toString()}');
+                    setState(() {
+
+                    });
                     setState(() {});
                   },
                   validator: (value) {
@@ -172,6 +198,21 @@ class _SingleProductPriceScreenState extends State<SingleProductPriceScreen> {
                     return null; // Return null if validation passes
                   },
                 ),
+                Text(
+                  'Dirise Fee'.tr,
+                  style: GoogleFonts.inter(color: const Color(0xff292F45), fontWeight: FontWeight.w500, fontSize: 14),
+                ),
+                Container(
+                  height: 50,
+                  width: Get.width,
+                  padding: const EdgeInsets.symmetric(vertical: 12, horizontal: 12),
+                  decoration: BoxDecoration(
+                      color: Colors.white,
+                      borderRadius: BorderRadius.circular(8),
+                      border: Border.all(color: AppTheme.secondaryColor)),
+                  child: Text(discountAmount12.toString()),
+                ),
+                const SizedBox(height: 10,),
                 Row(
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [

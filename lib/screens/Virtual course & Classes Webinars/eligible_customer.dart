@@ -14,7 +14,13 @@ import '../../widgets/common_button.dart';
 
 
 class EligibleCustomersWebinars extends StatefulWidget {
-  const EligibleCustomersWebinars({super.key});
+  int? id;
+  int? eligibleMinAge;
+  int? eligibleMaxAge;
+  String? eligibleGender;
+
+  EligibleCustomersWebinars({super.key,this.id,this.eligibleGender,this.eligibleMaxAge,this.eligibleMinAge});
+
 
   @override
   State<EligibleCustomersWebinars> createState() => _EligibleCustomersWebinarsState();
@@ -49,6 +55,16 @@ class _EligibleCustomersWebinarsState extends State<EligibleCustomersWebinars> {
         Get.to(()=> const ReviewScreenWebinars());
       }
     });
+  }
+  @override
+  void initState() {
+    // TODO: implement initState
+    super.initState();
+    if(widget.id != null){
+      digitsBeforeDecimal = widget.eligibleMinAge.toString();
+      endDigitsBeforeDecimal = widget.eligibleMaxAge.toString();
+      selectedGender = widget.eligibleGender.toString();
+    }
   }
   @override
   Widget build(BuildContext context) {

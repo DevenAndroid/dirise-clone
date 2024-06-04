@@ -47,7 +47,7 @@ class _ServicesReturnPolicyState extends State<ServicesReturnPolicy> {
   RxInt returnPolicyLoaded = 0.obs;
   ReturnPolicyModel? modelReturnPolicy;
   ReturnPolicy? selectedReturnPolicy;
-
+  String returnSelectId = '';
   bool isButtonEnabled = false;
   void updateButtonState() {
     setState(() {
@@ -105,7 +105,23 @@ class _ServicesReturnPolicyState extends State<ServicesReturnPolicy> {
       }
     });
   }
+  nextPageApi() {
+    Map<String, dynamic> map = {};
+    map['return_policy_desc'] = selectedReturnPolicy!.id.toString();
+    map['item_type'] = 'service';
 
+    FocusManager.instance.primaryFocus!.unfocus();
+    repositories.postApi(url: ApiUrls.giveawayProductAddress, context: context, mapData: map).then((value) {
+      ModelCommonResponse response = ModelCommonResponse.fromJson(jsonDecode(value));
+      print('API Response Status Code: ${response.status}');
+      showToast(response.message.toString());
+      if (response.status == true) {
+        Get.to(() => const Locationwherecustomerwilljoin());
+      }else {
+         showToast(response.message.toString());
+        }
+    });
+  }
   @override
   void initState() {
     // TODO: implement initState
@@ -116,7 +132,11 @@ class _ServicesReturnPolicyState extends State<ServicesReturnPolicy> {
       descController.text = widget.policyDescription.toString();
     }
   }
-
+  @override
+  void dispose() {
+    super.dispose();
+    getReturnPolicyData();
+  }
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -219,7 +239,9 @@ class _ServicesReturnPolicyState extends State<ServicesReturnPolicy> {
                                 setState(() {
                                   selectedReturnPolicy = value;
                                   getSingleReturnPolicyData(selectedReturnPolicy!.id.toString());
+                                  returnSelectId = selectedReturnPolicy!.id.toString();
                                 });
+
                               },
                               // validator: (value){
                               //   if (value == null) {
@@ -491,7 +513,11 @@ class _ServicesReturnPolicyState extends State<ServicesReturnPolicy> {
                     if (noReturnSelected == false) {
                       if (formKey1.currentState!.validate()) {
                         if (radioButtonValue != '') {
-                          returnPolicyApi();
+                           if(returnSelectId.isEmpty) {
+                             returnPolicyApi();
+                           }else{
+                             nextPageApi();
+                           }
                         } else {
                           showToastCenter('Select Return shipping fees');
                         }

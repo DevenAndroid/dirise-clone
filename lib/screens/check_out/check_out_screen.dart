@@ -245,15 +245,20 @@ RxString shipId = "".obs;
               showToast("Please select payment Method".tr);
               return;
             }
-            // if (cartController.deliveryOption1.value == "delivery") {
-            for (var item in cartController.cartModel.cart!.carsShowroom!.entries) {
-              var showroom = item.value;
-              if (item.value.shippingOption.isEmpty) {
-                showToast("Please select shipping Method".tr);
-                return;
-              }
 
-            }
+            // comment for testing
+            // if (cartController.deliveryOption1.value == "delivery") {
+            // for (var item in cartController.cartModel.cart!.carsShowroom!.entries) {
+            //   var showroom = item.value;
+            //   if (item.value.shippingOption.isEmpty) {
+            //     showToast("Please select shipping Method".tr);
+            //     return;
+            //   }
+            //
+            // }
+
+
+
             // for (var item in cartController.cartModel.cart!.carsShowroom!.entries) {
             //   var showroom = item.value;
             //   if (item.value.fedexShippingOption.isEmpty && cartController.countryName.value != 'Kuwait') {

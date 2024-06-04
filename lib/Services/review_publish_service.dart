@@ -72,7 +72,12 @@ class _ReviewPublishServiceScreenState extends State<ReviewPublishServiceScreen>
     getVendorCategories(addProductController.idProduct.value.toString());
     getReturnPolicyData();
   }
-
+@override
+  void dispose() {
+    super.dispose();
+    getVendorCategories(addProductController.idProduct.value.toString());
+    getReturnPolicyData();
+  }
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -496,7 +501,7 @@ class _ReviewPublishServiceScreenState extends State<ReviewPublishServiceScreen>
                             mainAxisAlignment: MainAxisAlignment.spaceBetween,
                             children: [
                               Text(
-                                'International Shipping Details',
+                                'Item Weight & Dimensions',
                                 style: GoogleFonts.poppins(
                                   color: AppTheme.primaryColor,
                                   fontSize: 15,

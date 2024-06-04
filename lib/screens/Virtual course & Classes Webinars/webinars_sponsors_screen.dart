@@ -19,7 +19,11 @@ import 'eligible_customer.dart';
 
 
 class SponsorswebinarScreen extends StatefulWidget {
-  const SponsorswebinarScreen({super.key});
+  int? id;
+  String? sponsorType;
+  String? sponsorName;
+
+  SponsorswebinarScreen({super.key,this.id,this.sponsorName,this.sponsorType});
 
   @override
   State<SponsorswebinarScreen> createState() => _SponsorswebinarScreenState();
@@ -84,7 +88,7 @@ class _SponsorswebinarScreenState extends State<SponsorswebinarScreen> {
       if (response.status == true) {
         showToast(response.message.toString());
         if(formKey1.currentState!.validate()){
-          Get.to(()=> const EligibleCustomersWebinars());
+          Get.to(()=>  EligibleCustomersWebinars());
         }
       }
     });
@@ -95,6 +99,10 @@ class _SponsorswebinarScreenState extends State<SponsorswebinarScreen> {
     WidgetsBinding.instance.addPostFrameCallback((timeStamp) {
       getSponsors();
     });
+    if(widget.id != null){
+      sponsorTypeController.text = widget.sponsorType.toString();
+      sponsorNameController.text = widget.sponsorName.toString();
+    }
   }
   @override
   Widget build(BuildContext context) {
@@ -292,7 +300,7 @@ class _SponsorswebinarScreenState extends State<SponsorswebinarScreen> {
                   const SizedBox(height: 20),
                   GestureDetector(
                     onTap: () {
-                      Get.to(()=> const EligibleCustomersWebinars());
+                      Get.to(()=>  EligibleCustomersWebinars());
                     },
                     child: Container(
                       width: Get.width,

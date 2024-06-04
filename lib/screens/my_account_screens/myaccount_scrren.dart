@@ -2130,7 +2130,7 @@ class _MyAccountScreenState extends State<MyAccountScreen> {
                                              Get.to(const ApproveProductScreen());
                                            }
                                            else if(vendor[index] == 'Operating Hours'){
-                                             Get.to(const OperatingHourScreen());
+                                             Get.to(const SetTimeScreen());
                                            }
                                            else if(vendor[index] == 'Bank Details'){
                                              Get.to(const BankDetailsScreen());

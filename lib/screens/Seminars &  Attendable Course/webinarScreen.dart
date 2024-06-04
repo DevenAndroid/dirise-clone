@@ -5,6 +5,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:google_fonts/google_fonts.dart';
+import '../../controller/profile_controller.dart';
 import '../../controller/vendor_controllers/add_product_controller.dart';
 import '../../model/common_modal.dart';
 import '../../repository/repository.dart';
@@ -14,8 +15,13 @@ import '../../widgets/common_textfield.dart';
 import 'optional_details_academic.dart';
 
 class WebinarScreen extends StatefulWidget {
-  int? id;
-  WebinarScreen({super.key, this.id});
+   int? id;
+   String? meetingWillBeat;
+   String? startTime;
+   String? endTime;
+   String? extraNotes;
+   String? spots;
+  WebinarScreen({super.key, this.id,this.startTime,this.endTime,this.extraNotes,this.meetingWillBeat,this.spots});
 
   @override
   State<WebinarScreen> createState() => _WebinarScreenState();
@@ -56,8 +62,9 @@ class _WebinarScreenState extends State<WebinarScreen> {
 
   final Repositories repositories = Repositories();
   final addProductController = Get.put(AddProductController());
-  TextEditingController extraNotesController = TextEditingController();
 
+  TextEditingController extraNotesController = TextEditingController();
+  final profileController = Get.put(ProfileController());
   webinarApi() {
     log('fgdsgsdf');
     Map<String, dynamic> map = {};
@@ -65,7 +72,7 @@ class _WebinarScreenState extends State<WebinarScreen> {
     map['item_type'] = 'product';
     map['product_type'] = 'booking';
     map['booking_product_type'] = 'webinar';
-    map['product_availability_id'] = widget.id;
+    map['product_availability_id'] = profileController.productAvailabilityId;
     map['start_time'] = startTime?.format(context);
     map['end_time'] = endTime?.format(context);
     map['timing_extra_notes'] = extraNotesController.text.trim();
@@ -81,7 +88,7 @@ class _WebinarScreenState extends State<WebinarScreen> {
       showToast(response.message.toString());
       if (response.status == true) {
         log('sdgafahsfshdhhjgf');
-        Get.to(() => const OptionalDetailsSeminarAndAttendable());
+        Get.to(() =>  OptionalDetailsSeminarAndAttendable());
       }
     });
   }
@@ -102,6 +109,27 @@ class _WebinarScreenState extends State<WebinarScreen> {
 
   String formatDate(DateTime date) {
     return "${date.day.toString().padLeft(2, '0')}/${date.month.toString().padLeft(2, '0')}/${date.year}";
+  }
+  TimeOfDay? parseTimeOfDay(String? timeString) {
+    if (timeString == null) return null;
+    final timeParts = timeString.split(":");
+    final hour = int.tryParse(timeParts[0]);
+    final minute = int.tryParse(timeParts[1]);
+    if (hour != null && minute != null) {
+      return TimeOfDay(hour: hour, minute: minute);
+    }
+    return null;
+  }
+  @override
+  void initState() {
+    // TODO: implement initState
+    super.initState();
+    if(widget.id != null){
+      meetingWillBe1 = widget.meetingWillBeat.toString();
+      startTime = parseTimeOfDay(widget.startTime);
+      endTime = parseTimeOfDay(widget.endTime);
+      extraNotesController.text = widget.extraNotes.toString();
+    }
   }
 
   @override

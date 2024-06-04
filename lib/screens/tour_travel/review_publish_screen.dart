@@ -3,6 +3,7 @@ import 'dart:developer';
 
 import 'package:dirise/addNewProduct/rewardScreen.dart';
 import 'package:dirise/screens/tour_travel/sponsors_academic_screen.dart';
+import 'package:dirise/screens/tour_travel/timing_screen.dart';
 import 'package:dirise/widgets/loading_animation.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
@@ -11,6 +12,7 @@ import 'package:get/get.dart';
 import 'package:google_fonts/google_fonts.dart';
 
 import '../../bottomavbar.dart';
+import '../../controller/profile_controller.dart';
 import '../../controller/vendor_controllers/add_product_controller.dart';
 import '../../model/product_details.dart';
 import '../../repository/repository.dart';
@@ -42,7 +44,7 @@ class _ReviewandPublishTourScreenScreenState extends State<ReviewandPublishTourS
   final addProductController = Get.put(AddProductController());
   Rx<ModelProductDetails> productDetailsModel = ModelProductDetails().obs;
   Rx<RxStatus> vendorCategoryStatus = RxStatus.empty().obs;
-
+  final profileController = Get.put(ProfileController());
   getVendorCategories(String id) async {
     try {
       var value = await repositories.getApi(url: ApiUrls.getProductDetailsUrl + id);
@@ -227,18 +229,50 @@ class _ReviewandPublishTourScreenScreenState extends State<ReviewandPublishTourS
                           ),
                         ),
                       ),
-                      // if (isTime.value == true)
-                      Column(
-                        mainAxisAlignment: MainAxisAlignment.start,
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        children: [
-                          Text(
-                              'startLocation : ${productDetailsModel.value.productDetails!.product!.startLocation ?? ""}'),
-                          Text('endLocation : ${productDetailsModel.value.productDetails!.product!.endLocation ?? ""}'),
-                          Text(
-                              'timingExtraNotes : ${productDetailsModel.value.productDetails!.product!.timingExtraNotes ?? ""}'),
-                        ],
-                      ),
+                       if (isTime.value == true)
+                         Stack(
+                           children: [
+                             Container(
+                               margin: EdgeInsets.only(top: 10),
+                               width: Get.width,
+                               padding: EdgeInsets.all(10),
+                               decoration:
+                               BoxDecoration(color: Colors.grey.shade200, borderRadius: BorderRadius.circular(11)),
+                               child: Column(
+                                 mainAxisAlignment: MainAxisAlignment.start,
+                                 crossAxisAlignment: CrossAxisAlignment.start,
+                                 children: [
+                                   Text('start Location : ${productDetailsModel.value.productDetails!.product!.startLocation ?? ""}'),
+                                   Text('end Location : ${productDetailsModel.value.productDetails!.product!.endLocation ?? ""}'),
+                                   Text('timing ExtraNotes : ${productDetailsModel.value.productDetails!.product!.timingExtraNotes ?? ""}'),
+                                   Text('start Time : ${productDetailsModel.value.productDetails!.product!.fromLocation ?? ""}'),
+                                   Text('end Time : ${productDetailsModel.value.productDetails!.product!.toLocation ?? ""}'),
+                                   Text('spot : ${productDetailsModel.value.productDetails!.product!.spot ?? ""}'),
+                                 ],
+                               ),
+                             ),
+                             Positioned(
+                                 right: 10,
+                                 top: 20,
+                                 child: GestureDetector(
+                                     onTap: () {
+                                       Get.to(TimingScreenTour(
+                                         id: productDetailsModel.value.productDetails!.product!.id,
+                                         spot: productDetailsModel.value.productDetails!.product!.spot,
+                                         endEndTime: productDetailsModel.value.productDetails!.product!.fromLocation,
+                                         endLocation: productDetailsModel.value.productDetails!.product!.endLocation,
+                                         startLocation: productDetailsModel.value.productDetails!.product!.startLocation,
+                                         startTime: productDetailsModel.value.productDetails!.product!.fromLocation,
+                                         timingExtraNotes:productDetailsModel.value.productDetails!.product!.timingExtraNotes ,
+                                       ));
+                                     },
+                                     child: const Text(
+                                       'Edit',
+                                       style: TextStyle(color: Colors.red, fontSize: 13),
+                                     )))
+                           ],
+                         ),
+
                       const SizedBox(height: 20),
                       GestureDetector(
                         onTap: () {

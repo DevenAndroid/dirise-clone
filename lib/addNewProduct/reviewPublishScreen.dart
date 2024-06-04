@@ -337,7 +337,7 @@ class _ReviewPublishScreenState extends State<ReviewPublishScreen> {
                                 border: Border.all(color: Colors.grey.shade400, width: 1)),
                             child: const Row(
                               mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                              children: [Text('International Shipping Details'), Icon(Icons.arrow_drop_down_sharp)],
+                              children: [Text('Item Weight & Dimensions'), Icon(Icons.arrow_drop_down_sharp)],
                             ),
                           ),
                         ),

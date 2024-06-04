@@ -20,7 +20,20 @@ import '../../widgets/common_colour.dart';
 import '../../widgets/common_textfield.dart';
 
 class OptionalDetailsWebiinarsScreen extends StatefulWidget {
-  const OptionalDetailsWebiinarsScreen({super.key});
+  int? id;
+  String? locationController;
+  String? hostNameController;
+  String? programNameController;
+  String? programGoalController;
+  String? programDescription;
+  OptionalDetailsWebiinarsScreen(
+      {super.key,
+        this.id,
+        this.locationController,
+        this.programDescription,
+        this.hostNameController,
+        this.programGoalController,
+        this.programNameController});
 
   @override
   State<OptionalDetailsWebiinarsScreen> createState() => _OptionalDetailsWebiinarsScreenState();
@@ -61,10 +74,22 @@ class _OptionalDetailsWebiinarsScreenState extends State<OptionalDetailsWebiinar
         showToast(response.message.toString());
 
         if (formKey1.currentState!.validate()) {
-          Get.to(() => const SponsorswebinarScreen());
+          Get.to(() =>  SponsorswebinarScreen());
         }
       }
     });
+  }
+  @override
+  void initState() {
+    // TODO: implement initState
+    super.initState();
+    if(widget.id != null){
+      locationController.text = widget.locationController.toString();
+      hostNameController.text  =  widget.hostNameController.toString();
+      programNameController.text =  widget.programNameController.toString();
+      programGoalController.text = widget.programGoalController.toString();
+      programDescription.text = widget.programDescription.toString();
+    }
   }
 
   @override

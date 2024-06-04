@@ -30,7 +30,7 @@ import 'ReviewandPublishScreen.dart';
 
 class ProductInformationScreens extends StatefulWidget {
   int? id;
-  int? catid;
+  String? catid;
   String? name;
 
 

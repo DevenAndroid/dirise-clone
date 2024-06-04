@@ -15,7 +15,12 @@ import '../../utils/api_constant.dart';
 import '../../widgets/common_button.dart';
 
 class EligibleCustomersSeminarAndAttendable extends StatefulWidget {
-  const EligibleCustomersSeminarAndAttendable({super.key});
+  int? id;
+  int? eligibleMinAge;
+  int? eligibleMaxAge;
+  String? eligibleGender;
+
+  EligibleCustomersSeminarAndAttendable({super.key,this.id,this.eligibleGender,this.eligibleMaxAge,this.eligibleMinAge});
 
   @override
   State<EligibleCustomersSeminarAndAttendable> createState() => _EligibleCustomersSeminarAndAttendableState();
@@ -51,6 +56,16 @@ class _EligibleCustomersSeminarAndAttendableState extends State<EligibleCustomer
         Get.to(() => const ReviewScreenSeminarAndAttendable());
       }
     });
+  }
+  @override
+  void initState() {
+    // TODO: implement initState
+    super.initState();
+    if(widget.id != null){
+      digitsBeforeDecimal = widget.eligibleMinAge.toString();
+      endDigitsBeforeDecimal = widget.eligibleMaxAge.toString();
+      selectedGender = widget.eligibleGender.toString();
+    }
   }
 
   @override
