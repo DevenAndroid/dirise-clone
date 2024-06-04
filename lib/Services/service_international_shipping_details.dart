@@ -378,7 +378,7 @@ class _ServiceInternationalShippingServiceState extends State<ServiceInternation
                   items: selectTypeOfPackagingList.map<DropdownMenuItem<String>>((String value) {
                     return DropdownMenuItem<String>(
                       value: value,
-                      child: Text('Type of packages'),
+                      child: Text('Package type'),
                     );
                   }).toList(),
                   decoration: InputDecoration(

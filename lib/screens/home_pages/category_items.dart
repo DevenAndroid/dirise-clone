@@ -52,7 +52,7 @@ class _CategoryItemsState extends State<CategoryItems> {
                 padding: const EdgeInsets.symmetric(horizontal: 15, vertical: 20).copyWith(top: 0),
                 gridDelegate:  SliverGridDelegateWithMaxCrossAxisExtent(
                   maxCrossAxisExtent: Get.width*.230,
-                  childAspectRatio: .65,
+                  childAspectRatio: .55,
                   crossAxisSpacing: 14,
                   mainAxisSpacing: 16,
                 ),
@@ -64,6 +64,7 @@ class _CategoryItemsState extends State<CategoryItems> {
                           height: 10,
                         ),
                         Expanded(
+                          flex: 2,
                           child: InkWell(
                             onTap: () {
                               bottomController.pageIndex.value = 1;
@@ -84,9 +85,11 @@ class _CategoryItemsState extends State<CategoryItems> {
                         SizedBox(
                           height: 10,
                         ),
-                        Text(
-                         AppStrings.more.tr,
-                          style: GoogleFonts.poppins(fontWeight: FontWeight.w500, fontSize: 15, color: AppTheme.buttonColor),
+                        Expanded(
+                          child: Text(
+                           AppStrings.more.tr,
+                            style: GoogleFonts.poppins(fontWeight: FontWeight.w500, fontSize: 12, color: AppTheme.buttonColor),
+                          ),
                         )
                       ],
                     )
@@ -109,6 +112,7 @@ class _CategoryItemsState extends State<CategoryItems> {
                             height: 10,
                           ),
                           Expanded(
+                            flex: 2,
                             child: Container(
             padding: EdgeInsets.all(10),
                               decoration: BoxDecoration(
@@ -134,12 +138,19 @@ class _CategoryItemsState extends State<CategoryItems> {
                           const SizedBox(
                             height: 10,
                           ),
-                          Text(
-                            profileController.selectedLAnguage.value == 'English' ?  item.name.toString() : item.arabName.toString(),
-                            maxLines: 1,
-                            // overflow: TextOverflow.ellipsis,
-                            style: GoogleFonts.poppins(fontWeight: FontWeight.w500, fontSize: 14, color: AppTheme.buttonColor),
-                            textAlign: TextAlign.center,
+                          Expanded(
+                            child: Text(
+                              profileController.selectedLAnguage.value == 'English'
+                                  ? item.name.toString()
+                                  : item.arabName.toString(),
+                              maxLines: 2,
+                              style: GoogleFonts.poppins(
+                                fontWeight: FontWeight.w500,
+                                fontSize: 12,
+                                color: AppTheme.buttonColor,
+                              ),
+                              textAlign: TextAlign.center,
+                            ),
                           )
                         ],
                       ),

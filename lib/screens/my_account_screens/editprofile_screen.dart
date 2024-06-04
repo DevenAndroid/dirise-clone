@@ -1,4 +1,5 @@
 import 'dart:convert';
+import 'dart:developer';
 import 'dart:io';
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:dirise/model/common_modal.dart';
@@ -56,10 +57,9 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
       map['country_id'] = profileController.selectedCountry!.id.toString();
       map['state_id'] = profileController.selectedState!.stateId.toString();
       map['phone_country_code'] = profileController.code.toString();
-      map['city'] = profileController.selectedCity != null ?
-      profileController.selectedCity!.stateId.toString() : "";
+      map['city_id'] = profileController.selectedCity!.cityId.toString();
       map['street_name'] = addressController.text.trim();
-
+      log('dsgsfhdfgh${profileController.selectedCity!.cityId.toString()}');
       Map<String, File> gg = {};
       if (image.path.isNotEmpty) {
         gg["profile_image"] = image;
@@ -71,6 +71,7 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
         showToast(response.message.toString());
         if (response.status == true) {
           profileController.getDataProfile();
+          log('dsgsfhdfgh${profileController.selectedCity!.cityId.toString()}');
           Get.to(const ProfileScreen());
         }else{
           Get.back();
