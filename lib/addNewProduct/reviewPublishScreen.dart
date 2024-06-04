@@ -380,7 +380,7 @@ class _ReviewPublishScreenState extends State<ReviewPublishScreen> {
                                           Get.to(InternationalshippingdetailsScreen(
                                             id: productDetailsModel.value.productDetails!.product!.id,
                                             WeightOftheItem: productDetailsModel.value.productDetails!.productDimentions!.units,
-                                            Unitofmeasure: productDetailsModel.value.productDetails!.productDimentions!.weight,
+                                            Unitofmeasure: productDetailsModel.value.productDetails!.productDimentions!.weight?? "",
                                             SelectTypeOfPackaging: productDetailsModel.value.productDetails!.productDimentions!.typeOfPackages,
                                             SelectTypeMaterial:productDetailsModel.value.productDetails!.productDimentions!.material ,
                                             SelectNumberOfPackages:productDetailsModel.value.productDetails!.productDimentions!.numberOfPackage ,
@@ -388,7 +388,9 @@ class _ReviewPublishScreenState extends State<ReviewPublishScreen> {
                                             Width : "${productDetailsModel.value.productDetails!.productDimentions!.boxWidth ?? ""}X",
                                             Height : "${productDetailsModel.value.productDetails!.productDimentions!.boxHeight ?? ""}X",
                                           )
+                                              ,arguments: "txt"
                                           );
+
                                         },
                                         child: const Text('Edit',style: TextStyle(color: Colors.red,fontSize: 13),)))
 

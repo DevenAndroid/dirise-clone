@@ -105,7 +105,7 @@ class _AddProductFirstImageScreenState extends State<AddProductFirstImageScreen>
                 title: 'Next',
                 onPressed: () {
                   if(featuredImage.path.isNotEmpty && selectedFiles.isNotEmpty){
-                    productController.getProductsCategoryList();
+                    // productController.getProductsCategoryList();
                     addProduct();
                   }else{
                     showToast('Please select Image');

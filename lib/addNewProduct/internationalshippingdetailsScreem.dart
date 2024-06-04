@@ -1,6 +1,7 @@
 import 'dart:convert';
 
 import 'package:dirise/addNewProduct/optionalScreen.dart';
+import 'package:dirise/addNewProduct/reviewPublishScreen.dart';
 import 'package:dirise/utils/helper.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
@@ -104,12 +105,16 @@ class _InternationalshippingdetailsScreenState extends State<Internationalshippi
     repositories.postApi(url: ApiUrls.giveawayProductAddress, context: context, mapData: map).then((value) {
       ModelCommonResponse response = ModelCommonResponse.fromJson(jsonDecode(value));
       showToast(response.message.toString());
-      if (response.status == true) {
+      if(widget.id != null){
+        Get.to(ReviewPublishScreen());
+      }else{
         Get.to(OptionalScreen());
       }
+
+
     });
   }
-
+  var id = Get.arguments[0];
   @override
   void initState() {
     // TODO: implement initState
@@ -162,6 +167,10 @@ class _InternationalshippingdetailsScreenState extends State<Internationalshippi
               mainAxisAlignment: MainAxisAlignment.start,
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
+                Text(
+                  'We use this information to estimate your shipping prices. If you plan to ship internationally or your item is bigger than 5kg or 0.05 CBM then you must fill all the details below.'.tr,
+                  style: GoogleFonts.poppins(color: const Color(0xff292F45), fontWeight: FontWeight.w500, fontSize: 18),
+                ),
                 SizedBox(
                   height: 40,
                 ),
@@ -445,6 +454,7 @@ class _InternationalshippingdetailsScreenState extends State<Internationalshippi
                   },
                 ),
                 const SizedBox(height: 20),
+                id == "need_truck"?SizedBox():
                 GestureDetector(
                   onTap: () {
                     Get.to( OptionalScreen());

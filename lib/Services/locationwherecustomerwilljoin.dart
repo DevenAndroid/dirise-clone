@@ -47,6 +47,7 @@ class _LocationwherecustomerwilljoinState extends State<Locationwherecustomerwil
   final formKey1 = GlobalKey<FormState>();
   String code = "+91";
   String city = "";
+  String id = "";
   String state = "";
   String zip_code = "";
   String country = "";
@@ -76,7 +77,18 @@ class _LocationwherecustomerwilljoinState extends State<Locationwherecustomerwil
       setState(() {});
     });
   }
+  optionalApi() {
+    Map<String, dynamic> map = {};
 
+    map['address_id'] = id.toString();
+
+    FocusManager.instance.primaryFocus!.unfocus();
+    repositories.postApi(url: ApiUrls.giveawayProductAddress, context: context, mapData: map).then((value) {
+      ModelCommonResponse response = ModelCommonResponse.fromJson(jsonDecode(value));
+      print('API Response Status Code: ${response.status}');
+      showToast(response.message.toString());
+      if (response.status == true) {
+  }});}
   @override
   void initState() {
     super.initState();
@@ -187,6 +199,7 @@ class _LocationwherecustomerwilljoinState extends State<Locationwherecustomerwil
                       itemBuilder: (context, index) {
                         var addressList = addressListModel.address!.shipping![index];
                         city = addressList.city.toString();
+                        id = addressList.id.toString();
                         state = addressList.state.toString();
                         zip_code = addressList.zipCode.toString();
                         country = addressList.country.toString();
@@ -235,7 +248,9 @@ class _LocationwherecustomerwilljoinState extends State<Locationwherecustomerwil
                               groupValue: selectedRadio,
                               onChanged: (value) {
                                 setState(() {
+
                                   selectedRadio = value!;
+                                  optionalApi();
                                 });
                               },
                             ),
@@ -290,7 +305,7 @@ class _LocationwherecustomerwilljoinState extends State<Locationwherecustomerwil
                   if (selectedRadio == 'write') {
                     Get.to(PickUpAddressService());
                   } else if (selectedRadio.startsWith('address_')) {
-                    int index = int.parse(selectedRadio.split('_')[1]);
+                     int index = int.parse(selectedRadio.split('_')[1]);
                     var selectedAddress = addressListModel.address!.shipping![index];
                     city = selectedAddress.city.toString();
                     state = selectedAddress.state.toString();
@@ -312,7 +327,7 @@ class _LocationwherecustomerwilljoinState extends State<Locationwherecustomerwil
                       addressData['address_id'] = selectedAddress.id!;
                     }
                     editAddressApi(addressData);
-                  } else if (selectedRadio == 'online') {
+            } else if (selectedRadio == 'online') {
                     Get.to(ServiceInternationalShippingService());
                   } else {
                     showToast('Please select Address Type');

@@ -5,14 +5,18 @@ import 'package:flutter/widgets.dart';
 import 'package:geolocator/geolocator.dart';
 import 'package:get/get.dart';
 import 'package:google_fonts/google_fonts.dart';
+import '../../Services/choose_map_service.dart';
 import '../../addNewProduct/locationScreen.dart';
 import '../../controller/location_controller.dart';
 import '../../model/common_modal.dart';
+import '../../model/model_address_list.dart';
 import '../../newAddress/customeraccountcreatedsuccessfullyScreen.dart';
 import '../../repository/repository.dart';
 import '../../utils/api_constant.dart';
 import '../../widgets/common_textfield.dart';
+import '../check_out/address/edit_address.dart';
 import 'choose_map_home.dart';
+import 'find_my_location.dart';
 
 
 class HomeAddEditAddress extends StatefulWidget {
@@ -120,18 +124,30 @@ class _HomeAddEditAddressState extends State<HomeAddEditAddress> {
                   height: size.height * .02,
                 ),
 
-                // InkWell(
-                //  onTap: (){
-                //
-                //  },
-                //   child: Text(
-                //     "Find my location".tr,
-                //     style: GoogleFonts.poppins(color: const Color(0xff044484), fontWeight: FontWeight.w400, fontSize: 14),
-                //   ),
-                // ),
-                // SizedBox(
-                //   height: size.height * .02,
-                // ),
+                InkWell(
+                 onTap: (){
+                   Get.to(()=>FindMyLocation());
+                 },
+                  child: Text(
+                    "Find my location".tr,
+                    style: GoogleFonts.poppins(color: const Color(0xff044484), fontWeight: FontWeight.w400, fontSize: 14),
+                  ),
+                ),
+                SizedBox(
+                  height: size.height * .02,
+                ),
+                InkWell(
+                 onTap: (){
+                   bottomSheet(addressData: AddressData());
+                 },
+                  child: Text(
+                    "Add new location".tr,
+                    style: GoogleFonts.poppins(color: const Color(0xff044484), fontWeight: FontWeight.w400, fontSize: 14),
+                  ),
+                ),
+                SizedBox(
+                  height: size.height * .02,
+                ),
 
                 InkWell(
                   onTap: () {
@@ -275,6 +291,18 @@ class _HomeAddEditAddressState extends State<HomeAddEditAddress> {
         ),
       ),
     );
+
+  }
+  Future bottomSheet({required AddressData addressData}) {
+    return showModalBottomSheet(
+        context: context,
+        isScrollControlled: true,
+        backgroundColor: Colors.white,
+        builder: (context12) {
+          return EditAddressSheet(
+            addressData: addressData,
+          );
+        });
   }
 }
 
