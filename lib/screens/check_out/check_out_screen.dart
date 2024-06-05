@@ -797,167 +797,174 @@ shipmentProvider: shipmentProvider.value.toString(),
                       // e.vendorCountryId != '117'  && e.isShipping == true) || cartController.countryName.value != 'Kuwait' && cartController.myDefaultAddressModel.value.defaultAddress!.country != 'Kuwait')
                       //   cartController.selectedAddress.id != null ||
                       //       cartController.myDefaultAddressModel.value.defaultAddress != null?
-                        if(e.value.shipping!.fedexShipping!.output != null)
-                        Container(
-                          color: Colors.white,
-                          child: Padding(
-                            padding: const EdgeInsets.symmetric(horizontal: 24, vertical: 16),
-                            child: Row(
-                              crossAxisAlignment: CrossAxisAlignment.center,
-                              children: [
-                                Image.asset('assets/images/shipping_icon.png', height: 32, width: 32),
-                                20.spaceX,
-                                Text("Fedex Shipping Method".tr,
-                                    style: GoogleFonts.poppins(fontWeight: FontWeight.w500, fontSize: 18)),
-                              ],
-                            ),
-                          ),
-                        ),
-                      //       : const SizedBox(),
+                      if(e.value.shipping!.fedexShipping != null)
+                       Column(
+                         crossAxisAlignment: CrossAxisAlignment.start,
+                         mainAxisAlignment: MainAxisAlignment.start,
+                         children: [
+                           if(e.value.shipping!.fedexShipping!.output != null)
+                             Container(
+                               color: Colors.white,
+                               child: Padding(
+                                 padding: const EdgeInsets.symmetric(horizontal: 24, vertical: 16),
+                                 child: Row(
+                                   crossAxisAlignment: CrossAxisAlignment.center,
+                                   children: [
+                                     Image.asset('assets/images/shipping_icon.png', height: 32, width: 32),
+                                     20.spaceX,
+                                     Text("Fedex Shipping Method".tr,
+                                         style: GoogleFonts.poppins(fontWeight: FontWeight.w500, fontSize: 18)),
+                                   ],
+                                 ),
+                               ),
+                             ),
+                           //       : const SizedBox(),
 
-                      // if (e.value.products!.any((e) =>
-                      // e.vendorCountryId != '117'  && e.isShipping == true) || cartController.countryName.value != 'Kuwait' &&  cartController.myDefaultAddressModel.value.defaultAddress!.country != 'Kuwait'
-                      // )
-                      //   if( e.value.localShipping != true && e.value.shipping!.fedexShipping!.output == null)
-                      //     Padding(
-                      //       padding: const EdgeInsets.all(8.0),
-                      //       child: Text('FedEx service is not currently available to this origin / destination combination. Enter new information or contact FedEx Customer Service.'.tr,style: const TextStyle(
-                      //         fontSize: 17
-                      //                               ),),
-                      //     ),
-                      //   cartController.selectedAddress.id != null || cartController.myDefaultAddressModel.value.defaultAddress != null ?
-                      //   e.value.fedexShipping!.output !=null ?
-                      if(e.value.shipping!.fedexShipping!.output != null)
-                        Container(
-                          color: Colors.white,
-                          child: ListView.builder(
-                            physics: const NeverScrollableScrollPhysics(),
-                            shrinkWrap: true,
-                            itemCount: e.value.shipping!.fedexShipping!.output!.rateReplyDetails!.length,
-                            padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 15).copyWith(top: 0),
-                            itemBuilder: (context, ii) {
-                              return e.value.shipping!.fedexShipping!.output!= null ?
-                                  ListView.builder(
-                                    shrinkWrap: true,
-                                    physics: const NeverScrollableScrollPhysics(),
-                                    itemCount: e.value.shipping!.fedexShipping!.output!.rateReplyDetails![ii].ratedShipmentDetails!.length,
-                                      itemBuilder: (context, index) {
-                                        RateReplyDetails product = e.value.shipping!.fedexShipping!.output!.rateReplyDetails![ii];
-                                        RatedShipmentDetails product1 = e.value.shipping!.fedexShipping!.output!.rateReplyDetails![ii].ratedShipmentDetails![index];
-                                        double subtotal = double.parse(e.value.fedexCommision.toString());
-                                        double shipping = double.parse(product1.totalNetCharge.toString());
-                                        total = subtotal + shipping;
-                                        cartController.formattedTotal = total.toStringAsFixed(3);
-                                        print("icarryCommision"+ e.value.fedexCommision.toString());
-                                        print("rate"+product1.totalNetCharge.toString());
-                                        print('total isss${cartController.formattedTotal.toString()}');
-                                        cartController.shippingPrices2 = cartController.formattedTotal.toString();
-                                        return Obx(() {
-                                          return Column(
-                                            children: [
-                                              10.spaceY,
-                                              index == 0
-                                                  ? 0.spaceY
-                                                  : const Divider(
-                                                color: Color(0xFFD9D9D9),
-                                                thickness: 0.8,
-                                              ),
-                                              Row(
-                                                children: [
-                                                  Radio(
-                                                    value: product.serviceType.toString(),
-                                                    groupValue:  e.value.shipping!.fedexShippingOption.value,
-                                                    visualDensity: const VisualDensity(horizontal: -4.0),
-                                                    fillColor:  e.value.shipping!.fedexShippingOption.value.isEmpty
-                                                        ? MaterialStateProperty.all(Colors.red)
-                                                        : null,
-                                                    onChanged: (value) {
-                                                      log("which is selected + $value");
-                                                      setState(() {
-                                                        shippingType.value = "fedex_shipping";
-                                                        shipId.value = "";
-                                                        shipmentProvider.value = "";
-                                                        e.value.shipping!.fedexShippingOption.value = value.toString();
-                                                      cartController.shippingDates =product.commit!.dateDetail!.dayFormat.toString();
-                                                        // e.value.shipping![ii].output!.rateReplyDetails![index].shippingDate = product.operationalDetail!.deliveryDate;
-                                                        cartController.shippingTitle = product.serviceName.toString();
-                                                        // cartController.shippingPrices = product.ratedShipmentDetails![index].totalNetCharge.toString();
-                                                        e.value.shippingOption.value = value.toString();
-                                                        print( e.value.shipping!.fedexShippingOption.value.toString());
-                                                        print(cartController.shippingTitle.toString());
-                                                        print('select value${cartController.shippingPrices.toString()}');
-                                                        print(cartController. shippingPrices.toString());
-                                                        shippingPrice =  product.ratedShipmentDetails![index].totalNetCharge.toString();
-                                                        double subtotal = double.parse(e.value.fedexCommision.toString());
-                                                        double shipping = double.parse(product1.totalNetCharge.toString());
-                                                        total = subtotal + shipping;
-                                                        cartController.formattedTotal2 = total.toStringAsFixed(3);
-                                                        print("icarryCommision"+ e.value.fedexCommision.toString());
-                                                        print("rate"+product1.totalNetCharge.toString());
-                                                        print('total isss${cartController.formattedTotal2.toString()}');
-                                                        cartController.shippingPrices1 = cartController.formattedTotal2.toString();
-                                                        // e.value.shippingId.value = product.id.toString();
-                                                        // e.value.vendorId.value = e.value.shipping![ii].vendorId!;
-                                                        e.value.shippingVendorName.value = product.serviceName.toString();
-                                                        e.value.vendorPrice.value = product.ratedShipmentDetails![index].totalNetCharge.toString();
+                           // if (e.value.products!.any((e) =>
+                           // e.vendorCountryId != '117'  && e.isShipping == true) || cartController.countryName.value != 'Kuwait' &&  cartController.myDefaultAddressModel.value.defaultAddress!.country != 'Kuwait'
+                           // )
+                           //   if( e.value.localShipping != true && e.value.shipping!.fedexShipping!.output == null)
+                           //     Padding(
+                           //       padding: const EdgeInsets.all(8.0),
+                           //       child: Text('FedEx service is not currently available to this origin / destination combination. Enter new information or contact FedEx Customer Service.'.tr,style: const TextStyle(
+                           //         fontSize: 17
+                           //                               ),),
+                           //     ),
+                           //   cartController.selectedAddress.id != null || cartController.myDefaultAddressModel.value.defaultAddress != null ?
+                           //   e.value.fedexShipping!.output !=null ?
+                           if(e.value.shipping!.fedexShipping!.output != null)
+                             Container(
+                               color: Colors.white,
+                               child: ListView.builder(
+                                 physics: const NeverScrollableScrollPhysics(),
+                                 shrinkWrap: true,
+                                 itemCount: e.value.shipping!.fedexShipping!.output!.rateReplyDetails!.length,
+                                 padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 15).copyWith(top: 0),
+                                 itemBuilder: (context, ii) {
+                                   return e.value.shipping!.fedexShipping!.output!= null ?
+                                   ListView.builder(
+                                     shrinkWrap: true,
+                                     physics: const NeverScrollableScrollPhysics(),
+                                     itemCount: e.value.shipping!.fedexShipping!.output!.rateReplyDetails![ii].ratedShipmentDetails!.length,
+                                     itemBuilder: (context, index) {
+                                       RateReplyDetails product = e.value.shipping!.fedexShipping!.output!.rateReplyDetails![ii];
+                                       RatedShipmentDetails product1 = e.value.shipping!.fedexShipping!.output!.rateReplyDetails![ii].ratedShipmentDetails![index];
+                                       double subtotal = double.parse(e.value.fedexCommision.toString());
+                                       double shipping = double.parse(product1.totalNetCharge.toString());
+                                       total = subtotal + shipping;
+                                       cartController.formattedTotal = total.toStringAsFixed(3);
+                                       print("icarryCommision"+ e.value.fedexCommision.toString());
+                                       print("rate"+product1.totalNetCharge.toString());
+                                       print('total isss${cartController.formattedTotal.toString()}');
+                                       cartController.shippingPrices2 = cartController.formattedTotal.toString();
+                                       return Obx(() {
+                                         return Column(
+                                           children: [
+                                             10.spaceY,
+                                             index == 0
+                                                 ? 0.spaceY
+                                                 : const Divider(
+                                               color: Color(0xFFD9D9D9),
+                                               thickness: 0.8,
+                                             ),
+                                             Row(
+                                               children: [
+                                                 Radio(
+                                                   value: product.serviceType.toString(),
+                                                   groupValue:  e.value.shipping!.fedexShippingOption.value,
+                                                   visualDensity: const VisualDensity(horizontal: -4.0),
+                                                   fillColor:  e.value.shipping!.fedexShippingOption.value.isEmpty
+                                                       ? MaterialStateProperty.all(Colors.red)
+                                                       : null,
+                                                   onChanged: (value) {
+                                                     log("which is selected + $value");
+                                                     setState(() {
+                                                       shippingType.value = "fedex_shipping";
+                                                       shipId.value = "";
+                                                       shipmentProvider.value = "";
+                                                       e.value.shipping!.fedexShippingOption.value = value.toString();
+                                                       cartController.shippingDates =product.commit!.dateDetail!.dayFormat.toString();
+                                                       // e.value.shipping![ii].output!.rateReplyDetails![index].shippingDate = product.operationalDetail!.deliveryDate;
+                                                       cartController.shippingTitle = product.serviceName.toString();
+                                                       // cartController.shippingPrices = product.ratedShipmentDetails![index].totalNetCharge.toString();
+                                                       e.value.shippingOption.value = value.toString();
+                                                       print( e.value.shipping!.fedexShippingOption.value.toString());
+                                                       print(cartController.shippingTitle.toString());
+                                                       print('select value${cartController.shippingPrices.toString()}');
+                                                       print(cartController. shippingPrices.toString());
+                                                       shippingPrice =  product.ratedShipmentDetails![index].totalNetCharge.toString();
+                                                       double subtotal = double.parse(e.value.fedexCommision.toString());
+                                                       double shipping = double.parse(product1.totalNetCharge.toString());
+                                                       total = subtotal + shipping;
+                                                       cartController.formattedTotal2 = total.toStringAsFixed(3);
+                                                       print("icarryCommision"+ e.value.fedexCommision.toString());
+                                                       print("rate"+product1.totalNetCharge.toString());
+                                                       print('total isss${cartController.formattedTotal2.toString()}');
+                                                       cartController.shippingPrices1 = cartController.formattedTotal2.toString();
+                                                       // e.value.shippingId.value = product.id.toString();
+                                                       // e.value.vendorId.value = e.value.shipping![ii].vendorId!;
+                                                       e.value.shippingVendorName.value = product.serviceName.toString();
+                                                       e.value.vendorPrice.value = product.ratedShipmentDetails![index].totalNetCharge.toString();
 
-                                                        e.value.sPrice = product.ratedShipmentDetails![index].totalNetCharge;
+                                                       e.value.sPrice = product.ratedShipmentDetails![index].totalNetCharge;
 
-                                                        log("Initial sPrice:$sPrice1");
-                                                        log("Initial sPrice:"+cartController.shippingTitle);  log("Initial sPrice::::::::::::::::::::::"+  cartController.shippingDates);
+                                                       log("Initial sPrice:$sPrice1");
+                                                       log("Initial sPrice:"+cartController.shippingTitle);  log("Initial sPrice::::::::::::::::::::::"+  cartController.shippingDates);
 
-                                                        sPrice1 = 0.0;
-                                                        for (var item in cartController
-                                                            .cartModel.cart!.carsShowroom!.entries) {
-                                                          // sPrice1 = 0.0;
-                                                          if (item.value.shipping!.fedexShippingOption.value.isNotEmpty) {
-                                                            log("kiska price hai + ${item.value.sPrice}");
-                                                            sPrice1 = sPrice1 + item.value.sPrice;
-                                                            // sPrice.toStringAsFixed(fractionDigits)
-                                                            // Update sPrice directly without reassigning
-                                                          }
-                                                          total = subtotal + sPrice1;
-                                                          print('total isss${total.toString()}');
-                                                          // cartController.formattedTotal = total.toStringAsFixed(3);
-                                                        }
+                                                       sPrice1 = 0.0;
+                                                       for (var item in cartController
+                                                           .cartModel.cart!.carsShowroom!.entries) {
+                                                         // sPrice1 = 0.0;
+                                                         if (item.value.shipping!.fedexShippingOption.value.isNotEmpty) {
+                                                           log("kiska price hai + ${item.value.sPrice}");
+                                                           sPrice1 = sPrice1 + item.value.sPrice;
+                                                           // sPrice.toStringAsFixed(fractionDigits)
+                                                           // Update sPrice directly without reassigning
+                                                         }
+                                                         total = subtotal + sPrice1;
+                                                         print('total isss${total.toString()}');
+                                                         // cartController.formattedTotal = total.toStringAsFixed(3);
+                                                       }
 
-                                                      });
-                                                    },
-                                                  ),
-                                                  20.spaceX,
-                                                  Expanded(
-                                                    child: Column(
-                                                      crossAxisAlignment: CrossAxisAlignment.start,
-                                                      children: [
-                                                        Text(product.serviceName.toString().capitalize!.replaceAll('_', ' '),
-                                                            style: GoogleFonts.poppins(fontWeight: FontWeight.w500, fontSize: 16)),
-                                                        3.spaceY,
-                                                        Text('kwd ${ cartController.shippingPrices2.toString()}',
-                                                            style: GoogleFonts.poppins(fontWeight: FontWeight.w400,
-                                                                fontSize: 16,
-                                                                color: const Color(0xFF03a827))),
-                                                        3.spaceY,
-                                                        Text('${product.operationalDetail!.deliveryDay ?? ''}  ${product.operationalDetail!.deliveryDate ?? ''}',
-                                                            style: GoogleFonts.poppins(fontWeight: FontWeight.w400,
-                                                                fontSize: 15,
-                                                                fontStyle: FontStyle.italic,
-                                                                color: const Color(0xFF000000))),
-                                                      ],
-                                                    ),
-                                                  ),
-                                                ],
-                                              ),
-                                            ],
-                                          );
-                                        });
-                                      },
-                                  )
-                                  : const LoadingAnimation();
-                              // : 0.spaceY,;
-                            },
-                          ),
-                      //   )  : const LoadingAnimation() : const SizedBox(),
-                        ),
+                                                     });
+                                                   },
+                                                 ),
+                                                 20.spaceX,
+                                                 Expanded(
+                                                   child: Column(
+                                                     crossAxisAlignment: CrossAxisAlignment.start,
+                                                     children: [
+                                                       Text(product.serviceName.toString().capitalize!.replaceAll('_', ' '),
+                                                           style: GoogleFonts.poppins(fontWeight: FontWeight.w500, fontSize: 16)),
+                                                       3.spaceY,
+                                                       Text('kwd ${ cartController.shippingPrices2.toString()}',
+                                                           style: GoogleFonts.poppins(fontWeight: FontWeight.w400,
+                                                               fontSize: 16,
+                                                               color: const Color(0xFF03a827))),
+                                                       3.spaceY,
+                                                       Text('${product.operationalDetail!.deliveryDay ?? ''}  ${product.operationalDetail!.deliveryDate ?? ''}',
+                                                           style: GoogleFonts.poppins(fontWeight: FontWeight.w400,
+                                                               fontSize: 15,
+                                                               fontStyle: FontStyle.italic,
+                                                               color: const Color(0xFF000000))),
+                                                     ],
+                                                   ),
+                                                 ),
+                                               ],
+                                             ),
+                                           ],
+                                         );
+                                       });
+                                     },
+                                   )
+                                       : const LoadingAnimation();
+                                   // : 0.spaceY,;
+                                 },
+                               ),
+                               //   )  : const LoadingAnimation() : const SizedBox(),
+                             ),
+                         ],
+                       ),
 
                       if(e.value.shipping!.icarryShipping!.isNotEmpty )
                         Container(
