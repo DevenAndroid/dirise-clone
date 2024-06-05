@@ -527,35 +527,59 @@ class _ProductUIState extends State<ProductUI> {
                             SizedBox(
                               width: size.width * .02,
                             ),
-                            Obx(() {
-                              return Text(
-                                productQuantity.value.toString(),
-                                style: GoogleFonts.poppins(
-                                    fontSize: 26, fontWeight: FontWeight.w500, color: const Color(0xFF014E70)),
-                              );
-                            }),
-                            SizedBox(
-                              width: size.width * .02,
-                            ),
-                            GestureDetector(
-                              onTap: () {
-                                if ((widget.productElement.inStock.toString().convertToNum ?? 0) >
-                                    productQuantity.value) {
-                                  productQuantity.value++;
-                                } else {
-                                  showToast("Out Of Stock".tr);
-                                }
-                              },
-                              child: Center(
-                                  child: Text(
-                                "+",
-                                style: GoogleFonts.poppins(
-                                    fontSize: 30, fontWeight: FontWeight.w300, color: const Color(0xFF014E70)),
-                              )),
-                            ),
-                          ],
-                        ),
-                      ],
+
+                          ),
+                          widget.productElement.itemType != 'giveaway'?
+                          Row(
+                            mainAxisAlignment: MainAxisAlignment.center,
+                            crossAxisAlignment: CrossAxisAlignment.center,
+                            children: [
+                              GestureDetector(
+                                onTap: () {
+                                  if (productQuantity.value > 1) {
+                                    productQuantity.value--;
+                                  }
+                                },
+                                child: Center(
+                                    child: Text(
+                                      "-",
+                                      style: GoogleFonts.poppins(
+                                          fontSize: 40, fontWeight: FontWeight.w300, color: Color(0xFF014E70)),
+                                    )),
+                              ),
+                              SizedBox(
+                                width: size.width * .02,
+                              ),
+                              Obx(() {
+                                return Text(
+                                  productQuantity.value.toString(),
+                                  style: GoogleFonts.poppins(
+                                      fontSize: 26, fontWeight: FontWeight.w500, color: Color(0xFF014E70)),
+                                );
+                              }),
+                              SizedBox(
+                                width: size.width * .02,
+                              ),
+                              GestureDetector(
+                                onTap: () {
+                                  if ((widget.productElement.inStock.toString().convertToNum ?? 0) > productQuantity.value) {
+                                    productQuantity.value++;
+                                  } else {
+                                    showToast("Out Of Stock".tr);
+                                  }
+                                },
+                                child: Center(
+                                    child: Text(
+                                      "+",
+                                      style: GoogleFonts.poppins(
+                                          fontSize: 30, fontWeight: FontWeight.w300, color: Color(0xFF014E70)),
+                                    )),
+                              ),
+                            ],
+                          ):SizedBox(),
+                        ],
+                      ),
+
                     ),
                   ),
                 ],
