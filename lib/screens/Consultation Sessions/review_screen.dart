@@ -10,6 +10,7 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:google_fonts/google_fonts.dart';
 import '../../controller/vendor_controllers/add_product_controller.dart';
+import '../../iAmHereToSell/productAccountCreatedSuccessfullyScreen.dart';
 import '../../model/product_details.dart';
 import '../../repository/repository.dart';
 import '../../utils/api_constant.dart';
@@ -593,7 +594,7 @@ class _ReviewScreenState extends State<ReviewScreen> {
                         title: 'Confirm',
                         borderRadius: 11,
                         onPressed: () {
-                          Get.to(() => const ConsulationThankYouScreen());
+                          Get.to(() => const ProductAccountCreatedSuccessfullyScreen());
                         },
                       ),
                     ],

@@ -21,14 +21,14 @@ import '../widgets/common_textfield.dart';
 
 class InternationalshippingdetailsScreen extends StatefulWidget {
   int? id;
-  int? Unitofmeasure;
-  String? WeightOftheItem;
-  int? SelectNumberOfPackages;
-  String? SelectTypeMaterial;
-  String? SelectTypeOfPackaging;
-  String? Length;
-  String? Width;
-  String? Height;
+  dynamic Unitofmeasure;
+  dynamic  WeightOftheItem;
+  dynamic  SelectNumberOfPackages;
+  dynamic  SelectTypeMaterial;
+  dynamic  SelectTypeOfPackaging;
+  dynamic  Length;
+  dynamic  Width;
+  dynamic  Height;
   InternationalshippingdetailsScreen(
       {super.key,
       this.id,
