@@ -8,6 +8,7 @@ import 'package:dirise/screens/home_pages/homepage_screen.dart';
 import 'package:dirise/screens/return_policy.dart';
 import 'package:dirise/screens/wishlist/whishlist_screen.dart';
 import 'package:dirise/utils/api_constant.dart';
+import 'package:dirise/utils/helper.dart';
 import 'package:dirise/vendor/authentication/vendor_registration_screen.dart';
 import 'package:dirise/vendor/dashboard/dashboard_screen.dart';
 import 'package:dirise/vendor/shipping_policy.dart';
@@ -219,33 +220,15 @@ class _BottomNavbarState extends State<BottomNavbar> {
                           onPressed: () {
                             bottomController.updateIndexValue(0);
                           },
-                          child: Column(
-                            crossAxisAlignment: CrossAxisAlignment.center,
-                            children: [
-                              Padding(
-                                padding: const EdgeInsets.all(8.0),
-                                child: SvgPicture.asset(
-                                  'assets/svgs/bt1.svg',
-                                  colorFilter: ColorFilter.mode(
-                                      bottomController.pageIndex.value == 0
-                                          ? AppTheme.buttonColor
-                                          : AppTheme.primaryColor,
-                                      BlendMode.srcIn),
-                                  height: 20,
-                                ),
-                              ),
-                              Text(
-                                AppStrings.home.tr,
-                                maxLines: 1,
-                                overflow: TextOverflow.ellipsis,
-                                style: GoogleFonts.poppins(
-                                    color: bottomController.pageIndex.value == 0
-                                        ? AppTheme.buttonColor
-                                        : AppTheme.primaryColor,
-                                    fontSize: 14,
-                                    fontWeight: FontWeight.w500),
-                              )
-                            ],
+                          child: Padding(
+                            padding: const EdgeInsets.all(8.0),
+                            child: Image.asset(
+                              'assets/images/home_new.png',
+                              width: 30,
+                              color:   bottomController.pageIndex.value == 0
+                                  ? AppTheme.buttonColor
+                                  : AppTheme.primaryColor,
+                            ),
                           ),
                         ),
                       ),
@@ -258,37 +241,48 @@ class _BottomNavbarState extends State<BottomNavbar> {
                           onPressed: () {
                             bottomController.updateIndexValue(1);
                           },
-                          child: Column(
-                            crossAxisAlignment: CrossAxisAlignment.center,
-                            children: [
-                              Padding(
+                          child: Padding(
                                 padding: const EdgeInsets.all(8.0),
-                                child: SvgPicture.asset(
-                                  'assets/svgs/bt2.svg',
-                                  colorFilter: ColorFilter.mode(
-                                      bottomController.pageIndex.value == 1
-                                          ? AppTheme.buttonColor
-                                          : AppTheme.primaryColor,
-                                      BlendMode.srcIn),
-                                  height: 20,
+                                child: Image.asset(
+                                  'assets/images/category_new.png',
+                                  width: 30,
+                                  color:   bottomController.pageIndex.value == 1
+                                      ? AppTheme.buttonColor
+                                      : AppTheme.primaryColor,
                                 ),
                               ),
-                              Text(
-                                AppStrings.categories.tr,
-                                maxLines: 1,
-                                overflow: TextOverflow.ellipsis,
-                                style: GoogleFonts.poppins(
-                                    color: bottomController.pageIndex.value == 1
-                                        ? AppTheme.buttonColor
-                                        : AppTheme.primaryColor,
-                                    fontSize: 14,
-                                    fontWeight: FontWeight.w500),
-                              )
-                            ],
-                          ),
+                          // Column(
+                          //   crossAxisAlignment: CrossAxisAlignment.center,
+                          //   children: [
+                          //     Padding(
+                          //       padding: const EdgeInsets.all(8.0),
+                          //       child: SvgPicture.asset(
+                          //         'assets/svgs/bt2.svg',
+                          //         colorFilter: ColorFilter.mode(
+                          //             bottomController.pageIndex.value == 1
+                          //                 ? AppTheme.buttonColor
+                          //                 : AppTheme.primaryColor,
+                          //             BlendMode.srcIn),
+                          //         height: 20,
+                          //       ),
+                          //     ),
+                          //     Text(
+                          //       AppStrings.categories.tr,
+                          //       maxLines: 1,
+                          //       overflow: TextOverflow.ellipsis,
+                          //       style: GoogleFonts.poppins(
+                          //           color: bottomController.pageIndex.value == 1
+                          //               ? AppTheme.buttonColor
+                          //               : AppTheme.primaryColor,
+                          //           fontSize: 14,
+                          //           fontWeight: FontWeight.w500),
+                          //     )
+                          //   ],
+                          // ),
                         ),
                       ),
                     ),
+                    20.spaceX,
                     Flexible(
                       child: Padding(
                         padding: const EdgeInsets.symmetric(horizontal: 5.0),
@@ -297,34 +291,44 @@ class _BottomNavbarState extends State<BottomNavbar> {
                           onPressed: () {
                             bottomController.updateIndexValue(2);
                           },
-                          child: Column(
-                            crossAxisAlignment: CrossAxisAlignment.center,
-                            children: [
-                              Padding(
-                                padding: const EdgeInsets.all(8.0),
-                                child: SvgPicture.asset(
-                                  'assets/svgs/bt3.svg',
-                                  colorFilter: ColorFilter.mode(
-                                      bottomController.pageIndex.value == 2
-                                          ? AppTheme.buttonColor
-                                          : AppTheme.primaryColor,
-                                      BlendMode.srcIn),
-                                  height: 20,
-                                ),
-                              ),
-                              Text(
-                                AppStrings.favorite.tr,
-                                maxLines: 1,
-                                overflow: TextOverflow.ellipsis,
-                                style: GoogleFonts.poppins(
-                                    color: bottomController.pageIndex.value == 2
-                                        ? AppTheme.buttonColor
-                                        : AppTheme.primaryColor,
-                                    fontSize: 14,
-                                    fontWeight: FontWeight.w500),
-                              )
-                            ],
+                          child: Padding(
+                            padding: const EdgeInsets.all(8.0),
+                            child: Image.asset(
+                              'assets/images/fav_new.png',
+                              width: 30,
+                              color:   bottomController.pageIndex.value == 2
+                                  ? AppTheme.buttonColor
+                                  : AppTheme.primaryColor,
+                            ),
                           ),
+                          // child: Column(
+                          //   crossAxisAlignment: CrossAxisAlignment.center,
+                          //   children: [
+                          //     Padding(
+                          //       padding: const EdgeInsets.all(8.0),
+                          //       child: SvgPicture.asset(
+                          //         'assets/svgs/bt3.svg',
+                          //         colorFilter: ColorFilter.mode(
+                          //             bottomController.pageIndex.value == 2
+                          //                 ? AppTheme.buttonColor
+                          //                 : AppTheme.primaryColor,
+                          //             BlendMode.srcIn),
+                          //         height: 20,
+                          //       ),
+                          //     ),
+                          //     Text(
+                          //       AppStrings.favorite.tr,
+                          //       maxLines: 1,
+                          //       overflow: TextOverflow.ellipsis,
+                          //       style: GoogleFonts.poppins(
+                          //           color: bottomController.pageIndex.value == 2
+                          //               ? AppTheme.buttonColor
+                          //               : AppTheme.primaryColor,
+                          //           fontSize: 14,
+                          //           fontWeight: FontWeight.w500),
+                          //     )
+                          //   ],
+                          // ),
                         ),
                       ),
                     ),
@@ -336,34 +340,44 @@ class _BottomNavbarState extends State<BottomNavbar> {
                           onPressed: () {
                             bottomController.updateIndexValue(3);
                           },
-                          child: Column(
-                            crossAxisAlignment: CrossAxisAlignment.center,
-                            children: [
-                              Padding(
-                                padding: const EdgeInsets.all(8.0),
-                                child: SvgPicture.asset(
-                                  'assets/svgs/bt4.svg',
-                                  height: 20,
-                                  colorFilter: ColorFilter.mode(
-                                      bottomController.pageIndex.value == 3
-                                          ? AppTheme.buttonColor
-                                          : AppTheme.primaryColor,
-                                      BlendMode.srcIn),
-                                ),
-                              ),
-                              Text(
-                                AppStrings.profile.tr,
-                                maxLines: 1,
-                                overflow: TextOverflow.ellipsis,
-                                style: GoogleFonts.poppins(
-                                    color: bottomController.pageIndex.value == 3
-                                        ? AppTheme.buttonColor
-                                        : AppTheme.primaryColor,
-                                    fontSize: 14,
-                                    fontWeight: FontWeight.w500),
-                              )
-                            ],
+                          child: Padding(
+                            padding: const EdgeInsets.all(8.0),
+                            child: Image.asset(
+                              'assets/images/profile_new.png',
+                              width: 30,
+                              color:   bottomController.pageIndex.value == 3
+                                  ? AppTheme.buttonColor
+                                  : AppTheme.primaryColor,
+                            ),
                           ),
+                          // child: Column(
+                          //   crossAxisAlignment: CrossAxisAlignment.center,
+                          //   children: [
+                          //     Padding(
+                          //       padding: const EdgeInsets.all(8.0),
+                          //       child: SvgPicture.asset(
+                          //         'assets/svgs/bt4.svg',
+                          //         height: 20,
+                          //         colorFilter: ColorFilter.mode(
+                          //             bottomController.pageIndex.value == 3
+                          //                 ? AppTheme.buttonColor
+                          //                 : AppTheme.primaryColor,
+                          //             BlendMode.srcIn),
+                          //       ),
+                          //     ),
+                          //     Text(
+                          //       AppStrings.profile.tr,
+                          //       maxLines: 1,
+                          //       overflow: TextOverflow.ellipsis,
+                          //       style: GoogleFonts.poppins(
+                          //           color: bottomController.pageIndex.value == 3
+                          //               ? AppTheme.buttonColor
+                          //               : AppTheme.primaryColor,
+                          //           fontSize: 14,
+                          //           fontWeight: FontWeight.w500),
+                          //     )
+                          //   ],
+                          // ),
                         ),
                       ),
                     ),
