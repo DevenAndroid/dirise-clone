@@ -107,6 +107,7 @@ class ApiUrls {
   static const String stateList= "${baseUrl}all-states";
   static const String citiesList= "${baseUrl}all-cities";
   static const String productCategoriesListUrl = "${baseUrl}categries";
+  static const String showCaseProductUrl = "${baseUrl}get-showcase-product";
   static const String categoryListUrl = "${baseUrl}categories-list?category_id=";
   static const String categoryFilterUrl = "${baseUrl}category-filter";
   static const String faqListUrl = "${baseUrl}faq-list";

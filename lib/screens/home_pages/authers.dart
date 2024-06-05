@@ -28,6 +28,21 @@ class _AuthorScreenState extends State<AuthorScreen> {
       return homeController.authorModal.value.data != null
           ? Column(
               children: [
+                SizedBox(height: 20,),
+                Padding(
+                  padding: const EdgeInsets.symmetric(horizontal: 22),
+                  child: Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    children: [
+                      SizedBox(),
+                      Text(
+                        AppStrings.authersProducts.tr.toUpperCase(),
+                        style: GoogleFonts.poppins(fontSize: 20, fontWeight: FontWeight.w600),
+                      ),
+                      SizedBox()
+                    ],
+                  ),
+                ),
                 homeController.authorModal.value.data != null &&  homeController.authorModal.value.data!.isNotEmpty
                     ?  Padding(
                   padding: const EdgeInsets.fromLTRB(0, 20, 0, 18),
