@@ -84,7 +84,6 @@ class _ProductUIState extends State<ProductUI> {
     });
   }
 
-
   ////data
   final TextEditingController selectedDate = TextEditingController();
   bool get isBookingProduct => productElement.productType == "booking";
@@ -102,8 +101,7 @@ class _ProductUIState extends State<ProductUI> {
       setState(() {});
     }
 
-      selectedDate.checkEmpty;
-
+    selectedDate.checkEmpty;
 
     if (isBookingProduct) {
       if (modelSingleProduct.product == null) {
@@ -129,6 +127,7 @@ class _ProductUIState extends State<ProductUI> {
     }
     return true;
   }
+
   RxInt productQuantity = 1.obs;
   ProductElement get productDetails => productElement;
   bool showValidation = false;
@@ -149,55 +148,12 @@ class _ProductUIState extends State<ProductUI> {
     }
     return map;
   }
-  // addToCartProduct() {
-  //   if (!validateSlots()) return;
-  //   repositories.postApi(url: ApiUrls.addToCartUrl, mapData: getMap, context: context).then((value) {
-  //     ModelCommonResponse response = ModelCommonResponse.fromJson(jsonDecode(value));
-  //     showToast(response.message.toString());
-  //     if (response.status == true) {
-  //       Get.back();
-  //       cartController.getCart();
-  //     }
-  //   });
-  // }
 
-  // directBuyProduct() {
-  //   if (!validateSlots()) return;
-  //   repositories.postApi(url: ApiUrls.buyNowDetailsUrl, mapData: getMap, context: context).then((value) {
-  //     ModelDirectOrderResponse response = ModelDirectOrderResponse.fromJson(jsonDecode(value));
-  //     showToast(response.message.toString());
-  //     if (response.status == true) {
-  //       response.prodcutData!.inStock = productQuantity.value;
-  //       if (kDebugMode) {
-  //         print(response.prodcutData!.inStock);
-  //       }
-  //       Get.toNamed(DirectCheckOutScreen.route, arguments: response);
-  //     }
-  //   });
-  // }
   ProductElement productElement = ProductElement();
   // final Repositories repositories = Repositories();
   List<String> imagesList = [];
   RxInt currentIndex = 0.obs;
   Variants? selectedVariant;
-
-  // Map<String, dynamic> get getMap {
-  //   Map<String, dynamic> map = {};
-  //   map["product_id"] = productDetails.id.toString();
-  //   map["quantity"] = productQuantity.value.toString();
-  //   // map["key"] = 'fedexRate';
-  //   // map["country_id"]=profileController.model.user!.country_id;
-  //
-  //   if (isBookingProduct) {
-  //     map["start_date"] = selectedDate.text.trim();
-  //     map["time_sloat"] = selectedSlot.split("--").first;
-  //     map["sloat_end_time"] = selectedSlot.split("--").last;
-  //   }
-  //   if (isVariantType) {
-  //     map["variation"] = selectedVariant!.id.toString();
-  //   }
-  //   return map;
-  // }
 
   bool get canBuyProduct => productElement.addToCart == true;
   final profileController = Get.put(ProfileController());
@@ -208,7 +164,8 @@ class _ProductUIState extends State<ProductUI> {
     map["quantity"] = map["quantity"] = int.tryParse(productQuantity.value.toString());
 
     map["key"] = 'fedexRate';
-    map["country_id"]= profileController.model.user!.country_id!= null ? profileController.model.user!.country_id : '117';
+    map["country_id"] =
+        profileController.model.user!.country_id != null ? profileController.model.user!.country_id : '117';
 
     if (isBookingProduct) {
       map["start_date"] = selectedDate.text.trim();
@@ -219,12 +176,10 @@ class _ProductUIState extends State<ProductUI> {
       map["variation"] = selectedVariant!.id.toString();
     }
     repositories.postApi(url: ApiUrls.buyNowDetailsUrl, mapData: map, context: context).then((value) {
-
       ModelDirectOrderResponse response = ModelDirectOrderResponse.fromJson(jsonDecode(value));
 
       showToast(response.message.toString());
       if (response.status == true) {
-
         response.prodcutData!.inStock = productQuantity.value;
         if (kDebugMode) {
           print(response.prodcutData!.inStock);
@@ -233,13 +188,14 @@ class _ProductUIState extends State<ProductUI> {
       }
     });
   }
+
   addToCartProduct() {
     if (!validateSlots()) return;
     Map<String, dynamic> map = {};
     map["product_id"] = widget.productElement.id.toString();
     map["quantity"] = map["quantity"] = int.tryParse(productQuantity.value.toString());
     map["key"] = 'fedexRate';
-    map["country_id"]= profileController.model.user!= null ? profileController.model.user!.country_id : '117';
+    map["country_id"] = profileController.model.user != null ? profileController.model.user!.country_id : '117';
 
     if (isBookingProduct) {
       map["start_date"] = selectedDate.text.trim();
@@ -268,27 +224,22 @@ class _ProductUIState extends State<ProductUI> {
       child: Padding(
         padding: const EdgeInsets.all(5.0),
         child: Container(
-          padding: EdgeInsets.all(8),
-          decoration: BoxDecoration(
-            color: Colors.white,
-            boxShadow: [
-              BoxShadow(
-
-                blurStyle: BlurStyle.outer,
-                offset: Offset(1,1),
-                color: Colors.black12,
-                blurRadius:3,
-
-              )
-            ]
-          ),
+          padding: const EdgeInsets.all(8),
+          decoration: const BoxDecoration(color: Colors.white, boxShadow: [
+            BoxShadow(
+              blurStyle: BlurStyle.outer,
+              offset: Offset(1, 1),
+              color: Colors.black12,
+              blurRadius: 3,
+            )
+          ]),
           constraints: BoxConstraints(
             // maxHeight: 100,
             minWidth: 0,
             maxWidth: size.width * .8,
           ),
           // color: Colors.red,
-         margin: const EdgeInsets.only(right: 9),
+          margin: const EdgeInsets.only(right: 9),
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
@@ -296,22 +247,18 @@ class _ProductUIState extends State<ProductUI> {
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
                   Container(
-
-                    padding: EdgeInsets.all(4),
-                    decoration: BoxDecoration(
-                        color: Color(0xFFFF6868)
-                        ,
-                        borderRadius: BorderRadius.circular(10)
-                    ),
+                    padding: const EdgeInsets.all(4),
+                    decoration: BoxDecoration(color: const Color(0xFFFF6868), borderRadius: BorderRadius.circular(10)),
                     child: Row(
                       children: [
                         Text(
                           "  SALE",
-                          style: GoogleFonts.poppins(fontSize: 12, fontWeight: FontWeight.w700, color:  Color(0xFFFFDF33)),
+                          style: GoogleFonts.poppins(
+                              fontSize: 12, fontWeight: FontWeight.w700, color: const Color(0xFFFFDF33)),
                         ),
                         Text(
                           " ${widget.productElement.discountOff ?? ((((widget.productElement.pPrice.toString().toNum - widget.productElement.sPrice.toString().toNum) / widget.productElement.pPrice.toString().toNum) * 100).toStringAsFixed(2))}${'%'}  ",
-                          style: GoogleFonts.poppins(fontSize: 12, fontWeight: FontWeight.w700, color:  Colors.white),
+                          style: GoogleFonts.poppins(fontSize: 12, fontWeight: FontWeight.w700, color: Colors.white),
                         ),
                       ],
                     ),
@@ -329,10 +276,11 @@ class _ProductUIState extends State<ProductUI> {
                       isLiked: wishListController.favoriteItems.contains(widget.productElement.id.toString()),
                     );
                   }),
-
                 ],
               ),
-              SizedBox(height: 10,),
+              const SizedBox(
+                height: 10,
+              ),
               Expanded(
                 child: Row(
                   children: [
@@ -341,11 +289,10 @@ class _ProductUIState extends State<ProductUI> {
                         alignment: Alignment.center,
                         child: Center(
                           child: CachedNetworkImage(
-                            imageUrl: widget.productElement.featuredImage.toString(),
-                            height: 150,
-                            fit: BoxFit.fill,
-                              errorWidget: (_, __, ___) => Image.asset('assets/images/new_logo.png')
-                          ),
+                              imageUrl: widget.productElement.featuredImage.toString(),
+                              height: 150,
+                              fit: BoxFit.fill,
+                              errorWidget: (_, __, ___) => Image.asset('assets/images/new_logo.png')),
                         ),
                       ),
                     ),
@@ -362,138 +309,136 @@ class _ProductUIState extends State<ProductUI> {
               Text(
                 widget.productElement.pName.toString(),
                 maxLines: 2,
-                style: GoogleFonts.poppins(fontSize: 12, fontWeight: FontWeight.w500,color: Color(0xFF19313C)),
+                style: GoogleFonts.poppins(fontSize: 12, fontWeight: FontWeight.w500, color: const Color(0xFF19313C)),
               ),
               const SizedBox(
                 height: 3,
               ),
 
-
-
-              widget.productElement.itemType != 'giveaway'?    Row(
-                children: [
-                  Text(
-                    'KWD ${widget.productElement.pPrice.toString()}',
-                    style: GoogleFonts.poppins(decorationColor: Colors.red,
-                        decorationThickness: 2,
-                        decoration: TextDecoration.lineThrough,
-
-                        color: const Color(0xff19313B),
-
-                        fontSize: 16,
-                        fontWeight: FontWeight.w600),
-                  ),
-                  const SizedBox(width: 7,),
-                  Text.rich(
-                    TextSpan(
-                      text: '${widget.productElement.discountPrice.toString().split('.')[0]}.',
-                      style: TextStyle(
-                        fontSize: 24,
-                        fontWeight: FontWeight.w600,
-                        color: Color(0xFF19313B),
-                      ),
+              widget.productElement.itemType != 'giveaway'
+                  ? Row(
                       children: [
-                        WidgetSpan(
-                          alignment: PlaceholderAlignment.middle,
-                          child: Column(
-                            mainAxisAlignment: MainAxisAlignment.start,
+                        Text(
+                          'KWD ${widget.productElement.pPrice.toString()}',
+                          style: GoogleFonts.poppins(
+                              decorationColor: Colors.red,
+                              decorationThickness: 2,
+                              decoration: TextDecoration.lineThrough,
+                              color: const Color(0xff19313B),
+                              fontSize: 16,
+                              fontWeight: FontWeight.w600),
+                        ),
+                        const SizedBox(
+                          width: 7,
+                        ),
+                        Text.rich(
+                          TextSpan(
+                            text: '${widget.productElement.discountPrice.toString().split('.')[0]}.',
+                            style: const TextStyle(
+                              fontSize: 24,
+                              fontWeight: FontWeight.w600,
+                              color: Color(0xFF19313B),
+                            ),
                             children: [
-                              Text(
-                                'KWD',
-                                style: TextStyle(
-                                  fontSize: 8,
-                                  fontWeight: FontWeight.w500,
-                                  color: Color(0xFF19313B),
-                                ),
-                              ),
-                              InkWell(
-                                onTap: (){
-                                  print( "date:::::::::::"+ widget.productElement.shippingDate);
-                                },
-                                child: Text(
-                                  '${widget.productElement.discountPrice.toString().split('.')[1]}',
-                                  style: TextStyle(
-                                    fontSize: 8,
-                                    fontWeight: FontWeight.w600,
-                                    color: Color(0xFF19313B),
-                                  ),
+                              WidgetSpan(
+                                alignment: PlaceholderAlignment.middle,
+                                child: Column(
+                                  mainAxisAlignment: MainAxisAlignment.start,
+                                  children: [
+                                    const Text(
+                                      'KWD',
+                                      style: TextStyle(
+                                        fontSize: 8,
+                                        fontWeight: FontWeight.w500,
+                                        color: Color(0xFF19313B),
+                                      ),
+                                    ),
+                                    InkWell(
+                                      onTap: () {
+                                        print("date:::::::::::" + widget.productElement.shippingDate);
+                                      },
+                                      child: Text(
+                                        '${widget.productElement.discountPrice.toString().split('.')[1]}',
+                                        style: const TextStyle(
+                                          fontSize: 8,
+                                          fontWeight: FontWeight.w600,
+                                          color: Color(0xFF19313B),
+                                        ),
+                                      ),
+                                    ),
+                                  ],
                                 ),
                               ),
                             ],
                           ),
                         ),
                       ],
-                    ),
-                  ),
-                ],
-              ) : const SizedBox.shrink(),
+                    )
+                  : const SizedBox.shrink(),
 
-
-SizedBox(height: 8,),
-            // if (canBuyProduct)
-                Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    Expanded(
-                      child: Column(
-                        mainAxisAlignment: MainAxisAlignment.start,
-                        crossAxisAlignment: CrossAxisAlignment.start ,
-                        children: [
-
-                          RatingBar.builder(
-                            initialRating: double.parse(widget.productElement.rating.toString()),
-                            minRating: 1,
-                            direction: Axis.horizontal,
-                            updateOnDrag: true,
-                            tapOnlyMode: false,
-                            ignoreGestures: true,
-                            allowHalfRating: true,
-                            itemSize: 20,
-                            itemCount: 5,
-                            itemBuilder: (context, _) => Icon(
-                              Icons.star,
-                              size: 8,
-                              color: Colors.amber,
-                            ),
-                            onRatingUpdate: (rating) {
-                              print(rating);
-                            },
+              const SizedBox(
+                height: 8,
+              ),
+              // if (canBuyProduct)
+              Row(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Expanded(
+                    child: Column(
+                      mainAxisAlignment: MainAxisAlignment.start,
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        RatingBar.builder(
+                          initialRating: double.parse(widget.productElement.rating.toString()),
+                          minRating: 1,
+                          direction: Axis.horizontal,
+                          updateOnDrag: true,
+                          tapOnlyMode: false,
+                          ignoreGestures: true,
+                          allowHalfRating: true,
+                          itemSize: 20,
+                          itemCount: 5,
+                          itemBuilder: (context, _) => const Icon(
+                            Icons.star,
+                            size: 8,
+                            color: Colors.amber,
                           ),
-                          // ,Text(
-                          //   '${widget.productElement.inStock.toString()} ${'pieces'.tr}',
-                          //   style: GoogleFonts.poppins(color: Colors.grey.shade700, fontSize: 15,fontWeight: FontWeight.w500),
-                          // ),
-                          SizedBox(height: 7,),
-                          widget.productElement.shippingDate!="No Internation Shipping Available"?
-                          Column(crossAxisAlignment: CrossAxisAlignment.start,
-                            children: [
-                              Text(
-                                'shipping',
-                                style: GoogleFonts.poppins(
-                                    color: const Color(0xff858484),
-                                    fontSize: 13,
-                                    fontWeight: FontWeight.w500),
-                              ),
-                              if(widget.productElement.lowestDeliveryPrice!=null)
-                                Text(
-                                  'KWD${widget.productElement.lowestDeliveryPrice.toString()}',
-                                  style: GoogleFonts.poppins(
-                                      color: const Color(0xff858484),
-                                      fontSize: 13,
-                                      fontWeight: FontWeight.w500),
-                                ),
-                              if(widget.productElement.shippingDate!=null)
-                                Text(
-                                  '${widget.productElement.shippingDate.toString()}',
-                                  style: GoogleFonts.poppins(
-                                      color: const Color(0xff858484),
-                                      fontSize: 13,
-                                      fontWeight: FontWeight.w500),
-                                ),
-                            ],
-                          )
-                              : GestureDetector(
+                          onRatingUpdate: (rating) {
+                            print(rating);
+                          },
+                        ),
+                        // ,Text(
+                        //   '${widget.productElement.inStock.toString()} ${'pieces'.tr}',
+                        //   style: GoogleFonts.poppins(color: Colors.grey.shade700, fontSize: 15,fontWeight: FontWeight.w500),
+                        // ),
+                        const SizedBox(
+                          height: 7,
+                        ),
+                        widget.productElement.shippingDate != "No Internation Shipping Available"
+                            ? Column(
+                                crossAxisAlignment: CrossAxisAlignment.start,
+                                children: [
+                                  Text(
+                                    'shipping',
+                                    style: GoogleFonts.poppins(
+                                        color: const Color(0xff858484), fontSize: 13, fontWeight: FontWeight.w500),
+                                  ),
+                                  if (widget.productElement.lowestDeliveryPrice != null)
+                                    Text(
+                                      'KWD${widget.productElement.lowestDeliveryPrice.toString()}',
+                                      style: GoogleFonts.poppins(
+                                          color: const Color(0xff858484), fontSize: 13, fontWeight: FontWeight.w500),
+                                    ),
+                                  if (widget.productElement.shippingDate != null)
+                                    Text(
+                                      '${widget.productElement.shippingDate.toString()}',
+                                      style: GoogleFonts.poppins(
+                                          color: const Color(0xff858484), fontSize: 13, fontWeight: FontWeight.w500),
+                                    ),
+                                ],
+                              )
+                            : GestureDetector(
                                 onTap: () {
                                   Get.to(() => const ContactUsScreen());
                                 },
@@ -513,53 +458,76 @@ SizedBox(height: 8,),
                                         TextSpan(
                                             text: ' for the soloution',
                                             style: GoogleFonts.poppins(
-                                                color: const Color(0xff858484), fontSize: 13, fontWeight: FontWeight.w500)),
+                                                color: const Color(0xff858484),
+                                                fontSize: 13,
+                                                fontWeight: FontWeight.w500)),
                                       ]),
                                 ),
                               )
                         // Text("vendor doesn't ship internationally, contact us for the soloution",  style: GoogleFonts.poppins(
-                          //     color: const Color(0xff858484),
-                          //     fontSize: 13,
-                          //     fontWeight: FontWeight.w500),),
-                        ],
-                      ),
+                        //     color: const Color(0xff858484),
+                        //     fontSize: 13,
+                        //     fontWeight: FontWeight.w500),),
+                      ],
                     ),
-                    // if (canBuyProduct)
-                    Expanded(
-                      child: Column(
-                        children: [
-                          ElevatedButton(
-
-                            onPressed: () {
-
-                              directBuyProduct();
-                            },
-                            style: ElevatedButton.styleFrom(
-
-                              backgroundColor: Colors.red,
-                              surfaceTintColor: Colors.red,
-                            ),
-                            child: FittedBox(
-                              child: Text(
-                                "  Buy Now  ".tr,
-                                style: GoogleFonts.poppins(fontSize: 16, fontWeight: FontWeight.w500, color: Colors.white),
-                              ),
+                  ),
+                  // if (canBuyProduct)
+                  Expanded(
+                    child: Column(
+                      children: [
+                        ElevatedButton(
+                          onPressed: () {
+                            directBuyProduct();
+                          },
+                          style: ElevatedButton.styleFrom(
+                            backgroundColor: Colors.red,
+                            surfaceTintColor: Colors.red,
+                          ),
+                          child: FittedBox(
+                            child: Text(
+                              "  Buy Now  ".tr,
+                              style:
+                                  GoogleFonts.poppins(fontSize: 16, fontWeight: FontWeight.w500, color: Colors.white),
                             ),
                           ),
-                          ElevatedButton(
-                            onPressed: () {
-                              addToCartProduct();
-                            },
-                            style: ElevatedButton.styleFrom(
-                              backgroundColor: AppTheme.buttonColor,
-                              surfaceTintColor: AppTheme.buttonColor,
+                        ),
+                        ElevatedButton(
+                          onPressed: () {
+                            addToCartProduct();
+                          },
+                          style: ElevatedButton.styleFrom(
+                            backgroundColor: AppTheme.buttonColor,
+                            surfaceTintColor: AppTheme.buttonColor,
+                          ),
+                          child: FittedBox(
+                            child: Text(
+                              "Add to Cart".tr,
+                              style:
+                                  GoogleFonts.poppins(fontSize: 16, fontWeight: FontWeight.w500, color: Colors.white),
                             ),
-                            child: FittedBox(
-                              child: Text(
-                                "Add to Cart".tr,
-                                style: GoogleFonts.poppins(fontSize: 16, fontWeight: FontWeight.w500, color: Colors.white),
-                              ),
+                          ),
+                        ),
+                        Row(
+                          mainAxisAlignment: MainAxisAlignment.center,
+                          crossAxisAlignment: CrossAxisAlignment.center,
+                          children: [
+                            GestureDetector(
+                              onTap: () {
+                                if (productQuantity.value > 1) {
+                                  productQuantity.value--;
+                                }
+                              },
+                              child: Center(
+                                  child: Text(
+                                "-",
+                                style: GoogleFonts.poppins(
+                                    fontSize: 40, fontWeight: FontWeight.w300, color: const Color(0xFF014E70)),
+                              )),
                             ),
+                            SizedBox(
+                              width: size.width * .02,
+                            ),
+
                           ),
                           widget.productElement.itemType != 'giveaway'?
                           Row(
@@ -611,58 +579,11 @@ SizedBox(height: 8,),
                           ):SizedBox(),
                         ],
                       ),
+
                     ),
-                    // Expanded(
-                    //   child: Row(
-                    //     mainAxisAlignment: MainAxisAlignment.end,
-                    //     crossAxisAlignment: CrossAxisAlignment.center,
-                    //     children: [
-                    //       GestureDetector(
-                    //         onTap: () {
-                    //           if (productQuantity.value > 1) {
-                    //             productQuantity.value--;
-                    //           }
-                    //         },
-                    //         child: Center(
-                    //             child: Text(
-                    //               "-",
-                    //               style: GoogleFonts.poppins(
-                    //                   fontSize: 40, fontWeight: FontWeight.w300, color: Color(0xFF014E70)),
-                    //             )),
-                    //       ),
-                    //       SizedBox(
-                    //         width: size.width * .02,
-                    //       ),
-                    //       Obx(() {
-                    //         return Text(
-                    //           productQuantity.value.toString(),
-                    //           style: GoogleFonts.poppins(
-                    //               fontSize: 26, fontWeight: FontWeight.w500, color: Color(0xFF014E70)),
-                    //         );
-                    //       }),
-                    //       SizedBox(
-                    //         width: size.width * .02,
-                    //       ),
-                    //       GestureDetector(
-                    //         onTap: () {
-                    //           if ((productDetails.inStock.toString().convertToNum ?? 0) > productQuantity.value) {
-                    //             productQuantity.value++;
-                    //           } else {
-                    //             showToast("Out Of Stock".tr);
-                    //           }
-                    //         },
-                    //         child: Center(
-                    //             child: Text(
-                    //               "+",
-                    //               style: GoogleFonts.poppins(
-                    //                   fontSize: 30, fontWeight: FontWeight.w300, color: Color(0xFF014E70)),
-                    //             )),
-                    //       ),
-                    //     ],
-                    //   ),
-                    // ),
-                  ],
-                ),
+                  ),
+                ],
+              ),
             ],
           ),
         ),

@@ -89,7 +89,7 @@ class _SingleProductReturnPolicyState extends State<SingleProductReturnPolicy> {
 
     map['title'] = titleController.text.trim();
     map['days'] = selectedItem;
-    map['item_type'] = 'service';
+    map['item_type'] = 'Product';
     map['policy_description'] = descController.text.trim();
     map['return_shipping_fees'] = radioButtonValue.toString();
     map['no_return'] = noReturnSelected;
@@ -109,7 +109,7 @@ class _SingleProductReturnPolicyState extends State<SingleProductReturnPolicy> {
   nextPageApi() {
     Map<String, dynamic> map = {};
     map['return_policy_desc'] = selectedReturnPolicy!.id.toString();
-    map['item_type'] = 'Product';
+    map['item_type'] = 'product';
 
     FocusManager.instance.primaryFocus!.unfocus();
     repositories.postApi(url: ApiUrls.giveawayProductAddress, context: context, mapData: map).then((value) {
@@ -524,7 +524,7 @@ class _SingleProductReturnPolicyState extends State<SingleProductReturnPolicy> {
                           }
                         }
                       } else {
-                        Get.to(const Locationwherecustomerwilljoin());
+                        Get.to(SingleProductDeliverySize());
                       }
                     } // Disable button if no radio button is selected
                     ),

@@ -78,7 +78,7 @@ class _CategoryItemsState extends State<CategoryItems> {
                                     color: Color(0xFFF0EEEE),
                                     border: Border.all(color: Color(0xFFCCCCCC))
                                 ),
-                                child: Image.asset("assets/svgs/more.png")),
+                                child: Image.asset("assets/images/morebutton.png")),
                           ),
                         ),
                         // ignore: prefer_const_constructors

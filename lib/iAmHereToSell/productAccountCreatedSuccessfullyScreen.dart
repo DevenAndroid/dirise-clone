@@ -6,6 +6,7 @@ import 'package:get/get.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:url_launcher/url_launcher_string.dart';
 import '../../widgets/dimension_screen.dart';
+import '../controller/profile_controller.dart';
 import '../screens/my_account_screens/contact_us_screen.dart';
 import '../screens/my_account_screens/faqs_screen.dart';
 
@@ -27,7 +28,7 @@ class _ProductAccountCreatedSuccessfullyScreenState extends State<ProductAccount
   void initState() {
     super.initState();
   }
-
+  final profileController = Get.put(ProfileController());
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -60,8 +61,27 @@ class _ProductAccountCreatedSuccessfullyScreenState extends State<ProductAccount
                 const SizedBox(
                   height: 60,
                 ),
-                Text(
-                  "Product have been added  successfully ".tr,
+           if( profileController.thankYouValue == 'Service')
+           Text(
+              "Service have been added  successfully".tr,
+                  textAlign: TextAlign.center,
+                  style: Theme.of(context)
+                      .textTheme
+                      .headlineSmall!
+                      .copyWith(fontWeight: FontWeight.w500, fontSize: 30, color: const Color(0xff262F33)),
+                ),
+                if( profileController.thankYouValue == 'Product')
+           Text(
+              "Product have been added  successfully".tr,
+                  textAlign: TextAlign.center,
+                  style: Theme.of(context)
+                      .textTheme
+                      .headlineSmall!
+                      .copyWith(fontWeight: FontWeight.w500, fontSize: 30, color: const Color(0xff262F33)),
+                ),
+                if( profileController.thankYouValue == 'Virtual')
+           Text(
+              "Virtual have been added  successfully".tr,
                   textAlign: TextAlign.center,
                   style: Theme.of(context)
                       .textTheme

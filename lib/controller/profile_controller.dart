@@ -33,6 +33,7 @@ class ProfileController extends GetxController {
   int productID = 0;
   int productAvailabilityId = 0;
   File productImage = File('');
+  String thankYouValue = '';
   Future aboutUsData() async {
     Map<String, dynamic> map = {};
     map["id"] = 12;

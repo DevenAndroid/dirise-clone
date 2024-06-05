@@ -77,9 +77,9 @@ class _OptionalDiscrptionsScreenState extends State<OptionalDiscrptionsScreen> {
     // TODO: implement initState
     super.initState();
     if (widget.id != null) {
-      metaTitleController.text = widget.MetaTitle.toString();
-      metaDescriptionController.text = widget.MetaDescription.toString();
-      metaTagesController.text = widget.metaTags.toString();
+      metaTitleController.text = widget.MetaTitle ?? "";
+      metaDescriptionController.text = widget.MetaDescription ?? "";
+      metaTagesController.text = widget.metaTags ?? "";
     }
   }
 
