@@ -178,19 +178,19 @@ class _LoginScreenState extends State<LoginScreen> {
         .size;
     return Scaffold(
       backgroundColor: Colors.white,
-      appBar: AppBar(
-        backgroundColor: Colors.white,
-        surfaceTintColor: Colors.white,
-        elevation: 0,
-        leading: IconButton(
-          icon: Image.asset(
-            'assets/icons/backicon.png',
-            height: 25,
-            width: 25,
-          ),
-          onPressed: () => Get.back(),
-        ),
-      ),
+      // appBar: AppBar(
+      //   backgroundColor: Colors.white,
+      //   surfaceTintColor: Colors.white,
+      //   elevation: 0,
+      //   leading: IconButton(
+      //     icon: Image.asset(
+      //       'assets/icons/backicon.png',
+      //       height: 25,
+      //       width: 25,
+      //     ),
+      //     onPressed: () => Get.back(),
+      //   ),
+      // ),
       body: Obx(() {
         return Form(
           key: loginFormKey,
@@ -199,6 +199,7 @@ class _LoginScreenState extends State<LoginScreen> {
               padding: const EdgeInsets.only(left: 15, right: 15),
               child: Column(
                 children: [
+                  const SizedBox(height: 50,),
                   const Padding(
                     padding: EdgeInsets.only(top: 50),
                     child: Image(
