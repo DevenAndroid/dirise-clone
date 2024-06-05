@@ -29,6 +29,7 @@ import '../../model/customer_profile/model_country_list.dart';
 import '../../model/customer_profile/model_state_list.dart';
 import '../../model/model_address_list.dart';
 import '../../model/model_user_delete.dart';
+import '../../newAddress/map_find_my_location.dart';
 import '../../personalizeyourstore/operatinghourScreen.dart';
 import '../../posts/posts_ui.dart';
 import '../../repository/repository.dart';
@@ -1282,6 +1283,28 @@ class _MyAccountScreenState extends State<MyAccountScreen> {
                                       ),
                                       label: Text(
                                         "Add New",
+                                        style: GoogleFonts.poppins(fontSize: 15),
+                                      ))
+                                ],
+                              ),
+                            ),
+                            SliverToBoxAdapter(
+                              child: Row(
+                                children: [
+                                  const Expanded(
+                                    child:SizedBox(),
+                                  ),
+                                  TextButton.icon(
+                                      onPressed: () {
+                                        Get.to(()=> FindMyLocationAddress());
+                                      },
+                                      style: TextButton.styleFrom(padding: EdgeInsets.zero),
+                                      icon: const Icon(
+                                        Icons.add,
+                                        size: 20,
+                                      ),
+                                      label: Text(
+                                        "Find my location",
                                         style: GoogleFonts.poppins(fontSize: 15),
                                       ))
                                 ],

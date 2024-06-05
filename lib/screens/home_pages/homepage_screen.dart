@@ -334,8 +334,9 @@ class _HomePageState extends State<HomePage> {
 
                     // bottomController.updateIndexValue(3);
                   },
-                  child: SvgPicture.asset(
-                    'assets/svgs/drawer.svg',
+                  child: Image.asset(
+                    'assets/images/menu_new.png',
+                    width: 35,
                     // color: Colors.white,
                   ),
                 ),
