@@ -513,6 +513,7 @@ class _whatServiceDoYouProvideState extends State<whatServiceDoYouProvide> {
                   onPressed: () {
                     if (formKey.currentState!.validate()) {
                       serviceApi();
+                      profileController.thankYouValue = 'Service';
                     }
                   },
                 ),

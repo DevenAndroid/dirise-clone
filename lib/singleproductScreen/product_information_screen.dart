@@ -11,6 +11,7 @@ import 'package:flutter/material.dart';
 import 'package:form_field_validator/form_field_validator.dart';
 import 'package:get/get.dart';
 import 'package:google_fonts/google_fonts.dart';
+import '../controller/profile_controller.dart';
 import '../controller/vendor_controllers/vendor_profile_controller.dart';
 import '../model/common_modal.dart';
 import '../model/getSubCategoryModel.dart';
@@ -49,6 +50,7 @@ class _ProductInformationScreensState extends State<ProductInformationScreens> {
   int ProductID = 0;
   int tappedIndex = -1;
   final addProductController = Get.put(AddProductController());
+  final profileController = Get.put(ProfileController());
   deliverySizeApi() {
     Map<String, dynamic> map = {};
     map['category_id'] = idForChild.toString();
@@ -477,6 +479,7 @@ class _ProductInformationScreensState extends State<ProductInformationScreens> {
                   // }
                   else {
                     deliverySizeApi();
+                    profileController.thankYouValue = 'Product';
                   }
                 },
               ),
