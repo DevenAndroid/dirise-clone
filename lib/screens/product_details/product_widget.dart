@@ -285,10 +285,10 @@ class _ProductUIState extends State<ProductUI> {
           constraints: BoxConstraints(
             // maxHeight: 100,
             minWidth: 0,
-            maxWidth: size.width * .7,
+            maxWidth: size.width * .8,
           ),
           // color: Colors.red,
-         margin: const EdgeInsets.only(right: 14),
+         margin: const EdgeInsets.only(right: 9),
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
@@ -445,14 +445,15 @@ SizedBox(height: 8,),
                             initialRating: double.parse(widget.productElement.rating.toString()),
                             minRating: 1,
                             direction: Axis.horizontal,
-                            updateOnDrag: false,
+                            updateOnDrag: true,
                             tapOnlyMode: false,
+                            ignoreGestures: true,
                             allowHalfRating: true,
-                            itemSize: 30,
+                            itemSize: 20,
                             itemCount: 5,
                             itemBuilder: (context, _) => Icon(
                               Icons.star,
-                              size: 10,
+                              size: 8,
                               color: Colors.amber,
                             ),
                             onRatingUpdate: (rating) {
@@ -463,6 +464,7 @@ SizedBox(height: 8,),
                           //   '${widget.productElement.inStock.toString()} ${'pieces'.tr}',
                           //   style: GoogleFonts.poppins(color: Colors.grey.shade700, fontSize: 15,fontWeight: FontWeight.w500),
                           // ),
+                          SizedBox(height: 7,),
                           widget.productElement.shippingDate!="No Internation Shipping Available"?
                           Column(crossAxisAlignment: CrossAxisAlignment.start,
                             children: [
@@ -591,7 +593,7 @@ SizedBox(height: 8,),
                               ),
                               GestureDetector(
                                 onTap: () {
-                                  if ((productDetails.inStock.toString().convertToNum ?? 0) > productQuantity.value) {
+                                  if ((widget.productElement.inStock.toString().convertToNum ?? 0) > productQuantity.value) {
                                     productQuantity.value++;
                                   } else {
                                     showToast("Out Of Stock".tr);

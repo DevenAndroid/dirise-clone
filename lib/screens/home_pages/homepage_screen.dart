@@ -349,17 +349,32 @@ class _HomePageState extends State<HomePage> {
                     });
                   },
                   child: SvgPicture.asset(
-                    'assets/svgs/search.svg',
+                    'assets/svgs/search_icon_new.svg',
                     // color: Colors.white,
                   ),
+                  // child : Image.asset('assets/images/search_icon_new.png')
                 ),
               ],
             ),
           ),
           leadingWidth: 120,
-          title: Image.asset(
-            'assets/svgs/live.png',
-            // color: Colors.white,
+          title: Column(
+            children: [
+              Image.asset(
+                'assets/images/Dirise-App-Logo.png',
+                width: 30,
+                // color: Colors.white,
+              ),
+              5.spaceY,
+              Text(
+                "LIVE BETTER",
+                style: GoogleFonts.poppins(
+                  color: const Color(0xFF666666),
+                  fontSize: 14,
+                  fontWeight: FontWeight.w400,
+                ),
+              )
+            ],
           ),
           centerTitle: true,
           actions: [

@@ -3,6 +3,7 @@ import 'dart:io';
 import 'package:dirise/addNewProduct/itemdetailsScreen.dart';
 import 'package:dirise/controller/profile_controller.dart';
 import 'package:dirise/utils/api_constant.dart';
+import 'package:dirise/utils/helper.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
@@ -92,8 +93,6 @@ class _MyItemISScreenState extends State<MyItemISScreen> {
   }
 
 
-
-
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -127,61 +126,415 @@ class _MyItemISScreenState extends State<MyItemISScreen> {
       ),
       body: Container(
         margin: const EdgeInsets.only(left: 15, right: 15),
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.stretch,
-          children: [
-            Expanded(
-              child: GridView.builder(
-                gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
-                  crossAxisCount: 2,
-                  crossAxisSpacing: 5,
-                  mainAxisSpacing: 5,
-                  mainAxisExtent: 200,
-                  childAspectRatio: 2, // Aspect ratio can be adjusted
-                ),
-                itemCount: itemTexts.length, // Number of grid items
-                itemBuilder: (BuildContext context, int index) {
-                  return buildStack(itemTexts[index]);
-                },
-              ),
-            ),
-            Padding(
-              padding: const EdgeInsets.all(8.0),
-              child: GestureDetector(
-                onTap: () {
-                  productController.getProductsCategoryList();
-                  if(selectedRadio.isNotEmpty){
-                    navigateNext();
-                  }
-                  else{
-                    showToast('Please select any item type');
-                  }
-                },
-                child: Container(
-                  width: Get.width,
-                  height: 55,
-                  decoration: BoxDecoration(
-                    border: Border.all(
-                      color: Colors.black, // Border color
-                      width: 1.0, // Border width
-                    ),
-                    borderRadius: BorderRadius.circular(1), // Border radius
+        child: SingleChildScrollView(
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.stretch,
+            children: [
+              // Expanded(
+              //   child: GridView.builder(
+              //     gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
+              //       crossAxisCount: 2,
+              //       crossAxisSpacing: 5,
+              //       mainAxisSpacing: 5,
+              //       mainAxisExtent: 200,
+              //       childAspectRatio: 2, // Aspect ratio can be adjusted
+              //     ),
+              //     itemCount: itemTexts.length, // Number of grid items
+              //     itemBuilder: (BuildContext context, int index) {
+              //       return buildStack(itemTexts[index]);
+              //     },
+              //   ),
+              // ),
+              Row(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                children: [
+                  Expanded(
+                    child: Stack(
+                      children: [
+                        Container(
+                          width: Get.width,
+                          height: 200,
+                          decoration: BoxDecoration(
+                            borderRadius: BorderRadius.circular(11),
+                            color:  Colors.grey.shade100,
+                          ),
+                          child: const Column(
+                            mainAxisAlignment: MainAxisAlignment.center,
+                            crossAxisAlignment: CrossAxisAlignment.center,
+                            children: [
+                              Text(
+                                'Giveaway',
+                                style: TextStyle(
+                                  fontSize: 28,
+                                  fontWeight: FontWeight.w500,
+                                  color: Colors.black, // Text color
+                                ),
+                              ),
+                              SizedBox(height: 10,),
+                              // Center(
+                              //   child: Padding(
+                              //     padding: const EdgeInsets.symmetric(horizontal: 10),
+                              //     child: Text(
+                              //       'Some other text',
+                              //       style: GoogleFonts.poppins(
+                              //         color: Colors.black,
+                              //         fontWeight: FontWeight.w500,
+                              //         fontSize: 10,
+                              //       ),
+                              //       textAlign: TextAlign.center,
+                              //     ),
+                              //   ),
+                              // ),
+                            ],
+                          ),
+                        ),
+                        Positioned(
+                          top: 2,
+                          right: 3,
+                          child: Radio(
+                            value: 'Giveaway',
+                            groupValue: selectedRadio,
+                            onChanged: (value) {
+                              setState(() {
+              
+                                selectedRadio = value.toString();
+                              });
+                            },
+                          ),
+                        ),
+                      ],
+                    )
                   ),
-                  padding: const EdgeInsets.all(10), // Padding inside the container
-                  child: const Center(
-                    child: Text(
-                      'Next',
-                      style: TextStyle(
-                        fontSize: 16,
-                        fontWeight: FontWeight.bold,
-                        color: Colors.black, // Text color
+                  20.spaceX,
+                  Expanded(
+                      child: GestureDetector(
+                        behavior: HitTestBehavior.translucent,
+                        onTap:  profileController.model.user!.isVendor != true ?  (){
+                          final snackBar = SnackBar(
+                            content: const Text('Customer accounts are limited to jobs and Giveaways. Click here to Register as a vendor in few steps '),
+                            action: SnackBarAction(
+                              label: 'Click here',
+                              onPressed: () {
+                                Get.to(()=> const WhichplantypedescribeyouScreen());
+                              },
+                            ),
+                          );
+                          ScaffoldMessenger.of(context).showSnackBar(snackBar);
+                        }: (){},
+                        child: Stack(
+                          children: [
+                            Container(
+                              width: Get.width,
+                              height: 200,
+                              decoration: BoxDecoration(
+                                borderRadius: BorderRadius.circular(11),
+                                color: profileController.model.user!.isVendor == true ? Colors.grey.shade100 : Colors.grey,
+                              ),
+                              child: const Column(
+                                mainAxisAlignment: MainAxisAlignment.center,
+                                crossAxisAlignment: CrossAxisAlignment.center,
+                                children: [
+                                  Text(
+                                    'Product',
+                                    style: TextStyle(
+                                      fontSize: 28,
+                                      fontWeight: FontWeight.w500,
+                                      color: Colors.black, // Text color
+                                    ),
+                                  ),
+                                  SizedBox(height: 10,),
+                                  // Center(
+                                  //   child: Padding(
+                                  //     padding: const EdgeInsets.symmetric(horizontal: 10),
+                                  //     child: Text(
+                                  //       'Some other text',
+                                  //       style: GoogleFonts.poppins(
+                                  //         color: Colors.black,
+                                  //         fontWeight: FontWeight.w500,
+                                  //         fontSize: 10,
+                                  //       ),
+                                  //       textAlign: TextAlign.center,
+                                  //     ),
+                                  //   ),
+                                  // ),
+                                ],
+                              ),
+                            ),
+                            Positioned(
+                              top: 2,
+                              right: 3,
+                              child: Radio(
+                                value: 'Product',
+                                groupValue: selectedRadio,
+                                onChanged: (value) {
+                                  setState(() {
+
+                                    selectedRadio = value.toString();
+                                  });
+                                },
+                              ),
+                            ),
+                          ],
+                        ),
+                      )
+                  ),
+                ],
+              ),
+              20.spaceY,
+              Row(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                children: [
+                  Expanded(
+                      child: Stack(
+                        children: [
+                          Container(
+                            width: Get.width,
+                            height: 200,
+                            decoration: BoxDecoration(
+                              borderRadius: BorderRadius.circular(11),
+                              color: Colors.grey.shade100,
+                            ),
+                            child: const Column(
+                              mainAxisAlignment: MainAxisAlignment.center,
+                              crossAxisAlignment: CrossAxisAlignment.center,
+                              children: [
+                                Text(
+                                  'Job',
+                                  style: TextStyle(
+                                    fontSize: 28,
+                                    fontWeight: FontWeight.w500,
+                                    color: Colors.black, // Text color
+                                  ),
+                                ),
+                                SizedBox(height: 10,),
+                                // Center(
+                                //   child: Padding(
+                                //     padding: const EdgeInsets.symmetric(horizontal: 10),
+                                //     child: Text(
+                                //       'Some other text',
+                                //       style: GoogleFonts.poppins(
+                                //         color: Colors.black,
+                                //         fontWeight: FontWeight.w500,
+                                //         fontSize: 10,
+                                //       ),
+                                //       textAlign: TextAlign.center,
+                                //     ),
+                                //   ),
+                                // ),
+                              ],
+                            ),
+                          ),
+                          Positioned(
+                            top: 2,
+                            right: 3,
+                            child: Radio(
+                              value: 'Job',
+                              groupValue: selectedRadio,
+                              onChanged: (value) {
+                                setState(() {
+          
+                                  selectedRadio = value.toString();
+                                });
+                              },
+                            ),
+                          ),
+                        ],
+                      )
+                  ),
+                  20.spaceX,
+                  Expanded(
+                      child: GestureDetector(
+                        behavior: HitTestBehavior.translucent,
+                        onTap:  profileController.model.user!.isVendor != true ?  (){
+                          final snackBar = SnackBar(
+                            content: const Text('Customer accounts are limited to jobs and Giveaways. Click here to Register as a vendor in few steps '),
+                            action: SnackBarAction(
+                              label: 'Click here',
+                              onPressed: () {
+                                Get.to(()=> const WhichplantypedescribeyouScreen());
+                              },
+                            ),
+                          );
+                          ScaffoldMessenger.of(context).showSnackBar(snackBar);
+                        }: (){},
+                        child: Stack(
+                          children: [
+                            Container(
+                              width: Get.width,
+                              height: 200,
+                              decoration: BoxDecoration(
+                                borderRadius: BorderRadius.circular(11),
+                                color: profileController.model.user!.isVendor == true ? Colors.grey.shade100 : Colors.grey,
+                              ),
+                              child: const Column(
+                                mainAxisAlignment: MainAxisAlignment.center,
+                                crossAxisAlignment: CrossAxisAlignment.center,
+                                children: [
+                                  Text(
+                                    'Service',
+                                    style: TextStyle(
+                                      fontSize: 28,
+                                      fontWeight: FontWeight.w500,
+                                      color: Colors.black, // Text color
+                                    ),
+                                  ),
+                                  SizedBox(height: 10,),
+                                  // Center(
+                                  //   child: Padding(
+                                  //     padding: const EdgeInsets.symmetric(horizontal: 10),
+                                  //     child: Text(
+                                  //       'Some other text',
+                                  //       style: GoogleFonts.poppins(
+                                  //         color: Colors.black,
+                                  //         fontWeight: FontWeight.w500,
+                                  //         fontSize: 10,
+                                  //       ),
+                                  //       textAlign: TextAlign.center,
+                                  //     ),
+                                  //   ),
+                                  // ),
+                                ],
+                              ),
+                            ),
+                            Positioned(
+                              top: 2,
+                              right: 3,
+                              child: Radio(
+                                value: 'Service',
+                                groupValue: selectedRadio,
+                                onChanged: (value) {
+                                  setState(() {
+
+                                    selectedRadio = value.toString();
+                                  });
+                                },
+                              ),
+                            ),
+                          ],
+                        ),
+                      )
+                  ),
+                ],
+              ),
+              20.spaceY,
+              Row(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                children: [
+                  Expanded(
+                      child: GestureDetector(
+                        behavior: HitTestBehavior.translucent,
+                        onTap:  profileController.model.user!.isVendor != true ?  (){
+                          final snackBar = SnackBar(
+                            content: const Text('Customer accounts are limited to jobs and Giveaways. Click here to Register as a vendor in few steps '),
+                            action: SnackBarAction(
+                              label: 'Click here',
+                              onPressed: () {
+                                Get.to(()=> const WhichplantypedescribeyouScreen());
+                              },
+                            ),
+                          );
+                          ScaffoldMessenger.of(context).showSnackBar(snackBar);
+                        }: (){},
+                        child: Stack(
+                          children: [
+                            Container(
+                              width: Get.width,
+                              height: 200,
+                              decoration: BoxDecoration(
+                                borderRadius: BorderRadius.circular(11),
+                                color: profileController.model.user!.isVendor == true ? Colors.grey.shade100 : Colors.grey,
+                              ),
+                              child: const Column(
+                                mainAxisAlignment: MainAxisAlignment.center,
+                                crossAxisAlignment: CrossAxisAlignment.center,
+                                children: [
+                                  Text(
+                                    'Virtual',
+                                    style: TextStyle(
+                                      fontSize: 28,
+                                      fontWeight: FontWeight.w500,
+                                      color: Colors.black, // Text color
+                                    ),
+                                  ),
+                                  SizedBox(height: 10,),
+                                  // Center(
+                                  //   child: Padding(
+                                  //     padding: const EdgeInsets.symmetric(horizontal: 10),
+                                  //     child: Text(
+                                  //       'Some other text',
+                                  //       style: GoogleFonts.poppins(
+                                  //         color: Colors.black,
+                                  //         fontWeight: FontWeight.w500,
+                                  //         fontSize: 10,
+                                  //       ),
+                                  //       textAlign: TextAlign.center,
+                                  //     ),
+                                  //   ),
+                                  // ),
+                                ],
+                              ),
+                            ),
+                            Positioned(
+                              top: 2,
+                              right: 3,
+                              child: Radio(
+                                value: 'Virtual',
+                                groupValue: selectedRadio,
+                                onChanged: (value) {
+                                  setState(() {
+
+                                    selectedRadio = value.toString();
+                                  });
+                                },
+                              ),
+                            ),
+                          ],
+                        ),
+                      )
+                  ),
+                  20.spaceX,
+                  const Expanded(child: SizedBox()),
+                ],
+              ),
+              20.spaceY,
+              Padding(
+                padding: const EdgeInsets.all(8.0),
+                child: GestureDetector(
+                  onTap: () {
+                    productController.getProductsCategoryList();
+                    if(selectedRadio.isNotEmpty){
+                      navigateNext();
+                    }
+                    else{
+                      showToast('Please select any item type');
+                    }
+                  },
+                  child: Container(
+                    width: Get.width,
+                    height: 55,
+                    decoration: BoxDecoration(
+                      border: Border.all(
+                        color: Colors.black, // Border color
+                        width: 1.0, // Border width
+                      ),
+                      borderRadius: BorderRadius.circular(1), // Border radius
+                    ),
+                    padding: const EdgeInsets.all(10), // Padding inside the container
+                    child: const Center(
+                      child: Text(
+                        'Next',
+                        style: TextStyle(
+                          fontSize: 16,
+                          fontWeight: FontWeight.bold,
+                          color: Colors.black, // Text color
+                        ),
                       ),
                     ),
                   ),
                 ),
               ),
-            ),
-          ],
+            ],
+          ),
         ),
       ),
     );

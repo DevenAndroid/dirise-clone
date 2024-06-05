@@ -106,8 +106,8 @@ class _MyAccountScreenState extends State<MyAccountScreen> {
   RxString language = "".obs;
   final RxBool _isValue = false.obs;
 
-  var vendor = ['Dashboard', 'Order', 'Pending Products', 'Approved Products','Operating Hours', 'Bank Details', 'Earnings'];
-  var vendor1 = ['Become a vendor', 'Pending Products', 'Approved Products',];
+  var vendor = ['Dashboard', 'Order', 'Pending Products', 'Approved Products','Operating Hours','Social Media','Bank Details', 'Earnings'];
+  var vendor1 = ['Become a vendor', 'Pending Products', 'Approved Products'];
 
   var vendorRoutes = [
     VendorDashBoardScreen.route,
