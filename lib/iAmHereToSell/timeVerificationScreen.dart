@@ -1,3 +1,6 @@
+import 'dart:convert';
+import 'dart:developer';
+
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
@@ -5,6 +8,9 @@ import 'package:get/get.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:intl_phone_field/intl_phone_field.dart';
 
+import '../model/model_varification.dart';
+import '../repository/repository.dart';
+import '../utils/api_constant.dart';
 import '../widgets/common_colour.dart';
 import 'listofquestionScreen.dart';
 
@@ -16,6 +22,44 @@ class VerificationTimeScreen extends StatefulWidget {
 }
 
 class _VerificationTimeScreenState extends State<VerificationTimeScreen> {
+  String selectedRadio = '';
+  String code = '';
+  TextEditingController phoneController = TextEditingController();
+  final Repositories repositories = Repositories();
+  Future verificationApi() async {
+    Map<String, dynamic> map = {};
+
+    map['verification_type'] = 'calling';
+    map['verification_schedule'] = selectedRadio;
+    map['verification_mode_type'] = "phone";
+    map['verification_mode'] = "+"+code+phoneController.text.toString();
+    // map['name'] = _nameController.text.trim();
+    // map['phone'] = _mobileNumberController.text.trim();
+    // map['password'] = _passwordController.text.trim();
+    FocusManager.instance.primaryFocus!.unfocus();
+    await repositories.postApi(url: ApiUrls.vendorVerification, context: context, mapData: map).then((value) {
+      VarificationModel response = VarificationModel.fromJson(jsonDecode(value));
+      // showToast(response.message.toString());
+
+      if (response.status == true) {
+showToast(response.message.toString());
+        Get.to(ListOfQuestionsScreen());
+      }
+      else{
+        showToast(response.message.toString());
+      }
+    });
+  }
+
+  void validateAndProceed() {
+    if (selectedRadio == "") {
+      showToast("Please select a time slot");
+    }
+    else if(phoneController.text.isEmpty){showToast("Please enter phone number");}
+   else {
+      verificationApi();
+    }
+  }
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -102,13 +146,17 @@ class _VerificationTimeScreenState extends State<VerificationTimeScreen> {
                       ],
                     ),
                   ),
-                  const Positioned(
+                   Positioned(
                     right: 20,
                     top: 20,
-                    child: Radio(
-                      value: 1,
-                      groupValue: 1,
-                      onChanged: null,
+                    child:  Radio(
+                      value: "morning",
+                      groupValue: selectedRadio,
+                      onChanged: (value) {
+                        setState(() {
+                          selectedRadio = value.toString();
+                        });
+                      },
                     ),
                   ),
 
@@ -154,13 +202,17 @@ class _VerificationTimeScreenState extends State<VerificationTimeScreen> {
                       ],
                     ),
                   ),
-                  const Positioned(
+                   Positioned(
                     right: 20,
                     top: 20,
                     child: Radio(
-                      value: 1,
-                      groupValue: 1,
-                      onChanged: null,
+                      value: "afternoon",
+                      groupValue: selectedRadio,
+                      onChanged: (value) {
+                        setState(() {
+                          selectedRadio = value.toString();
+                        });
+                      },
                     ),
                   ),
 
@@ -187,7 +239,7 @@ class _VerificationTimeScreenState extends State<VerificationTimeScreen> {
                     color: AppTheme.textColor
                 ),
 
-                // controller: alternatePhoneController,
+              controller: phoneController,
                 decoration: const InputDecoration(
                     contentPadding: EdgeInsets.zero,
                     hintStyle: TextStyle(color: AppTheme.textColor),
@@ -201,12 +253,13 @@ class _VerificationTimeScreenState extends State<VerificationTimeScreen> {
                 initialCountryCode: '+91',
                 languageCode: '+91',
                 onCountryChanged: (phone) {
-                  // profileController.code = phone.code;
-                  // print(phone.code);
+                   code = phone.dialCode;
+                 print("code"+code);
                   // print(profileController.code.toString());
                 },
                 onChanged: (phone) {
-                  // profileController.code = phone.countryISOCode.toString();
+                  // code = phone.countryISOCode;
+                  // print("code"+code);
                   // print(phone.countryCode);
                   // print(profileController.code.toString());
                 },
@@ -214,9 +267,7 @@ class _VerificationTimeScreenState extends State<VerificationTimeScreen> {
               SizedBox(height: 20,),
 
               InkWell(
-                onTap: (){
-                  Get.to(ListOfQuestionsScreen());
-                },
+                onTap:validateAndProceed,
                 child: Container(
                   margin: EdgeInsets.only(left: 15,right: 15),
                   width: Get.width,
