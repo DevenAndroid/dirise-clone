@@ -20,11 +20,11 @@ import 'ReviewandPublishScreen.dart';
 
 class OptionalClassificationScreen extends StatefulWidget {
   int? id;
-  String? Packagedetails;
-  int? PromotionCode;
-  int? ProductCode;
-  String? SerialNumber;
-  String? Productnumber;
+  dynamic Packagedetails;
+  dynamic PromotionCode;
+  dynamic  ProductCode;
+  dynamic SerialNumber;
+  dynamic Productnumber;
   OptionalClassificationScreen(
       {super.key,
       this.id,
@@ -76,11 +76,11 @@ class _OptionalClassificationScreenState extends State<OptionalClassificationScr
     // TODO: implement initState
     super.initState();
     if (widget.id != null) {
-      controller.serialNumberController.text = widget.SerialNumber.toString();
-      controller.productNumberController.text = widget.Productnumber.toString();
-      controller.productCodeController.text = widget.ProductCode.toString();
-      controller.promotionCodeController.text = widget.SerialNumber.toString();
-      controller.packageDetailsController.text = widget.Productnumber.toString();
+      controller.serialNumberController.text = widget.SerialNumber ?? "";
+      controller.productNumberController.text = widget.Productnumber ?? "";
+      controller.productCodeController.text = widget.PromotionCode.toString();
+      controller.promotionCodeController.text = widget.SerialNumber ?? "";
+      controller.packageDetailsController.text = widget.Productnumber ?? "";
     }
   }
 
