@@ -22,6 +22,7 @@ class ApiUrls {
   static const String getSocialMediaUrl = "${baseUrl}social-media";
   static const String loginUrl = "${baseUrl}login";
   static const String resendOtpUrl = "${baseUrl}resend-otp";
+  static const String vendorVerification = "${baseUrl}vendor-verification";
   static const String verifyOtpEmail = "${baseUrl}verify-otp-email";
   static const String forgotPasswordUrl = "${baseUrl}forget-password";
   static const String changePasswordUrl = "${baseUrl}change-password";

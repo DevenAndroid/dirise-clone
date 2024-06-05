@@ -1,3 +1,5 @@
+import 'dart:convert';
+
 import 'package:dirise/iAmHereToSell/listofquestionScreen.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
@@ -5,9 +7,13 @@ import 'package:flutter/widgets.dart';
 import 'package:form_field_validator/form_field_validator.dart';
 import 'package:get/get.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:intl/intl.dart';
 import 'package:intl_phone_field/intl_phone_field.dart';
 
 import '../language/app_strings.dart';
+import '../model/model_varification.dart';
+import '../repository/repository.dart';
+import '../utils/api_constant.dart';
 import '../widgets/common_colour.dart';
 import '../widgets/common_textfield.dart';
 
@@ -20,7 +26,9 @@ class VerificationSelectDateScreen extends StatefulWidget {
 
 class _VerificationSelectDateScreenState extends State<VerificationSelectDateScreen> {
   DateTime selectedDate = DateTime.now();
-
+TextEditingController date = TextEditingController();
+TextEditingController emailController = TextEditingController();
+TextEditingController phoneController = TextEditingController();
   Future<void> _selectDate(BuildContext context) async {
     final DateTime? pickedDate = await showDatePicker(
       context: context,
@@ -31,8 +39,46 @@ class _VerificationSelectDateScreenState extends State<VerificationSelectDateScr
     if (pickedDate != null && pickedDate != selectedDate) {
       setState(() {
         selectedDate = pickedDate;
+        date.text = DateFormat('yyyy-MM-dd').format(selectedDate);
       });
     }
+  }
+  String selectedRadio = '';
+  String code = '';
+  void _validateAndProceed() {
+    if(date.text.isEmpty){showToast("Please select date");}
+  else  if (selectedRadio == "email" && emailController.text.isEmpty) {
+      showToast("Please enter email");
+    } else if (selectedRadio == "phone" && phoneController.text.isEmpty) {
+      showToast("Please enter phone number");
+    } else {
+      verificationApi();
+    }
+  }
+  final Repositories repositories = Repositories();
+  Future verificationApi() async {
+    Map<String, dynamic> map = {};
+
+    map['verification_type'] = 'meeting';
+ map['verification_date'] = date.text.toString();
+    map['verification_mode_type'] = selectedRadio;
+    map['verification_mode'] = selectedRadio == "email"?emailController.text.toString():"+"+code+phoneController.text.toString();
+    // map['name'] = _nameController.text.trim();
+    // map['phone'] = _mobileNumberController.text.trim();
+    // map['password'] = _passwordController.text.trim();
+    FocusManager.instance.primaryFocus!.unfocus();
+    await repositories.postApi(url: ApiUrls.vendorVerification, context: context, mapData: map).then((value) {
+      VarificationModel response = VarificationModel.fromJson(jsonDecode(value));
+      // showToast(response.message.toString());
+
+      if (response.status == true) {
+        showToast(response.message.toString());
+        Get.to(ListOfQuestionsScreen());
+      }
+      else{
+        showToast(response.message.toString());
+      }
+    });
   }
   @override
   Widget build(BuildContext context) {
@@ -87,6 +133,13 @@ class _VerificationSelectDateScreenState extends State<VerificationSelectDateScr
               const SizedBox(
                 height: 20,
               ),
+              date.text !=""?
+              CommonTextField(hintText: "date",controller: date,):SizedBox(
+
+              ),
+              const SizedBox(
+                height: 20,
+              ),
               Text(
                 'Where should we send you the meeting link?',
                 style: GoogleFonts.poppins(fontWeight: FontWeight.w400, fontSize: 20, color: Colors.black),
@@ -94,16 +147,21 @@ class _VerificationSelectDateScreenState extends State<VerificationSelectDateScr
               const SizedBox(
                 height: 20,
               ),
+
               Row(
                 children: [
-                  const Radio(
-                    value: 1,
-                    groupValue: 1,
-                    onChanged: null,
+                   Radio(
+                    value: "email",
+                    groupValue: selectedRadio,
+                    onChanged: (value) {
+                      setState(() {
+                        selectedRadio = value.toString();
+                      });
+                    },
                   ),
                   Expanded(
                     child: CommonTextField(
-                        // controller: _emailController,
+                      controller: emailController,
                         obSecure: false,
                         // hintText: 'Name',
                         hintText: AppStrings.email.tr,
@@ -121,10 +179,14 @@ class _VerificationSelectDateScreenState extends State<VerificationSelectDateScr
                 mainAxisAlignment: MainAxisAlignment.center,
                 crossAxisAlignment: CrossAxisAlignment.center,
                 children: [
-                  const Radio(
-                    value: 1,
-                    groupValue: 1,
-                    onChanged: null,
+                  Radio(
+                    value: "phone",
+                    groupValue: selectedRadio,
+                    onChanged: (value) {
+                      setState(() {
+                        selectedRadio = value.toString();
+                      });
+                    },
                   ),
                   Expanded(
                     child: IntlPhoneField(
@@ -136,7 +198,7 @@ class _VerificationSelectDateScreenState extends State<VerificationSelectDateScr
                       dropdownTextStyle: const TextStyle(color: Colors.black),
                       style: const TextStyle(color: AppTheme.textColor),
 
-                      // controller: alternatePhoneController,
+                     controller: phoneController,
                       decoration: const InputDecoration(
                           contentPadding: EdgeInsets.zero,
                           hintStyle: TextStyle(color: AppTheme.textColor),
@@ -167,9 +229,7 @@ class _VerificationSelectDateScreenState extends State<VerificationSelectDateScr
                 height: 20,
               ),
               InkWell(
-                onTap: (){
-                  Get.to(ListOfQuestionsScreen());
-                },
+                onTap:_validateAndProceed,
                 child: Container(
                   margin: const EdgeInsets.only(left: 15, right: 15),
                   width: Get.width,
