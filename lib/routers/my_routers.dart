@@ -19,6 +19,7 @@ import '../Services/whatServiceDoYouProvide.dart';
 import '../addNewProduct/giveawaylocation.dart';
 import '../addNewProduct/pickUpAddressScreen.dart';
 import '../iAmHereToSell/personalizeyourstoreScreen.dart';
+import '../iAmHereToSell/verificationOptiionScreen.dart';
 import '../model/model_cart_response.dart';
 import '../model/vendor_models/model_return_policy.dart';
 import '../newAuthScreens/newOtpScreen.dart';

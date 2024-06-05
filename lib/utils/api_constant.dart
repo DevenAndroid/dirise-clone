@@ -22,6 +22,7 @@ class ApiUrls {
   static const String getSocialMediaUrl = "${baseUrl}social-media";
   static const String loginUrl = "${baseUrl}login";
   static const String resendOtpUrl = "${baseUrl}resend-otp";
+  static const String vendorVerification = "${baseUrl}vendor-verification";
   static const String verifyOtpEmail = "${baseUrl}verify-otp-email";
   static const String forgotPasswordUrl = "${baseUrl}forget-password";
   static const String changePasswordUrl = "${baseUrl}change-password";
@@ -106,6 +107,7 @@ class ApiUrls {
   static const String stateList= "${baseUrl}all-states";
   static const String citiesList= "${baseUrl}all-cities";
   static const String productCategoriesListUrl = "${baseUrl}categries";
+  static const String showCaseProductUrl = "${baseUrl}get-showcase-product";
   static const String categoryListUrl = "${baseUrl}categories-list?category_id=";
   static const String categoryFilterUrl = "${baseUrl}category-filter";
   static const String faqListUrl = "${baseUrl}faq-list";

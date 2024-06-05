@@ -26,6 +26,7 @@ import '../../repository/repository.dart';
 import '../../utils/api_constant.dart';
 import '../../vendor/authentication/vendor_plans_screen.dart';
 import '../../vendor/dashboard/dashboard_screen.dart';
+import '../../vendor/dashboard/showcase.dart';
 import '../../vendor/dashboard/store_open_time_screen.dart';
 import '../../vendor/orders/vendor_order_list_screen.dart';
 import '../../vendor/payment_info/bank_account_screen.dart';
@@ -140,6 +141,9 @@ class _HomePageState extends State<HomePage> {
     homeController.popularProductsData();
     if (!mounted) return;
     homeController.authorData();
+    if (!mounted) return;
+
+    homeController.showCaseProductsData();
     if (!mounted) return;
   }
 
@@ -334,8 +338,9 @@ class _HomePageState extends State<HomePage> {
 
                     // bottomController.updateIndexValue(3);
                   },
-                  child: SvgPicture.asset(
-                    'assets/svgs/drawer.svg',
+                  child: Image.asset(
+                    'assets/images/menu_new.png',
+                    width: 35,
                     // color: Colors.white,
                   ),
                 ),
@@ -349,17 +354,32 @@ class _HomePageState extends State<HomePage> {
                     });
                   },
                   child: SvgPicture.asset(
-                    'assets/svgs/search.svg',
+                    'assets/svgs/search_icon_new.svg',
                     // color: Colors.white,
                   ),
+                  // child : Image.asset('assets/images/search_icon_new.png')
                 ),
               ],
             ),
           ),
           leadingWidth: 120,
-          title: Image.asset(
-            'assets/svgs/live.png',
-            // color: Colors.white,
+          title: Column(
+            children: [
+              Image.asset(
+                'assets/images/Dirise-App-Logo.png',
+                width: 30,
+                // color: Colors.white,
+              ),
+              5.spaceY,
+              Text(
+                "LIVE BETTER",
+                style: GoogleFonts.poppins(
+                  color: const Color(0xFF666666),
+                  fontSize: 14,
+                  fontWeight: FontWeight.w400,
+                ),
+              )
+            ],
           ),
           centerTitle: true,
           actions: [
@@ -562,6 +582,7 @@ class _HomePageState extends State<HomePage> {
                       AdBannerUI(),
                       PopularProducts(),
                       StarOfMonthScreen(),
+                          ShowCaseProducts(),
                       AuthorScreen(),
                       SizedBox(
                         height: 30,
