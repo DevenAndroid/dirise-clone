@@ -4,6 +4,7 @@ import 'package:get/get.dart';
 import '../model/author_modal.dart';
 import '../model/home_modal.dart';
 import '../model/popular_product_modal.dart';
+import '../model/showCase_product_model.dart';
 import '../model/trending_products_modal.dart';
 import '../model/vendor_models/vendor_category_model.dart';
 import '../utils/api_constant.dart';
@@ -14,6 +15,7 @@ class TrendingProductsController extends GetxController {
   Rx<HomeModal> homeModal = HomeModal().obs;
   final cartController = Get.put(CartController());
   Rx<PopularProductsModal> popularProdModal = PopularProductsModal().obs;
+  Rx<GetShowCaseProductModel> getShowModal = GetShowCaseProductModel().obs;
   Rx<AuthorModal> authorModal = AuthorModal().obs;
   final Repositories repositories = Repositories();
   Rx<TendingModel> trendingModel = TendingModel().obs;
@@ -51,6 +53,12 @@ class TrendingProductsController extends GetxController {
       popularProdModal.value = PopularProductsModal.fromJson(jsonDecode(value));
     });
   }
+  Future showCaseProductsData() async {
+
+    await repositories.getApi(url: ApiUrls.showCaseProductUrl,).then((value) {
+      getShowModal.value = GetShowCaseProductModel.fromJson(jsonDecode(value));
+    });
+  }
 
   Future authorData() async {
     await repositories.getApi(url: ApiUrls.authorUrl).then((value) {
@@ -70,6 +78,7 @@ class TrendingProductsController extends GetxController {
     getVendorCategories();
     trendingData();
     popularProductsData();
+    showCaseProductsData();
     authorData();
   }
 }

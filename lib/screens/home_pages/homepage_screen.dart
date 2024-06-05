@@ -26,6 +26,7 @@ import '../../repository/repository.dart';
 import '../../utils/api_constant.dart';
 import '../../vendor/authentication/vendor_plans_screen.dart';
 import '../../vendor/dashboard/dashboard_screen.dart';
+import '../../vendor/dashboard/showcase.dart';
 import '../../vendor/dashboard/store_open_time_screen.dart';
 import '../../vendor/orders/vendor_order_list_screen.dart';
 import '../../vendor/payment_info/bank_account_screen.dart';
@@ -140,6 +141,9 @@ class _HomePageState extends State<HomePage> {
     homeController.popularProductsData();
     if (!mounted) return;
     homeController.authorData();
+    if (!mounted) return;
+
+    homeController.showCaseProductsData();
     if (!mounted) return;
   }
 
@@ -577,6 +581,7 @@ class _HomePageState extends State<HomePage> {
                       AdBannerUI(),
                       PopularProducts(),
                       StarOfMonthScreen(),
+                          ShowCaseProducts(),
                       AuthorScreen(),
                       SizedBox(
                         height: 30,
