@@ -58,7 +58,7 @@ class _StarOfMonthScreenState extends State<StarOfMonthScreen> {
           Padding(
             padding: const EdgeInsets.fromLTRB(0, 20, 0, 18),
             child: SizedBox(
-              height: size.height * 0.29,
+              height: size.height * 0.35,
               child: Swiper(
                 autoplay: true,
                 outer: false,
@@ -96,7 +96,7 @@ class _StarOfMonthScreenState extends State<StarOfMonthScreen> {
                             ' Trending This Months'.tr.toUpperCase().toString(),
                             style: GoogleFonts.poppins(fontSize: 17, fontWeight: FontWeight.w600,color: Color(0xFF041D28)),
                           ),
-                          SizedBox(height: 10,),
+                          SizedBox(height: 25,),
                           Row(
                             crossAxisAlignment: CrossAxisAlignment.center,
                             mainAxisAlignment: MainAxisAlignment.center,
@@ -112,18 +112,21 @@ class _StarOfMonthScreenState extends State<StarOfMonthScreen> {
                                       crossAxisAlignment: CrossAxisAlignment.start,
                                       children: [
                                         Expanded(
-                                          child: RichText(
-                                            text: TextSpan(
-                                              children: [
-                                                TextSpan(
-                                                  text: filteredData[index].name.toString(),
-                                                  style: GoogleFonts.poppins(fontSize: 26, fontWeight: FontWeight.w600, color: Colors.black),
-                                                ),
-                                                TextSpan(
-                                                  text: ' Stars Of The Month'.tr,
-                                                  style: GoogleFonts.poppins(fontSize: 17, fontWeight: FontWeight.w500,color: Colors.black),
-                                                ),
-                                              ],
+                                          child: Padding(
+                                            padding: const EdgeInsets.only(left: 8.0,right: 10),
+                                            child: RichText(
+                                              text: TextSpan(
+                                                children: [
+                                                  TextSpan(
+                                                    text: filteredData[index].name.toString(),
+                                                    style: GoogleFonts.poppins(fontSize: 26, fontWeight: FontWeight.w600, color: Colors.black),
+                                                  ),
+                                                  TextSpan(
+                                                    text: ' Of The Month  '.tr,
+                                                    style: GoogleFonts.poppins(fontSize: 17, fontWeight: FontWeight.w500,color: Colors.black),
+                                                  ),
+                                                ],
+                                              ),
                                             ),
                                           ),
                                         ),
