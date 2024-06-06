@@ -1,5 +1,7 @@
 import 'dart:async';
+import 'dart:developer';
 import 'package:dirise/repository/repository.dart';
+import 'package:dirise/utils/api_constant.dart';
 import 'package:dirise/utils/helper.dart';
 import 'package:dirise/utils/shimmer_extension.dart';
 import 'package:dirise/utils/styles.dart';
@@ -218,19 +220,21 @@ class _ApproveProductScreenState extends State<ApproveProductScreen> {
                                             ),
                                             GestureDetector(
                                               onTap: () {
-                                                if(item.itemType == "Giveaway"){
+                                                log(item.itemType.toString());
+                                                log(item.itemType);
+                                                if(item.itemType == "giveaway"){
                                                   Get.to(ReviewPublishScreen());
                                                 }
-                                                if(item.itemType == "Product"){
+                                                if(item.itemType == "product"){
                                                   Get.to(ProductReviewPublicScreen());
                                                 }
-                                                if(item.itemType == "Job"){
+                                                if(item.itemType == "job"){
                                                   Get.to(JobReviewPublishScreen());
                                                 }
-                                                if(item.itemType == "Service"){
+                                                if(item.itemType == "service"){
                                                   Get.to(ReviewPublishServiceScreen());
                                                 }
-                                                if(item.itemType == "Virtual"){
+                                                if(item.itemType == "virtual_product"){
                                                   Get.to(VirtualReviewandPublishScreen());
                                                 }
 
@@ -268,6 +272,7 @@ class _ApproveProductScreenState extends State<ApproveProductScreen> {
                                                               child:  Text("Cancel".tr)),
                                                           ElevatedButton(
                                                               onPressed: () {
+
                                                                 controller.productId = item.id.toString();
                                                                 controller.deleteProductForAll(context);
 

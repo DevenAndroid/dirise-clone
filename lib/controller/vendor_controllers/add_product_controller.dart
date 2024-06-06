@@ -406,8 +406,9 @@ class AddProductController extends GetxController {
       ModelCommonResponse modelCommonResponse = ModelCommonResponse.fromJson(jsonDecode(value));
       showToast(modelCommonResponse.message.toString());
       if (modelCommonResponse.status == true) {
-        productController.getProductList();
-        productListController.getProductList();
+        // productController.getProductList();
+        productController.getProductList1();
+        // productListController.getProductList();
         Get.back();
       }
     });
