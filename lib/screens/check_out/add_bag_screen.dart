@@ -29,6 +29,7 @@ class _BagsScreenState extends State<BagsScreen> {
   @override
   void initState() {
     super.initState();
+    cartController.getCart();
     SchedulerBinding.instance.addPostFrameCallback((timeStamp) {
       cartController.getCart();
     });
