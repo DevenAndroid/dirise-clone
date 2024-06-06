@@ -11,7 +11,7 @@ class ModelDirectOrderResponse {
   RxString fedexShippingOption = "".obs;
   RxString shippingOption = "".obs;
   dynamic total;
- dynamic discount;
+  dynamic discount;
   dynamic vendorCountryId;
   ReturnData? returnData;
   ProdcutData? prodcutData;
@@ -19,38 +19,32 @@ class ModelDirectOrderResponse {
 
   ModelDirectOrderResponse(
       {this.status,
-        this.message,
-        this.subtotal,
-        this.shipping,
-        this.shippingType,
-        this.fedexCommision,
-        this.icarryCommision,
-        this.total,
-        this.discount,
-        this.vendorCountryId,
-        this.returnData,
-        this.prodcutData,
-        this.localShipping});
+      this.message,
+      this.subtotal,
+      this.shipping,
+      this.shippingType,
+      this.fedexCommision,
+      this.icarryCommision,
+      this.total,
+      this.discount,
+      this.vendorCountryId,
+      this.returnData,
+      this.prodcutData,
+      this.localShipping});
 
   ModelDirectOrderResponse.fromJson(Map<String, dynamic> json) {
     status = json['status'];
     message = json['message'];
     subtotal = json['subtotal'];
     shipping = json['shipping'];
-    shippingType = json['shipping_type'] != null
-        ? new ShippingType.fromJson(json['shipping_type'])
-        : null;
+    shippingType = json['shipping_type'] != null ? new ShippingType.fromJson(json['shipping_type']) : null;
     fedexCommision = json['fedex_commision'];
     icarryCommision = json['icarry_commision'];
     total = json['total'];
     discount = json['discount'];
     vendorCountryId = json['vendor_country_id'];
-    returnData = json['return_data'] != null
-        ? new ReturnData.fromJson(json['return_data'])
-        : null;
-    prodcutData = json['prodcut_data'] != null
-        ? new ProdcutData.fromJson(json['prodcut_data'])
-        : null;
+    returnData = json['return_data'] != null ? new ReturnData.fromJson(json['return_data']) : null;
+    prodcutData = json['prodcut_data'] != null ? new ProdcutData.fromJson(json['prodcut_data']) : null;
     localShipping = json['local_shipping'];
   }
 
@@ -99,25 +93,20 @@ class ShippingType {
         localShipping!.add(new LocalShipping.fromJson(v));
       });
     }
-    fedexShipping = json['fedex_shipping'] != null
-        ? new FedexShipping.fromJson(json['fedex_shipping'])
-        : null;
+    fedexShipping = json['fedex_shipping'] != null ? new FedexShipping.fromJson(json['fedex_shipping']) : null;
   }
   Map<String, dynamic> toJson() {
     final Map<String, dynamic> data = new Map<String, dynamic>();
     if (this.icarryShipping != null) {
-      data['icarry_shipping'] =
-          this.icarryShipping!.map((v) => v.toJson()).toList();
+      data['icarry_shipping'] = this.icarryShipping!.map((v) => v.toJson()).toList();
     }
     if (this.localShipping != null) {
-      data['local_shipping'] =
-          this.localShipping!.map((v) => v.toJson()).toList();
+      data['local_shipping'] = this.localShipping!.map((v) => v.toJson()).toList();
     }
     if (this.fedexShipping != null) {
       data['fedex_shipping'] = this.fedexShipping!.toJson();
     }
     return data;
-
   }
 }
 
@@ -128,15 +117,15 @@ class IcarryShipping {
   dynamic methodName;
   dynamic methodId;
   dynamic methodBodyInfo;
- dynamic carrierTransportationTypeId;
- dynamic carrierAdminVehicleTypeId;
+  dynamic carrierTransportationTypeId;
+  dynamic carrierAdminVehicleTypeId;
   dynamic description;
   dynamic price;
   dynamic cODCurrency;
   dynamic rate;
   Finance? finance;
   dynamic deliveryDateFormat;
- dynamic displayOrder;
+  dynamic displayOrder;
   bool? selected;
   WorkingCurrency? workingCurrency;
   List<Null>? customProperties;
@@ -144,32 +133,29 @@ class IcarryShipping {
 
   IcarryShipping(
       {this.name,
-        this.carrierModel,
-        this.shippingRateComputationMethodSystemName,
-        this.methodName,
-        this.methodId,
-        this.methodBodyInfo,
-        this.carrierTransportationTypeId,
-        this.carrierAdminVehicleTypeId,
-        this.description,
-        this.price,
-        this.cODCurrency,
-        this.rate,
-        this.finance,
-        this.deliveryDateFormat,
-        this.displayOrder,
-        this.selected,
-        this.workingCurrency,
-        this.customProperties,
-        this.friendlyPluginName});
+      this.carrierModel,
+      this.shippingRateComputationMethodSystemName,
+      this.methodName,
+      this.methodId,
+      this.methodBodyInfo,
+      this.carrierTransportationTypeId,
+      this.carrierAdminVehicleTypeId,
+      this.description,
+      this.price,
+      this.cODCurrency,
+      this.rate,
+      this.finance,
+      this.deliveryDateFormat,
+      this.displayOrder,
+      this.selected,
+      this.workingCurrency,
+      this.customProperties,
+      this.friendlyPluginName});
 
   IcarryShipping.fromJson(Map<String, dynamic> json) {
     name = json['Name'];
-    carrierModel = json['CarrierModel'] != null
-        ? new CarrierModel.fromJson(json['CarrierModel'])
-        : null;
-    shippingRateComputationMethodSystemName =
-    json['ShippingRateComputationMethodSystemName'];
+    carrierModel = json['CarrierModel'] != null ? new CarrierModel.fromJson(json['CarrierModel']) : null;
+    shippingRateComputationMethodSystemName = json['ShippingRateComputationMethodSystemName'];
     methodName = json['MethodName'];
     methodId = json['MethodId'];
     methodBodyInfo = json['MethodBodyInfo'];
@@ -179,14 +165,11 @@ class IcarryShipping {
     price = json['Price'];
     cODCurrency = json['CODCurrency'];
     rate = json['Rate'];
-    finance =
-    json['Finance'] != null ? new Finance.fromJson(json['Finance']) : null;
+    finance = json['Finance'] != null ? new Finance.fromJson(json['Finance']) : null;
     deliveryDateFormat = json['DeliveryDateFormat'];
     displayOrder = json['DisplayOrder'];
     selected = json['Selected'];
-    workingCurrency = json['WorkingCurrency'] != null
-        ? new WorkingCurrency.fromJson(json['WorkingCurrency'])
-        : null;
+    workingCurrency = json['WorkingCurrency'] != null ? new WorkingCurrency.fromJson(json['WorkingCurrency']) : null;
     // if (json['CustomProperties'] != null) {
     //   customProperties = <Null>[];
     //   json['CustomProperties'].forEach((v) {
@@ -202,8 +185,7 @@ class IcarryShipping {
     if (this.carrierModel != null) {
       data['CarrierModel'] = this.carrierModel!.toJson();
     }
-    data['ShippingRateComputationMethodSystemName'] =
-        this.shippingRateComputationMethodSystemName;
+    data['ShippingRateComputationMethodSystemName'] = this.shippingRateComputationMethodSystemName;
     data['MethodName'] = this.methodName;
     data['MethodId'] = this.methodId;
     data['MethodBodyInfo'] = this.methodBodyInfo;
@@ -232,7 +214,7 @@ class IcarryShipping {
 }
 
 class CarrierModel {
- dynamic id;
+  dynamic id;
   bool? editShippigStatus;
   dynamic systemName;
   dynamic staticName;
@@ -248,43 +230,43 @@ class CarrierModel {
   dynamic limitedToStore;
   List<Null>? shippingTripTypeIds;
   List<Null>? limitedToStoreIds;
- dynamic markUpPercentage;
- dynamic intlMarkUpPercentage;
- dynamic onDemandMarkUpPercentage;
- dynamic onDemandIntlMarkUpPercentage;
- dynamic customMarkUpPercentage;
- dynamic customIntlMarkUpPercentage;
- dynamic domesticDiscountPercentage;
- dynamic internationalDiscountPercentage;
- dynamic onDemandDomesticDiscountPercentage;
- dynamic onDemandInternationalDiscountPercentage;
- dynamic customDomesticDiscountPercentage;
- dynamic customInternationalDiscountPercentage;
- dynamic carrierCODPercentage;
- dynamic intlCODPercentage;
- dynamic carrierCODMinimalCharge;
- dynamic intlCODMinimalCharge;
- dynamic returnUponDeliveryRate;
- dynamic failedDeliveryRate;
+  dynamic markUpPercentage;
+  dynamic intlMarkUpPercentage;
+  dynamic onDemandMarkUpPercentage;
+  dynamic onDemandIntlMarkUpPercentage;
+  dynamic customMarkUpPercentage;
+  dynamic customIntlMarkUpPercentage;
+  dynamic domesticDiscountPercentage;
+  dynamic internationalDiscountPercentage;
+  dynamic onDemandDomesticDiscountPercentage;
+  dynamic onDemandInternationalDiscountPercentage;
+  dynamic customDomesticDiscountPercentage;
+  dynamic customInternationalDiscountPercentage;
+  dynamic carrierCODPercentage;
+  dynamic intlCODPercentage;
+  dynamic carrierCODMinimalCharge;
+  dynamic intlCODMinimalCharge;
+  dynamic returnUponDeliveryRate;
+  dynamic failedDeliveryRate;
   bool? configure;
   dynamic carrierAWBType;
   dynamic configureUrl;
- dynamic displayOrder;
- dynamic transitDays;
+  dynamic displayOrder;
+  dynamic transitDays;
   dynamic totalRate;
   dynamic iconUrl;
- dynamic iconId;
- dynamic termsUrl;
+  dynamic iconId;
+  dynamic termsUrl;
   List<Null>? availableShippingTripType;
   List<Null>? availableStores;
   List<Null>? availableCarriersLibraries;
- dynamic vendorId;
+  dynamic vendorId;
   List<Null>? availableVendors;
   List<Null>? availableCountries;
   List<Null>? selectedVendors;
   List<Null>? selectedCountries;
- dynamic primaryStoreCurrencyCode;
- dynamic vatPercentage;
+  dynamic primaryStoreCurrencyCode;
+  dynamic vatPercentage;
   bool? isICarryCarrier;
   bool? isAvailableForOnDemand;
   bool? isAvailableForAllVendors;
@@ -293,81 +275,81 @@ class CarrierModel {
   bool? enableAutoPickupRequest;
   bool? hasRateAPI;
   bool? shippingProviderHasRateAPI;
- dynamic integrationType;
+  dynamic integrationType;
   List<Null>? proofDeliveryIds;
- dynamic gridPageSize;
+  dynamic gridPageSize;
   List<Null>? availablePageSizes;
   List<Null>? customProperties;
- dynamic friendlyPluginName;
+  dynamic friendlyPluginName;
 
   CarrierModel(
       {this.id,
-        this.editShippigStatus,
-        this.systemName,
-        this.staticName,
-        this.methodName,
-        this.carrierName,
-        this.email,
-        this.icon,
-        this.isActive,
-        this.isOnline,
-        this.returnApplicable,
-        this.publicRate,
-        this.shippingTripType,
-        this.limitedToStore,
-        this.shippingTripTypeIds,
-        this.limitedToStoreIds,
-        this.markUpPercentage,
-        this.intlMarkUpPercentage,
-        this.onDemandMarkUpPercentage,
-        this.onDemandIntlMarkUpPercentage,
-        this.customMarkUpPercentage,
-        this.customIntlMarkUpPercentage,
-        this.domesticDiscountPercentage,
-        this.internationalDiscountPercentage,
-        this.onDemandDomesticDiscountPercentage,
-        this.onDemandInternationalDiscountPercentage,
-        this.customDomesticDiscountPercentage,
-        this.customInternationalDiscountPercentage,
-        this.carrierCODPercentage,
-        this.intlCODPercentage,
-        this.carrierCODMinimalCharge,
-        this.intlCODMinimalCharge,
-        this.returnUponDeliveryRate,
-        this.failedDeliveryRate,
-        this.configure,
-        this.carrierAWBType,
-        this.configureUrl,
-        this.displayOrder,
-        this.transitDays,
-        this.totalRate,
-        this.iconUrl,
-        this.iconId,
-        this.termsUrl,
-        this.availableShippingTripType,
-        this.availableStores,
-        this.availableCarriersLibraries,
-        this.vendorId,
-        this.availableVendors,
-        this.availableCountries,
-        this.selectedVendors,
-        this.selectedCountries,
-        this.primaryStoreCurrencyCode,
-        this.vatPercentage,
-        this.isICarryCarrier,
-        this.isAvailableForOnDemand,
-        this.isAvailableForAllVendors,
-        this.isCODProvided,
-        this.enableSchedule,
-        this.enableAutoPickupRequest,
-        this.hasRateAPI,
-        this.shippingProviderHasRateAPI,
-        this.integrationType,
-        this.proofDeliveryIds,
-        this.gridPageSize,
-        this.availablePageSizes,
-        this.customProperties,
-        this.friendlyPluginName});
+      this.editShippigStatus,
+      this.systemName,
+      this.staticName,
+      this.methodName,
+      this.carrierName,
+      this.email,
+      this.icon,
+      this.isActive,
+      this.isOnline,
+      this.returnApplicable,
+      this.publicRate,
+      this.shippingTripType,
+      this.limitedToStore,
+      this.shippingTripTypeIds,
+      this.limitedToStoreIds,
+      this.markUpPercentage,
+      this.intlMarkUpPercentage,
+      this.onDemandMarkUpPercentage,
+      this.onDemandIntlMarkUpPercentage,
+      this.customMarkUpPercentage,
+      this.customIntlMarkUpPercentage,
+      this.domesticDiscountPercentage,
+      this.internationalDiscountPercentage,
+      this.onDemandDomesticDiscountPercentage,
+      this.onDemandInternationalDiscountPercentage,
+      this.customDomesticDiscountPercentage,
+      this.customInternationalDiscountPercentage,
+      this.carrierCODPercentage,
+      this.intlCODPercentage,
+      this.carrierCODMinimalCharge,
+      this.intlCODMinimalCharge,
+      this.returnUponDeliveryRate,
+      this.failedDeliveryRate,
+      this.configure,
+      this.carrierAWBType,
+      this.configureUrl,
+      this.displayOrder,
+      this.transitDays,
+      this.totalRate,
+      this.iconUrl,
+      this.iconId,
+      this.termsUrl,
+      this.availableShippingTripType,
+      this.availableStores,
+      this.availableCarriersLibraries,
+      this.vendorId,
+      this.availableVendors,
+      this.availableCountries,
+      this.selectedVendors,
+      this.selectedCountries,
+      this.primaryStoreCurrencyCode,
+      this.vatPercentage,
+      this.isICarryCarrier,
+      this.isAvailableForOnDemand,
+      this.isAvailableForAllVendors,
+      this.isCODProvided,
+      this.enableSchedule,
+      this.enableAutoPickupRequest,
+      this.hasRateAPI,
+      this.shippingProviderHasRateAPI,
+      this.integrationType,
+      this.proofDeliveryIds,
+      this.gridPageSize,
+      this.availablePageSizes,
+      this.customProperties,
+      this.friendlyPluginName});
 
   CarrierModel.fromJson(Map<String, dynamic> json) {
     id = json['Id'];
@@ -404,13 +386,10 @@ class CarrierModel {
     customIntlMarkUpPercentage = json['CustomIntlMarkUpPercentage'];
     domesticDiscountPercentage = json['DomesticDiscountPercentage'];
     internationalDiscountPercentage = json['InternationalDiscountPercentage'];
-    onDemandDomesticDiscountPercentage =
-    json['OnDemandDomesticDiscountPercentage'];
-    onDemandInternationalDiscountPercentage =
-    json['OnDemandInternationalDiscountPercentage'];
+    onDemandDomesticDiscountPercentage = json['OnDemandDomesticDiscountPercentage'];
+    onDemandInternationalDiscountPercentage = json['OnDemandInternationalDiscountPercentage'];
     customDomesticDiscountPercentage = json['CustomDomesticDiscountPercentage'];
-    customInternationalDiscountPercentage =
-    json['CustomInternationalDiscountPercentage'];
+    customInternationalDiscountPercentage = json['CustomInternationalDiscountPercentage'];
     carrierCODPercentage = json['CarrierCODPercentage'];
     intlCODPercentage = json['IntlCODPercentage'];
     carrierCODMinimalCharge = json['CarrierCODMinimalCharge'];
@@ -533,16 +512,11 @@ class CarrierModel {
     data['CustomMarkUpPercentage'] = this.customMarkUpPercentage;
     data['CustomIntlMarkUpPercentage'] = this.customIntlMarkUpPercentage;
     data['DomesticDiscountPercentage'] = this.domesticDiscountPercentage;
-    data['InternationalDiscountPercentage'] =
-        this.internationalDiscountPercentage;
-    data['OnDemandDomesticDiscountPercentage'] =
-        this.onDemandDomesticDiscountPercentage;
-    data['OnDemandInternationalDiscountPercentage'] =
-        this.onDemandInternationalDiscountPercentage;
-    data['CustomDomesticDiscountPercentage'] =
-        this.customDomesticDiscountPercentage;
-    data['CustomInternationalDiscountPercentage'] =
-        this.customInternationalDiscountPercentage;
+    data['InternationalDiscountPercentage'] = this.internationalDiscountPercentage;
+    data['OnDemandDomesticDiscountPercentage'] = this.onDemandDomesticDiscountPercentage;
+    data['OnDemandInternationalDiscountPercentage'] = this.onDemandInternationalDiscountPercentage;
+    data['CustomDomesticDiscountPercentage'] = this.customDomesticDiscountPercentage;
+    data['CustomInternationalDiscountPercentage'] = this.customInternationalDiscountPercentage;
     data['CarrierCODPercentage'] = this.carrierCODPercentage;
     data['IntlCODPercentage'] = this.intlCODPercentage;
     data['CarrierCODMinimalCharge'] = this.carrierCODMinimalCharge;
@@ -617,52 +591,52 @@ class CarrierModel {
 }
 
 class Finance {
- dynamic shipmentID;
- dynamic orderID;
+  dynamic shipmentID;
+  dynamic orderID;
   dynamic deliveryRate;
   dynamic deliveryCharge;
- dynamic cODCharge;
+  dynamic cODCharge;
   dynamic serviceFee;
- dynamic subscriptionplanVendorID;
+  dynamic subscriptionplanVendorID;
   dynamic revenues;
- dynamic taxRate;
- dynamic taxValue;
+  dynamic taxRate;
+  dynamic taxValue;
   dynamic deliveryExpense;
- dynamic cODExpense;
+  dynamic cODExpense;
   dynamic expenses;
   dynamic grossProfit;
- dynamic affiliateCost;
- dynamic fulfillmentCharge;
- dynamic fulfillmentCost;
+  dynamic affiliateCost;
+  dynamic fulfillmentCharge;
+  dynamic fulfillmentCost;
   bool? isSpecialRate;
- dynamic originalRate;
+  dynamic originalRate;
   bool? deleted;
   bool? completed;
- dynamic id;
+  dynamic id;
 
   Finance(
       {this.shipmentID,
-        this.orderID,
-        this.deliveryRate,
-        this.deliveryCharge,
-        this.cODCharge,
-        this.serviceFee,
-        this.subscriptionplanVendorID,
-        this.revenues,
-        this.taxRate,
-        this.taxValue,
-        this.deliveryExpense,
-        this.cODExpense,
-        this.expenses,
-        this.grossProfit,
-        this.affiliateCost,
-        this.fulfillmentCharge,
-        this.fulfillmentCost,
-        this.isSpecialRate,
-        this.originalRate,
-        this.deleted,
-        this.completed,
-        this.id});
+      this.orderID,
+      this.deliveryRate,
+      this.deliveryCharge,
+      this.cODCharge,
+      this.serviceFee,
+      this.subscriptionplanVendorID,
+      this.revenues,
+      this.taxRate,
+      this.taxValue,
+      this.deliveryExpense,
+      this.cODExpense,
+      this.expenses,
+      this.grossProfit,
+      this.affiliateCost,
+      this.fulfillmentCharge,
+      this.fulfillmentCost,
+      this.isSpecialRate,
+      this.originalRate,
+      this.deleted,
+      this.completed,
+      this.id});
 
   Finance.fromJson(Map<String, dynamic> json) {
     shipmentID = json['ShipmentID'];
@@ -725,27 +699,27 @@ class WorkingCurrency {
   dynamic customFormatting;
   bool? limitedToStores;
   bool? published;
- dynamic displayOrder;
+  dynamic displayOrder;
   dynamic createdOnUtc;
   dynamic updatedOnUtc;
- dynamic roundingTypeId;
+  dynamic roundingTypeId;
   dynamic roundingType;
- dynamic id;
+  dynamic id;
 
   WorkingCurrency(
       {this.name,
-        this.currencyCode,
-        this.rate,
-        this.displayLocale,
-        this.customFormatting,
-        this.limitedToStores,
-        this.published,
-        this.displayOrder,
-        this.createdOnUtc,
-        this.updatedOnUtc,
-        this.roundingTypeId,
-        this.roundingType,
-        this.id});
+      this.currencyCode,
+      this.rate,
+      this.displayLocale,
+      this.customFormatting,
+      this.limitedToStores,
+      this.published,
+      this.displayOrder,
+      this.createdOnUtc,
+      this.updatedOnUtc,
+      this.roundingTypeId,
+      this.roundingType,
+      this.id});
 
   WorkingCurrency.fromJson(Map<String, dynamic> json) {
     name = json['Name'];
@@ -783,10 +757,10 @@ class WorkingCurrency {
 }
 
 class LocalShipping {
- dynamic id;
+  dynamic id;
   dynamic name;
   dynamic value;
- dynamic vendorId;
+  dynamic vendorId;
 
   LocalShipping({this.id, this.name, this.value, this.vendorId});
 
@@ -813,8 +787,7 @@ class ReturnData {
   dynamic sloatEndTime;
   dynamic quantity;
 
-  ReturnData(
-      {this.startDate, this.timeSloat, this.sloatEndTime, this.quantity});
+  ReturnData({this.startDate, this.timeSloat, this.sloatEndTime, this.quantity});
 
   ReturnData.fromJson(Map<String, dynamic> json) {
     startDate = json['start_date'];
@@ -834,16 +807,16 @@ class ReturnData {
 }
 
 class ProdcutData {
- dynamic id;
- dynamic vendorId;
- dynamic addressId;
+  dynamic id;
+  dynamic vendorId;
+  dynamic addressId;
   dynamic catId;
- dynamic catId2;
- dynamic jobCat;
- dynamic brandSlug;
+  dynamic catId2;
+  dynamic jobCat;
+  dynamic brandSlug;
   dynamic slug;
   dynamic pname;
- dynamic prodectImage;
+  dynamic prodectImage;
   dynamic prodectName;
   dynamic prodectSku;
   dynamic views;
@@ -857,13 +830,13 @@ class ProdcutData {
   dynamic arabPname;
   dynamic productType;
   dynamic itemType;
- dynamic virtualProductType;
+  dynamic virtualProductType;
   dynamic skuId;
   dynamic pPrice;
   dynamic sPrice;
- dynamic commission;
- dynamic bestSaller;
- dynamic featured;
+  dynamic commission;
+  dynamic bestSaller;
+  dynamic featured;
   dynamic taxApply;
   dynamic taxType;
   dynamic shortDescription;
@@ -878,19 +851,19 @@ class ProdcutData {
   dynamic featureImageApp;
   dynamic featureImageWeb;
   dynamic inStock;
- dynamic weight;
+  dynamic weight;
   dynamic weightUnit;
- dynamic time;
+  dynamic time;
   dynamic timePeriod;
   dynamic stockAlert;
   dynamic shippingCharge;
- dynamic avgRating;
+  dynamic avgRating;
   dynamic metaTitle;
   dynamic metaKeyword;
   dynamic metaDescription;
   dynamic metaTags;
   dynamic seoTags;
- dynamic parentId;
+  dynamic parentId;
   dynamic serviceStartTime;
   dynamic serviceEndTime;
   dynamic serviceDuration;
@@ -914,19 +887,19 @@ class ProdcutData {
   dynamic jobCityId;
   dynamic uploadCv;
   dynamic isOnsale;
- dynamic discountPercent;
- dynamic fixedDiscountPrice;
+  dynamic discountPercent;
+  dynamic fixedDiscountPrice;
   dynamic shippingPay;
   dynamic createdAt;
   dynamic updatedAt;
- dynamic topHunderd;
- dynamic limitedTimeDeal;
+  dynamic topHunderd;
+  dynamic limitedTimeDeal;
   dynamic returnDays;
   dynamic keyword;
- dynamic isPublish;
- dynamic inOffer;
+  dynamic isPublish;
+  dynamic inOffer;
   dynamic forAuction;
- dynamic returnPolicyDesc;
+  dynamic returnPolicyDesc;
   dynamic shippingPolicyDesc;
   dynamic pickupPolicyId;
   dynamic bookableProductLocation;
@@ -950,126 +923,126 @@ class ProdcutData {
   dynamic linkShareVia;
   bool? isShipping;
   dynamic discountPrice;
- dynamic shippingPolicy;
+  dynamic shippingPolicy;
 
   ProdcutData(
       {this.id,
-        this.vendorId,
-        this.addressId,
-        this.catId,
-        this.catId2,
-        this.jobCat,
-        this.brandSlug,
-        this.slug,
-        this.pname,
-        this.prodectImage,
-        this.prodectName,
-        this.prodectSku,
-        this.views,
-        this.code,
-        this.bookingProductType,
-        this.prodectPrice,
-        this.prodectMinQty,
-        this.prodectMixQty,
-        this.prodectDescription,
-        this.image,
-        this.arabPname,
-        this.productType,
-        this.itemType,
-        this.virtualProductType,
-        this.skuId,
-        this.pPrice,
-        this.sPrice,
-        this.commission,
-        this.bestSaller,
-        this.featured,
-        this.taxApply,
-        this.taxType,
-        this.shortDescription,
-        this.arabShortDescription,
-        this.longDescription,
-        this.arabLongDescription,
-        this.featuredImage,
-        this.galleryImage,
-        this.virtualProductFile,
-        this.virtualProductFileType,
-        this.virtualProductFileLanguage,
-        this.featureImageApp,
-        this.featureImageWeb,
-        this.inStock,
-        this.weight,
-        this.weightUnit,
-        this.time,
-        this.timePeriod,
-        this.stockAlert,
-        this.shippingCharge,
-        this.avgRating,
-        this.metaTitle,
-        this.metaKeyword,
-        this.metaDescription,
-        this.metaTags,
-        this.seoTags,
-        this.parentId,
-        this.serviceStartTime,
-        this.serviceEndTime,
-        this.serviceDuration,
-        this.deliverySize,
-        this.serialNumber,
-        this.productNumber,
-        this.productCode,
-        this.promotionCode,
-        this.packageDetail,
-        this.jobseekingOrOffering,
-        this.jobType,
-        this.jobModel,
-        this.describeJobRole,
-        this.linkdinUrl,
-        this.experience,
-        this.salary,
-        this.aboutYourself,
-        this.jobHours,
-        this.jobCountryId,
-        this.jobStateId,
-        this.jobCityId,
-        this.uploadCv,
-        this.isOnsale,
-        this.discountPercent,
-        this.fixedDiscountPrice,
-        this.shippingPay,
-        this.createdAt,
-        this.updatedAt,
-        this.topHunderd,
-        this.limitedTimeDeal,
-        this.returnDays,
-        this.keyword,
-        this.isPublish,
-        this.inOffer,
-        this.forAuction,
-        this.returnPolicyDesc,
-        this.shippingPolicyDesc,
-        this.pickupPolicyId,
-        this.bookableProductLocation,
-        this.spot,
-        this.hostName,
-        this.programName,
-        this.programGoal,
-        this.programDesc,
-        this.eligibleMinAge,
-        this.eligibleMaxAge,
-        this.eligibleGender,
-        this.fromLocation,
-        this.toLocation,
-        this.fromExtraNotes,
-        this.toExtraNotes,
-        this.timingExtraNotes,
-        this.productSponsorsId,
-        this.meetingPlatform,
-        this.meetingLink,
-        this.optionalLink,
-        this.linkShareVia,
-        this.isShipping,
-        this.discountPrice,
-        this.shippingPolicy});
+      this.vendorId,
+      this.addressId,
+      this.catId,
+      this.catId2,
+      this.jobCat,
+      this.brandSlug,
+      this.slug,
+      this.pname,
+      this.prodectImage,
+      this.prodectName,
+      this.prodectSku,
+      this.views,
+      this.code,
+      this.bookingProductType,
+      this.prodectPrice,
+      this.prodectMinQty,
+      this.prodectMixQty,
+      this.prodectDescription,
+      this.image,
+      this.arabPname,
+      this.productType,
+      this.itemType,
+      this.virtualProductType,
+      this.skuId,
+      this.pPrice,
+      this.sPrice,
+      this.commission,
+      this.bestSaller,
+      this.featured,
+      this.taxApply,
+      this.taxType,
+      this.shortDescription,
+      this.arabShortDescription,
+      this.longDescription,
+      this.arabLongDescription,
+      this.featuredImage,
+      this.galleryImage,
+      this.virtualProductFile,
+      this.virtualProductFileType,
+      this.virtualProductFileLanguage,
+      this.featureImageApp,
+      this.featureImageWeb,
+      this.inStock,
+      this.weight,
+      this.weightUnit,
+      this.time,
+      this.timePeriod,
+      this.stockAlert,
+      this.shippingCharge,
+      this.avgRating,
+      this.metaTitle,
+      this.metaKeyword,
+      this.metaDescription,
+      this.metaTags,
+      this.seoTags,
+      this.parentId,
+      this.serviceStartTime,
+      this.serviceEndTime,
+      this.serviceDuration,
+      this.deliverySize,
+      this.serialNumber,
+      this.productNumber,
+      this.productCode,
+      this.promotionCode,
+      this.packageDetail,
+      this.jobseekingOrOffering,
+      this.jobType,
+      this.jobModel,
+      this.describeJobRole,
+      this.linkdinUrl,
+      this.experience,
+      this.salary,
+      this.aboutYourself,
+      this.jobHours,
+      this.jobCountryId,
+      this.jobStateId,
+      this.jobCityId,
+      this.uploadCv,
+      this.isOnsale,
+      this.discountPercent,
+      this.fixedDiscountPrice,
+      this.shippingPay,
+      this.createdAt,
+      this.updatedAt,
+      this.topHunderd,
+      this.limitedTimeDeal,
+      this.returnDays,
+      this.keyword,
+      this.isPublish,
+      this.inOffer,
+      this.forAuction,
+      this.returnPolicyDesc,
+      this.shippingPolicyDesc,
+      this.pickupPolicyId,
+      this.bookableProductLocation,
+      this.spot,
+      this.hostName,
+      this.programName,
+      this.programGoal,
+      this.programDesc,
+      this.eligibleMinAge,
+      this.eligibleMaxAge,
+      this.eligibleGender,
+      this.fromLocation,
+      this.toLocation,
+      this.fromExtraNotes,
+      this.toExtraNotes,
+      this.timingExtraNotes,
+      this.productSponsorsId,
+      this.meetingPlatform,
+      this.meetingLink,
+      this.optionalLink,
+      this.linkShareVia,
+      this.isShipping,
+      this.discountPrice,
+      this.shippingPolicy});
 
   ProdcutData.fromJson(Map<String, dynamic> json) {
     id = json['id'];
@@ -1313,6 +1286,7 @@ class ProdcutData {
     return data;
   }
 }
+
 class FedexShipping {
   dynamic transactionId;
   Output? output;
@@ -1321,8 +1295,7 @@ class FedexShipping {
 
   FedexShipping.fromJson(Map<String, dynamic> json) {
     transactionId = json['transactionId'];
-    output =
-    json['output'] != null ? new Output.fromJson(json['output']) : null;
+    output = json['output'] != null ? new Output.fromJson(json['output']) : null;
   }
 
   Map<String, dynamic> toJson() {
@@ -1334,6 +1307,7 @@ class FedexShipping {
     return data;
   }
 }
+
 class Output {
   List<RateReplyDetails>? rateReplyDetails;
   dynamic quoteDate;
@@ -1355,14 +1329,14 @@ class Output {
   Map<String, dynamic> toJson() {
     final Map<String, dynamic> data = new Map<String, dynamic>();
     if (this.rateReplyDetails != null) {
-      data['rateReplyDetails'] =
-          this.rateReplyDetails!.map((v) => v.toJson()).toList();
+      data['rateReplyDetails'] = this.rateReplyDetails!.map((v) => v.toJson()).toList();
     }
     data['quoteDate'] = this.quoteDate;
     data['encoded'] = this.encoded;
     return data;
   }
 }
+
 class RateReplyDetails {
   dynamic serviceType;
   dynamic serviceName;
@@ -1377,22 +1351,21 @@ class RateReplyDetails {
 
   RateReplyDetails(
       {this.serviceType,
-        this.serviceName,
-        this.packagingType,
-        this.commit,
-        this.customerMessages,
-        this.ratedShipmentDetails,
-        this.operationalDetail,
-        this.signatureOptionType,
-        this.serviceDescription,
-        this.deliveryStation});
+      this.serviceName,
+      this.packagingType,
+      this.commit,
+      this.customerMessages,
+      this.ratedShipmentDetails,
+      this.operationalDetail,
+      this.signatureOptionType,
+      this.serviceDescription,
+      this.deliveryStation});
 
   RateReplyDetails.fromJson(Map<String, dynamic> json) {
     serviceType = json['serviceType'];
     serviceName = json['serviceName'];
     packagingType = json['packagingType'];
-    commit =
-    json['commit'] != null ? new Commit.fromJson(json['commit']) : null;
+    commit = json['commit'] != null ? new Commit.fromJson(json['commit']) : null;
     if (json['customerMessages'] != null) {
       customerMessages = <CustomerMessages>[];
       json['customerMessages'].forEach((v) {
@@ -1405,13 +1378,11 @@ class RateReplyDetails {
         ratedShipmentDetails!.add(new RatedShipmentDetails.fromJson(v));
       });
     }
-    operationalDetail = json['operationalDetail'] != null
-        ? new OperationalDetail.fromJson(json['operationalDetail'])
-        : null;
+    operationalDetail =
+        json['operationalDetail'] != null ? new OperationalDetail.fromJson(json['operationalDetail']) : null;
     signatureOptionType = json['signatureOptionType'];
-    serviceDescription = json['serviceDescription'] != null
-        ? new ServiceDescription.fromJson(json['serviceDescription'])
-        : null;
+    serviceDescription =
+        json['serviceDescription'] != null ? new ServiceDescription.fromJson(json['serviceDescription']) : null;
     deliveryStation = json['deliveryStation'];
   }
 
@@ -1424,12 +1395,10 @@ class RateReplyDetails {
       data['commit'] = this.commit!.toJson();
     }
     if (this.customerMessages != null) {
-      data['customerMessages'] =
-          this.customerMessages!.map((v) => v.toJson()).toList();
+      data['customerMessages'] = this.customerMessages!.map((v) => v.toJson()).toList();
     }
     if (this.ratedShipmentDetails != null) {
-      data['ratedShipmentDetails'] =
-          this.ratedShipmentDetails!.map((v) => v.toJson()).toList();
+      data['ratedShipmentDetails'] = this.ratedShipmentDetails!.map((v) => v.toJson()).toList();
     }
     if (this.operationalDetail != null) {
       data['operationalDetail'] = this.operationalDetail!.toJson();
@@ -1442,6 +1411,7 @@ class RateReplyDetails {
     return data;
   }
 }
+
 class Commit {
   DateDetail? dateDetail;
   dynamic label;
@@ -1453,13 +1423,14 @@ class Commit {
   bool? saturdayDelivery;
 
   Commit(
-      {this.dateDetail,this.label,
-        this.commitMessageDetails,
-        this.commodityName,
-        this.deliveryMessages,
-        this.derivedOriginDetail,
-        this.derivedDestinationDetail,
-        this.saturdayDelivery});
+      {this.dateDetail,
+      this.label,
+      this.commitMessageDetails,
+      this.commodityName,
+      this.deliveryMessages,
+      this.derivedOriginDetail,
+      this.derivedDestinationDetail,
+      this.saturdayDelivery});
 
   Commit.fromJson(Map<String, dynamic> json) {
     label = json['label'];
@@ -1467,12 +1438,10 @@ class Commit {
     commitMessageDetails = json['commitMessageDetails'];
     commodityName = json['commodityName'];
     deliveryMessages = json['deliveryMessages'].cast<String>();
-    derivedOriginDetail = json['derivedOriginDetail'] != null
-        ? new DerivedOriginDetail.fromJson(json['derivedOriginDetail'])
-        : null;
+    derivedOriginDetail =
+        json['derivedOriginDetail'] != null ? new DerivedOriginDetail.fromJson(json['derivedOriginDetail']) : null;
     derivedDestinationDetail = json['derivedDestinationDetail'] != null
-        ? new DerivedDestinationDetail.fromJson(
-        json['derivedDestinationDetail'])
+        ? new DerivedDestinationDetail.fromJson(json['derivedDestinationDetail'])
         : null;
     saturdayDelivery = json['saturdayDelivery'];
   }
@@ -1490,13 +1459,13 @@ class Commit {
       data['derivedOriginDetail'] = this.derivedOriginDetail!.toJson();
     }
     if (this.derivedDestinationDetail != null) {
-      data['derivedDestinationDetail'] =
-          this.derivedDestinationDetail!.toJson();
+      data['derivedDestinationDetail'] = this.derivedDestinationDetail!.toJson();
     }
     data['saturdayDelivery'] = this.saturdayDelivery;
     return data;
   }
 }
+
 class DateDetail {
   String? dayOfWeek;
   String? dayFormat;
@@ -1515,19 +1484,15 @@ class DateDetail {
     return data;
   }
 }
+
 class DerivedOriginDetail {
   dynamic countryCode;
   dynamic postalCode;
   dynamic serviceArea;
   dynamic locationId;
- dynamic locationNumber;
+  dynamic locationNumber;
 
-  DerivedOriginDetail(
-      {this.countryCode,
-        this.postalCode,
-        this.serviceArea,
-        this.locationId,
-        this.locationNumber});
+  DerivedOriginDetail({this.countryCode, this.postalCode, this.serviceArea, this.locationId, this.locationNumber});
 
   DerivedOriginDetail.fromJson(Map<String, dynamic> json) {
     countryCode = json['countryCode'];
@@ -1553,16 +1518,11 @@ class DerivedDestinationDetail {
   dynamic postalCode;
   dynamic serviceArea;
   dynamic locationId;
- dynamic locationNumber;
+  dynamic locationNumber;
   dynamic airportId;
 
   DerivedDestinationDetail(
-      {this.countryCode,
-        this.postalCode,
-        this.serviceArea,
-        this.locationId,
-        this.locationNumber,
-        this.airportId});
+      {this.countryCode, this.postalCode, this.serviceArea, this.locationId, this.locationNumber, this.airportId});
 
   DerivedDestinationDetail.fromJson(Map<String, dynamic> json) {
     countryCode = json['countryCode'];
@@ -1607,34 +1567,34 @@ class CustomerMessages {
 class RatedShipmentDetails {
   dynamic rateType;
   dynamic ratedWeightMethod;
- dynamic totalDiscounts;
+  dynamic totalDiscounts;
   dynamic totalBaseCharge;
   dynamic totalNetCharge;
- dynamic totalVatCharge;
+  dynamic totalVatCharge;
   dynamic totalNetFedExCharge;
- dynamic totalDutiesAndTaxes;
+  dynamic totalDutiesAndTaxes;
   dynamic totalNetChargeWithDutiesAndTaxes;
- dynamic totalDutiesTaxesAndFees;
- dynamic totalAncillaryFeesAndTaxes;
+  dynamic totalDutiesTaxesAndFees;
+  dynamic totalAncillaryFeesAndTaxes;
   ShipmentRateDetail? shipmentRateDetail;
   List<RatedPackages>? ratedPackages;
   dynamic currency;
 
   RatedShipmentDetails(
       {this.rateType,
-        this.ratedWeightMethod,
-        this.totalDiscounts,
-        this.totalBaseCharge,
-        this.totalNetCharge,
-        this.totalVatCharge,
-        this.totalNetFedExCharge,
-        this.totalDutiesAndTaxes,
-        this.totalNetChargeWithDutiesAndTaxes,
-        this.totalDutiesTaxesAndFees,
-        this.totalAncillaryFeesAndTaxes,
-        this.shipmentRateDetail,
-        this.ratedPackages,
-        this.currency});
+      this.ratedWeightMethod,
+      this.totalDiscounts,
+      this.totalBaseCharge,
+      this.totalNetCharge,
+      this.totalVatCharge,
+      this.totalNetFedExCharge,
+      this.totalDutiesAndTaxes,
+      this.totalNetChargeWithDutiesAndTaxes,
+      this.totalDutiesTaxesAndFees,
+      this.totalAncillaryFeesAndTaxes,
+      this.shipmentRateDetail,
+      this.ratedPackages,
+      this.currency});
 
   RatedShipmentDetails.fromJson(Map<String, dynamic> json) {
     rateType = json['rateType'];
@@ -1648,9 +1608,8 @@ class RatedShipmentDetails {
     totalNetChargeWithDutiesAndTaxes = json['totalNetChargeWithDutiesAndTaxes'];
     totalDutiesTaxesAndFees = json['totalDutiesTaxesAndFees'];
     totalAncillaryFeesAndTaxes = json['totalAncillaryFeesAndTaxes'];
-    shipmentRateDetail = json['shipmentRateDetail'] != null
-        ? new ShipmentRateDetail.fromJson(json['shipmentRateDetail'])
-        : null;
+    shipmentRateDetail =
+        json['shipmentRateDetail'] != null ? new ShipmentRateDetail.fromJson(json['shipmentRateDetail']) : null;
     if (json['ratedPackages'] != null) {
       ratedPackages = <RatedPackages>[];
       json['ratedPackages'].forEach((v) {
@@ -1670,16 +1629,14 @@ class RatedShipmentDetails {
     data['totalVatCharge'] = this.totalVatCharge;
     data['totalNetFedExCharge'] = this.totalNetFedExCharge;
     data['totalDutiesAndTaxes'] = this.totalDutiesAndTaxes;
-    data['totalNetChargeWithDutiesAndTaxes'] =
-        this.totalNetChargeWithDutiesAndTaxes;
+    data['totalNetChargeWithDutiesAndTaxes'] = this.totalNetChargeWithDutiesAndTaxes;
     data['totalDutiesTaxesAndFees'] = this.totalDutiesTaxesAndFees;
     data['totalAncillaryFeesAndTaxes'] = this.totalAncillaryFeesAndTaxes;
     if (this.shipmentRateDetail != null) {
       data['shipmentRateDetail'] = this.shipmentRateDetail!.toJson();
     }
     if (this.ratedPackages != null) {
-      data['ratedPackages'] =
-          this.ratedPackages!.map((v) => v.toJson()).toList();
+      data['ratedPackages'] = this.ratedPackages!.map((v) => v.toJson()).toList();
     }
     data['currency'] = this.currency;
     return data;
@@ -1688,7 +1645,7 @@ class RatedShipmentDetails {
 
 class ShipmentRateDetail {
   dynamic rateZone;
- dynamic dimDivisor;
+  dynamic dimDivisor;
   dynamic fuelSurchargePercent;
   dynamic totalSurcharges;
   dynamic totalFreightDiscount;
@@ -1704,19 +1661,19 @@ class ShipmentRateDetail {
 
   ShipmentRateDetail(
       {this.rateZone,
-        this.dimDivisor,
-        this.fuelSurchargePercent,
-        this.totalSurcharges,
-        this.totalFreightDiscount,
-        this.freightDiscount,
-        this.surCharges,
-        this.pricingCode,
-        this.currencyExchangeRate,
-        this.totalBillingWeight,
-        this.dimDivisorType,
-        this.currency,
-        this.rateScale,
-        this.totalRateScaleWeight});
+      this.dimDivisor,
+      this.fuelSurchargePercent,
+      this.totalSurcharges,
+      this.totalFreightDiscount,
+      this.freightDiscount,
+      this.surCharges,
+      this.pricingCode,
+      this.currencyExchangeRate,
+      this.totalBillingWeight,
+      this.dimDivisorType,
+      this.currency,
+      this.rateScale,
+      this.totalRateScaleWeight});
 
   ShipmentRateDetail.fromJson(Map<String, dynamic> json) {
     rateZone = json['rateZone'];
@@ -1737,18 +1694,15 @@ class ShipmentRateDetail {
       });
     }
     pricingCode = json['pricingCode'];
-    currencyExchangeRate = json['currencyExchangeRate'] != null
-        ? new CurrencyExchangeRate.fromJson(json['currencyExchangeRate'])
-        : null;
-    totalBillingWeight = json['totalBillingWeight'] != null
-        ? new TotalBillingWeight.fromJson(json['totalBillingWeight'])
-        : null;
+    currencyExchangeRate =
+        json['currencyExchangeRate'] != null ? new CurrencyExchangeRate.fromJson(json['currencyExchangeRate']) : null;
+    totalBillingWeight =
+        json['totalBillingWeight'] != null ? new TotalBillingWeight.fromJson(json['totalBillingWeight']) : null;
     dimDivisorType = json['dimDivisorType'];
     currency = json['currency'];
     rateScale = json['rateScale'];
-    totalRateScaleWeight = json['totalRateScaleWeight'] != null
-        ? new TotalBillingWeight.fromJson(json['totalRateScaleWeight'])
-        : null;
+    totalRateScaleWeight =
+        json['totalRateScaleWeight'] != null ? new TotalBillingWeight.fromJson(json['totalRateScaleWeight']) : null;
   }
 
   Map<String, dynamic> toJson() {
@@ -1759,8 +1713,7 @@ class ShipmentRateDetail {
     data['totalSurcharges'] = this.totalSurcharges;
     data['totalFreightDiscount'] = this.totalFreightDiscount;
     if (this.freightDiscount != null) {
-      data['freightDiscount'] =
-          this.freightDiscount!.map((v) => v.toJson()).toList();
+      data['freightDiscount'] = this.freightDiscount!.map((v) => v.toJson()).toList();
     }
     if (this.surCharges != null) {
       data['surCharges'] = this.surCharges!.map((v) => v.toJson()).toList();
@@ -1835,7 +1788,7 @@ class SurCharges {
 class CurrencyExchangeRate {
   dynamic fromCurrency;
   dynamic intoCurrency;
- dynamic rate;
+  dynamic rate;
 
   CurrencyExchangeRate({this.fromCurrency, this.intoCurrency, this.rate});
 
@@ -1856,7 +1809,7 @@ class CurrencyExchangeRate {
 
 class TotalBillingWeight {
   dynamic units;
- dynamic value;
+  dynamic value;
 
   TotalBillingWeight({this.units, this.value});
 
@@ -1874,23 +1827,18 @@ class TotalBillingWeight {
 }
 
 class RatedPackages {
- dynamic groupNumber;
- dynamic effectiveNetDiscount;
+  dynamic groupNumber;
+  dynamic effectiveNetDiscount;
   PackageRateDetail? packageRateDetail;
- dynamic sequenceNumber;
+  dynamic sequenceNumber;
 
-  RatedPackages(
-      {this.groupNumber,
-        this.effectiveNetDiscount,
-        this.packageRateDetail,
-        this.sequenceNumber});
+  RatedPackages({this.groupNumber, this.effectiveNetDiscount, this.packageRateDetail, this.sequenceNumber});
 
   RatedPackages.fromJson(Map<String, dynamic> json) {
     groupNumber = json['groupNumber'];
     effectiveNetDiscount = json['effectiveNetDiscount'];
-    packageRateDetail = json['packageRateDetail'] != null
-        ? new PackageRateDetail.fromJson(json['packageRateDetail'])
-        : null;
+    packageRateDetail =
+        json['packageRateDetail'] != null ? new PackageRateDetail.fromJson(json['packageRateDetail']) : null;
     sequenceNumber = json['sequenceNumber'];
   }
 
@@ -1913,9 +1861,9 @@ class PackageRateDetail {
   dynamic netFreight;
   dynamic totalSurcharges;
   dynamic netFedExCharge;
- dynamic totalTaxes;
+  dynamic totalTaxes;
   dynamic netCharge;
- dynamic totalRebates;
+  dynamic totalRebates;
   TotalBillingWeight? billingWeight;
   dynamic totalFreightDiscounts;
   // List<FreightDiscounts>? freightDiscounts;
@@ -1924,19 +1872,19 @@ class PackageRateDetail {
 
   PackageRateDetail(
       {this.rateType,
-        this.ratedWeightMethod,
-        this.baseCharge,
-        this.netFreight,
-        this.totalSurcharges,
-        this.netFedExCharge,
-        this.totalTaxes,
-        this.netCharge,
-        this.totalRebates,
-        this.billingWeight,
-        this.totalFreightDiscounts,
-        // this.freightDiscounts,
-        // this.surcharges,
-        this.currency});
+      this.ratedWeightMethod,
+      this.baseCharge,
+      this.netFreight,
+      this.totalSurcharges,
+      this.netFedExCharge,
+      this.totalTaxes,
+      this.netCharge,
+      this.totalRebates,
+      this.billingWeight,
+      this.totalFreightDiscounts,
+      // this.freightDiscounts,
+      // this.surcharges,
+      this.currency});
 
   PackageRateDetail.fromJson(Map<String, dynamic> json) {
     rateType = json['rateType'];
@@ -1948,9 +1896,7 @@ class PackageRateDetail {
     totalTaxes = json['totalTaxes'];
     netCharge = json['netCharge'];
     totalRebates = json['totalRebates'];
-    billingWeight = json['billingWeight'] != null
-        ? new TotalBillingWeight.fromJson(json['billingWeight'])
-        : null;
+    billingWeight = json['billingWeight'] != null ? new TotalBillingWeight.fromJson(json['billingWeight']) : null;
     totalFreightDiscounts = json['totalFreightDiscounts'];
     // if (json['freightDiscounts'] != null) {
     //   freightDiscounts = <FreightDiscounts>[];
@@ -2011,18 +1957,18 @@ class OperationalDetail {
 
   OperationalDetail(
       {this.originLocationIds,
-        this.originLocationNumbers,
-        this.originServiceAreas,
-        this.destinationLocationIds,
-        this.destinationLocationNumbers,
-        this.destinationServiceAreas,
-        this.ineligibleForMoneyBackGuarantee,
-        this.astraDescription,
-        this.originPostalCodes,
-        this.countryCodes,
-        this.airportId,
-        this.serviceCode,
-        this.destinationPostalCode});
+      this.originLocationNumbers,
+      this.originServiceAreas,
+      this.destinationLocationIds,
+      this.destinationLocationNumbers,
+      this.destinationServiceAreas,
+      this.ineligibleForMoneyBackGuarantee,
+      this.astraDescription,
+      this.originPostalCodes,
+      this.countryCodes,
+      this.airportId,
+      this.serviceCode,
+      this.destinationPostalCode});
 
   OperationalDetail.fromJson(Map<String, dynamic> json) {
     originLocationIds = json['originLocationIds'].cast<String>();
@@ -2048,8 +1994,7 @@ class OperationalDetail {
     data['destinationLocationIds'] = this.destinationLocationIds;
     data['destinationLocationNumbers'] = this.destinationLocationNumbers;
     data['destinationServiceAreas'] = this.destinationServiceAreas;
-    data['ineligibleForMoneyBackGuarantee'] =
-        this.ineligibleForMoneyBackGuarantee;
+    data['ineligibleForMoneyBackGuarantee'] = this.ineligibleForMoneyBackGuarantee;
     data['astraDescription'] = this.astraDescription;
     data['originPostalCodes'] = this.originPostalCodes;
     data['countryCodes'] = this.countryCodes;
@@ -2071,12 +2016,12 @@ class ServiceDescription {
 
   ServiceDescription(
       {this.serviceId,
-        this.serviceType,
-        this.code,
-        this.names,
-        this.serviceCategory,
-        this.description,
-        this.astraDescription});
+      this.serviceType,
+      this.code,
+      this.names,
+      this.serviceCategory,
+      this.description,
+      this.astraDescription});
 
   ServiceDescription.fromJson(Map<String, dynamic> json) {
     serviceId = json['serviceId'];
@@ -2130,15 +2075,11 @@ class Names {
   }
 }
 
-
-
-
-
 class ShippingPolicy {
- dynamic id;
- dynamic vendorId;
+  dynamic id;
+  dynamic vendorId;
   dynamic title;
- dynamic days;
+  dynamic days;
   dynamic description;
   dynamic shippingType;
   Null freeFor;
@@ -2151,30 +2092,30 @@ class ShippingPolicy {
   Null range2Max;
   Null range2Percent;
   Null priceLimit;
- dynamic isDefault;
+  dynamic isDefault;
   dynamic createdAt;
   dynamic updatedAt;
 
   ShippingPolicy(
       {this.id,
-        this.vendorId,
-        this.title,
-        this.days,
-        this.description,
-        this.shippingType,
-        this.freeFor,
-        this.aboveShipping,
-        this.shippingZone,
-        this.range1Min,
-        this.range1Max,
-        this.range1Percent,
-        this.range2Min,
-        this.range2Max,
-        this.range2Percent,
-        this.priceLimit,
-        this.isDefault,
-        this.createdAt,
-        this.updatedAt});
+      this.vendorId,
+      this.title,
+      this.days,
+      this.description,
+      this.shippingType,
+      this.freeFor,
+      this.aboveShipping,
+      this.shippingZone,
+      this.range1Min,
+      this.range1Max,
+      this.range1Percent,
+      this.range2Min,
+      this.range2Max,
+      this.range2Percent,
+      this.priceLimit,
+      this.isDefault,
+      this.createdAt,
+      this.updatedAt});
 
   ShippingPolicy.fromJson(Map<String, dynamic> json) {
     id = json['id'];

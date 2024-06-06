@@ -426,33 +426,33 @@ class _ServiceInternationalShippingServiceState extends State<ServiceInternation
                   },
                 ),
                 const SizedBox(height: 20),
-                GestureDetector(
-                  onTap: (){
-                    Get.to(()=> ServiceOptionalScreen());
-                  },
-                  child: Container(
-                    width: Get.width,
-                    height: 55,
-                    decoration: BoxDecoration(
-                      border: Border.all(
-                        color: Colors.black, // Border color
-                        width: 1.0, // Border width
-                      ),
-                      borderRadius: BorderRadius.circular(10), // Border radius
-                    ),
-                    padding: const EdgeInsets.all(10), // Padding inside the container
-                    child: const Center(
-                      child: Text(
-                        'Skip',
-                        style: TextStyle(
-                          fontSize: 16,
-                          fontWeight: FontWeight.bold,
-                          color: Colors.black, // Text color
-                        ),
-                      ),
-                    ),
-                  ),
-                ),
+                // GestureDetector(
+                //   onTap: (){
+                //     Get.to(()=> ServiceOptionalScreen());
+                //   },
+                //   child: Container(
+                //     width: Get.width,
+                //     height: 55,
+                //     decoration: BoxDecoration(
+                //       border: Border.all(
+                //         color: Colors.black, // Border color
+                //         width: 1.0, // Border width
+                //       ),
+                //       borderRadius: BorderRadius.circular(10), // Border radius
+                //     ),
+                //     padding: const EdgeInsets.all(10), // Padding inside the container
+                //     child: const Center(
+                //       child: Text(
+                //         'Skip',
+                //         style: TextStyle(
+                //           fontSize: 16,
+                //           fontWeight: FontWeight.bold,
+                //           color: Colors.black, // Text color
+                //         ),
+                //       ),
+                //     ),
+                //   ),
+                // ),
               ],
             ),
           ),
