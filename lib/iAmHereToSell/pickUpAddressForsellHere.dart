@@ -237,7 +237,7 @@ class _SellingPickupAddressState extends State<SellingPickupAddress> {
                 ),
                 const SizedBox(height: 10,),
                 Text(
-                  "Zip Code".tr,
+                  "Zip Code*".tr,
                   style: GoogleFonts.poppins(color: const Color(0xff044484), fontWeight: FontWeight.w600, fontSize: 14),
                 ),
                 const SizedBox(height: 5,),

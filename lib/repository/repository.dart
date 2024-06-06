@@ -96,7 +96,7 @@ class Repositories {
         logOutUser();
         throw Exception(response.body);
       } else {
-        showToast(response.body);
+        // showToast(response.body);
         throw Exception(response.body);
       }
     }

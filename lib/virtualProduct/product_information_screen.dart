@@ -149,7 +149,12 @@ import 'package:dirise/virtualProduct/singleProductPriceScreen.dart';
   super.initState();
   getVendorCategories();
   productController.getProductsCategoryList();
-  fetchDataBasedOnId(productController.modelCategoryList?.data![0].vendorCategory);
+  if (productController.modelCategoryList != null &&
+      productController.modelCategoryList!.data != null &&
+      productController.modelCategoryList!.data!.isNotEmpty) {
+    fetchDataBasedOnId(productController.modelCategoryList!.data![0].vendorCategory);
+  }
+
   fetchSubCategoryBasedOnId(ProductID);
   if(widget.id != null){
   ProductNameController.text = widget.name.toString();

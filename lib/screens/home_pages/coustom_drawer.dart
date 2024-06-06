@@ -1907,10 +1907,11 @@ class _CustomDrawerState extends State<CustomDrawer> {
         minLeadingWidth: 0,
         onTap: () {
           if(isLoggedIn){
+            Get.to(const LoginScreen());
+
+          }else{
             _isValue.value = !_isValue.value;
             setState(() {});
-          }else{
-            Get.to(const LoginScreen());
           }
 
         },

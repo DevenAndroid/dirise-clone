@@ -117,7 +117,7 @@ class _MyOrdersScreenState extends State<MyOrdersScreen> {
                                     ),
                                     InkWell(
                                       onTap: () {
-                                        Get.toNamed(SelectedOrderScreen.route, arguments: order.orderId.toString());
+                                        Get.to(SelectedOrderScreen(modelDataOrder: order,));
                                       },
                                       child: Container(
                                         decoration: BoxDecoration(

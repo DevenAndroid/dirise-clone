@@ -148,7 +148,13 @@ class _ProductInformationScreensState extends State<ProductInformationScreens> {
     super.initState();
     getVendorCategories();
     productController.getProductsCategoryList();
-    fetchDataBasedOnId(productController.modelCategoryList?.data![0].vendorCategory);
+    log('sgdsfgsdfg${productController.modelCategoryList?.data!.length}');
+    if (productController.modelCategoryList != null &&
+        productController.modelCategoryList!.data != null &&
+        productController.modelCategoryList!.data!.isNotEmpty) {
+      fetchDataBasedOnId(productController.modelCategoryList!.data![0].vendorCategory);
+    }
+
     fetchSubCategoryBasedOnId(ProductID);
     if(widget.id != null){
       ProductNameController.text = widget.name.toString();
