@@ -444,7 +444,7 @@ class _ProductUIState extends State<ProductUI> {
                                 },
                                 child: RichText(
                                   text: TextSpan(
-                                      text: 'vendor doesn\'t ship internationally',
+                                      text: 'international shipping not available',
                                       style: GoogleFonts.poppins(
                                           color: const Color(0xff858484), fontSize: 13, fontWeight: FontWeight.w500),
                                       children: [
@@ -507,7 +507,11 @@ class _ProductUIState extends State<ProductUI> {
                             ),
                           ),
                         ),
-                        Row(
+
+
+                          widget.productElement.itemType != 'giveaway'?
+                          Row(
+
                             mainAxisAlignment: MainAxisAlignment.center,
                             crossAxisAlignment: CrossAxisAlignment.center,
                             children: [
@@ -580,7 +584,7 @@ class _ProductUIState extends State<ProductUI> {
                             : SizedBox(),
                       ],
                     ),
-                  ),
+
                 ],
               ),
             ],

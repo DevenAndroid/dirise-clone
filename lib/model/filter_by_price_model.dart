@@ -1,7 +1,9 @@
+import 'package:dirise/model/product_model/model_product_element.dart';
+
 class ModelFilterByPrice {
   bool? status;
   dynamic message;
-  List<Product>? product;
+  List<ProductElement>? product;
 
   ModelFilterByPrice({this.status, this.message, this.product});
 
@@ -9,8 +11,8 @@ class ModelFilterByPrice {
     status = json['status'];
     message = json['message'];
     if (json['product'] != null) {
-      product = <Product>[];
-      json['product'].forEach((v) { product!.add(new Product.fromJson(v)); });
+      product = <ProductElement>[];
+      json['product'].forEach((v) { product!.add(new ProductElement.fromJson(v)); });
     }
   }
 
