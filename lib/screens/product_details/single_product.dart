@@ -43,7 +43,7 @@ class _SingleProductDetailsState extends State<SingleProductDetails> {
   TextEditingController reviewController = TextEditingController();
   final profileController = Get.put(ProfileController());
 
-  ProductElement get productDetails => productElement;
+ ProductElement get productDetails => productElement;
   ModelSingleProduct modelSingleProduct = ModelSingleProduct();
   ModelAddReview modelAddReview = ModelAddReview();
 
@@ -141,7 +141,7 @@ class _SingleProductDetailsState extends State<SingleProductDetails> {
 
   Map<String, dynamic> get getMap {
     Map<String, dynamic> map = {};
-    map["product_id"] = productDetails.id.toString();
+    map["product_id"] = productElement.id.toString();
     map["quantity"] = map["quantity"] = int.tryParse(productQuantity.value.toString());
      map["key"] = 'fedexRate';
      map["country_id"]=profileController.model.user!.country_id;
@@ -158,7 +158,7 @@ class _SingleProductDetailsState extends State<SingleProductDetails> {
   }
 
   getProductDetails() {
-    repositories.postApi(url: ApiUrls.singleProductUrl, mapData: {"id": productDetails.id.toString(),"key":'fedexRate'}).then((value) {
+    repositories.postApi(url: ApiUrls.singleProductUrl, mapData: {"id": productElement.id.toString(),"key":'fedexRate'}).then((value) {
       modelSingleProduct = ModelSingleProduct.fromJson(jsonDecode(value));
       if (modelSingleProduct.product != null) {
         log("modelSingleProduct.product!.toJson().....${modelSingleProduct.product!.toJson()}");
@@ -176,7 +176,7 @@ class _SingleProductDetailsState extends State<SingleProductDetails> {
   addToCartProduct() {
     if (!validateSlots()) return;
     Map<String, dynamic> map = {};
-    map["product_id"] = productDetails.id.toString();
+    map["product_id"] = productElement.id.toString();
     map["quantity"] = map["quantity"] = int.tryParse(productQuantity.value.toString());
     map["key"] = 'fedexRate';
     map["country_id"]= profileController.model.user!= null ? profileController.model.user!.country_id : '117';
@@ -202,7 +202,7 @@ class _SingleProductDetailsState extends State<SingleProductDetails> {
   directBuyProduct() {
     if (!validateSlots()) return;
     Map<String, dynamic> map = {};
-    map["product_id"] = productDetails.id.toString();
+    map["product_id"] = productElement.id.toString();
     map["quantity"] = map["quantity"] = int.tryParse(productQuantity.value.toString());
     map["key"] = 'fedexRate';
     map["country_id"]= profileController.model.user!.country_id!= null ? profileController.model.user!.country_id : '117';
@@ -238,9 +238,9 @@ class _SingleProductDetailsState extends State<SingleProductDetails> {
   @override
   void initState() {
     super.initState();
-    productElement = widget.productDetails;
-    imagesList.add(productDetails.featuredImage.toString());
-    imagesList.addAll(productDetails.galleryImage ?? []);
+  productElement = widget.productDetails;
+    imagesList.add(productElement.featuredImage.toString());
+    imagesList.addAll(productElement.galleryImage ?? []);
     getPublishPostData();
     getProductDetails();
   }
@@ -248,13 +248,13 @@ class _SingleProductDetailsState extends State<SingleProductDetails> {
   RxInt productQuantity = 1.obs;
   final cartController = Get.put(CartController());
 
-  bool get checkLoaded => productDetails.pName != null && productDetails.sPrice != null;
+  bool get checkLoaded => productElement.pName != null && productElement.sPrice != null;
 
   CarouselController carouselController = CarouselController();
   Rx<ModelGetReview> modelGetReview = ModelGetReview().obs;
 
   Future getPublishPostData() async {
-    repositories.getApi(url: ApiUrls.getReviewUrl + productDetails.id.toString()).then((value) {
+    repositories.getApi(url: ApiUrls.getReviewUrl + productElement.id.toString()).then((value) {
       modelGetReview.value = ModelGetReview.fromJson(jsonDecode(value));
     });
   }
@@ -340,8 +340,8 @@ class _SingleProductDetailsState extends State<SingleProductDetails> {
                                     child: Column(
                                   crossAxisAlignment: CrossAxisAlignment.start,
                                   children: [
-                                    productDetails.itemType != 'giveaway'? Text(
-                                      "${productDetails.discountOff} ${'%'} Off",
+                                    productElement.itemType != 'giveaway'? Text(
+                                      "${productElement.discountOff} ${'%'} Off",
                                       style: GoogleFonts.poppins(
                                           fontSize: 14, fontWeight: FontWeight.w500, color: const Color(0xffC22E2E)),
                                     ): const SizedBox.shrink(),
@@ -349,40 +349,80 @@ class _SingleProductDetailsState extends State<SingleProductDetails> {
                                       height: 5,
                                     ),
                                     Text(
-                                      productDetails.pName.toString().capitalize!,
+                                      productElement.pName.toString().capitalize!,
                                       style: GoogleFonts.poppins(fontSize: 16, fontWeight: FontWeight.w500),
                                     ),
                                     const SizedBox(
                                       height: 5,
                                     ),
                                     Text(
-                                      '${productDetails.inStock.toString()} pieces',
+                                      '${productElement.inStock.toString()} pieces',
                                       style: GoogleFonts.poppins(color: const Color(0xff858484), fontSize: 17),
                                     ),
-                                    productDetails.itemType != 'giveaway'?    const SizedBox(
+                                    productElement.itemType != 'giveaway'?    const SizedBox(
                                       height: 5,
                                     ): const   SizedBox.shrink(),
-                                    productDetails.itemType != 'giveaway'?    Row(
+
+                                   productElement.itemType != 'giveaway'
+                                        ? Row(
                                       children: [
                                         Text(
-                                          'KWD ${productDetails.discountPrice.toString()}',
-                                          style: GoogleFonts.poppins(fontSize: 16, fontWeight: FontWeight.w500),
+                                          'KWD ${productElement.pPrice.toString()}',
+                                          style: GoogleFonts.poppins(
+                                              decorationColor: Colors.red,
+                                              decorationThickness: 2,
+                                              decoration: TextDecoration.lineThrough,
+                                              color: const Color(0xff19313B),
+                                              fontSize: 16,
+                                              fontWeight: FontWeight.w600),
                                         ),
                                         const SizedBox(
-                                          width: 12,
+                                          width: 7,
                                         ),
-                                        Expanded(
-                                          child: Text(
-                                            'KWD ${productDetails.pPrice.toString()}',
-                                            style: GoogleFonts.poppins(
-                                                decoration: TextDecoration.lineThrough,
-                                                color: const Color(0xff858484),
-                                                fontSize: 12,
-                                                fontWeight: FontWeight.w500),
+                                        Text.rich(
+                                          TextSpan(
+                                            text: '${productElement.discountPrice.toString().split('.')[0]}.',
+                                            style: const TextStyle(
+                                              fontSize: 24,
+                                              fontWeight: FontWeight.w600,
+                                              color: Color(0xFF19313B),
+                                            ),
+                                            children: [
+                                              WidgetSpan(
+                                                alignment: PlaceholderAlignment.middle,
+                                                child: Column(
+                                                  mainAxisAlignment: MainAxisAlignment.start,
+                                                  children: [
+                                                    const Text(
+                                                      'KWD',
+                                                      style: TextStyle(
+                                                        fontSize: 8,
+                                                        fontWeight: FontWeight.w500,
+                                                        color: Color(0xFF19313B),
+                                                      ),
+                                                    ),
+                                                    InkWell(
+                                                      onTap: () {
+                                                        print("date:::::::::::" + productElement.shippingDate);
+                                                      },
+                                                      child: Text(
+                                                        '${productElement.discountPrice.toString().split('.')[1]}',
+                                                        style: const TextStyle(
+                                                          fontSize: 8,
+                                                          fontWeight: FontWeight.w600,
+                                                          color: Color(0xFF19313B),
+                                                        ),
+                                                      ),
+                                                    ),
+                                                  ],
+                                                ),
+                                              ),
+                                            ],
                                           ),
                                         ),
                                       ],
-                                    ) : const SizedBox.shrink(),
+                                    )
+                                        : const SizedBox.shrink(),
                                   ],
                                 )),
                                 if (isVirtualProduct)
@@ -530,7 +570,7 @@ class _SingleProductDetailsState extends State<SingleProductDetails> {
                               height: 15,
                             ),
                             Text(
-                              Bidi.stripHtmlIfNeeded(productDetails.longDescription.toString()),
+                              Bidi.stripHtmlIfNeeded(productElement.longDescription.toString()),
                               style: GoogleFonts.poppins(
                                 fontSize: 14,
                                 fontWeight: FontWeight.w400,
@@ -589,8 +629,8 @@ class _SingleProductDetailsState extends State<SingleProductDetails> {
                                   : const SizedBox();
                             }),
                             20.spaceY,
-                            productDetails.beforePurchase == true &&
-                                    productDetails.alreadyReview == false &&
+                            productElement.beforePurchase == true &&
+                                productElement.alreadyReview == false &&
                                     alreadyReview.value == false
                                 ? Column(
                                     crossAxisAlignment: CrossAxisAlignment.start,
@@ -619,7 +659,7 @@ class _SingleProductDetailsState extends State<SingleProductDetails> {
                                         onPressed: () {
                                           Map<String, String> map = {};
                                           map['comment'] = reviewController.text.toString();
-                                          map['product_id'] = productDetails.id.toString();
+                                          map['product_id'] = productElement.id.toString();
                                           repositories.postApi(url: ApiUrls.addReviewUrl, mapData: map).then((value) {
                                             modelAddReview = ModelAddReview.fromJson(jsonDecode(value));
                                             if (modelAddReview.status == true) {
@@ -786,7 +826,7 @@ class _SingleProductDetailsState extends State<SingleProductDetails> {
                                 ),
                                 GestureDetector(
                                   onTap: () {
-                                    if ((productDetails.inStock.toString().convertToNum ?? 0) > productQuantity.value) {
+                                    if ((productElement.inStock.toString().convertToNum ?? 0) > productQuantity.value) {
                                       productQuantity.value++;
                                     } else {
                                       showToast("Out Of Stock".tr);

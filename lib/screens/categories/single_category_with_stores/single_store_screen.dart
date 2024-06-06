@@ -68,7 +68,7 @@ class _SingleStoreScreenState extends State<SingleStoreScreen> {
   bool paginationLoading = false;
 
   ScrollController scrollController = ScrollController();
-  ModelStoreProducts modelProductsList = ModelStoreProducts(data: null);
+  ModelStoreProducts modelProductsList = ModelStoreProducts();
   Rx<ModelFilterByPrice> filterModel = ModelFilterByPrice().obs;
 
   filterProduct({productId}) {
@@ -761,16 +761,20 @@ class _SingleStoreScreenState extends State<SingleStoreScreen> {
                 filterModel.value.product!.isNotEmpty
                     ? SliverGrid.builder(
                   gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
-                      crossAxisCount: 2, crossAxisSpacing: 10, mainAxisSpacing: 10, childAspectRatio: .74),
+                    crossAxisCount: 1, // Set crossAxisCount to 1 to show one item per row
+                    crossAxisSpacing: 10,
+                    mainAxisSpacing: 10,
+                    childAspectRatio: .74,
+                  ),
                   itemCount: filterModel.value.product!.length,
                   itemBuilder: (BuildContext context, int index) {
                     final item = filterModel.value.product![index];
                     return Padding(
                       padding: const EdgeInsets.symmetric(horizontal: 12),
                       child: ProductUI(
-                        productElement: ProductElement.fromJson(item.toJson()),
+                        productElement:item,
                         onLiked: (value) {
-                          // modelProductsList.data![index].inWishlist = value;
+                          filterModel.value.product![index].inWishlist = value;
                         },
                       ),
                     );
@@ -784,21 +788,26 @@ class _SingleStoreScreenState extends State<SingleStoreScreen> {
                 modelProductsList.data!.isNotEmpty
                     ? SliverGrid.builder(
                   gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
-                      crossAxisCount: 2, crossAxisSpacing: 10, mainAxisSpacing: 10, childAspectRatio: .74),
+                    crossAxisCount: 1, // Set crossAxisCount to 1 to show one item per row
+                    crossAxisSpacing: 10,
+                    mainAxisSpacing: 10,
+                    childAspectRatio: .74,
+                  ),
                   itemCount: modelProductsList.data!.length,
                   itemBuilder: (BuildContext context, int index) {
                     final item = modelProductsList.data![index];
                     return Padding(
                       padding: const EdgeInsets.symmetric(horizontal: 12),
                       child: ProductUI(
-                        productElement: ProductElement.fromJson(item.toJson()),
+                        productElement: item,
                         onLiked: (value) {
-                          // modelProductsList.data![index].inWishlist = value;
+                         modelProductsList.data![index].inWishlist = value;
                         },
                       ),
                     );
                   },
                 )
+
                     : SliverToBoxAdapter(
                     child: Center(
                       child: Text(AppStrings.storeDontHaveAnyProduct),

@@ -444,7 +444,7 @@ class _ProductUIState extends State<ProductUI> {
                                 },
                                 child: RichText(
                                   text: TextSpan(
-                                      text: 'vendor doesn\'t ship internationally',
+                                      text: 'international shipping not available',
                                       style: GoogleFonts.poppins(
                                           color: const Color(0xff858484), fontSize: 13, fontWeight: FontWeight.w500),
                                       children: [
@@ -507,28 +507,7 @@ class _ProductUIState extends State<ProductUI> {
                             ),
                           ),
                         ),
-                        Row(
-                          mainAxisAlignment: MainAxisAlignment.center,
-                          crossAxisAlignment: CrossAxisAlignment.center,
-                          children: [
-                            GestureDetector(
-                              onTap: () {
-                                if (productQuantity.value > 1) {
-                                  productQuantity.value--;
-                                }
-                              },
-                              child: Center(
-                                  child: Text(
-                                "-",
-                                style: GoogleFonts.poppins(
-                                    fontSize: 40, fontWeight: FontWeight.w300, color: const Color(0xFF014E70)),
-                              )),
-                            ),
-                            SizedBox(
-                              width: size.width * .02,
-                            ),
 
-                          ),
                           widget.productElement.itemType != 'giveaway'?
                           Row(
                             mainAxisAlignment: MainAxisAlignment.center,
@@ -581,7 +560,7 @@ class _ProductUIState extends State<ProductUI> {
                       ),
 
                     ),
-                  ),
+
                 ],
               ),
             ],

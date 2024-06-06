@@ -2,7 +2,7 @@ import 'product_model/model_product_element.dart';
 class ModelStoreProducts {
   bool? status;
   dynamic message;
-  List<ProductElement>? data = [];
+  List<ProductElement>? data;
 
   ModelStoreProducts({this.status, this.message, this.data});
 
