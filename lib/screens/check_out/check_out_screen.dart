@@ -115,11 +115,13 @@ class _CheckOutScreenState extends State<CheckOutScreen> {
   // double sPrice = 0.0;
   bool get userLoggedIn => profileController.userLoggedIn;
   double total = 0.0;
+  double fedxTotal = 0.0;
 
   @override
   void initState() {
     super.initState();
     getCountryList();
+    cartController.getCart();
     getPaymentGateWays();
     cartController.selectedAddress = AddressData();
     cartController.countryName.value = '';
@@ -142,7 +144,6 @@ class _CheckOutScreenState extends State<CheckOutScreen> {
       cartController.getAddress();
     });
   }
-
   goBack() {
     // if(cartController.cartModel.cart!.getAllProducts.isEmpty){
     //   Future.delayed(Duration(seconds: 1)).then((value) {
@@ -171,6 +172,12 @@ RxString shipId = "".obs;
   }
 
   double shippingTotal = 0;
+  @override
+  void dispose() {
+    // TODO: implement dispose
+    super.dispose();
+    cartController.cartModel = ModelCartResponse();
+  }
   @override
   Widget build(BuildContext context) {
     Size size = MediaQuery.of(context).size;
@@ -248,14 +255,14 @@ RxString shipId = "".obs;
 
             // comment for testing
             // if (cartController.deliveryOption1.value == "delivery") {
-            // for (var item in cartController.cartModel.cart!.carsShowroom!.entries) {
-            //   var showroom = item.value;
-            //   if (item.value.shippingOption.isEmpty) {
-            //     showToast("Please select shipping Method".tr);
-            //     return;
-            //   }
-            //
-            // }
+            for (var item in cartController.cartModel.cart!.carsShowroom!.entries) {
+              var showroom = item.value;
+              if (item.value.shippingOption.isEmpty) {
+                showToast("Please select shipping Method".tr);
+                return;
+              }
+
+            }
 
 
 
@@ -302,9 +309,10 @@ RxString shipId = "".obs;
               currencyCode: "kwd",
               paymentMethod: paymentMethod1,
               shippingId:  shipId.value.toString(),
-shipmentProvider: shipmentProvider.value.toString(),
+                shipmentProvider: shipmentProvider.value.toString(),
               // deliveryOption: cartController.deliveryOption1.value,
               deliveryOption: 'delivery',
+              // purchaseType: PurchaseType.cart,
               purchaseType: PurchaseType.cart,
               subTotalPrice: cartController.cartModel.subtotal.toString(),
               totalPrice: cartController.formattedTotal.toString(),
@@ -410,12 +418,12 @@ shipmentProvider: shipmentProvider.value.toString(),
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
               Text("Total".tr, style: GoogleFonts.poppins(fontWeight: FontWeight.w500, fontSize: 18)),
-              //total == 0.0
-                  //?
+              total == 0.0
+                  ?
         Text("KWD ${cartController.cartModel.subtotal.toString()}",
                       style: GoogleFonts.poppins(fontWeight: FontWeight.w500, fontSize: 18))
-                  // : Text("KWD ${cartController.formattedTotal.toString()}",
-                  //     style: GoogleFonts.poppins(fontWeight: FontWeight.w500, fontSize: 18)),
+                  : Text("KWD ${cartController.formattedTotal.toString()}",
+                      style: GoogleFonts.poppins(fontWeight: FontWeight.w500, fontSize: 18)),
             ],
           ),
         ],
@@ -494,6 +502,7 @@ shipmentProvider: shipmentProvider.value.toString(),
           if (cartController.refreshInt.value > 0) {}
           return
             // cartController.myDefaultAddressModel.value.defaultAddress!= null ?
+            cartController.cartModel.cart!=null ?
           SingleChildScrollView(
             child: Column(
               children: cartController.cartModel.cart!.carsShowroom!.entries
@@ -736,6 +745,7 @@ shipmentProvider: shipmentProvider.value.toString(),
                                               : null,
                                           onChanged: (value) {
                                             setState(() {
+                                              shippingType.value = 'local_shipping';
                                               e.value.shippingOption.value = value.toString();
                                               e.value.shippingId.value = e.value.shipping!.localShipping![ii].id.toString();
                                               e.value.vendorId.value = e.value.shipping!.localShipping![ii].vendorId!;
@@ -750,12 +760,14 @@ shipmentProvider: shipmentProvider.value.toString(),
 
                                               // total = subtotal + shipping;
                                               cartController.formattedTotal = total.toStringAsFixed(3);
-                                              e.value.sMethod = double.parse(e.value.shipping!.localShipping![ii].value.toString());
+                                              e.value.sPrice = double.parse(e.value.shipping!.localShipping![ii].value.toString());
                                               // double sPrice = 0.0;
                                               sPrice1 = 0.0;
+                                              print('issues ${e.value.sPrice}');
                                               for (var item in cartController.cartModel.cart!.carsShowroom!.entries) {
+                                                // sPrice1 = 0.0;
                                                 if (item.value.shippingOption.value.isNotEmpty) {
-                                                  sPrice1 = sPrice1 + item.value.sMethod;
+                                                  sPrice1 = sPrice1 + item.value.sPrice;
                                                   // sPrice.toStringAsFixed(fractionDigits)
                                                   // Update sPrice directly without reassigning
                                                 }
@@ -763,6 +775,7 @@ shipmentProvider: shipmentProvider.value.toString(),
                                                 cartController.formattedTotal = total.toStringAsFixed(3);
                                                 log("Final sPrice::::::: $sPrice1");
                                                 log("Final sPrice:::Total:::: $total");
+                                                print('all total isss::::${cartController.formattedTotal.toString()}');
                                               }
                                             });
                                           },
@@ -851,8 +864,8 @@ shipmentProvider: shipmentProvider.value.toString(),
                                        RatedShipmentDetails product1 = e.value.shipping!.fedexShipping!.output!.rateReplyDetails![ii].ratedShipmentDetails![index];
                                        double subtotal = double.parse(e.value.fedexCommision.toString());
                                        double shipping = double.parse(product1.totalNetCharge.toString());
-                                       total = subtotal + shipping;
-                                       cartController.formattedTotal = total.toStringAsFixed(3);
+                                       fedxTotal = subtotal + shipping;
+                                       cartController.formattedTotal = fedxTotal.toStringAsFixed(3);
                                        print("icarryCommision"+ e.value.fedexCommision.toString());
                                        print("rate"+product1.totalNetCharge.toString());
                                        print('total isss${cartController.formattedTotal.toString()}');
@@ -879,21 +892,23 @@ shipmentProvider: shipmentProvider.value.toString(),
                                                    onChanged: (value) {
                                                      log("which is selected + $value");
                                                      setState(() {
-                                                       shippingType.value = "fedex_shipping";
+                                                       shippingType.value = 'fedex_shipping';
+                                                       e.value.shippingOption.value = value.toString();
+                                                       e.value.shipping!.fedexShippingOption.value = value.toString();
                                                        shipId.value = "";
                                                        shipmentProvider.value = "";
-                                                       e.value.shipping!.fedexShippingOption.value = value.toString();
                                                        cartController.shippingDates =product.commit!.dateDetail!.dayFormat.toString();
                                                        // e.value.shipping![ii].output!.rateReplyDetails![index].shippingDate = product.operationalDetail!.deliveryDate;
                                                        cartController.shippingTitle = product.serviceName.toString();
                                                        // cartController.shippingPrices = product.ratedShipmentDetails![index].totalNetCharge.toString();
-                                                       e.value.shippingOption.value = value.toString();
+                                                       // e.value.shippingOption.value = value.toString();
                                                        print( e.value.shipping!.fedexShippingOption.value.toString());
                                                        print(cartController.shippingTitle.toString());
                                                        print('select value${cartController.shippingPrices.toString()}');
                                                        print(cartController. shippingPrices.toString());
                                                        shippingPrice =  product.ratedShipmentDetails![index].totalNetCharge.toString();
-                                                       double subtotal = double.parse(e.value.fedexCommision.toString());
+                                                       double subtotal = double.parse(cartController.cartModel.subtotal.toString());
+                                                       print('subtotal is $subtotal');
                                                        double shipping = double.parse(product1.totalNetCharge.toString());
                                                        total = subtotal + shipping;
                                                        cartController.formattedTotal2 = total.toStringAsFixed(3);
@@ -923,7 +938,8 @@ shipmentProvider: shipmentProvider.value.toString(),
                                                          }
                                                          total = subtotal + sPrice1;
                                                          print('total isss${total.toString()}');
-                                                         // cartController.formattedTotal = total.toStringAsFixed(3);
+                                                         cartController.formattedTotal = total.toStringAsFixed(3);
+                                                         print('all total isss fedex::::${cartController.formattedTotal.toString()}');
                                                        }
 
                                                      });
@@ -937,7 +953,7 @@ shipmentProvider: shipmentProvider.value.toString(),
                                                        Text(product.serviceName.toString().capitalize!.replaceAll('_', ' '),
                                                            style: GoogleFonts.poppins(fontWeight: FontWeight.w500, fontSize: 16)),
                                                        3.spaceY,
-                                                       Text('kwd ${ cartController.shippingPrices2.toString()}',
+                                                       Text('kwd ${ product1.totalNetCharge.toString()}',
                                                            style: GoogleFonts.poppins(fontWeight: FontWeight.w400,
                                                                fontSize: 16,
                                                                color: const Color(0xFF03a827))),
@@ -992,13 +1008,13 @@ shipmentProvider: shipmentProvider.value.toString(),
                             padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 15).copyWith(top: 0),
                             itemBuilder: (context, ii) {
                               IcarryShipping product = e.value.shipping!.icarryShipping![ii];
-                              double subtotal = double.parse(e.value.icarryCommision.toString());
-                              double shipping = double.parse(product.rate.toString());
-                              total = subtotal + shipping;
-                              cartController.formattedTotal = total.toStringAsFixed(3);
-                              print("icarryCommision"+ e.value.icarryCommision.toString());
-                              print("rate"+product.rate.toString());
-                              print('total isss${cartController.formattedTotal.toString()}');
+                              // double subtotal = double.parse(e.value.icarryCommision.toString());
+                              // double shipping = double.parse(product.rate.toString());
+                              // total = subtotal + shipping;
+                              // cartController.formattedTotal = total.toStringAsFixed(3);
+                              // print("icarryCommision"+ e.value.icarryCommision.toString());
+                              // print("rate"+product.rate.toString());
+                              // print('total isss${cartController.formattedTotal.toString()}');
                               cartController.shippingPrices = cartController.formattedTotal.toString();
                               return Obx(() {
                                 return Column(
@@ -1022,11 +1038,11 @@ shipmentProvider: shipmentProvider.value.toString(),
                                               : null,
                                           onChanged: (value) {
                                             setState(() {
+                                              e.value.shippingOption.value = value.toString();
                                               shippingType.value = "icarry_shipping";
                                               shipId.value =product.methodId.toString();
                                               shipmentProvider.value =product.carrierModel!.systemName.toString();
                                               cartController.shippingDates =product.methodName.toString();
-                                              e.value.shippingOption.value = value.toString();
                                               e.value.shipping!.fedexShippingOption.value = value.toString();
                                               cartController.shippingTitle =    product.name.toString();
                                               // cartController.shippingPrices = product.price.toString();
@@ -1109,7 +1125,7 @@ shipmentProvider: shipmentProvider.value.toString(),
                     ],
                   )).toList(),
             ),
-          );
+          ) : const SizedBox();
 
           // : const SizedBox.shrink();
           // CustomScrollView(

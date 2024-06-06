@@ -45,6 +45,8 @@ class _DirectCheckOutScreenState extends State<DirectCheckOutScreen> {
   final GlobalKey addressKey = GlobalKey();
   String shippingPrice = '0';
   double total = 0.0;
+  double fedxTotal = 0.0;
+  double fedxTotalShip = 0.0;
   ModelPaymentMethods? methods;
   getPaymentGateWays() {
     Repositories().getApi(url: ApiUrls.paymentMethodsUrl).then((value) {
@@ -372,7 +374,7 @@ RxString shippingType= "".obs;
                               padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 15).copyWith(top: 0),
                               itemBuilder: (context, ii) {
                                 var product = directOrderResponse.shippingType!.localShipping![ii];
-
+                                cartController.storeIdShipping = directOrderResponse.prodcutData!.vendorId.toString();
                                 return Obx(() {
                                   return Column(
                                     children: [
@@ -391,18 +393,36 @@ RxString shippingType= "".obs;
                                             visualDensity: const VisualDensity(horizontal: -4.0),
                                             onChanged: (value) {
                                               setState(() {
+                                                // directOrderResponse.fedexShippingOption.value = value.toString();
                                                 directOrderResponse.shippingOption.value = value.toString();
                                                 cartController.shippingId = directOrderResponse.shippingOption.value;
                                                 // shippingPrice =directOrderResponse.shippingType!.localShipping!.map((e) {
                                                 //   return e.value.toString();
                                                 // });
+                                                shippingType.value = "local_shipping";
                                                 double subtotal = double.parse(directOrderResponse.icarryCommision.toString());
                                                 double shipping = double.parse(product.value.toString());
-                                                total = subtotal + shipping;
+                                                shippingPrice = product.value.toString();
+                                                total = total + shipping;
                                                 cartController.formattedTotal = total.toString();
+                                                cartController.shippingTitle = product.name.toString();
+                                                cartController.shippingPrices1 = product.value.toString();
                                                 print('total isss${cartController.formattedTotal.toString()}');
                                                 log(directOrderResponse.shippingOption.value);
                                                 log(cartController.shippingId);
+                                                sPrice1 = 0.0;
+                                                if (directOrderResponse.shippingOption.value.isNotEmpty) {
+                                                  log("kiska price hai + ${directOrderResponse.prodcutData!.sPrice}");
+                                                  sPrice1 = sPrice1 + double.parse( product.value.toString());
+                                                  print('vafd${sPrice1.toString()}');
+                                                  // sPrice.toStringAsFixed(fractionDigits)
+                                                  // Update sPrice directly without reassigning
+                                                }
+                                                print('value changeesss${cartController.shippingPrices.toString()}');
+                                                total =  directOrderResponse.prodcutData!.sPrice + sPrice1;
+                                                print('total isss${total.toString()}');
+                                                cartController.formattedTotal = total.toStringAsFixed(3);
+
                                               });
                                             },
                                           ),
@@ -491,8 +511,8 @@ RxString shippingType= "".obs;
                                         .rateReplyDetails![ii].ratedShipmentDetails![index];
                                     double subtotal = double.parse(directOrderResponse.fedexCommision.toString());
                                     double shipping = double.parse(product1.totalNetCharge.toString());
-                                    total = subtotal + shipping;
-                                    cartController.formattedTotal = total.toStringAsFixed(3);
+                                    fedxTotal = subtotal + shipping;
+                                    cartController.formattedTotal = fedxTotal.toStringAsFixed(3);
                                     print("icarryCommision" + directOrderResponse.fedexCommision.toString());
                                     print("rate" + product1.totalNetCharge.toString());
                                     print('total isss${cartController.formattedTotal.toString()}');
@@ -548,26 +568,30 @@ RxString shippingType= "".obs;
                                                     // directOrderResponse.s.value = product.serviceName.toString();
                                                     // e.value.vendorPrice.value = product.ratedShipmentDetails![index].totalNetCharge.toString();
 
-                                                    directOrderResponse.prodcutData!.sPrice = product
-                                                        .ratedShipmentDetails![index].totalNetCharge;
-
+                                                    // directOrderResponse.prodcutData!.sPrice = product.ratedShipmentDetails![index].totalNetCharge;
+                                                    // shippingPrice = product.ratedShipmentDetails![index].totalNetCharge.toString() + directOrderResponse.fedexCommision.toString() ;
+                                                    double subtotalForShip = double.parse(directOrderResponse.fedexCommision.toString());
+                                                    double shippingForShip = double.parse(product1.totalNetCharge.toString());
+                                                    fedxTotalShip = subtotalForShip + shippingForShip;
+                                                    shippingPrice = fedxTotalShip.toStringAsFixed(3);
                                                     log("Initial sPrice:$sPrice1");
                                                     log("Initial sPrice" + cartController.shippingTitle);
                                                     log(product.serviceType.toString());
                                                     sPrice1 = 0.0;
-
+                                                    cartController.withoutSelectPrice = double.parse(cartController.shippingPrices);
+                                                    print('value change:::${cartController.shippingPrices.toString()}');
                                                     // sPrice1 = 0.0;
                                                     if (directOrderResponse.fedexShippingOption.value.isNotEmpty) {
-                                                      log("kiska price hai + ${directOrderResponse.prodcutData!.sPrice }");
-                                                      log("kiska price hai :::::::::::::::s+ ${shippingType.value
-                                                          .toString()}");
+                                                      log("kiska price hai + ${directOrderResponse.prodcutData!.sPrice}");
                                                       sPrice1 = sPrice1 + directOrderResponse.prodcutData!.sPrice;
+                                                      print('vafd${sPrice1.toString()}');
                                                       // sPrice.toStringAsFixed(fractionDigits)
                                                       // Update sPrice directly without reassigning
                                                     }
-                                                    total = subtotal + sPrice1;
+                                                    print('value changeesss${cartController.shippingPrices.toString()}');
+                                                    total =  double.parse(shippingPrice) + sPrice1;
                                                     print('total isss${total.toString()}');
-                                                    // cartController.formattedTotal = total.toStringAsFixed(3);
+                                                    cartController.formattedTotal = total.toStringAsFixed(3);
 
 
                                                   });
@@ -641,8 +665,8 @@ RxString shippingType= "".obs;
                                 IcarryShipping product = directOrderResponse.shippingType!.icarryShipping![ii];
                                 double subtotal = double.parse(directOrderResponse.icarryCommision.toString());
                                 double shipping = double.parse(product.rate.toString());
-                                total = subtotal + shipping;
-                                cartController.formattedTotal = total.toStringAsFixed(3);
+                                fedxTotal = subtotal + shipping;
+                                cartController.formattedTotal = fedxTotal.toStringAsFixed(3);
                                 print("icarryCommision" + directOrderResponse.icarryCommision.toString());
                                 print("rate" + product.rate.toString());
                                 print('total isss${cartController.formattedTotal.toString()}');
@@ -698,6 +722,10 @@ RxString shippingType= "".obs;
                                                 print("rate" + product.rate.toString());
                                                 print('total isss${cartController.formattedTotal2.toString()}');
                                                 cartController.shippingPrices1 = cartController.formattedTotal2.toString();
+                                                double subtotalForShip = double.parse(directOrderResponse.icarryCommision.toString());
+                                                double shippingForShip = double.parse(product.rate.toString());
+                                                fedxTotalShip = subtotalForShip + shippingForShip;
+                                                shippingPrice = fedxTotalShip.toStringAsFixed(3);
                                                 // shippingPrice =   product.price.toString();
                                                 // double subtotal = double.parse(cartController.cartModel.subtotal.toString());
                                                 // double shipping = double.parse(shippingPrice.toString());
@@ -708,8 +736,8 @@ RxString shippingType= "".obs;
                                                 // e.value.shippingVendorName.value = product.serviceName.toString();
                                                 // e.value.vendorPrice.value = product.ratedShipmentDetails![index].totalNetCharge.toString();
 
-                                                directOrderResponse.prodcutData!.sPrice = product.rate;
-
+                                                // directOrderResponse.prodcutData!.sPrice = product.rate;
+                                                shippingPrice = product.rate.toString();
                                                 log("Initial sPrice:$sPrice1");
                                                 log("Initial sPrice::::::::" + shipId.value.toString());
                                                 log("Initial sPrice::::::fdsggsgggggggg::" +
@@ -725,6 +753,7 @@ RxString shippingType= "".obs;
                                                   // sPrice.toStringAsFixed(fractionDigits)
                                                   // Update sPrice directly without reassigning
                                                 }
+
                                                 total = subtotal + sPrice1;
                                                 print('total isss${total.toString()}');
                                                 cartController.formattedTotal = total.toStringAsFixed(3);

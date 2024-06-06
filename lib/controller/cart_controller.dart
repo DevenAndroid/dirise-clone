@@ -62,6 +62,7 @@ class CartController extends GetxController {
   String shippingPrices = '';
   String shippingPrices1 = '';
   String shippingPrices2 = '';
+  double withoutSelectPrice = 0.0;
   String shippingPrices3 = '';
   final TextEditingController billingFirstName = TextEditingController();
   final TextEditingController billingLastName = TextEditingController();
@@ -70,6 +71,7 @@ class CartController extends GetxController {
   RxInt countDown = 30.obs;
   Timer? _timer;
   String formattedTotal = '';
+  String formattedTotalddf = '';
   String formattedTotal3 = '';
   String formattedTotal2 = '';
   String formattedTotal4 = '';
