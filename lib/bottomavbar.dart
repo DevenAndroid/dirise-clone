@@ -94,7 +94,7 @@ class _BottomNavbarState extends State<BottomNavbar> {
                     onPressed: () {
                       SystemNavigator.pop();
                     },
-                    child: const Text("Deny"),
+                    child: const Text("Exit App"),
                   ),
                   TextButton(
                     onPressed: () async {

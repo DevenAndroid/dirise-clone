@@ -99,7 +99,7 @@ class MyRouters {
     GetPage(name: CheckOutScreen.route, page: () => const CheckOutScreen()),
     GetPage(name: OrderCompleteScreen.route, page: () => const OrderCompleteScreen()),
     GetPage(name: MyOrdersScreen.route, page: () => const MyOrdersScreen()),
-    GetPage(name: SelectedOrderScreen.route, page: () => const SelectedOrderScreen()),
+    // GetPage(name: SelectedOrderScreen.route, page: () => const SelectedOrderScreen()),
     GetPage(name: DirectCheckOutScreen.route, page: () => const DirectCheckOutScreen()),
     GetPage(name: VendorProfileScreen.route, page: () => const VendorProfileScreen()),
     GetPage(name: AddAddressScreen.route, page: () => const AddAddressScreen()),
