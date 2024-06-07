@@ -4,7 +4,9 @@ description: Flutter project.
 publish_to: 'none'
 
 
+
 version: 1.0.17+35
+
 
 environment:
   sdk: '>=3.2.0 <4.0.0'
@@ -77,6 +79,7 @@ dependencies:
   firebase_analytics: ^10.0.0
   intl_phone_field: ^3.2.0
   easy_image_viewer: ^1.4.2
+  flutter_exit_app: ^1.1.2
   pdf:
   multiple_images_picker:
 

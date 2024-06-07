@@ -1,4 +1,5 @@
 import 'dart:async';
+import 'dart:io';
 import 'package:dirise/addNewProduct/internationalshippingdetailsScreem.dart';
 import 'package:dirise/language/app_strings.dart';
 import 'package:dirise/routers/my_routers.dart';
@@ -15,6 +16,7 @@ import 'package:dirise/vendor/shipping_policy.dart';
 import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:flutter_exit_app/flutter_exit_app.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:get/get.dart';
@@ -92,7 +94,16 @@ class _BottomNavbarState extends State<BottomNavbar> {
                 actions: [
                   TextButton(
                     onPressed: () {
-                      SystemNavigator.pop();
+                      // Navigator.of(context).pop();
+                      // showToast('message');
+                       FlutterExitApp.exitApp(iosForceExit: true);
+
+                      // if (Platform.isAndroid) {
+                      //   SystemNavigator.pop();
+                      // } else if (Platform.isIOS) {
+                      //   showToast('message');
+                      //   exit(0);
+                      // }
                     },
                     child: const Text("Exit App"),
                   ),

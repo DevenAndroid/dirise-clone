@@ -53,7 +53,7 @@
 	<key>LSRequiresIPhoneOS</key>
 	<true/>
 	<key>NSCameraUsageDescription</key>
-	<string>Dirise would like to use your camera</string>
+	<string>Dirise app needs access to your camera so you can edit take photos and insert them in your profile, products</string>
 	<key>NSLocationAlwaysUsageDescription</key>
 	<string>Allow it to access your current location to show products at that location.</string>
 	<key>NSLocationWhenInUseUsageDescription</key>
@@ -61,7 +61,7 @@
 	<key>NSMicrophoneUsageDescription</key>
 	<string>This App needs microphone access</string>
 	<key>NSPhotoLibraryUsageDescription</key>
-	<string>Dirise would like access to your photo gallery</string>
+	<string>Dirise would like access to your photo gallery to add products and change user profile photo</string>
 	<key>NSPrivacy</key>
 	<array>
 		<dict>
