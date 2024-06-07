@@ -49,7 +49,7 @@ class _OptionalDiscrptionsScreenState extends State<OptionalDiscrptionsScreen> {
     Map<String, dynamic> map = {};
 
     map['meta_title'] = metaTitleController.text.trim();
-    map['item_type'] = 'giveaway';
+    map['item_type'] = 'product';
     map['meta_description'] = metaDescriptionController.text.trim();
     map['meta_tags'] = metaTagesController.text.trim();
     map['id'] = addProductController.idProduct.value.toString();

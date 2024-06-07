@@ -89,7 +89,7 @@ class _SingleProductReturnPolicyState extends State<SingleProductReturnPolicy> {
 
     map['title'] = titleController.text.trim();
     map['days'] = selectedItem;
-    map['item_type'] = 'Product';
+    map['item_type'] = 'product';
     map['policy_description'] = descController.text.trim();
     map['return_shipping_fees'] = radioButtonValue.toString();
     map['no_return'] = noReturnSelected;
