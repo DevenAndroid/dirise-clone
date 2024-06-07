@@ -33,8 +33,8 @@ class _CartBagCardState extends State<CartBagCard> {
           padding: const EdgeInsets.only(left: 20,right: 15,bottom: 10),
           child:      Stack(children:[
             SvgPicture.asset("assets/svgs/cart_new.svg",
-              height: 40,
-              width: 40,
+              height: 35,
+              width: 35,
               // color: widget.isBlackTheme == true ? Colors.white : AppTheme.buttonColor,
             ),
             cartController.apiLoaded
