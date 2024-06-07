@@ -238,7 +238,7 @@ class _HomePageState extends State<HomePage> {
         _showWelcomeDialog();
       }else{
         log('valueee falseee////${hasShownDialog.toString()}');
-        _getCurrentPosition();
+        locationController.checkGps(context);
       }
       // Future.delayed(const Duration(seconds: 5), () {
       //
