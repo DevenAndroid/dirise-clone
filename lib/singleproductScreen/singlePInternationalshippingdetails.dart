@@ -97,7 +97,7 @@ class _SinglePInternationalshippingdetailsScreenState extends State<SinglePInter
   shippingDetailsApi() {
     Map<String, dynamic> map = {};
     map['weight_unit'] = unitOfMeasure;
-    map['item_type'] = 'service';
+    map['item_type'] = 'product';
     map['weight'] = weightController.text.trim();
     map['number_of_package'] = selectNumberOfPackages;
     map['material'] = selectTypeMaterial;
