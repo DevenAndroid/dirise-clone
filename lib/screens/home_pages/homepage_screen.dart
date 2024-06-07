@@ -1,5 +1,6 @@
 import 'dart:async';
 import 'dart:convert';
+import 'dart:developer';
 import 'dart:io';
 
 import 'package:dirise/screens/home_pages/star_of_month.dart';
@@ -210,7 +211,7 @@ class _HomePageState extends State<HomePage> {
       return;
     }
   }
-
+  bool hasShownDialog = false;
   final RxBool _isValue = false.obs;
   final RxBool search = false.obs;
   var vendor = ['Dashboard', 'Order', 'Products', 'Store open time', 'Bank Details', 'Earnings'];
@@ -231,8 +232,24 @@ class _HomePageState extends State<HomePage> {
     // locationController.checkGps(context);
     profileController.aboutUsData();
     WidgetsBinding.instance.addPostFrameCallback((timeStamp) {
-      _showWelcomeDialog();
+
+
+      if(!hasShownDialog){
+        log('valueee trueee///${hasShownDialog.toString()}');
+        _showWelcomeDialog();
+      }else{
+        log('valueee falseee////${hasShownDialog.toString()}');
+        locationController.checkGps(context);
+      }
+      // Future.delayed(const Duration(seconds: 5), () {
+      //
+      //   SchedulerBinding.instance.addPostFrameCallback((timeStamp) {
+      //     getAllAsync();
+      //   });
+      // });
+
     });
+    // _showWelcomeDialog();
     SchedulerBinding.instance.addPostFrameCallback((timeStamp) {
       getAllAsync();
     });
@@ -240,8 +257,8 @@ class _HomePageState extends State<HomePage> {
 
   Future<void> _showWelcomeDialog() async {
     SharedPreferences preferences = await SharedPreferences.getInstance();
-    bool hasShownDialog = preferences.getBool('hasShownDialog') ?? false;
-
+     hasShownDialog = preferences.getBool('hasShownDialog') ?? false;
+     log('valueee${hasShownDialog.toString()}');
     if (!hasShownDialog) {
       WidgetsBinding.instance.addPostFrameCallback((_) async {
         await showDialog(
@@ -274,6 +291,7 @@ class _HomePageState extends State<HomePage> {
                       await preferences.setBool('hasShownDialog', true);
                       Navigator.of(context).pop();
                       _getCurrentPosition();
+                      log('valueee clickk...${hasShownDialog.toString()}');
                     },
                     child: const Text("Allow"),
                   ),
@@ -398,6 +416,8 @@ class _HomePageState extends State<HomePage> {
                   },
                   child: SvgPicture.asset(
                     'assets/svgs/search_icon_new.svg',
+                    width: 35,
+                    height: 35,
                     // color: Colors.white,
                   ),
                   // child : Image.asset('assets/images/search_icon_new.png')
