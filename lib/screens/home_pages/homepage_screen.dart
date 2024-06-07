@@ -8,6 +8,7 @@ import 'package:dirise/widgets/common_colour.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/scheduler.dart';
+import 'package:flutter/services.dart';
 import 'package:flutter/widgets.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:geocoding/geocoding.dart';
@@ -15,6 +16,7 @@ import 'package:geolocator/geolocator.dart';
 import 'package:get/get.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 import '../../controller/cart_controller.dart';
 import '../../controller/home_controller.dart';
 import '../../controller/homepage_controller.dart';
@@ -226,11 +228,10 @@ class _HomePageState extends State<HomePage> {
   @override
   void initState() {
     super.initState();
-    locationController.checkGps(context);
+    // locationController.checkGps(context);
     profileController.aboutUsData();
     WidgetsBinding.instance.addPostFrameCallback((timeStamp) {
-      _getCurrentPosition();
-
+      _showWelcomeDialog();
       // Future.delayed(const Duration(seconds: 5), () {
       //
       //   SchedulerBinding.instance.addPostFrameCallback((timeStamp) {
@@ -242,7 +243,48 @@ class _HomePageState extends State<HomePage> {
       getAllAsync();
     });
   }
+  Future<void> _showWelcomeDialog() async {
+    SharedPreferences preferences = await SharedPreferences.getInstance();
+    bool hasShownDialog = preferences.getBool('hasShownDialog') ?? false;
 
+    if (!hasShownDialog) {
+      WidgetsBinding.instance.addPostFrameCallback((_) async {
+        await showDialog(
+          context: context,
+          barrierDismissible: false, // Prevents dialog from being dismissed by tapping outside
+          builder: (BuildContext context) {
+            return WillPopScope(
+              onWillPop: () async {
+                // Prevent back button from dismissing the dialog
+                return false;
+              },
+              child: AlertDialog(
+                title: const Text("Purpose of collecting location"),
+                content: const Text(
+                    "This app collects location data to show your current city and zip code, and also for shipping information, even when the app is closed or not in use."),
+                actions: [
+                  TextButton(
+                    onPressed: () {
+                      SystemNavigator.pop();
+                    },
+                    child: const Text("Exit App"),
+                  ),
+                  TextButton(
+                    onPressed: () async {
+                      await preferences.setBool('hasShownDialog', true);
+                      Navigator.of(context).pop();
+                      _getCurrentPosition();
+                    },
+                    child: const Text("Allow"),
+                  ),
+                ],
+              ),
+            );
+          },
+        );
+      });
+    }
+  }
   final profileController = Get.put(ProfileController());
 
   List<Widget> vendorPartner() {
