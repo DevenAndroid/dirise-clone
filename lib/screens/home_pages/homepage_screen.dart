@@ -10,6 +10,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/scheduler.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter/widgets.dart';
+import 'package:flutter_exit_app/flutter_exit_app.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:geocoding/geocoding.dart';
 import 'package:geolocator/geolocator.dart';
@@ -83,8 +84,8 @@ class _HomePageState extends State<HomePage> {
       }
     }
     if (permission == LocationPermission.deniedForever) {
-      ScaffoldMessenger.of(context).showSnackBar(
-          const SnackBar(content: Text('Location permissions are permanently denied, we cannot request permissions.')));
+      ScaffoldMessenger.of(context)
+          .showSnackBar(const SnackBar(content: Text('Location permissions are permanently denied, we cannot request permissions.')));
       return false;
     }
     return true;
@@ -105,8 +106,7 @@ class _HomePageState extends State<HomePage> {
         locationController.town = placemark.subAdministrativeArea ?? '';
       });
     }
-    await placemarkFromCoordinates(_currentPosition!.latitude, _currentPosition!.longitude)
-        .then((List<Placemark> placemarks) {
+    await placemarkFromCoordinates(_currentPosition!.latitude, _currentPosition!.longitude).then((List<Placemark> placemarks) {
       Placemark place = placemarks[0];
       setState(() {
         _address = '${place.subLocality}, ${place.subAdministrativeArea}, ${place.postalCode}';
@@ -232,17 +232,12 @@ class _HomePageState extends State<HomePage> {
     profileController.aboutUsData();
     WidgetsBinding.instance.addPostFrameCallback((timeStamp) {
       _showWelcomeDialog();
-      // Future.delayed(const Duration(seconds: 5), () {
-      //
-      //   SchedulerBinding.instance.addPostFrameCallback((timeStamp) {
-      //     getAllAsync();
-      //   });
-      // });
     });
     SchedulerBinding.instance.addPostFrameCallback((timeStamp) {
       getAllAsync();
     });
   }
+
   Future<void> _showWelcomeDialog() async {
     SharedPreferences preferences = await SharedPreferences.getInstance();
     bool hasShownDialog = preferences.getBool('hasShownDialog') ?? false;
@@ -265,7 +260,12 @@ class _HomePageState extends State<HomePage> {
                 actions: [
                   TextButton(
                     onPressed: () {
-                      SystemNavigator.pop();
+                      if (Platform.isAndroid) {
+                        SystemNavigator.pop();
+                      }
+                      if (Platform.isIOS) {
+                        FlutterExitApp.exitApp(iosForceExit: true);
+                      }
                     },
                     child: const Text("Exit App"),
                   ),
@@ -285,6 +285,7 @@ class _HomePageState extends State<HomePage> {
       });
     }
   }
+
   final profileController = Get.put(ProfileController());
 
   List<Widget> vendorPartner() {
@@ -624,7 +625,7 @@ class _HomePageState extends State<HomePage> {
                       AdBannerUI(),
                       PopularProducts(),
                       StarOfMonthScreen(),
-                          ShowCaseProducts(),
+                      ShowCaseProducts(),
                       AuthorScreen(),
                       SizedBox(
                         height: 30,

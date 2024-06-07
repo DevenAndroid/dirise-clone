@@ -163,6 +163,8 @@ PODS:
   - Flutter (1.0.0)
   - flutter_exif_rotation (0.3.0):
     - Flutter
+  - flutter_exit_app (1.1.2):
+    - Flutter
   - flutter_local_notifications (0.0.1):
     - Flutter
   - fluttertoast (0.0.2):
@@ -332,6 +334,7 @@ DEPENDENCIES:
   - firebase_messaging (from `.symlinks/plugins/firebase_messaging/ios`)
   - Flutter (from `Flutter`)
   - flutter_exif_rotation (from `.symlinks/plugins/flutter_exif_rotation/ios`)
+  - flutter_exit_app (from `.symlinks/plugins/flutter_exit_app/ios`)
   - flutter_local_notifications (from `.symlinks/plugins/flutter_local_notifications/ios`)
   - fluttertoast (from `.symlinks/plugins/fluttertoast/ios`)
   - freshchat_sdk (from `.symlinks/plugins/freshchat_sdk/ios`)
@@ -422,6 +425,8 @@ EXTERNAL SOURCES:
     :path: Flutter
   flutter_exif_rotation:
     :path: ".symlinks/plugins/flutter_exif_rotation/ios"
+  flutter_exit_app:
+    :path: ".symlinks/plugins/flutter_exit_app/ios"
   flutter_local_notifications:
     :path: ".symlinks/plugins/flutter_local_notifications/ios"
   fluttertoast:
@@ -497,6 +502,7 @@ SPEC CHECKSUMS:
   FirebaseSessions: 2fdf949f9e58295a57703ae8f2efc44f9fa3aa16
   Flutter: e0871f40cf51350855a761d2e70bf5af5b9b5de7
   flutter_exif_rotation: de6b54e8bd54a687f28d6397d1a890391de41111
+  flutter_exit_app: f2e47c6d0b9c5137c33fab74bc4a9d5d54113bdc
   flutter_local_notifications: 0c0b1ae97e741e1521e4c1629a459d04b9aec743
   fluttertoast: e9a18c7be5413da53898f660530c56f35edfba9c
   freshchat_sdk: ab279bcf42c4e89b3bd3dbe3a5fef6935893e1a9
