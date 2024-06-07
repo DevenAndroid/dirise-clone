@@ -36,7 +36,7 @@ class _SingleProductDeliverySizeState extends State<SingleProductDeliverySize> {
     Map<String, dynamic> map = {};
     map['delivery_size'] = deliverySize;
     map['shipping_pay'] = shippingPay; // Use the shippingPay parameter
-    map['item_type'] = 'virtual_product';
+    map['item_type'] = 'product';
     map['id'] = addProductController.idProduct.value.toString();
 
     final Repositories repositories = Repositories();

@@ -121,13 +121,13 @@ class _WhatdoyousellScreenState extends State<WhatdoyousellScreen> {
       if (response.value.status == true) {
         SharedPreferences prefs = await SharedPreferences.getInstance();
         await prefs.setString('email', storeEmail.text.trim());
-        log('message ${response.value.message.toString()}');
+        log('message ${allSelectedCategory.entries.map((e) => e.key).toList().join(",")}');
         vendorRegister = 'done';
         showToast('Otp send Successfully');
-       setState(() {
-         isOtpDone = true;
-         showResend = true;
-       });
+        setState(() {
+          isOtpDone = true;
+          showResend = true;
+        });
       }
     });
   }
@@ -293,7 +293,7 @@ class _WhatdoyousellScreenState extends State<WhatdoyousellScreen> {
                     iconSize: 30,
                     iconDisabledColor: const Color(0xff97949A),
                     iconEnabledColor: const Color(0xff97949A),
-                    value: null,
+                    value: allSelectedCategory.isEmpty ? null : allSelectedCategory.values.first,
                     style: GoogleFonts.poppins(color: Colors.black, fontSize: 16),
                     decoration: InputDecoration(
                       border: InputBorder.none,
@@ -323,11 +323,12 @@ class _WhatdoyousellScreenState extends State<WhatdoyousellScreen> {
                         .toList(),
                     hint: Text('Category'.tr),
                     onChanged: (value) {
-                      // selectedCategory = value;
-                      if (value == null) return;
-                      if (allSelectedCategory.isNotEmpty) return;
-                      allSelectedCategory[value.id.toString()] = value;
-                      setState(() {});
+                      // Remove the previously selected item
+                      allSelectedCategory.clear();
+                      if (value != null) {
+                        allSelectedCategory[value.id.toString()] = value;
+                        setState(() {});
+                      }
                     },
                     validator: (value) {
                       if (allSelectedCategory.isEmpty) {
@@ -459,7 +460,7 @@ class _WhatdoyousellScreenState extends State<WhatdoyousellScreen> {
                       }
                     },
                     child: response.value.message ==
-                        'You are successfully registered as a seller Please check your mail for verify your account.'
+                            'You are successfully registered as a seller Please check your mail for verify your account.'
                         ? Container(
                             width: Get.width,
                             height: 50,

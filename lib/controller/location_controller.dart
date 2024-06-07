@@ -242,6 +242,6 @@ cartController.zipCode1 = placemark.postalCode ?? '';
   void onInit() {
     // TODO: implement onInit
     super.onInit();
-    checkGps(Get.context);
+    // checkGps(Get.context);
   }
 }

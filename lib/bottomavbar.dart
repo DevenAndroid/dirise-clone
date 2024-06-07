@@ -57,9 +57,9 @@ class _BottomNavbarState extends State<BottomNavbar> {
   @override
   void initState() {
     super.initState();
-    locationController.checkGps(context);
+    // locationController.checkGps(context);
     checkUser();
-    _showWelcomeDialog();
+    // _showWelcomeDialog();
   }
 
   final locationController = Get.put(LocationController());
@@ -100,6 +100,7 @@ class _BottomNavbarState extends State<BottomNavbar> {
                     onPressed: () async {
                       await preferences.setBool('hasShownDialog', true);
                       Navigator.of(context).pop();
+                      locationController.checkGps(context);
                     },
                     child: const Text("Allow"),
                   ),
