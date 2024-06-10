@@ -72,7 +72,7 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
         if (response.status == true) {
           profileController.getDataProfile();
           log('dsgsfhdfgh${profileController.selectedCity!.cityId.toString()}');
-          Get.to(const ProfileScreen());
+          Get.offNamed(ProfileScreen.route);
         }else{
           Get.back();
         }

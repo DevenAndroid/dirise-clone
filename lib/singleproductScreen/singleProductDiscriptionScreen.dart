@@ -135,7 +135,7 @@ class _SingleProductDiscriptionScreenState extends State<SingleProductDiscriptio
                     errorMaxLines: 2,
                     contentPadding: const EdgeInsets.all(15),
                     fillColor: Colors.grey.shade100,
-                    hintText: 'short description (optional)',
+                    hintText: 'short description',
                     hintStyle: GoogleFonts.poppins(
                       color: AppTheme.primaryColor,
                       fontSize: 15,

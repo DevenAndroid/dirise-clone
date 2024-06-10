@@ -247,7 +247,7 @@ class _SingleProductPriceScreenState extends State<SingleProductPriceScreen> {
                         height: 10,
                       ),
                       Text(
-                        'Fixed Discounted Price'.tr,
+                        'Fixed Discount Price'.tr,
                         style: GoogleFonts.poppins(
                             color: const Color(0xff292F45), fontWeight: FontWeight.w400, fontSize: 14),
                       ),
