@@ -36,7 +36,7 @@ class ApproveProductScreen extends StatefulWidget {
 class _ApproveProductScreenState extends State<ApproveProductScreen> {
   final productController = Get.put(ProductsController());
 
-  final controller = Get.put(AddProductController(),permanent: true);
+  final controller = Get.put(AddProductController(), permanent: true);
   final Repositories repositories = Repositories();
 
   Timer? timer;
@@ -98,7 +98,7 @@ class _ApproveProductScreenState extends State<ApproveProductScreen> {
                   Expanded(
                     child: Container(
                       decoration:
-                      BoxDecoration(color: Colors.grey, borderRadius: BorderRadius.circular(10), boxShadow: [
+                          BoxDecoration(color: Colors.grey, borderRadius: BorderRadius.circular(10), boxShadow: [
                         BoxShadow(
                             color: Colors.grey.shade300,
                             // offset: Offset(2, 2),
@@ -127,7 +127,7 @@ class _ApproveProductScreenState extends State<ApproveProductScreen> {
                                 borderSide: BorderSide.none, borderRadius: BorderRadius.all(Radius.circular(10))),
                             fillColor: Colors.white,
                             contentPadding:
-                            EdgeInsets.symmetric(horizontal: AddSize.padding20, vertical: AddSize.padding10),
+                                EdgeInsets.symmetric(horizontal: AddSize.padding20, vertical: AddSize.padding10),
                             hintText: 'Search Products'.tr,
                             hintStyle: GoogleFonts.poppins(
                                 fontSize: AddSize.font16, color: Colors.black, fontWeight: FontWeight.w400)),
@@ -139,7 +139,7 @@ class _ApproveProductScreenState extends State<ApproveProductScreen> {
                   ),
                   GestureDetector(
                     onTap: () {
-                      Get.to(()=> const AddProductOptionScreen());
+                      Get.to(() => const AddProductOptionScreen());
                     },
                     child: Container(
                       height: AddSize.size20 * 2.5,
@@ -150,10 +150,10 @@ class _ApproveProductScreenState extends State<ApproveProductScreen> {
                       ),
                       child: Center(
                           child: Icon(
-                            Icons.add,
-                            color: Colors.white,
-                            size: AddSize.size25,
-                          )),
+                        Icons.add,
+                        color: Colors.white,
+                        size: AddSize.size25,
+                      )),
                     ),
                   )
                 ],
@@ -172,8 +172,8 @@ class _ApproveProductScreenState extends State<ApproveProductScreen> {
                   return ListView.builder(
                     itemCount: productController.apiLoaded1
                         ? productController.model1.approveProduct!.isEmpty
-                        ? 1
-                        : productController.model1.approveProduct!.length
+                            ? 1
+                            : productController.model1.approveProduct!.length
                         : 5,
                     shrinkWrap: true,
                     itemBuilder: (BuildContext context, int index) {
@@ -181,7 +181,7 @@ class _ApproveProductScreenState extends State<ApproveProductScreen> {
                         return shimmerLoader(index);
                       }
                       if (productController.model1.approveProduct!.isEmpty) {
-                        return  Center(
+                        return Center(
                           child: Text("No Product Added".tr),
                         );
                       }
@@ -195,7 +195,7 @@ class _ApproveProductScreenState extends State<ApproveProductScreen> {
                             ),
                             child: Padding(
                                 padding:
-                                EdgeInsets.symmetric(horizontal: AddSize.padding16, vertical: AddSize.padding10),
+                                    EdgeInsets.symmetric(horizontal: AddSize.padding16, vertical: AddSize.padding10),
                                 child: Row(children: [
                                   SizedBox(
                                       height: AddSize.size80,
@@ -222,22 +222,21 @@ class _ApproveProductScreenState extends State<ApproveProductScreen> {
                                               onTap: () {
                                                 log(item.itemType.toString());
                                                 log(item.itemType);
-                                                if(item.itemType == "giveaway"){
+                                                if (item.itemType == "giveaway") {
                                                   Get.to(ReviewPublishScreen());
                                                 }
-                                                if(item.itemType == "product"){
+                                                if (item.itemType == "product") {
                                                   Get.to(ProductReviewPublicScreen());
                                                 }
-                                                if(item.itemType == "job"){
+                                                if (item.itemType == "job") {
                                                   Get.to(JobReviewPublishScreen());
                                                 }
-                                                if(item.itemType == "service"){
+                                                if (item.itemType == "service") {
                                                   Get.to(ReviewPublishServiceScreen());
                                                 }
-                                                if(item.itemType == "virtual_product"){
+                                                if (item.itemType == "virtual_product") {
                                                   Get.to(VirtualReviewandPublishScreen());
                                                 }
-
                                               },
                                               child: Container(
                                                   height: AddSize.size25,
@@ -269,13 +268,11 @@ class _ApproveProductScreenState extends State<ApproveProductScreen> {
                                                               onPressed: () {
                                                                 Get.back();
                                                               },
-                                                              child:  Text("Cancel".tr)),
+                                                              child: Text("Cancel".tr)),
                                                           ElevatedButton(
                                                               onPressed: () {
-
                                                                 controller.productId = item.id.toString();
                                                                 controller.deleteProductForAll(context);
-
                                                               },
                                                               child: Text("Delete".tr)),
                                                         ],
@@ -338,7 +335,8 @@ class _ApproveProductScreenState extends State<ApproveProductScreen> {
                                               productController.updateProductStatus(
                                                   changed: (bool value1) {
                                                     if (value1 == true) {
-                                                      productController.model1.approveProduct![index].isPublish = !productController.model1.approveProduct![index].isPublish!;
+                                                      productController.model1.approveProduct![index].isPublish =
+                                                          !productController.model1.approveProduct![index].isPublish!;
                                                       setState(() {});
                                                     }
                                                   },

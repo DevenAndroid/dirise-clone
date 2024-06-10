@@ -10,6 +10,7 @@ import 'package:flutter/material.dart';
 import 'package:form_field_validator/form_field_validator.dart';
 import 'package:get/get.dart';
 import 'package:google_fonts/google_fonts.dart';
+import '../controller/profile_controller.dart';
 import '../controller/vendor_controllers/vendor_profile_controller.dart';
 import '../model/common_modal.dart';
 import '../model/getSubCategoryModel.dart';
@@ -39,6 +40,7 @@ class ItemDetailsScreens extends StatefulWidget {
 class _ItemDetailsScreensState extends State<ItemDetailsScreens> {
   ProductCategoryData? selectedSubcategory;
   SubProductData? selectedProductSubcategory;
+  final profileController = Get.put(ProfileController());
 
   final TextEditingController ProductNameController = TextEditingController();
 
@@ -499,6 +501,7 @@ class _ItemDetailsScreensState extends State<ItemDetailsScreens> {
                   }
                   else {
                     deliverySizeApi();
+                    profileController.thankYouValue = 'Giveaway';
                   }
                 },
               ),

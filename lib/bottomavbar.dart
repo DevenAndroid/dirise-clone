@@ -166,7 +166,7 @@ class _BottomNavbarState extends State<BottomNavbar> {
       child: Obx(() {
         return Scaffold(
           body: pages[bottomController.pageIndex.value],
-          backgroundColor: const Color(0xFFEBF3F6),
+          backgroundColor: const Color(0xFFF2F2F2),
           bottomNavigationBar: buildMyNavBar(),
           floatingActionButtonLocation: FloatingActionButtonLocation.centerDocked,
           floatingActionButton: Visibility(
@@ -216,7 +216,7 @@ class _BottomNavbarState extends State<BottomNavbar> {
         SafeArea(
           bottom: true,
           child: Card(
-            color: const Color(0xFFEBF3F6),
+            color: const Color(0xFFF2F2F2),
             elevation: 0,
             child: Column(
               children: [

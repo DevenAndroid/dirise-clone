@@ -61,6 +61,15 @@ class _ProductAccountCreatedSuccessfullyScreenState extends State<ProductAccount
                 const SizedBox(
                   height: 60,
                 ),
+                if( profileController.thankYouValue == 'Giveaway')
+                  Text(
+                    "Giveaway have been added  successfully".tr,
+                    textAlign: TextAlign.center,
+                    style: Theme.of(context)
+                        .textTheme
+                        .headlineSmall!
+                        .copyWith(fontWeight: FontWeight.w500, fontSize: 30, color: const Color(0xff262F33)),
+                  ),
            if( profileController.thankYouValue == 'Service')
            Text(
               "Service have been added  successfully".tr,

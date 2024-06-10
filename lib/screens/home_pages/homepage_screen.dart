@@ -401,6 +401,7 @@ class _HomePageState extends State<HomePage> {
                   child: Image.asset(
                     'assets/images/menu_new.png',
                     width: 35,
+                    height: 35,
                     // color: Colors.white,
                   ),
                 ),

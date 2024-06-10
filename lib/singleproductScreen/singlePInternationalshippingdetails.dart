@@ -1,4 +1,5 @@
 import 'dart:convert';
+import 'dart:developer';
 
 import 'package:dirise/utils/helper.dart';
 import 'package:flutter/cupertino.dart';
@@ -51,6 +52,7 @@ class _SinglePInternationalshippingdetailsScreenState extends State<SinglePInter
   TextEditingController dimensionWidthController = TextEditingController();
   TextEditingController dimensionHeightController = TextEditingController();
   TextEditingController weightController = TextEditingController();
+  TextEditingController numberOfPackagesController = TextEditingController();
 
   List<String> itemList = [
     'Item 1',
@@ -99,7 +101,7 @@ class _SinglePInternationalshippingdetailsScreenState extends State<SinglePInter
     map['weight_unit'] = unitOfMeasure;
     map['item_type'] = 'product';
     map['weight'] = weightController.text.trim();
-    map['number_of_package'] = selectNumberOfPackages;
+    map['number_of_package'] = numberOfPackagesController.text.trim();
     map['material'] = selectTypeMaterial;
     map['box_length'] = dimensionController.text.trim();
     map['box_width'] = dimensionWidthController.text.trim();
@@ -113,7 +115,9 @@ class _SinglePInternationalshippingdetailsScreenState extends State<SinglePInter
       ModelCommonResponse response = ModelCommonResponse.fromJson(jsonDecode(value));
       showToast(response.message.toString());
       if (response.status == true) {
+        log('dsgdgsdfg${numberOfPackagesController.text.toString()}');
         if(widget.id != null){
+
           Get.to(ProductReviewPublicScreen());
         }else{
           Get.to(() => OptionalDiscrptionsScreen());
@@ -134,6 +138,7 @@ class _SinglePInternationalshippingdetailsScreenState extends State<SinglePInter
       dimensionController.text = widget.Length.toString();
       dimensionWidthController.text = widget.Width.toString();
       dimensionHeightController.text = widget.Height.toString();
+      numberOfPackagesController.text = widget.SelectNumberOfPackages.toString();
       // selectTypeOfPackaging = widget.SelectTypeOfPackaging.toString();
     }
   }
@@ -274,7 +279,7 @@ class _SinglePInternationalshippingdetailsScreenState extends State<SinglePInter
                   ),
                   validator: (value) {
                     if (value!.trim().isEmpty) {
-                      return 'Stock number is required'.tr;
+                      return 'weight is required'.tr;
                     }
                     return null; // Return null if validation passes
                   },
@@ -285,30 +290,30 @@ class _SinglePInternationalshippingdetailsScreenState extends State<SinglePInter
                   style: GoogleFonts.poppins(color: const Color(0xff292F45), fontWeight: FontWeight.w500, fontSize: 16),
                 ),
                 const SizedBox(height: 5),
-                DropdownButtonFormField<String>(
-                  value: selectedItem,
-                  onChanged: (String? newValue) {
-                    setState(() {
-                      selectedItem = newValue!;
-                    });
-                  },
-                  items: itemList.map<DropdownMenuItem<String>>((String value) {
-                    return DropdownMenuItem<String>(
-                      value: value,
-                      child: Text('Number of packages'),
-                    );
-                  }).toList(),
+                TextFormField(
+                  controller: numberOfPackagesController,
+                  keyboardType: TextInputType.number,
                   decoration: InputDecoration(
+                    counterStyle: GoogleFonts.poppins(
+                      color: AppTheme.primaryColor,
+                      fontSize: 25,
+                    ),
+                    counter: const Offstage(),
+                    errorMaxLines: 2,
+                    contentPadding: const EdgeInsets.all(15),
+                    fillColor: Colors.grey.shade100,
+                    hintText: 'Number of packages',
+                    hintStyle: GoogleFonts.poppins(
+                      color: AppTheme.primaryColor,
+                      fontSize: 15,
+                    ),
                     border: InputBorder.none,
-                    filled: true,
-                    fillColor: const Color(0xffE2E2E2).withOpacity(.35),
-                    contentPadding: const EdgeInsets.symmetric(horizontal: 15, vertical: 10).copyWith(right: 8),
                     focusedErrorBorder: const OutlineInputBorder(
                         borderRadius: BorderRadius.all(Radius.circular(8)),
                         borderSide: BorderSide(color: AppTheme.secondaryColor)),
                     errorBorder: const OutlineInputBorder(
                         borderRadius: BorderRadius.all(Radius.circular(8)),
-                        borderSide: BorderSide(color: Color(0xffE2E2E2))),
+                        borderSide: BorderSide(color: AppTheme.secondaryColor)),
                     focusedBorder: const OutlineInputBorder(
                         borderRadius: BorderRadius.all(Radius.circular(8)),
                         borderSide: BorderSide(color: AppTheme.secondaryColor)),
@@ -322,10 +327,10 @@ class _SinglePInternationalshippingdetailsScreenState extends State<SinglePInter
                     ),
                   ),
                   validator: (value) {
-                    if (value == null || value.isEmpty) {
-                      return 'Please select an item';
+                    if (value!.trim().isEmpty) {
+                      return 'Number of Package is required'.tr;
                     }
-                    return null;
+                    return null; // Return null if validation passes
                   },
                 ),
                 const SizedBox(height: 20),
@@ -416,12 +421,12 @@ class _SinglePInternationalshippingdetailsScreenState extends State<SinglePInter
                       obSecure: false,
                       keyboardType: TextInputType.number,
                       hintText: 'Length X ',
-                      validator: (value) {
-                        if (value!.trim().isEmpty) {
-                          return 'Product length is required'.tr;
-                        }
-                        return null; // Return null if validation passes
-                      },
+                      // validator: (value) {
+                      //   if (value!.trim().isEmpty) {
+                      //     return 'Product length is required'.tr;
+                      //   }
+                      //   return null; // Return null if validation passes
+                      // },
                     )),
                     10.spaceX,
                     Expanded(
@@ -430,12 +435,12 @@ class _SinglePInternationalshippingdetailsScreenState extends State<SinglePInter
                       obSecure: false,
                       hintText: 'Width X',
                       keyboardType: TextInputType.number,
-                      validator: (value) {
-                        if (value!.trim().isEmpty) {
-                          return 'Product Width is required'.tr;
-                        }
-                        return null; // Return null if validation passes
-                      },
+                      // validator: (value) {
+                      //   if (value!.trim().isEmpty) {
+                      //     return 'Product Width is required'.tr;
+                      //   }
+                      //   return null; // Return null if validation passes
+                      // },
                     )
                     ),
                     10.spaceX,
@@ -445,12 +450,12 @@ class _SinglePInternationalshippingdetailsScreenState extends State<SinglePInter
                       obSecure: false,
                       hintText: 'Height X',
                       keyboardType: TextInputType.number,
-                      validator: (value) {
-                        if (value!.trim().isEmpty) {
-                          return 'Product Height is required'.tr;
-                        }
-                        return null; // Return null if validation passes
-                      },
+                      // validator: (value) {
+                      //   if (value!.trim().isEmpty) {
+                      //     return 'Product Height is required'.tr;
+                      //   }
+                      //   return null; // Return null if validation passes
+                      // },
                     )),
                   ],
                 ),
