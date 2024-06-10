@@ -158,7 +158,7 @@ class _VirtualPriceScreenState extends State<VirtualPriceScreen> {
               children: [
                 Text(
                   'Price*'.tr,
-                  style: GoogleFonts.poppins(color: const Color(0xff292F45), fontWeight: FontWeight.w400, fontSize: 14),
+                  style: GoogleFonts.poppins(color: const Color(0xff292F45), fontWeight: FontWeight.w400, fontSize: 16),
                 ),
                 CommonTextField(
                   controller: priceController,
@@ -239,7 +239,7 @@ class _VirtualPriceScreenState extends State<VirtualPriceScreen> {
                   children: [
                     const SizedBox(height: 10,),
                     Text(
-                      'Fixed Discounted Price'.tr,
+                      'Fixed Discount Price'.tr,
                       style: GoogleFonts.poppins(color: const Color(0xff292F45), fontWeight: FontWeight.w400, fontSize: 14),
                     ),
                     CommonTextField(

@@ -32,7 +32,7 @@ class _Giveway1ScreenState extends State<Giveway1Screen> {
   List<String> itemTexts = [
     'Working',
     'Not Working',
-    'Scrab',
+    'Scraf',
 
   ];
 

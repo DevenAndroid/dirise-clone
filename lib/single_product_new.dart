@@ -72,7 +72,7 @@ class _SingleProductNewState extends State<SingleProductNew> {
                     child: Row(
                       children: [
                         Text(
-                          "  SALE ",
+                          "  Final price ",
                           style: GoogleFonts.poppins(fontSize: 12, fontWeight: FontWeight.w700, color:  const Color(0xFFFFDF33)),
                         ),
                         Text(
