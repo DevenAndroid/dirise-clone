@@ -85,8 +85,8 @@ class _HomePageState extends State<HomePage> {
       }
     }
     if (permission == LocationPermission.deniedForever) {
-      ScaffoldMessenger.of(context)
-          .showSnackBar(const SnackBar(content: Text('Location permissions are permanently denied, we cannot request permissions.')));
+      ScaffoldMessenger.of(context).showSnackBar(
+          const SnackBar(content: Text('Location permissions are permanently denied, we cannot request permissions.')));
       return false;
     }
     return true;
@@ -107,7 +107,8 @@ class _HomePageState extends State<HomePage> {
         locationController.town = placemark.subAdministrativeArea ?? '';
       });
     }
-    await placemarkFromCoordinates(_currentPosition!.latitude, _currentPosition!.longitude).then((List<Placemark> placemarks) {
+    await placemarkFromCoordinates(_currentPosition!.latitude, _currentPosition!.longitude)
+        .then((List<Placemark> placemarks) {
       Placemark place = placemarks[0];
       setState(() {
         _address = '${place.subLocality}, ${place.subAdministrativeArea}, ${place.postalCode}';
@@ -211,6 +212,7 @@ class _HomePageState extends State<HomePage> {
       return;
     }
   }
+
   bool hasShownDialog = false;
   final RxBool _isValue = false.obs;
   final RxBool search = false.obs;
@@ -232,12 +234,10 @@ class _HomePageState extends State<HomePage> {
     // locationController.checkGps(context);
     profileController.aboutUsData();
     WidgetsBinding.instance.addPostFrameCallback((timeStamp) {
-
-
-      if(!hasShownDialog){
+      if (!hasShownDialog) {
         log('valueee trueee///${hasShownDialog.toString()}');
         _showWelcomeDialog();
-      }else{
+      } else {
         log('valueee falseee////${hasShownDialog.toString()}');
         locationController.checkGps(context);
       }
@@ -247,7 +247,6 @@ class _HomePageState extends State<HomePage> {
       //     getAllAsync();
       //   });
       // });
-
     });
     // _showWelcomeDialog();
     SchedulerBinding.instance.addPostFrameCallback((timeStamp) {
@@ -257,8 +256,8 @@ class _HomePageState extends State<HomePage> {
 
   Future<void> _showWelcomeDialog() async {
     SharedPreferences preferences = await SharedPreferences.getInstance();
-     hasShownDialog = preferences.getBool('hasShownDialog') ?? false;
-     log('valueee${hasShownDialog.toString()}');
+    hasShownDialog = preferences.getBool('hasShownDialog') ?? false;
+    log('valueee${hasShownDialog.toString()}');
     if (!hasShownDialog) {
       WidgetsBinding.instance.addPostFrameCallback((_) async {
         await showDialog(
@@ -646,7 +645,7 @@ class _HomePageState extends State<HomePage> {
                       PopularProducts(),
                       StarOfMonthScreen(),
                       ShowCaseProducts(),
-                      AuthorScreen(),
+                      // AuthorScreen(),
                       SizedBox(
                         height: 30,
                       ),
