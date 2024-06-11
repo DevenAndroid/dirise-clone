@@ -39,8 +39,8 @@ class _CartBagCardState extends State<CartBagCard> {
             ),
             cartController.apiLoaded
               ? Positioned(
-            right: 4,
-            top: 8,
+            right: 5,
+            top: 7,
             child: Text(
               key: ValueKey(DateTime.now().millisecondsSinceEpoch),
               cartController.cartModel.totalProducts.toString(),

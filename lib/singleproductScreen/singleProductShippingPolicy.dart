@@ -176,7 +176,7 @@ class _SingleProductShippingPolicyScreenState extends State<SingleProductShippin
                   obSecure: false,
                   hintText: 'DIRISE standard Policy',
                   validator: MultiValidator([
-                    RequiredValidator(errorText: 'Weight Of the Item is required'.tr),
+                    RequiredValidator(errorText: 'Dirise standard policy must be required'.tr),
                   ])),
               const SizedBox(
                 height: 18,

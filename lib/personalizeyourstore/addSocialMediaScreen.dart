@@ -78,8 +78,7 @@ class _AddSocialMediaScreenState extends State<AddSocialMediaScreen> {
                     color: Colors.white,
                     border: Border.all(color: Color(0xff014E70))),
                 child: Center(
-                    child: Image.asset(
-                  'assets/images/newlogoo.png',
+                    child: Image.asset('assets/images/newlogoo1.png',
                   height: 40,
                   width: 40,
                 )),

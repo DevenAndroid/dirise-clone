@@ -429,11 +429,20 @@ class LocaleString extends Translations {
           'Do You Want To Changed Your Address.' : 'Do You Want To Changed Your Address.',
           'Update Account' : 'Update Account',
           'Your payment is not successfully' : 'Your payment is not successfully',
+          'Sell Better Dashboard' : 'Sell Better Dashboard',
+          'Find my location' : 'Find my location',
+          'Add new location' : 'Add new location',
+          'Enter your zip code' : 'Enter your zip code',
         },
 
 
 
         'ar_AR': {
+          'Default Address' : 'العنوان الافتراضي',
+          'Enter your zip code' : 'أدخل رمزك البريدي',
+          'Add new location' : 'إضافة موقع جديد',
+          'Find my location' : 'العثور على موقعي',
+          'Sell Better Dashboard' : 'بيع لوحة تحكم أفضل',
           'Your payment is not successfully' : 'لم يتم تغيير الدفع بنجاح',
           'Update Account' : 'تحديث الحساب',
           'Do You Want To Changed Your Address.' : 'هل تريد تغيير عنوانك.',

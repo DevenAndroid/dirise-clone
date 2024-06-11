@@ -205,7 +205,7 @@ class _SingleProductDetailsState extends State<SingleProductDetails> {
     map["product_id"] = productElement.id.toString();
     map["quantity"] = map["quantity"] = int.tryParse(productQuantity.value.toString());
     map["key"] = 'fedexRate';
-    map["country_id"]= profileController.model.user!.country_id!= null ? profileController.model.user!.country_id : '117';
+    map["country_id"]= profileController.model.user!= null ? profileController.model.user!.country_id : '117';
 
     if (isBookingProduct) {
       map["start_date"] = selectedDate.text.trim();
@@ -471,7 +471,7 @@ class _SingleProductDetailsState extends State<SingleProductDetails> {
                                           child: Row(
                                             children: [
                                               Expanded(child: Text(e.comb.toString().capitalize!)),
-                                              Text("kwd ${e.price}"),
+                                              Text("kwd ${e.price.toStringAsFixed(3)}"),
                                               const SizedBox(
                                                 width: 4,
                                               )
@@ -570,7 +570,7 @@ class _SingleProductDetailsState extends State<SingleProductDetails> {
                               height: 15,
                             ),
                             Text(
-                              Bidi.stripHtmlIfNeeded(productElement.longDescription.toString()),
+                              Bidi.stripHtmlIfNeeded(productElement.longDescription ?? ''),
                               style: GoogleFonts.poppins(
                                 fontSize: 14,
                                 fontWeight: FontWeight.w400,

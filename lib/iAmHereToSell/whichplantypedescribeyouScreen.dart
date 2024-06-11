@@ -503,17 +503,25 @@ class _WhichplantypedescribeyouScreenState extends State<Whichplantypedescribeyo
                                 crossAxisAlignment: CrossAxisAlignment.start,
                                 children: [
                                   Text(
-                                    "Official businesses  ",
+                                    "Cloud Description",
                                     style: GoogleFonts.poppins(
-                                        color: const Color(0xff111727), fontWeight: FontWeight.w600, fontSize: 12),
+                                        color: AppTheme.buttonColor, fontWeight: FontWeight.w500, fontSize: 18),
                                   ),
                                   const SizedBox(
-                                    height: 10,
+                                    height: 3,
+                                  ),
+                                  Text(
+                                    "Official businesses  ",
+                                    style: GoogleFonts.poppins(
+                                        color: const Color(0xff111727), fontWeight: FontWeight.w500, fontSize: 16),
+                                  ),
+                                  const SizedBox(
+                                    height: 3,
                                   ),
                                   Text(
                                     "This Cloud is suitable for any official business that has already been established with a corporate bank account",
                                     style: GoogleFonts.poppins(
-                                        color: const Color(0xff111727), fontWeight: FontWeight.w600, fontSize: 10),
+                                        color: const Color(0xff514949), fontWeight: FontWeight.w400, fontSize: 11),
                                   ),
                                 ],
                               ),
@@ -527,24 +535,19 @@ class _WhichplantypedescribeyouScreenState extends State<Whichplantypedescribeyo
                             ),
                           ],
                         ),
-                        Text(
-                          "Owners of the Showcasing cloud can only showcase their products, all payments will be done outside of the DIRISE platform. Customers will contact the vendor directly through a phone number or messages  ",
-                          style: GoogleFonts.poppins(
-                              color: const Color(0xff111727), fontWeight: FontWeight.w600, fontSize: 10),
-                        ),
                         const SizedBox(
-                          height: 10,
+                          height: 14,
                         ),
                         Center(
                             child: Image.asset(
-                          "assets/images/p3.png",
+                          "assets/images/p2.png",
                         )),
                         const SizedBox(
                           height: 10,
                         ),
                         Center(
                             child: Image.asset(
-                          "assets/images/plan3.png",
+                          "assets/images/plan2.png",
                         )),
                       ],
                     )),
@@ -792,7 +795,7 @@ class _WhichplantypedescribeyouScreenState extends State<Whichplantypedescribeyo
               //     ],
               //   ),
               // ),
-              Image.asset('assets/images/table_img.png'),
+              Image.asset('assets/images/table.png'),
               const SizedBox(
                 height: 10,
               ),

@@ -106,6 +106,13 @@ class _HomePageState extends State<HomePage> {
         locationController.zipcode.value = placemark.postalCode ?? '';
         locationController.town = placemark.subAdministrativeArea ?? '';
       });
+      SharedPreferences prefs = await SharedPreferences.getInstance();
+      await prefs.setString('street', placemark.street ?? '');
+      await prefs.setString('city', placemark.locality ?? '');
+      await prefs.setString('state', placemark.administrativeArea ?? '');
+      await prefs.setString('country', placemark.country ?? '');
+      await prefs.setString('zipcode', placemark.postalCode ?? '');
+      await prefs.setString('town', placemark.subAdministrativeArea ?? '');
     }
     await placemarkFromCoordinates(_currentPosition!.latitude, _currentPosition!.longitude)
         .then((List<Placemark> placemarks) {
@@ -117,7 +124,21 @@ class _HomePageState extends State<HomePage> {
       debugPrint(e.toString());
     });
   }
-
+  Future<void> _loadSavedAddress() async {
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    setState(() {
+      locationController.street = prefs.getString('street') ?? '';
+      locationController.city.value = prefs.getString('city') ?? '';
+      locationController.state = prefs.getString('state') ?? '';
+      locationController.countryName = prefs.getString('country') ?? '';
+      locationController.zipcode.value = prefs.getString('zipcode') ?? '';
+      locationController.town = prefs.getString('town') ?? '';
+      _address = prefs.getString('address') ?? '';
+      cartController.zipCode = prefs.getString('zipcode') ?? '';
+      cartController.city.value = prefs.getString('city') ?? '';
+      cartController.address.value = prefs.getString('town') ?? '';
+    });
+  }
   Future<void> _getCurrentPosition() async {
     final hasPermission = await _handleLocationPermission();
     if (!hasPermission) return;
@@ -232,6 +253,7 @@ class _HomePageState extends State<HomePage> {
   void initState() {
     super.initState();
     // locationController.checkGps(context);
+    _loadSavedAddress();
     profileController.aboutUsData();
     WidgetsBinding.instance.addPostFrameCallback((timeStamp) {
       if (!hasShownDialog) {

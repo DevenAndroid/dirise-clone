@@ -379,7 +379,7 @@ class _ReviewPublishScreenState extends State<ReviewPublishScreen> {
                                         onTap: (){
                                           Get.to(InternationalshippingdetailsScreen(
                                             id: productDetailsModel.value.productDetails!.product!.id,
-                                            WeightOftheItem: productDetailsModel.value.productDetails!.productDimentions!.units,
+                                            WeightOftheItem: productDetailsModel.value.productDetails!.productDimentions!.weightUnit,
                                             Unitofmeasure: productDetailsModel.value.productDetails!.productDimentions!.weight!,
                                             SelectTypeOfPackaging: productDetailsModel.value.productDetails!.productDimentions!.typeOfPackages,
                                             SelectTypeMaterial:productDetailsModel.value.productDetails!.productDimentions!.material ,
@@ -468,7 +468,7 @@ class _ReviewPublishScreenState extends State<ReviewPublishScreen> {
                           title: 'Confirm',
                           borderRadius: 11,
                           onPressed: () {
-                            Get.to(const ExtraInformation());
+                            Get.to(const RewardScreen());
                           },
                         ),
                       ],
