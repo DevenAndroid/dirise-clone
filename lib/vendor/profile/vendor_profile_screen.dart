@@ -191,8 +191,7 @@ class _VendorProfileScreenState extends State<VendorProfileScreen> {
       partnersName.text = vendorInfo.vendorProfile!.partnersName ?? "";
       storeName2.text = vendorInfo.storeName ?? "";
       storePhone.text = (vendorInfo.storePhone ?? "").toString();
-      categoryController.text =
-          vendorInfo.venderCategory!.isNotEmpty ? (vendorInfo.venderCategory![0].name ?? "").toString() : "";
+      categoryController.text = vendorInfo.venderCategory!.isNotEmpty ? (vendorInfo.venderCategory![0].name ?? "").toString() : "";
       bankId = vendorInfo.vendorProfile!.bankName ?? "";
       accountNumber.text = (vendorInfo.vendorProfile!.accountNumber ?? "").toString();
       ibnNumber.text = vendorInfo.vendorProfile!.ibnNumber ?? "";

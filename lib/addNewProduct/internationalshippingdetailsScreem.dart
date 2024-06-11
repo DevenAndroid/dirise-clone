@@ -57,6 +57,8 @@ class _InternationalshippingdetailsScreenState extends State<Internationalshippi
   List<String> unitOfMeasureList = [
     'cm/kg',
     'lb/inch',
+    'Kilogram (kg)'
+        'Pound (lb)'
   ];
 
   String selectNumberOfPackages = '1';
@@ -64,9 +66,27 @@ class _InternationalshippingdetailsScreenState extends State<Internationalshippi
 
   String selectTypeMaterial = 'plastic';
   List<String> selectTypeMaterialList = [
-    'plastic',
-    'glass',
-    'iron',
+        'Paper',
+        'Plastic',
+        'Glass',
+        'Metal',
+        'Wood',
+        'Fabric',
+        'Leather',
+        'Rubber',
+        'Ceramic',
+        'Stone',
+        'Cardboard',
+        'Carton',
+        'Foam',
+        'Fiberglass',
+        'Carbon',
+        'fiber',
+        'Concrete',
+        'Brick',
+        'Tile',
+        'Vinyl',
+        'Plywood',
   ];
   final formKey2 = GlobalKey<FormState>();
   String selectTypeOfPackaging = 'fedex 10kg box';
