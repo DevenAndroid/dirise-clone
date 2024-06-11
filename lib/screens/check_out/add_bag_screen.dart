@@ -116,10 +116,14 @@ class _BagsScreenState extends State<BagsScreen> {
                                                     const SizedBox(
                                                       height: 6,
                                                     ),
-                                                    Text(
+                                                     Text(
                                                       'KWD ${product.discountPrice}',
                                                       style: GoogleFonts.poppins(fontSize: 15, fontWeight: FontWeight.w400),
                                                     ),
+                                                    // Text(
+                                                    //   'KWD ${product.discountPrice}',
+                                                    //   style: GoogleFonts.poppins(fontSize: 15, fontWeight: FontWeight.w400),
+                                                    // ),
                                                     const SizedBox(
                                                       height: 4,
                                                     ),
