@@ -146,7 +146,7 @@ class _AddressScreenState extends State<AddressScreen> {
                                 context: context,
                                 builder: (BuildContext context) => AlertDialog(
                                       title: Text('Change Address'.tr),
-                                      content: Text('Do You Want To Changed Your Address.'.tr),
+                                  content: Text('Do you want to change your address.'.tr),
                                       actions: <Widget>[
                                         TextButton(
                                           onPressed: () => Get.back(),
