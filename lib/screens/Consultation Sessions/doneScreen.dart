@@ -49,7 +49,7 @@ class _DoneScreenState extends State<DoneScreen> {
             crossAxisAlignment: CrossAxisAlignment.center,
             children: [
               Image.asset(
-                'assets/images/newlogoo.png',
+                'assets/images/newlogoo1.png',
                 height: 200,
                 width: 200,
               ),

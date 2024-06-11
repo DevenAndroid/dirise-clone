@@ -59,7 +59,7 @@ class _ShowCaseProductsState extends State<ShowCaseProducts> {
                     // });
                     // scrollToItem(index1);
                   },
-                  child:Image.asset("assets/svgs/forward.png")
+                  child:Image.asset("assets/icons/new_arrow.png",width: 35,height: 35,)
               ),
               SizedBox(width: 20,)
             ],

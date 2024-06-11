@@ -198,20 +198,20 @@ class _SingleProductPriceScreenState extends State<SingleProductPriceScreen> {
                     return null; // Return null if validation passes
                   },
                 ),
-                Text(
-                  'Dirise Fee'.tr,
-                  style: GoogleFonts.inter(color: const Color(0xff292F45), fontWeight: FontWeight.w500, fontSize: 14),
-                ),
-                Container(
-                  height: 50,
-                  width: Get.width,
-                  padding: const EdgeInsets.symmetric(vertical: 12, horizontal: 12),
-                  decoration: BoxDecoration(
-                      color: Colors.white,
-                      borderRadius: BorderRadius.circular(8),
-                      border: Border.all(color: AppTheme.secondaryColor)),
-                  child: Text(discountAmount12.toString()),
-                ),
+                // Text(
+                //   'Dirise Fee'.tr,
+                //   style: GoogleFonts.inter(color: const Color(0xff292F45), fontWeight: FontWeight.w500, fontSize: 14),
+                // ),
+                // Container(
+                //   height: 50,
+                //   width: Get.width,
+                //   padding: const EdgeInsets.symmetric(vertical: 12, horizontal: 12),
+                //   decoration: BoxDecoration(
+                //       color: Colors.white,
+                //       borderRadius: BorderRadius.circular(8),
+                //       border: Border.all(color: AppTheme.secondaryColor)),
+                //   child: Text(discountAmount12.toString()),
+                // ),
                 const SizedBox(height: 10,),
                 Row(
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -361,8 +361,13 @@ class _SingleProductPriceScreenState extends State<SingleProductPriceScreen> {
                               const SizedBox(
                                 width: 20,
                               ),
+                              // Text(
+                              //   "${realPrice} KWD".tr,
+                              //   style: GoogleFonts.poppins(
+                              //       color: const Color(0xff014E70), fontWeight: FontWeight.w400, fontSize: 10),
+                              // ),
                               Text(
-                                "${realPrice} KWD".tr,
+                                "${afterCalculation} KWD".tr,
                                 style: GoogleFonts.poppins(
                                     color: const Color(0xff014E70), fontWeight: FontWeight.w400, fontSize: 10),
                               ),
@@ -375,7 +380,7 @@ class _SingleProductPriceScreenState extends State<SingleProductPriceScreen> {
                             mainAxisAlignment: MainAxisAlignment.spaceBetween,
                             children: [
                               Text(
-                                'Discounted'.tr,
+                                'Discount'.tr,
                                 style: GoogleFonts.poppins(
                                     color: const Color(0xff014E70), fontWeight: FontWeight.w600, fontSize: 12),
                               ),
@@ -383,7 +388,7 @@ class _SingleProductPriceScreenState extends State<SingleProductPriceScreen> {
                                 width: 10,
                               ),
                               Text(
-                                ' ${discountedPrice}KWD '.tr,
+                                ' ${sale}KWD '.tr,
                                 style: GoogleFonts.poppins(
                                     color: const Color(0xff014E70), fontWeight: FontWeight.w400, fontSize: 10),
                               ),
@@ -396,7 +401,7 @@ class _SingleProductPriceScreenState extends State<SingleProductPriceScreen> {
                             mainAxisAlignment: MainAxisAlignment.spaceBetween,
                             children: [
                               Text(
-                                'Sale'.tr,
+                                'Final price'.tr,
                                 style: GoogleFonts.poppins(
                                     color: const Color(0xff014E70), fontWeight: FontWeight.w600, fontSize: 12),
                               ),
@@ -405,12 +410,12 @@ class _SingleProductPriceScreenState extends State<SingleProductPriceScreen> {
                               ),
                               discountPrecrnt.text.isNotEmpty
                                   ? Text(
-                                      "${sale} %".tr,
+                                      "${discountedPrice} KWD".tr,
                                       style: GoogleFonts.poppins(
                                           color: const Color(0xff014E70), fontWeight: FontWeight.w400, fontSize: 10),
                                     )
                                   : Text(
-                                      "${sale} KWD".tr,
+                                      "${discountedPrice} KWD".tr,
                                       style: GoogleFonts.poppins(
                                           color: const Color(0xff014E70), fontWeight: FontWeight.w400, fontSize: 10),
                                     )

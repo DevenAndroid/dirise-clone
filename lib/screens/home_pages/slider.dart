@@ -61,8 +61,8 @@ class _SliderWidgetState extends State<SliderWidget> {
     return Obx(() {
       return homeController.homeModal.value.home != null
           ? Container(
-        padding: EdgeInsets.all(8),
-        decoration: BoxDecoration(
+        padding: const EdgeInsets.all(8),
+        decoration: const BoxDecoration(
             color: Colors.white,
             boxShadow: [
               BoxShadow(
@@ -97,16 +97,13 @@ class _SliderWidgetState extends State<SliderWidget> {
                       ),
                     ),
                     itemBuilder: (BuildContext context, int index) {
-                      return ClipRRect(
-                        borderRadius: BorderRadius.circular(30),
-                        child: CachedNetworkImage(
-                          // height: 130,
-                          // width: 200,
-                            imageUrl: homeController.homeModal.value.home!.slider![index].bannerMobile.toString(),
-                            fit: BoxFit.fill,
-                            placeholder: (context, url) => const SizedBox(),
-                            errorWidget: (context, url, error) => const SizedBox()),
-                      );
+                      return CachedNetworkImage(
+                        // height: 130,
+                        // width: 200,
+                          imageUrl: homeController.homeModal.value.home!.slider![index].bannerMobile.toString(),
+                          fit: BoxFit.fill,
+                          placeholder: (context, url) => const SizedBox(),
+                          errorWidget: (context, url, error) => const SizedBox());
                     },
                     itemCount: homeController.homeModal.value.home!.slider!.length,
                     // pagination: const SwiperPagination(),

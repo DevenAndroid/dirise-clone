@@ -121,17 +121,21 @@ class _SingleProductDiscriptionScreenState extends State<SingleProductDiscriptio
                   height: 5,
                 ),
                 TextFormField(
+                  validator: (value) {
+                    if (value!.trim().isEmpty) {
+                      return 'short description is required'.tr;
+                    }
+                    return null;
+                  },
                   controller: shortController,
                   maxLines: 2,
                   minLines: 2,
                   decoration: InputDecoration(
-
                     counterStyle: GoogleFonts.poppins(
                       color: AppTheme.primaryColor,
                       fontSize: 25,
                     ),
                     counter: const Offstage(),
-
                     errorMaxLines: 2,
                     contentPadding: const EdgeInsets.all(15),
                     fillColor: Colors.grey.shade100,

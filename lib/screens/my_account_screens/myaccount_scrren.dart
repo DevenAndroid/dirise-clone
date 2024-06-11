@@ -1268,7 +1268,7 @@ class _MyAccountScreenState extends State<MyAccountScreen> {
                                 children: [
                                   Expanded(
                                     child: Text(
-                                      "Shipping Address",
+                                      "Shipping Address".tr,
                                       style: GoogleFonts.poppins(fontWeight: FontWeight.w500, fontSize: 16),
                                     ),
                                   ),
@@ -1282,7 +1282,7 @@ class _MyAccountScreenState extends State<MyAccountScreen> {
                                         size: 20,
                                       ),
                                       label: Text(
-                                        "Add New",
+                                        "Add New".tr,
                                         style: GoogleFonts.poppins(fontSize: 15),
                                       ))
                                 ],
@@ -1304,7 +1304,7 @@ class _MyAccountScreenState extends State<MyAccountScreen> {
                                         size: 20,
                                       ),
                                       label: Text(
-                                        "Find my location",
+                                        "Find my location".tr,
                                         style: GoogleFonts.poppins(fontSize: 15),
                                       ))
                                 ],
@@ -2105,7 +2105,7 @@ class _MyAccountScreenState extends State<MyAccountScreen> {
             ),
             Expanded(
               child: Text(
-                AppStrings.vendorPartner.tr,
+                'Sell Better Dashboard'.tr,
                 style: GoogleFonts.poppins(color: const Color(0xFF2A3032), fontSize: 16, fontWeight: FontWeight.w500),
               ),
             ),

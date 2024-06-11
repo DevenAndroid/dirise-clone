@@ -18,6 +18,7 @@ import '../../../model/customer_profile/model_country_list.dart';
 import '../../../model/customer_profile/model_state_list.dart';
 import '../../../model/login_model.dart';
 import '../../../model/model_address_list.dart';
+import '../../../newAddress/map_find_my_location.dart';
 import '../../../repository/repository.dart';
 import '../../../utils/api_constant.dart';
 import '../../../widgets/common_colour.dart';
@@ -723,6 +724,28 @@ class _AddressScreenState extends State<AddressScreen> {
                                     ),
                                     label: Text(
                                       "Add New",
+                                      style: GoogleFonts.poppins(fontSize: 15),
+                                    ))
+                              ],
+                            ),
+                          ),
+                          SliverToBoxAdapter(
+                            child: Row(
+                              children: [
+                                const Expanded(
+                                  child:SizedBox(),
+                                ),
+                                TextButton.icon(
+                                    onPressed: () {
+                                      Get.to(()=> FindMyLocationAddress());
+                                    },
+                                    style: TextButton.styleFrom(padding: EdgeInsets.zero),
+                                    icon: const Icon(
+                                      Icons.add,
+                                      size: 20,
+                                    ),
+                                    label: Text(
+                                      "Find my location",
                                       style: GoogleFonts.poppins(fontSize: 15),
                                     ))
                               ],
