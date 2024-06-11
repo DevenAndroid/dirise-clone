@@ -81,7 +81,7 @@ class _SliderWidgetState extends State<SliderWidget> {
             Padding(
                 padding: const EdgeInsets.fromLTRB(0, 0, 0, 18),
                 child: SizedBox(
-                  height: size.height * 0.30,
+                  height: size.height * 0.25,
                   child: Swiper(
                     autoplay: true,
                     outer: false,

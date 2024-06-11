@@ -48,7 +48,7 @@ class _CategoryItemsState extends State<CategoryItems> {
             child: GridView.builder(
                 shrinkWrap: true,
                 physics: const NeverScrollableScrollPhysics(),
-                itemCount: min(homeController.vendorCategory.usphone!.length + 1,8),
+                itemCount: min(homeController.vendorCategory.usphone!.length + 1,4),
                 padding: const EdgeInsets.symmetric(horizontal: 15, vertical: 20).copyWith(top: 0),
                 gridDelegate:  SliverGridDelegateWithMaxCrossAxisExtent(
                   maxCrossAxisExtent: Get.width*.230,
@@ -57,7 +57,7 @@ class _CategoryItemsState extends State<CategoryItems> {
                   mainAxisSpacing: 16,
                 ),
                 itemBuilder: (BuildContext context, int index) {
-                  if (index ==  min(homeController.vendorCategory.usphone!.length + 1,8)-1) {
+                  if (index ==  min(homeController.vendorCategory.usphone!.length + 1,4)-1) {
                     return Column(
                       children: [
                         const SizedBox(

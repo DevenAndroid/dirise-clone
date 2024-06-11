@@ -262,6 +262,7 @@ class _ApproveProductScreenState extends State<ApproveProductScreen> {
                                                         title: Text(
                                                           "Are you sure you want to delete this product?".tr,
                                                           style: titleStyle,
+                                                          textAlign: TextAlign.center,
                                                         ),
                                                         actions: [
                                                           ElevatedButton(

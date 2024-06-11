@@ -56,16 +56,36 @@ class _ServiceInternationalShippingServiceState extends State<ServiceInternation
   List<String> unitOfMeasureList = [
     'cm/kg',
     'lb/inch',
+    'Kilogram (kg)'
+    'Pound (lb)'
   ];
 
   String selectNumberOfPackages  = '1';
   List<String> selectNumberOfPackagesList = List.generate(30, (index) => (index + 1).toString());
 
-  String selectTypeMaterial   = 'plastic';
+  String selectTypeMaterial   = 'Paper';
   List<String> selectTypeMaterialList = [
-    'plastic',
-    'glass',
-    'iron',
+    'Paper',
+    'Plastic',
+    'Glass',
+    'Metal',
+    'Wood',
+    'Fabric',
+    'Leather',
+    'Rubber',
+    'Ceramic',
+    'Stone',
+    'Cardboard',
+    'Carton',
+    'Foam',
+    'Fiberglass',
+    'Carbon',
+    'fiber',
+    'Concrete',
+    'Brick',
+    'Tile',
+    'Vinyl',
+    'Plywood',
   ];
 
   String selectTypeOfPackaging   = 'fedex 10kg box';

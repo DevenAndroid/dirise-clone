@@ -240,6 +240,7 @@ class _VendorProductScreenState extends State<VendorProductScreen> {
                                                           title: Text(
                                                             "Are you sure you want to delete this product?".tr,
                                                             style: titleStyle,
+                                                            textAlign: TextAlign.center,
                                                           ),
                                                           actions: [
                                                             ElevatedButton(
