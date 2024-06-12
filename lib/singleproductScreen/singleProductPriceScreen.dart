@@ -67,8 +67,9 @@ class _SingleProductPriceScreenState extends State<SingleProductPriceScreen> {
       });
     } else if (!isPercentageDiscount && realPrice > 0 && fixedPrice > 0) {
       double discountedPriceValue = realPrice - fixedPrice;
+      double discountedPriceValue1 = discountedPriceValue + diriseFeesAsDouble;
       setState(() {
-        discountedPrice = discountedPriceValue.toStringAsFixed(2);
+        discountedPrice = discountedPriceValue1.toStringAsFixed(2);
       });
     } else {
       setState(() {
@@ -123,7 +124,9 @@ class _SingleProductPriceScreenState extends State<SingleProductPriceScreen> {
     }
     getVendorCategories(addProductController.idProduct.value.toString());
   }
-
+  String diriseFeesAsString = '' ;
+  double diriseFeesAsDouble = 0.0 ;
+String discount = '';
   final formKey1 = GlobalKey<FormState>();
   @override
   Widget build(BuildContext context) {
@@ -176,10 +179,12 @@ class _SingleProductPriceScreenState extends State<SingleProductPriceScreen> {
                   ),
                   onChanged: (value) {
                     isPercentageDiscount = true;
+                    fixedDiscount.text = '';
                     calculateDiscount();
                     realPrice = value;
                     realPrice1 = double.tryParse(value) ?? 0.0;
-                    String? diriseFeesAsString = productDetailsModel.value.productDetails!.diriseFess;
+                    diriseFeesAsString = productDetailsModel.value.productDetails!.diriseFess;
+                    diriseFeesAsDouble = double.parse(productDetailsModel.value.productDetails!.diriseFess.toString());
 
                     double fees = diriseFeesAsString != null ? double.parse(diriseFeesAsString) : 0.0;
 
@@ -189,7 +194,6 @@ class _SingleProductPriceScreenState extends State<SingleProductPriceScreen> {
                     setState(() {
 
                     });
-                    setState(() {});
                   },
                   validator: (value) {
                     if (value!.trim().isEmpty) {
@@ -256,6 +260,7 @@ class _SingleProductPriceScreenState extends State<SingleProductPriceScreen> {
                         obSecure: false,
                         keyboardType: TextInputType.number,
                         onChanged: (value) {
+                          discount = value;
                           discountPrecrnt.text = "";
                           isPercentageDiscount = false;
                           calculateDiscount();
@@ -388,7 +393,7 @@ class _SingleProductPriceScreenState extends State<SingleProductPriceScreen> {
                                 width: 10,
                               ),
                               Text(
-                                ' ${sale}KWD '.tr,
+                                ' $discount KWD '.tr,
                                 style: GoogleFonts.poppins(
                                     color: const Color(0xff014E70), fontWeight: FontWeight.w400, fontSize: 10),
                               ),

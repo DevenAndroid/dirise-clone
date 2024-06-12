@@ -466,44 +466,50 @@ class _BagsScreenState extends State<BagsScreen> {
                         decoration: const BoxDecoration(color: Color(0xff014E70)),
                         child: Padding(
                           padding: const EdgeInsets.fromLTRB(15, 10, 15, 10),
-                          child: Row(
-                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                            children: [
-                              Row(
-                                children: [
-                                  Container(
-                                      decoration: BoxDecoration(borderRadius: BorderRadius.circular(8), color: Colors.white),
-                                      padding: const EdgeInsets.fromLTRB(20, 7, 20, 7),
-                                      child: Text(
-                                        cartController.cartModel.totalProducts.toString(),
-                                        style: GoogleFonts.poppins(fontWeight: FontWeight.w700, fontSize: 18),
-                                      )),
-                                  const SizedBox(
-                                    width: 10,
+                          child: Expanded(
+                            child: Row(
+                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                              children: [
+                                Expanded(
+                                  child: Row(
+                                    children: [
+                                      Container(
+                                          decoration: BoxDecoration(borderRadius: BorderRadius.circular(8), color: Colors.white),
+                                          padding: const EdgeInsets.fromLTRB(20, 7, 20, 7),
+                                          child: Text(
+                                            cartController.cartModel.totalProducts.toString(),
+                                            style: GoogleFonts.poppins(fontWeight: FontWeight.w700, fontSize: 18),
+                                          )),
+                                      const SizedBox(
+                                        width: 10,
+                                      ),
+                                      Expanded(
+                                        child: Text("KWD ${'cartController.cartModel.subtotal'}",
+                                            style: GoogleFonts.poppins(
+                                                fontWeight: FontWeight.w500, fontSize: 18, color: Colors.white)),
+                                      ),
+                                    ],
                                   ),
-                                  Text("KWD ${cartController.cartModel.subtotal}",
-                                      style: GoogleFonts.poppins(
-                                          fontWeight: FontWeight.w500, fontSize: 18, color: Colors.white)),
-                                ],
-                              ),
-                              Row(
-                                children: [
-                                  Text("Checkout".tr,
-                                      style: GoogleFonts.poppins(
-                                          fontWeight: FontWeight.w500, fontSize: 18, color: Colors.white)),
-                                  const SizedBox(
-                                    width: 10,
-                                  ),
-                                  const Image(
-                                    height: 25,
-                                    image: AssetImage(
-                                      'assets/icons/whishlist.png',
+                                ),
+                                Row(
+                                  children: [
+                                    Text("Checkout".tr,
+                                        style: GoogleFonts.poppins(
+                                            fontWeight: FontWeight.w500, fontSize: 18, color: Colors.white)),
+                                    const SizedBox(
+                                      width: 10,
                                     ),
-                                    color: Colors.white,
-                                  ),
-                                ],
-                              )
-                            ],
+                                    const Image(
+                                      height: 25,
+                                      image: AssetImage(
+                                        'assets/icons/whishlist.png',
+                                      ),
+                                      color: Colors.white,
+                                    ),
+                                  ],
+                                )
+                              ],
+                            ),
                           ),
                         ),
                       ),
