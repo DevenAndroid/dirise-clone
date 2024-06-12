@@ -696,11 +696,11 @@ class _AddressScreenState extends State<AddressScreen> {
                     obSecure: false,
                     hintText: '+ Add Address',
                   ),
+                  if(cartController.addressListModel.address!= null)
                   Expanded(
                     child: Obx(() {
                       if (cartController.refreshInt11.value > 0) {}
                       List<AddressData> shippingAddress = cartController.addressListModel.address!.shipping ?? [];
-
                       return CustomScrollView(
                         shrinkWrap: true,
                         slivers: [

@@ -64,7 +64,7 @@ class _InternationalshippingdetailsScreenState extends State<Internationalshippi
   String selectNumberOfPackages = '1';
   List<String> selectNumberOfPackagesList = List.generate(30, (index) => (index + 1).toString());
 
-  String selectTypeMaterial = 'plastic';
+  String? selectTypeMaterial;
   List<String> selectTypeMaterialList = [
         'Paper',
         'Plastic',

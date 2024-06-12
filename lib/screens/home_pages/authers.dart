@@ -25,10 +25,10 @@ class _AuthorScreenState extends State<AuthorScreen> {
   Widget build(BuildContext context) {
     Size size = MediaQuery.of(context).size;
     return Obx(() {
-      return homeController.authorModal.value.data != null
+      return homeController.getFeaturedModel.value.data != null
           ? Column(
               children: [
-                SizedBox(height: 20,),
+                const SizedBox(height: 20,),
                 Padding(
                   padding: const EdgeInsets.symmetric(horizontal: 22),
                   child: Row(
@@ -43,18 +43,16 @@ class _AuthorScreenState extends State<AuthorScreen> {
                     ],
                   ),
                 ),
-                homeController.authorModal.value.data != null &&  homeController.authorModal.value.data!.isNotEmpty
+                homeController.getFeaturedModel.value.data != null &&  homeController.getFeaturedModel.value.data!.isNotEmpty
                     ?  Padding(
                   padding: const EdgeInsets.fromLTRB(0, 20, 0, 18),
                   child: SizedBox(
-                    height: size.height * 0.28,
+                    height: size.height * 0.26,
                     child: Swiper(
                       autoplay: true,
                       outer: false,
                       autoplayDelay: 5000,
-
                       autoplayDisableOnInteraction: false,
-
                       //                   onTap: (value){
                       // Get.to(()=> SingleStoreScreen(
                       // storeDetails: VendorStoreData(id: homeController.authorModal.value.data![value].id.toString()),
@@ -66,7 +64,7 @@ class _AuthorScreenState extends State<AuthorScreen> {
                           child: InkWell(
                             onTap: (){
                               Get.to(()=> SingleStoreScreen(
-                                storeDetails: VendorStoreData(id: homeController.authorModal.value.data![index].id.toString()),
+                                storeDetails: VendorStoreData(id: homeController.getFeaturedModel.value.data![index].user!.id.toString()),
                               ));
                             },
                             child: Container(
@@ -89,12 +87,15 @@ class _AuthorScreenState extends State<AuthorScreen> {
                                     child: Column(
                                       children: [
                                         // SizedBox(height: 20,),
-
-                                                Image.asset(
-                                                    'assets/svgs/man.png',
-                                                  height: 160,
-                                               fit: BoxFit.fill,
-                                                ),
+                                        CachedNetworkImage(imageUrl: homeController.getFeaturedModel.value.data![index].user!.bannerProfileApp.toString(),
+                                          height: 140,
+                                          fit: BoxFit.fill,
+                                        ),
+                                               //  Image.asset(
+                                               //      'assets/svgs/man.png',
+                                               // height: 160,
+                                               // fit: BoxFit.fill,
+                                               //  ),
                                         // Text(
                                         //   getStarVendorModel.value.data![index].ofTheMonth!.storeName.toString(),
                                         //   maxLines: 1,
@@ -103,7 +104,7 @@ class _AuthorScreenState extends State<AuthorScreen> {
                                       ],
                                     ),
                                   ),
-                                  SizedBox(width: 10,),
+                                  const SizedBox(width: 10,),
                                   Expanded(
                                     flex: 2,
                                     child: Column(
@@ -112,12 +113,12 @@ class _AuthorScreenState extends State<AuthorScreen> {
                                       children: [
 
                                         Text(
-                                         "YOUSEF AHMAD NASEER JABER MNAWER",
+                                          homeController.getFeaturedModel.value.data![index].user!.storeName.toString(),
                                           style: GoogleFonts.poppins(fontSize: 15, fontWeight: FontWeight.w600),
                                         ),
                                         10.spaceY,
                                         Text(
-                                         "Padded liea’s built-in bra vest tank top Padded liea’s built-in",
+                                          homeController.getFeaturedModel.value.data![index].user!.description ?? '',
                                           style: GoogleFonts.poppins(fontSize: 12, fontWeight: FontWeight.w300),
                                         ),SizedBox(height: 10,),
 Row(
@@ -204,7 +205,7 @@ SvgPicture.asset("assets/svgs/fb.svg",height: 30,width: 30,),
                           ),
                         );
                       },
-                      itemCount:  homeController.authorModal.value.data!.length,
+                      itemCount:  homeController.getFeaturedModel.value.data!.length,
                       // pagination: const SwiperPagination(),
                       control: const SwiperControl(size: 0),
 
