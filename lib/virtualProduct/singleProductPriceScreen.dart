@@ -68,8 +68,9 @@ class _VirtualPriceScreenState extends State<VirtualPriceScreen> {
       });
     } else if (!isPercentageDiscount && realPrice > 0 && fixedPrice > 0) {
       double discountedPriceValue = realPrice - fixedPrice;
+      double discountedPriceValue1 = discountedPriceValue + diriseFeesAsDouble;
       setState(() {
-        discountedPrice = discountedPriceValue.toStringAsFixed(2);
+        discountedPrice = discountedPriceValue1.toStringAsFixed(2);
       });
     } else {
       setState(() {
@@ -77,6 +78,7 @@ class _VirtualPriceScreenState extends State<VirtualPriceScreen> {
       });
     }
   }
+  double diriseFeesAsDouble = 0.0 ;
   deliverySizeApi() {
     Map<String, dynamic> map = {};
     map['discount_percent'] = discountPrecrnt.text.toString();
@@ -171,10 +173,11 @@ class _VirtualPriceScreenState extends State<VirtualPriceScreen> {
                   onChanged: (value) {
                     isPercentageDiscount = true;
                     calculateDiscount();
+                    fixedDiscount.text = '';
                     realPrice = value;
                     realPrice1 = double.tryParse(value) ?? 0.0;
                     String? diriseFeesAsString = productDetailsModel.value.productDetails!.diriseFess;
-
+                    diriseFeesAsDouble = double.parse(productDetailsModel.value.productDetails!.diriseFess.toString());
                     double fees = diriseFeesAsString != null ? double.parse(diriseFeesAsString) : 0.0;
 
                     discountAmount12 = (realPrice1 * fees) / 100;
@@ -191,20 +194,20 @@ class _VirtualPriceScreenState extends State<VirtualPriceScreen> {
                     return null; // Return null if validation passes
                   },
                 ),
-                Text(
-                  'Dirise Fee'.tr,
-                  style: GoogleFonts.inter(color: const Color(0xff292F45), fontWeight: FontWeight.w500, fontSize: 14),
-                ),
-                Container(
-                  height: 50,
-                  width: Get.width,
-                  padding: const EdgeInsets.symmetric(vertical: 12, horizontal: 12),
-                  decoration: BoxDecoration(
-                      color: Colors.white,
-                      borderRadius: BorderRadius.circular(8),
-                      border: Border.all(color: AppTheme.secondaryColor)),
-                  child: Text(discountAmount12.toString()),
-                ),
+                // Text(
+                //   'Dirise Fee'.tr,
+                //   style: GoogleFonts.inter(color: const Color(0xff292F45), fontWeight: FontWeight.w500, fontSize: 14),
+                // ),
+                // Container(
+                //   height: 50,
+                //   width: Get.width,
+                //   padding: const EdgeInsets.symmetric(vertical: 12, horizontal: 12),
+                //   decoration: BoxDecoration(
+                //       color: Colors.white,
+                //       borderRadius: BorderRadius.circular(8),
+                //       border: Border.all(color: AppTheme.secondaryColor)),
+                //   child: Text(discountAmount12.toString()),
+                // ),
                 const SizedBox(height: 10,),
                 Row(
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -343,7 +346,7 @@ class _VirtualPriceScreenState extends State<VirtualPriceScreen> {
                                 width: 20,
                               ),
                               Text(
-                                "${realPrice} KWD".tr,
+                                "${afterCalculation} KWD".tr,
                                 style: GoogleFonts.poppins(
                                     color: const Color(0xff014E70), fontWeight: FontWeight.w400, fontSize: 10),
                               ),
@@ -364,7 +367,7 @@ class _VirtualPriceScreenState extends State<VirtualPriceScreen> {
                                 width: 10,
                               ),
                               Text(
-                                ' ${discountedPrice}KWD '.tr,
+                                '$sale KWD'.tr,
                                 style: GoogleFonts.poppins(
                                     color: const Color(0xff014E70), fontWeight: FontWeight.w400, fontSize: 10),
                               ),
@@ -386,12 +389,12 @@ class _VirtualPriceScreenState extends State<VirtualPriceScreen> {
                               ),
                               discountPrecrnt.text.isNotEmpty ?
                                Text(
-                                "${sale} %".tr,
+                                "${discountedPrice} KWD".tr,
                                 style: GoogleFonts.poppins(
                                     color: const Color(0xff014E70), fontWeight: FontWeight.w400, fontSize: 10),
                               ) :
                               Text(
-                                "${sale} KWD".tr,
+                                "${discountedPrice} KWD".tr,
                                 style: GoogleFonts.poppins(
                                     color: const Color(0xff014E70), fontWeight: FontWeight.w400, fontSize: 10),
                               )

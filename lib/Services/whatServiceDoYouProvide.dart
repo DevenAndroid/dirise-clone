@@ -49,7 +49,7 @@ class _whatServiceDoYouProvideState extends State<whatServiceDoYouProvide> {
   double discountAmount12 =0.0;
   double afterCalculation = 0.0;
   void calculateDiscount() {
-    double realPrice = afterCalculation ?? 0.0;
+    double realPrice = double.tryParse(priceController.text) ?? 0.0;
     double sale = double.tryParse(percentageController.text) ?? 0.0;
     double fixedPrice = double.tryParse(fixedPriceController.text) ?? 0.0;
     // double fees = productDetailsModel.value.productDetails!.diriseFess ?? 0.0;
@@ -63,8 +63,9 @@ class _whatServiceDoYouProvideState extends State<whatServiceDoYouProvide> {
       });
     } else if (!isPercentageDiscount && realPrice > 0 && fixedPrice > 0) {
       double discountedPriceValue = realPrice - fixedPrice;
+      double discountedPriceValue1 = discountedPriceValue + diriseFeesAsDouble;
       setState(() {
-        discountedPrice = discountedPriceValue.toStringAsFixed(2);
+        discountedPrice = discountedPriceValue1.toStringAsFixed(2);
       });
     } else {
       setState(() {
@@ -72,7 +73,7 @@ class _whatServiceDoYouProvideState extends State<whatServiceDoYouProvide> {
       });
     }
   }
-
+  double diriseFeesAsDouble = 0.0 ;
   TextEditingController discountPrecrnt = TextEditingController();
   TextEditingController fixedDiscount = TextEditingController();
 
@@ -212,12 +213,13 @@ class _whatServiceDoYouProvideState extends State<whatServiceDoYouProvide> {
                     realPrice = value;
                     realPrice1 = double.tryParse(value) ?? 0.0;
                     String? diriseFeesAsString = productDetailsModel.value.productDetails!.diriseFess;
-
+                    diriseFeesAsDouble = double.parse(productDetailsModel.value.productDetails!.diriseFess);
                     double fees = diriseFeesAsString != null ? double.parse(diriseFeesAsString) : 0.0;
 
                     discountAmount12 = (realPrice1 * fees) / 100;
                     afterCalculation = realPrice1 + discountAmount12;
                     log('value${realPrice1.toString()}');
+                    log('priceee${diriseFeesAsDouble.toString()}');
                     setState(() {
 
                     });

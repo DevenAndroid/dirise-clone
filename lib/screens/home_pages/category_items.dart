@@ -74,9 +74,10 @@ class _CategoryItemsState extends State<CategoryItems> {
                                 height: 70,
                                 padding: EdgeInsets.all(10),
                                 decoration: BoxDecoration(
-                                    shape: BoxShape.circle,
+                                  // shape: BoxShape.circle,
                                     color: Color(0xFFF0EEEE),
-                                    border: Border.all(color: Color(0xFFCCCCCC))
+                                    borderRadius: BorderRadius.circular(12)
+                                  // border: Border.all(color: Color(0xFFCCCCCC))
                                 ),
                                 child: Image.asset("assets/images/morebutton.png")),
                           ),
@@ -114,11 +115,12 @@ class _CategoryItemsState extends State<CategoryItems> {
                           Expanded(
                             flex: 2,
                             child: Container(
-            padding: EdgeInsets.all(10),
+                              padding: const EdgeInsets.all(10),
                               decoration: BoxDecoration(
-                              shape: BoxShape.circle,
-                                color: Color(0xFFF0EEEE),
-                                border: Border.all(color: Color(0xFFCCCCCC))
+                                  // shape: BoxShape.circle,
+                                  color: Color(0xFFF0EEEE),
+                                  borderRadius: BorderRadius.circular(12)
+                                  // border: Border.all(color: Color(0xFFCCCCCC))
                               ),
                               child: Hero(
                                 tag: item.bannerProfile.toString(),
