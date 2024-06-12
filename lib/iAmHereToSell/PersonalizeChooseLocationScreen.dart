@@ -15,6 +15,8 @@ import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:geolocator/geolocator.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
+import '../controller/location_controller.dart';
+import '../controller/service_controller.dart';
 import '../widgets/common_button.dart';
 import '../widgets/common_colour.dart';
 import '../widgets/dimension_screen.dart';
@@ -36,6 +38,7 @@ class _PersonalizeChooseLocationState extends State<PersonalizeChooseLocation> {
 
   String? _address = "";
   Position? _currentPosition;
+  final serviceController = Get.put(ServiceController());
 
   Future<bool> _handleLocationPermission() async {
     bool serviceEnabled;
@@ -43,21 +46,27 @@ class _PersonalizeChooseLocationState extends State<PersonalizeChooseLocation> {
 
     serviceEnabled = await Geolocator.isLocationServiceEnabled();
     if (!serviceEnabled) {
-      ScaffoldMessenger.of(context)
-          .showSnackBar(const SnackBar(content: Text('Location services are disabled. Please enable the services')));
+      ScaffoldMessenger.of(context).showSnackBar(
+        const SnackBar(content: Text('Location services are disabled. Please enable the services')),
+      );
       return false;
     }
     permission = await Geolocator.checkPermission();
     if (permission == LocationPermission.denied) {
       permission = await Geolocator.requestPermission();
       if (permission == LocationPermission.denied) {
-        ScaffoldMessenger.of(context).showSnackBar(const SnackBar(content: Text('Location permissions are denied')));
+        ScaffoldMessenger.of(context).showSnackBar(
+          const SnackBar(content: Text('Location permissions are denied')),
+        );
         return false;
       }
     }
     if (permission == LocationPermission.deniedForever) {
       ScaffoldMessenger.of(context).showSnackBar(
-          const SnackBar(content: Text('Location permissions are permanently denied, we cannot request permissions.')));
+        const SnackBar(
+          content: Text('Location permissions are permanently denied, we cannot request permissions.'),
+        ),
+      );
       return false;
     }
     return true;
@@ -69,16 +78,17 @@ class _PersonalizeChooseLocationState extends State<PersonalizeChooseLocation> {
     if (!hasPermission) return;
     await Geolocator.getCurrentPosition(desiredAccuracy: LocationAccuracy.high).then((Position position) {
       setState(() => _currentPosition = position);
-      _getAddressFromLatLng(_currentPosition!);
+      _getAddressFromLatLng(LatLng(_currentPosition!.latitude, _currentPosition!.longitude), "current location");
       mapController!.animateCamera(CameraUpdate.newCameraPosition(
-          CameraPosition(target: LatLng(_currentPosition!.latitude, _currentPosition!.longitude), zoom: 15)));
+        CameraPosition(target: LatLng(_currentPosition!.latitude, _currentPosition!.longitude), zoom: 15),
+      ));
       _onAddMarkerButtonPressed(LatLng(_currentPosition!.latitude, _currentPosition!.longitude), "current location");
       setState(() {});
-      // location = _currentAddress!;
     }).catchError((e) {
       debugPrint(e);
     });
   }
+
   String? street;
   String? city;
   String? state;
@@ -86,33 +96,40 @@ class _PersonalizeChooseLocationState extends State<PersonalizeChooseLocation> {
   String? zipcode;
   String? town;
 
-  Future<void> _getAddressFromLatLng(Position position) async {
-    List<Placemark> placemarks = await placemarkFromCoordinates(position.latitude, position.longitude);
-
-    if (placemarks != null && placemarks.isNotEmpty) {
-      Placemark placemark = placemarks[0];
-
+  Future<void> _getAddressFromLatLng(LatLng lastMapPosition, markerTitle, {allowZoomIn = true}) async {
+    final List<Placemark> placemarks = await placemarkFromCoordinates(
+      lastMapPosition.latitude,
+      lastMapPosition.longitude,
+    );
+    if (placemarks.isNotEmpty) {
+      final Placemark placemark = placemarks[0];
       setState(() {
-        street = placemark.street ?? '';
-        city = placemark.locality ?? '';
-        state = placemark.administrativeArea ?? '';
-        country = placemark.country ?? '';
-        zipcode = placemark.postalCode ?? '';
-        town = placemark.subAdministrativeArea ?? '';
-
+        _address = '${placemark.street}, ${placemark.subLocality}, ${placemark.locality}, ${placemark.country}';
+        street = placemark.street;
+        city = placemark.locality;
+        state = placemark.administrativeArea;
+        country = placemark.country;
+        zipcode = placemark.postalCode;
+        town = placemark.subLocality;
       });
     }
-    await placemarkFromCoordinates(_currentPosition!.latitude, _currentPosition!.longitude)
-        .then((List<Placemark> placemarks) {
-      Placemark place = placemarks[0];
-      setState(() {
-        _address = '${place.subLocality}, ${place.subAdministrativeArea}, ${place.postalCode}';
-      });
-    }).catchError((e) {
-      debugPrint(e.toString());
-    });
-  }
 
+    redPinMarker = Marker(
+      markerId: MarkerId('redPin'),
+      position: lastMapPosition,
+      draggable: isMarkerDraggable,
+      icon: BitmapDescriptor.defaultMarkerWithHue(BitmapDescriptor.hueRed),
+    );
+
+    if (googleMapController.isCompleted) {
+      mapController!.animateCamera(
+        CameraUpdate.newCameraPosition(
+          CameraPosition(target: lastMapPosition, zoom: allowZoomIn ? 13 : 10),
+        ),
+      );
+    }
+    setState(() {});
+  }
 
   String? appLanguage = "English";
   getLanguage() async {
@@ -135,7 +152,10 @@ class _PersonalizeChooseLocationState extends State<PersonalizeChooseLocation> {
   GoogleMapController? mapController1;
   CameraPosition? cameraPosition;
   String location = "Search Location";
+  bool isMarkerDraggable = true;
+  Marker? redPinMarker;
   final Set<Marker> markers = {};
+
   Future<Uint8List> getBytesFromAsset(String path, int width) async {
     ByteData data = await rootBundle.load(path);
     ui.Codec codec = await ui.instantiateImageCodec(data.buffer.asUint8List(), targetWidth: width);
@@ -145,21 +165,25 @@ class _PersonalizeChooseLocationState extends State<PersonalizeChooseLocation> {
 
   Future<void> _onAddMarkerButtonPressed(LatLng lastMapPosition, markerTitle, {allowZoomIn = true}) async {
     final Uint8List markerIcon = await getBytesFromAsset('assets/icons/location.png', 140);
-    markers.clear();
-    markers.add(Marker(
-        markerId: MarkerId(lastMapPosition.toString()),
-        position: lastMapPosition,
-        infoWindow: const InfoWindow(
-          title: "",
-        ),
-        icon: BitmapDescriptor.fromBytes(markerIcon)));
-    // BitmapDescriptor.defaultMarkerWithHue(BitmapDescriptor.hueCyan,)));
+
+    redPinMarker = Marker(
+      markerId: MarkerId('redPin'),
+      position: lastMapPosition,
+      draggable: isMarkerDraggable,
+      icon: BitmapDescriptor.defaultMarkerWithHue(BitmapDescriptor.hueRed),
+    );
+
     if (googleMapController.isCompleted) {
       mapController!.animateCamera(
-          CameraUpdate.newCameraPosition(CameraPosition(target: lastMapPosition, zoom: allowZoomIn ? 14 : 11)));
+        CameraUpdate.newCameraPosition(
+          CameraPosition(target: lastMapPosition, zoom: allowZoomIn ? 13 : 10),
+        ),
+      );
     }
     setState(() {});
   }
+
+  final locationController = Get.put(LocationController());
 
   @override
   Widget build(BuildContext context) {
@@ -188,11 +212,20 @@ class _PersonalizeChooseLocationState extends State<PersonalizeChooseLocation> {
                     mapController = controller;
                     setState(() async {});
                   },
-                  markers: markers,
-                  onCameraMove: (CameraPosition cameraPositions) {
-                    cameraPosition = cameraPositions;
+                  markers: {
+                    if (redPinMarker != null) redPinMarker!,
                   },
-                  onCameraIdle: () async {},
+                  onCameraMove: (CameraPosition cameraPositions) {
+                    if (isMarkerDraggable && redPinMarker != null) {
+                      setState(() {
+                        redPinMarker = redPinMarker!.copyWith(positionParam: cameraPositions.target);
+                      });
+                    }},
+                  onCameraIdle: () async {
+                    if (redPinMarker != null) {
+                      await _getAddressFromLatLng(redPinMarker!.position, "current location");
+                    }
+                  },
                 ),
                 Positioned(
                     top: 10,
