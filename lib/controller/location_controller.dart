@@ -35,6 +35,7 @@ class LocationController extends GetxController {
   RxString city = ''.obs;
   String state = '';
   String countryName = '';
+  String address = '';
   // RxString zipcode = ''.obs;
   RxString zipcode = ''.obs;
   String town = '';

@@ -136,6 +136,8 @@ class _FindMyLocationAddressState extends State<FindMyLocationAddress> {
   GoogleMapController? mapController1;
   CameraPosition? cameraPosition;
   String location = "Search Location";
+  bool isMarkerDraggable = true;
+  Marker? redPinMarker;
   final Set<Marker> markers = {};
   Future<Uint8List> getBytesFromAsset(String path, int width) async {
     ByteData data = await rootBundle.load(path);
@@ -146,21 +148,90 @@ class _FindMyLocationAddressState extends State<FindMyLocationAddress> {
 
   Future<void> _onAddMarkerButtonPressed(LatLng lastMapPosition, markerTitle, {allowZoomIn = true}) async {
     final Uint8List markerIcon = await getBytesFromAsset('assets/icons/location.png', 140);
-    markers.clear();
-    markers.add(Marker(
-        markerId: MarkerId(lastMapPosition.toString()),
-        position: lastMapPosition,
-        infoWindow: const InfoWindow(
-          title: "",
-        ),
-        icon: BitmapDescriptor.fromBytes(markerIcon)));
-    // BitmapDescriptor.defaultMarkerWithHue(BitmapDescriptor.hueCyan,)));
+
+    redPinMarker = Marker(
+      markerId: MarkerId('redPin'),
+      position: lastMapPosition,
+      draggable: isMarkerDraggable,
+    
+      onDragStart: (newPosition) async {
+        setState(() {
+          redPinMarker = redPinMarker!.copyWith(positionParam: newPosition);
+        });
+
+        // Fetch the address based on the new marker position
+        final List<Placemark> placemarks = await placemarkFromCoordinates(newPosition.latitude, newPosition.longitude);
+        if (placemarks.isNotEmpty) {
+          final Placemark placemark = placemarks[0];
+          setState(() {
+            _address = '${placemark.subLocality}, ${placemark.subAdministrativeArea}, ${placemark.postalCode}';
+          });
+        }
+      },
+      onDrag: (newPosition) async {
+        setState(() {
+          redPinMarker = redPinMarker!.copyWith(positionParam: newPosition);
+        });
+
+        // Fetch the address based on the new marker position
+        final List<Placemark> placemarks = await placemarkFromCoordinates(newPosition.latitude, newPosition.longitude);
+        if (placemarks.isNotEmpty) {
+          final Placemark placemark = placemarks[0];
+          setState(() {
+            _address = '${placemark.subLocality}, ${placemark.subAdministrativeArea}, ${placemark.postalCode}';
+          });
+        }
+      },
+      onDragEnd: (newPosition) async {
+        setState(() {
+          redPinMarker = redPinMarker!.copyWith(positionParam: newPosition);
+        });
+
+        // Fetch the address based on the new marker position
+        final List<Placemark> placemarks = await placemarkFromCoordinates(newPosition.latitude, newPosition.longitude);
+        if (placemarks.isNotEmpty) {
+          final Placemark placemark = placemarks[0];
+          setState(() {
+            _address = '${placemark.subLocality}, ${placemark.subAdministrativeArea}, ${placemark.postalCode}';
+          });
+        }
+      },
+      icon: BitmapDescriptor.defaultMarkerWithHue(BitmapDescriptor.hueRed),
+    );
+
     if (googleMapController.isCompleted) {
       mapController!.animateCamera(
-          CameraUpdate.newCameraPosition(CameraPosition(target: lastMapPosition, zoom: allowZoomIn ? 14 : 11)));
+        CameraUpdate.newCameraPosition(CameraPosition(target: lastMapPosition, zoom: allowZoomIn ? 14 : 11)),
+      );
     }
     setState(() {});
   }
+
+
+  // Future<Uint8List> getBytesFromAsset(String path, int width) async {
+  //   ByteData data = await rootBundle.load(path);
+  //   ui.Codec codec = await ui.instantiateImageCodec(data.buffer.asUint8List(), targetWidth: width);
+  //   ui.FrameInfo fi = await codec.getNextFrame();
+  //   return (await fi.image.toByteData(format: ui.ImageByteFormat.png))!.buffer.asUint8List();
+  // }
+  //
+  // Future<void> _onAddMarkerButtonPressed(LatLng lastMapPosition, markerTitle, {allowZoomIn = true}) async {
+  //   final Uint8List markerIcon = await getBytesFromAsset('assets/icons/location.png', 140);
+  //   markers.clear();
+  //   markers.add(Marker(
+  //       markerId: MarkerId(lastMapPosition.toString()),
+  //       position: lastMapPosition,
+  //       infoWindow: const InfoWindow(
+  //         title: "",
+  //       ),
+  //       icon: BitmapDescriptor.fromBytes(markerIcon)));
+  //   // BitmapDescriptor.defaultMarkerWithHue(BitmapDescriptor.hueCyan,)));
+  //   if (googleMapController.isCompleted) {
+  //     mapController!.animateCamera(
+  //         CameraUpdate.newCameraPosition(CameraPosition(target: lastMapPosition, zoom: allowZoomIn ? 14 : 11)));
+  //   }
+  //   setState(() {});
+  // }
   final locationController = Get.put(LocationController());
   @override
   Widget build(BuildContext context) {
@@ -189,10 +260,15 @@ class _FindMyLocationAddressState extends State<FindMyLocationAddress> {
                     mapController = controller;
                     setState(() async {});
                   },
-                  markers: markers,
-                  onCameraMove: (CameraPosition cameraPositions) {
-                    cameraPosition = cameraPositions;
-                  },
+    markers: {
+    if (redPinMarker != null) redPinMarker!,
+    },
+    onCameraMove: (CameraPosition cameraPositions) {
+    if (isMarkerDraggable && redPinMarker != null) {
+    setState(() {
+    redPinMarker = redPinMarker!.copyWith(positionParam: cameraPositions.target);
+    });
+    }},
                   onCameraIdle: () async {},
                 ),
                 Positioned(
