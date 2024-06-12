@@ -624,7 +624,7 @@ class _SingleStoreScreenState extends State<SingleStoreScreen> {
                           ),
                           RangeSlider(
                             values: controller.currentRangeValues,
-                            max: 2000,
+                            max: 200000,
                             divisions: 99,
                             labels: RangeLabels(
                               controller.currentRangeValues.start.round().toString(),
@@ -787,8 +787,8 @@ class _SingleStoreScreenState extends State<SingleStoreScreen> {
               if (modelProductsList.data != null && controller.isFilter.value == false )
                 modelProductsList.data!.isNotEmpty
                     ? SliverGrid.builder(
-                  gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
-                    crossAxisCount: 1, // Set crossAxisCount to 1 to show one item per row
+                    gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
+                    crossAxisCount: 1,
                     crossAxisSpacing: 10,
                     mainAxisSpacing: 10,
                     childAspectRatio: .74,

@@ -2,6 +2,7 @@ import 'dart:convert';
 import 'package:dirise/repository/repository.dart';
 import 'package:get/get.dart';
 import '../model/author_modal.dart';
+import '../model/featured_store_model.dart';
 import '../model/home_modal.dart';
 import '../model/popular_product_modal.dart';
 import '../model/showCase_product_model.dart';
@@ -22,7 +23,7 @@ class TrendingProductsController extends GetxController {
   final locationController = Get.put(LocationController());
   ModelVendorCategory vendorCategory = ModelVendorCategory();
   RxInt updateCate = 0.obs;
-
+  Rx<GetFeaturedStoreModel> getFeaturedModel = GetFeaturedStoreModel().obs;
 
   Future trendingData() async {
     Map<String, dynamic> map = {};
@@ -39,6 +40,11 @@ class TrendingProductsController extends GetxController {
   Future homeData() async {
     await repositories.postApi(url: ApiUrls.homeUrl, mapData: {}).then((value) {
       homeModal.value = HomeModal.fromJson(jsonDecode(value));
+    });
+  }
+  Future featuredStores() async {
+    await repositories.getApi(url: ApiUrls.featuredStore).then((value) {
+      getFeaturedModel.value = GetFeaturedStoreModel.fromJson(jsonDecode(value));
     });
   }
 
@@ -80,5 +86,6 @@ class TrendingProductsController extends GetxController {
     popularProductsData();
     showCaseProductsData();
     authorData();
+    featuredStores();
   }
 }

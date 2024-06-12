@@ -167,6 +167,8 @@ class _HomePageState extends State<HomePage> {
     if (!mounted) return;
     homeController.authorData();
     if (!mounted) return;
+    homeController.featuredStores();
+    if (!mounted) return;
 
     homeController.showCaseProductsData();
     if (!mounted) return;
@@ -668,7 +670,7 @@ class _HomePageState extends State<HomePage> {
                       PopularProducts(),
                       StarOfMonthScreen(),
                       ShowCaseProducts(),
-                      // AuthorScreen(),
+                      AuthorScreen(),
                       SizedBox(
                         height: 30,
                       ),

@@ -32,7 +32,7 @@ class _Giveway1ScreenState extends State<Giveway1Screen> {
   List<String> itemTexts = [
     'Working',
     'Not Working',
-    'Scraf',
+    'Scrap',
 
   ];
 
@@ -44,7 +44,7 @@ class _Giveway1ScreenState extends State<Giveway1Screen> {
       } else if (selectedRadio == 'Not Working') {
         Get.to( ItemDetailsScreens());
         // Get.to(ProductInformationScreens(fetaureImage: widget.featureImage,));
-      } else if (selectedRadio == 'Scrab') {
+      } else if (selectedRadio == 'Scrap') {
         Get.to( ItemDetailsScreens());
         // Get.to(JobTellusaboutyourselfScreen());
       } else {
