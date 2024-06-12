@@ -46,7 +46,7 @@ class _FindMyLocationState extends State<FindMyLocation> {
     serviceEnabled = await Geolocator.isLocationServiceEnabled();
     if (!serviceEnabled) {
       ScaffoldMessenger.of(context).showSnackBar(
-        const SnackBar(content: Text('Location services are disabled. Please enable the services')),
+        const SnackBar(content: Text(' Location services are disabled. Please enable the services')),
       );
       return false;
     }
