@@ -1,6 +1,7 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
+import 'package:flutter_svg/svg.dart';
 import 'package:get/get.dart';
 
 import '../screens/tell_us_about_yourself.dart';
@@ -28,62 +29,74 @@ class _AddProductOptionScreenState extends State<AddProductOptionScreen> {
           crossAxisAlignment: CrossAxisAlignment.center,
           children: [
             SizedBox(height: 100,),
-            InkWell(
+            // InkWell(
+            //   onTap: (){
+            //     Get.to(const AddProductFirstImageScreen());
+            //   },
+            //   child: Container(
+            //     padding: const EdgeInsets.all(15),
+            //     width: Get.width,
+            //     decoration: BoxDecoration(borderRadius: BorderRadius.circular(11), color: Colors.grey.shade200),
+            //     child: const Column(
+            //       mainAxisAlignment: MainAxisAlignment.start,
+            //       crossAxisAlignment: CrossAxisAlignment.start,
+            //       children: [
+            //         Text(
+            //           'Single products',
+            //           style: TextStyle(fontSize: 32, fontWeight: FontWeight.w500, color: Color(0xff272E41)),
+            //         ),
+            //         SizedBox(
+            //           height: 20,
+            //         ),
+            //         Text(
+            //           'I want to add a single product at a time',
+            //           style: TextStyle(fontSize: 24, fontWeight: FontWeight.w500, color: Color(0xff272E41)),
+            //         ),
+            //       ],
+            //     ),
+            //   ),
+            // ),
+            GestureDetector(
               onTap: (){
                 Get.to(const AddProductFirstImageScreen());
               },
-              child: Container(
-                padding: const EdgeInsets.all(15),
-                width: Get.width,
-                decoration: BoxDecoration(borderRadius: BorderRadius.circular(11), color: Colors.grey.shade200),
-                child: const Column(
-                  mainAxisAlignment: MainAxisAlignment.start,
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    Text(
-                      'Single products',
-                      style: TextStyle(fontSize: 32, fontWeight: FontWeight.w500, color: Color(0xff272E41)),
-                    ),
-                    SizedBox(
-                      height: 20,
-                    ),
-                    Text(
-                      'I want to add a single product at a time',
-                      style: TextStyle(fontSize: 24, fontWeight: FontWeight.w500, color: Color(0xff272E41)),
-                    ),
-                  ],
-                ),
-              ),
+              child: Image.asset('assets/images/single.png'),
             ),
             const SizedBox(
               height: 40,
             ),
-            InkWell(
+            // InkWell(
+            //   onTap: (){
+            //     Get.to(()=> const AddMultipleProductScreen());
+            //   },
+            //   child: Container(
+            //     padding: const EdgeInsets.all(15),
+            //     width: Get.width,
+            //     decoration: BoxDecoration(borderRadius: BorderRadius.circular(11), color: Colors.grey.shade200),
+            //     child: const Column(
+            //       mainAxisAlignment: MainAxisAlignment.start,
+            //       crossAxisAlignment: CrossAxisAlignment.start,
+            //       children: [
+            //         Text(
+            //           'Multiple products',
+            //           style: TextStyle(fontSize: 32, fontWeight: FontWeight.w500, color: Color(0xff272E41)),
+            //         ),
+            //         SizedBox(
+            //           height: 20,
+            //         ),
+            //         Text(
+            //           'I want to add Multiple Product',
+            //           style: TextStyle(fontSize: 24, fontWeight: FontWeight.w500, color: Color(0xff272E41)),
+            //         ),
+            //       ],
+            //     ),
+            //   ),
+            // ),
+            GestureDetector(
               onTap: (){
                 Get.to(()=> const AddMultipleProductScreen());
               },
-              child: Container(
-                padding: const EdgeInsets.all(15),
-                width: Get.width,
-                decoration: BoxDecoration(borderRadius: BorderRadius.circular(11), color: Colors.grey.shade200),
-                child: const Column(
-                  mainAxisAlignment: MainAxisAlignment.start,
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    Text(
-                      'Multiple products',
-                      style: TextStyle(fontSize: 32, fontWeight: FontWeight.w500, color: Color(0xff272E41)),
-                    ),
-                    SizedBox(
-                      height: 20,
-                    ),
-                    Text(
-                      'I want to add Multiple Product',
-                      style: TextStyle(fontSize: 24, fontWeight: FontWeight.w500, color: Color(0xff272E41)),
-                    ),
-                  ],
-                ),
-              ),
+              child: Image.asset('assets/images/multiple.png'),
             ),
           ],
         ),

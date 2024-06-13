@@ -58,7 +58,9 @@ class _AddProductFirstImageScreenState extends State<AddProductFirstImageScreen>
         })
         .then((value) {
       JobResponceModel response = JobResponceModel.fromJson(jsonDecode(value));
-      addProductController.idProduct.value = response.productDetails!.product!.id.toString();
+       if(response.status == true){
+         addProductController.idProduct.value = response.productDetails!.product!.id.toString();
+       }
        profileController.productImage = featuredImage;
       Get.to(MyItemISScreen());
       showToast('Add Product Image successfully');

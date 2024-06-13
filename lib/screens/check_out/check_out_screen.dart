@@ -575,7 +575,7 @@ RxString shipId = "".obs;
                                               height: 6,
                                             ),
                                             Text(
-                                              'KWD ${product.discountPrice}',
+                                              product.productType == 'variants' ? 'KWD ${product.variantPrice}' :  'KWD ${product.discountPrice}',
                                               style: GoogleFonts.poppins(fontSize: 15, fontWeight: FontWeight.w400),
                                             ),
                                             const SizedBox(

@@ -1387,6 +1387,7 @@ class Products {
   dynamic inWishlist;
   dynamic currencySign;
   dynamic currencyCode;
+  dynamic variantPrice;
   List<dynamic>? variantsComb;
   List<dynamic>? attributes;
   List<dynamic>? variants;
@@ -1408,6 +1409,7 @@ class Products {
         this.prodectSku,
         this.views,
         this.code,
+        this.variantPrice,
         this.bookingProductType,
         this.prodectPrice,
         this.prodectMinQty,
@@ -1560,6 +1562,7 @@ class Products {
     vendorCountryId = json['vendor_country_id'];
     discountPrice = json['discount_price'];
     discountOff = json['discount_off'];
+    variantPrice = json['variant_price'];
     // if (json['variants_comb'] != null) {
     //   variantsComb = <Null>[];
     //   json['variants_comb'].forEach((v) {
@@ -1660,8 +1663,9 @@ class Products {
     data['currency_code'] = currencyCode;
     data['local_shipping'] = localShipping;
     data['vendor_country_id'] = vendorCountryId;
-    data['discount_price'] = this.discountPrice;
-    data['discount_off'] = this.discountOff;
+    data['discount_price'] = discountPrice;
+    data['discount_off'] = discountOff;
+    data['variant_price'] = variantPrice;
     // if (this.variantsComb != null) {
     //   data['variants_comb'] =
     //       this.variantsComb!.map((v) => v.toJson()).toList();
