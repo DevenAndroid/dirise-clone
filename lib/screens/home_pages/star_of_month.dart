@@ -121,10 +121,10 @@ class _StarOfMonthScreenState extends State<StarOfMonthScreen> {
                                                     text: filteredData[index].name.toString(),
                                                     style: GoogleFonts.poppins(fontSize: 26, fontWeight: FontWeight.w600, color: Colors.black),
                                                   ),
-                                                  TextSpan(
-                                                    text: ' Of The Month  '.tr,
-                                                    style: GoogleFonts.poppins(fontSize: 17, fontWeight: FontWeight.w500,color: Colors.black),
-                                                  ),
+                                                  // TextSpan(
+                                                  //   text: ' Of The Month  '.tr,
+                                                  //   style: GoogleFonts.poppins(fontSize: 17, fontWeight: FontWeight.w500,color: Colors.black),
+                                                  // ),
                                                 ],
                                               ),
                                             ),
