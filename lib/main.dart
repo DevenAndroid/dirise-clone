@@ -50,7 +50,7 @@ class _MyAppState extends State<MyApp> {
   @override
   Widget build(BuildContext context) {
     return GetMaterialApp(
-      title: 'Dirise',
+      title: 'DIRISE',
       translations: LocaleString(),
       locale: const Locale('en','US'),
       builder: (c, child) => GestureDetector(

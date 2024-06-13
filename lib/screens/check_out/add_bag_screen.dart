@@ -117,7 +117,7 @@ class _BagsScreenState extends State<BagsScreen> {
                                                       height: 6,
                                                     ),
                                                      Text(
-                                                      'KWD ${product.discountPrice}',
+                                                     product.productType == 'variants' ? 'KWD ${product.variantPrice}' :  'KWD ${product.discountPrice}',
                                                       style: GoogleFonts.poppins(fontSize: 15, fontWeight: FontWeight.w400),
                                                     ),
                                                     // Text(
@@ -454,7 +454,7 @@ class _BagsScreenState extends State<BagsScreen> {
         ),
         bottomNavigationBar: Obx(() {
           if (cartController.refreshInt.value > 0) {}
-          if ( cartController.cartModel.cart!= null) {}
+          if ( cartController.cartModel.cart != null) {}
           return cartController.apiLoaded
               ? cartController.cartModel.cart!.carsShowroom!.isNotEmpty
                   ? GestureDetector(

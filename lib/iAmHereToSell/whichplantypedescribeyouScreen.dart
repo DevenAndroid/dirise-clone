@@ -162,11 +162,11 @@ class _WhichplantypedescribeyouScreenState extends State<Whichplantypedescribeyo
                 style: GoogleFonts.poppins(color: const Color(0xff0D5877), fontWeight: FontWeight.w600, fontSize: 19),
               ),
               Text(
-                'C-SPACE'.tr,
+                'E-SPACE'.tr,
                 style: GoogleFonts.poppins(color: const Color(0xff0D5877), fontWeight: FontWeight.w600, fontSize: 19),
               ),
               Text(
-                'For small business that are in the process of becoming an official business'.tr,
+                'For companies with commercial license and corporate bank account'.tr,
                 style: GoogleFonts.poppins(color: const Color(0xff514949), fontWeight: FontWeight.w400, fontSize: 13),
               ),
               const SizedBox(

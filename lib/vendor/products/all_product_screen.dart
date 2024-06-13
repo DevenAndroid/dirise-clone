@@ -243,18 +243,23 @@ class _VendorProductScreenState extends State<VendorProductScreen> {
                                                             textAlign: TextAlign.center,
                                                           ),
                                                           actions: [
-                                                            ElevatedButton(
-                                                                onPressed: () {
-                                                                  Get.back();
-                                                                },
-                                                                child:  Text("Cancel".tr)),
-                                                            ElevatedButton(
-                                                                onPressed: () {
-                                                                  controller.productId = item.id.toString();
-                                                                  controller.deleteProductForAll(context);
+                                                            Row(
+                                                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                                                              children: [
+                                                                ElevatedButton(
+                                                                    onPressed: () {
+                                                                      controller.productId = item.id.toString();
+                                                                      controller.deleteProductForAll(context);
 
-                                                                },
-                                                                child: Text("Delete".tr)),
+                                                                    },
+                                                                    child: Text("Delete".tr)),
+                                                                ElevatedButton(
+                                                                    onPressed: () {
+                                                                      Get.back();
+                                                                    },
+                                                                    child:  Text("Cancel".tr)),
+                                                              ],
+                                                            ),
                                                           ],
                                                         );
                                                       });

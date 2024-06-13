@@ -2,6 +2,7 @@ import 'dart:convert';
 
 import 'package:dirise/addNewProduct/rewardScreen.dart';
 import 'package:dirise/controller/vendor_controllers/add_product_controller.dart';
+import 'package:dirise/vendor/products/review_screen_multiple.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
@@ -197,7 +198,7 @@ class _MultipleReviewAndPublishScreenState extends State<MultipleReviewAndPublis
                 title: 'Confirm',
                 borderRadius: 11,
                 onPressed: () {
-                  Get.to(RewardScreen());
+                  Get.to(const RewardScreenMultiple());
                 },
               ),
             ],
