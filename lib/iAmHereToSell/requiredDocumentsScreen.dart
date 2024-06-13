@@ -132,7 +132,7 @@ class _RequiredDocumentsScreenState extends State<RequiredDocumentsScreen> {
                 children: [
                   ImageWidget(
                     // key: paymentReceiptCertificateKey,
-                    title: "Documents".tr,
+                    title: "Id Card Front".tr,
                     file: commercial_license,
                     validation: checkValidation(showValidation.value, commercial_license.path.isEmpty),
                     filePicked: (File g) {
@@ -141,7 +141,7 @@ class _RequiredDocumentsScreenState extends State<RequiredDocumentsScreen> {
                   ),
                   ImageWidget(
                     // key: paymentReceiptCertificateKey,
-                    title: "Documents".tr,
+                    title: "Id Card Back".tr,
                     file: memorandum_of_association,
                     validation: checkValidation(showValidation.value, memorandum_of_association.path.isEmpty),
                     filePicked: (File g) {
@@ -150,7 +150,7 @@ class _RequiredDocumentsScreenState extends State<RequiredDocumentsScreen> {
                   ),
                   ImageWidget(
                     // key: paymentReceiptCertificateKey,
-                    title: "Documents".tr,
+                    title: "Bank Statement".tr,
                     file: ministy_of_commerce,
                     validation: checkValidation(showValidation.value, ministy_of_commerce.path.isEmpty),
                     filePicked: (File g) {
@@ -168,7 +168,7 @@ class _RequiredDocumentsScreenState extends State<RequiredDocumentsScreen> {
                   ),
                   ImageWidget(
                     // key: paymentReceiptCertificateKey,
-                    title: "Documents".tr,
+                    title: "Other".tr,
                     file: signature_approval,
                     validation: checkValidation(showValidation.value, signature_approval.path.isEmpty),
                     filePicked: (File g) {

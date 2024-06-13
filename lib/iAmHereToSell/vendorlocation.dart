@@ -102,14 +102,60 @@ class _VendorLocationState extends State<VendorLocation> {
     );
     if (placemarks.isNotEmpty) {
       final Placemark placemark = placemarks[0];
+
+      String houseNo = '';
+      String streetNo = '';
+      String blockNo = '';
+      String city = placemark.locality ?? '';
+
+      // Example regex patterns for house number and street components
+      final housePattern = RegExp(r'\d+\s*\w*');
+      final streetPattern = RegExp(r'(?<=\d\s).+'); // Assumes street name follows house number
+
+      // Extracting house number
+      if (placemark.street != null) {
+        final houseMatch = housePattern.firstMatch(placemark.street!);
+        if (houseMatch != null) {
+          houseNo = houseMatch.group(0) ?? '';
+        }
+
+        // Extracting street name
+        final streetMatch = streetPattern.firstMatch(placemark.street!);
+        if (streetMatch != null) {
+          streetNo = streetMatch.group(0) ?? '';
+        }
+      }
+
+      // Assuming block information might be part of subLocality or another component
+      if (placemark.subLocality != null) {
+        blockNo = placemark.subLocality!;
+      }
+
       setState(() {
-        _address = '${placemark.street}, ${placemark.subLocality}, ${placemark.locality}, ${placemark.country}';
+        _address = '${houseNo},${placemark.thoroughfare}, ${blockNo}, ${city}, ${placemark.country}';
         street = placemark.street;
-        city = placemark.locality;
+        this.city = city;
         state = placemark.administrativeArea;
         country = placemark.country;
         zipcode = placemark.postalCode;
         town = placemark.subLocality;
+
+        log('House No: $houseNo');
+        log('Street No: $streetNo');
+        log('Block No: $blockNo');
+        log('City: $city');
+
+        log(placemark.subLocality.toString());
+        log(placemark.country.toString());
+        log(placemark.street.toString());
+        log(placemark.locality.toString());
+        log(placemark.name.toString());
+        log(placemark.administrativeArea.toString());
+        log(placemark.subThoroughfare.toString());
+        log(placemark.thoroughfare.toString());
+        log(placemark.subAdministrativeArea.toString());
+        log(placemark.postalCode.toString());
+        log(placemark.isoCountryCode.toString());
       });
     }
 
