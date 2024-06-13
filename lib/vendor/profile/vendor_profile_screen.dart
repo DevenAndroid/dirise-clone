@@ -7,8 +7,10 @@ import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:get/get.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:intl_phone_field/intl_phone_field.dart';
 import '../../controller/profile_controller.dart';
 import '../../controller/vendor_controllers/vendor_profile_controller.dart';
+import '../../language/app_strings.dart';
 import '../../model/bank_details/model_bank_list.dart';
 import '../../model/common_modal.dart';
 import '../../model/customer_profile/model_country_list.dart';
@@ -749,7 +751,7 @@ class _VendorProfileScreenState extends State<VendorProfileScreen> {
       setState(() {});
     });
   }
-
+  final profileController = Get.put(ProfileController());
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -1048,20 +1050,66 @@ class _VendorProfileScreenState extends State<VendorProfileScreen> {
                                       }),
                                   14.spaceY,
                                   //Phone Number
-                                  VendorCommonTextfield(
-                                      controller: phoneNumber,
-                                      key: phoneNumber.getKey,
-                                      hintText: "Phone Number".tr,
-                                      keyboardType: TextInputType.phone,
-                                      validator: (value) {
-                                        if (value!.trim().isEmpty) {
-                                          return "Please enter store phone number".tr;
-                                        }
-                                        if (value.trim().length < 10) {
-                                          return "Please enter valid store phone number".tr;
-                                        }
-                                        return null;
-                                      }),
+                                  Text(
+                                    AppStrings.phoneNumberr.tr,
+                                    style: GoogleFonts.poppins(fontSize: 15, fontWeight: FontWeight.w500),
+                                  ),
+                                  5.spaceY,
+                                  IntlPhoneField(
+                                    key: ValueKey(profileController.code),
+                                    flagsButtonPadding: const EdgeInsets.all(8),
+                                    dropdownIconPosition: IconPosition.trailing,
+                                    showDropdownIcon: true,
+                                    cursorColor: Colors.black,
+                                    textInputAction: TextInputAction.next,
+                                    dropdownTextStyle: const TextStyle(color: Colors.black),
+                                    style: const TextStyle(
+                                        color: AppTheme.textColor
+                                    ),
+                                    controller: phoneNumber,
+                                    decoration: const InputDecoration(
+                                        contentPadding: EdgeInsets.zero,
+                                        hintStyle: TextStyle(color: AppTheme.textColor),
+                                        hintText: 'Phone Number',
+                                        labelStyle: TextStyle(color: AppTheme.textColor),
+                                        border: OutlineInputBorder(
+                                          borderSide: BorderSide(),
+                                        ),
+                                        enabledBorder: OutlineInputBorder(borderSide: BorderSide(color: AppTheme.shadowColor)),
+                                        focusedBorder: OutlineInputBorder(borderSide: BorderSide(color: AppTheme.shadowColor))),
+                                    initialCountryCode: profileController.code.toString(),
+                                    languageCode: '+91',
+                                    onCountryChanged: (phone) {
+                                      profileController.code = phone.code;
+                                      print(phone.code);
+                                      print(profileController.code.toString());
+                                    },
+                                    validator: (value) {
+                                      if (value == null || phoneNumber.text.isEmpty) {
+                                        return AppStrings.pleaseenterphonenumber.tr;
+                                      }
+                                      return null;
+                                    },
+                                    onChanged: (phone) {
+                                      profileController.code = phone.countryISOCode.toString();
+                                      print(phone.countryCode);
+                                      // print(profileController.code.toString());
+                                    },
+                                  ),
+                                  // VendorCommonTextfield(
+                                  //     controller: phoneNumber,
+                                  //     key: phoneNumber.getKey,
+                                  //     hintText: "Phone Number".tr,
+                                  //     keyboardType: TextInputType.phone,
+                                  //     validator: (value) {
+                                  //       if (value!.trim().isEmpty) {
+                                  //         return "Please enter store phone number".tr;
+                                  //       }
+                                  //       if (value.trim().length < 10) {
+                                  //         return "Please enter valid store phone number".tr;
+                                  //       }
+                                  //       return null;
+                                  //     }),
                                   14.spaceY,
                                   // Email Address
                                   VendorCommonTextfield(
@@ -1305,21 +1353,67 @@ class _VendorProfileScreenState extends State<VendorProfileScreen> {
                                         return null;
                                       }),
                                   14.spaceY,
+                                  Text(
+                                    AppStrings.phoneNumberr.tr,
+                                    style: GoogleFonts.poppins(fontSize: 15, fontWeight: FontWeight.w500),
+                                  ),
+                                  5.spaceY,
+                                  IntlPhoneField(
+                                    key: ValueKey(profileController.code),
+                                    flagsButtonPadding: const EdgeInsets.all(8),
+                                    dropdownIconPosition: IconPosition.trailing,
+                                    showDropdownIcon: true,
+                                    cursorColor: Colors.black,
+                                    textInputAction: TextInputAction.next,
+                                    dropdownTextStyle: const TextStyle(color: Colors.black),
+                                    style: const TextStyle(
+                                        color: AppTheme.textColor
+                                    ),
+                                    controller: phoneNumber,
+                                    decoration: const InputDecoration(
+                                        contentPadding: EdgeInsets.zero,
+                                        hintStyle: TextStyle(color: AppTheme.textColor),
+                                        hintText: 'Phone Number',
+                                        labelStyle: TextStyle(color: AppTheme.textColor),
+                                        border: OutlineInputBorder(
+                                          borderSide: BorderSide(),
+                                        ),
+                                        enabledBorder: OutlineInputBorder(borderSide: BorderSide(color: AppTheme.shadowColor)),
+                                        focusedBorder: OutlineInputBorder(borderSide: BorderSide(color: AppTheme.shadowColor))),
+                                    initialCountryCode: profileController.code.toString(),
+                                    languageCode: '+91',
+                                    onCountryChanged: (phone) {
+                                      profileController.code = phone.code;
+                                      print(phone.code);
+                                      print(profileController.code.toString());
+                                    },
+                                    validator: (value) {
+                                      if (value == null || phoneNumber.text.isEmpty) {
+                                        return AppStrings.pleaseenterphonenumber.tr;
+                                      }
+                                      return null;
+                                    },
+                                    onChanged: (phone) {
+                                      profileController.code = phone.countryISOCode.toString();
+                                      print(phone.countryCode);
+                                      // print(profileController.code.toString());
+                                    },
+                                  ),
                                   //Phone Number
-                                  VendorCommonTextfield(
-                                      controller: phoneNumber,
-                                      key: phoneNumber.getKey,
-                                      hintText: "Phone Number".tr,
-                                      keyboardType: TextInputType.phone,
-                                      validator: (value) {
-                                        if (value!.trim().isEmpty) {
-                                          return "Please enter  phone number".tr;
-                                        }
-                                        if (value.trim().length < 10) {
-                                          return "Please enter valid  phone number".tr;
-                                        }
-                                        return null;
-                                      }),
+                                  // VendorCommonTextfield(
+                                  //     controller: phoneNumber,
+                                  //     key: phoneNumber.getKey,
+                                  //     hintText: "Phone Number".tr,
+                                  //     keyboardType: TextInputType.phone,
+                                  //     validator: (value) {
+                                  //       if (value!.trim().isEmpty) {
+                                  //         return "Please enter  phone number".tr;
+                                  //       }
+                                  //       if (value.trim().length < 10) {
+                                  //         return "Please enter valid  phone number".tr;
+                                  //       }
+                                  //       return null;
+                                  //     }),
                                   14.spaceY,
                                   // Email Address
                                   VendorCommonTextfield(

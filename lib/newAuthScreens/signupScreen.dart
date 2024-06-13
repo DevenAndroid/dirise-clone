@@ -106,6 +106,7 @@ class _CreateAccountNewScreenState extends State<CreateAccountNewScreen> {
       Map<String, dynamic> map = {};
       map['provider'] = "google";
       map['access_token'] = value.credential!.accessToken!;
+      map['keyword'] = 'signup';
       repositories.postApi(url: ApiUrls.socialLoginUrl, context: context, mapData: map).then((value) async {
         LoginModal response = LoginModal.fromJson(jsonDecode(value));
         repositories.saveLoginDetails(jsonEncode(response));

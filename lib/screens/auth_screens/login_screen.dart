@@ -472,6 +472,7 @@ class _LoginScreenState extends State<LoginScreen> {
       Map<String, dynamic> map = {};
       map['provider'] = "google";
       map['access_token'] = value.credential!.accessToken!;
+      map['keyword'] = 'login';
       repositories.postApi(url: ApiUrls.socialLoginUrl, context: context, mapData: map).then((value) async {
         LoginModal response = LoginModal.fromJson(jsonDecode(value));
         repositories.saveLoginDetails(jsonEncode(response));

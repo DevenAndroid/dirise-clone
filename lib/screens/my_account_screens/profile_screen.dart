@@ -140,7 +140,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
                       ...profileCard(
                         imagePath: "assets/svgs/referral_img.svg",
                         title: AppStrings.referralEmail.tr,
-                        value: profileController.model.user!.referralEmail.toString(),
+                        value: profileController.model.user!.referralEmail ?? '',
                       ),
                       ...profileCard(
                         imagePath: "assets/svgs/country.svg",
