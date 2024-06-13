@@ -1,6 +1,8 @@
 import 'dart:async';
 import 'dart:developer';
+import 'dart:ffi';
 import 'dart:ui' as ui;
+import 'package:dirise/controller/google_map_controlleer.dart';
 import 'package:flutter/animation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
@@ -33,12 +35,13 @@ class FindMyLocationAddress extends StatefulWidget {
 }
 
 class _FindMyLocationAddressState extends State<FindMyLocationAddress> {
-  final Completer<GoogleMapController> googleMapController = Completer();
-  GoogleMapController? mapController;
+  // final Completer<GoogleMapController> googleMapController = Completer();
+  // GoogleMapController? mapController;
 
-  String? _address = "";
+  // String? _address = "";
   Position? _currentPosition;
   final serviceController = Get.put(ServiceController());
+  final controllerMap = Get.put(ControllerMap());
 
   Future<bool> _handleLocationPermission() async {
     bool serviceEnabled;
@@ -78,8 +81,8 @@ class _FindMyLocationAddressState extends State<FindMyLocationAddress> {
     if (!hasPermission) return;
     await Geolocator.getCurrentPosition(desiredAccuracy: LocationAccuracy.high).then((Position position) {
       setState(() => _currentPosition = position);
-      _getAddressFromLatLng(LatLng(_currentPosition!.latitude, _currentPosition!.longitude), "current location");
-      mapController!.animateCamera(CameraUpdate.newCameraPosition(
+      controllerMap.getAddressFromLatLng(LatLng(_currentPosition!.latitude, _currentPosition!.longitude), "current location");
+      controllerMap.mapController!.animateCamera(CameraUpdate.newCameraPosition(
         CameraPosition(target: LatLng(_currentPosition!.latitude, _currentPosition!.longitude), zoom: 15),
       ));
       _onAddMarkerButtonPressed(LatLng(_currentPosition!.latitude, _currentPosition!.longitude), "current location");
@@ -89,47 +92,93 @@ class _FindMyLocationAddressState extends State<FindMyLocationAddress> {
     });
   }
 
-  String? street;
-  String? city;
-  String? state;
-  String? country;
-  String? zipcode;
-  String? town;
-
-  Future<void> _getAddressFromLatLng(LatLng lastMapPosition, markerTitle, {allowZoomIn = true}) async {
-    final List<Placemark> placemarks = await placemarkFromCoordinates(
-      lastMapPosition.latitude,
-      lastMapPosition.longitude,
-    );
-    if (placemarks.isNotEmpty) {
-      final Placemark placemark = placemarks[0];
-      setState(() {
-        _address = '${placemark.street}, ${placemark.subLocality}, ${placemark.locality}, ${placemark.country}';
-        street = placemark.street;
-        city = placemark.locality;
-        state = placemark.administrativeArea;
-        country = placemark.country;
-        zipcode = placemark.postalCode;
-        town = placemark.subLocality;
-      });
-    }
-
-    redPinMarker = Marker(
-      markerId: MarkerId('redPin'),
-      position: lastMapPosition,
-      draggable: isMarkerDraggable,
-      icon: BitmapDescriptor.defaultMarkerWithHue(BitmapDescriptor.hueRed),
-    );
-
-    if (googleMapController.isCompleted) {
-      mapController!.animateCamera(
-        CameraUpdate.newCameraPosition(
-          CameraPosition(target: lastMapPosition, zoom: allowZoomIn ? 13 : 10),
-        ),
-      );
-    }
-    setState(() {});
-  }
+  // String? street;
+  // String? city;
+  // String? state;
+  // String? country;
+  // String? zipcode;
+  // String? town;
+  //
+  // Future<void> _getAddressFromLatLng(LatLng lastMapPosition, markerTitle, {allowZoomIn = true}) async {
+  //   final List<Placemark> placemarks = await placemarkFromCoordinates(
+  //     lastMapPosition.latitude,
+  //     lastMapPosition.longitude,
+  //   );
+  //   if (placemarks.isNotEmpty) {
+  //     final Placemark placemark = placemarks[0];
+  //
+  //     String houseNo = '';
+  //     String streetNo = '';
+  //     String blockNo = '';
+  //     String city = placemark.locality ?? '';
+  //
+  //     // Example regex patterns for house number and street components
+  //     final housePattern = RegExp(r'\d+\s*\w*');
+  //     final streetPattern = RegExp(r'(?<=\d\s).+'); // Assumes street name follows house number
+  //
+  //     // Extracting house number
+  //     if (placemark.street != null) {
+  //       final houseMatch = housePattern.firstMatch(placemark.street!);
+  //       if (houseMatch != null) {
+  //         houseNo = houseMatch.group(0) ?? '';
+  //       }
+  //
+  //       // Extracting street name
+  //       final streetMatch = streetPattern.firstMatch(placemark.street!);
+  //       if (streetMatch != null) {
+  //         streetNo = streetMatch.group(0) ?? '';
+  //       }
+  //     }
+  //
+  //     // Assuming block information might be part of subLocality or another component
+  //     if (placemark.subLocality != null) {
+  //       blockNo = placemark.subLocality!;
+  //     }
+  //
+  //     setState(() {
+  //       _address = '${houseNo},${placemark.thoroughfare}, ${blockNo}, ${city}, ${placemark.country}';
+  //       street = placemark.street;
+  //       this.city = city;
+  //       state = placemark.administrativeArea;
+  //       country = placemark.country;
+  //       zipcode = placemark.postalCode;
+  //       town = placemark.subLocality;
+  //
+  //       log('House No: $houseNo');
+  //       log('Street No: $streetNo');
+  //       log('Block No: $blockNo');
+  //       log('City: $city');
+  //
+  //       log(placemark.subLocality.toString());
+  //       log(placemark.country.toString());
+  //       log(placemark.street.toString());
+  //       log(placemark.locality.toString());
+  //       log(placemark.name.toString());
+  //       log(placemark.administrativeArea.toString());
+  //       log(placemark.subThoroughfare.toString());
+  //       log(placemark.thoroughfare.toString());
+  //       log(placemark.subAdministrativeArea.toString());
+  //       log(placemark.postalCode.toString());
+  //       log(placemark.isoCountryCode.toString());
+  //     });
+  //   }
+  //
+  //   redPinMarker = Marker(
+  //     markerId: MarkerId('redPin'),
+  //     position: lastMapPosition,
+  //     draggable: isMarkerDraggable,
+  //     icon: BitmapDescriptor.defaultMarkerWithHue(BitmapDescriptor.hueRed),
+  //   );
+  //
+  //   if (googleMapController.isCompleted) {
+  //     mapController!.animateCamera(
+  //       CameraUpdate.newCameraPosition(
+  //         CameraPosition(target: lastMapPosition, zoom: allowZoomIn ? 19 : 20),
+  //       ),
+  //     );
+  //   }
+  //   setState(() {});
+  // }
 
   String? appLanguage = "English";
   getLanguage() async {
@@ -173,8 +222,8 @@ class _FindMyLocationAddressState extends State<FindMyLocationAddress> {
       icon: BitmapDescriptor.defaultMarkerWithHue(BitmapDescriptor.hueRed),
     );
 
-    if (googleMapController.isCompleted) {
-      mapController!.animateCamera(
+    if (controllerMap.googleMapController.isCompleted) {
+      controllerMap.mapController!.animateCamera(
         CameraUpdate.newCameraPosition(
           CameraPosition(target: lastMapPosition, zoom: allowZoomIn ? 13 : 10),
         ),
@@ -190,7 +239,7 @@ class _FindMyLocationAddressState extends State<FindMyLocationAddress> {
     log(appLanguage.toString());
     return WillPopScope(
       onWillPop: () async {
-        mapController!.dispose();
+        controllerMap.mapController!.dispose();
         return true;
       },
       child: GestureDetector(
@@ -209,7 +258,7 @@ class _FindMyLocationAddressState extends State<FindMyLocationAddress> {
                   ),
                   mapType: MapType.normal,
                   onMapCreated: (controller) {
-                    mapController = controller;
+                    controllerMap.mapController = controller;
                     setState(() async {});
                   },
     markers: {
@@ -223,7 +272,7 @@ class _FindMyLocationAddressState extends State<FindMyLocationAddress> {
       }},
                   onCameraIdle: () async {
                     if (redPinMarker != null) {
-                      await _getAddressFromLatLng(redPinMarker!.position, "current location");
+                      await controllerMap.getAddressFromLatLng(redPinMarker!.position, "current location");
                     }
                   },
                 ),
@@ -245,7 +294,7 @@ class _FindMyLocationAddressState extends State<FindMyLocationAddress> {
                               });
                           if (place != null) {
                             setState(() {
-                              _address = place.description.toString();
+                              controllerMap.address.value = place.description.toString();
                             });
                             final plist = GoogleMapsPlaces(
                               apiKey: googleApikey,
@@ -259,10 +308,10 @@ class _FindMyLocationAddressState extends State<FindMyLocationAddress> {
                             final lang = geometry.location.lng;
                             var newlatlang = LatLng(lat, lang);
                             setState(() {
-                              _address = place.description.toString();
+                              controllerMap.address.value = place.description.toString();
                               _onAddMarkerButtonPressed(LatLng(lat, lang), place.description);
                             });
-                            mapController?.animateCamera(
+                            controllerMap. mapController?.animateCamera(
                                 CameraUpdate.newCameraPosition(CameraPosition(target: newlatlang, zoom: 17)));
                             setState(() {});
                           }
@@ -277,7 +326,7 @@ class _FindMyLocationAddressState extends State<FindMyLocationAddress> {
                                 child: ListTile(
                                   leading: const Icon(Icons.location_on_outlined, color: AppTheme.primaryColor),
                                   title: Text(
-                                    _address.toString(),
+                                    controllerMap.address.value.toString(),
                                     style: TextStyle(fontSize: AddSize.font14),
                                   ),
                                   trailing: const Icon(Icons.search),
@@ -320,7 +369,7 @@ class _FindMyLocationAddressState extends State<FindMyLocationAddress> {
                                   ),
                                   Expanded(
                                     child: Text(
-                                      _address.toString(),
+                                      controllerMap.address.value.toString(),
                                       style: Theme.of(context)
                                           .textTheme
                                           .headlineSmall!
@@ -348,12 +397,12 @@ class _FindMyLocationAddressState extends State<FindMyLocationAddress> {
                                 title: "Confirm Your Location".tr,
                                 borderRadius: 11,
                                 onPressed: () {
-                                  serviceController.countryController1.text = country.toString();
-                                  serviceController.stateController1.text = state.toString();
-                                  serviceController.cityController1.text = city.toString();
-                                  serviceController.addressController.text = street.toString();
-                                  serviceController.address2Controller.text = town.toString();
-                                  serviceController.zipCodeController.text = zipcode.toString();
+                                  serviceController.countryController1.text = controllerMap.country.value.toString();
+                                  serviceController.stateController1.text = controllerMap.state.value.toString();
+                                  serviceController.cityController1.text = controllerMap.city.value.toString();
+                                  serviceController.addressController.text = controllerMap.street.value.toString();
+                                  serviceController.address2Controller.text = controllerMap.town.value.toString();
+                                  serviceController.zipCodeController.text = controllerMap.zipcode.value.toString();
                                   bottomSheet(addressData: AddressData());
                                 },
                               ),

@@ -1,5 +1,11 @@
 import 'dart:async';
 import 'dart:developer';
+import 'dart:ffi';
+import 'dart:ffi';
+import 'dart:ffi';
+import 'dart:ffi';
+import 'dart:ffi';
+import 'dart:ffi';
 import 'dart:ui' as ui;
 import 'package:dirise/newAddress/pickUpAddressScreen.dart';
 import 'package:flutter/animation.dart';
@@ -14,6 +20,7 @@ import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:geolocator/geolocator.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
+import '../controller/google_map_controlleer.dart';
 import '../controller/location_controller.dart';
 import '../controller/service_controller.dart';
 import '../widgets/common_button.dart';
@@ -32,13 +39,10 @@ class ChooseAddress extends StatefulWidget {
 }
 
 class _ChooseAddressState extends State<ChooseAddress> {
-  final Completer<GoogleMapController> googleMapController = Completer();
-  GoogleMapController? mapController;
 
-  String? _address = "";
   Position? _currentPosition;
   final serviceController = Get.put(ServiceController());
-
+  final controllerMap = Get.put(ControllerMap());
   Future<bool> _handleLocationPermission() async {
     bool serviceEnabled;
     LocationPermission permission;
@@ -77,8 +81,8 @@ class _ChooseAddressState extends State<ChooseAddress> {
     if (!hasPermission) return;
     await Geolocator.getCurrentPosition(desiredAccuracy: LocationAccuracy.high).then((Position position) {
       setState(() => _currentPosition = position);
-      _getAddressFromLatLng(LatLng(_currentPosition!.latitude, _currentPosition!.longitude), "current location");
-      mapController!.animateCamera(CameraUpdate.newCameraPosition(
+      controllerMap.getAddressFromLatLng(LatLng(_currentPosition!.latitude, _currentPosition!.longitude), "current location");
+      controllerMap.mapController!.animateCamera(CameraUpdate.newCameraPosition(
         CameraPosition(target: LatLng(_currentPosition!.latitude, _currentPosition!.longitude), zoom: 15),
       ));
       _onAddMarkerButtonPressed(LatLng(_currentPosition!.latitude, _currentPosition!.longitude), "current location");
@@ -86,48 +90,6 @@ class _ChooseAddressState extends State<ChooseAddress> {
     }).catchError((e) {
       debugPrint(e);
     });
-  }
-
-  String? street;
-  String? city;
-  String? state;
-  String? country;
-  String? zipcode;
-  String? town;
-
-  Future<void> _getAddressFromLatLng(LatLng lastMapPosition, markerTitle, {allowZoomIn = true}) async {
-    final List<Placemark> placemarks = await placemarkFromCoordinates(
-      lastMapPosition.latitude,
-      lastMapPosition.longitude,
-    );
-    if (placemarks.isNotEmpty) {
-      final Placemark placemark = placemarks[0];
-      setState(() {
-        _address = '${placemark.street}, ${placemark.subLocality}, ${placemark.locality}, ${placemark.country}';
-        street = placemark.street;
-        city = placemark.locality;
-        state = placemark.administrativeArea;
-        country = placemark.country;
-        zipcode = placemark.postalCode;
-        town = placemark.subLocality;
-      });
-    }
-
-    redPinMarker = Marker(
-      markerId: MarkerId('redPin'),
-      position: lastMapPosition,
-      draggable: isMarkerDraggable,
-      icon: BitmapDescriptor.defaultMarkerWithHue(BitmapDescriptor.hueRed),
-    );
-
-    if (googleMapController.isCompleted) {
-      mapController!.animateCamera(
-        CameraUpdate.newCameraPosition(
-          CameraPosition(target: lastMapPosition, zoom: allowZoomIn ? 13 : 10),
-        ),
-      );
-    }
-    setState(() {});
   }
 
   String? appLanguage = "English";
@@ -172,8 +134,8 @@ class _ChooseAddressState extends State<ChooseAddress> {
       icon: BitmapDescriptor.defaultMarkerWithHue(BitmapDescriptor.hueRed),
     );
 
-    if (googleMapController.isCompleted) {
-      mapController!.animateCamera(
+    if ( controllerMap.googleMapController.isCompleted) {
+      controllerMap.mapController!.animateCamera(
         CameraUpdate.newCameraPosition(
           CameraPosition(target: lastMapPosition, zoom: allowZoomIn ? 13 : 10),
         ),
@@ -189,7 +151,7 @@ class _ChooseAddressState extends State<ChooseAddress> {
     log(appLanguage.toString());
     return WillPopScope(
       onWillPop: () async {
-        mapController!.dispose();
+        controllerMap.mapController!.dispose();
         return true;
       },
       child: GestureDetector(
@@ -208,7 +170,7 @@ class _ChooseAddressState extends State<ChooseAddress> {
               ),
               mapType: MapType.normal,
               onMapCreated: (controller) {
-                mapController = controller;
+                controllerMap.mapController = controller;
                 setState(() async {});
               },
               markers: {
@@ -222,7 +184,7 @@ class _ChooseAddressState extends State<ChooseAddress> {
                 }},
               onCameraIdle: () async {
                 if (redPinMarker != null) {
-                  await _getAddressFromLatLng(redPinMarker!.position, "current location");
+                  await  controllerMap.getAddressFromLatLng(redPinMarker!.position, "current location");
                 }
               },
             ),
@@ -244,7 +206,7 @@ class _ChooseAddressState extends State<ChooseAddress> {
                           });
                       if (place != null) {
                         setState(() {
-                          _address = place.description.toString();
+                          controllerMap.address.value = place.description.toString();
                         });
                         final plist = GoogleMapsPlaces(
                           apiKey: googleApikey,
@@ -258,10 +220,10 @@ class _ChooseAddressState extends State<ChooseAddress> {
                         final lang = geometry.location.lng;
                         var newlatlang = LatLng(lat, lang);
                         setState(() {
-                          _address = place.description.toString();
+                          controllerMap.address.value = place.description.toString();
                           _onAddMarkerButtonPressed(LatLng(lat, lang), place.description);
                         });
-                        mapController?.animateCamera(
+                        controllerMap.mapController?.animateCamera(
                             CameraUpdate.newCameraPosition(CameraPosition(target: newlatlang, zoom: 17)));
                         setState(() {});
                       }
@@ -276,7 +238,7 @@ class _ChooseAddressState extends State<ChooseAddress> {
                             child: ListTile(
                               leading: Icon(Icons.location_on_outlined, color: AppTheme.primaryColor),
                               title: Text(
-                                _address.toString(),
+                                controllerMap.address.value.toString(),
                                 style: TextStyle(fontSize: AddSize.font14),
                               ),
                               trailing: const Icon(Icons.search),
@@ -319,7 +281,7 @@ class _ChooseAddressState extends State<ChooseAddress> {
                               ),
                               Expanded(
                                 child: Text(
-                                  _address.toString(),
+                                  controllerMap.address.value.toString(),
                                   style: Theme.of(context)
                                       .textTheme
                                       .headlineSmall!
@@ -346,12 +308,12 @@ class _ChooseAddressState extends State<ChooseAddress> {
                             borderRadius: 11,
                             onPressed: () {
                               Get.to( PickUpAddressScreen(
-                                    street: street,
-                                    city: city,
-                                state: state,
-                                country: country,
-                                town: town,
-                                zipcode: zipcode,
+                                    street:  controllerMap.street.value,
+                                    city: controllerMap.city.value,
+                                state:controllerMap. state.value,
+                                country: controllerMap.country.value,
+                                town: controllerMap.town.value,
+                                zipcode:controllerMap. zipcode.value,
                               ));
                             },
                           ),
