@@ -454,6 +454,7 @@ class _BagsScreenState extends State<BagsScreen> {
         ),
         bottomNavigationBar: Obx(() {
           if (cartController.refreshInt.value > 0) {}
+          if ( cartController.cartModel.cart!= null) {}
           return cartController.apiLoaded
               ? cartController.cartModel.cart!.carsShowroom!.isNotEmpty
                   ? GestureDetector(

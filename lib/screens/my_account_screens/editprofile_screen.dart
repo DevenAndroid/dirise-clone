@@ -72,7 +72,8 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
         if (response.status == true) {
           profileController.getDataProfile();
           log('dsgsfhdfgh${profileController.selectedCity!.cityId.toString()}');
-          Get.offNamed(ProfileScreen.route);
+          // Get.offNamed(ProfileScreen.route);
+          Get.back();
         }else{
           Get.back();
         }
@@ -268,7 +269,7 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
     firstNameController.text = profileController.model.user!.firstName.toString();
     lastNameController.text = profileController.model.user!.lastName.toString();
     emailController.text = profileController.model.user!.email.toString();
-    referralEmailController.text = profileController.model.user!.referralEmail.toString();
+    referralEmailController.text = profileController.model.user!.referralEmail ?? '';
     phoneController.text = profileController.model.user!.phone.toString();
     addressController.text = profileController.model.user!.street_name.toString();
     profileController.code = profileController.model.user!.phoneCountryCode.toString();

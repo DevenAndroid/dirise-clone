@@ -402,17 +402,45 @@ class _MyAccountScreenState extends State<MyAccountScreen> {
                                     fit: BoxFit.cover,
                                     height: 65,
                                     width: 65,
-                                    errorBuilder: (_, __, ___) => Image.asset(
-                                      'assets/images/myaccount.png',
-                                      height: 65,
-                                      width: 65,
-                                    ),
+                                    // errorBuilder: (_, __, ___) => Image.asset(
+                                    //   'assets/images/myaccount.png',
+                                    //   height: 65,
+                                    //   width: 65,
+                                    // ),
+                                   errorBuilder: (_,__,___) => Container(
+                                     decoration: BoxDecoration(
+                                         shape: BoxShape.circle,
+                                         color: Colors.white,
+                                         border: Border.all(color: Colors.white)),
+                                     child: const SizedBox(
+                                         height: 65,
+                                         width: 65,
+                                         child: Icon(
+                                           Icons.person,
+                                           color: AppTheme.buttonColor,
+                                           size: 45,
+                                         )),
+                                   ),
                                   )
-                                : Image.asset(
-                                    'assets/images/myaccount.png',
-                                    height: 65,
-                                    width: 65,
-                                  ),
+                                // : Image.asset(
+                                //     'assets/images/myaccount.png',
+                                //     height: 65,
+                                //     width: 65,
+                                //   ),
+                        :  Container(
+                              decoration: BoxDecoration(
+                                  shape: BoxShape.circle,
+                                  color: Colors.white,
+                                  border: Border.all(color: Colors.white)),
+                              child: const SizedBox(
+                                  height: 65,
+                                  width: 65,
+                                  child: Icon(
+                                    Icons.person,
+                                    color: AppTheme.buttonColor,
+                                    size: 45,
+                                  )),
+                            ),
                           ),
                         ),
                         5.spaceY,
@@ -1629,7 +1657,7 @@ class _MyAccountScreenState extends State<MyAccountScreen> {
                         textInputAction: TextInputAction.next,
                         dropdownTextStyle: const TextStyle(color: Colors.black),
                         style: const TextStyle(color: AppTheme.textColor),
-                        controller: alternatePhoneController,
+                        controller: phoneController,
                         decoration: const InputDecoration(
                             contentPadding: EdgeInsets.zero,
                             hintStyle: TextStyle(color: AppTheme.textColor),
