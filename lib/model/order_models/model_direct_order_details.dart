@@ -924,7 +924,7 @@ class ProdcutData {
   bool? isShipping;
   dynamic discountPrice;
   dynamic shippingPolicy;
-
+  dynamic variantPrice;
   ProdcutData(
       {this.id,
       this.vendorId,
@@ -1042,7 +1042,9 @@ class ProdcutData {
       this.linkShareVia,
       this.isShipping,
       this.discountPrice,
-      this.shippingPolicy});
+      this.shippingPolicy,
+      this.variantPrice
+      });
 
   ProdcutData.fromJson(Map<String, dynamic> json) {
     id = json['id'];
@@ -1162,6 +1164,7 @@ class ProdcutData {
     isShipping = json['is_shipping'];
     discountPrice = json['discount_price'];
     shippingPolicy = json['shipping_policy'];
+    variantPrice = json['variant_price'];
   }
 
   Map<String, dynamic> toJson() {
@@ -1283,6 +1286,7 @@ class ProdcutData {
     data['is_shipping'] = this.isShipping;
     data['discount_price'] = this.discountPrice;
     data['shipping_policy'] = this.shippingPolicy;
+    data['variant_price'] = variantPrice;
     return data;
   }
 }

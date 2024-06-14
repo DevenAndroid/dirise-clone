@@ -268,16 +268,16 @@ class _ServiceInternationalShippingServiceState extends State<ServiceInternation
                       RequiredValidator(errorText: 'Product Name is required'.tr),
                     ])),
                 DropdownButtonFormField<String>(
-                  value: selectNumberOfPackages,
+                  value: selectTypeMaterial,
                   onChanged: (String? newValue) {
                     setState(() {
-                      selectNumberOfPackages = newValue!;
+                      selectTypeMaterial = newValue!;
                     });
                   },
-                  items: selectNumberOfPackagesList.map<DropdownMenuItem<String>>((String value) {
+                  items: selectTypeMaterialList.map<DropdownMenuItem<String>>((String value) {
                     return DropdownMenuItem<String>(
                       value: value,
-                      child: Text('Material'),
+                      child: Text(value),
                     );
                   }).toList(),
                   decoration: InputDecoration(
@@ -392,6 +392,12 @@ class _ServiceInternationalShippingServiceState extends State<ServiceInternation
                         ]))),
                   ],
                 ),
+                const SizedBox(height: 15),
+                Text(
+                  'Package type'.tr,
+                  style: GoogleFonts.poppins(color: const Color(0xff292F45), fontWeight: FontWeight.w500, fontSize: 16),
+                ),
+                const SizedBox(height: 15),
                 DropdownButtonFormField<String>(
                   value: selectTypeOfPackaging,
                   onChanged: (String? newValue) {
@@ -402,7 +408,7 @@ class _ServiceInternationalShippingServiceState extends State<ServiceInternation
                   items: selectTypeOfPackagingList.map<DropdownMenuItem<String>>((String value) {
                     return DropdownMenuItem<String>(
                       value: value,
-                      child: Text('Package type'),
+                      child: Text(value),
                     );
                   }).toList(),
                   decoration: InputDecoration(
@@ -435,7 +441,7 @@ class _ServiceInternationalShippingServiceState extends State<ServiceInternation
                     return null;
                   },
                 ),
-                const SizedBox(height: 10),
+                const SizedBox(height: 20),
                 CustomOutlineButton(
                   title: 'Confirm',
                   borderRadius: 11,

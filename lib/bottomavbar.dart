@@ -216,7 +216,7 @@ class _BottomNavbarState extends State<BottomNavbar> {
         SafeArea(
           bottom: true,
           child: Card(
-            color: const Color(0xFFF2F2F2),
+            color: const Color(0xFFEBF3F6),
             elevation: 0,
             child: Column(
               children: [

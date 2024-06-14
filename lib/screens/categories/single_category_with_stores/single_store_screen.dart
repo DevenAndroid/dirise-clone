@@ -773,6 +773,7 @@ class _SingleStoreScreenState extends State<SingleStoreScreen> {
                       padding: const EdgeInsets.symmetric(horizontal: 12),
                       child: ProductUI(
                         productElement:item,
+                        isSingle: true,
                         onLiked: (value) {
                           filterModel.value.product![index].inWishlist = value;
                         },
@@ -799,6 +800,7 @@ class _SingleStoreScreenState extends State<SingleStoreScreen> {
                     return Padding(
                       padding: const EdgeInsets.symmetric(horizontal: 12),
                       child: ProductUI(
+                        isSingle: true,
                         productElement: item,
                         onLiked: (value) {
                          modelProductsList.data![index].inWishlist = value;
