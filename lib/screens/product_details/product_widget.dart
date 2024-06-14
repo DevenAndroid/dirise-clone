@@ -24,8 +24,8 @@ import 'single_product.dart';
 class ProductUI extends StatefulWidget {
   final ProductElement productElement;
   final Function(bool gg) onLiked;
-
-  const ProductUI({super.key, required this.productElement, required this.onLiked});
+  bool isSingle = false;
+  ProductUI({super.key, required this.productElement, required this.onLiked,required this.isSingle});
 
   @override
   State<ProductUI> createState() => _ProductUIState();
@@ -209,7 +209,7 @@ class _ProductUIState extends State<ProductUI> {
       ModelCommonResponse response = ModelCommonResponse.fromJson(jsonDecode(value));
       showToast(response.message.toString());
       if (response.status == true) {
-        Get.back();
+       widget.isSingle == false ? Get.back(): '';
         cartController.getCart();
       }
     });

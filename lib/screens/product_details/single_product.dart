@@ -366,6 +366,7 @@ class _SingleProductDetailsState extends State<SingleProductDetails> {
                                    productElement.itemType != 'giveaway'
                                         ? Row(
                                       children: [
+                                        productElement.pPrice ==  productElement.discountPrice ? const Text('') :
                                         Text(
                                           'KWD ${productElement.pPrice.toString()}',
                                           style: GoogleFonts.poppins(

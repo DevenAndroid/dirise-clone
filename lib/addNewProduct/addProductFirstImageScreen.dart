@@ -58,11 +58,14 @@ class _AddProductFirstImageScreenState extends State<AddProductFirstImageScreen>
         })
         .then((value) {
       JobResponceModel response = JobResponceModel.fromJson(jsonDecode(value));
-       if(response.status == true){
-         addProductController.idProduct.value = response.productDetails!.product!.id.toString();
-       }
+      log('response${response.toJson()}');
        profileController.productImage = featuredImage;
-      Get.to(MyItemISScreen());
+      if(response.status == false){
+        showToastCenter(response.message.toString());
+      }
+      addProductController.idProduct.value = response.productDetails!.product!.id.toString();
+
+       Get.to(MyItemISScreen());
       showToast('Add Product Image successfully');
     });
   }

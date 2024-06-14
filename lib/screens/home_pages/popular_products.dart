@@ -74,6 +74,7 @@ class _PopularProductsState extends State<PopularProducts> {
                         itemBuilder: (BuildContext context, int index) {
                           final item = homeController.popularProdModal.value.product!.product![index];
                           return ProductUI(
+                            isSingle: false,
                             productElement: item,
                             onLiked: (value) {
                               homeController.popularProdModal.value.product!.product![index].inWishlist = value;

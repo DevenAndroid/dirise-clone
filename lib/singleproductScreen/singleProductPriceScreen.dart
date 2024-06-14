@@ -47,7 +47,7 @@ class _SingleProductPriceScreenState extends State<SingleProductPriceScreen> {
   String discounted = "";
   String sale = "";
   String productName = "";
-  String discountedPrice = "";
+  String discountedPrice = "0.0";
   bool isPercentageDiscount = true;
   RxBool isDelivery = false.obs;
   double discountAmount12 =0.0;
@@ -62,12 +62,15 @@ class _SingleProductPriceScreenState extends State<SingleProductPriceScreen> {
     if (isPercentageDiscount && realPrice > 0 && sale > 0) {
       double discountAmount = (realPrice * sale) / 100;
       double discountedPriceValue = realPrice - discountAmount;
+      double additionalDiscountAmount = (discountedPriceValue * 10) / 100;
+      double finalPrice = discountedPriceValue + additionalDiscountAmount;
       setState(() {
-        discountedPrice = discountedPriceValue.toStringAsFixed(2);
+        discountedPrice = finalPrice.toStringAsFixed(2);
       });
     } else if (!isPercentageDiscount && realPrice > 0 && fixedPrice > 0) {
       double discountedPriceValue = realPrice - fixedPrice;
-      double discountedPriceValue1 = discountedPriceValue + diriseFeesAsDouble;
+      // double discountedPriceValue1 = discountedPriceValue + diriseFeesAsDouble;
+      double discountedPriceValue1 = afterCalculation - discountDouble;
       setState(() {
         discountedPrice = discountedPriceValue1.toStringAsFixed(2);
       });
@@ -126,7 +129,8 @@ class _SingleProductPriceScreenState extends State<SingleProductPriceScreen> {
   }
   String diriseFeesAsString = '' ;
   double diriseFeesAsDouble = 0.0 ;
-String discount = '';
+  String discount = '0.0';
+  double discountDouble = 0.0;
   final formKey1 = GlobalKey<FormState>();
   @override
   Widget build(BuildContext context) {
@@ -179,8 +183,8 @@ String discount = '';
                   ),
                   onChanged: (value) {
                     isPercentageDiscount = true;
-                    fixedDiscount.text = '';
                     calculateDiscount();
+                    fixedDiscount.text = '';
                     realPrice = value;
                     realPrice1 = double.tryParse(value) ?? 0.0;
                     diriseFeesAsString = productDetailsModel.value.productDetails!.diriseFess;
@@ -251,7 +255,7 @@ String discount = '';
                         height: 10,
                       ),
                       Text(
-                        'Fixed Discount Price'.tr,
+                        'Discount amount'.tr,
                         style: GoogleFonts.poppins(
                             color: const Color(0xff292F45), fontWeight: FontWeight.w400, fontSize: 14),
                       ),
@@ -261,6 +265,7 @@ String discount = '';
                         keyboardType: TextInputType.number,
                         onChanged: (value) {
                           discount = value;
+                          discountDouble = double.parse(value.toString());
                           discountPrecrnt.text = "";
                           isPercentageDiscount = false;
                           calculateDiscount();
@@ -359,7 +364,7 @@ String discount = '';
                             mainAxisAlignment: MainAxisAlignment.spaceBetween,
                             children: [
                               Text(
-                                'Real Price'.tr,
+                                'Price'.tr,
                                 style: GoogleFonts.poppins(
                                     color: const Color(0xff014E70), fontWeight: FontWeight.w600, fontSize: 12),
                               ),
@@ -372,7 +377,7 @@ String discount = '';
                               //       color: const Color(0xff014E70), fontWeight: FontWeight.w400, fontSize: 10),
                               // ),
                               Text(
-                                "${afterCalculation} KWD".tr,
+                                "${realPrice} KWD".tr,
                                 style: GoogleFonts.poppins(
                                     color: const Color(0xff014E70), fontWeight: FontWeight.w400, fontSize: 10),
                               ),
@@ -385,7 +390,7 @@ String discount = '';
                             mainAxisAlignment: MainAxisAlignment.spaceBetween,
                             children: [
                               Text(
-                                'Discount'.tr,
+                                'Discount amount'.tr,
                                 style: GoogleFonts.poppins(
                                     color: const Color(0xff014E70), fontWeight: FontWeight.w600, fontSize: 12),
                               ),

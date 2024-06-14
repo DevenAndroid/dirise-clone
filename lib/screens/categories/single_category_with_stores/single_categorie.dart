@@ -788,6 +788,7 @@ class _SingleCategoriesState extends State<SingleCategories> {
                     itemBuilder: (BuildContext context, int index) {
                       final item = modelCategoryStores![i].product![index];
                       return ProductUI(
+                        isSingle: false,
                         productElement: item,
                         onLiked: (value) {
                           modelCategoryStores![i].product![index].inWishlist = value;

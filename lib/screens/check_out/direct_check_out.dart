@@ -243,7 +243,8 @@ RxString shippingType= "".obs;
                                         height: 6,
                                       ),
                                       Text(
-                                        'KWD ${directOrderResponse.prodcutData!.sPrice.toString()}',
+                                        directOrderResponse.prodcutData!.productType == 'variants' ? 'KWD ${directOrderResponse.prodcutData!.variantPrice}' :  'KWD ${directOrderResponse.prodcutData!.discountPrice}',
+                                        // 'KWD ${directOrderResponse.prodcutData!.sPrice.toString()}',
                                         style: GoogleFonts.poppins(fontSize: 15, fontWeight: FontWeight.w400),
                                       ),
                                       const SizedBox(
@@ -412,14 +413,14 @@ RxString shippingType= "".obs;
                                                 log(cartController.shippingId);
                                                 sPrice1 = 0.0;
                                                 if (directOrderResponse.shippingOption.value.isNotEmpty) {
-                                                  log("kiska price hai + ${directOrderResponse.prodcutData!.sPrice}");
+                                                  log("kiska price hai + ${directOrderResponse.prodcutData!.discountPrice}");
                                                   sPrice1 = sPrice1 + double.parse( product.value.toString());
                                                   print('vafd${sPrice1.toString()}');
                                                   // sPrice.toStringAsFixed(fractionDigits)
                                                   // Update sPrice directly without reassigning
                                                 }
                                                 print('value changeesss${cartController.shippingPrices.toString()}');
-                                                total =  directOrderResponse.prodcutData!.sPrice + sPrice1;
+                                                total =  directOrderResponse.prodcutData!.discountPrice + sPrice1;
                                                 print('total isss${total.toString()}');
                                                 cartController.formattedTotal = total.toStringAsFixed(3);
 

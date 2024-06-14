@@ -412,6 +412,10 @@ class _HomePageState extends State<HomePage> {
           toolbarHeight: kToolbarHeight + 10,
           backgroundColor: Color(0xFFF2F2F2),
           surfaceTintColor: Color(0xFFF2F2F2),
+          systemOverlayStyle: const SystemUiOverlayStyle(
+            statusBarColor: Color(0xFFEBF3F6),
+            statusBarIconBrightness: Brightness.dark,
+          ),
           leading: Padding(
             padding: const EdgeInsets.only(left: 8.0),
             child: Row(

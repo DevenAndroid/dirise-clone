@@ -63,7 +63,7 @@ class _ApproveProductScreenState extends State<ApproveProductScreen> {
       timer!.cancel();
     }
   }
-
+  final addProductController = Get.put(AddProductController());
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -220,9 +220,10 @@ class _ApproveProductScreenState extends State<ApproveProductScreen> {
                                             ),
                                             GestureDetector(
                                               onTap: () {
-                                                log(item.itemType.toString());
+                                                // log('dadad${item.itemType.toString()}');
                                                 log(item.itemType);
                                                 if (item.itemType == "giveaway") {
+                                                  addProductController.idProduct.value = item.id.toString();
                                                   Get.to(ReviewPublishScreen());
                                                 }
                                                 if (item.itemType == "product") {

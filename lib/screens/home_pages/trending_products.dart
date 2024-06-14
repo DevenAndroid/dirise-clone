@@ -79,6 +79,7 @@ class _TrendingProductsState extends State<TrendingProducts> {
                         itemBuilder: (BuildContext context, int index) {
                           final item = homeController.trendingModel.value.product!.product![index];
                           return ProductUI(
+                            isSingle: false,
                             productElement: item,
                             onLiked: (value) {
                               homeController.trendingModel.value.product!.product![index].inWishlist = value;
