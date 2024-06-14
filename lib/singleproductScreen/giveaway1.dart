@@ -3,6 +3,7 @@ import 'dart:io';
 import 'package:dirise/addNewProduct/itemdetailsScreen.dart';
 import 'package:dirise/controller/profile_controller.dart';
 import 'package:dirise/utils/api_constant.dart';
+import 'package:dirise/utils/helper.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
@@ -95,62 +96,89 @@ class _Giveway1ScreenState extends State<Giveway1Screen> {
           ],
         ),
       ),
-      body: Container(
-        margin: EdgeInsets.only(left: 15, right: 15),
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.stretch,
-          children: [
-            Expanded(
-              child: GridView.builder(
-                gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
-                  crossAxisCount: 2,
-                  crossAxisSpacing: 5,
-                  mainAxisSpacing: 5,
-                  mainAxisExtent: 200,
-                  childAspectRatio: 2, // Aspect ratio can be adjusted
-                ),
-                itemCount: itemTexts.length, // Number of grid items
-                itemBuilder: (BuildContext context, int index) {
-                  return buildStack(itemTexts[index]);
+      body: SingleChildScrollView(
+        child: Container(
+          margin: EdgeInsets.only(left: 15, right: 15),
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.stretch,
+            children: [
+              30.spaceY,
+              GestureDetector(
+                onTap: (){
+                  selectedRadio = 'Working';
+                  navigateNext();
+                  setState(() {});
                 },
-              ),
-            ),
-            Padding(
-              padding: const EdgeInsets.all(8.0),
-              child: GestureDetector(
-                onTap: () {
-                  if(selectedRadio.isNotEmpty){
+                  child: Image.asset('assets/images/working_logo.png')),
+              20.spaceY,
+              GestureDetector(
+                  onTap: (){
+                    selectedRadio = 'Not Working';
                     navigateNext();
-                  }
-                  else{
-                    showToast('Please select any item type');
-                  }
-                },
-                child: Container(
-                  width: Get.width,
-                  height: 55,
-                  decoration: BoxDecoration(
-                    border: Border.all(
-                      color: Colors.black, // Border color
-                      width: 1.0, // Border width
+                    setState(() {});
+                  },
+                  child: Image.asset('assets/images/need_maintenance.png')),
+              20.spaceY,
+              GestureDetector(
+                  onTap: (){
+                    selectedRadio = 'Scrap';
+                    navigateNext();
+                    setState(() {});
+                  },
+                  child: Image.asset('assets/images/scrap_img.png')),
+              // Expanded(
+              //   child: GridView.builder(
+              //     gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
+              //       crossAxisCount: 2,
+              //       crossAxisSpacing: 5,
+              //       mainAxisSpacing: 5,
+              //       mainAxisExtent: 200,
+              //       childAspectRatio: 2, // Aspect ratio can be adjusted
+              //     ),
+              //     itemCount: itemTexts.length, // Number of grid items
+              //     itemBuilder: (BuildContext context, int index) {
+              //       return buildStack(itemTexts[index]);
+              //     },
+              //   ),
+              // ),
+              30.spaceY,
+              Padding(
+                padding: const EdgeInsets.all(8.0),
+                child: GestureDetector(
+                  onTap: () {
+                    if(selectedRadio.isNotEmpty){
+                      navigateNext();
+                    }
+                    else{
+                      showToast('Please select any item type');
+                    }
+                  },
+                  child: Container(
+                    width: Get.width,
+                    height: 55,
+                    decoration: BoxDecoration(
+                      border: Border.all(
+                        color: Colors.black, // Border color
+                        width: 1.0, // Border width
+                      ),
+                      borderRadius: BorderRadius.circular(1), // Border radius
                     ),
-                    borderRadius: BorderRadius.circular(1), // Border radius
-                  ),
-                  padding: const EdgeInsets.all(10), // Padding inside the container
-                  child: const Center(
-                    child: Text(
-                      'Next',
-                      style: TextStyle(
-                        fontSize: 16,
-                        fontWeight: FontWeight.bold,
-                        color: Colors.black, // Text color
+                    padding: const EdgeInsets.all(10), // Padding inside the container
+                    child: const Center(
+                      child: Text(
+                        'Next',
+                        style: TextStyle(
+                          fontSize: 16,
+                          fontWeight: FontWeight.bold,
+                          color: Colors.black, // Text color
+                        ),
                       ),
                     ),
                   ),
                 ),
               ),
-            ),
-          ],
+            ],
+          ),
         ),
       ),
     );
