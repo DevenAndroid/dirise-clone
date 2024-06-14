@@ -305,9 +305,11 @@ RxString shipId = "".obs;
 
 
             cartController.placeOrder(
+
               context: context,
               currencyCode: "kwd",
               paymentMethod: paymentMethod1,
+              title: cartController.shippingTitle.toString(),
               shippingId:  shipId.value.toString(),
                 shipmentProvider: shipmentProvider.value.toString(),
               // deliveryOption: cartController.deliveryOption1.value,
