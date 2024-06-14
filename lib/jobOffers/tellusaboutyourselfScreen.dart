@@ -3,6 +3,7 @@ import 'dart:io';
 
 import 'package:dirise/addNewProduct/addImagesProductScreen.dart';
 import 'package:dirise/iAmHereToSell/whichplantypedescribeyouScreen.dart';
+import 'package:dirise/utils/helper.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
@@ -70,9 +71,10 @@ class _JobTellusaboutyourselfScreenState extends State<JobTellusaboutyourselfScr
             // Handle back button press
           },
         ),
+        centerTitle: true,
         titleSpacing: 0,
         title: Text(
-          'Tell us about yourself'.tr,
+          'Job Category'.tr,
           style: GoogleFonts.poppins(color: Colors.black, fontWeight: FontWeight.w600, fontSize: 20),
         ),
       ),
@@ -81,78 +83,104 @@ class _JobTellusaboutyourselfScreenState extends State<JobTellusaboutyourselfScr
           margin: EdgeInsets.only(left: 20,right: 20),
           child: Column(
             children: [
-              Stack(
-                children: [
-                  Container(
-                    height: 250,
-                    margin: const EdgeInsets.only(top: 20,bottom: 20),
-                    decoration: BoxDecoration(borderRadius: BorderRadius.circular(11), color: Colors.grey.shade100),
-                    child: Column(
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      crossAxisAlignment: CrossAxisAlignment.center,
-                      children: [
-
-                        Padding(
-                          padding: const EdgeInsets.only(left: 60, right: 60),
-                          child: Text(
-                            'I want a job'.tr,
-                            style: GoogleFonts.poppins(color: Colors.black, fontWeight: FontWeight.w500, fontSize: 36),
-                          ),
-                        ),
-                      ],
-                    ),
-                  ),
-                  Positioned(
-                    top: 25,
-                    right: 30,
-                    child: Radio(
-                      value: 'job_seeking',
-                      groupValue: selectedRadio,
-                      onChanged: (value) {
-                        setState(() {
-                          selectedRadio = value.toString();
-                        });
-                      },
-                    ),
-                  ),
-                ],
+              20.spaceY,
+              Text(
+                'What desicribes best this job?'.tr,
+                style: GoogleFonts.poppins(color: Colors.black, fontWeight: FontWeight.w500, fontSize: 20),
               ),
-              Stack(
-                children: [
-                  Container(
-                    height: 250,
-                    margin: const EdgeInsets.only(top: 20,bottom: 20),
-                    decoration: BoxDecoration(borderRadius: BorderRadius.circular(11), color: Colors.grey.shade100),
-                    child: Column(
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      crossAxisAlignment: CrossAxisAlignment.center,
-                      children: [
+              30.spaceY,
+              GestureDetector(
+                  onTap: (){
+                    navigateNext();
+                    selectedRadio = 'job_seeking';
+                    setState(() {
 
-                        Padding(
-                          padding: const EdgeInsets.only(left: 60, right: 60),
-                          child: Text(
-                            'I am hiring'.tr,
-                            style: GoogleFonts.poppins(color: Colors.black, fontWeight: FontWeight.w500, fontSize: 36),
-                          ),
-                        ),
-                      ],
-                    ),
-                  ),
-                  Positioned(
-                    top: 25,
-                    right: 30,
-                    child: Radio(
-                      value: 'job_hiring',
-                      groupValue: selectedRadio,
-                      onChanged: (value) {
-                        setState(() {
-                          selectedRadio = value.toString();
-                        });
-                      },
-                    ),
-                  ),
-                ],
-              ),
+                    });
+                  },
+                  child: Image.asset('assets/images/job_seeking.png')),
+              20.spaceY,
+              GestureDetector(
+                  onTap: (){
+                    navigateNext();
+                    selectedRadio = 'job_hiring';
+                    setState(() {
+
+                    });
+                  },
+                  child: Image.asset('assets/images/job_offer.png')),
+              40.spaceY,
+              // Stack(
+              //   children: [
+              //     Container(
+              //       height: 250,
+              //       margin: const EdgeInsets.only(top: 20,bottom: 20),
+              //       decoration: BoxDecoration(borderRadius: BorderRadius.circular(11), color: Colors.grey.shade100),
+              //       child: Column(
+              //         mainAxisAlignment: MainAxisAlignment.center,
+              //         crossAxisAlignment: CrossAxisAlignment.center,
+              //         children: [
+              //
+              //           Padding(
+              //             padding: const EdgeInsets.only(left: 60, right: 60),
+              //             child: Text(
+              //               'I want a job'.tr,
+              //               style: GoogleFonts.poppins(color: Colors.black, fontWeight: FontWeight.w500, fontSize: 36),
+              //             ),
+              //           ),
+              //         ],
+              //       ),
+              //     ),
+              //     Positioned(
+              //       top: 25,
+              //       right: 30,
+              //       child: Radio(
+              //         value: 'job_seeking',
+              //         groupValue: selectedRadio,
+              //         onChanged: (value) {
+              //           setState(() {
+              //             selectedRadio = value.toString();
+              //           });
+              //         },
+              //       ),
+              //     ),
+              //   ],
+              // ),
+              // Stack(
+              //   children: [
+              //     Container(
+              //       height: 250,
+              //       margin: const EdgeInsets.only(top: 20,bottom: 20),
+              //       decoration: BoxDecoration(borderRadius: BorderRadius.circular(11), color: Colors.grey.shade100),
+              //       child: Column(
+              //         mainAxisAlignment: MainAxisAlignment.center,
+              //         crossAxisAlignment: CrossAxisAlignment.center,
+              //         children: [
+              //
+              //           Padding(
+              //             padding: const EdgeInsets.only(left: 60, right: 60),
+              //             child: Text(
+              //               'I am hiring'.tr,
+              //               style: GoogleFonts.poppins(color: Colors.black, fontWeight: FontWeight.w500, fontSize: 36),
+              //             ),
+              //           ),
+              //         ],
+              //       ),
+              //     ),
+              //     Positioned(
+              //       top: 25,
+              //       right: 30,
+              //       child: Radio(
+              //         value: 'job_hiring',
+              //         groupValue: selectedRadio,
+              //         onChanged: (value) {
+              //           setState(() {
+              //             selectedRadio = value.toString();
+              //           });
+              //         },
+              //       ),
+              //     ),
+              //   ],
+              // ),
               CustomOutlineButton(
                 title: 'Next',
                 borderRadius: 11,
