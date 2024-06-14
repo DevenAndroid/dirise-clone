@@ -1296,6 +1296,7 @@ RxString shippingType= "".obs;
             print("type"+shippingType.value);
             cartController.placeOrder(
                 idd: cartController.shippingId,
+                title:   cartController.shippingTitle.toString(),
                 context: context,
                 currencyCode: "kwd",
                 paymentMethod: paymentMethod1,

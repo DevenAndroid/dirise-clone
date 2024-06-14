@@ -409,7 +409,7 @@ class _HomePageState extends State<HomePage> {
     return Scaffold(
         key: bottomController.scaffoldKey,
         appBar: AppBar(
-          toolbarHeight: kToolbarHeight + 10,
+          toolbarHeight: kToolbarHeight + 9,
           backgroundColor: Color(0xFFF2F2F2),
           surfaceTintColor: Color(0xFFF2F2F2),
           leading: Padding(
@@ -453,19 +453,19 @@ class _HomePageState extends State<HomePage> {
           title: Column(
             children: [
               Image.asset(
-                'assets/images/Dirise-App-Logo.png',
-                width: 30,
+                'assets/svgs/d_logo.png',
+                width: 60,
                 // color: Colors.white,
               ),
-              5.spaceY,
-              Text(
-                "LIVE BETTER",
-                style: GoogleFonts.poppins(
-                  color: const Color(0xFF666666),
-                  fontSize: 14,
-                  fontWeight: FontWeight.w400,
-                ),
-              )
+              // 5.spaceY,
+              // Text(
+              //   "LIVE BETTER",
+              //   style: GoogleFonts.poppins(
+              //     color: const Color(0xFF666666),
+              //     fontSize: 14,
+              //     fontWeight: FontWeight.w400,
+              //   ),
+              // )
             ],
           ),
           centerTitle: true,

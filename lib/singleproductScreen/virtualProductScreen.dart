@@ -59,9 +59,11 @@ class _VirtualProductScreenState extends State<VirtualProductScreen> {
   final addProductController = Get.put(AddProductController());
   optionalApi() {
     if (featuredImage.path.isEmpty) {
+
       if (featuredImage.path.isEmpty) {
         showToastCenter('Please select an file');
       }
+
       showValidation.value = true;
       return;
     }
@@ -198,6 +200,8 @@ class _VirtualProductScreenState extends State<VirtualProductScreen> {
                     width: 200,
                     child: ImageWidget(
                       // key: paymentReceiptCertificateKey,
+
+                      imageOnly: productItem == "Image"?true:false,
                       title: "Click To Edit Uploaded  File".tr,
                       file: featuredImage,
                       validation: checkValidation(showValidation.value, featuredImage.path.isEmpty),

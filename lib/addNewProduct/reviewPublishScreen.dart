@@ -116,6 +116,7 @@ class _ReviewPublishScreenState extends State<ReviewPublishScreen> {
   void initState() {
     // TODO: implement initState
     super.initState();
+    print("id:::::::::::::"+addProductController.idProduct.value.toString());
     getVendorCategories(addProductController.idProduct.value.toString());
   }
 
