@@ -901,7 +901,7 @@ RxString shipId = "".obs;
                                                        e.value.shipping!.fedexShippingOption.value = value.toString();
                                                        shipId.value = "";
                                                        shipmentProvider.value = "";
-                                                       cartController.shippingDates =product.commit!.dateDetail!.dayFormat.toString();
+                                                       // cartController.shippingDates = product.commit!.dateDetail!.dayFormat.toString();
                                                        // e.value.shipping![ii].output!.rateReplyDetails![index].shippingDate = product.operationalDetail!.deliveryDate;
                                                        cartController.shippingTitle = product.serviceName.toString();
                                                        cartController.shippingPrices1 = product1.totalNetCharge.toString();
@@ -1045,7 +1045,7 @@ RxString shipId = "".obs;
                                             setState(() {
                                               e.value.shippingOption.value = value.toString();
                                               shippingType.value = "icarry_shipping";
-                                              shipId.value =product.methodId.toString();
+                                              shipId.value = product.methodId.toString();
                                               shipmentProvider.value =product.carrierModel!.systemName.toString();
                                               cartController.shippingDates =product.methodName.toString();
                                               e.value.shipping!.fedexShippingOption.value = value.toString();
