@@ -1,55 +1,47 @@
-class GetShippingModel {
+class SinglePolicy {
   bool? status;
   String? message;
-  List<ShippingPolicy>? shippingPolicy = [];
+  SingleShippingPolicy? singleShippingPolicy;
 
-  GetShippingModel({this.status, this.message, this.shippingPolicy});
+  SinglePolicy({this.status, this.message, this.singleShippingPolicy});
 
-  GetShippingModel.fromJson(Map<String, dynamic> json) {
+  SinglePolicy.fromJson(Map<String, dynamic> json) {
     status = json['status'];
     message = json['message'];
-    if (json['Shipping Policy'] != null) {
-      shippingPolicy = <ShippingPolicy>[];
-      json['Shipping Policy'].forEach((v) {
-        shippingPolicy!.add(new ShippingPolicy.fromJson(v));
-      });
-    }
-    else {
-      shippingPolicy = [];
-    }
-
+    singleShippingPolicy = json['Single_shipping_policy'] != null
+        ? new SingleShippingPolicy.fromJson(json['Single_shipping_policy'])
+        : null;
   }
 
   Map<String, dynamic> toJson() {
     final Map<String, dynamic> data = new Map<String, dynamic>();
     data['status'] = this.status;
     data['message'] = this.message;
-    if (this.shippingPolicy != null) {
-      data['Shipping Policy'] =
-          this.shippingPolicy!.map((v) => v.toJson()).toList();
+    if (this.singleShippingPolicy != null) {
+      data['Single_shipping_policy'] = this.singleShippingPolicy!.toJson();
     }
     return data;
   }
 }
 
-class ShippingPolicy {
-  dynamic id;
-  dynamic vendorId;
-  dynamic title;
-  dynamic days;
-  dynamic description;
-  dynamic shippingType;
-  dynamic aboveShipping;
-  dynamic shippingZone;
-  dynamic range1Min;
-  dynamic range1Max;
-  dynamic range1Percent;
-  dynamic range2Min;
-  dynamic range2Max;
-  dynamic range2Percent;
-  dynamic priceLimit;
+class SingleShippingPolicy {
+  int? id;
+  int? vendorId;
+  String? title;
+  int? days;
+  String? description;
+  String? shippingType;
+  String? aboveShipping;
+  String? shippingZone;
+  String? range1Min;
+  String? range1Max;
+  String? range1Percent;
+  String? range2Min;
+  String? range2Max;
+  String? range2Percent;
+  int? priceLimit;
 
-  ShippingPolicy(
+  SingleShippingPolicy(
       {this.id,
         this.vendorId,
         this.title,
@@ -66,7 +58,7 @@ class ShippingPolicy {
         this.range2Percent,
         this.priceLimit});
 
-  ShippingPolicy.fromJson(Map<String, dynamic> json) {
+  SingleShippingPolicy.fromJson(Map<String, dynamic> json) {
     id = json['id'];
     vendorId = json['vendor_id'];
     title = json['title'];
