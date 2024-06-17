@@ -46,8 +46,7 @@ class _BagsScreenState extends State<BagsScreen> {
           },
           child: Obx(() {
             if (cartController.refreshInt.value > 0) {}
-            if(cartController.cartModel.cart!= null){}
-            return cartController.apiLoaded
+            return cartController.cartModel.cart!= null
                 ? cartController.cartModel.cart!.carsShowroom!.isNotEmpty
                     ? CustomScrollView(
                         shrinkWrap: true,
@@ -455,8 +454,7 @@ class _BagsScreenState extends State<BagsScreen> {
         ),
         bottomNavigationBar: Obx(() {
           if (cartController.refreshInt.value > 0) {}
-          if ( cartController.cartModel.cart != null) {}
-          return cartController.apiLoaded
+          return cartController.cartModel.cart!= null
               ? cartController.cartModel.cart!.carsShowroom!.isNotEmpty
                   ? GestureDetector(
                       onTap: () {

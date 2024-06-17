@@ -151,7 +151,7 @@ class CartController extends GetxController {
 
           "type":purchaseType1,
           "shipment_provider": shipmentProvider,
-          "store_id":  storeIdShipping.toString(), "store_name": storeNameShipping.toString(), "title": shippingTitle.toString(), "ship_price": shippingPrices1.toString() , "shipping_type_id": shippingId,
+          "store_id":  storeIdShipping.toString(), "store_name": storeNameShipping.toString(),"ship_price": shippingPrices1.toString() , "shipping_type_id": shippingId,
         'shipping_date' :  shippingDates.toString()}
       ],
       "cart_id": ["2"],
@@ -525,10 +525,15 @@ class CartController extends GetxController {
     Map<String, dynamic> map = {};
     map["key"] = 'fedexRate';
     // map["country_id"]= profileController.model.user!= null && countryId.isEmpty ? profileController.model.user!.country_id : countryId.toString();
-    if(profileController.model.user!= null) {
+    if(myDefaultAddressModel.value.defaultAddress!= null) {
       map["country_id"]=  profileController.model.user!.country_id.toString();
+      print('call::::::defalut');
+    }else if(profileController.model.user!= null){
+      map["country_id"]= myDefaultAddressModel.value.defaultAddress!.countryId.toString();
+      print('call::::::profile');
     }else{
-      map["country_id"]= countryId.isNotEmpty ? countryId.toString() : '444';
+      map["country_id"]=  profileController.model.user!= null ? profileController.model.user!.country_id.toString() : "";
+      print('call::::::117');
     }
     map["zip_code"]= zipCode.toString();
     map["city"]= city.value.toString();
@@ -548,7 +553,7 @@ class CartController extends GetxController {
   myDefaultAddressData() {
     repositories.getApi(url: ApiUrls.myDefaultAddressStatus).then((value) {
       myDefaultAddressModel.value = MyDefaultAddressModel.fromJson(jsonDecode(value));
-      // log('defalut address value....${      myDefaultAddressModel.value.defaultAddress!.toJson()}');
+      log('defalut address value....${myDefaultAddressModel.value.defaultAddress!.toJson()}');
     });
   }
 
