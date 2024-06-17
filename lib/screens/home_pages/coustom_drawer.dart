@@ -17,6 +17,7 @@ import 'package:shared_preferences/shared_preferences.dart';
 import '../../Services/pick_up_address_service.dart';
 import '../../controller/cart_controller.dart';
 import '../../controller/home_controller.dart';
+import '../../iAmHereToSell/whichplantypedescribeyouScreen.dart';
 import '../../language/app_strings.dart';
 import '../../model/common_modal.dart';
 import '../../model/customer_profile/model_city_list.dart';
@@ -2029,7 +2030,7 @@ class _CustomDrawerState extends State<CustomDrawer> {
                                         child: TextButton(
                                           onPressed: () {
                                             if (vendor1[index] == 'Become a vendor') {
-                                              Get.toNamed(LoginScreen.route);
+                                              Get.to(const WhichplantypedescribeyouScreen());
                                             } else if (vendor1[index] == 'Pending Products') {
                                               Get.to(const VendorProductScreen());
                                             } else if (vendor1[index] == 'Approved Products') {
