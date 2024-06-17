@@ -113,7 +113,7 @@ import 'package:dirise/virtualProduct/singleProductPriceScreen.dart';
   List<SubProductData> subProductData = [];
 
   void fetchDataBasedOnId(int id) async {
-  String apiUrl = 'https://beta-dirise.eoxyslive.com/api/product-category?id=$id';
+  String apiUrl = 'https://dirise.eoxyslive.com/api/product-category?id=$id';
   await repositories.getApi(url: apiUrl).then((value) {
   productCategoryModel.value = ModelCategoryList.fromJson(jsonDecode(value));
   // setState(() {
@@ -125,7 +125,7 @@ import 'package:dirise/virtualProduct/singleProductPriceScreen.dart';
   SubCategoryModel subProductCategoryModel = SubCategoryModel();
 
   void fetchSubCategoryBasedOnId(int id1) async {
-  String apiUrl1 = 'https://beta-dirise.eoxyslive.com/api/product-subcategory?category_id=$id1';
+  String apiUrl1 = 'https://dirise.eoxyslive.com/api/product-subcategory?category_id=$id1';
   await repositories.getApi(url: apiUrl1).then((value) {
   subProductCategoryModel = SubCategoryModel.fromJson(jsonDecode(value));
   setState(() {
