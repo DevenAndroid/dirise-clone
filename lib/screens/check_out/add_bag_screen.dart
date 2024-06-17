@@ -46,6 +46,7 @@ class _BagsScreenState extends State<BagsScreen> {
           },
           child: Obx(() {
             if (cartController.refreshInt.value > 0) {}
+            if(cartController.cartModel.cart!= null){}
             return cartController.apiLoaded
                 ? cartController.cartModel.cart!.carsShowroom!.isNotEmpty
                     ? CustomScrollView(

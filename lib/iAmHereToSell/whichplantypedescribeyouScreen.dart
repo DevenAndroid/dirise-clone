@@ -11,6 +11,7 @@ import 'package:flutter/widgets.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:get/get.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:url_launcher/url_launcher_string.dart';
 
 import '../repository/repository.dart';
 import '../utils/api_constant.dart';
@@ -41,6 +42,19 @@ class _WhichplantypedescribeyouScreenState extends State<Whichplantypedescribeyo
     });
   }
 
+  final ScrollController _scrollController = ScrollController();
+  final GlobalKey _cloudComparisonKey = GlobalKey();
+
+  void _scrollToCloudComparison() {
+    final RenderBox renderBox = _cloudComparisonKey.currentContext!.findRenderObject() as RenderBox;
+    final position = renderBox.localToGlobal(Offset.zero, ancestor: null).dy;
+
+    _scrollController.animateTo(
+      position,
+      duration: const Duration(seconds: 1),
+      curve: Curves.easeInOut,
+    );
+  }
   @override
   void initState() {
     super.initState();
@@ -77,6 +91,7 @@ class _WhichplantypedescribeyouScreenState extends State<Whichplantypedescribeyo
         ),
       ),
       body: SingleChildScrollView(
+        controller: _scrollController,
         child: Container(
           padding: const EdgeInsets.only(left: 20, right: 20),
           child: Column(
@@ -158,7 +173,7 @@ class _WhichplantypedescribeyouScreenState extends State<Whichplantypedescribeyo
                 height: 20,
               ),
               Text(
-                'Cloud Office Space'.tr,
+                'Enterprise Cloud Space'.tr,
                 style: GoogleFonts.poppins(color: const Color(0xff0D5877), fontWeight: FontWeight.w600, fontSize: 19),
               ),
               Text(
@@ -172,29 +187,32 @@ class _WhichplantypedescribeyouScreenState extends State<Whichplantypedescribeyo
               const SizedBox(
                 height: 20,
               ),
-              Row(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                mainAxisAlignment: MainAxisAlignment.end,
-                children: [
-                  Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    mainAxisAlignment: MainAxisAlignment.end,
-                    children: [
-                      Text(
-                        'Full comparison'.tr,
-                        style: GoogleFonts.poppins(color: const Color(0xff0D5877), fontWeight: FontWeight.w500, fontSize: 15,
-                        decoration: TextDecoration.underline
+              GestureDetector(
+                onTap: _scrollToCloudComparison,
+                child: Row(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  mainAxisAlignment: MainAxisAlignment.end,
+                  children: [
+                    Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      mainAxisAlignment: MainAxisAlignment.end,
+                      children: [
+                        Text(
+                          'Full comparison'.tr,
+                          style: GoogleFonts.poppins(color: const Color(0xff0D5877), fontWeight: FontWeight.w500, fontSize: 15,
+                          decoration: TextDecoration.underline
+                          ),
                         ),
-                      ),
-                      Text(
-                        'Read more info'.tr,
-                        style: GoogleFonts.poppins(color: const Color(0xff0D5877), fontWeight: FontWeight.w500, fontSize: 15,
-                        decoration: TextDecoration.underline
+                        Text(
+                          'Read more info'.tr,
+                          style: GoogleFonts.poppins(color: const Color(0xff0D5877), fontWeight: FontWeight.w500, fontSize: 15,
+                          decoration: TextDecoration.underline
+                          ),
                         ),
-                      ),
-                    ],
-                  ),
-                ],
+                      ],
+                    ),
+                  ],
+                ),
               ),
               const SizedBox(
                 height: 50,
@@ -302,12 +320,12 @@ class _WhichplantypedescribeyouScreenState extends State<Whichplantypedescribeyo
                         ),
                         Center(
                             child: Image.asset(
-                          "assets/images/p1.png",
-                        )),
+                              "assets/images/p1.png",
+                            )),
                         Center(
                             child: Image.asset(
-                          "assets/images/plan1.png",
-                        )),
+                              "assets/images/plan1.png",
+                            )),
                       ],
                     )),
               ],
@@ -795,15 +813,22 @@ class _WhichplantypedescribeyouScreenState extends State<Whichplantypedescribeyo
               //     ],
               //   ),
               // ),
-              Image.asset('assets/images/table.png'),
+              Container(
+                  key: _cloudComparisonKey,
+                  child: Image.asset('assets/images/table.png')),
               const SizedBox(
                 height: 10,
               ),
-              Align(
-                alignment: Alignment.center,
-                child: Text(
-                  'Contact  +965 6555 6490 if you need assistance'.tr,
-                  style: GoogleFonts.poppins(color: const Color(0xff014E70), fontWeight: FontWeight.w400, fontSize: 10),
+              GestureDetector(
+                onTap: (){
+                  launchUrlString("tel://+965 6555 6490");
+                },
+                child: Align(
+                  alignment: Alignment.center,
+                  child: Text(
+                    'Contact  +965 6555 6490 if you need assistance'.tr,
+                    style: GoogleFonts.poppins(color: const Color(0xff014E70), fontWeight: FontWeight.w400, fontSize: 10),
+                  ),
                 ),
               ),
               const SizedBox(
