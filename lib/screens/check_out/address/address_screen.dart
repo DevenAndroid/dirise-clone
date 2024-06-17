@@ -457,8 +457,10 @@ class _AddressScreenState extends State<AddressScreen> {
                                     modelCountryList!.country!.firstWhere((element) => element.id.toString() == gg);
                                 cartController.countryCode = gg.toString();
                                 cartController.countryName.value = selectedCountry!.name.toString();
+                                cartController.countryId = selectedCountry!.countryCode.toString();
+                                print('country code ${cartController.countryId.toString()}');
                                 print('countrrtr ${cartController.countryName.toString()}');
-                                print('countrrtr ${cartController.countryCode.toString()}');
+                                print('countrrtr ${cartController.countryId.toString()}');
                                 if (previous != selectedCountry!.id.toString()) {
                                   countryIddd = gg.toString();
                                   getStateList(countryId: countryIddd.toString(), reset: true).then((value) {
