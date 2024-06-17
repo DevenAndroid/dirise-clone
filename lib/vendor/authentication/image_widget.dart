@@ -54,6 +54,10 @@ class _ImageWidgetState extends State<ImageWidget> {
         showToast("Document must be smaller then 10 Mb".tr);
         return;
       }
+      if (widget.imageOnly == false && !value.path.endsWith('.mp4')) {
+        showToast("Please select a video file".tr);
+        return;
+      }
       widget.filePicked(value);
       file = value;
       setState(() {});

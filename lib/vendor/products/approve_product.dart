@@ -316,7 +316,7 @@ class _ApproveProductScreenState extends State<ApproveProductScreen> {
                                         Row(mainAxisAlignment: MainAxisAlignment.spaceBetween, children: [
                                           Expanded(
                                             child: Text(
-                                              "KWD ${item.sPrice ?? "0"}",
+                                              "KWD ${item.discountPrice ?? "0"}",
                                               style: GoogleFonts.poppins(
                                                 color: AppTheme.buttonColor,
                                                 fontWeight: FontWeight.w500,
