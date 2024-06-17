@@ -1,4 +1,5 @@
 import 'dart:convert';
+import 'dart:developer';
 
 import 'package:dirise/addNewProduct/optionalScreen.dart';
 import 'package:dirise/addNewProduct/reviewPublishScreen.dart';
@@ -22,24 +23,24 @@ import '../widgets/common_textfield.dart';
 class InternationalshippingdetailsScreen extends StatefulWidget {
   int? id;
   dynamic Unitofmeasure;
-  dynamic  WeightOftheItem;
-  dynamic  SelectNumberOfPackages;
-  dynamic  SelectTypeMaterial;
-  dynamic  SelectTypeOfPackaging;
-  dynamic  Length;
-  dynamic  Width;
-  dynamic  Height;
+  dynamic WeightOftheItem;
+  dynamic SelectNumberOfPackages;
+  dynamic SelectTypeMaterial;
+  dynamic SelectTypeOfPackaging;
+  dynamic Length;
+  dynamic Width;
+  dynamic Height;
   InternationalshippingdetailsScreen(
       {super.key,
-      this.id,
-      this.WeightOftheItem,
-      this.Unitofmeasure,
-      this.SelectTypeOfPackaging,
-      this.SelectTypeMaterial,
-      this.SelectNumberOfPackages,
-      this.Length,
-      this.Height,
-      this.Width});
+        this.id,
+        this.WeightOftheItem,
+        this.Unitofmeasure,
+        this.SelectTypeOfPackaging,
+        this.SelectTypeMaterial,
+        this.SelectNumberOfPackages,
+        this.Length,
+        this.Height,
+        this.Width});
 
   @override
   State<InternationalshippingdetailsScreen> createState() => _InternationalshippingdetailsScreenState();
@@ -57,8 +58,8 @@ class _InternationalshippingdetailsScreenState extends State<Internationalshippi
   List<String> unitOfMeasureList = [
     'cm/kg',
     'lb/inch',
-    'Kilogram (kg)'
-        'Pound (lb)'
+    'Kilogram (kg)',
+    'Pound (lb)'
   ];
 
   String selectNumberOfPackages = '1';
@@ -66,40 +67,36 @@ class _InternationalshippingdetailsScreenState extends State<Internationalshippi
 
   String selectTypeMaterial = 'Paper';
   List<String> selectTypeMaterialList = [
-        'Paper',
-        'Plastic',
-        'Glass',
-        'Metal',
-        'Wood',
-        'Fabric',
-        'Leather',
-        'Rubber',
-        'Ceramic',
-        'Stone',
-        'Cardboard',
-        'Carton',
-        'Foam',
-        'Fiberglass',
-        'Carbon',
-        'fiber',
-        'Concrete',
-        'Brick',
-        'Tile',
-        'Vinyl',
-        'Plywood',
+    'Paper',
+    'Plastic',
+    'Glass',
+    'Metal',
+    'Wood',
+    'Fabric',
+    'Leather',
+    'Rubber',
+    'Ceramic',
+    'Stone',
+    'Cardboard',
+    'Carton',
+    'Foam',
+    'Fiberglass',
+    'Carbon',
+    'fiber',
+    'Concrete',
+    'Brick',
+    'Tile',
+    'Vinyl',
+    'Plywood',
   ];
   final formKey2 = GlobalKey<FormState>();
-  String selectTypeOfPackaging = 'fedex 10kg box';
-  List<String> selectTypeOfPackagingList = [
-    'fedex 10kg box',
-    'fedex 25kg box',
-    'fedex box',
-    'fedex Envelop',
-    'fedex pak',
-    'fedex Tube',
-    'your packaging',
-    'custom packaging',
+  String? selectTypeOfPackaging;
+  final List<Map<String, String>> selectTypeOfPackagingList = [
+    {'display': 'Custom packaging', 'value': 'custom_packaging'},
+    {'display': 'Your packaging', 'value': 'your_packaging'},
   ];
+
+
   final addProductController = Get.put(AddProductController());
   RxBool hide = true.obs;
   RxBool hide1 = true.obs;
@@ -107,6 +104,7 @@ class _InternationalshippingdetailsScreenState extends State<Internationalshippi
   bool? _isValue = false;
   final Repositories repositories = Repositories();
   String code = "+91";
+
   shippingDetailsApi() {
     Map<String, dynamic> map = {};
     map['weight_unit'] = unitOfMeasure;
@@ -125,29 +123,28 @@ class _InternationalshippingdetailsScreenState extends State<Internationalshippi
     repositories.postApi(url: ApiUrls.giveawayProductAddress, context: context, mapData: map).then((value) {
       ModelCommonResponse response = ModelCommonResponse.fromJson(jsonDecode(value));
       showToast(response.message.toString());
-      if(widget.id != null){
+      if (widget.id != null) {
         Get.to(ReviewPublishScreen());
-      }else{
+      } else {
         Get.to(OptionalScreen());
       }
-
-
     });
   }
+
   var id = Get.arguments[0];
+
   @override
   void initState() {
     // TODO: implement initState
     super.initState();
-    if(widget.id != null){
-      // unitOfMeasure = widget.Unitofmeasure.toString();
+
+
+    if (widget.id != null) {
       weightController.text = widget.WeightOftheItem.toString();
       numberOfPackageController.text = widget.SelectNumberOfPackages.toString();
-      // selectTypeMaterial = widget.SelectTypeMaterial.toString();
       dimensionController.text = widget.Length.toString();
       dimensionWidthController.text = widget.Width.toString();
       dimensionHeightController.text = widget.Height.toString();
-      // selectTypeOfPackaging = widget.SelectTypeOfPackaging.toString();
     }
   }
   @override
@@ -427,10 +424,10 @@ class _InternationalshippingdetailsScreenState extends State<Internationalshippi
                       selectTypeOfPackaging = newValue!;
                     });
                   },
-                  items: selectTypeOfPackagingList.map<DropdownMenuItem<String>>((String value) {
+                  items: selectTypeOfPackagingList.map<DropdownMenuItem<String>>((item) {
                     return DropdownMenuItem<String>(
-                      value: value,
-                      child: Text(value),
+                      value: item['value'],
+                      child: Text(item['display']!),
                     );
                   }).toList(),
                   decoration: InputDecoration(
@@ -463,6 +460,7 @@ class _InternationalshippingdetailsScreenState extends State<Internationalshippi
                     return null;
                   },
                 ),
+
                 const SizedBox(height: 10),
                 CustomOutlineButton(
                   title: 'Confirm',

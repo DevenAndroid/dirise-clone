@@ -7,7 +7,7 @@ import '../model/login_model.dart';
 import '../widgets/common_colour.dart';
 
 class ApiUrls {
-  static const String baseUrl = 'https://beta-dirise.eoxyslive.com/api/';
+  static const String baseUrl = 'https://dirise.eoxyslive.com/api/';
   // static const String baseUrl = 'https://backend.diriseapp.com/api/';
   //
   // static const String baseUrl = 'https://beta-dirise.eoxyslive.com/api/';
@@ -104,6 +104,7 @@ class ApiUrls {
   static const String deleteReturnPolicy= "${baseUrl}remove-return-policy";
   static const String returnPolicyUrl= "${baseUrl}return-policy";
   static const String singleReturnPolicyUrl= "${baseUrl}single-return-policy?id=";
+  static const String singleShippingPolicyUrl= "${baseUrl}single-shipping-policy?id=";
   static const String stateList= "${baseUrl}all-states";
   static const String citiesList= "${baseUrl}all-cities";
   static const String productCategoriesListUrl = "${baseUrl}categries";
