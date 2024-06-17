@@ -26,6 +26,7 @@ class _CartBagCardState extends State<CartBagCard> {
       return GestureDetector(
         behavior: HitTestBehavior.translucent,
         onTap: () {
+          cartController.getCart();
           Get.toNamed(BagsScreen.route);
 
         },

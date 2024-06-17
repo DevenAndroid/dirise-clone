@@ -25,21 +25,21 @@ class SinglePolicy {
 }
 
 class SingleShippingPolicy {
-  int? id;
-  int? vendorId;
-  String? title;
-  int? days;
-  String? description;
-  String? shippingType;
-  String? aboveShipping;
-  String? shippingZone;
-  String? range1Min;
-  String? range1Max;
-  String? range1Percent;
-  String? range2Min;
-  String? range2Max;
-  String? range2Percent;
-  int? priceLimit;
+  dynamic id;
+  dynamic vendorId;
+  dynamic title;
+  dynamic days;
+  dynamic description;
+  dynamic shippingType;
+  dynamic aboveShipping;
+  dynamic shippingZone;
+  dynamic range1Min;
+  dynamic range1Max;
+  dynamic range1Percent;
+  dynamic range2Min;
+  dynamic range2Max;
+  dynamic range2Percent;
+  dynamic priceLimit;
 
   SingleShippingPolicy(
       {this.id,

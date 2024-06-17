@@ -159,6 +159,8 @@ class _HomePageState extends State<HomePage> {
     if (!mounted) return;
     homeController.homeData();
     if (!mounted) return;
+    profileController.getDataProfile();
+    if (!mounted) return;
     homeController.getVendorCategories();
     if (!mounted) return;
     homeController.trendingData();
@@ -167,9 +169,10 @@ class _HomePageState extends State<HomePage> {
     if (!mounted) return;
     homeController.authorData();
     if (!mounted) return;
+    cartController.myDefaultAddressData();
+    if (!mounted) return;
     homeController.featuredStores();
     if (!mounted) return;
-
     homeController.showCaseProductsData();
     if (!mounted) return;
   }
