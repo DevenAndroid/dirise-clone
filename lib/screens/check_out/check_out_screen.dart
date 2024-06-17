@@ -257,7 +257,7 @@ RxString shipId = "".obs;
             // if (cartController.deliveryOption1.value == "delivery") {
             for (var item in cartController.cartModel.cart!.carsShowroom!.entries) {
               var showroom = item.value;
-              if (item.value.shippingOption.isEmpty) {
+              if (showroom.shippingOption.isEmpty) {
                 showToast("Please select shipping Method".tr);
                 return;
               }
@@ -754,6 +754,8 @@ RxString shipId = "".obs;
                                               e.value.shippingVendorName.value = e.value.shipping!.localShipping![ii].name.toString();
                                               e.value.vendorPrice.value = e.value.shipping!.localShipping![ii].value.toString();
                                               shippingPrice = e.value.shipping!.localShipping![ii].value.toString();
+                                              cartController.shippingTitle = product.name.toString();
+                                              cartController.shippingPrices1 = product.value.toString();
                                               double shipping = double.parse(shippingPrice);
                                               double subtotal = double.parse(cartController.cartModel.subtotal.toString());
                                               total = subtotal + shipping;
@@ -902,6 +904,7 @@ RxString shipId = "".obs;
                                                        cartController.shippingDates =product.commit!.dateDetail!.dayFormat.toString();
                                                        // e.value.shipping![ii].output!.rateReplyDetails![index].shippingDate = product.operationalDetail!.deliveryDate;
                                                        cartController.shippingTitle = product.serviceName.toString();
+                                                       cartController.shippingPrices1 = product1.totalNetCharge.toString();
                                                        // cartController.shippingPrices = product.ratedShipmentDetails![index].totalNetCharge.toString();
                                                        // e.value.shippingOption.value = value.toString();
                                                        print( e.value.shipping!.fedexShippingOption.value.toString());
@@ -1047,6 +1050,7 @@ RxString shipId = "".obs;
                                               cartController.shippingDates =product.methodName.toString();
                                               e.value.shipping!.fedexShippingOption.value = value.toString();
                                               cartController.shippingTitle =    product.name.toString();
+                                              cartController.shippingPrices1 = cartController.shippingPrices.toString();
                                               // cartController.shippingPrices = product.price.toString();
                                               print( e.value.shipping!.fedexShippingOption.value.toString());
                                               print(cartController.shippingTitle.toString());
