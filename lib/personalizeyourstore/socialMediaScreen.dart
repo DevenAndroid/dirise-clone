@@ -146,6 +146,7 @@ class _SocialMediaStoreState extends State<SocialMediaStore> {
                             validator: MultiValidator([
                               RequiredValidator(errorText: 'Instagram Username is required'.tr),
                             ])),
+                        const SizedBox(height: 10,),
                         CommonTextField(
                             controller: youtubeController,
                             obSecure: false,
@@ -155,6 +156,7 @@ class _SocialMediaStoreState extends State<SocialMediaStore> {
                             validator: MultiValidator([
                               RequiredValidator(errorText: 'youtube Username is required'.tr),
                             ])),
+                        const SizedBox(height: 10,),
                         CommonTextField(
                             controller: twitterController,
                             obSecure: false,
@@ -164,6 +166,7 @@ class _SocialMediaStoreState extends State<SocialMediaStore> {
                             validator: MultiValidator([
                               RequiredValidator(errorText: 'twitter Username is required'.tr),
                             ])),
+                        const SizedBox(height: 10,),
                         CommonTextField(
                             controller: linkedinController,
                             obSecure: false,
@@ -173,6 +176,7 @@ class _SocialMediaStoreState extends State<SocialMediaStore> {
                             validator: MultiValidator([
                               RequiredValidator(errorText: 'linkedin Username is required'.tr),
                             ])),
+                        const SizedBox(height: 10,),
                         CommonTextField(
                             controller: facebookController,
                             obSecure: false,
@@ -182,6 +186,7 @@ class _SocialMediaStoreState extends State<SocialMediaStore> {
                             validator: MultiValidator([
                               RequiredValidator(errorText: 'facebook Username is required'.tr),
                             ])),
+                        const SizedBox(height: 10,),
                         CommonTextField(
                             controller: snapchatController,
                             obSecure: false,
@@ -191,6 +196,7 @@ class _SocialMediaStoreState extends State<SocialMediaStore> {
                             validator: MultiValidator([
                               RequiredValidator(errorText: 'snapchat Username is required'.tr),
                             ])),
+                        const SizedBox(height: 10,),
                         CommonTextField(
                             controller: pinterestController,
                             obSecure: false,
@@ -200,6 +206,7 @@ class _SocialMediaStoreState extends State<SocialMediaStore> {
                             validator: MultiValidator([
                               RequiredValidator(errorText: 'pinterest Username is required'.tr),
                             ])),
+                        const SizedBox(height: 10,),
                         CommonTextField(
                             controller: tiktokController,
                             obSecure: false,
@@ -209,6 +216,7 @@ class _SocialMediaStoreState extends State<SocialMediaStore> {
                             validator: MultiValidator([
                               RequiredValidator(errorText: 'tiktok Username is required'.tr),
                             ])),
+                        const SizedBox(height: 10,),
                         CommonTextField(
                             controller: threadsController,
                             obSecure: false,
@@ -218,6 +226,7 @@ class _SocialMediaStoreState extends State<SocialMediaStore> {
                             validator: MultiValidator([
                               RequiredValidator(errorText: 'threads Username is required'.tr),
                             ])),
+                        const SizedBox(height: 20,),
                         CustomOutlineButton(
                           title: 'Add Now',
                           onPressed: () {

@@ -44,7 +44,7 @@ class _BottomNavbarState extends State<BottomNavbar> {
   final bottomController = Get.put(BottomNavBarController());
   final profileController = Get.put(ProfileController());
   final cartController = Get.put(CartController());
-
+  bool get userLoggedIn => profileController.userLoggedIn;
   final pages = [
     const HomePage(),
     const CategoriesScreen(),
@@ -96,7 +96,7 @@ class _BottomNavbarState extends State<BottomNavbar> {
                     onPressed: () {
                       // Navigator.of(context).pop();
                       // showToast('message');
-                       FlutterExitApp.exitApp(iosForceExit: true);
+                      FlutterExitApp.exitApp(iosForceExit: true);
 
                       // if (Platform.isAndroid) {
                       //   SystemNavigator.pop();
@@ -123,7 +123,6 @@ class _BottomNavbarState extends State<BottomNavbar> {
       });
     }
   }
-
 
   @override
   void dispose() {
@@ -172,10 +171,10 @@ class _BottomNavbarState extends State<BottomNavbar> {
           floatingActionButton: Visibility(
             child: GestureDetector(
               onTap: () {
-                if (isLoggedIn) {
-                  Get.to(AddProductOptionScreen());
+                if (userLoggedIn) {
+                  Get.to(const AddProductOptionScreen());
                 } else {
-                  Get.to(LoginScreen());
+                  Get.to(const LoginScreen());
                 }
               },
               child: Container(

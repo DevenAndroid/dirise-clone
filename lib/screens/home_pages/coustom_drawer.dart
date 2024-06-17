@@ -2,6 +2,7 @@ import 'dart:convert';
 
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:dirise/controller/profile_controller.dart';
+import 'package:dirise/personalizeyourstore/addSocialMediaScreen.dart';
 import 'package:dirise/utils/helper.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
@@ -24,6 +25,7 @@ import '../../model/customer_profile/model_state_list.dart';
 import '../../model/model_address_list.dart';
 import '../../model/model_user_delete.dart';
 import '../../personalizeyourstore/operatinghourScreen.dart';
+import '../../personalizeyourstore/socialMediaScreen.dart';
 import '../../posts/posts_ui.dart';
 import '../../repository/repository.dart';
 import '../../routers/my_routers.dart';
@@ -67,8 +69,6 @@ class _CustomDrawerState extends State<CustomDrawer> {
     sharedPreferences.setString("app_language", gg);
   }
 
-  bool isLoggedIn = false;
-
   @override
   void initState() {
     super.initState();
@@ -84,6 +84,8 @@ class _CustomDrawerState extends State<CustomDrawer> {
   ModelCityList? modelCityList;
   final homeController = Get.put(TrendingProductsController());
   bool get userLoggedIn => profileController.userLoggedIn;
+  bool isLoggedIn = false;
+
   checkUser() async {
     SharedPreferences preferences = await SharedPreferences.getInstance();
     if (preferences.getString('login_user') != null) {
@@ -104,12 +106,13 @@ class _CustomDrawerState extends State<CustomDrawer> {
     'Order',
     'Pending Products',
     'Approved Products',
-    'Store open time',
+    'Operating Hours',
+    'Social Media',
     'Bank Details',
     'Earnings'
   ];
   var vendor1 = [
-    'Login as vendor',
+    'Become a vendor',
     'Pending Products',
     'Approved Products',
   ];
@@ -1921,11 +1924,11 @@ class _CustomDrawerState extends State<CustomDrawer> {
         iconColor: AppTheme.primaryColor,
         minLeadingWidth: 0,
         onTap: () {
-          if (isLoggedIn) {
-            Get.to(const LoginScreen());
-          } else {
+          if (userLoggedIn) {
             _isValue.value = !_isValue.value;
             setState(() {});
+          } else {
+            Get.to(const LoginScreen());
           }
         },
         title: Row(
@@ -1979,8 +1982,10 @@ class _CustomDrawerState extends State<CustomDrawer> {
                                               Get.to(const VendorProductScreen());
                                             } else if (vendor[index] == 'Approved Products') {
                                               Get.to(const ApproveProductScreen());
-                                            } else if (vendor[index] == 'Store open time') {
-                                              Get.to(const OperatingHourScreen());
+                                            } else if (vendor[index] == 'Operating Hours') {
+                                              Get.to(const SetTimeScreen());
+                                            } else if (vendor[index] == 'Social Media') {
+                                              Get.to(const SocialMediaStore());
                                             } else if (vendor[index] == 'Bank Details') {
                                               Get.to(const BankDetailsScreen());
                                             } else if (vendor[index] == 'Earnings') {
@@ -2023,7 +2028,7 @@ class _CustomDrawerState extends State<CustomDrawer> {
                                       Expanded(
                                         child: TextButton(
                                           onPressed: () {
-                                            if (vendor1[index] == 'Login as vendor') {
+                                            if (vendor1[index] == 'Become a vendor') {
                                               Get.toNamed(LoginScreen.route);
                                             } else if (vendor1[index] == 'Pending Products') {
                                               Get.to(const VendorProductScreen());

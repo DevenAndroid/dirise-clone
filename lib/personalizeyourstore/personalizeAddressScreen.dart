@@ -231,7 +231,7 @@ Get.to(PersonalizeAddAddressScreen());
                     ...commonField(
                         hintText: "Special instruction",
                         textController: specialInstructionController,
-                        title: 'Special instruction*',
+                        title: 'Special instruction',
                         validator: (String? value) {},
                         keyboardType: TextInputType.name),
                     SizedBox(

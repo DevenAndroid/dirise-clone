@@ -1,6 +1,7 @@
 import 'dart:convert';
 import 'dart:io';
 import 'package:dirise/language/app_strings.dart';
+import 'package:dirise/personalizeyourstore/addSocialMediaScreen.dart';
 import 'package:dirise/screens/auth_screens/login_screen.dart';
 import 'package:dirise/utils/helper.dart';
 import 'package:dirise/widgets/loading_animation.dart';
@@ -31,6 +32,7 @@ import '../../model/model_address_list.dart';
 import '../../model/model_user_delete.dart';
 import '../../newAddress/map_find_my_location.dart';
 import '../../personalizeyourstore/operatinghourScreen.dart';
+import '../../personalizeyourstore/socialMediaScreen.dart';
 import '../../posts/posts_ui.dart';
 import '../../repository/repository.dart';
 import '../../singleproductScreen/itemdetailsScreen.dart';
@@ -77,7 +79,7 @@ class _MyAccountScreenState extends State<MyAccountScreen> {
   }
 
   bool isLoggedIn = false;
-
+  bool get userLoggedIn => profileController.userLoggedIn;
   checkUser() async {
     SharedPreferences preferences = await SharedPreferences.getInstance();
     if (preferences.getString('login_user') != null) {
@@ -138,7 +140,7 @@ class _MyAccountScreenState extends State<MyAccountScreen> {
       }
     });
   }
-  bool get userLoggedIn => profileController.userLoggedIn;
+
   final profileController = Get.put(ProfileController());
   final cartController = Get.put(CartController());
   final homeController = Get.put(TrendingProductsController());
@@ -2112,7 +2114,7 @@ class _MyAccountScreenState extends State<MyAccountScreen> {
         iconColor: AppTheme.primaryColor,
         minLeadingWidth: 0,
         onTap: () {
-          if(isLoggedIn){
+          if(userLoggedIn){
             _isValue.value = !_isValue.value;
             setState(() {});
           }else{
@@ -2189,6 +2191,9 @@ class _MyAccountScreenState extends State<MyAccountScreen> {
                                            }
                                            else if(vendor[index] == 'Earnings'){
                                              Get.to(const WithdrawMoney());
+                                           }
+                                           else if(vendor[index] == 'Social Media'){
+                                             Get.to(const SocialMediaStore());
                                            }
                                            else {
                                               showToast('Your payment is not successfull'.tr);
