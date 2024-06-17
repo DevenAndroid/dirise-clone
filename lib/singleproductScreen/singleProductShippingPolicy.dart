@@ -48,8 +48,10 @@ class _SingleProductShippingPolicyScreenState extends State<SingleProductShippin
   TextEditingController from2KWDController = TextEditingController();
   TextEditingController upTo40Controller = TextEditingController();
   TextEditingController calculatedPercentageController = TextEditingController();
+  TextEditingController freeController = TextEditingController();
 
-  String? selectedRadio;
+  String selectedRadio = 'free_shipping';
+  // String? selectedRadio;
   final formKey1 = GlobalKey<FormState>();
   final Repositories repositories = Repositories();
 
@@ -83,12 +85,12 @@ class _SingleProductShippingPolicyScreenState extends State<SingleProductShippin
     super.initState();
     thenController.addListener(updateHintText);
     upTo40Controller.addListener(updateHintText);
-
+    getShippingPolicyData();
     if (widget.policyName != null) {
       policyNameController.text = widget.policyName ?? "";
       policyDescController.text = widget.policydesc ?? "";
       policyPriceController.text = widget.priceLimit.toString();
-      selectedRadio = widget.policyDiscount;
+      selectedRadio = widget.policyDiscount!;
       selectZone = widget.selectZone.toString();
     }
   }
@@ -104,7 +106,7 @@ class _SingleProductShippingPolicyScreenState extends State<SingleProductShippin
     Map<String, dynamic> map = {};
 
     if (widget.id != null) {
-      map['title'] = policyNameController.text.trim();
+      map['title'] = selectedReturnPolicy!.title.toString();
       map['description'] = policyDescController.text.trim();
       map['price_limit'] = policyPriceController.text.trim();
       map['range1_percent'] = iPayController.text.trim();
@@ -118,7 +120,7 @@ class _SingleProductShippingPolicyScreenState extends State<SingleProductShippin
       map['id'] = widget.id;
     }
 
-    map['title'] = policyNameController.text.trim();
+    map['title'] = selectedReturnPolicy!.title.toString();
     map['description'] = policyDescController.text.trim();
     map['price_limit'] = policyPriceController.text.trim();
     map['range1_percent'] = iPayController.text.trim();
@@ -155,20 +157,35 @@ class _SingleProductShippingPolicyScreenState extends State<SingleProductShippin
   }
   bool? noReturn;
   bool noReturnSelected = false;
-  String radioButtonValue = 'buyer_pays';
+  // String radioButtonValue = 'buyer_pays';
   TextEditingController titleController = TextEditingController();
   TextEditingController descController = TextEditingController();
   Rx<SinglePolicy> singleShippingPolicy = SinglePolicy().obs;
   RxInt returnPolicyLoaded = 0.obs;
   getSingleReturnPolicyData(id) {
-    repositories.getApi(url: ApiUrls.singleReturnPolicyUrl + id).then((value) {
+    repositories.getApi(url: ApiUrls.singleShippingPolicyUrl + id).then((value) {
       setState(() {
         singleShippingPolicy.value = SinglePolicy.fromJson(jsonDecode(value));
-        // radioButtonValue = singleShippingPolicy.value.shippingPolicy!..toString();
+      selectedRadio = singleShippingPolicy.value.singleShippingPolicy!.shippingType.toString();
         titleController.text = singleShippingPolicy.value.singleShippingPolicy!.title.toString();
-        descController.text = singleShippingPolicy.value.singleShippingPolicy!.description.toString();
+        policyDescController.text = singleShippingPolicy.value.singleShippingPolicy!.description.toString();
+        iPayController.text = singleShippingPolicy.value.singleShippingPolicy!.range1Min.toString();
+        iPayController.text = singleShippingPolicy.value.singleShippingPolicy!.range1Percent.toString();
+        from1KWDController.text = singleShippingPolicy.value.singleShippingPolicy!.range1Min.toString();
+        upTo20Controller.text = singleShippingPolicy.value.singleShippingPolicy!.range1Max.toString();
+        thenController.text = singleShippingPolicy.value.singleShippingPolicy!.range2Percent.toString();
+        from2KWDController.text = singleShippingPolicy.value.singleShippingPolicy!.range2Min.toString();
+        upTo40Controller.text = singleShippingPolicy.value.singleShippingPolicy!.range2Max.toString();
+        calculatedPercentageController.text = singleShippingPolicy.value.singleShippingPolicy!.priceLimit.toString();
+        // freeController.text = singleShippingPolicy.value.singleShippingPolicy!.description.toString();
       });
       returnPolicyLoaded.value = DateTime.now().millisecondsSinceEpoch;
+    });
+  }
+  bool isButtonEnabled = false;
+  void updateButtonState() {
+    setState(() {
+      isButtonEnabled = selectedRadio != null || noReturnSelected;
     });
   }
   @override
@@ -249,29 +266,29 @@ class _SingleProductShippingPolicyScreenState extends State<SingleProductShippin
                     );
                   }).toList(),
                 ),
-              CommonTextField(
-                  contentPadding: const EdgeInsets.all(5),
-                  controller: policyNameController,
-                  obSecure: false,
-                  hintText: 'DIRISE standard Policy',
-                  validator: MultiValidator([
-                    RequiredValidator(errorText: 'Dirise standard policy must be required'.tr),
-                  ])),
+              // CommonTextField(
+              //     contentPadding: const EdgeInsets.all(5),
+              //     controller: policyNameController,
+              //     obSecure: false,
+              //     hintText: 'DIRISE standard Policy',
+              //     validator: MultiValidator([
+              //       RequiredValidator(errorText: 'Dirise standard policy must be required'.tr),
+              //     ])),
               const SizedBox(
                 height: 18,
               ),
-              VendorCommonTextfield(
-                  readOnly: singleShippingPolicy.value.singleShippingPolicy != null ? true : false,
-                  controller: descController,
-                  hintText: selectedReturnPolicy != null
-                      ? selectedReturnPolicy!.description.toString()
-                      : 'DIRISE Standard Policy',
-                  validator: (value) {
-                    if (value!.trim().isEmpty) {
-                      return "DIRISE standard Policy".tr;
-                    }
-                    return null;
-                  }),
+              // VendorCommonTextfield(
+              //     readOnly: singleShippingPolicy.value.singleShippingPolicy != null ? true : false,
+              //     controller: descController,
+              //     hintText: selectedReturnPolicy != null
+              //         ? selectedReturnPolicy!.description.toString()
+              //         : 'DIRISE Standard Policy',
+              //     validator: (value) {
+              //       if (value!.trim().isEmpty) {
+              //         return "DIRISE standard Policy".tr;
+              //       }
+              //       return null;
+              //     }),
               Padding(
                 padding: const EdgeInsets.symmetric(horizontal: 16),
                 child: Text("Policy Description (Optional)",
@@ -281,6 +298,7 @@ class _SingleProductShippingPolicyScreenState extends State<SingleProductShippin
                 height: 8,
               ),
               CommonTextField(
+                readOnly: singleShippingPolicy.value.singleShippingPolicy != null ? true : false,
                 contentPadding: const EdgeInsets.all(5),
                 controller: policyDescController,
                 isMulti: true,
@@ -307,9 +325,10 @@ class _SingleProductShippingPolicyScreenState extends State<SingleProductShippin
                       Radio<String>(
                         value: 'free_shipping',
                         groupValue: selectedRadio,
-                        onChanged: (String? value) {
+                        onChanged: (value) {
                           setState(() {
-                            selectedRadio = value;
+                            selectedRadio = value!;
+                            updateButtonState();
                             log(selectedRadio.toString());
                           });
                         },
@@ -325,9 +344,10 @@ class _SingleProductShippingPolicyScreenState extends State<SingleProductShippin
                       Radio<String>(
                         value: 'partial_shipping',
                         groupValue: selectedRadio,
-                        onChanged: (String? value) {
+                        onChanged: (value) {
                           setState(() {
-                            selectedRadio = value;
+                            selectedRadio = value!;
+                            updateButtonState();
                             log(selectedRadio.toString());
                           });
                         },
@@ -343,9 +363,10 @@ class _SingleProductShippingPolicyScreenState extends State<SingleProductShippin
                       Radio<String>(
                         value: 'charge_my_customer',
                         groupValue: selectedRadio,
-                        onChanged: (String? value) {
+                        onChanged: (value) {
                           setState(() {
-                            selectedRadio = value;
+                            selectedRadio = value!;
+                            updateButtonState();
                             log(selectedRadio.toString());
                           });
                         },
@@ -364,10 +385,11 @@ class _SingleProductShippingPolicyScreenState extends State<SingleProductShippin
                   Row(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
-                      const Expanded(
+                       Expanded(
                         child: CommonTextField(
                           contentPadding: EdgeInsets.symmetric(horizontal: 20),
                           readOnly: true,
+                          controller: freeController,
                           obSecure: false,
                           hintText: 'Free for',
                         ),
