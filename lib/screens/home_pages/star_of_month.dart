@@ -117,6 +117,10 @@ class _StarOfMonthScreenState extends State<StarOfMonthScreen> {
                                             child: RichText(
                                               text: TextSpan(
                                                 children: [
+                                              TextSpan(
+                                                 text: 'In '.tr,
+                                                 style: GoogleFonts.poppins(fontSize: 17, fontWeight: FontWeight.w500,color: Colors.black),
+                                               ),
                                                   TextSpan(
                                                     text: filteredData[index].name.toString(),
                                                     style: GoogleFonts.poppins(fontSize: 26, fontWeight: FontWeight.w600, color: Colors.black),

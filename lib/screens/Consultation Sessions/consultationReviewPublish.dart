@@ -1,3 +1,5 @@
+import 'dart:convert';
+
 import 'package:dirise/addNewProduct/rewardScreen.dart';
 import 'package:dirise/controller/vendor_controllers/add_product_controller.dart';
 import 'package:flutter/cupertino.dart';
@@ -5,6 +7,9 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:google_fonts/google_fonts.dart';
 
+import '../../model/common_modal.dart';
+import '../../repository/repository.dart';
+import '../../utils/api_constant.dart';
 import '../../widgets/common_button.dart';
 import '../../widgets/common_colour.dart';
 
@@ -25,6 +30,20 @@ class _ConsulationreviewandPublishScreenState extends State<Consulationreviewand
     'Item 4',
     'Item 5',
   ];
+  final Repositories repositories = Repositories();
+  completeApi() {
+    Map<String, dynamic> map = {};
+
+    map['is_complete'] = true;
+
+    FocusManager.instance.primaryFocus!.unfocus();
+    repositories.postApi(url: ApiUrls.giveawayProductAddress, context: context, mapData: map).then((value) {
+      ModelCommonResponse response = ModelCommonResponse.fromJson(jsonDecode(value));
+      print('API Response Status Code: ${response.status}');
+      showToast(response.message.toString());
+      if (response.status == true) {
+        Get.to(addProductController.addProduct(context: context));
+      }});}
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -340,7 +359,8 @@ class _ConsulationreviewandPublishScreenState extends State<Consulationreviewand
                 title: 'Confirm',
                 borderRadius: 11,
                 onPressed: () {
-                  Get.to(addProductController.addProduct(context: context));
+                  completeApi();
+
                 },
               ),
             ],

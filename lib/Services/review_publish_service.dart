@@ -13,6 +13,7 @@ import 'package:get/get.dart';
 import 'package:google_fonts/google_fonts.dart';
 import '../controller/service_controller.dart';
 import '../controller/vendor_controllers/add_product_controller.dart';
+import '../model/common_modal.dart';
 import '../model/product_details.dart';
 import '../model/returnPolicyModel.dart';
 import '../repository/repository.dart';
@@ -65,7 +66,19 @@ class _ReviewPublishServiceScreenState extends State<ReviewPublishServiceScreen>
       setState(() {});
     });
   }
+  completeApi() {
+    Map<String, dynamic> map = {};
 
+    map['is_complete'] = true;
+
+    FocusManager.instance.primaryFocus!.unfocus();
+    repositories.postApi(url: ApiUrls.giveawayProductAddress, context: context, mapData: map).then((value) {
+      ModelCommonResponse response = ModelCommonResponse.fromJson(jsonDecode(value));
+      print('API Response Status Code: ${response.status}');
+      showToast(response.message.toString());
+      if (response.status == true) {
+        Get.to(ExtraInformation());
+      }});}
   @override
   void initState() {
     super.initState();
@@ -759,7 +772,8 @@ class _ReviewPublishServiceScreenState extends State<ReviewPublishServiceScreen>
                         title: 'Confirm',
                         borderRadius: 11,
                         onPressed: () {
-                          Get.to(ExtraInformation());
+                          completeApi();
+
                         },
                       ),
                     ],

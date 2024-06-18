@@ -9,6 +9,7 @@ import 'package:get/get.dart';
 import 'package:google_fonts/google_fonts.dart';
 
 import '../../controller/service_controller.dart';
+import '../../model/common_modal.dart';
 import '../../model/getShippingModel.dart';
 import '../../model/product_details.dart';
 import '../../model/returnPolicyModel.dart';
@@ -75,7 +76,19 @@ class _MultipleReviewAndPublishScreenState extends State<MultipleReviewAndPublis
   //     setState(() {});
   //   });
   // }
+  completeApi() {
+    Map<String, dynamic> map = {};
 
+    map['is_complete'] = true;
+
+    FocusManager.instance.primaryFocus!.unfocus();
+    repositories.postApi(url: ApiUrls.giveawayProductAddress, context: context, mapData: map).then((value) {
+      ModelCommonResponse response = ModelCommonResponse.fromJson(jsonDecode(value));
+      print('API Response Status Code: ${response.status}');
+      showToast(response.message.toString());
+      if (response.status == true) {
+        Get.to(const RewardScreenMultiple());
+      }});}
   @override
   void initState() {
     super.initState();
@@ -198,7 +211,8 @@ class _MultipleReviewAndPublishScreenState extends State<MultipleReviewAndPublis
                 title: 'Confirm',
                 borderRadius: 11,
                 onPressed: () {
-                  Get.to(const RewardScreenMultiple());
+                  completeApi();
+
                 },
               ),
             ],
