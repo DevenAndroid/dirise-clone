@@ -356,85 +356,99 @@ class _SingleProductPriceScreenState extends State<SingleProductPriceScreen> {
                   decoration: BoxDecoration(borderRadius: BorderRadius.circular(11), color: Colors.grey.shade200),
                   child: Row(
                     children: [
-                      Column(
-                        mainAxisAlignment: MainAxisAlignment.start,
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        children: [
-                          Row(
-                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                            children: [
-                              Text(
-                                'Price'.tr,
-                                style: GoogleFonts.poppins(
-                                    color: const Color(0xff014E70), fontWeight: FontWeight.w600, fontSize: 12),
-                              ),
-                              const SizedBox(
-                                width: 20,
-                              ),
-                              // Text(
-                              //   "${realPrice} KWD".tr,
-                              //   style: GoogleFonts.poppins(
-                              //       color: const Color(0xff014E70), fontWeight: FontWeight.w400, fontSize: 10),
-                              // ),
-                              Text(
-                                "${realPrice} KWD".tr,
-                                style: GoogleFonts.poppins(
-                                    color: const Color(0xff014E70), fontWeight: FontWeight.w400, fontSize: 10),
-                              ),
-                            ],
-                          ),
-                          const SizedBox(
-                            height: 20,
-                          ),
-                          Row(
-                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                            children: [
-                              Text(
-                                'Discount amount'.tr,
-                                style: GoogleFonts.poppins(
-                                    color: const Color(0xff014E70), fontWeight: FontWeight.w600, fontSize: 12),
-                              ),
-                              const SizedBox(
-                                width: 10,
-                              ),
-                              Text(
-                                ' $discount KWD '.tr,
-                                style: GoogleFonts.poppins(
-                                    color: const Color(0xff014E70), fontWeight: FontWeight.w400, fontSize: 10),
-                              ),
-                            ],
-                          ),
-                          const SizedBox(
-                            height: 20,
-                          ),
-                          Row(
-                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                            children: [
-                              Text(
-                                'Final price'.tr,
-                                style: GoogleFonts.poppins(
-                                    color: const Color(0xff014E70), fontWeight: FontWeight.w600, fontSize: 12),
-                              ),
-                              const SizedBox(
-                                width: 20,
-                              ),
-                              discountPrecrnt.text.isNotEmpty
-                                  ? Text(
-                                      "${discountedPrice} KWD".tr,
-                                      style: GoogleFonts.poppins(
-                                          color: const Color(0xff014E70), fontWeight: FontWeight.w400, fontSize: 10),
+                      Expanded(
+                        child: Column(
+                          mainAxisAlignment: MainAxisAlignment.start,
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
+                            Row(
+                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                              crossAxisAlignment: CrossAxisAlignment.start,
+                              children: [
+                                Text(
+                                  'Price'.tr,
+                                  style: GoogleFonts.poppins(
+                                      color: const Color(0xff014E70), fontWeight: FontWeight.w600, fontSize: 10),
+                                ),
+                                const SizedBox(
+                                  width: 20,
+                                ),
+                                // Text(
+                                //   "${realPrice} KWD".tr,
+                                //   style: GoogleFonts.poppins(
+                                //       color: const Color(0xff014E70), fontWeight: FontWeight.w400, fontSize: 10),
+                                // ),
+                                Expanded(
+                                  child: Text(
+                                    "${realPrice} KWD".tr,
+                                    style: GoogleFonts.poppins(
+                                        color: const Color(0xff014E70), fontWeight: FontWeight.w400, fontSize: 8),
+                                  ),
+                                ),
+                              ],
+                            ),
+                            const SizedBox(
+                              height: 20,
+                            ),
+                            Row(
+                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                              crossAxisAlignment: CrossAxisAlignment.start,
+                              children: [
+                                Text(
+                                  'Discount amount'.tr,
+                                  style: GoogleFonts.poppins(
+                                      color: const Color(0xff014E70), fontWeight: FontWeight.w600, fontSize: 10),
+                                ),
+                                const SizedBox(
+                                  width: 10,
+                                ),
+                                Expanded(
+                                  flex: 2,
+                                  child: Text(
+                                    ' $discount KWD '.tr,
+                                    style: GoogleFonts.poppins(
+                                        color: const Color(0xff014E70), fontWeight: FontWeight.w400, fontSize: 8),
+                                  ),
+                                ),
+                              ],
+                            ),
+                            const SizedBox(
+                              height: 20,
+                            ),
+                            Row(
+                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                              crossAxisAlignment: CrossAxisAlignment.start,
+                              children: [
+                                Text(
+                                  'Final price'.tr,
+                                  style: GoogleFonts.poppins(
+                                      color: const Color(0xff014E70), fontWeight: FontWeight.w600, fontSize: 10),
+                                ),
+                                const SizedBox(
+                                  width: 20,
+                                ),
+                                discountPrecrnt.text.isNotEmpty
+                                    ? Expanded(
+                                      child: Text(
+                                          "${discountedPrice} KWD".tr,
+                                          style: GoogleFonts.poppins(
+                                              color: const Color(0xff014E70), fontWeight: FontWeight.w400, fontSize: 8),
+                                        ),
                                     )
-                                  : Text(
-                                      "${discountedPrice} KWD".tr,
-                                      style: GoogleFonts.poppins(
-                                          color: const Color(0xff014E70), fontWeight: FontWeight.w400, fontSize: 10),
+                                    : Expanded(
+                                      child: Text(
+                                          "${discountedPrice} KWD".tr,
+                                          style: GoogleFonts.poppins(
+                                              color: const Color(0xff014E70), fontWeight: FontWeight.w400, fontSize: 10),
+                                        ),
                                     )
-                            ],
-                          ),
-                          const SizedBox(
-                            height: 20,
-                          ),
-                        ],
+                              ],
+                            ),
+                            const SizedBox(
+                              height: 20,
+                            ),
+                          ],
+                        ),
                       ),
                       const SizedBox(
                         width: 10,

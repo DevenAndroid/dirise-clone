@@ -1,4 +1,5 @@
 import 'dart:async';
+import 'dart:convert';
 
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
@@ -6,6 +7,10 @@ import 'package:get/get_rx/get_rx.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:geocoding/geocoding.dart';
 import 'dart:developer';
+
+import '../model/common_modal.dart';
+import '../repository/repository.dart';
+import '../utils/api_constant.dart';
 
 class ControllerMap extends GetxController {
   final Completer<GoogleMapController> googleMapController = Completer();
@@ -21,6 +26,36 @@ class ControllerMap extends GetxController {
   RxString town = ''.obs;
   var redPinMarker = Marker(markerId: MarkerId('redPin')).obs;
   var isMarkerDraggable = true.obs;
+  final Repositories repositories = Repositories();
+
+
+
+  sellingPickupAddressApi(context) {
+    Map<String, dynamic> map = {};
+
+    map['address_type'] = 'shipping';
+    map['city'] =city.toString();
+    map['country'] = country.toString();
+    map['state'] = state.toString();
+    map['zip_code'] = zipcode.toString();
+    map['town'] = town.toString();
+    map['street'] = street.toString();
+
+
+
+    FocusManager.instance.primaryFocus!.unfocus();
+    repositories.postApi(url: ApiUrls.editAddressUrl, context: context, mapData: map).then((value) {
+      ModelCommonResponse response = ModelCommonResponse.fromJson(jsonDecode(value));
+      showToast(response.message.toString());
+      if (response.status == true) {
+        showToast(response.message.toString());
+        Get.back();
+      }
+    });
+  }
+
+
+
 
   @override
   void onInit() {

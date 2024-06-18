@@ -11,6 +11,7 @@ import 'package:get/get.dart';
 import 'package:google_fonts/google_fonts.dart';
 
 import '../controller/vendor_controllers/add_product_controller.dart';
+import '../model/common_modal.dart';
 import '../model/product_details.dart';
 import '../model/reviewAndPublishModel.dart';
 import '../repository/repository.dart';
@@ -111,7 +112,19 @@ class _ReviewPublishScreenState extends State<ReviewPublishScreen> {
       setState(() {});
     });
   }
+  completeApi() {
+    Map<String, dynamic> map = {};
 
+    map['is_complete'] = true;
+
+    FocusManager.instance.primaryFocus!.unfocus();
+    repositories.postApi(url: ApiUrls.giveawayProductAddress, context: context, mapData: map).then((value) {
+      ModelCommonResponse response = ModelCommonResponse.fromJson(jsonDecode(value));
+      print('API Response Status Code: ${response.status}');
+      showToast(response.message.toString());
+      if (response.status == true) {
+        Get.to(const RewardScreen());
+      }});}
   @override
   void initState() {
     // TODO: implement initState
@@ -470,7 +483,8 @@ class _ReviewPublishScreenState extends State<ReviewPublishScreen> {
                           title: 'Confirm',
                           borderRadius: 11,
                           onPressed: () {
-                            Get.to(const RewardScreen());
+                            completeApi();
+
                           },
                         ),
                       ],
