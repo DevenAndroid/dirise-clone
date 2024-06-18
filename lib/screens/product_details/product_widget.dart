@@ -246,6 +246,7 @@ class _ProductUIState extends State<ProductUI> {
               Row(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
+                  widget.productElement.discountOff ==  0.00?SizedBox.shrink():
                   Container(
                     padding: const EdgeInsets.all(4),
                     decoration: BoxDecoration(color: const Color(0xFFFF6868), borderRadius: BorderRadius.circular(10)),
@@ -257,7 +258,7 @@ class _ProductUIState extends State<ProductUI> {
                               fontSize: 12, fontWeight: FontWeight.w700, color: const Color(0xFFFFDF33)),
                         ),
                         Text(
-                          " ${widget.productElement.discountOff ?? ((((widget.productElement.pPrice.toString().toNum - widget.productElement.sPrice.toString().toNum) / widget.productElement.pPrice.toString().toNum) * 100).toStringAsFixed(2))}${'%'}  ",
+                          " ${widget.productElement.discountOff}${'%'}  ",
                           style: GoogleFonts.poppins(fontSize: 12, fontWeight: FontWeight.w700, color: Colors.white),
                         ),
                       ],

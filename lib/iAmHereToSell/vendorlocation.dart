@@ -1,4 +1,5 @@
 import 'dart:async';
+import 'dart:convert';
 import 'dart:developer';
 import 'dart:ui' as ui;
 import 'package:dirise/iAmHereToSell/pickUpAddressForsellHere.dart';
@@ -17,6 +18,9 @@ import 'package:shared_preferences/shared_preferences.dart';
 
 import '../controller/location_controller.dart';
 import '../controller/service_controller.dart';
+import '../model/common_modal.dart';
+import '../repository/repository.dart';
+import '../utils/api_constant.dart';
 import '../widgets/common_button.dart';
 import '../widgets/common_colour.dart';
 import '../widgets/dimension_screen.dart';
@@ -94,7 +98,31 @@ class _VendorLocationState extends State<VendorLocation> {
   String? country;
   String? zipcode;
   String? town;
+  final Repositories repositories = Repositories();
 
+  sellingPickupAddressApi() {
+    Map<String, dynamic> map = {};
+
+    map['address_type'] = 'shipping';
+    map['city'] =city.toString();
+    map['country'] = country.toString();
+    map['state'] = state.toString();
+    map['zip_code'] = zipcode.toString();
+    map['town'] = town.toString();
+    map['street'] = street.toString();
+
+
+
+    FocusManager.instance.primaryFocus!.unfocus();
+    repositories.postApi(url: ApiUrls.editAddressUrl, context: context, mapData: map).then((value) {
+      ModelCommonResponse response = ModelCommonResponse.fromJson(jsonDecode(value));
+      showToast(response.message.toString());
+      if (response.status == true) {
+        showToast(response.message.toString());
+        Get.back();
+      }
+    });
+  }
   Future<void> _getAddressFromLatLng(LatLng lastMapPosition, markerTitle, {allowZoomIn = true}) async {
     final List<Placemark> placemarks = await placemarkFromCoordinates(
       lastMapPosition.latitude,
@@ -375,11 +403,16 @@ class _VendorLocationState extends State<VendorLocation> {
                                   SizedBox(
                                     width: 10,
                                   ),
-                                  Expanded(
-                                    child: Text(
-                                      'Save Location',
-                                      style: Theme.of(context).textTheme.headlineSmall!.copyWith(
-                                          fontWeight: FontWeight.w600, fontSize: AddSize.font16, color: Color(0xff014E70)),
+                                  InkWell(
+                                    onTap: (){
+                                      sellingPickupAddressApi();
+                                    },
+                                    child: Expanded(
+                                      child: Text(
+                                        'Save Location',
+                                        style: Theme.of(context).textTheme.headlineSmall!.copyWith(
+                                            fontWeight: FontWeight.w600, fontSize: AddSize.font16, color: Color(0xff014E70)),
+                                      ),
                                     ),
                                   )
                                 ],

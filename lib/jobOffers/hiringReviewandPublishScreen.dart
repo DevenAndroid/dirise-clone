@@ -8,6 +8,7 @@ import 'package:get/get.dart';
 import 'package:google_fonts/google_fonts.dart';
 
 import '../controller/vendor_controllers/add_product_controller.dart';
+import '../model/common_modal.dart';
 import '../model/product_details.dart';
 import '../repository/repository.dart';
 import '../utils/api_constant.dart';
@@ -52,7 +53,19 @@ class _HiringReviewPublishScreenState extends State<HiringReviewPublishScreen> {
       setState(() {});
     });
   }
+  completeApi() {
+    Map<String, dynamic> map = {};
 
+    map['is_complete'] = true;
+
+    FocusManager.instance.primaryFocus!.unfocus();
+    repositories.postApi(url: ApiUrls.giveawayProductAddress, context: context, mapData: map).then((value) {
+      ModelCommonResponse response = ModelCommonResponse.fromJson(jsonDecode(value));
+      print('API Response Status Code: ${response.status}');
+      showToast(response.message.toString());
+      if (response.status == true) {
+        Get.to(CongratulationScreen());
+      }});}
   @override
   void initState() {
     // TODO: implement initState
@@ -232,7 +245,8 @@ class _HiringReviewPublishScreenState extends State<HiringReviewPublishScreen> {
                 title: 'Confirm',
                 borderRadius: 11,
                 onPressed: () {
-                  Get.to(CongratulationScreen());
+                  completeApi();
+
                 },
               ),
 

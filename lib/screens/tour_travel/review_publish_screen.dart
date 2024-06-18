@@ -15,6 +15,7 @@ import '../../bottomavbar.dart';
 import '../../controller/profile_controller.dart';
 import '../../controller/vendor_controllers/add_product_controller.dart';
 import '../../iAmHereToSell/productAccountCreatedSuccessfullyScreen.dart';
+import '../../model/common_modal.dart';
 import '../../model/product_details.dart';
 import '../../repository/repository.dart';
 import '../../utils/api_constant.dart';
@@ -55,7 +56,19 @@ class _ReviewandPublishTourScreenScreenState extends State<ReviewandPublishTourS
       log("Error fetching vendor categories: $e");
     }
   }
+  completeApi() {
+    Map<String, dynamic> map = {};
 
+    map['is_complete'] = true;
+
+    FocusManager.instance.primaryFocus!.unfocus();
+    repositories.postApi(url: ApiUrls.giveawayProductAddress, context: context, mapData: map).then((value) {
+      ModelCommonResponse response = ModelCommonResponse.fromJson(jsonDecode(value));
+      print('API Response Status Code: ${response.status}');
+      showToast(response.message.toString());
+      if (response.status == true) {
+        Get.to(() => const ProductAccountCreatedSuccessfullyScreen());
+      }});}
   @override
   void initState() {
     super.initState();
@@ -516,7 +529,8 @@ class _ReviewandPublishTourScreenScreenState extends State<ReviewandPublishTourS
                         title: 'Confirm',
                         borderRadius: 11,
                         onPressed: () {
-                          Get.to(() => const ProductAccountCreatedSuccessfullyScreen());
+                          completeApi();
+
                         },
                       ),
                     ],

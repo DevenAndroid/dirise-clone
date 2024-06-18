@@ -1,4 +1,5 @@
 import 'dart:async';
+import 'dart:convert';
 import 'dart:developer';
 import 'dart:ffi';
 import 'dart:ui' as ui;
@@ -20,8 +21,11 @@ import '../../widgets/common_button.dart';
 import '../../widgets/common_colour.dart';
 import '../../widgets/dimension_screen.dart';
 import '../controller/service_controller.dart';
+import '../model/common_modal.dart';
 import '../model/model_address_list.dart';
+import '../repository/repository.dart';
 import '../screens/check_out/address/edit_address.dart';
+import '../utils/api_constant.dart';
 import 'Edit_find_location_edit.dart';
 
 class FindMyLocationAddress extends StatefulWidget {
@@ -379,13 +383,18 @@ class _FindMyLocationAddressState extends State<FindMyLocationAddress> {
                                   const SizedBox(
                                     width: 10,
                                   ),
-                                  Expanded(
-                                    child: Text(
-                                      'Save Location',
-                                      style: Theme.of(context).textTheme.headlineSmall!.copyWith(
-                                          fontWeight: FontWeight.w600,
-                                          fontSize: AddSize.font16,
-                                          color: const Color(0xff014E70)),
+                                  InkWell(
+                                    onTap: (){
+                                      controllerMap.sellingPickupAddressApi(context);
+                                    },
+                                    child: Expanded(
+                                      child: Text(
+                                        'Save Location',
+                                        style: Theme.of(context).textTheme.headlineSmall!.copyWith(
+                                            fontWeight: FontWeight.w600,
+                                            fontSize: AddSize.font16,
+                                            color: const Color(0xff014E70)),
+                                      ),
                                     ),
                                   )
                                 ],

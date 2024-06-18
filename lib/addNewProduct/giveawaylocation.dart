@@ -289,11 +289,18 @@ class _ChooseAddressForGiveawayState extends State<ChooseAddressForGiveaway> {
                                   SizedBox(
                                     width: 10,
                                   ),
-                                  Expanded(
-                                    child: Text(
-                                      'Save Location',
-                                      style: Theme.of(context).textTheme.headlineSmall!.copyWith(
-                                          fontWeight: FontWeight.w600, fontSize: AddSize.font16, color: Color(0xff014E70)),
+                                  InkWell(
+                                    onTap: (){
+                                      controllerMap.sellingPickupAddressApi(context);
+                                    },
+                                    child: Expanded(
+                                      child: Text(
+                                        'Save Location',
+                                        style: Theme.of(context).textTheme.headlineSmall!.copyWith(
+                                            fontWeight: FontWeight.w600,
+                                            fontSize: AddSize.font16,
+                                            color: const Color(0xff014E70)),
+                                      ),
                                     ),
                                   )
                                 ],
