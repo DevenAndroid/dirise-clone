@@ -183,7 +183,14 @@ class _VirtualPriceScreenState extends State<VirtualPriceScreen> {
                     String? diriseFeesAsString = productDetailsModel.value.productDetails!.diriseFess;
                     diriseFeesAsDouble = double.parse(productDetailsModel.value.productDetails!.diriseFess.toString());
                     double fees = diriseFeesAsString != null ? double.parse(diriseFeesAsString) : 0.0;
-
+                    if(fixedDiscount.text.isEmpty || discountPrecrnt.text.isEmpty){
+                      double withoutDiscount = realPrice1 + diriseFeesAsDouble;
+                      discountedPrice = withoutDiscount.toString();
+                    }
+                    if(priceController.text.isEmpty){
+                      discountedPrice = '';
+                      // discount = '';
+                    }
                     discountAmount12 = (realPrice1 * fees) / 100;
                     afterCalculation = realPrice1 + discountAmount12;
                     log('value${realPrice1.toString()}');
@@ -236,6 +243,13 @@ class _VirtualPriceScreenState extends State<VirtualPriceScreen> {
                           onChanged: (bool? value) {
                             setState(() {
                               isDelivery.value = value!;
+                              fixedDiscount.text = "";
+                              discountPrecrnt.text = '';
+                              sale = '';
+                              if(fixedDiscount.text.isEmpty || discountPrecrnt.text.isEmpty){
+                                double withoutDiscount = realPrice1 + diriseFeesAsDouble;
+                                discountedPrice = withoutDiscount.toString();
+                              }
                             });
                           }),
                     ),
@@ -254,11 +268,15 @@ class _VirtualPriceScreenState extends State<VirtualPriceScreen> {
                       obSecure: false,
                       keyboardType: TextInputType.number,
                       onChanged: (value) {
-                        discountDouble = double.parse(value.toString());
+                        discountDouble =  double.tryParse(value) ?? 0.0;
                         discountPrecrnt.text = "";
                         isPercentageDiscount = false;
                         calculateDiscount();
                         sale = value;
+                        if(fixedDiscount.text.isEmpty){
+                          discountedPrice = '';
+                          // discount = '';
+                        }
                         setState(() {});
                       },
                       validator: (value) {
@@ -371,8 +389,14 @@ class _VirtualPriceScreenState extends State<VirtualPriceScreen> {
                               const SizedBox(
                                 width: 10,
                               ),
+                              fixedDiscount.text.isNotEmpty ?
                               Text(
                                 '$sale KWD'.tr,
+                                style: GoogleFonts.poppins(
+                                    color: const Color(0xff014E70), fontWeight: FontWeight.w400, fontSize: 10),
+                              ):
+                              Text(
+                                '$sale %'.tr,
                                 style: GoogleFonts.poppins(
                                     color: const Color(0xff014E70), fontWeight: FontWeight.w400, fontSize: 10),
                               ),

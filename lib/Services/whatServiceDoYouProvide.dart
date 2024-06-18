@@ -226,7 +226,14 @@ class _whatServiceDoYouProvideState extends State<whatServiceDoYouProvide> {
                     diriseFeesAsDouble = double.parse(productDetailsModel.value.productDetails!.diriseFess.toString());
 
                     double fees = diriseFeesAsString != null ? double.parse(diriseFeesAsString) : 0.0;
-
+                    if(fixedDiscount.text.isEmpty || discountPrecrnt.text.isEmpty){
+                      double withoutDiscount = realPrice1 + diriseFeesAsDouble;
+                      discountedPrice = withoutDiscount.toString();
+                    }
+                    if(priceController.text.isEmpty){
+                      discountedPrice = '';
+                      discount = '';
+                    }
                     discountAmount12 = (realPrice1 * fees) / 100;
                     afterCalculation = realPrice1 + discountAmount12;
                     log('value${realPrice1.toString()}');
@@ -264,6 +271,14 @@ class _whatServiceDoYouProvideState extends State<whatServiceDoYouProvide> {
                           onChanged: (bool? value) {
                             setState(() {
                               isDelivery.value = value!;
+                              fixedDiscount.text = "";
+                              discountPrecrnt.text = '';
+                              discount = '';
+                              sale = '';
+                              if(fixedDiscount.text.isEmpty || discountPrecrnt.text.isEmpty){
+                                double withoutDiscount = realPrice1 + diriseFeesAsDouble;
+                                discountedPrice = withoutDiscount.toString();
+                              }
                             });
                           }),
                     ),
@@ -286,11 +301,15 @@ class _whatServiceDoYouProvideState extends State<whatServiceDoYouProvide> {
                         keyboardType: TextInputType.number,
                         onChanged: (value) {
                           discount = value;
-                          discountDouble = double.parse(value.toString());
+                          discountDouble = double.tryParse(value) ?? 0.0;
                           discountPrecrnt.text = "";
                           isPercentageDiscount = false;
                           calculateDiscount();
                           sale = value;
+                          if(fixedDiscount.text.isEmpty){
+                            discountedPrice = '';
+                            discount = '';
+                          }
                           setState(() {});
                         },
                         validator: (value) {
@@ -592,8 +611,13 @@ class _whatServiceDoYouProvideState extends State<whatServiceDoYouProvide> {
                               const SizedBox(
                                 width: 10,
                               ),
-                              Text(
-                                ' ${discount} KWD'.tr,
+                              discount != '' ? Text(
+                                ' $discount KWD '.tr,
+                                style: GoogleFonts.poppins(
+                                    color: const Color(0xff014E70), fontWeight: FontWeight.w400, fontSize: 10),
+                              )
+                                  :Text(
+                                ' $sale %'.tr,
                                 style: GoogleFonts.poppins(
                                     color: const Color(0xff014E70), fontWeight: FontWeight.w400, fontSize: 10),
                               ),

@@ -189,7 +189,14 @@ class _SingleProductPriceScreenState extends State<SingleProductPriceScreen> {
                     realPrice1 = double.tryParse(value) ?? 0.0;
                     diriseFeesAsString = productDetailsModel.value.productDetails!.diriseFess;
                     diriseFeesAsDouble = double.parse(productDetailsModel.value.productDetails!.diriseFess.toString());
-
+                    if(fixedDiscount.text.isEmpty || discountPrecrnt.text.isEmpty){
+                      double withoutDiscount = realPrice1 + diriseFeesAsDouble;
+                      discountedPrice = withoutDiscount.toString();
+                    }
+                    if(priceController.text.isEmpty){
+                      discountedPrice = '';
+                      discount = '';
+                    }
                     double fees = diriseFeesAsString != null ? double.parse(diriseFeesAsString) : 0.0;
 
                     discountAmount12 = (realPrice1 * fees) / 100;
@@ -243,6 +250,14 @@ class _SingleProductPriceScreenState extends State<SingleProductPriceScreen> {
                           onChanged: (bool? value) {
                             setState(() {
                               isDelivery.value = value!;
+                              fixedDiscount.text = "";
+                              discountPrecrnt.text = '';
+                              discount = '';
+                              sale = '';
+                              if(fixedDiscount.text.isEmpty || discountPrecrnt.text.isEmpty){
+                                double withoutDiscount = realPrice1 + diriseFeesAsDouble;
+                                discountedPrice = withoutDiscount.toString();
+                              }
                             });
                           }),
                     ),
@@ -265,11 +280,15 @@ class _SingleProductPriceScreenState extends State<SingleProductPriceScreen> {
                         keyboardType: TextInputType.number,
                         onChanged: (value) {
                           discount = value;
-                          discountDouble = double.parse(value.toString());
+                          discountDouble = double.tryParse(value) ?? 0.0;
                           discountPrecrnt.text = "";
                           isPercentageDiscount = false;
                           calculateDiscount();
                           sale = value;
+                          if(fixedDiscount.text.isEmpty){
+                            discountedPrice = '';
+                            discount = '';
+                          }
                           setState(() {});
                         },
                         validator: (value) {
@@ -329,7 +348,7 @@ class _SingleProductPriceScreenState extends State<SingleProductPriceScreen> {
                               }
                             }
                           }
-                          return null; // Return null if validation passes
+                          return null;
                         },
                       ),
                       const SizedBox(
@@ -397,8 +416,13 @@ class _SingleProductPriceScreenState extends State<SingleProductPriceScreen> {
                               const SizedBox(
                                 width: 10,
                               ),
-                              Text(
+                              discount != '' ? Text(
                                 ' $discount KWD '.tr,
+                                style: GoogleFonts.poppins(
+                                    color: const Color(0xff014E70), fontWeight: FontWeight.w400, fontSize: 10),
+                              )
+                              :Text(
+                                ' $sale %'.tr,
                                 style: GoogleFonts.poppins(
                                     color: const Color(0xff014E70), fontWeight: FontWeight.w400, fontSize: 10),
                               ),
