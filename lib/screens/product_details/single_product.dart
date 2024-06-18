@@ -472,7 +472,7 @@ class _SingleProductDetailsState extends State<SingleProductDetails> {
                                           child: Row(
                                             children: [
                                               Expanded(child: Text(e.comb.toString().capitalize!)),
-                                              Text("kwd ${e.price.toStringAsFixed(3)}"),
+                                              Text("kwd ${e.price}"),
                                               const SizedBox(
                                                 width: 4,
                                               )

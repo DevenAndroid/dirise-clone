@@ -325,11 +325,11 @@ class _SingleCategoriesState extends State<SingleCategories> {
     super.dispose();
     _scrollController.dispose();
   }
-
+  final scaffoldKey1 = GlobalKey<ScaffoldState>();
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      key: bottomController.scaffoldKey,
+      key: scaffoldKey1,
       backgroundColor: Colors.white,
       appBar: AppBar(
         toolbarHeight: kToolbarHeight + 10,
@@ -341,7 +341,7 @@ class _SingleCategoriesState extends State<SingleCategories> {
             children: [
               InkWell(
                 onTap: () {
-                  bottomController.scaffoldKey.currentState!.openDrawer();
+                  scaffoldKey1.currentState!.openDrawer();
                   },
                 child: SvgPicture.asset(
                   'assets/svgs/drawer.svg',

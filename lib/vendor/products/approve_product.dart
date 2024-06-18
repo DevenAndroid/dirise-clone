@@ -227,15 +227,19 @@ class _ApproveProductScreenState extends State<ApproveProductScreen> {
                                                   Get.to(ReviewPublishScreen());
                                                 }
                                                 if (item.itemType == "product") {
+                                                  addProductController.idProduct.value = item.id.toString();
                                                   Get.to(ProductReviewPublicScreen());
                                                 }
                                                 if (item.itemType == "job") {
+                                                  addProductController.idProduct.value = item.id.toString();
                                                   Get.to(JobReviewPublishScreen());
                                                 }
                                                 if (item.itemType == "service") {
+                                                  addProductController.idProduct.value = item.id.toString();
                                                   Get.to(ReviewPublishServiceScreen());
                                                 }
                                                 if (item.itemType == "virtual_product") {
+                                                  addProductController.idProduct.value = item.id.toString();
                                                   Get.to(VirtualReviewandPublishScreen());
                                                 }
                                               },

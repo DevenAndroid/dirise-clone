@@ -764,21 +764,19 @@ RxString shipId = "".obs;
 
                                               // total = subtotal + shipping;
                                               cartController.formattedTotal = total.toStringAsFixed(3);
-                                              e.value.sPrice = double.parse(e.value.shipping!.localShipping![ii].value.toString());
-                                              // double sPrice = 0.0;
+                                              e.value.sPrice = double.parse(product.value.toString());
                                               sPrice1 = 0.0;
-                                              print('issues ${e.value.sPrice}');
                                               for (var item in cartController.cartModel.cart!.carsShowroom!.entries) {
                                                 // sPrice1 = 0.0;
                                                 if (item.value.shippingOption.value.isNotEmpty) {
+                                                  log("kiska price hai + ${item.value.sPrice}");
                                                   sPrice1 = sPrice1 + item.value.sPrice;
                                                   // sPrice.toStringAsFixed(fractionDigits)
                                                   // Update sPrice directly without reassigning
                                                 }
                                                 total = subtotal + sPrice1;
                                                 cartController.formattedTotal = total.toStringAsFixed(3);
-                                                log("Final sPrice::::::: $sPrice1");
-                                                log("Final sPrice:::Total:::: $total");
+                                                print('total isss${total.toString()}');
                                                 print('all total isss::::${cartController.formattedTotal.toString()}');
                                               }
                                             });
@@ -866,14 +864,14 @@ RxString shipId = "".obs;
                                      itemBuilder: (context, index) {
                                        RateReplyDetails product = e.value.shipping!.fedexShipping!.output!.rateReplyDetails![ii];
                                        RatedShipmentDetails product1 = e.value.shipping!.fedexShipping!.output!.rateReplyDetails![ii].ratedShipmentDetails![index];
-                                       double subtotal = double.parse(e.value.fedexCommision.toString());
-                                       double shipping = double.parse(product1.totalNetCharge.toString());
-                                       fedxTotal = subtotal + shipping;
-                                       cartController.formattedTotal = fedxTotal.toStringAsFixed(3);
-                                       print("icarryCommision"+ e.value.fedexCommision.toString());
-                                       print("rate"+product1.totalNetCharge.toString());
-                                       print('total isss${cartController.formattedTotal.toString()}');
-                                       cartController.shippingPrices2 = cartController.formattedTotal.toString();
+                                       // double subtotal = double.parse(e.value.fedexCommision.toString());
+                                       // double shipping = double.parse(product1.totalNetCharge.toString());
+                                       // fedxTotal = subtotal + shipping;
+                                       // cartController.formattedTotal = fedxTotal.toStringAsFixed(3);
+                                       // print("icarryCommision"+ e.value.fedexCommision.toString());
+                                       // print("rate"+product1.totalNetCharge.toString());
+                                       // print('total isss${cartController.formattedTotal.toString()}');
+                                       // cartController.shippingPrices2 = cartController.formattedTotal.toString();
                                        return Obx(() {
                                          return Column(
                                            children: [
@@ -928,23 +926,24 @@ RxString shipId = "".obs;
 
                                                        e.value.sPrice = product.ratedShipmentDetails![index].totalNetCharge;
 
+                                                       log("sPrices data:${e.value.sPrice}");
                                                        log("Initial sPrice:$sPrice1");
-                                                       log("Initial sPrice:"+cartController.shippingTitle);  log("Initial sPrice::::::::::::::::::::::"+  cartController.shippingDates);
+                                                       log("Initial sPrice:"+cartController.shippingTitle);
+                                                       log("Initial sPrice::::::::::::::::::::::"+  cartController.shippingDates);
 
                                                        sPrice1 = 0.0;
-                                                       for (var item in cartController
-                                                           .cartModel.cart!.carsShowroom!.entries) {
+                                                       for (var item in cartController.cartModel.cart!.carsShowroom!.entries) {
                                                          // sPrice1 = 0.0;
-                                                         if (item.value.shipping!.fedexShippingOption.value.isNotEmpty) {
+                                                         if (item.value.shippingOption.value.isNotEmpty) {
                                                            log("kiska price hai + ${item.value.sPrice}");
                                                            sPrice1 = sPrice1 + item.value.sPrice;
                                                            // sPrice.toStringAsFixed(fractionDigits)
                                                            // Update sPrice directly without reassigning
                                                          }
                                                          total = subtotal + sPrice1;
-                                                         print('total isss${total.toString()}');
                                                          cartController.formattedTotal = total.toStringAsFixed(3);
-                                                         print('all total isss fedex::::${cartController.formattedTotal.toString()}');
+                                                         print('total isss${total.toString()}');
+                                                         print('all total isss::::${cartController.formattedTotal.toString()}');
                                                        }
 
                                                      });
@@ -1082,7 +1081,7 @@ RxString shipId = "".obs;
                                               for (var item in cartController
                                                   .cartModel.cart!.carsShowroom!.entries) {
                                                 // sPrice1 = 0.0;
-                                                if (item.value.shipping!.fedexShippingOption.value.isNotEmpty) {
+                                                if (item.value.shippingOption.value.isNotEmpty) {
                                                   log("kiska price hai + ${item.value.sPrice}");
                                                   sPrice1 = sPrice1 + item.value.sPrice;
                                                   // sPrice.toStringAsFixed(fractionDigits)

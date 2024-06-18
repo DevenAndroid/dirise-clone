@@ -49,10 +49,12 @@ class _TellUsScreenState extends State<TellUsScreen> {
     map['item_type'] = 'service';
     map['seo_tags'] = tagDiscount.text.trim();
     map['id'] = addProductController.idProduct.value.toString();
+    map['no_need_stock'] = 'true';
 
     if (!isDelivery.value) {
       map['in_stock'] = inStockController.text.trim();
       map['stock_alert'] = alertDiscount.text.trim();
+      map['no_need_stock'] = 'false';
     }
 
     final Repositories repositories = Repositories();

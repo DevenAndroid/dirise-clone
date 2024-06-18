@@ -33,13 +33,18 @@ class _VirtualDiscriptionScreenState extends State<VirtualDiscriptionScreen> {
   RxBool isDelivery = false.obs;
   deliverySizeApi() {
     Map<String, dynamic> map = {};
-    map['in_stock'] = inStockController.text.toString();
-    map['short_description'] = shortController.text.toString();
-    map['stock_alert'] = alertDiscount.text.toString().trim();
-    map['seo_tags'] = tagDiscount.text.toString();
-    map['item_type'] = 'product';
-    map['id'] = addProductController.idProduct.value.toString();
 
+    map['short_description'] = shortController.text.trim();
+    map['item_type'] = 'service';
+    map['seo_tags'] = tagDiscount.text.trim();
+    map['id'] = addProductController.idProduct.value.toString();
+    map['no_need_stock'] = 'true';
+
+    if (!isDelivery.value) {
+      map['in_stock'] = inStockController.text.trim();
+      map['stock_alert'] = alertDiscount.text.trim();
+      map['no_need_stock'] = 'false';
+    }
     final Repositories repositories = Repositories();
     FocusManager.instance.primaryFocus!.unfocus();
     repositories.postApi(url: ApiUrls.giveawayProductAddress, context: context, mapData: map).then((value) {
