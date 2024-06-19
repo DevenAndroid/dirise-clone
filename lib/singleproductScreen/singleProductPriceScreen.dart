@@ -53,6 +53,7 @@ class _SingleProductPriceScreenState extends State<SingleProductPriceScreen> {
   double discountAmount12 =0.0;
   double afterCalculation = 0.0;
   double realPrice1 = 0.0;
+  double discountedPriceValue = 0.0;
   void calculateDiscount() {
     double realPrice = double.tryParse(priceController.text) ?? 0.0;
     double sale = double.tryParse(discountPrecrnt.text) ?? 0.0;
@@ -60,14 +61,19 @@ class _SingleProductPriceScreenState extends State<SingleProductPriceScreen> {
 
     // Check the current discount type and calculate discounted price accordingly
     if (isPercentageDiscount && realPrice > 0 && sale > 0) {
+      log('this is call....');
       double discountAmount = (realPrice * sale) / 100;
-      double discountedPriceValue = realPrice - discountAmount;
-      double additionalDiscountAmount = (discountedPriceValue * 10) / 100;
-      double finalPrice = discountedPriceValue + additionalDiscountAmount;
+      discountedPriceValue = realPrice - discountAmount;
+      log('dirise fees${diriseFeesAsDouble.toString()}');
+      log('dirise fees${discountedPriceValue.toString()}');
+      double additionalDiscountAmount = (realPrice * diriseFeesAsDouble) / 100;
+      // double finalPrice = realPrice - additionalDiscountAmount;
+      double finalPrice1 = discountedPriceValue + additionalDiscountAmount;
       setState(() {
-        discountedPrice = finalPrice.toStringAsFixed(2);
+        discountedPrice = finalPrice1.toStringAsFixed(2);
       });
     } else if (!isPercentageDiscount && realPrice > 0 && fixedPrice > 0) {
+      log('this is call....2');
       double discountedPriceValue = realPrice - fixedPrice;
       // double discountedPriceValue1 = discountedPriceValue + diriseFeesAsDouble;
       double discountedPriceValue1 = afterCalculation - discountDouble;
@@ -190,7 +196,9 @@ class _SingleProductPriceScreenState extends State<SingleProductPriceScreen> {
                     diriseFeesAsString = productDetailsModel.value.productDetails!.diriseFess;
                     diriseFeesAsDouble = double.parse(productDetailsModel.value.productDetails!.diriseFess.toString());
                     if(fixedDiscount.text.isEmpty || discountPrecrnt.text.isEmpty){
-                      double withoutDiscount = realPrice1 + diriseFeesAsDouble;
+                      double additionalDiscountAmount = (realPrice1 * diriseFeesAsDouble) / 100;
+                      double withoutDiscount = realPrice1 + additionalDiscountAmount;
+
                       discountedPrice = withoutDiscount.toString();
                     }
                     if(priceController.text.isEmpty){
@@ -252,11 +260,15 @@ class _SingleProductPriceScreenState extends State<SingleProductPriceScreen> {
                               isDelivery.value = value!;
                               fixedDiscount.text = "";
                               discountPrecrnt.text = '';
-                              discount = '';
-                              sale = '';
+                              discount = '0.0';
+                              sale = '0.0';
                               if(fixedDiscount.text.isEmpty || discountPrecrnt.text.isEmpty){
-                                double withoutDiscount = realPrice1 + diriseFeesAsDouble;
+                                double additionalDiscountAmount = (realPrice1 * diriseFeesAsDouble) / 100;
+                                double withoutDiscount = realPrice1 + additionalDiscountAmount;
                                 discountedPrice = withoutDiscount.toString();
+                              }
+                              if (widget.id != null){
+                                priceController.text = '';
                               }
                             });
                           }),
@@ -283,6 +295,9 @@ class _SingleProductPriceScreenState extends State<SingleProductPriceScreen> {
                           discountDouble = double.tryParse(value) ?? 0.0;
                           discountPrecrnt.text = "";
                           isPercentageDiscount = false;
+                          if(discountPrecrnt.text.isEmpty){
+                            discountedPriceValue = 0.0;
+                          }
                           calculateDiscount();
                           sale = value;
                           if(fixedDiscount.text.isEmpty){
@@ -421,10 +436,18 @@ class _SingleProductPriceScreenState extends State<SingleProductPriceScreen> {
                                 const SizedBox(
                                   width: 10,
                                 ),
+                                discountedPriceValue == 0.0 ?
                                 Expanded(
                                   flex: 2,
                                   child: Text(
                                     ' $discount KWD '.tr,
+                                    style: GoogleFonts.poppins(
+                                        color: const Color(0xff014E70), fontWeight: FontWeight.w400, fontSize: 8),
+                                  ),
+                                ): Expanded(
+                                  flex: 2,
+                                  child: Text(
+                                    ' $discountedPriceValue % '.tr,
                                     style: GoogleFonts.poppins(
                                         color: const Color(0xff014E70), fontWeight: FontWeight.w400, fontSize: 8),
                                   ),
@@ -446,21 +469,13 @@ class _SingleProductPriceScreenState extends State<SingleProductPriceScreen> {
                                 const SizedBox(
                                   width: 20,
                                 ),
-                                discountPrecrnt.text.isNotEmpty
-                                    ? Expanded(
-                                      child: Text(
-                                          "${discountedPrice} KWD".tr,
-                                          style: GoogleFonts.poppins(
-                                              color: const Color(0xff014E70), fontWeight: FontWeight.w400, fontSize: 8),
-                                        ),
-                                    )
-                                    : Expanded(
-                                      child: Text(
-                                          "${discountedPrice} KWD".tr,
-                                          style: GoogleFonts.poppins(
-                                              color: const Color(0xff014E70), fontWeight: FontWeight.w400, fontSize: 10),
-                                        ),
-                                    )
+                                Expanded(
+                                  child: Text(
+                                    "${discountedPrice} KWD".tr,
+                                    style: GoogleFonts.poppins(
+                                        color: const Color(0xff014E70), fontWeight: FontWeight.w400, fontSize: 8),
+                                  ),
+                                )
                               ],
                             ),
                             const SizedBox(
