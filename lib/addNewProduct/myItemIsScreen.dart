@@ -139,6 +139,7 @@ class _MyItemISScreenState extends State<MyItemISScreen> {
               20.spaceY,
               GestureDetector(
                   onTap: (){
+                    productController.getProductsCategoryList();
                     selectedRadio = 'Giveaway';
                     navigateNext();
                     setState(() {
@@ -149,6 +150,7 @@ class _MyItemISScreenState extends State<MyItemISScreen> {
               15.spaceY,
               GestureDetector(
                   onTap: (){
+                    productController.getProductsCategoryList();
                     selectedRadio = 'Product';
                     navigateNext();
                     setState(() {
@@ -159,6 +161,7 @@ class _MyItemISScreenState extends State<MyItemISScreen> {
               15.spaceY,
               GestureDetector(
                   onTap: (){
+                    productController.getProductsCategoryList();
                     selectedRadio = 'Job';
                     navigateNext();
                     setState(() {
@@ -169,6 +172,7 @@ class _MyItemISScreenState extends State<MyItemISScreen> {
               15.spaceY,
               GestureDetector(
                   onTap: (){
+                    productController.getProductsCategoryList();
                     selectedRadio = 'Service';
                     navigateNext();
                     setState(() {
@@ -179,6 +183,7 @@ class _MyItemISScreenState extends State<MyItemISScreen> {
               15.spaceY,
               GestureDetector(
                   onTap: (){
+                    productController.getProductsCategoryList();
                     selectedRadio = 'Virtual';
                     navigateNext();
                     setState(() {
@@ -548,41 +553,41 @@ class _MyItemISScreenState extends State<MyItemISScreen> {
               //   ],
               // ),
               20.spaceY,
-              Padding(
-                padding: const EdgeInsets.all(8.0),
-                child: GestureDetector(
-                  onTap: () {
-                    productController.getProductsCategoryList();
-                    if (selectedRadio.isNotEmpty) {
-                      navigateNext();
-                    } else {
-                      showToast('Please select any item type');
-                    }
-                  },
-                  child: Container(
-                    width: Get.width,
-                    height: 55,
-                    decoration: BoxDecoration(
-                      border: Border.all(
-                        color: Colors.black, // Border color
-                        width: 1.0, // Border width
-                      ),
-                      borderRadius: BorderRadius.circular(1), // Border radius
-                    ),
-                    padding: const EdgeInsets.all(10), // Padding inside the container
-                    child: const Center(
-                      child: Text(
-                        'Next',
-                        style: TextStyle(
-                          fontSize: 16,
-                          fontWeight: FontWeight.bold,
-                          color: Colors.black, // Text color
-                        ),
-                      ),
-                    ),
-                  ),
-                ),
-              ),
+              // Padding(
+              //   padding: const EdgeInsets.all(8.0),
+              //   child: GestureDetector(
+              //     onTap: () {
+              //       productController.getProductsCategoryList();
+              //       if (selectedRadio.isNotEmpty) {
+              //         navigateNext();
+              //       } else {
+              //         showToast('Please select any item type');
+              //       }
+              //     },
+              //     child: Container(
+              //       width: Get.width,
+              //       height: 55,
+              //       decoration: BoxDecoration(
+              //         border: Border.all(
+              //           color: Colors.black, // Border color
+              //           width: 1.0, // Border width
+              //         ),
+              //         borderRadius: BorderRadius.circular(1), // Border radius
+              //       ),
+              //       padding: const EdgeInsets.all(10), // Padding inside the container
+              //       child: const Center(
+              //         child: Text(
+              //           'Next',
+              //           style: TextStyle(
+              //             fontSize: 16,
+              //             fontWeight: FontWeight.bold,
+              //             color: Colors.black, // Text color
+              //           ),
+              //         ),
+              //       ),
+              //     ),
+              //   ),
+              // ),
             ],
           ),
         ),
