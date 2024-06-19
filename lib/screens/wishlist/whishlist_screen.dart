@@ -178,7 +178,7 @@ class _WishListScreenState extends State<WishListScreen> {
                                             height: 5,
                                           ),
                                           Text(
-                                            'KWD ${_wishListController.model.value.wishlist![index].sPrice.toString()}',
+                                            'KWD ${_wishListController.model.value.wishlist![index].discountPrice.toString()}',
                                             style: GoogleFonts.poppins(
                                                 fontSize: 16,
                                                 fontWeight: FontWeight.w500,

@@ -287,7 +287,9 @@ class _VendorProductScreenState extends State<VendorProductScreen> {
                                           const SizedBox(
                                             height: 3,
                                           ),
+                                          item.inStock == "-1"?SizedBox.shrink():
                                           Text(
+
                                             '${'QTY'}: ${item.inStock} ${'piece'}',
                                             style: normalStyle,
                                           ),
