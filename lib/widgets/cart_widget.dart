@@ -19,10 +19,14 @@ class CartBagCard extends StatefulWidget {
 
 class _CartBagCardState extends State<CartBagCard> {
   final cartController = Get.put(CartController());
+  String totalProducts = '0';
   @override
   Widget build(BuildContext context) {
     return Obx(() {
       if (cartController.refreshInt.value > 0) {}
+      if(cartController.apiLoaded == true) {
+       totalProducts = cartController.cartModel.totalProducts;
+      }
       return GestureDetector(
         behavior: HitTestBehavior.translucent,
         onTap: () {
@@ -33,7 +37,12 @@ class _CartBagCardState extends State<CartBagCard> {
         child: Padding(
           padding: const EdgeInsets.only(left: 20,right: 15,bottom: 10),
           child:      Stack(children:[
-            SvgPicture.asset("assets/svgs/cart_new.svg",
+            totalProducts.length != 1 ?  SvgPicture.asset("assets/svgs/cart_new.svg",
+              width: 40,
+              height: 40,
+              // color: widget.isBlackTheme == true ? Colors.white : AppTheme.buttonColor,
+            ):
+            SvgPicture.asset("assets/svgs/bag_2digit.svg",
               width: 40,
               height: 40,
               // color: widget.isBlackTheme == true ? Colors.white : AppTheme.buttonColor,
@@ -41,7 +50,8 @@ class _CartBagCardState extends State<CartBagCard> {
             cartController.apiLoaded
               ? Positioned.fill(
             top: 0,
-            left: 14,
+            left:  totalProducts.length != 1 ?  14 : 18,
+            bottom: totalProducts.length != 1 ? 0 : 7,
             child: Center(
               child: Text(
                 key: ValueKey(DateTime.now().millisecondsSinceEpoch),
