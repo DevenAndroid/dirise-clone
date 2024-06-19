@@ -247,7 +247,7 @@ class _ProductUIState extends State<ProductUI> {
               Row(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
-                  widget.productElement.discountOff ==  0.00?SizedBox.shrink():
+                  widget.productElement.discountOff !=  '0.00'?
                   Container(
                     padding: const EdgeInsets.all(4),
                     decoration: BoxDecoration(color: const Color(0xFFFF6868), borderRadius: BorderRadius.circular(10)),
@@ -264,7 +264,7 @@ class _ProductUIState extends State<ProductUI> {
                         ),
                       ],
                     ),
-                  ),
+                  ) :const SizedBox.shrink(),
                   Obx(() {
                     if (wishListController.refreshFav.value > 0) {}
                     return LikeButtonCat(
@@ -320,58 +320,62 @@ class _ProductUIState extends State<ProductUI> {
               widget.productElement.itemType != 'giveaway'
                   ? Row(
                       children: [
-                        Text(
-                          'KWD ${widget.productElement.pPrice.toString()}',
-                          style: GoogleFonts.poppins(
-                              decorationColor: Colors.red,
-                              decorationThickness: 2,
-                              decoration: TextDecoration.lineThrough,
-                              color: const Color(0xff19313B),
-                              fontSize: 16,
-                              fontWeight: FontWeight.w600),
+                        Expanded(
+                          child: Text(
+                            'KWD ${widget.productElement.pPrice.toString()}',
+                            style: GoogleFonts.poppins(
+                                decorationColor: Colors.red,
+                                decorationThickness: 2,
+                                decoration: TextDecoration.lineThrough,
+                                color: const Color(0xff19313B),
+                                fontSize: 16,
+                                fontWeight: FontWeight.w600),
+                          ),
                         ),
                         const SizedBox(
                           width: 7,
                         ),
-                        Text.rich(
-                          TextSpan(
-                            text: '${widget.productElement.discountPrice.toString().split('.')[0]}.',
-                            style: const TextStyle(
-                              fontSize: 24,
-                              fontWeight: FontWeight.w600,
-                              color: Color(0xFF19313B),
-                            ),
-                            children: [
-                              WidgetSpan(
-                                alignment: PlaceholderAlignment.middle,
-                                child: Column(
-                                  mainAxisAlignment: MainAxisAlignment.start,
-                                  children: [
-                                    const Text(
-                                      'KWD',
-                                      style: TextStyle(
-                                        fontSize: 8,
-                                        fontWeight: FontWeight.w500,
-                                        color: Color(0xFF19313B),
-                                      ),
-                                    ),
-                                    InkWell(
-                                      onTap: () {
-                                        print("date:::::::::::" + widget.productElement.shippingDate);
-                                      },
-                                      child: Text(
-                                        '${widget.productElement.discountPrice.toString().split('.')[1]}',
-                                        style: const TextStyle(
+                        Expanded(
+                          child: Text.rich(
+                            TextSpan(
+                              text: '${widget.productElement.discountPrice.toString().split('.')[0]}.',
+                              style: const TextStyle(
+                                fontSize: 24,
+                                fontWeight: FontWeight.w600,
+                                color: Color(0xFF19313B),
+                              ),
+                              children: [
+                                WidgetSpan(
+                                  alignment: PlaceholderAlignment.middle,
+                                  child: Column(
+                                    mainAxisAlignment: MainAxisAlignment.start,
+                                    children: [
+                                      const Text(
+                                        'KWD',
+                                        style: TextStyle(
                                           fontSize: 8,
-                                          fontWeight: FontWeight.w600,
+                                          fontWeight: FontWeight.w500,
                                           color: Color(0xFF19313B),
                                         ),
                                       ),
-                                    ),
-                                  ],
+                                      InkWell(
+                                        onTap: () {
+                                          print("date:::::::::::" + widget.productElement.shippingDate);
+                                        },
+                                        child: Text(
+                                          '${widget.productElement.discountPrice.toString().split('.')[1]}',
+                                          style: const TextStyle(
+                                            fontSize: 8,
+                                            fontWeight: FontWeight.w600,
+                                            color: Color(0xFF19313B),
+                                          ),
+                                        ),
+                                      ),
+                                    ],
+                                  ),
                                 ),
-                              ),
-                            ],
+                              ],
+                            ),
                           ),
                         ),
                       ],
