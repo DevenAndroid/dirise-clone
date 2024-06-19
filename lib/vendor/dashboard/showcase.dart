@@ -23,9 +23,11 @@ class _ShowCaseProductsState extends State<ShowCaseProducts> {
   @override
   Widget build(BuildContext context) {
     var size = MediaQuery.of(context).size;
-    return Obx(() {
-      return homeController.getShowModal.value.showcaseProduct != null
-          ? Column(
+    return
+      // Obx(() {
+      // return homeController.getShowModal.value.showcaseProduct != null
+      //     ?
+      Column(
         children: [
           SizedBox(height: 60,),
           Padding(
@@ -66,99 +68,107 @@ class _ShowCaseProductsState extends State<ShowCaseProducts> {
 
           ),
           SizedBox(height: 20,),
-          Align(
-            alignment: Alignment.topLeft,
-            child: Container(
-              height: 250,
-              margin: const EdgeInsets.fromLTRB(15, 20, 15, 0),
-              child: ListView.builder(
-                  itemCount: homeController.getShowModal.value.showcaseProduct!.length,
-                  scrollDirection: Axis.horizontal,
-                  shrinkWrap: true,
-                  itemBuilder: (BuildContext context, int index) {
-                    final item = homeController.getShowModal.value.showcaseProduct![index];
-                    return  InkWell(
-                      onTap: () {
-                        // bottomSheet(productDetails: widget.productElement, context: context);
-                      },
-                      child: Padding(
-                        padding: const EdgeInsets.all(5.0),
-                        child: Container(
-                          padding: EdgeInsets.all(8),
-                          decoration: BoxDecoration(
-                              color: Colors.white,
-                              boxShadow: [
-                                BoxShadow(
+          SizedBox(
+            height: 250,
+          // margin: const EdgeInsets.fromLTRB(15, 20, 15, 0),
+            child: ListView.builder(
+                itemCount: 10,
+                // homeController.getShowModal.value.showcaseProduct!.length,
+                scrollDirection: Axis.horizontal,
+                shrinkWrap: true,
+                itemBuilder: (BuildContext context, int index) {
+                  // final item = homeController.getShowModal.value.showcaseProduct![index];
+                  return  InkWell(
+                    onTap: () {
+                      // bottomSheet(productDetails: widget.productElement, context: context);
+                    },
+                    child: Padding(
+                      padding: const EdgeInsets.all(12.0),
+                      child: Container(
+                        // width: size.width,
+                        padding: EdgeInsets.all(8),
+                        decoration: BoxDecoration(
+                            color: Colors.white,
+                            boxShadow: [
+                              BoxShadow(
 
-                                  blurStyle: BlurStyle.outer,
-                                  offset: Offset(1,1),
-                                  color: Colors.black12,
-                                  blurRadius:3,
+                                blurStyle: BlurStyle.outer,
+                                offset: Offset(1,1),
+                                color: Colors.black12,
+                                blurRadius:3,
 
-                                )
-                              ]
-                          ),
-                          constraints: BoxConstraints(
-                            // maxHeight: 100,
-                            minWidth: 0,
-                            maxWidth: size.width * .8,
-                          ),
-                          // color: Colors.red,
-                          margin: const EdgeInsets.only(right: 9),
-                          child: Column(
-                            crossAxisAlignment: CrossAxisAlignment.start,
-                            children: [
+                              )
+                            ]
+                        ),
+                        // constraints: BoxConstraints(
+                        //   // maxHeight: 100,
+                        //   minWidth: 0,
+                        //   maxWidth: size.width,
+                        // ),
+                        // color: Colors.red,
+                        // margin: const EdgeInsets.only(right: 9,left: 10),
+                        child: Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
 
-                              SizedBox(height: 10,),
-                              Align(
-                                alignment: Alignment.center,
-                                child: Center(
-                                  child: CachedNetworkImage(
-                                      imageUrl: item.featuredImage.toString(),
-                                      height: 150,
-                                      fit: BoxFit.fill,
-                                      errorWidget: (_, __, ___) => Image.asset('assets/images/new_logo.png')
-                                  ),
-                                ),
+                            Image.asset('assets/svgs/showcase.png'),
+                            Container(
+                              decoration: BoxDecoration(
+                                color: Color(0xFF27D6FF).withOpacity(0.6)
                               ),
-                              const SizedBox(
-                                height: 10,
-                              ),
+                              child: Text("Advertising",style: TextStyle(color: Colors.white,fontWeight: FontWeight.w400,),),
+                            )
 
-                              const SizedBox(
-                                height: 3,
-                              ),
-                              Text(
-                                item.pname.toString(),
-                                maxLines: 2,
-                                style: GoogleFonts.poppins(fontSize: 12, fontWeight: FontWeight.w500,color: Color(0xFF19313C)),
-                              ),
-                              const SizedBox(
-                                height: 3,
-                              ),
-                              Text(
-                                item.shortDescription.toString(),
-                                maxLines: 2,
-                                style: GoogleFonts.poppins(fontSize: 12, fontWeight: FontWeight.w500,color: Color(0xFF19313C)),
-                              ),
-                              const SizedBox(
-                                height: 3,
-                              ),
+                            // SizedBox(height: 10,),
+                            // Align(
+                            //   alignment: Alignment.center,
+                            //   child: Center(
+                            //     child: CachedNetworkImage(
+                            //         imageUrl: item.featuredImage.toString(),
+                            //         height: 150,
+                            //         fit: BoxFit.fill,
+                            //         errorWidget: (_, __, ___) => Image.asset('assets/images/new_logo.png')
+                            //     ),
+                            //   ),
+                            // ),
+                            // const SizedBox(
+                            //   height: 10,
+                            // ),
+                            //
+                            // const SizedBox(
+                            //   height: 3,
+                            // ),
+                            // Text(
+                            //   item.pname.toString(),
+                            //   maxLines: 2,
+                            //   style: GoogleFonts.poppins(fontSize: 12, fontWeight: FontWeight.w500,color: Color(0xFF19313C)),
+                            // ),
+                            // const SizedBox(
+                            //   height: 3,
+                            // ),
+                            // Text(
+                            //   item.shortDescription.toString(),
+                            //   maxLines: 2,
+                            //   style: GoogleFonts.poppins(fontSize: 12, fontWeight: FontWeight.w500,color: Color(0xFF19313C)),
+                            // ),
+                            // const SizedBox(
+                            //   height: 3,
+                            // ),
 
 
 
 
-                            ],
-                          ),
+                          ],
                         ),
                       ),
-                    );
-                  }),
-            ),
+                    ),
+                  );
+                }),
           ),
         ],
-      )
-          : const SizedBox.shrink();
-    });
+      );
+          // : const SizedBox.shrink();
+    // }
+    // );
   }
 }
