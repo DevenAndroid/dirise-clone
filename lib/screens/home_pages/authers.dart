@@ -36,6 +36,7 @@ class _AuthorScreenState extends State<AuthorScreen> {
     return Obx(() {
       return homeController.getFeaturedModel.value.data != null
           ? Column(
+             crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 const SizedBox(height: 20,),
                 Padding(
@@ -55,8 +56,16 @@ class _AuthorScreenState extends State<AuthorScreen> {
                 homeController.getFeaturedModel.value.data != null &&  homeController.getFeaturedModel.value.data!.isNotEmpty
                     ?  Padding(
                   padding: const EdgeInsets.fromLTRB(0, 20, 0, 18),
-                  child: SizedBox(
+                  child: Container(
                     height: size.height * 0.26,
+                    padding: const EdgeInsets.all(8),
+                    constraints: BoxConstraints(
+                      // maxHeight: 100,
+                      minWidth: 0,
+                      maxWidth: size.width * .89,
+                    ),
+                    // color: Colors.red,
+                    margin: const EdgeInsets.only(right: 9),
                     child: Swiper(
                       autoplay: true,
                       outer: false,
