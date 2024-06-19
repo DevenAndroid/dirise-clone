@@ -87,15 +87,15 @@ class _SliderWidgetState extends State<SliderWidget> {
                     outer: false,
                     autoplayDelay: 5000,
                     autoplayDisableOnInteraction: false,
-                    pagination:  const SwiperPagination(
-                        margin: EdgeInsets.only(top: 40),
-                      builder: DotSwiperPaginationBuilder(
-                        color: Colors.grey,
-                       space: 4,
-                        // Inactive dot color
-                        activeColor: AppTheme.buttonColor,
-                      ),
-                    ),
+                    // pagination:  const SwiperPagination(
+                    //     margin: EdgeInsets.only(top: 40),
+                    //   builder: DotSwiperPaginationBuilder(
+                    //     color: Colors.grey,
+                    //    space: 4,
+                    //     // Inactive dot color
+                    //     activeColor: AppTheme.buttonColor,
+                    //   ),
+                    // ),
                     itemBuilder: (BuildContext context, int index) {
                       return CachedNetworkImage(
                         // height: 130,
