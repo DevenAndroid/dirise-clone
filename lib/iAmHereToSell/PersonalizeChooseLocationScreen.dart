@@ -270,33 +270,33 @@ class _PersonalizeChooseLocationState extends State<PersonalizeChooseLocation> {
                               const SizedBox(
                                 height: 20,
                               ),
-                              Row(
-                                children: [
-                                  Icon(
-                                    Icons.location_on,
-                                    color: AppTheme.primaryColor,
-                                    size: AddSize.size25,
-                                  ),
-                                  SizedBox(
-                                    width: AddSize.size12,
-                                  ),
-                                  Expanded(
-                                    child: Text(
-                                      controllerMap.address.value.toString(),
-                                      style: Theme.of(context)
-                                          .textTheme
-                                          .headlineSmall!
-                                          .copyWith(fontWeight: FontWeight.w500, fontSize: AddSize.font16),
+                              Expanded(
+                                child: Row(
+                                  children: [
+                                    Icon(
+                                      Icons.location_on,
+                                      color: AppTheme.primaryColor,
+                                      size: AddSize.size25,
                                     ),
-                                  ),
-                                  SizedBox(
-                                    width: 10,
-                                  ),
-                                  InkWell(
-                                    onTap: (){
-                                      controllerMap.sellingPickupAddressApi(context);
-                                    },
-                                    child: Expanded(
+                                    SizedBox(
+                                      width: AddSize.size12,
+                                    ),
+                                    Expanded(
+                                      child: Text(
+                                        controllerMap.address.value.toString(),
+                                        style: Theme.of(context)
+                                            .textTheme
+                                            .headlineSmall!
+                                            .copyWith(fontWeight: FontWeight.w500, fontSize: AddSize.font16),
+                                      ),
+                                    ),
+                                    SizedBox(
+                                      width: 10,
+                                    ),
+                                    InkWell(
+                                      onTap: (){
+                                        controllerMap.sellingPickupAddressApi(context);
+                                      },
                                       child: Text(
                                         'Save Location',
                                         style: Theme.of(context).textTheme.headlineSmall!.copyWith(
@@ -304,9 +304,9 @@ class _PersonalizeChooseLocationState extends State<PersonalizeChooseLocation> {
                                             fontSize: AddSize.font16,
                                             color: const Color(0xff014E70)),
                                       ),
-                                    ),
-                                  )
-                                ],
+                                    )
+                                  ],
+                                ),
                               ),
                               const SizedBox(
                                 height: 20,

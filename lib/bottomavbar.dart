@@ -194,8 +194,8 @@ class _BottomNavbarState extends State<BottomNavbar> {
                   borderRadius: BorderRadius.circular(30),
                 ),
                 child: Center(
-                  child: Image.asset(
-                    'assets/svgs/bt5.png',
+                  child: SvgPicture.asset(
+                    'assets/svgs/D-Sell-Icon.svg',
                     height: 30,
                   ),
                 ),
