@@ -381,41 +381,41 @@ class _VendorLocationState extends State<VendorLocation> {
                               const SizedBox(
                                 height: 20,
                               ),
-                              Row(
-                                children: [
-                                  Icon(
-                                    Icons.location_on,
-                                    color: AppTheme.primaryColor,
-                                    size: AddSize.size25,
-                                  ),
-                                  SizedBox(
-                                    width: AddSize.size12,
-                                  ),
-                                  Expanded(
-                                    child: Text(
-                                      _address.toString(),
-                                      style: Theme.of(context)
-                                          .textTheme
-                                          .headlineSmall!
-                                          .copyWith(fontWeight: FontWeight.w500, fontSize: AddSize.font16),
+                              Expanded(
+                                child: Row(
+                                  children: [
+                                    Icon(
+                                      Icons.location_on,
+                                      color: AppTheme.primaryColor,
+                                      size: AddSize.size25,
                                     ),
-                                  ),
-                                  SizedBox(
-                                    width: 10,
-                                  ),
-                                  InkWell(
-                                    onTap: (){
-                                      sellingPickupAddressApi();
-                                    },
-                                    child: Expanded(
+                                    SizedBox(
+                                      width: AddSize.size12,
+                                    ),
+                                    Expanded(
+                                      child: Text(
+                                        _address.toString(),
+                                        style: Theme.of(context)
+                                            .textTheme
+                                            .headlineSmall!
+                                            .copyWith(fontWeight: FontWeight.w500, fontSize: AddSize.font16),
+                                      ),
+                                    ),
+                                    SizedBox(
+                                      width: 10,
+                                    ),
+                                    InkWell(
+                                      onTap: (){
+                                        sellingPickupAddressApi();
+                                      },
                                       child: Text(
                                         'Save Location',
                                         style: Theme.of(context).textTheme.headlineSmall!.copyWith(
                                             fontWeight: FontWeight.w600, fontSize: AddSize.font16, color: Color(0xff014E70)),
                                       ),
-                                    ),
-                                  )
-                                ],
+                                    )
+                                  ],
+                                ),
                               ),
                               const SizedBox(
                                 height: 20,
