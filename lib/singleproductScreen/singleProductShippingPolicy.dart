@@ -119,8 +119,10 @@ class _SingleProductShippingPolicyScreenState extends State<SingleProductShippin
       map['shipping_zone'] = selectZone;
       map['id'] = widget.id;
     }
-
-    map['title'] = selectedReturnPolicy!.title.toString();
+    if(selectedReturnPolicy!=null) {
+      map['title'] = selectedReturnPolicy!.title.toString();
+    }
+    map['title'] = 'fdfsdsf';
     map['description'] = policyDescController.text.trim();
     map['price_limit'] = policyPriceController.text.trim();
     map['range1_percent'] = iPayController.text.trim();
@@ -151,7 +153,7 @@ class _SingleProductShippingPolicyScreenState extends State<SingleProductShippin
     repositories.getApi(url: ApiUrls.getShippingPolicy).then((value) {
       setState(() {
         modelShippingPolicy.value = GetShippingModel.fromJson(jsonDecode(value));
-        log("Return Policy Data: ${modelShippingPolicy.value.shippingPolicy![0].id.toString()}");
+        // log("Return Policy Data: ${modelShippingPolicy.value.shippingPolicy![0].id.toString()}");
       });
     });
   }

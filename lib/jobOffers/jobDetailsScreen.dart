@@ -555,6 +555,7 @@ class _JobDetailsScreenState extends State<JobDetailsScreen> {
                   }
                   return DropdownButtonFormField<Country>(
                     key: categoryKey1,
+                    isExpanded: true,
                     autovalidateMode: AutovalidateMode.onUserInteraction,
                     icon: countryStatus.value.isLoading
                         ? const CupertinoActivityIndicator()
@@ -666,7 +667,7 @@ class _JobDetailsScreenState extends State<JobDetailsScreen> {
                               stateName.value = value.stateName.toString();
                               getCityApi(); // Assuming you want to use the ID as the category value
                             });
-                            modelCityList = ModelCityList();
+                            // modelCityList = ModelCityList();
                             // if (value == null) return;
                             // if (allSelectedCategory2.isNotEmpty) return;
                             // allSelectedCategory2[value.stateId.toString()] = value;
@@ -690,7 +691,7 @@ class _JobDetailsScreenState extends State<JobDetailsScreen> {
                   //       .map((e) => DropdownMenuItem(value: e, child: Text(e.cityName.toString().capitalize!)))
                   //       .toList());
                   // }
-                  return modelCityList.city != null
+                  return modelCityList.city!.isNotEmpty
                       ? DropdownButtonFormField<City>(
                           key: categoryKey3,
                           autovalidateMode: AutovalidateMode.onUserInteraction,
@@ -751,7 +752,7 @@ class _JobDetailsScreenState extends State<JobDetailsScreen> {
                       : const SizedBox.shrink();
                 }),
                 const SizedBox(
-                  height: 20,
+                  height: 17,
                 ),
 
                 DropdownButtonFormField<String>(
@@ -1035,8 +1036,6 @@ class _JobDetailsScreenState extends State<JobDetailsScreen> {
                         showToast("Please select country");
                       } else if (stateName.value == "") {
                         showToast("Please select state");
-                      } else if (cityName.value == "") {
-                        showToast("Please select city");
                       } else {
                         updateProfile1();
                       }

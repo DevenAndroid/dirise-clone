@@ -225,7 +225,8 @@ class _ProductUIState extends State<ProductUI> {
         padding: const EdgeInsets.all(5.0),
         child: Container(
           padding: const EdgeInsets.all(8),
-          decoration: const BoxDecoration(color: Colors.white, boxShadow: [
+          decoration: const BoxDecoration(
+              color: Colors.white, boxShadow: [
             BoxShadow(
               blurStyle: BlurStyle.outer,
               offset: Offset(1, 1),
