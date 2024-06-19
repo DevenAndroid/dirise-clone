@@ -287,12 +287,30 @@ class _ChooseAddressForGiveawayState extends State<ChooseAddressForGiveaway> {
                                             .copyWith(fontWeight: FontWeight.w500, fontSize: AddSize.font16),
                                       ),
                                     ),
-                                    SizedBox(
+                                    const SizedBox(
                                       width: 10,
                                     ),
                                     InkWell(
                                       onTap: (){
-                                        controllerMap.sellingPickupAddressApi(context);
+                                        showDialog<String>(
+                                            context: context,
+                                            builder: (BuildContext context) => AlertDialog(
+                                              title: Text('Save Location'.tr),
+                                              content: Text('Do you want to save your location.'.tr),
+                                              actions: <Widget>[
+                                                TextButton(
+                                                  onPressed: () => Get.back(),
+                                                  child: Text('Cancel'.tr),
+                                                ),
+                                                TextButton(
+                                                  onPressed: () async {
+                                                    Get.back();
+                                                    controllerMap.sellingPickupAddressApi(context);
+                                                  },
+                                                  child: Text('OK'.tr),
+                                                ),
+                                              ],
+                                            ));
                                       },
                                       child: Text(
                                         'Save Location',

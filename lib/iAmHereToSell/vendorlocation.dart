@@ -406,7 +406,25 @@ class _VendorLocationState extends State<VendorLocation> {
                                     ),
                                     InkWell(
                                       onTap: (){
-                                        sellingPickupAddressApi();
+                                        showDialog<String>(
+                                            context: context,
+                                            builder: (BuildContext context) => AlertDialog(
+                                              title: Text('Save Location'.tr),
+                                              content: Text('Do you want to save your location.'.tr),
+                                              actions: <Widget>[
+                                                TextButton(
+                                                  onPressed: () => Get.back(),
+                                                  child: Text('Cancel'.tr),
+                                                ),
+                                                TextButton(
+                                                  onPressed: () async {
+                                                    Get.back();
+                                                  sellingPickupAddressApi();
+                                                  },
+                                                  child: Text('OK'.tr),
+                                                ),
+                                              ],
+                                            ));
                                       },
                                       child: Text(
                                         'Save Location',

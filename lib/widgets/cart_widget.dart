@@ -38,26 +38,26 @@ class _CartBagCardState extends State<CartBagCard> {
           padding: const EdgeInsets.only(left: 20,right: 15,bottom: 10),
           child:      Stack(children:[
             totalProducts.length != 1 ?  SvgPicture.asset("assets/svgs/cart_new.svg",
-              width: 40,
-              height: 40,
+              width: 35,
+              height: 35,
               // color: widget.isBlackTheme == true ? Colors.white : AppTheme.buttonColor,
             ):
             SvgPicture.asset("assets/svgs/bag_2digit.svg",
-              width: 40,
-              height: 40,
+              width: 35,
+              height: 35,
               // color: widget.isBlackTheme == true ? Colors.white : AppTheme.buttonColor,
             ),
             cartController.apiLoaded
               ? Positioned.fill(
             top: 0,
-            left:  totalProducts.length != 1 ?  14 : 18,
-            bottom: totalProducts.length != 1 ? 0 : 7,
+            left:  totalProducts.length != 1 ?  14 : 15,
+            bottom: totalProducts.length != 1 ? 0 : 8,
             child: Center(
               child: Text(
                 key: ValueKey(DateTime.now().millisecondsSinceEpoch),
                 cartController.cartModel.totalProducts.toString(),
                 textAlign: TextAlign.center,
-                style: GoogleFonts.poppins(color: widget.isBlackTheme == true ? Colors.white :Colors.white, fontSize: 10),
+                style: GoogleFonts.poppins(color: widget.isBlackTheme == true ? Colors.white :Colors.white, fontSize: 8),
               ).animate().scale(duration: 200.ms),
             ),
           )
