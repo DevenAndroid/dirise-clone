@@ -44,17 +44,18 @@ class _VirtualPriceScreenState extends State<VirtualPriceScreen> {
   final profileController = Get.put(ProfileController());
 
   RxBool isShow = false.obs;
-  String realPrice = "";
+  String realPrice = "0.0";
   String discounted = "";
-  String sale = "";
+  String sale = "0.0";
   String productName = "";
-  String discountedPrice = "";
+  String discountedPrice = "0.0";
   bool isPercentageDiscount = true;
   RxBool isDelivery = false.obs;
   double discountAmount12 =0.0;
   double afterCalculation = 0.0;
   double realPrice1 = 0.0;
   double discountDouble = 0.0;
+  double discountedPriceValue = 0.0;
   void calculateDiscount() {
     double realPrice = double.tryParse(priceController.text) ?? 0.0;
     double sale = double.tryParse(discountPrecrnt.text) ?? 0.0;
@@ -62,14 +63,19 @@ class _VirtualPriceScreenState extends State<VirtualPriceScreen> {
 
     // Check the current discount type and calculate discounted price accordingly
     if (isPercentageDiscount && realPrice > 0 && sale > 0) {
+      log('this is call....');
       double discountAmount = (realPrice * sale) / 100;
-      double discountedPriceValue = realPrice - discountAmount;
-      double additionalDiscountAmount = (discountedPriceValue * 10) / 100;
-      double finalPrice = discountedPriceValue + additionalDiscountAmount;
+      discountedPriceValue = realPrice - discountAmount;
+      log('dirise fees${diriseFeesAsDouble.toString()}');
+      log('dirise fees${discountedPriceValue.toString()}');
+      double additionalDiscountAmount = (realPrice * diriseFeesAsDouble) / 100;
+      // double finalPrice = realPrice - additionalDiscountAmount;
+      double finalPrice1 = discountedPriceValue + additionalDiscountAmount;
       setState(() {
-        discountedPrice = finalPrice.toStringAsFixed(2);
+        discountedPrice = finalPrice1.toStringAsFixed(2);
       });
     } else if (!isPercentageDiscount && realPrice > 0 && fixedPrice > 0) {
+      log('this is call....2');
       double discountedPriceValue = realPrice - fixedPrice;
       // double discountedPriceValue1 = discountedPriceValue + diriseFeesAsDouble;
       double discountedPriceValue1 = afterCalculation - discountDouble;
@@ -184,7 +190,9 @@ class _VirtualPriceScreenState extends State<VirtualPriceScreen> {
                     diriseFeesAsDouble = double.parse(productDetailsModel.value.productDetails!.diriseFess.toString());
                     double fees = diriseFeesAsString != null ? double.parse(diriseFeesAsString) : 0.0;
                     if(fixedDiscount.text.isEmpty || discountPrecrnt.text.isEmpty){
-                      double withoutDiscount = realPrice1 + diriseFeesAsDouble;
+                      double additionalDiscountAmount = (realPrice1 * diriseFeesAsDouble) / 100;
+                      double withoutDiscount = realPrice1 + additionalDiscountAmount;
+
                       discountedPrice = withoutDiscount.toString();
                     }
                     if(priceController.text.isEmpty){
@@ -245,10 +253,14 @@ class _VirtualPriceScreenState extends State<VirtualPriceScreen> {
                               isDelivery.value = value!;
                               fixedDiscount.text = "";
                               discountPrecrnt.text = '';
-                              sale = '';
+                              sale = '0.0';
                               if(fixedDiscount.text.isEmpty || discountPrecrnt.text.isEmpty){
-                                double withoutDiscount = realPrice1 + diriseFeesAsDouble;
+                                double additionalDiscountAmount = (realPrice1 * diriseFeesAsDouble) / 100;
+                                double withoutDiscount = realPrice1 + additionalDiscountAmount;
                                 discountedPrice = withoutDiscount.toString();
+                              }
+                              if (widget.id != null){
+                                priceController.text = '';
                               }
                             });
                           }),
@@ -271,6 +283,9 @@ class _VirtualPriceScreenState extends State<VirtualPriceScreen> {
                         discountDouble =  double.tryParse(value) ?? 0.0;
                         discountPrecrnt.text = "";
                         isPercentageDiscount = false;
+                        if(discountPrecrnt.text.isEmpty){
+                          discountedPriceValue = 0.0;
+                        }
                         calculateDiscount();
                         sale = value;
                         if(fixedDiscount.text.isEmpty){
@@ -353,86 +368,91 @@ class _VirtualPriceScreenState extends State<VirtualPriceScreen> {
                   decoration: BoxDecoration(borderRadius: BorderRadius.circular(11), color: Colors.grey.shade200),
                   child: Row(
                     children: [
-                      Column(
-                        mainAxisAlignment: MainAxisAlignment.start,
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        children: [
-                          Row(
-                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                            children: [
-                              Text(
-                                'Price'.tr,
-                                style: GoogleFonts.poppins(
-                                    color: const Color(0xff014E70), fontWeight: FontWeight.w600, fontSize: 12),
-                              ),
-                              const SizedBox(
-                                width: 20,
-                              ),
-                              Text(
-                                "${realPrice} KWD".tr,
-                                style: GoogleFonts.poppins(
-                                    color: const Color(0xff014E70), fontWeight: FontWeight.w400, fontSize: 10),
-                              ),
-                            ],
-                          ),
-                          const SizedBox(
-                            height: 20,
-                          ),
-                          Row(
-                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                            children: [
-                              Text(
-                                'Discount amount'.tr,
-                                style: GoogleFonts.poppins(
-                                    color: const Color(0xff014E70), fontWeight: FontWeight.w600, fontSize: 12),
-                              ),
-                              const SizedBox(
-                                width: 10,
-                              ),
-                              fixedDiscount.text.isNotEmpty ?
-                              Text(
-                                '$sale KWD'.tr,
-                                style: GoogleFonts.poppins(
-                                    color: const Color(0xff014E70), fontWeight: FontWeight.w400, fontSize: 10),
-                              ):
-                              Text(
-                                '$sale %'.tr,
-                                style: GoogleFonts.poppins(
-                                    color: const Color(0xff014E70), fontWeight: FontWeight.w400, fontSize: 10),
-                              ),
-                            ],
-                          ),
-                          const SizedBox(
-                            height: 20,
-                          ),
-                          Row(
-                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                            children: [
-                              Text(
-                                'Final price'.tr,
-                                style: GoogleFonts.poppins(
-                                    color: const Color(0xff014E70), fontWeight: FontWeight.w600, fontSize: 12),
-                              ),
-                              const SizedBox(
-                                width: 20,
-                              ),
-                              discountPrecrnt.text.isNotEmpty ?
-                               Text(
-                                "${discountedPrice} KWD".tr,
-                                style: GoogleFonts.poppins(
-                                    color: const Color(0xff014E70), fontWeight: FontWeight.w400, fontSize: 10),
-                              ) :
-                              Text(
-                                "${discountedPrice} KWD".tr,
-                                style: GoogleFonts.poppins(
-                                    color: const Color(0xff014E70), fontWeight: FontWeight.w400, fontSize: 10),
-                              )
-                            ],
-                          ),
-                          const SizedBox(
-                            height: 20,
-                          ),
-                        ],
+                      Expanded(
+                        child: Column(
+                          mainAxisAlignment: MainAxisAlignment.start,
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
+                            Row(
+                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                              children: [
+                                Text(
+                                  'Price'.tr,
+                                  style: GoogleFonts.poppins(
+                                      color: const Color(0xff014E70), fontWeight: FontWeight.w600, fontSize: 12),
+                                ),
+                                const SizedBox(
+                                  width: 20,
+                                ),
+                                Expanded(
+                                  child: Text(
+                                    "${realPrice} KWD".tr,
+                                    style: GoogleFonts.poppins(
+                                        color: const Color(0xff014E70), fontWeight: FontWeight.w400, fontSize: 10),
+                                  ),
+                                ),
+                              ],
+                            ),
+                            const SizedBox(
+                              height: 20,
+                            ),
+                            Row(
+                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                              children: [
+                                Text(
+                                  'Discount amount'.tr,
+                                  style: GoogleFonts.poppins(
+                                      color: const Color(0xff014E70), fontWeight: FontWeight.w600, fontSize: 12),
+                                ),
+                                const SizedBox(
+                                  width: 10,
+                                ),
+                                discountedPriceValue == 0.0 ?
+                                Expanded(
+                                  flex: 2,
+                                  child: Text(
+                                    ' $sale KWD '.tr,
+                                    style: GoogleFonts.poppins(
+                                        color: const Color(0xff014E70), fontWeight: FontWeight.w400, fontSize: 8),
+                                  ),
+                                ): Expanded(
+                                  flex: 2,
+                                  child: Text(
+                                    ' $discountedPriceValue % '.tr,
+                                    style: GoogleFonts.poppins(
+                                        color: const Color(0xff014E70), fontWeight: FontWeight.w400, fontSize: 8),
+                                  ),
+                                ),
+                              ],
+                            ),
+                            const SizedBox(
+                              height: 20,
+                            ),
+                            Row(
+                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                              children: [
+                                Text(
+                                  'Final price'.tr,
+                                  style: GoogleFonts.poppins(
+                                      color: const Color(0xff014E70), fontWeight: FontWeight.w600, fontSize: 12),
+                                ),
+                                const SizedBox(
+                                  width: 20,
+                                ),
+                                Expanded(
+                                  child: Text(
+                                    "${discountedPrice} KWD".tr,
+                                    style: GoogleFonts.poppins(
+                                        color: const Color(0xff014E70), fontWeight: FontWeight.w400, fontSize: 8),
+                                  ),
+                                )
+                              ],
+                            ),
+                            const SizedBox(
+                              height: 20,
+                            ),
+                          ],
+                        ),
                       ),
                       SizedBox(width: 10,),
                       Column(
