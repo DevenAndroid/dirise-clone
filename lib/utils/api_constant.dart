@@ -7,7 +7,7 @@ import '../model/login_model.dart';
 import '../widgets/common_colour.dart';
 
 class ApiUrls {
-  static const String baseUrl = 'https://dirise.eoxyslive.com/api/';
+  static const String baseUrl = 'https://admin.diriseapp.com/api/';
   // static const String baseUrl = 'https://backend.diriseapp.com/api/';
   //
   // static const String baseUrl = 'https://beta-dirise.eoxyslive.com/api/';
