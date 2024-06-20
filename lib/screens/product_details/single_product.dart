@@ -355,6 +355,7 @@ class _SingleProductDetailsState extends State<SingleProductDetails> {
                                     const SizedBox(
                                       height: 5,
                                     ),
+                                    productElement.inStock == "-1"?SizedBox.shrink():
                                     Text(
                                       '${productElement.inStock.toString()} pieces',
                                       style: GoogleFonts.poppins(color: const Color(0xff858484), fontSize: 17),

@@ -15,6 +15,7 @@ import '../../model/model_single_product.dart';
 import '../../model/order_models/model_direct_order_details.dart';
 import '../../model/product_model/model_product_element.dart';
 import '../../utils/api_constant.dart';
+import '../../utils/styles.dart';
 import '../../widgets/common_colour.dart';
 import '../../widgets/like_button.dart';
 import '../check_out/direct_check_out.dart';
@@ -384,6 +385,13 @@ class _ProductUIState extends State<ProductUI> {
 
               const SizedBox(
                 height: 8,
+              ),
+
+              widget.productElement.inStock == "-1"?SizedBox.shrink():
+              Text(
+
+                '${'QTY'}: ${widget.productElement.inStock} ${'piece'}',
+                style: normalStyle,
               ),
               // if (canBuyProduct)
               Row(

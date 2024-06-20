@@ -1,4 +1,5 @@
 import 'dart:async';
+import 'dart:developer';
 import 'package:dirise/addNewProduct/addProductStartScreen.dart';
 import 'package:dirise/repository/repository.dart';
 import 'package:dirise/utils/helper.dart';
@@ -9,10 +10,15 @@ import 'package:flutter/scheduler.dart';
 import 'package:flutter_switch/flutter_switch.dart';
 import 'package:get/get.dart';
 import 'package:google_fonts/google_fonts.dart';
+import '../../Services/review_publish_service.dart';
 import '../../addNewProduct/addProductScreen.dart';
 import '../../addNewProduct/myItemIsScreen.dart';
+import '../../addNewProduct/reviewPublishScreen.dart';
 import '../../controller/vendor_controllers/add_product_controller.dart';
 import '../../controller/vendor_controllers/products_controller.dart';
+import '../../jobOffers/JobReviewandPublishScreen.dart';
+import '../../singleproductScreen/ReviewandPublishScreen.dart';
+import '../../virtualProduct/ReviewandPublishScreen.dart';
 import '../../widgets/common_colour.dart';
 import '../../widgets/dimension_screen.dart';
 import '../orders/remark_screen.dart';
@@ -57,7 +63,7 @@ class _VendorProductScreenState extends State<VendorProductScreen> {
       timer!.cancel();
     }
   }
-
+  final addProductController = Get.put(AddProductController());
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -214,8 +220,33 @@ class _VendorProductScreenState extends State<VendorProductScreen> {
                                               ),
                                               GestureDetector(
                                                 onTap: () {
-                                                  Get.to(()=> AddProductScreen(productId: (item.id ?? "").toString(),));
+                                                  // log('dadad${item.itemType.toString()}');
+                                                  log(item.itemType);
+                                                  if (item.itemType == "giveaway") {
+                                                    addProductController.idProduct.value = item.id.toString();
+                                                    Get.to(ReviewPublishScreen());
+                                                  }
+                                                  if (item.itemType == "product") {
+                                                    addProductController.idProduct.value = item.id.toString();
+                                                    Get.to(ProductReviewPublicScreen());
+                                                  }
+                                                  if (item.itemType == "job") {
+                                                    addProductController.idProduct.value = item.id.toString();
+                                                    Get.to(JobReviewPublishScreen());
+                                                  }
+                                                  if (item.itemType == "service") {
+                                                    addProductController.idProduct.value = item.id.toString();
+                                                    Get.to(ReviewPublishServiceScreen());
+                                                  }
+                                                  if (item.itemType == "virtual_product") {
+                                                    addProductController.idProduct.value = item.id.toString();
+                                                    Get.to(VirtualReviewandPublishScreen());
+                                                  }
                                                 },
+                                                // onTap: () {
+                                                //
+                                                //   // Get.to(()=> AddProductScreen(productId: (item.id ?? "").toString(),));
+                                                // },
                                                 child: Container(
                                                     height: AddSize.size25,
                                                     width: AddSize.size25,
