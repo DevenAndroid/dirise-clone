@@ -63,6 +63,7 @@ class _ApproveProductScreenState extends State<ApproveProductScreen> {
       timer!.cancel();
     }
   }
+  String publish = '';
   final addProductController = Get.put(AddProductController());
   @override
   Widget build(BuildContext context) {
@@ -344,16 +345,24 @@ class _ApproveProductScreenState extends State<ApproveProductScreen> {
                                             inactiveColor: Colors.grey.shade400,
                                             activeColor: AppTheme.buttonColor,
                                             onToggle: (val) {
+                                              publish = val.toString();
+                                              log('in out ${ val}');
                                               productController.updateProductStatus(
                                                   changed: (bool value1) {
                                                     if (value1 == true) {
                                                       productController.model1.approveProduct![index].isPublish =
                                                           !productController.model1.approveProduct![index].isPublish!;
-                                                      setState(() {});
+                                                      // log('in out ${ productController.model1.approveProduct![index].isPublish.toString()}');
+
+                                                      setState(() {
+
+                                                      });
                                                     }
                                                   },
                                                   context: context,
-                                                  productID: item.id.toString());
+                                                  productID: item.id.toString(),
+                                                  IsPublish:  publish
+                                              );
                                             },
                                             value: item.isPublish!,
                                           )
