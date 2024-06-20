@@ -54,6 +54,7 @@ class _SingleProductPriceScreenState extends State<SingleProductPriceScreen> {
   double afterCalculation = 0.0;
   double realPrice1 = 0.0;
   double discountedPriceValue = 0.0;
+  double discountAmount = 0.0;
   void calculateDiscount() {
     double realPrice = double.tryParse(priceController.text) ?? 0.0;
     double sale = double.tryParse(discountPrecrnt.text) ?? 0.0;
@@ -62,21 +63,28 @@ class _SingleProductPriceScreenState extends State<SingleProductPriceScreen> {
     // Check the current discount type and calculate discounted price accordingly
     if (isPercentageDiscount && realPrice > 0 && sale > 0) {
       log('this is call....');
-      double discountAmount = (realPrice * sale) / 100;
+      discountAmount = (realPrice * sale) / 100;
+      log('discount isss${discountAmount.toString()}');
       discountedPriceValue = realPrice - discountAmount;
       log('dirise fees${diriseFeesAsDouble.toString()}');
       log('dirise fees${discountedPriceValue.toString()}');
       double additionalDiscountAmount = (realPrice * diriseFeesAsDouble) / 100;
+      double fees = (discountedPriceValue * diriseFeesAsDouble) / 100 ;
+      log('dirise fees neww ${fees.toString()}');
       // double finalPrice = realPrice - additionalDiscountAmount;
-      double finalPrice1 = discountedPriceValue + additionalDiscountAmount;
+      double finalPrice1 = discountedPriceValue + fees;
       setState(() {
         discountedPrice = finalPrice1.toStringAsFixed(2);
       });
     } else if (!isPercentageDiscount && realPrice > 0 && fixedPrice > 0) {
       log('this is call....2');
       double discountedPriceValue = realPrice - fixedPrice;
+      log('discount price ${discountedPriceValue.toString()}');
+      double fees = (discountedPriceValue * diriseFeesAsDouble) / 100 ;
+      log('discount fees ${fees.toString()}');
       // double discountedPriceValue1 = discountedPriceValue + diriseFeesAsDouble;
-      double discountedPriceValue1 = afterCalculation - discountDouble;
+      // double discountedPriceValue1 = afterCalculation - discountDouble;
+       double discountedPriceValue1 = discountedPriceValue + fees;
       setState(() {
         discountedPrice = discountedPriceValue1.toStringAsFixed(2);
       });
@@ -207,6 +215,10 @@ class _SingleProductPriceScreenState extends State<SingleProductPriceScreen> {
                     if(priceController.text.isEmpty){
                       discountedPrice = '';
                       discount = '';
+                      fixedDiscount.text = "";
+                      discountPrecrnt.text = '';
+                      sale = '0.0';
+                      discountAmount =0.0;
                     }
                     double fees = diriseFeesAsString != null ? double.parse(diriseFeesAsString) : 0.0;
 
@@ -265,6 +277,7 @@ class _SingleProductPriceScreenState extends State<SingleProductPriceScreen> {
                               discountPrecrnt.text = '';
                               discount = '0.0';
                               sale = '0.0';
+                              discountAmount = 0.0;
                               if(fixedDiscount.text.isEmpty || discountPrecrnt.text.isEmpty){
                                 double additionalDiscountAmount = (realPrice1 * diriseFeesAsDouble) / 100;
                                 double withoutDiscount = realPrice1 + additionalDiscountAmount;
@@ -450,7 +463,7 @@ class _SingleProductPriceScreenState extends State<SingleProductPriceScreen> {
                                 ): Expanded(
                                   flex: 2,
                                   child: Text(
-                                    ' $discountedPriceValue % '.tr,
+                                    ' $discountAmount KWD '.tr,
                                     style: GoogleFonts.poppins(
                                         color: const Color(0xff014E70), fontWeight: FontWeight.w400, fontSize: 8),
                                   ),

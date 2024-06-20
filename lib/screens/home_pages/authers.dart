@@ -85,7 +85,7 @@ class _AuthorScreenState extends State<AuthorScreen> {
                                 constraints: BoxConstraints(
                                   // maxHeight: 100,
                                   minWidth: 0,
-                                  maxWidth: size.width * .8,
+                                  maxWidth: size.width * .85,
                                 ),
                                 child: Row(
                                   crossAxisAlignment: CrossAxisAlignment.start,
