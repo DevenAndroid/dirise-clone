@@ -178,7 +178,7 @@ class _SingleProductDiscriptionScreenState extends State<SingleProductDiscriptio
                   width: Get.width,
                   decoration: BoxDecoration(borderRadius: BorderRadius.circular(11), color: Colors.grey.shade200),
                   child: Align(
-                    alignment: Alignment.bottomCenter,
+                    alignment: Alignment.center,
                     child:  Row(
                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
                       children: [
@@ -207,7 +207,7 @@ class _SingleProductDiscriptionScreenState extends State<SingleProductDiscriptio
                                 });
                               }),
                         ),
-                        SizedBox(width: 5,),
+                        const SizedBox(width: 5,),
                       ],
                     ),
                   ),

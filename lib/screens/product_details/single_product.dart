@@ -795,59 +795,62 @@ class _SingleProductDetailsState extends State<SingleProductDetails> {
                         crossAxisAlignment: CrossAxisAlignment.center,
                         children: [
                           Expanded(
-                            child: Row(
+                            child: Column(
                               children: [
-                                GestureDetector(
-                                  onTap: () {
-                                    if (productQuantity.value > 1) {
-                                      productQuantity.value--;
-                                    }
-                                  },
-                                  child: CircleAvatar(
-                                    radius: 18,
-                                    backgroundColor: const Color(0xffEAEAEA),
-                                    child: Center(
-                                        child: Text(
-                                      "━",
-                                      style: GoogleFonts.poppins(
-                                          fontSize: 16, fontWeight: FontWeight.w500, color: Colors.black),
-                                    )),
-                                  ),
-                                ),
-                                SizedBox(
-                                  width: size.width * .015,
-                                ),
                                 Obx(() {
-                                  return Expanded(
-                                    child: Center(
-                                      child: Text(
-                                        productQuantity.value.toString(),
-                                        style: GoogleFonts.poppins(fontWeight: FontWeight.w500, fontSize: 18),
-                                      ),
-                                    ),
+                                  return Text(
+                                    productQuantity.value.toString(),
+                                    style: GoogleFonts.poppins(fontWeight: FontWeight.w500, fontSize: 18),
                                   );
                                 }),
-                                SizedBox(
-                                  width: size.width * .015,
-                                ),
-                                GestureDetector(
-                                  onTap: () {
-                                    if ((productElement.inStock.toString().convertToNum ?? 0) > productQuantity.value) {
-                                      productQuantity.value++;
-                                    } else {
-                                      showToast("Out Of Stock".tr);
-                                    }
-                                  },
-                                  child: CircleAvatar(
-                                    radius: 18,
-                                    backgroundColor: const Color(0xffEAEAEA),
-                                    child: Center(
-                                        child: Text(
-                                      "+",
-                                      style: GoogleFonts.poppins(
-                                          fontSize: 20, fontWeight: FontWeight.w600, color: Colors.black),
-                                    )),
-                                  ),
+                                Row(
+                                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                                  children: [
+                                    GestureDetector(
+                                      onTap: () {
+                                        if (productQuantity.value > 1) {
+                                          productQuantity.value--;
+                                        }
+                                      },
+                                      child: CircleAvatar(
+                                        radius: 18,
+                                        backgroundColor: const Color(0xffEAEAEA),
+                                        child: Center(
+                                            child: Text(
+                                          "━",
+                                          style: GoogleFonts.poppins(
+                                              fontSize: 16, fontWeight: FontWeight.w500, color: Colors.black),
+                                        )),
+                                      ),
+                                    ),
+                                    // SizedBox(
+                                    //   width: size.width * .015,
+                                    // ),
+                                    //
+                                    // SizedBox(
+                                    //   width: size.width * .015,
+                                    // ),
+                                    GestureDetector(
+                                      onTap: () {
+                                        if (productElement.inStock ==0) {
+                                          showToast("Out Of Stock".tr);
+
+                                        } else {
+                                          productQuantity.value++;
+                                        }
+                                      },
+                                      child: CircleAvatar(
+                                        radius: 18,
+                                        backgroundColor: const Color(0xffEAEAEA),
+                                        child: Center(
+                                            child: Text(
+                                          "+",
+                                          style: GoogleFonts.poppins(
+                                              fontSize: 20, fontWeight: FontWeight.w600, color: Colors.black),
+                                        )),
+                                      ),
+                                    ),
+                                  ],
                                 ),
                               ],
                             ),

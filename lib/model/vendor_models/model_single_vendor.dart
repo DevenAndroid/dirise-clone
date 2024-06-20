@@ -39,7 +39,8 @@ class User {
   dynamic storeLogoWeb;
   dynamic bannerProfileApp;
   dynamic bannerProfileWeb;
-
+  dynamic startBreakTime;
+  dynamic endBreakTime;
   User(
       {this.id,
         this.storeLogo,
@@ -52,7 +53,11 @@ class User {
         this.end,
         this.description,
         this.bannerProfileApp,
-        this.bannerProfileWeb,this.storeLogoApp,this.storeLogoWeb
+        this.bannerProfileWeb,
+        this.startBreakTime,
+        this.endBreakTime,
+        this.storeLogoApp,
+        this.storeLogoWeb
       });
 
   User.fromJson(Map<String, dynamic> json) {
@@ -66,6 +71,8 @@ class User {
     day = json['day'];
     start = json['start'];
     end = json['end'];
+    startBreakTime = json['start_break_time'] ?? "";
+    endBreakTime = json['end_break_time'] ?? "";
     storeLogoApp = json['store_logo_app'] ?? "";
     storeLogoWeb = json['store_logo_web'] ?? "";
     bannerProfileApp = json['banner_profile_app'];
@@ -79,6 +86,8 @@ class User {
     data['store_image'] = storeImage;
     data['store_name'] = storeName;
     data['email'] = email;
+    data['start_break_time'] = startBreakTime;
+    data['end_break_time'] = endBreakTime;
     data['store_phone'] = storePhone;
     data['day'] = this.day;
     data['store_logo_app'] = storeLogoApp;

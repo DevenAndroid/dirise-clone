@@ -557,11 +557,11 @@ class _ProductUIState extends State<ProductUI> {
                                   ),
                                   GestureDetector(
                                     onTap: () {
-                                      if ((widget.productElement.inStock.toString().convertToNum ?? 0) >
-                                          productQuantity.value) {
-                                        productQuantity.value++;
-                                      } else {
+                                      if (widget.productElement.inStock ==0) {
                                         showToast("Out Of Stock".tr);
+
+                                      } else {
+                                        productQuantity.value++;
                                       }
                                     },
                                     child: Center(
