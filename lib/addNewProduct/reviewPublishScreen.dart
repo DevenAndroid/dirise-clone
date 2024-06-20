@@ -116,7 +116,7 @@ class _ReviewPublishScreenState extends State<ReviewPublishScreen> {
     Map<String, dynamic> map = {};
 
     map['is_complete'] = true;
-
+    map['id'] = addProductController.idProduct.value.toString();
     FocusManager.instance.primaryFocus!.unfocus();
     repositories.postApi(url: ApiUrls.giveawayProductAddress, context: context, mapData: map).then((value) {
       ModelCommonResponse response = ModelCommonResponse.fromJson(jsonDecode(value));

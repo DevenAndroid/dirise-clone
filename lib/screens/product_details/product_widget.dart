@@ -15,6 +15,7 @@ import '../../model/model_single_product.dart';
 import '../../model/order_models/model_direct_order_details.dart';
 import '../../model/product_model/model_product_element.dart';
 import '../../utils/api_constant.dart';
+import '../../utils/styles.dart';
 import '../../widgets/common_colour.dart';
 import '../../widgets/like_button.dart';
 import '../check_out/direct_check_out.dart';
@@ -247,7 +248,7 @@ class _ProductUIState extends State<ProductUI> {
               Row(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
-                  widget.productElement.discountOff ==  0.00?SizedBox.shrink():
+                  widget.productElement.discountOff !=  '0.00'?
                   Container(
                     padding: const EdgeInsets.all(4),
                     decoration: BoxDecoration(color: const Color(0xFFFF6868), borderRadius: BorderRadius.circular(10)),
@@ -264,7 +265,7 @@ class _ProductUIState extends State<ProductUI> {
                         ),
                       ],
                     ),
-                  ),
+                  ) :const SizedBox.shrink(),
                   Obx(() {
                     if (wishListController.refreshFav.value > 0) {}
                     return LikeButtonCat(
@@ -320,58 +321,62 @@ class _ProductUIState extends State<ProductUI> {
               widget.productElement.itemType != 'giveaway'
                   ? Row(
                       children: [
-                        Text(
-                          'KWD ${widget.productElement.pPrice.toString()}',
-                          style: GoogleFonts.poppins(
-                              decorationColor: Colors.red,
-                              decorationThickness: 2,
-                              decoration: TextDecoration.lineThrough,
-                              color: const Color(0xff19313B),
-                              fontSize: 16,
-                              fontWeight: FontWeight.w600),
-                        ),
+                        widget.productElement.discountOff !=  '0.00'? Expanded(
+                          child: Text(
+                            'KWD ${widget.productElement.pPrice.toString()}',
+                            style: GoogleFonts.poppins(
+                                decorationColor: Colors.red,
+                                decorationThickness: 2,
+                                decoration: TextDecoration.lineThrough,
+                                color: const Color(0xff19313B),
+                                fontSize: 16,
+                                fontWeight: FontWeight.w600),
+                          ),
+                        ): const SizedBox.shrink(),
                         const SizedBox(
                           width: 7,
                         ),
-                        Text.rich(
-                          TextSpan(
-                            text: '${widget.productElement.discountPrice.toString().split('.')[0]}.',
-                            style: const TextStyle(
-                              fontSize: 24,
-                              fontWeight: FontWeight.w600,
-                              color: Color(0xFF19313B),
-                            ),
-                            children: [
-                              WidgetSpan(
-                                alignment: PlaceholderAlignment.middle,
-                                child: Column(
-                                  mainAxisAlignment: MainAxisAlignment.start,
-                                  children: [
-                                    const Text(
-                                      'KWD',
-                                      style: TextStyle(
-                                        fontSize: 8,
-                                        fontWeight: FontWeight.w500,
-                                        color: Color(0xFF19313B),
-                                      ),
-                                    ),
-                                    InkWell(
-                                      onTap: () {
-                                        print("date:::::::::::" + widget.productElement.shippingDate);
-                                      },
-                                      child: Text(
-                                        '${widget.productElement.discountPrice.toString().split('.')[1]}',
-                                        style: const TextStyle(
+                        Expanded(
+                          child: Text.rich(
+                            TextSpan(
+                              text: '${widget.productElement.discountPrice.toString().split('.')[0]}.',
+                              style: const TextStyle(
+                                fontSize: 24,
+                                fontWeight: FontWeight.w600,
+                                color: Color(0xFF19313B),
+                              ),
+                              children: [
+                                WidgetSpan(
+                                  alignment: PlaceholderAlignment.middle,
+                                  child: Column(
+                                    mainAxisAlignment: MainAxisAlignment.start,
+                                    children: [
+                                      const Text(
+                                        'KWD',
+                                        style: TextStyle(
                                           fontSize: 8,
-                                          fontWeight: FontWeight.w600,
+                                          fontWeight: FontWeight.w500,
                                           color: Color(0xFF19313B),
                                         ),
                                       ),
-                                    ),
-                                  ],
+                                      InkWell(
+                                        onTap: () {
+                                          print("date:::::::::::" + widget.productElement.shippingDate);
+                                        },
+                                        child: Text(
+                                          '${widget.productElement.discountPrice.toString().split('.')[1]}',
+                                          style: const TextStyle(
+                                            fontSize: 8,
+                                            fontWeight: FontWeight.w600,
+                                            color: Color(0xFF19313B),
+                                          ),
+                                        ),
+                                      ),
+                                    ],
+                                  ),
                                 ),
-                              ),
-                            ],
+                              ],
+                            ),
                           ),
                         ),
                       ],
@@ -380,6 +385,13 @@ class _ProductUIState extends State<ProductUI> {
 
               const SizedBox(
                 height: 8,
+              ),
+
+              widget.productElement.inStock == "-1"?SizedBox.shrink():
+              Text(
+
+                '${'QTY'}: ${widget.productElement.inStock} ${'piece'}',
+                style: normalStyle,
               ),
               // if (canBuyProduct)
               Row(
@@ -545,11 +557,11 @@ class _ProductUIState extends State<ProductUI> {
                                   ),
                                   GestureDetector(
                                     onTap: () {
-                                      if ((widget.productElement.inStock.toString().convertToNum ?? 0) >
-                                          productQuantity.value) {
-                                        productQuantity.value++;
-                                      } else {
+                                      if (widget.productElement.inStock ==0) {
                                         showToast("Out Of Stock".tr);
+
+                                      } else {
+                                        productQuantity.value++;
                                       }
                                     },
                                     child: Center(

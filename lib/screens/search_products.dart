@@ -258,6 +258,7 @@ class _SearchProductsScreenState extends State<SearchProductsScreen> {
                                         const SizedBox(
                                           height: 3,
                                         ),
+                                        item.inStock == "-1"? SizedBox():
                                         Text(
                                           '${item.inStock.toString()} ${'pieces'.tr}',
                                           style: GoogleFonts.poppins(

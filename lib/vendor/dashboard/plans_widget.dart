@@ -5,6 +5,7 @@ import 'package:dirise/widgets/common_colour.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import '../../controller/vendor_controllers/vendor_profile_controller.dart';
+import '../../iAmHereToSell/whichplantypedescribeyouScreen.dart';
 import '../profile/edit_plan_screen.dart';
 import '../profile/vendor_profile_screen.dart';
 
@@ -153,10 +154,11 @@ class _PlanWidgetState extends State<PlanWidget> {
                                   Expanded(
                                     child: OutlinedButton(
                                         onPressed: () {
-                                          Get.to(() => EditVendorPlan(
-                                                selectedPlanId:
-                                                    vendorProfileController.model.user!.activePlanId.toString(),
-                                              ));
+                                          // Get.to(() => EditVendorPlan(
+                                          //       selectedPlanId:
+                                          //           vendorProfileController.model.user!.activePlanId.toString(),
+                                          //     ));
+                                          Get.to(()=>const WhichplantypedescribeyouScreen());
                                         },
                                         style: OutlinedButton.styleFrom(
                                           shape: RoundedRectangleBorder(
@@ -188,10 +190,11 @@ class _PlanWidgetState extends State<PlanWidget> {
                                     Expanded(
                                       child: OutlinedButton(
                                           onPressed: () {
-                                            Get.to(() => EditVendorPlan(
-                                                  selectedPlanId:
-                                                      vendorProfileController.model.user!.activePlanId.toString(),
-                                                ));
+                                            // Get.to(() => EditVendorPlan(
+                                            //       selectedPlanId:
+                                            //           vendorProfileController.model.user!.activePlanId.toString(),
+                                            //     ));
+                                            Get.to(()=>const WhichplantypedescribeyouScreen());
                                           },
                                           style: OutlinedButton.styleFrom(
                                             shape: RoundedRectangleBorder(

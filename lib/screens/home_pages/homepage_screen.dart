@@ -413,7 +413,7 @@ class _HomePageState extends State<HomePage> {
         key: bottomController.scaffoldKey,
         appBar: AppBar(
           toolbarHeight: kToolbarHeight + 9,
-          backgroundColor: Color(0xFFF2F2F2),
+          backgroundColor: const Color(0xFFEBF3F6),
           surfaceTintColor: Color(0xFFF2F2F2),
           systemOverlayStyle: const SystemUiOverlayStyle(
             statusBarColor: Color(0xFFEBF3F6),
@@ -530,7 +530,7 @@ class _HomePageState extends State<HomePage> {
           ),
         ),
         drawer: const CustomDrawer(),
-        backgroundColor: Color(0xFFF2F2F2),
+        backgroundColor: const Color(0xFFEBF3F6),
         body: RefreshIndicator(
             onRefresh: () async {
               await getAllAsync();

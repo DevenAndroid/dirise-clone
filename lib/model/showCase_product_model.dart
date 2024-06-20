@@ -29,11 +29,11 @@ class GetShowCaseProductModel {
 }
 
 class ShowcaseProduct {
-  String? pname;
-  Null? shortDescription;
-  String? featuredImage;
-  String? discountPrice;
-  String? discountOff;
+  dynamic pname;
+  dynamic shortDescription;
+  dynamic featuredImage;
+  dynamic discountPrice;
+  dynamic discountOff;
 
   ShowcaseProduct(
       {this.pname,

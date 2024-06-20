@@ -64,12 +64,12 @@ class _StarOfMonthScreenState extends State<StarOfMonthScreen> {
                 outer: false,
                 autoplayDelay: 5000,
                 autoplayDisableOnInteraction: false,
-                pagination: const SwiperPagination(
-                  builder: DotSwiperPaginationBuilder(
-                    color: Colors.black,
-                    activeColor: AppTheme.buttonColor,
-                  ),
-                ),
+                // pagination: const SwiperPagination(
+                //   builder: DotSwiperPaginationBuilder(
+                //     color: Colors.black,
+                //     activeColor: AppTheme.buttonColor,
+                //   ),
+                // ),
                 onTap: (value) {
                   Get.to(() => SingleStoreScreen(
                     storeDetails: VendorStoreData(id: filteredData[value].ofTheMonth!.id.toString()),
@@ -118,7 +118,7 @@ class _StarOfMonthScreenState extends State<StarOfMonthScreen> {
                                               text: TextSpan(
                                                 children: [
                                               TextSpan(
-                                                 text: 'In '.tr,
+                                                 text: 'IN '.tr,
                                                  style: GoogleFonts.poppins(fontSize: 17, fontWeight: FontWeight.w500,color: Colors.black),
                                                ),
                                                   TextSpan(
@@ -144,16 +144,16 @@ class _StarOfMonthScreenState extends State<StarOfMonthScreen> {
                                 child: Column(
                                   children: [
                                     ClipRRect(
-                                      borderRadius: BorderRadius.circular(10),
+                                      // borderRadius: BorderRadius.circular(10),
                                       child: CachedNetworkImage(
                                         imageUrl: filteredData[index].ofTheMonth!.storeLogoApp.toString(),
                                         fit: BoxFit.cover,
-                                        width: 150,
+                                        width: 180,
                                         height: 150,
                                         placeholder: (context, url) => const SizedBox(),
                                         errorWidget: (_, __, ___) => ClipRRect(
-                                          borderRadius: BorderRadius.circular(10),
-                                          child: Image.asset('assets/images/new_logo.png' ,   fit: BoxFit.cover,   width: 150,
+                                          // borderRadius: BorderRadius.circular(10),
+                                          child: Image.asset('assets/images/new_logo.png' ,   fit: BoxFit.cover,   width: 180,
                                             height: 150,),
                                         ),
                                       ),

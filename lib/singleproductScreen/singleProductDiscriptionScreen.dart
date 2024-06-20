@@ -42,7 +42,7 @@ class _SingleProductDiscriptionScreenState extends State<SingleProductDiscriptio
   deliverySizeApi() {
     Map<String, dynamic> map = {};
     map['short_description'] = shortController.text.trim();
-    map['item_type'] = 'service';
+    map['item_type'] = 'product';
     map['seo_tags'] = tagDiscount.text.trim();
     map['id'] = addProductController.idProduct.value.toString();
     map['no_need_stock'] = 'true';
@@ -178,7 +178,7 @@ class _SingleProductDiscriptionScreenState extends State<SingleProductDiscriptio
                   width: Get.width,
                   decoration: BoxDecoration(borderRadius: BorderRadius.circular(11), color: Colors.grey.shade200),
                   child: Align(
-                    alignment: Alignment.bottomCenter,
+                    alignment: Alignment.center,
                     child:  Row(
                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
                       children: [
@@ -207,7 +207,7 @@ class _SingleProductDiscriptionScreenState extends State<SingleProductDiscriptio
                                 });
                               }),
                         ),
-                        SizedBox(width: 5,),
+                        const SizedBox(width: 5,),
                       ],
                     ),
                   ),

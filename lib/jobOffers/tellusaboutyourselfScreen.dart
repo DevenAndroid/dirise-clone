@@ -181,6 +181,7 @@ class _JobTellusaboutyourselfScreenState extends State<JobTellusaboutyourselfScr
               //     ),
               //   ],
               // ),
+
               CustomOutlineButton(
                 title: 'Next',
                 borderRadius: 11,

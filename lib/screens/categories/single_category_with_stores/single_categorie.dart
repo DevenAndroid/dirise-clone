@@ -343,8 +343,10 @@ class _SingleCategoriesState extends State<SingleCategories> {
                 onTap: () {
                   scaffoldKey1.currentState!.openDrawer();
                   },
-                child: SvgPicture.asset(
-                  'assets/svgs/drawer.svg',
+                child: Image.asset(
+                  'assets/images/menu_new.png',
+                  width: 35,
+                  height: 35,
                   // color: Colors.white,
                 ),
               ),
@@ -358,7 +360,9 @@ class _SingleCategoriesState extends State<SingleCategories> {
                   });
                 },
                 child: SvgPicture.asset(
-                  'assets/svgs/search.svg',
+                  'assets/svgs/search_icon_new.svg',
+                  width: 35,
+                  height: 35,
                   // color: Colors.white,
                 ),
               ),

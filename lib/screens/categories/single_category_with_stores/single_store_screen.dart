@@ -1,5 +1,5 @@
 import 'dart:convert';
-import 'dart:math';
+import 'dart:developer';
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:dirise/language/app_strings.dart';
 import 'package:dirise/utils/helper.dart';
@@ -188,6 +188,7 @@ class _SingleStoreScreenState extends State<SingleStoreScreen> {
       bannerString = response.user!.bannerProfileApp.toString();
       storeLogo = response.user!.storeLogo.toString();
       gg = VendorStoreData.fromJson(response.user!.toJson());
+      log('vendorrrrrr${gg.toJson()}');
       ee = SocialLinks.fromJson(response.toJson());
       ss = ModelCategoryStores.fromJson(response.user!.toJson());
       setState(() {});
@@ -579,6 +580,7 @@ class _SingleStoreScreenState extends State<SingleStoreScreen> {
                                     children: [
                                       GestureDetector(
                                         onTap: () {
+                                          log('storeeeeeeee${storeInfo.toJson()}');
                                           print(storeInfo.status.toString());
                                           print(getCategoryStoresModel.value.user!.status.toString());
                                         },
@@ -604,7 +606,51 @@ class _SingleStoreScreenState extends State<SingleStoreScreen> {
                                         ),) : const SizedBox(),
                                     ],
                                   ),
-                                )
+                                ),
+                              const SizedBox(height: 20,),
+                              if ( storeInfo.startBreakTime != '' || storeInfo.endBreakTime != '' )
+                                Padding(
+                                  padding: const EdgeInsets.symmetric(horizontal: 17),
+                                  child: Column(
+                                    crossAxisAlignment: CrossAxisAlignment.start,
+                                    mainAxisAlignment: MainAxisAlignment.start,
+                                    children: [
+                                      Text('Store Break Time', style: normalStyle.copyWith(
+                                        color: Colors.black,
+                                      ),),
+                                      10.spaceY,
+                                      Row(
+                                        children: [
+                                          GestureDetector(
+                                            onTap: () {
+                                              print(storeInfo.status.toString());
+                                              print(getCategoryStoresModel.value.user!.status.toString());
+                                            },
+                                            child: SvgPicture.asset(
+                                              'assets/svgs/watch_icon.svg',
+                                              width: 20,
+                                              height: 20,
+                                            ),
+                                          ),
+                                          const SizedBox(
+                                            width: 5,
+                                          ),
+                                          Text(storeInfo.day.toString(), style: normalStyle.copyWith(
+                                            color: const Color(0xFF7D7D7D),
+                                          ),),
+                                          const SizedBox(
+                                            width: 10,
+                                          ),
+                                         Text(
+                                            '${storeInfo.startBreakTime.toString()} - ${storeInfo.startBreakTime.toString()}',
+                                            style: normalStyle.copyWith(
+                                              color: const Color(0xFF7D7D7D),
+                                            ),),
+                                        ],
+                                      ),
+                                    ],
+                                  ),
+                                ),
                             ],
                           ],
                         ),
