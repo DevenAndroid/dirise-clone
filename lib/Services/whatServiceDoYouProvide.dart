@@ -218,8 +218,11 @@ class _whatServiceDoYouProvideState extends State<whatServiceDoYouProvide> {
                   obSecure: false,
                   keyboardType: TextInputType.number,
                   hintText: 'Price'.tr,
-                  suffixIcon: const Text(
-                    'KWD',
+                  suffixIcon: Padding(
+                    padding: const EdgeInsets.only(top: 15),
+                    child: const Text(
+                      'KWD',
+                    ),
                   ),
                   onChanged: (value) {
                     isPercentageDiscount = true;

@@ -27,7 +27,7 @@ class SponsorsScreenTourAndTravel extends StatefulWidget {
   String? sponsorType;
   String? sponsorName;
 
-  SponsorsScreenTourAndTravel({super.key,this.id,this.sponsorName,this.sponsorType});
+  SponsorsScreenTourAndTravel({super.key, this.id, this.sponsorName, this.sponsorType});
 
   @override
   State<SponsorsScreenTourAndTravel> createState() => _SponsorsScreenTourAndTravelState();
@@ -101,7 +101,7 @@ class _SponsorsScreenTourAndTravelState extends State<SponsorsScreenTourAndTrave
       if (response.status == true) {
         showToast(response.message.toString());
         if (formKey1.currentState!.validate()) {
-          Get.to(() =>  EligibleCustomersTourAndTravel());
+          Get.to(() => EligibleCustomersTourAndTravel());
         }
       }
     });
@@ -113,7 +113,7 @@ class _SponsorsScreenTourAndTravelState extends State<SponsorsScreenTourAndTrave
     WidgetsBinding.instance.addPostFrameCallback((timeStamp) {
       getSponsors();
     });
-    if(widget.id != null){
+    if (widget.id != null) {
       sponsorTypeController.text = widget.sponsorType.toString();
       sponsorNameController.text = widget.sponsorName.toString();
     }
@@ -202,7 +202,6 @@ class _SponsorsScreenTourAndTravelState extends State<SponsorsScreenTourAndTrave
                                                   sponsorTypeController.text = e.sponsorType.toString();
                                                   sponsorNameController.text = e.sponsorName.toString();
                                                   sponsorImage = e.sponsorLogo.toString();
-                                                  // sponsorValueId = ;
                                                   setState(() {});
                                                 })
                                           ],
@@ -222,6 +221,9 @@ class _SponsorsScreenTourAndTravelState extends State<SponsorsScreenTourAndTrave
                             return null;
                           },
                         ),
+                        const SizedBox(
+                          height: 10,
+                        ),
                         CommonTextField(
                           controller: sponsorNameController,
                           obSecure: false,
@@ -235,7 +237,7 @@ class _SponsorsScreenTourAndTravelState extends State<SponsorsScreenTourAndTrave
                           },
                         ),
                         25.spaceY,
-                        if (sponsorImage != '')
+                        if (sponsorImage == '')
                           ImageWidget(
                             // key: paymentReceiptCertificateKey,
                             title: "Upload Sponsor logo".tr,
@@ -245,14 +247,14 @@ class _SponsorsScreenTourAndTravelState extends State<SponsorsScreenTourAndTrave
                               idProof = g;
                             },
                           ),
-                        if (sponsorImage == '')
+                        if (sponsorImage != '')
                           Text(
                             "Upload Sponsor logo".tr,
                             style: GoogleFonts.poppins(
                                 fontWeight: FontWeight.w500, color: const Color(0xff2F2F2F), fontSize: 16),
                           ),
-                        if (sponsorImage == '') 8.spaceY,
-                        if (sponsorImage == '')
+                        if (sponsorImage != '') 8.spaceY,
+                        if (sponsorImage != '')
                           Container(
                             padding: EdgeInsets.symmetric(horizontal: AddSize.padding16, vertical: AddSize.padding16),
                             width: AddSize.screenWidth,
@@ -313,7 +315,7 @@ class _SponsorsScreenTourAndTravelState extends State<SponsorsScreenTourAndTrave
                         const SizedBox(height: 20),
                         GestureDetector(
                           onTap: () {
-                            Get.to(() =>  EligibleCustomersTourAndTravel());
+                            Get.to(() => EligibleCustomersTourAndTravel());
                           },
                           child: Container(
                             width: Get.width,

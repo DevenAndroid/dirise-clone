@@ -177,8 +177,11 @@ class _VirtualPriceScreenState extends State<VirtualPriceScreen> {
                   obSecure: false,
                   keyboardType: TextInputType.number,
                   hintText: 'Price'.tr,
-                  suffixIcon: const Text(
-                    'KWD',
+                  suffixIcon: const Padding(
+                    padding: EdgeInsets.only(top: 15),
+                    child: Text(
+                      'KWD',
+                    ),
                   ),
                   onChanged: (value) {
                     isPercentageDiscount = true;
