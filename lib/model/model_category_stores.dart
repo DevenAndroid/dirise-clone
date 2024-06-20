@@ -189,8 +189,11 @@ class VendorStoreData {
   dynamic start;
   dynamic status;
   dynamic end;
+  dynamic startBreakTime;
+  dynamic endBreakTime;
 
-  VendorStoreData({this.id, this.storeLogo, this.storeImage,this.status, this.storeName, this.email, this.storePhone, this.description,this.day,this.start,this.end,this.storeLogoApp});
+  VendorStoreData({this.id, this.storeLogo, this.storeImage,this.status, this.storeName, this.email, this.storePhone, this.description,this.day,this.start,this.end,this.storeLogoApp,
+  this.endBreakTime,this.startBreakTime});
 
   VendorStoreData.fromJson(Map<String, dynamic> json) {
     id = json['id'];
@@ -201,6 +204,8 @@ class VendorStoreData {
     storePhone = json['store_phone'] ?? "";
     description = json['description'] ?? "";
     day = json['day'] ?? "";
+    startBreakTime = json['start_break_time'] ?? "";
+    endBreakTime = json['end_break_time'] ?? "";
     start = json['start'] ?? "";
     end = json['end'] ?? "";
     storeLogoApp = json['store_logo_app'] ?? "";
@@ -214,6 +219,8 @@ class VendorStoreData {
     data['store_image'] = storeImage;
     data['store_name'] = storeName;
     data['email'] = email;
+    data['start_break_time'] = startBreakTime;
+    data['end_break_time'] = endBreakTime;
     data['store_phone'] = storePhone;
     data['description'] = description;
     data['day'] = day;

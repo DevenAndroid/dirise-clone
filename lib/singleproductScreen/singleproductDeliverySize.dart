@@ -145,13 +145,13 @@ class _SingleProductDeliverySizeState extends State<SingleProductDeliverySize> {
               const SizedBox(
                 height: 15,
               ), // Radio button for freight cargo
-              Align(
-                alignment: Alignment.bottomCenter,
-                child: Text(
-                  'Shipping prices'.tr,
-                  style: GoogleFonts.poppins(color: const Color(0xff044484), fontWeight: FontWeight.w600, fontSize: 13),
-                ),
-              ),
+              // Align(
+              //   alignment: Alignment.bottomCenter,
+              //   child: Text(
+              //     'Shipping prices'.tr,
+              //     style: GoogleFonts.poppins(color: const Color(0xff044484), fontWeight: FontWeight.w600, fontSize: 13),
+              //   ),
+              // ),
               const SizedBox(
                 height: 20,
               ),
