@@ -321,7 +321,7 @@ class _ProductUIState extends State<ProductUI> {
               widget.productElement.itemType != 'giveaway'
                   ? Row(
                       children: [
-                        Expanded(
+                        widget.productElement.discountOff !=  '0.00'? Expanded(
                           child: Text(
                             'KWD ${widget.productElement.pPrice.toString()}',
                             style: GoogleFonts.poppins(
@@ -332,7 +332,7 @@ class _ProductUIState extends State<ProductUI> {
                                 fontSize: 16,
                                 fontWeight: FontWeight.w600),
                           ),
-                        ),
+                        ): const SizedBox.shrink(),
                         const SizedBox(
                           width: 7,
                         ),
