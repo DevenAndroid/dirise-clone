@@ -10,6 +10,7 @@ import 'package:get/get.dart';
 import 'package:google_fonts/google_fonts.dart';
 
 import '../Services/service_international_shipping_details.dart';
+import '../controller/vendor_controllers/add_product_controller.dart';
 import '../language/app_strings.dart';
 import '../model/common_modal.dart';
 import '../model/getShippingModel.dart';
@@ -80,6 +81,25 @@ class _SingleProductShippingPolicyScreenState extends State<SingleProductShippin
     }
   }
 
+  final addProductController = Get.put(AddProductController());
+  nextPageApi() {
+    Map<String, dynamic> map = {};
+    map['shipping_policy_desc'] = policyId.toString();
+    map['item_type'] = 'product';
+    map['id'] = addProductController.idProduct.value.toString();
+
+    FocusManager.instance.primaryFocus!.unfocus();
+    repositories.postApi(url: ApiUrls.giveawayProductAddress, context: context, mapData: map).then((value) {
+      ModelCommonResponse response = ModelCommonResponse.fromJson(jsonDecode(value));
+      print('API Response Status Code: ${response.status}');
+      showToast(response.message.toString());
+      if (response.status == true) {
+
+      } else {
+        showToast(response.message.toString());
+      }
+    });
+  }
   @override
   void initState() {
     super.initState();
@@ -97,16 +117,18 @@ class _SingleProductShippingPolicyScreenState extends State<SingleProductShippin
 
   @override
   void dispose() {
+    getShippingPolicyData();
     thenController.dispose();
     upTo40Controller.dispose();
     super.dispose();
   }
   String returnSelectId = '';
+  String policyId = '';
   shippingPolicyApi() {
     Map<String, dynamic> map = {};
 
     if (widget.id != null) {
-      map['title'] = selectedReturnPolicy!.title.toString();
+      map['title'] = titleController.text.trim();
       map['description'] = policyDescController.text.trim();
       map['price_limit'] = policyPriceController.text.trim();
       map['range1_percent'] = iPayController.text.trim();
@@ -122,7 +144,7 @@ class _SingleProductShippingPolicyScreenState extends State<SingleProductShippin
     if(selectedReturnPolicy!=null) {
       map['title'] = selectedReturnPolicy!.title.toString();
     }
-    map['title'] = 'fdfsdsf';
+    map['title'] = titleController.text.trim();
     map['description'] = policyDescController.text.trim();
     map['price_limit'] = policyPriceController.text.trim();
     map['range1_percent'] = iPayController.text.trim();
@@ -153,7 +175,7 @@ class _SingleProductShippingPolicyScreenState extends State<SingleProductShippin
     repositories.getApi(url: ApiUrls.getShippingPolicy).then((value) {
       setState(() {
         modelShippingPolicy.value = GetShippingModel.fromJson(jsonDecode(value));
-        // log("Return Policy Data: ${modelShippingPolicy.value.shippingPolicy![0].id.toString()}");
+        // log("Return Policy Data: ${modelShippingPolicy.value.shippingPolicy.toString()}");
       });
     });
   }
@@ -215,7 +237,7 @@ class _SingleProductShippingPolicyScreenState extends State<SingleProductShippin
             children: [
               Padding(
                 padding: const EdgeInsets.symmetric(horizontal: 16),
-                child: Text("Policy Name", style: GoogleFonts.poppins(fontSize: 18, fontWeight: FontWeight.w600)),
+                child: Text("Select Your Shipping Policy*", style: GoogleFonts.poppins(fontSize: 18, fontWeight: FontWeight.w600)),
               ),
               const SizedBox(
                 height: 8,
@@ -253,6 +275,8 @@ class _SingleProductShippingPolicyScreenState extends State<SingleProductShippin
                       selectedReturnPolicy = value;
                      getSingleReturnPolicyData(selectedReturnPolicy!.id.toString());
                       returnSelectId = selectedReturnPolicy!.id.toString();
+                      policyId = selectedReturnPolicy!.id.toString();
+                      nextPageApi();
                     });
                   },
                   // validator: (value){
@@ -268,29 +292,34 @@ class _SingleProductShippingPolicyScreenState extends State<SingleProductShippin
                     );
                   }).toList(),
                 ),
-              // CommonTextField(
-              //     contentPadding: const EdgeInsets.all(5),
-              //     controller: policyNameController,
-              //     obSecure: false,
-              //     hintText: 'DIRISE standard Policy',
-              //     validator: MultiValidator([
-              //       RequiredValidator(errorText: 'Dirise standard policy must be required'.tr),
+
               //     ])),
               const SizedBox(
                 height: 18,
               ),
-              // VendorCommonTextfield(
-              //     readOnly: singleShippingPolicy.value.singleShippingPolicy != null ? true : false,
-              //     controller: descController,
-              //     hintText: selectedReturnPolicy != null
-              //         ? selectedReturnPolicy!.description.toString()
-              //         : 'DIRISE Standard Policy',
-              //     validator: (value) {
-              //       if (value!.trim().isEmpty) {
-              //         return "DIRISE standard Policy".tr;
-              //       }
-              //       return null;
-              //     }),
+              Text(
+                'Policy Name'.tr,
+                style: GoogleFonts.poppins(
+                    color: const Color(0xff292F45), fontWeight: FontWeight.w500, fontSize: 18),
+              ),
+              const SizedBox(
+                height: 5,
+              ),
+              VendorCommonTextfield(
+                  readOnly: singleShippingPolicy.value.singleShippingPolicy  != null ? true : false,
+                  controller: titleController,
+                  hintText: selectedReturnPolicy != null
+                      ? selectedReturnPolicy!.title.toString()
+                      : 'DIRISE Standard Policy',
+                  validator: (value) {
+                    if (value!.trim().isEmpty) {
+                      return "DIRISE standard Policy".tr;
+                    }
+                    return null;
+                  }),
+              const SizedBox(
+                height: 18,
+              ),
               Padding(
                 padding: const EdgeInsets.symmetric(horizontal: 16),
                 child: Text("Policy Description (Optional)",
