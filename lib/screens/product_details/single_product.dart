@@ -162,6 +162,7 @@ class _SingleProductDetailsState extends State<SingleProductDetails> {
       modelSingleProduct = ModelSingleProduct.fromJson(jsonDecode(value));
       if (modelSingleProduct.product != null) {
         log("modelSingleProduct.product!.toJson().....${modelSingleProduct.product!.toJson()}");
+        // log("modelSingleProduct.product!.toJson().....${modelSingleProduct.product!.variants.toString()}");
         productElement = modelSingleProduct.product!;
         imagesList.addAll(modelSingleProduct.product!.galleryImage ?? []);
         imagesList = imagesList.toSet().toList();
@@ -340,7 +341,7 @@ class _SingleProductDetailsState extends State<SingleProductDetails> {
                                     child: Column(
                                   crossAxisAlignment: CrossAxisAlignment.start,
                                   children: [
-                                    productElement.itemType != 'giveaway'? Text(
+                                    productElement.discountOff!= "0.00"? Text(
                                       "${productElement.discountOff} ${'%'} Off",
                                       style: GoogleFonts.poppins(
                                           fontSize: 14, fontWeight: FontWeight.w500, color: const Color(0xffC22E2E)),
