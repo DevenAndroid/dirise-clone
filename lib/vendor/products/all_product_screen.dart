@@ -63,6 +63,7 @@ class _VendorProductScreenState extends State<VendorProductScreen> {
       timer!.cancel();
     }
   }
+  String publish = '';
   final addProductController = Get.put(AddProductController());
   @override
   Widget build(BuildContext context) {
@@ -354,11 +355,14 @@ class _VendorProductScreenState extends State<VendorProductScreen> {
                                                     changed: (bool value1) {
                                                       if (value1 == true) {
                                                         productController.model.pendingProduct![index].isPublish = !productController.model.pendingProduct![index].isPublish!;
+                                                        publish = productController.model1.approveProduct![index].isPublish.toString();
                                                         setState(() {});
                                                       }
                                                     },
                                                     context: context,
-                                                    productID: item.id.toString());
+                                                    productID: item.id.toString(),
+                                                    IsPublish: publish,
+                                                );
                                               },
                                               value: item.isPublish!,
                                             )

@@ -818,9 +818,13 @@ class _SingleProductDetailsState extends State<SingleProductDetails> {
                                   width: size.width * .015,
                                 ),
                                 Obx(() {
-                                  return Text(
-                                    productQuantity.value.toString(),
-                                    style: GoogleFonts.poppins(fontWeight: FontWeight.w500, fontSize: 18),
+                                  return Expanded(
+                                    child: Center(
+                                      child: Text(
+                                        productQuantity.value.toString(),
+                                        style: GoogleFonts.poppins(fontWeight: FontWeight.w500, fontSize: 18),
+                                      ),
+                                    ),
                                   );
                                 }),
                                 SizedBox(

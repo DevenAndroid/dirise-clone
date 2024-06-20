@@ -67,10 +67,11 @@ class ProductsController extends GetxController {
   Future updateProductStatus({
     required BuildContext context,
     required String productID,
+    required String IsPublish,
     required Function(bool gg) changed,
   }) async {
     await repositories
-        .postApi(url: ApiUrls.updateProductStatusUrl, mapData: {"product_id": productID}, context: context)
+        .postApi(url: ApiUrls.updateProductStatusUrl, mapData: {"product_id": productID,'is_publish':IsPublish}, context: context)
         .then((value) {
       ModelCommonResponse response = ModelCommonResponse.fromJson(jsonDecode(value));
       if (response.status == true) {
