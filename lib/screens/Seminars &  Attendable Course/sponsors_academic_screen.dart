@@ -60,7 +60,7 @@ class _SponsorsScreenSeminarAndAttendableState extends State<SponsorsScreenSemin
     map['sponsor_type'] = sponsorTypeController.text.trim();
     map['sponsor_name'] = sponsorNameController.text.trim();
     images['sponsor_logo'] = idProof;
-    map["id"] = addProductController.idProduct.value.toString();
+    // map["id"] = addProductController.idProduct.value.toString();
 
     FocusManager.instance.primaryFocus!.unfocus();
     repositories
