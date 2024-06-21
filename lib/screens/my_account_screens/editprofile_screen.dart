@@ -688,8 +688,8 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
                 showDialog<String>(
                   context: context,
                   builder: (BuildContext context) => AlertDialog(
-                    title:  Text('Are you Sure!'.tr),
-                    content: Text('Do You Want To Edit Your Profile'.tr),
+                    title:  Text('Are you sure!'.tr),
+                    content: Text('Do you want to edit your profile'.tr),
                     actions: <Widget>[
                       TextButton(
                         onPressed: () => Get.back(),
