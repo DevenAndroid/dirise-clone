@@ -573,7 +573,7 @@ class _SingleProductDetailsState extends State<SingleProductDetails> {
                               height: 15,
                             ),
                             Text(
-                              Bidi.stripHtmlIfNeeded(productElement.longDescription ?? ''),
+                              Bidi.stripHtmlIfNeeded(productElement.shortDescription ?? ''),
                               style: GoogleFonts.poppins(
                                 fontSize: 14,
                                 fontWeight: FontWeight.w400,
