@@ -204,7 +204,7 @@ class LocaleString extends Translations {
           'No Shipping Address Added!' : 'No Shipping Address Added!',
           'Thank you for using DIRISE.' : 'Thank you for using DIRISE.',
           'piece' : 'piece',
-          'Order Details' : 'Order Details',
+          ' Order Details' : 'Order Details',
           'Your order has been confirmed' : 'Your order has been confirmed',
           'Order Id' : 'Order Id',
           'To register as vendor partner need to' : 'To register as vendor partner need to',
