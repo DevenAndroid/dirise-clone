@@ -575,7 +575,7 @@ class _HomePageState extends State<HomePage> {
                                               5.spaceX,
                                               Flexible(child: Obx(() {
                                                 return Text(
-                                                  "Deliver to ${locationController.city.toString()} , ${locationController.zipcode ?? ''}",
+                                                  "Deliver to  ${locationController.city.toString()} , ${locationController.zipcode ?? ''}",
                                                   style: GoogleFonts.poppins(
                                                     color: Colors.black,
                                                     fontSize: 14,
