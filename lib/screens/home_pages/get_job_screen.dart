@@ -1,8 +1,4 @@
 import 'dart:convert';
-import 'dart:io';
-
-import 'package:dirise/addNewProduct/addImagesProductScreen.dart';
-import 'package:dirise/iAmHereToSell/whichplantypedescribeyouScreen.dart';
 import 'package:dirise/utils/helper.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
@@ -10,50 +6,37 @@ import 'package:flutter/widgets.dart';
 import 'package:get/get.dart';
 import 'package:google_fonts/google_fonts.dart';
 
-import '../controller/vendor_controllers/add_product_controller.dart';
-import '../language/app_strings.dart';
-import '../model/common_modal.dart';
-import '../newAddress/pickUpAddressScreen.dart';
-import '../repository/repository.dart';
-import '../utils/api_constant.dart';
-import '../widgets/common_button.dart';
-import 'hiringJobDetailsScreen.dart';
-import 'jobDetailsScreen.dart';
+import '../../addNewProduct/addProductStartScreen.dart';
+import 'get_look_job.dart';
 
-class JobTellusaboutyourselfScreen extends StatefulWidget {
+
+class GetJobTypeScreen extends StatefulWidget {
   static String route = "/TellUsAboutYourSelf";
-  const JobTellusaboutyourselfScreen({Key? key}) : super(key: key);
+  const GetJobTypeScreen({Key? key}) : super(key: key);
 
   @override
-  State<JobTellusaboutyourselfScreen> createState() => _JobTellusaboutyourselfScreenState();
+  State<GetJobTypeScreen> createState() => _GetJobTypeScreenState();
 }
 
-class _JobTellusaboutyourselfScreenState extends State<JobTellusaboutyourselfScreen> {
+class _GetJobTypeScreenState extends State<GetJobTypeScreen> {
   String selectedRadio = '';
-  final addProductController = Get.put(AddProductController());
-  void navigateNext() {
-    if (selectedRadio == 'job_seeking') {
-      Get.to( JobDetailsScreen());
-    } else if (selectedRadio == 'job_hiring') {
-      Get.to(  HiringJobDetailsScreen());
-    }
-  }
-  jobTypeApi(String jobType) {
-    Map<String, dynamic> map = {};
-    map['jobseeking_or_offering'] = jobType;
-    map['item_type'] = 'job';
-    map['id'] = addProductController.idProduct.value.toString();
 
-    final Repositories repositories = Repositories();
-    FocusManager.instance.primaryFocus!.unfocus();
-    repositories.postApi(url: ApiUrls.giveawayProductAddress, context: context, mapData: map).then((value) {
-      ModelCommonResponse response = ModelCommonResponse.fromJson(jsonDecode(value));
-
-      if (response.status == true) {
-        navigateNext();
-      }
-    });
-  }
+  // jobTypeApi(String jobType) {
+  //   Map<String, dynamic> map = {};
+  //   map['jobseeking_or_offering'] = jobType;
+  //   map['item_type'] = 'job';
+  //   map['id'] = addProductController.idProduct.value.toString();
+  //
+  //   final Repositories repositories = Repositories();
+  //   FocusManager.instance.primaryFocus!.unfocus();
+  //   repositories.postApi(url: ApiUrls.giveawayProductAddress, context: context, mapData: map).then((value) {
+  //     ModelCommonResponse response = ModelCommonResponse.fromJson(jsonDecode(value));
+  //
+  //     if (response.status == true) {
+  //       navigateNext();
+  //     }
+  //   });
+  // }
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -80,7 +63,7 @@ class _JobTellusaboutyourselfScreenState extends State<JobTellusaboutyourselfScr
       ),
       body: SingleChildScrollView(
         child: Container(
-          margin: EdgeInsets.only(left: 20,right: 20),
+          margin: const EdgeInsets.only(left: 20,right: 20),
           child: Column(
             children: [
               20.spaceY,
@@ -91,7 +74,7 @@ class _JobTellusaboutyourselfScreenState extends State<JobTellusaboutyourselfScr
               30.spaceY,
               GestureDetector(
                   onTap: (){
-                    Get.to( JobDetailsScreen());
+                    Get.to(()=> const GetLookJob());
                     setState(() {
 
                     });
@@ -100,7 +83,7 @@ class _JobTellusaboutyourselfScreenState extends State<JobTellusaboutyourselfScr
               20.spaceY,
               GestureDetector(
                   onTap: (){
-                    Get.to(  HiringJobDetailsScreen());
+                    Get.to(()=>const AddProductOptionScreen());
                     setState(() {
 
                     });
