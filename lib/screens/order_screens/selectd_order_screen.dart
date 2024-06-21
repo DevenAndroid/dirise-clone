@@ -85,7 +85,7 @@ class _SelectedOrderScreenState extends State<SelectedOrderScreen> {
                       child: Padding(
                         padding: const EdgeInsets.symmetric(vertical: 10),
                         child: Text(
-                          "${'Order'.tr} #$widget.modelDataOrder.orderId",
+                          "${'Order'.tr}: #"+widget.modelDataOrder!.orderId.toString(),
                           style: GoogleFonts.poppins(color: Colors.black, fontWeight: FontWeight.w500, fontSize: 18),
                         ),
                       ),
