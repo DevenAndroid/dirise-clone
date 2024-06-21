@@ -447,8 +447,8 @@ class _HomePageState extends State<HomePage> {
                   },
                   child: SvgPicture.asset(
                     'assets/svgs/search_icon_new.svg',
-                    width: 35,
-                    height: 35,
+                    width: 38,
+                    height: 38,
                     // color: Colors.white,
                   ),
                   // child : Image.asset('assets/images/search_icon_new.png')
@@ -461,7 +461,7 @@ class _HomePageState extends State<HomePage> {
             children: [
               Image.asset(
                 'assets/images/dirise_home_logo.PNG',
-                width: 60,
+                width: 75,
                 // color: Colors.white,
               ),
               // 5.spaceY,

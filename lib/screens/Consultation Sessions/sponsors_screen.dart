@@ -58,7 +58,7 @@ class _SponsorsScreenState extends State<SponsorsScreen> {
     map['sponsor_type'] = sponsorTypeController.text.trim();
     map['sponsor_name'] = sponsorNameController.text.trim();
     images['sponsor_logo'] = idProof;
-    map["id"] =  addProductController.idProduct.value.toString();
+    // map["id"] =  addProductController.idProduct.value.toString();
 
     FocusManager.instance.primaryFocus!.unfocus();
     repositories.multiPartApi(onProgress: (gg,kk){},images: images,url: ApiUrls.addProductSponsor, context: context, mapData: map).then((value) {
