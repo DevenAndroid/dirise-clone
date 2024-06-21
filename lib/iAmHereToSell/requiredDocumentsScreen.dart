@@ -159,7 +159,7 @@ class _RequiredDocumentsScreenState extends State<RequiredDocumentsScreen> {
                   ),
                   ImageWidget(
                     // key: paymentReceiptCertificateKey,
-                    title: "Documents".tr,
+                    title: "Original civil information ".tr,
                     file: original_civil_information,
                     validation: checkValidation(showValidation.value, original_civil_information.path.isEmpty),
                     filePicked: (File g) {
@@ -177,7 +177,7 @@ class _RequiredDocumentsScreenState extends State<RequiredDocumentsScreen> {
                   ),
                   ImageWidget(
                     // key: paymentReceiptCertificateKey,
-                    title: "Documents".tr,
+                    title: "Company bank account".tr,
                     file: company_bank_account,
                     validation: checkValidation(showValidation.value, company_bank_account.path.isEmpty),
                     filePicked: (File g) {
@@ -190,7 +190,7 @@ class _RequiredDocumentsScreenState extends State<RequiredDocumentsScreen> {
               profileController.selectedPlan == '2' ?
               ImageWidget(
                 // key: paymentReceiptCertificateKey,
-                title: "Documents".tr,
+                title: "Payment certificate".tr,
                 file: payment_certificate,
                 validation: checkValidation(showValidation.value, payment_certificate.path.isEmpty),
                 filePicked: (File g) {
@@ -201,7 +201,7 @@ class _RequiredDocumentsScreenState extends State<RequiredDocumentsScreen> {
               profileController.selectedPlan == '3' ?
               ImageWidget(
                 // key: paymentReceiptCertificateKey,
-                title: "Documents".tr,
+                title: "Payment certificate".tr,
                 file: payment_certificate,
                 validation: checkValidation(showValidation.value, payment_certificate.path.isEmpty),
                 filePicked: (File g) {
