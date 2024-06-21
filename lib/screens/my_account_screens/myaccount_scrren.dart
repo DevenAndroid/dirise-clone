@@ -52,6 +52,7 @@ import '../calender.dart';
 import '../check_out/address/address_screen.dart';
 import '../check_out/address/edit_address.dart';
 import '../check_out/check_out_screen.dart';
+import '../home_pages/get_job_screen.dart';
 import '../order_screens/my_orders_screen.dart';
 import '../virtual_assets/virtual_assets_screen.dart';
 import 'about_us_screen.dart';
@@ -669,6 +670,40 @@ class _MyAccountScreenState extends State<MyAccountScreen> {
                             ),
                             Text(
                               'News Feed'.tr,
+                              style: GoogleFonts.poppins(
+                                  color: const Color(0xFF2A3032), fontSize: 16, fontWeight: FontWeight.w500),
+                            ),
+                            const Spacer(),
+                            const Icon(
+                              Icons.arrow_forward_ios,
+                              size: 15,
+                            ),
+                          ],
+                        ),
+                      ),
+                      const SizedBox(
+                        height: 5,
+                      ),
+                      const Divider(
+                        thickness: 1,
+                        color: Color(0x1A000000),
+                      ),
+                      const SizedBox(
+                        height: 5,
+                      ),
+                      GestureDetector(
+                        behavior: HitTestBehavior.translucent,
+                        onTap: () {
+                          Get.to(()=>const GetJobTypeScreen());
+                        },
+                        child: Row(
+                          children: [
+                            Image.asset(height: 24, 'assets/icons/send_icon.png'),
+                            const SizedBox(
+                              width: 20,
+                            ),
+                            Text(
+                              'Jobs'.tr,
                               style: GoogleFonts.poppins(
                                   color: const Color(0xFF2A3032), fontSize: 16, fontWeight: FontWeight.w500),
                             ),

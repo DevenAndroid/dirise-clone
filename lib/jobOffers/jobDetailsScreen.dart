@@ -97,7 +97,7 @@ class _JobDetailsScreenState extends State<JobDetailsScreen> {
   ModelSubcategoryList modelSubCategory = ModelSubcategoryList(subCategory: []);
   ModelCountryList modelCountryList = ModelCountryList(country: []);
   ModelStateList modelStateList = ModelStateList(state: []);
-  ModelCityList modelCityList = ModelCityList(city: []);
+  Rx<ModelCityList> modelCityList = ModelCityList(city: []).obs;
   Rx<RxStatus> vendorCategoryStatus = RxStatus.empty().obs;
   Rx<RxStatus> subCategoryStatus = RxStatus.empty().obs;
   Rx<RxStatus> countryStatus = RxStatus.empty().obs;
@@ -209,15 +209,15 @@ class _JobDetailsScreenState extends State<JobDetailsScreen> {
     FocusManager.instance.primaryFocus!.unfocus();
     cityStatus.value = RxStatus.loading();
     repositories.postApi(url: ApiUrls.citiesList, context: context, mapData: map).then((value) {
-      modelCityList = ModelCityList.fromJson(jsonDecode(value));
+      modelCityList.value = ModelCityList.fromJson(jsonDecode(value));
       // ModelStateList response = ModelStateList.fromJson(jsonDecode(value));
       cityStatus.value = RxStatus.success();
       for (var element in vendorInfo.vendorCategory!) {
         allSelectedCategory3[element.id.toString()] = City.fromJson(element.toJson());
       }
-      print('API Response Status Code: ${modelCityList.city}');
-      showToast(modelCityList.message.toString());
-      if (modelCityList.status == true) {
+      print('API Response Status Code: ${modelCityList.value.city}');
+      showToast(modelCityList.value.message.toString());
+      if (modelCityList.value.status == true) {
         print(addProductController.idProduct.value.toString());
       }
     });
@@ -691,7 +691,7 @@ class _JobDetailsScreenState extends State<JobDetailsScreen> {
                   //       .map((e) => DropdownMenuItem(value: e, child: Text(e.cityName.toString().capitalize!)))
                   //       .toList());
                   // }
-                  return modelCityList.city!.isNotEmpty
+                  return modelCityList.value.city!.isNotEmpty
                       ? DropdownButtonFormField<City>(
                           key: categoryKey3,
                           autovalidateMode: AutovalidateMode.onUserInteraction,
@@ -726,7 +726,7 @@ class _JobDetailsScreenState extends State<JobDetailsScreen> {
                               borderSide: BorderSide(color: AppTheme.secondaryColor),
                             ),
                           ),
-                          items: modelCityList.city!
+                          items: modelCityList.value.city!
                               .map((e) => DropdownMenuItem(value: e, child: Text(e.cityName.toString().capitalize!)))
                               .toList(),
                           hint: Text('Search city to choose'.tr),
