@@ -57,7 +57,7 @@ class _AuthorScreenState extends State<AuthorScreen> {
                     ?  Padding(
                   padding: const EdgeInsets.fromLTRB(0, 20, 0, 18),
                   child: SizedBox(
-                    height: size.height * 0.26,
+                    height: size.height * 0.27,
                     child: ListView.builder(
                         itemCount: homeController.getFeaturedModel.value.data!.length,
                         shrinkWrap: true,
@@ -124,11 +124,13 @@ class _AuthorScreenState extends State<AuthorScreen> {
                                             overflow: TextOverflow.ellipsis,
                                             style: GoogleFonts.poppins(fontSize: 12, fontWeight: FontWeight.w300),
                                           ),const SizedBox(height: 10,),
-                                          Row(
+                                          Wrap(
+                                            spacing: 3.0,
+                                            runSpacing: 5.0,
                                             children: [
-                                              if(homeController.getFeaturedModel.value.data![index].user!.email != '')
+                                              if (homeController.getFeaturedModel.value.data![index].user!.email != '')
                                                 GestureDetector(
-                                                  onTap: (){
+                                                  onTap: () {
                                                     launchURLl('mailto:${homeController.getFeaturedModel.value.data![index].user!.email.toString()}');
                                                   },
                                                   child: Image.asset(
@@ -137,13 +139,9 @@ class _AuthorScreenState extends State<AuthorScreen> {
                                                     width: 28,
                                                   ),
                                                 ),
-                                              if(homeController.getFeaturedModel.value.data![index].user!.email != '')
-                                                const SizedBox(
-                                                  width: 8,
-                                                ),
-                                              if(homeController.getFeaturedModel.value.data![index].user!.storePhone != '')
+                                              if (homeController.getFeaturedModel.value.data![index].user!.storePhone != '')
                                                 GestureDetector(
-                                                  onTap: (){
+                                                  onTap: () {
                                                     launchURLl('tel:${homeController.getFeaturedModel.value.data![index].user!.storePhone.toString()}');
                                                   },
                                                   child: Image.asset(
@@ -152,13 +150,9 @@ class _AuthorScreenState extends State<AuthorScreen> {
                                                     width: 28,
                                                   ),
                                                 ),
-                                              if(homeController.getFeaturedModel.value.data![index].user!.storePhone != '')
-                                                const SizedBox(
-                                                  width: 8,
-                                                ),
-                                              if(homeController.getFeaturedModel.value.data![index].socialLoginKeys!.pinterest != '')
+                                              if (homeController.getFeaturedModel.value.data![index].socialLoginKeys!.pinterest != '')
                                                 GestureDetector(
-                                                  onTap: (){
+                                                  onTap: () {
                                                     launchURLl(homeController.getFeaturedModel.value.data![index].socialLoginKeys!.pinterest.toString());
                                                   },
                                                   child: Image.asset(
@@ -167,12 +161,9 @@ class _AuthorScreenState extends State<AuthorScreen> {
                                                     width: 28,
                                                   ),
                                                 ),
-                                              const SizedBox(
-                                                width: 8,
-                                              ),
-                                              if(homeController.getFeaturedModel.value.data![index].socialLoginKeys!.twitter != '')
+                                              if (homeController.getFeaturedModel.value.data![index].socialLoginKeys!.twitter != '')
                                                 GestureDetector(
-                                                  onTap: (){
+                                                  onTap: () {
                                                     launchURLl(homeController.getFeaturedModel.value.data![index].socialLoginKeys!.twitter.toString());
                                                   },
                                                   child: SvgPicture.asset(
@@ -181,16 +172,9 @@ class _AuthorScreenState extends State<AuthorScreen> {
                                                     width: 30,
                                                   ),
                                                 ),
-                                            ],
-                                          ),
-                                          const SizedBox(
-                                            height: 5,
-                                          ),
-                                          Row(
-                                            children: [
-                                              if(homeController.getFeaturedModel.value.data![index].socialLoginKeys!.instagram != '')
+                                              if (homeController.getFeaturedModel.value.data![index].socialLoginKeys!.instagram != '')
                                                 GestureDetector(
-                                                  onTap: (){
+                                                  onTap: () {
                                                     launchURLl(homeController.getFeaturedModel.value.data![index].socialLoginKeys!.instagram.toString());
                                                   },
                                                   child: SvgPicture.asset(
@@ -199,13 +183,9 @@ class _AuthorScreenState extends State<AuthorScreen> {
                                                     width: 30,
                                                   ),
                                                 ),
-                                              if(homeController.getFeaturedModel.value.data![index].socialLoginKeys!.instagram != '')
-                                                const SizedBox(
-                                                  width: 8,
-                                                ),
-                                              if(homeController.getFeaturedModel.value.data![index].socialLoginKeys!.linkedin != '')
+                                              if (homeController.getFeaturedModel.value.data![index].socialLoginKeys!.linkedin != '')
                                                 GestureDetector(
-                                                  onTap: (){
+                                                  onTap: () {
                                                     launchURLl(homeController.getFeaturedModel.value.data![index].socialLoginKeys!.linkedin.toString());
                                                   },
                                                   child: SvgPicture.asset(
@@ -214,13 +194,9 @@ class _AuthorScreenState extends State<AuthorScreen> {
                                                     width: 30,
                                                   ),
                                                 ),
-                                              if(homeController.getFeaturedModel.value.data![index].socialLoginKeys!.linkedin != '')
-                                                const SizedBox(
-                                                  width: 8,
-                                                ),
-                                              if(homeController.getFeaturedModel.value.data![index].socialLoginKeys!.tiktok != '')
+                                              if (homeController.getFeaturedModel.value.data![index].socialLoginKeys!.tiktok != '')
                                                 GestureDetector(
-                                                  onTap: (){
+                                                  onTap: () {
                                                     launchURLl(homeController.getFeaturedModel.value.data![index].socialLoginKeys!.tiktok.toString());
                                                   },
                                                   child: SvgPicture.asset(
@@ -229,13 +205,9 @@ class _AuthorScreenState extends State<AuthorScreen> {
                                                     width: 30,
                                                   ),
                                                 ),
-                                              if(homeController.getFeaturedModel.value.data![index].socialLoginKeys!.tiktok != '')
-                                                const SizedBox(
-                                                  width: 8,
-                                                ),
-                                              if(homeController.getFeaturedModel.value.data![index].socialLoginKeys!.youtube != '')
+                                              if (homeController.getFeaturedModel.value.data![index].socialLoginKeys!.youtube != '')
                                                 GestureDetector(
-                                                  onTap: (){
+                                                  onTap: () {
                                                     launchURLl(homeController.getFeaturedModel.value.data![index].socialLoginKeys!.youtube.toString());
                                                   },
                                                   child: SvgPicture.asset(
@@ -244,13 +216,9 @@ class _AuthorScreenState extends State<AuthorScreen> {
                                                     width: 30,
                                                   ),
                                                 ),
-                                              if(homeController.getFeaturedModel.value.data![index].socialLoginKeys!.youtube != '')
-                                                const SizedBox(
-                                                  width: 8,
-                                                ),
-                                              if(homeController.getFeaturedModel.value.data![index].socialLoginKeys!.facebook != '')
+                                              if (homeController.getFeaturedModel.value.data![index].socialLoginKeys!.facebook != '')
                                                 GestureDetector(
-                                                  onTap: (){
+                                                  onTap: () {
                                                     launchURLl(homeController.getFeaturedModel.value.data![index].socialLoginKeys!.facebook.toString());
                                                   },
                                                   child: SvgPicture.asset(
@@ -260,6 +228,9 @@ class _AuthorScreenState extends State<AuthorScreen> {
                                                   ),
                                                 ),
                                             ],
+                                          ),
+                                          const SizedBox(
+                                            height: 5,
                                           ),
                                         ],
                                       ),

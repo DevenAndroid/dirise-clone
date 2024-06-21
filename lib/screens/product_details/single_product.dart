@@ -4,6 +4,7 @@ import 'package:cached_network_image/cached_network_image.dart';
 import 'package:carousel_slider/carousel_slider.dart';
 import 'package:dirise/utils/helper.dart';
 import 'package:dirise/widgets/common_textfield.dart';
+import 'package:easy_image_viewer/easy_image_viewer.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
@@ -305,11 +306,20 @@ class _SingleProductDetailsState extends State<SingleProductDetails> {
                               items: imagesList.map((i) {
                                 return Builder(
                                   builder: (BuildContext context) {
-                                    return CachedNetworkImage(
-                                        imageUrl: i,
-                                        height: 180,
-                                        fit: BoxFit.cover,
-                                        errorWidget: (_, __, ___) => Image.asset('assets/images/new_logo.png'));
+                                    return GestureDetector(
+                                      onTap: () {
+                                        showImageViewer(context, Image.network(i).image,
+                                            doubleTapZoomable: true,
+                                            backgroundColor: AppTheme.buttonColor,
+                                            useSafeArea: true,
+                                            swipeDismissible: false);
+                                      },
+                                      child: CachedNetworkImage(
+                                          imageUrl: i,
+                                          height: 180,
+                                          fit: BoxFit.cover,
+                                          errorWidget: (_, __, ___) => Image.asset('assets/images/new_logo.png')),
+                                    );
                                   },
                                 );
                               }).toList(),

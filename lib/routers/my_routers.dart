@@ -20,7 +20,6 @@ import '../addNewProduct/giveawaylocation.dart';
 import '../addNewProduct/pickUpAddressScreen.dart';
 import '../iAmHereToSell/personalizeyourstoreScreen.dart';
 import '../iAmHereToSell/verificationOptiionScreen.dart';
-import '../iAmHereToSell/whichplantypedescribeyouScreen.dart';
 import '../model/model_cart_response.dart';
 import '../model/vendor_models/model_return_policy.dart';
 import '../newAuthScreens/newOtpScreen.dart';
@@ -66,7 +65,7 @@ import '../vendor/shipping_policy.dart';
 class MyRouters {
   static var route = [
 
-    GetPage(name: '/', page: () => const WhichplantypedescribeyouScreen()),
+    GetPage(name: '/', page: () => const BottomNavbar()),
     GetPage(name: LoginScreen.route, page: () => const LoginScreen()),
     GetPage(name: VendorOTPVerification.route, page: () => const VendorOTPVerification()),
     GetPage(name: CreateAccountNewScreen.route, page: () => const CreateAccountNewScreen()),
