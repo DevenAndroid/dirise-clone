@@ -257,7 +257,7 @@ class _ProductUIState extends State<ProductUI> {
                     child: Row(
                       children: [
                         Text(
-                          "  SALE",
+                          " SALE",
                           style: GoogleFonts.poppins(
                               fontSize: 12, fontWeight: FontWeight.w700, color: const Color(0xFFFFDF33)),
                         ),

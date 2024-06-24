@@ -16,6 +16,7 @@ import 'package:get/get.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:intl_phone_field/intl_phone_field.dart';
 import 'package:shared_preferences/shared_preferences.dart';
+import 'package:url_launcher/url_launcher.dart';
 import '../../addNewProduct/addProductScreen.dart';
 import '../../addNewProduct/addProductStartScreen.dart';
 import '../../addNewProduct/myItemIsScreen.dart';
@@ -74,6 +75,30 @@ class MyAccountScreen extends StatefulWidget {
 enum SingingCharacter { lafayette, jefferson }
 
 class _MyAccountScreenState extends State<MyAccountScreen> {
+
+  whatsapp() async {
+    String contact = "+965 98762557";
+    String text = 'Whatsapp support';
+    String androidUrl = "whatsapp://send?phone=$contact&text=$text";
+    String iosUrl = "https://wa.me/$contact?text=${Uri.parse(text)}";
+
+    String webUrl = 'https://api.whatsapp.com/send/?phone=$contact&text=hi';
+
+    try {
+      if (Platform.isIOS) {
+        if (await canLaunchUrl(Uri.parse(iosUrl))) {
+          await launchUrl(Uri.parse(iosUrl));
+        }
+      } else {
+        if (await canLaunchUrl(Uri.parse(androidUrl))) {
+          await launchUrl(Uri.parse(androidUrl));
+        }
+      }
+    } catch(e) {
+      print('object');
+      await launchUrl(Uri.parse(webUrl), mode: LaunchMode.externalApplication);
+    }
+  }
   updateLanguage(String gg) async {
     SharedPreferences sharedPreferences = await SharedPreferences.getInstance();
     sharedPreferences.setString("app_language", gg);
@@ -526,6 +551,43 @@ class _MyAccountScreenState extends State<MyAccountScreen> {
                             ),
                             Text(
                               AppStrings.eBooks.tr,
+                              style: GoogleFonts.poppins(
+                                  color: const Color(0xFF2A3032), fontSize: 16, fontWeight: FontWeight.w500),
+                            ),
+                            const Spacer(),
+                            const Icon(
+                              Icons.arrow_forward_ios,
+                              size: 15,
+                            ),
+                          ],
+                        ),
+                      ),
+                      const SizedBox(
+                        height: 5,
+                      ),
+                      const Divider(
+                        thickness: 1,
+                        color: Color(0x1A000000),
+                      ),
+                      const SizedBox(
+                        height: 5,
+                      ),
+                      InkWell(
+                        onTap: () {
+                          if (profileController.userLoggedIn) {
+                            whatsapp();
+                          } else {
+                            Get.toNamed(LoginScreen.route);
+                          }
+                        },
+                        child: Row(
+                          children: [
+                            Image.asset(height: 25, 'assets/icons/order.png'),
+                            const SizedBox(
+                              width: 20,
+                            ),
+                            Text(
+                              "WhatsApp Support",
                               style: GoogleFonts.poppins(
                                   color: const Color(0xFF2A3032), fontSize: 16, fontWeight: FontWeight.w500),
                             ),
