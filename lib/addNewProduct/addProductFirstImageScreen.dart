@@ -109,13 +109,14 @@ class _AddProductFirstImageScreenState extends State<AddProductFirstImageScreen>
               CustomOutlineButton(
                 title: 'Next',
                 onPressed: () {
-                  if(featuredImage.path.isNotEmpty && selectedFiles.isNotEmpty){
-                    // productController.getProductsCategoryList();
-                    addProduct();
-                  }else{
-                    showToast('Please select Image');
-                  }
-
+                  // if(featuredImage.path.isNotEmpty && selectedFiles.isNotEmpty){
+                  //   // productController.getProductsCategoryList();
+                  //   addProduct();
+                  // }
+                  // else{
+                  //   showToast('Please select Image');
+                  // }
+                  addProduct();
                 },
               ),
             ],
