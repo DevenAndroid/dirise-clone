@@ -9,6 +9,7 @@ import 'package:form_field_validator/form_field_validator.dart';
 import 'package:get/get.dart';
 import 'package:google_fonts/google_fonts.dart';
 
+import '../controller/service_controller.dart';
 import '../model/common_modal.dart';
 import '../model/socialMediaModel.dart';
 import '../repository/repository.dart';
@@ -24,28 +25,20 @@ class SocialMediaStore extends StatefulWidget {
 }
 
 class _SocialMediaStoreState extends State<SocialMediaStore> {
-  TextEditingController instagramController  = TextEditingController();
-  TextEditingController youtubeController   = TextEditingController();
-  TextEditingController twitterController   = TextEditingController();
-  TextEditingController linkedinController  = TextEditingController();
-  TextEditingController facebookController   = TextEditingController();
-  TextEditingController snapchatController   = TextEditingController();
-  TextEditingController pinterestController   = TextEditingController();
-  TextEditingController tiktokController     = TextEditingController();
-  TextEditingController threadsController   = TextEditingController();
 
+  final controller = Get.put(ServiceController());
   final Repositories repositories = Repositories();
   socialMediaApi() {
     Map<String, dynamic> map = {};
-    map['instagram'] = instagramController.text.trim();
-    map['youtube'] = youtubeController.text.trim();
-    map['twitter'] = twitterController.text.trim();
-    map['linkedin'] = linkedinController.text.trim();
-    map['facebook'] = facebookController.text.trim();
-    map['snapchat'] = snapchatController.text.trim();
-    map['pinterest'] = pinterestController.text.trim();
-    map['tiktok'] = tiktokController.text.trim();
-    map['threads'] = threadsController.text.trim();
+    map['instagram'] = controller.instagramController.text.trim();
+    map['youtube'] =   controller.youtubeController.text.trim();
+    map['twitter'] =   controller.twitterController.text.trim();
+    map['linkedin'] =  controller.linkedinController.text.trim();
+    map['facebook'] =  controller.facebookController.text.trim();
+    map['snapchat'] =  controller.snapchatController.text.trim();
+    map['pinterest'] = controller.pinterestController.text.trim();
+    map['tiktok'] =    controller.tiktokController.text.trim();
+    map['threads'] =   controller.threadsController.text.trim();
 
     FocusManager.instance.primaryFocus!.unfocus();
     repositories.postApi(url: ApiUrls.socialMediaUrl, context: context, mapData: map).then((value) {
@@ -53,7 +46,7 @@ class _SocialMediaStoreState extends State<SocialMediaStore> {
       showToast(response.message.toString());
       if (response.status == true) {
         showToast(response.message.toString());
-        Get.to(PersonalizeyourstoreScreen());
+        Get.to(const PersonalizeyourstoreScreen());
       }
     });
   }
@@ -65,15 +58,15 @@ class _SocialMediaStoreState extends State<SocialMediaStore> {
       socialMediaModel = SocialMediaModel.fromJson(jsonDecode(value));
       log('ffffff ${socialMediaModel.socialMedia!.toJson()}');
       if(socialMediaModel.socialMedia != null){
-        instagramController.text = socialMediaModel.socialMedia!.instagram ?? "";
-        youtubeController.text = socialMediaModel.socialMedia!.youtube ?? "";
-        twitterController.text = socialMediaModel.socialMedia!.twitter ?? "";
-        linkedinController.text = socialMediaModel.socialMedia!.linkedin ?? "";
-        facebookController.text = socialMediaModel.socialMedia!.facebook ?? "";
-        snapchatController.text = socialMediaModel.socialMedia!.snapchat ?? "";
-        pinterestController.text  = socialMediaModel.socialMedia!.pinterest ?? "";
-        tiktokController.text = socialMediaModel.socialMedia!.tiktok ?? "";
-        threadsController.text = socialMediaModel.socialMedia!.threads ?? "";
+        controller.instagramController.text = socialMediaModel.socialMedia!.instagram ?? "";
+        controller.youtubeController.text = socialMediaModel.socialMedia!.youtube ?? "";
+        controller.twitterController.text = socialMediaModel.socialMedia!.twitter ?? "";
+        controller.linkedinController.text = socialMediaModel.socialMedia!.linkedin ?? "";
+        controller.facebookController.text = socialMediaModel.socialMedia!.facebook ?? "";
+        controller.snapchatController.text = socialMediaModel.socialMedia!.snapchat ?? "";
+        controller.pinterestController.text  = socialMediaModel.socialMedia!.pinterest ?? "";
+        controller.tiktokController.text = socialMediaModel.socialMedia!.tiktok ?? "";
+        controller.threadsController.text = socialMediaModel.socialMedia!.threads ?? "";
       }
       setState(() {});
     });
@@ -138,17 +131,18 @@ class _SocialMediaStoreState extends State<SocialMediaStore> {
               Column(
                       children: [
                         CommonTextField(
-                            controller: instagramController,
+                            controller: controller.instagramController,
                             obSecure: false,
                             prefix: Image.asset('assets/images/instagram.png'),
                             // hintText: 'Name',
                             hintText: 'Enter Your Instagram Profile Link'.tr,
                             validator: MultiValidator([
                               RequiredValidator(errorText: 'Instagram Username is required'.tr),
+
                             ])),
                         const SizedBox(height: 10,),
                         CommonTextField(
-                            controller: youtubeController,
+                            controller: controller.youtubeController,
                             obSecure: false,
                             prefix: Image.network('https://img.icons8.com/color/48/youtube-play'),
                             // hintText: 'Name',
@@ -158,7 +152,7 @@ class _SocialMediaStoreState extends State<SocialMediaStore> {
                             ])),
                         const SizedBox(height: 10,),
                         CommonTextField(
-                            controller: twitterController,
+                            controller: controller.twitterController,
                             obSecure: false,
                             prefix: Image.network('https://img.icons8.com/fluency/48/twitter.png'),
                             // hintText: 'Name',
@@ -168,7 +162,7 @@ class _SocialMediaStoreState extends State<SocialMediaStore> {
                             ])),
                         const SizedBox(height: 10,),
                         CommonTextField(
-                            controller: linkedinController,
+                            controller: controller.linkedinController,
                             obSecure: false,
                             prefix: Image.network('https://img.icons8.com/fluency/48/linkedin.png'),
                             // hintText: 'Name',
@@ -178,7 +172,7 @@ class _SocialMediaStoreState extends State<SocialMediaStore> {
                             ])),
                         const SizedBox(height: 10,),
                         CommonTextField(
-                            controller: facebookController,
+                            controller: controller.facebookController,
                             obSecure: false,
                             prefix: Image.network('https://img.icons8.com/color/48/facebook-new.png'),
                             // hintText: 'Name',
@@ -188,7 +182,7 @@ class _SocialMediaStoreState extends State<SocialMediaStore> {
                             ])),
                         const SizedBox(height: 10,),
                         CommonTextField(
-                            controller: snapchatController,
+                            controller: controller.snapchatController,
                             obSecure: false,
                             prefix: Image.network('https://img.icons8.com/parakeet/48/snapchat.png'),
                             // hintText: 'Name',
@@ -198,7 +192,7 @@ class _SocialMediaStoreState extends State<SocialMediaStore> {
                             ])),
                         const SizedBox(height: 10,),
                         CommonTextField(
-                            controller: pinterestController,
+                            controller: controller.pinterestController,
                             obSecure: false,
                             prefix: Image.network('https://img.icons8.com/color/48/pinterest--v1.png'),
                             // hintText: 'Name',
@@ -208,7 +202,7 @@ class _SocialMediaStoreState extends State<SocialMediaStore> {
                             ])),
                         const SizedBox(height: 10,),
                         CommonTextField(
-                            controller: tiktokController,
+                            controller: controller.tiktokController,
                             obSecure: false,
                             prefix: Image.network('https://img.icons8.com/color-glass/48/tiktok.png'),
                             // hintText: 'Name',
@@ -218,7 +212,7 @@ class _SocialMediaStoreState extends State<SocialMediaStore> {
                             ])),
                         const SizedBox(height: 10,),
                         CommonTextField(
-                            controller: threadsController,
+                            controller: controller.threadsController,
                             obSecure: false,
                             prefix: Image.network('https://img.icons8.com/color/48/clew.png'),
                             // hintText: 'Name',

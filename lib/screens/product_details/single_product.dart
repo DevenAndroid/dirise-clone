@@ -181,7 +181,7 @@ class _SingleProductDetailsState extends State<SingleProductDetails> {
     map["product_id"] = productElement.id.toString();
     map["quantity"] = map["quantity"] = int.tryParse(productQuantity.value.toString());
     map["key"] = 'fedexRate';
-    map["country_id"]= profileController.model.user!= null ? profileController.model.user!.country_id : '117';
+    map["country_id"]= profileController.model.user!= null ? profileController.model.user!.country_id ?? '117' : '117';
 
     if (isBookingProduct) {
       map["start_date"] = selectedDate.text.trim();
@@ -801,105 +801,106 @@ class _SingleProductDetailsState extends State<SingleProductDetails> {
                       ),
                     ),
                     if (canBuyProduct)
-                      Row(
-                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                        crossAxisAlignment: CrossAxisAlignment.center,
+                      Column(
+                        mainAxisAlignment: MainAxisAlignment.start,
+                        crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
-                          Expanded(
-                            child: Column(
-                              children: [
-                                Obx(() {
-                                  return Text(
-                                    productQuantity.value.toString(),
-                                    style: GoogleFonts.poppins(fontWeight: FontWeight.w500, fontSize: 18),
-                                  );
-                                }),
-                                Row(
-                                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                                  children: [
-                                    GestureDetector(
-                                      onTap: () {
-                                        if (productQuantity.value > 1) {
-                                          productQuantity.value--;
-                                        }
-                                      },
-                                      child: CircleAvatar(
-                                        radius: 18,
-                                        backgroundColor: const Color(0xffEAEAEA),
-                                        child: Center(
-                                            child: Text(
-                                          "━",
-                                          style: GoogleFonts.poppins(
-                                              fontSize: 16, fontWeight: FontWeight.w500, color: Colors.black),
-                                        )),
-                                      ),
-                                    ),
-                                    // SizedBox(
-                                    //   width: size.width * .015,
-                                    // ),
-                                    //
-                                    // SizedBox(
-                                    //   width: size.width * .015,
-                                    // ),
-                                    GestureDetector(
-                                      onTap: () {
-                                        if (productElement.inStock ==0) {
-                                          showToast("Out Of Stock".tr);
+                          Row(
+                            mainAxisAlignment: MainAxisAlignment.start,
+                            children: [
+                              GestureDetector(
+                                onTap: () {
+                                  if (productQuantity.value > 1) {
+                                    productQuantity.value--;
+                                  }
+                                },
+                                child: CircleAvatar(
+                                  radius: 22,
+                                  backgroundColor: const Color(0xffEAEAEA),
+                                  child: Center(
+                                      child: Text(
+                                        "━",
+                                        style: GoogleFonts.poppins(
+                                            fontSize: 16, fontWeight: FontWeight.w500, color: Colors.black),
+                                      )),
+                                ),
+                              ),
+                              SizedBox(
+                                width: 20,
+                              ),
+                              Obx(() {
+                                return Text(
+                                  productQuantity.value.toString(),
+                                  style: GoogleFonts.poppins(fontWeight: FontWeight.w500, fontSize: 18),
+                                );
+                              }),
+                              SizedBox(
+                                width: 20,
+                              ),
+                              GestureDetector(
+                                onTap: () {
+                                  if (productElement.inStock ==0) {
+                                    showToast("Out Of Stock".tr);
 
-                                        } else {
-                                          productQuantity.value++;
-                                        }
-                                      },
-                                      child: CircleAvatar(
-                                        radius: 18,
-                                        backgroundColor: const Color(0xffEAEAEA),
-                                        child: Center(
-                                            child: Text(
-                                          "+",
-                                          style: GoogleFonts.poppins(
-                                              fontSize: 20, fontWeight: FontWeight.w600, color: Colors.black),
-                                        )),
-                                      ),
-                                    ),
-                                  ],
+                                  } else {
+                                    productQuantity.value++;
+                                  }
+                                },
+                                child: CircleAvatar(
+                                  radius: 22,
+                                  backgroundColor: const Color(0xffEAEAEA),
+                                  child: Center(
+                                      child: Text(
+                                        "+",
+                                        style: GoogleFonts.poppins(
+                                            fontSize: 20, fontWeight: FontWeight.w600, color: Colors.black),
+                                      )),
                                 ),
-                              ],
-                            ),
+                              ),
+                            ],
                           ),
-                          Expanded(
-                            child: ElevatedButton(
-                              onPressed: () {
+                          16.spaceY,
+                          Row(
+                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                            crossAxisAlignment: CrossAxisAlignment.end,
+                            children: [
+                              Expanded(
+                                child: ElevatedButton(
+                                  onPressed: () {
 
-                                directBuyProduct();
-                              },
-                              style: ElevatedButton.styleFrom(
-                                backgroundColor: AppTheme.buttonColor,
-                                surfaceTintColor: AppTheme.buttonColor,
-                              ),
-                              child: FittedBox(
-                                child: Text(
-                                  "Buy Now".tr,
-                                  style: GoogleFonts.poppins(fontSize: 16, fontWeight: FontWeight.w500, color: Colors.white),
+                                    directBuyProduct();
+                                  },
+                                  style: ElevatedButton.styleFrom(
+                                    backgroundColor: AppTheme.buttonColor,
+                                    surfaceTintColor: AppTheme.buttonColor,
+                                  ),
+                                  child: FittedBox(
+                                    child: Text(
+                                      "Buy Now".tr,
+                                      style: GoogleFonts.poppins(fontSize: 16, fontWeight: FontWeight.w500, color: Colors.white),
+                                    ),
+                                  ),
                                 ),
                               ),
-                            ),
-                          ),
-                          Expanded(
-                            child: ElevatedButton(
-                              onPressed: () {
-                                addToCartProduct();
-                              },
-                              style: ElevatedButton.styleFrom(
-                                backgroundColor: AppTheme.buttonColor,
-                                surfaceTintColor: AppTheme.buttonColor,
-                              ),
-                              child: FittedBox(
-                                child: Text(
-                                  "Add to Cart".tr,
-                                  style: GoogleFonts.poppins(fontSize: 16, fontWeight: FontWeight.w500, color: Colors.white),
+                              5.spaceX,
+                              Expanded(
+                                child: ElevatedButton(
+                                  onPressed: () {
+                                    addToCartProduct();
+                                  },
+                                  style: ElevatedButton.styleFrom(
+                                    backgroundColor: AppTheme.buttonColor,
+                                    surfaceTintColor: AppTheme.buttonColor,
+                                  ),
+                                  child: FittedBox(
+                                    child: Text(
+                                      "Add to Cart".tr,
+                                      style: GoogleFonts.poppins(fontSize: 16, fontWeight: FontWeight.w500, color: Colors.white),
+                                    ),
+                                  ),
                                 ),
                               ),
-                            ),
+                            ],
                           ),
                         ],
                       ),

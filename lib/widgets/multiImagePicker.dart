@@ -51,7 +51,66 @@ class _MultiImageWidgetState extends State<MultiImageWidget> {
       }
     }
   }
+  Future<void> pickImagesNew() async {
+    showModalBottomSheet(
+      context: context,
+      builder: (BuildContext context) {
+        return SafeArea(
+          child: Column(
+            mainAxisSize: MainAxisSize.min,
+            children: <Widget>[
 
+              ListTile(
+                leading: Icon(Icons.photo_library),
+                title: Text('Gallery'),
+                onTap: () async {
+                Get.back();
+                  if (widget.imageOnly == true) {
+                    final pickedFiles = await ImagePicker().pickMultiImage(imageQuality: 80);
+                    if (pickedFiles != null) {
+                      files = pickedFiles.map((pickedFile) => File(pickedFile.path)).toList();
+                      widget.filesPicked(files);
+                      setState(() {});
+                    }
+                  } else {
+                    final result = await FilePicker.platform.pickFiles(allowMultiple: true);
+                    if (result != null) {
+                      files = result.paths.map((path) => File(path!)).toList();
+                      widget.filesPicked(files);
+                      setState(() {});
+                    }
+                  }
+                },
+              ),
+              ListTile(
+                leading: Icon(Icons.camera_alt),
+                title: Text('Camera'),
+                onTap: () async {
+                  Get.back();
+                  final pickedFile = await ImagePicker().pickImage(
+                    source: ImageSource.camera,
+                    imageQuality: 80,
+                  );
+                  if (pickedFile != null) {
+                    setState(() {
+                      files.add(File(pickedFile.path));
+                    });
+                    widget.filesPicked(files);
+                  }
+                },
+              ),
+              ListTile(
+                leading: Icon(Icons.cancel),
+                title: Text('Cancel'),
+                onTap: () {
+                  Get.back();                },
+              ),
+            ],
+          ),
+        );
+      },
+    );
+  }
   @override
   void initState() {
     super.initState();
@@ -73,7 +132,7 @@ class _MultiImageWidgetState extends State<MultiImageWidget> {
         ),
         const SizedBox(height: 8),
         GestureDetector(
-          onTap: pickImages,
+          onTap: pickImagesNew,
           child: Container(
             padding: EdgeInsets.symmetric(horizontal: AddSize.padding16, vertical: AddSize.padding16),
             width: AddSize.screenWidth,

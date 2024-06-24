@@ -508,7 +508,11 @@ class _ProductUIState extends State<ProductUI> {
                         ),
                         ElevatedButton(
                           onPressed: () {
-                            addToCartProduct();
+                            if(widget.productElement.productType == 'variants'){
+                              bottomSheet(productDetails: widget.productElement, context: context);
+                            }else{
+                              addToCartProduct();
+                            }
                           },
                           style: ElevatedButton.styleFrom(
                             backgroundColor: AppTheme.buttonColor,

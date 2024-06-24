@@ -85,7 +85,7 @@ class _AddProductFirstImageScreenState extends State<AddProductFirstImageScreen>
             children: [
               ImageWidget(
                 // key: paymentReceiptCertificateKey,
-                title: "Click To Edit Uploaded  Image".tr,
+                title: " Upload cover photo".tr,
                 file: featuredImage,
                 validation: checkValidation(showValidation.value, featuredImage.path.isEmpty),
                 filePicked: (File g) {
@@ -95,7 +95,7 @@ class _AddProductFirstImageScreenState extends State<AddProductFirstImageScreen>
               const SizedBox(height: 20,),
               MultiImageWidget(
                 files: selectedFiles,
-                title: 'Select Images',
+                title: 'Upload extra photos',
                 validation: true,
                 imageOnly: true,
                 filesPicked: (List<File> pickedFiles) {
@@ -109,13 +109,14 @@ class _AddProductFirstImageScreenState extends State<AddProductFirstImageScreen>
               CustomOutlineButton(
                 title: 'Next',
                 onPressed: () {
-                  if(featuredImage.path.isNotEmpty && selectedFiles.isNotEmpty){
-                    // productController.getProductsCategoryList();
-                    addProduct();
-                  }else{
-                    showToast('Please select Image');
-                  }
-
+                  // if(featuredImage.path.isNotEmpty && selectedFiles.isNotEmpty){
+                  //   // productController.getProductsCategoryList();
+                  //   addProduct();
+                  // }
+                  // else{
+                  //   showToast('Please select Image');
+                  // }
+                  addProduct();
                 },
               ),
             ],

@@ -248,18 +248,21 @@ class _CustomDrawerState extends State<CustomDrawer> {
                                       height: 65,
                                       width: 65,
                                       child: profileController.userLoggedIn
-                                          ? Image.network(
-                                              profileController.apiLoaded && profileController.model.user != null
-                                                  ? profileController.model.user!.profileImage.toString()
-                                                  : "",
-                                              fit: BoxFit.cover,
-                                              height: 65,
-                                              width: 65,
-                                              errorBuilder: (_, __, ___) => const Icon(
-                                                    Icons.person,
-                                                    color: AppTheme.buttonColor,
-                                                    size: 45,
-                                                  ))
+                                          ? ClipRRect(
+                                            borderRadius: BorderRadius.circular(1000),
+                                            child: Image.network(
+                                                profileController.apiLoaded && profileController.model.user != null
+                                                    ? profileController.model.user!.profileImage.toString()
+                                                    : "",
+                                                fit: BoxFit.cover,
+                                                height: 65,
+                                                width: 65,
+                                                errorBuilder: (_, __, ___) => const Icon(
+                                                      Icons.person,
+                                                      color: AppTheme.buttonColor,
+                                                      size: 45,
+                                                    )),
+                                          )
                                           : const Icon(
                                               Icons.person,
                                               color: AppTheme.buttonColor,
