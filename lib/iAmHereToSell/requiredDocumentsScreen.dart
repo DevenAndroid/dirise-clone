@@ -215,14 +215,15 @@ class _RequiredDocumentsScreenState extends State<RequiredDocumentsScreen> {
               CustomOutlineButton(
                 title: "Upload".tr,
                 onPressed: () {
-                  if(payment_certificate.path.isEmpty &&
-                      commercial_license.path.isEmpty &&
-                      memorandum_of_association.path.isEmpty){
-                    showToast('Please select Required Documents');
-                  }else
-                  {
-                    updateProfile();
-                  }
+                  updateProfile();
+                  // if(payment_certificate.path.isEmpty &&
+                  //     commercial_license.path.isEmpty &&
+                  //     memorandum_of_association.path.isEmpty){
+                  //   showToast('Please select Required Documents');
+                  // }else
+                  // {
+                  //   updateProfile();
+                  // }
 
                 },
               ),

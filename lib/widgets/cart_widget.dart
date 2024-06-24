@@ -25,7 +25,7 @@ class _CartBagCardState extends State<CartBagCard> {
     return Obx(() {
       if (cartController.refreshInt.value > 0) {}
       if(cartController.apiLoaded == true) {
-       totalProducts = cartController.cartModel.totalProducts;
+       totalProducts = cartController.cartModel.totalProducts ?? '0';
       }
       return GestureDetector(
         behavior: HitTestBehavior.translucent,
