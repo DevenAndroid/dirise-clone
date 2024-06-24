@@ -238,7 +238,9 @@ class _PersonalizeyourstoreScreenState extends State<PersonalizeyourstoreScreen>
                 // minLines: 2,
                 // maxLines: 2,
               ),
+              15.spaceY,
               GestureDetector(
+                behavior: HitTestBehavior.translucent,
                 onTap: (){
                   Get.to(const SocialMediaStore());
                 },
@@ -268,6 +270,7 @@ class _PersonalizeyourstoreScreenState extends State<PersonalizeyourstoreScreen>
                 height: 5,
               ),
               GestureDetector(
+                behavior: HitTestBehavior.translucent,
                 onTap: (){
                   Get.to(const SetTimeScreen());
                 },
@@ -297,6 +300,7 @@ class _PersonalizeyourstoreScreenState extends State<PersonalizeyourstoreScreen>
                 height: 5,
               ),
               GestureDetector(
+                behavior: HitTestBehavior.translucent,
                 onTap: (){
                   Get.to(const VendorInformation());
                 },
@@ -326,6 +330,7 @@ class _PersonalizeyourstoreScreenState extends State<PersonalizeyourstoreScreen>
                 height: 5,
               ),
               GestureDetector(
+                behavior: HitTestBehavior.translucent,
                 onTap: (){
                   Get.to(AddAddressScreen());
                 },
@@ -355,6 +360,7 @@ class _PersonalizeyourstoreScreenState extends State<PersonalizeyourstoreScreen>
                 height: 5,
               ),
               GestureDetector(
+                behavior: HitTestBehavior.translucent,
                 onTap: (){
                   Get.to(const BannersScreen());
                 },
@@ -384,6 +390,7 @@ class _PersonalizeyourstoreScreenState extends State<PersonalizeyourstoreScreen>
                 height: 5,
               ),
               GestureDetector(
+                behavior: HitTestBehavior.translucent,
                 onTap: (){
                   Get.to(DifferentPolicyScreen());
                 },

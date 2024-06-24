@@ -19,7 +19,6 @@ class ShowCaseProducts extends StatefulWidget {
 
 class _ShowCaseProductsState extends State<ShowCaseProducts> {
   final homeController = Get.put(TrendingProductsController());
-
   @override
   Widget build(BuildContext context) {
     var size = MediaQuery.of(context).size;
@@ -290,7 +289,7 @@ SizedBox(width: 20,),
                                 borderRadius: BorderRadius.only(topRight: Radius.circular(8)),
                                   color: Color(0xFF27D6FF).withOpacity(0.6)
                               ),
-                              child: Text(" Advertising ", style: GoogleFonts.poppins(fontSize: 20, fontWeight: FontWeight.w400,color: Colors.white),
+                              child: Text(" Showcase ", style: GoogleFonts.poppins(fontSize: 20, fontWeight: FontWeight.w400,color: Colors.white),
                               ),
                             ),
                           )

@@ -57,9 +57,13 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
       map['country_id'] = profileController.selectedCountry!.id.toString();
       map['state_id'] = profileController.selectedState!.stateId.toString();
       map['phone_country_code'] = profileController.code.toString();
-      map['city_id'] = profileController.selectedCity!.cityId.toString();
+      if( profileController.selectedCity!= null) {
+        map['city_id'] = profileController.selectedCity!.cityId.toString();
+      }else{
+        map['city_id'] = '';
+      }
       map['street_name'] = addressController.text.trim();
-      log('dsgsfhdfgh${profileController.selectedCity!.cityId.toString()}');
+      // log('dsgsfhdfgh${profileController.selectedCity!.cityId.toString()}');
       Map<String, File> gg = {};
       if (image.path.isNotEmpty) {
         gg["profile_image"] = image;
@@ -71,7 +75,7 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
         showToast(response.message.toString());
         if (response.status == true) {
           profileController.getDataProfile();
-          log('dsgsfhdfgh${profileController.selectedCity!.cityId.toString()}');
+          // log('dsgsfhdfgh${profileController.selectedCity!.cityId.toString()}');
           // Get.offNamed(ProfileScreen.route);
           Get.back();
         }else{

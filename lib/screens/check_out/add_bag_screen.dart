@@ -221,8 +221,8 @@ class _BagsScreenState extends State<BagsScreen> {
                                                     showDialog<String>(
                                                         context: context,
                                                         builder: (BuildContext context) => AlertDialog(
-                                                      title: const Text('Remove Cart'),
-                                                      content: const Text('Do You Want To Remove From Your Cart.'),
+                                                      title: const Text('Remove cart'),
+                                                      content: const Text('Do you want to remove from your cart.'),
                                                       actions: <Widget>[
                                                         TextButton(
                                                           onPressed: () => Get.back(),

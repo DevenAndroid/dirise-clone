@@ -76,4 +76,14 @@ class ServiceController extends GetxController {
   TextEditingController countryController1 = TextEditingController();
   TextEditingController stateController1 = TextEditingController();
   TextEditingController cityController1 = TextEditingController();
+
+  TextEditingController instagramController  = TextEditingController();
+  TextEditingController youtubeController   = TextEditingController();
+  TextEditingController twitterController   = TextEditingController();
+  TextEditingController linkedinController  = TextEditingController();
+  TextEditingController facebookController   = TextEditingController();
+  TextEditingController snapchatController   = TextEditingController();
+  TextEditingController pinterestController   = TextEditingController();
+  TextEditingController tiktokController     = TextEditingController();
+  TextEditingController threadsController   = TextEditingController();
 }

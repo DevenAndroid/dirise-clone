@@ -181,7 +181,7 @@ class _SingleProductDetailsState extends State<SingleProductDetails> {
     map["product_id"] = productElement.id.toString();
     map["quantity"] = map["quantity"] = int.tryParse(productQuantity.value.toString());
     map["key"] = 'fedexRate';
-    map["country_id"]= profileController.model.user!= null ? profileController.model.user!.country_id : '117';
+    map["country_id"]= profileController.model.user!= null ? profileController.model.user!.country_id ?? '117' : '117';
 
     if (isBookingProduct) {
       map["start_date"] = selectedDate.text.trim();
@@ -803,7 +803,7 @@ class _SingleProductDetailsState extends State<SingleProductDetails> {
                     if (canBuyProduct)
                       Row(
                         mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                        crossAxisAlignment: CrossAxisAlignment.center,
+                        crossAxisAlignment: CrossAxisAlignment.end,
                         children: [
                           Expanded(
                             child: Column(
@@ -814,6 +814,7 @@ class _SingleProductDetailsState extends State<SingleProductDetails> {
                                     style: GoogleFonts.poppins(fontWeight: FontWeight.w500, fontSize: 18),
                                   );
                                 }),
+                                12.spaceY,
                                 Row(
                                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                                   children: [
@@ -824,7 +825,7 @@ class _SingleProductDetailsState extends State<SingleProductDetails> {
                                         }
                                       },
                                       child: CircleAvatar(
-                                        radius: 18,
+                                        radius: 22,
                                         backgroundColor: const Color(0xffEAEAEA),
                                         child: Center(
                                             child: Text(
@@ -851,7 +852,7 @@ class _SingleProductDetailsState extends State<SingleProductDetails> {
                                         }
                                       },
                                       child: CircleAvatar(
-                                        radius: 18,
+                                        radius: 22,
                                         backgroundColor: const Color(0xffEAEAEA),
                                         child: Center(
                                             child: Text(

@@ -60,9 +60,10 @@ class _PlanWidgetState extends State<PlanWidget> {
                               if (paymentDone) ...[
                                 GestureDetector(
                                   onTap: () {
-                                    Get.to(() => EditVendorPlan(
-                                          selectedPlanId: vendorProfileController.model.user!.activePlanId.toString(),
-                                        ));
+                                    // Get.to(() => EditVendorPlan(
+                                    //       selectedPlanId: vendorProfileController.model.user!.activePlanId.toString(),
+                                    //     ));
+                                    Get.to(()=>const WhichplantypedescribeyouScreen());
                                   },
                                   behavior: HitTestBehavior.translucent,
                                   child: Row(

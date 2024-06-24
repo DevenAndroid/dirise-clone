@@ -1,8 +1,11 @@
 import 'dart:io';
 import 'package:dirise/utils/api_constant.dart';
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:image_cropper/image_cropper.dart';
+import 'package:image_picker/image_picker.dart';
 import '../../utils/helper.dart';
 import '../../widgets/dimension_screen.dart';
 
@@ -63,7 +66,101 @@ class _ImageWidgetState extends State<ImageWidget> {
       setState(() {});
     });
   }
+  void showActionSheet(BuildContext context) {
+    showCupertinoModalPopup<void>(
+      context: context,
+      builder: (BuildContext context) => CupertinoActionSheet(
+        title: const Text(
+          'Select Picture from',
+          style: TextStyle(color: Colors.black, fontSize: 18, fontWeight: FontWeight.w600),
+        ),
+        actions: <CupertinoActionSheetAction>[
+          CupertinoActionSheetAction(
+            onPressed: () {
+              Helpers.addImagePicker(imageSource: ImageSource.camera, imageQuality: 75).then((value) async {
+                CroppedFile? croppedFile = await ImageCropper().cropImage(
+                  sourcePath: value.path,
+                  aspectRatioPresets: [
+                    // CropAspectRatioPreset.square,
+                    // CropAspectRatioPreset.ratio3x2,
+                    // CropAspectRatioPreset.original,
+                    CropAspectRatioPreset.ratio4x3,
+                    // CropAspectRatioPreset.ratio16x9
+                  ],
+                  uiSettings: [
+                    AndroidUiSettings(
+                        toolbarTitle: 'Cropper',
+                        toolbarColor: Colors.deepOrange,
+                        toolbarWidgetColor: Colors.white,
+                        initAspectRatio: CropAspectRatioPreset.ratio4x3,
+                        lockAspectRatio: true),
+                    IOSUiSettings(
+                      title: 'Cropper',
+                    ),
+                    WebUiSettings(
+                      context: context,
+                    ),
+                  ],
+                );
+                if (croppedFile != null) {
+                  file = File(croppedFile.path);
+                  setState(() {});
+                }
 
+                Get.back();
+              });
+            },
+            child: const Text("Camera"),
+          ),
+          CupertinoActionSheetAction(
+            onPressed: () {
+              Helpers.addImagePicker(imageSource: ImageSource.gallery, imageQuality: 75).then((value) async {
+                CroppedFile? croppedFile = await ImageCropper().cropImage(
+                  sourcePath: value.path,
+                  aspectRatioPresets: [
+                    // CropAspectRatioPreset.square,
+                    // CropAspectRatioPreset.ratio3x2,
+                    // CropAspectRatioPreset.original,
+                    CropAspectRatioPreset.ratio4x3,
+                    // CropAspectRatioPreset.ratio16x9
+                  ],
+
+                  uiSettings: [
+                    AndroidUiSettings(
+                        toolbarTitle: 'Cropper',
+                        toolbarColor: Colors.deepOrange,
+                        toolbarWidgetColor: Colors.white,
+                        initAspectRatio: CropAspectRatioPreset.ratio4x3,
+                        lockAspectRatio: true),
+                    IOSUiSettings(
+                      title: 'Cropper',
+                    ),
+                    WebUiSettings(
+                      context: context,
+                    ),
+                  ],
+                );
+                if (croppedFile != null) {
+                  file = File(croppedFile.path);
+                  setState(() {});
+                }
+
+                Get.back();
+              });
+            },
+            child: const Text('Gallery'),
+          ),
+          CupertinoActionSheetAction(
+            isDestructiveAction: true,
+            onPressed: () {
+              Get.back();
+            },
+            child: const Text('Cancel'),
+          ),
+        ],
+      ),
+    );
+  }
   @override
   void initState() {
     super.initState();
@@ -83,7 +180,8 @@ class _ImageWidgetState extends State<ImageWidget> {
         8.spaceY,
         GestureDetector(
           onTap: () {
-            pickImage();
+            // pickImage();
+            showActionSheet(context);
           },
           child: Container(
             padding: EdgeInsets.symmetric(horizontal: AddSize.padding16, vertical: AddSize.padding16),
