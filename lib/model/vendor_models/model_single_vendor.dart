@@ -35,6 +35,7 @@ class User {
   dynamic start;
   dynamic day;
   dynamic end;
+  dynamic storeBannerDesccription;
   dynamic storeLogoApp;
   dynamic storeLogoWeb;
   dynamic bannerProfileApp;
@@ -51,6 +52,7 @@ class User {
         this.day,
         this.start,
         this.end,
+        this.storeBannerDesccription,
         this.description,
         this.bannerProfileApp,
         this.bannerProfileWeb,
@@ -68,6 +70,7 @@ class User {
     email = json['email'];
     storePhone = json['store_phone'];
     description = json['description'];
+    storeBannerDesccription = json['store_banner_desccription'];
     day = json['day'];
     start = json['start'];
     end = json['end'];
@@ -89,6 +92,7 @@ class User {
     data['start_break_time'] = startBreakTime;
     data['end_break_time'] = endBreakTime;
     data['store_phone'] = storePhone;
+    data['store_banner_desccription'] = this.storeBannerDesccription;
     data['day'] = this.day;
     data['store_logo_app'] = storeLogoApp;
     data['store_logo_web'] = storeLogoWeb;

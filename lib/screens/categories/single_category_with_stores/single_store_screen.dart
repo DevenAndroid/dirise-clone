@@ -138,6 +138,7 @@ class _SingleStoreScreenState extends State<SingleStoreScreen> {
   // }
 
   String productCount = '';
+  String description = '';
   String bannerString = '';
   String storeLogo = '';
 
@@ -185,6 +186,7 @@ class _SingleStoreScreenState extends State<SingleStoreScreen> {
     repositories.getApi(url: ApiUrls.getVendorInfoUrl + vendorId).then((value) {
       ModelSingleVendor response = ModelSingleVendor.fromJson(jsonDecode(value));
       productCount = response.productCount.toString();
+       description = response.user!.storeBannerDesccription.toString();
       bannerString = response.user!.bannerProfileApp.toString();
       storeLogo = response.user!.storeLogo.toString();
       gg = VendorStoreData.fromJson(response.user!.toJson());
@@ -468,7 +470,7 @@ class _SingleStoreScreenState extends State<SingleStoreScreen> {
                               height: 10,
                             ),
                             Text(
-                              storeInfo.description.toString(),
+                              description.toString(),
                               style: GoogleFonts.poppins(
                                   color: const Color(0xFF014E70), fontSize: 14, fontWeight: FontWeight.w500),
                             ),
