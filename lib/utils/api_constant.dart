@@ -130,6 +130,7 @@ class ApiUrls {
   static const String vendorEarning = "${baseUrl}vendor-earning";
   static const String vendorEarningNew = "${baseUrl}get-vendor-earnings";
   static const String addCurrentAddress = "${baseUrl}add-current-address";
+  static const String insertErrorLog = "${baseUrl}insert-error-log";
   static const String productCreateSlots = "${baseUrl}product-create-slots";
   static const String addProductSponsor = "${baseUrl}add-product-sponsor";
   static const String sponsorList = "${baseUrl}sponsor-list";

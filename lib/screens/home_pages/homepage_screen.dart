@@ -26,6 +26,7 @@ import '../../controller/location_controller.dart';
 import '../../controller/profile_controller.dart';
 import '../../language/app_strings.dart';
 import '../../model/common_modal.dart';
+import '../../model/error_log_model.dart';
 import '../../repository/repository.dart';
 import '../../utils/api_constant.dart';
 import '../../vendor/authentication/vendor_plans_screen.dart';
@@ -60,6 +61,33 @@ class HomePage extends StatefulWidget {
 class _HomePageState extends State<HomePage> {
   final homeController = Get.put(TrendingProductsController());
   final cartController = Get.put(CartController());
+  final Repositories repositories = Repositories();
+  Rx<ErrorLogModel> errorLog = ErrorLogModel().obs;
+  errorApi() {
+    Map<String, dynamic> map = {
+      "type": "location",
+      "payload": [
+        {
+          "street": locationController.street.toString(),
+          "city": locationController.city.value,
+          "state": locationController.state.toString(),
+          "country": locationController.countryName.toString(),
+          "zipcode": locationController.zipcode.value.toString(),
+          "town":  locationController.town.toString(),
+
+        }
+      ]
+    };
+    print(map.toString());
+    print("print error log ");
+    repositories.postApi(url: ApiUrls.insertErrorLog, mapData: map,).then((value) {
+      errorLog.value = ErrorLogModel.fromJson(jsonDecode(value));
+      showToast(value.message.toString());
+
+
+      Get.back();
+    });
+  }
   final Completer<GoogleMapController> googleMapController = Completer();
   GoogleMapController? mapController;
   final bottomController = Get.put(BottomNavBarController());
@@ -105,7 +133,9 @@ class _HomePageState extends State<HomePage> {
         locationController.countryName = placemark.country ?? '';
         locationController.zipcode.value = placemark.postalCode ?? '';
         locationController.town = placemark.subAdministrativeArea ?? '';
+        errorApi();
       });
+
       SharedPreferences prefs = await SharedPreferences.getInstance();
       await prefs.setString('street', placemark.street ?? '');
       await prefs.setString('city', placemark.locality ?? '');
@@ -114,6 +144,7 @@ class _HomePageState extends State<HomePage> {
       await prefs.setString('zipcode', placemark.postalCode ?? '');
       await prefs.setString('town', placemark.subAdministrativeArea ?? '');
     }
+    // errorApi();
     await placemarkFromCoordinates(_currentPosition!.latitude, _currentPosition!.longitude)
         .then((List<Placemark> placemarks) {
       Placemark place = placemarks[0];
@@ -124,8 +155,11 @@ class _HomePageState extends State<HomePage> {
       debugPrint(e.toString());
     });
   }
+
+
   Future<void> _loadSavedAddress() async {
     SharedPreferences prefs = await SharedPreferences.getInstance();
+
     setState(() {
       locationController.street = prefs.getString('street') ?? '';
       locationController.city.value = prefs.getString('city') ?? '';
@@ -137,8 +171,12 @@ class _HomePageState extends State<HomePage> {
       cartController.zipCode = prefs.getString('zipcode') ?? '';
       cartController.city.value = prefs.getString('city') ?? '';
       cartController.address.value = prefs.getString('town') ?? '';
+      errorApi();
     });
+
+
   }
+
   Future<void> _getCurrentPosition() async {
     final hasPermission = await _handleLocationPermission();
     if (!hasPermission) return;
@@ -252,7 +290,7 @@ class _HomePageState extends State<HomePage> {
     WithdrawMoney.route,
   ];
   final locationController = Get.put(LocationController());
-  final Repositories repositories = Repositories();
+
 
   @override
   void initState() {
