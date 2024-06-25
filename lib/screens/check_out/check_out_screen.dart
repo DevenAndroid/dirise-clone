@@ -1019,7 +1019,7 @@ RxString shipId = "".obs;
                               // print("icarryCommision"+ e.value.icarryCommision.toString());
                               // print("rate"+product.rate.toString());
                               // print('total isss${cartController.formattedTotal.toString()}');
-                              cartController.shippingPrices = cartController.formattedTotal.toString();
+                              // cartController.shippingPrices = cartController.formattedTotal.toString();
                               return Obx(() {
                                 return Column(
                                   children: [
@@ -1057,7 +1057,7 @@ RxString shipId = "".obs;
                                               print("shipping price"+cartController.shippingPrices.toString());
                                               shippingPrice =   product.price.toString();
                                               // double subtotal = double.parse(cartController.cartModel.subtotal.toString());
-                                              double subtotal = double.parse(e.value.icarryCommision.toString());
+                                              double subtotal = double.parse(cartController.cartModel.subtotal.toString());
                                               double shipping = double.parse(product.rate.toString());
                                               total = subtotal + shipping;
                                               cartController.formattedTotal2 = total.toStringAsFixed(3);
@@ -1071,7 +1071,7 @@ RxString shipId = "".obs;
                                               // e.value.shippingVendorName.value = product.serviceName.toString();
                                               // e.value.vendorPrice.value = product.ratedShipmentDetails![index].totalNetCharge.toString();
 
-                                              e.value.sPrice = product.rate;
+                                              e.value.sPrice = product.rate.toDouble();
 
                                               log("Initial sPrice:$sPrice1");
                                               log("Initial sPrice:"+  cartController.shippingTitle.toString());
@@ -1088,6 +1088,8 @@ RxString shipId = "".obs;
                                                   // Update sPrice directly without reassigning
                                                 }
                                                 total = subtotal + sPrice1;
+                                                print('total isss gg${total.toString()}');
+                                                cartController.formattedTotal = total.toStringAsFixed(3);
                                                 print('total isss${total.toString()}');
 
                                               }
@@ -1106,7 +1108,7 @@ RxString shipId = "".obs;
                                                   .replaceAll('_', ' '),
                                                   style: GoogleFonts.poppins(fontWeight: FontWeight.w500, fontSize: 16)),
                                               3.spaceY,
-                                              Text( "KWD "+cartController.shippingPrices.toString(),
+                                              Text( 'KWD ${product.rate.toString()}',
                                                   style: GoogleFonts.poppins(fontWeight: FontWeight.w400,
                                                       fontSize: 16,
                                                       color: const Color(0xFF03a827))),

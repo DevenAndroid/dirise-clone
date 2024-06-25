@@ -544,7 +544,7 @@ class CartController extends GetxController {
   myDefaultAddressData() {
     repositories.getApi(url: ApiUrls.myDefaultAddressStatus).then((value) {
       myDefaultAddressModel.value = MyDefaultAddressModel.fromJson(jsonDecode(value));
-      log('defalut address value....${myDefaultAddressModel.value.defaultAddress!.toJson()}');
+      // log('defalut address value....${myDefaultAddressModel.value.defaultAddress!.toJson()}');
     });
   }
 
