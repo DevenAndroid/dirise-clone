@@ -66,101 +66,81 @@ class _ImageWidgetState extends State<ImageWidget> {
       setState(() {});
     });
   }
-  void showActionSheet(BuildContext context) {
-    showCupertinoModalPopup<void>(
+  Future<void> pickImagesNew() async {
+    showModalBottomSheet(
       context: context,
-      builder: (BuildContext context) => CupertinoActionSheet(
-        title: const Text(
-          'Select Picture from',
-          style: TextStyle(color: Colors.black, fontSize: 18, fontWeight: FontWeight.w600),
-        ),
-        actions: <CupertinoActionSheetAction>[
-          CupertinoActionSheetAction(
-            onPressed: () {
-              Helpers.addImagePicker(imageSource: ImageSource.camera, imageQuality: 75).then((value) async {
-                CroppedFile? croppedFile = await ImageCropper().cropImage(
-                  sourcePath: value.path,
-                  aspectRatioPresets: [
-                    // CropAspectRatioPreset.square,
-                    // CropAspectRatioPreset.ratio3x2,
-                    // CropAspectRatioPreset.original,
-                    CropAspectRatioPreset.ratio4x3,
-                    // CropAspectRatioPreset.ratio16x9
-                  ],
-                  uiSettings: [
-                    AndroidUiSettings(
-                        toolbarTitle: 'Cropper',
-                        toolbarColor: Colors.deepOrange,
-                        toolbarWidgetColor: Colors.white,
-                        initAspectRatio: CropAspectRatioPreset.ratio4x3,
-                        lockAspectRatio: true),
-                    IOSUiSettings(
-                      title: 'Cropper',
-                    ),
-                    WebUiSettings(
-                      context: context,
-                    ),
-                  ],
-                );
-                if (croppedFile != null) {
-                  file = File(croppedFile.path);
-                  setState(() {});
-                }
+      builder: (BuildContext context) {
+        return SafeArea(
+          child: Column(
+            mainAxisSize: MainAxisSize.min,
+            children: <Widget>[
 
-                Get.back();
-              });
-            },
-            child: const Text("Camera"),
-          ),
-          CupertinoActionSheetAction(
-            onPressed: () {
-              Helpers.addImagePicker(imageSource: ImageSource.gallery, imageQuality: 75).then((value) async {
-                CroppedFile? croppedFile = await ImageCropper().cropImage(
-                  sourcePath: value.path,
-                  aspectRatioPresets: [
-                    // CropAspectRatioPreset.square,
-                    // CropAspectRatioPreset.ratio3x2,
-                    // CropAspectRatioPreset.original,
-                    CropAspectRatioPreset.ratio4x3,
-                    // CropAspectRatioPreset.ratio16x9
-                  ],
+              ListTile(
+                leading: Icon(Icons.photo_library),
+                title: Text('Gallery'),
+                onTap: () async {
+                  Get.back();
+                  if (widget.imageOnly == true) {
+                    NewHelper.showImagePickerSheet(
+                        context: context,
+                        gotImage: (File value) {
+                          widget.filePicked(value);
+                          file = value;
+                          setState(() {});
+                          return;
+                        });
+                    return;
+                  }
+                  NewHelper().addFilePicker().then((value) {
+                    if (value == null) return;
 
-                  uiSettings: [
-                    AndroidUiSettings(
-                        toolbarTitle: 'Cropper',
-                        toolbarColor: Colors.deepOrange,
-                        toolbarWidgetColor: Colors.white,
-                        initAspectRatio: CropAspectRatioPreset.ratio4x3,
-                        lockAspectRatio: true),
-                    IOSUiSettings(
-                      title: 'Cropper',
-                    ),
-                    WebUiSettings(
-                      context: context,
-                    ),
-                  ],
-                );
-                if (croppedFile != null) {
-                  file = File(croppedFile.path);
-                  setState(() {});
-                }
+                    int sizeInBytes = value.lengthSync();
+                    double sizeInMb = sizeInBytes / (1024 * 1024);
+                    if (sizeInMb > 10){
+                      showToast("Document must be smaller then 10 Mb".tr);
+                      return;
+                    }
+                    if (widget.imageOnly == false && !value.path.endsWith('.mp4')) {
+                      showToast("Please select a video file".tr);
+                      return;
+                    }
+                    widget.filePicked(value);
+                    file = value;
+                    setState(() {});
+                  });
 
-                Get.back();
-              });
-            },
-            child: const Text('Gallery'),
+                },
+              ),
+              ListTile(
+                leading: Icon(Icons.camera_alt),
+                title: Text('Camera'),
+                onTap: () async {
+                  Get.back();
+                  final pickedFile = await ImagePicker().pickImage(
+                    source: ImageSource.camera,
+                    imageQuality: 80,
+                  );
+                  if (pickedFile != null) {
+                    setState(() {
+                      file = File(pickedFile.path);
+                    });
+                    widget.filePicked(file);
+                  }
+                },
+              ),
+              ListTile(
+                leading: Icon(Icons.cancel),
+                title: Text('Cancel'),
+                onTap: () {
+                  Get.back();                },
+              ),
+            ],
           ),
-          CupertinoActionSheetAction(
-            isDestructiveAction: true,
-            onPressed: () {
-              Get.back();
-            },
-            child: const Text('Cancel'),
-          ),
-        ],
-      ),
+        );
+      },
     );
   }
+
   @override
   void initState() {
     super.initState();
@@ -181,7 +161,7 @@ class _ImageWidgetState extends State<ImageWidget> {
         GestureDetector(
           onTap: () {
             // pickImage();
-            showActionSheet(context);
+            pickImagesNew();
           },
           child: Container(
             padding: EdgeInsets.symmetric(horizontal: AddSize.padding16, vertical: AddSize.padding16),

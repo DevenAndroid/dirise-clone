@@ -2282,6 +2282,7 @@ RxString shippingType= "".obs;
                                       cartController.selectedAddress = address;
                                       cartController.countryId = address.countryId.toString();
                                       cartController.zipCode = address.zipCode.toString();
+                                      directOrderResponse;
                                       cartController.getCart();
                                       cartController.countryName.value = address.country.toString();
                                       print('onTap is....${cartController.countryName.value}');

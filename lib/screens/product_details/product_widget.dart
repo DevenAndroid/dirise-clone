@@ -178,6 +178,7 @@ class _ProductUIState extends State<ProductUI> {
       map["variation"] = selectedVariant!.id.toString();
     }
     repositories.postApi(url: ApiUrls.buyNowDetailsUrl, mapData: map, context: context).then((value) {
+      print('product...');
       ModelDirectOrderResponse response = ModelDirectOrderResponse.fromJson(jsonDecode(value));
 
       showToast(response.message.toString());
@@ -197,7 +198,7 @@ class _ProductUIState extends State<ProductUI> {
     map["product_id"] = widget.productElement.id.toString();
     map["quantity"] = map["quantity"] = int.tryParse(productQuantity.value.toString());
     map["key"] = 'fedexRate';
-    map["country_id"] = profileController.model.user != null ? profileController.model.user!.country_id : '117';
+    map["country_id"] =  profileController.model.user!= null ? profileController.model.user!.country_id ?? '117' : '117';
 
     if (isBookingProduct) {
       map["start_date"] = selectedDate.text.trim();
