@@ -524,8 +524,8 @@ class CartController extends GetxController {
     // }
     Map<String, dynamic> map = {};
     map["key"] = 'fedexRate';
-    // map["country_id"]= profileController.model.user!= null && countryId.isEmpty ? profileController.model.user!.country_id : countryId.toString();
-    map["country_id"]= countryId.isNotEmpty ? countryId.toString() : '117';
+    map["country_id"]= profileController.model.user!= null && countryId.isEmpty ? profileController.model.user!.country_id : countryId.toString();
+    // map["country_id"]= countryId.isNotEmpty ? countryId.toString() : '117';
     map["zip_code"]= zipCode.isNotEmpty ? zipCode.toString() : '302021';
     map["city"]= zipCode.isNotEmpty ?city.value.toString():"jaipur";
     map["address"]= address.value.toString();

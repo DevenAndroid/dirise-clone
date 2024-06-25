@@ -219,6 +219,7 @@ class _SingleProductDetailsState extends State<SingleProductDetails> {
     }
     repositories.postApi(url: ApiUrls.buyNowDetailsUrl, mapData: map, context: context).then((value) {
       log("Value>>>>>>>$value");
+      print('singleee');
       ModelDirectOrderResponse response = ModelDirectOrderResponse.fromJson(jsonDecode(value));
 
       showToast(response.message.toString());

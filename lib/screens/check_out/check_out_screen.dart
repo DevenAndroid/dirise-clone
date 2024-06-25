@@ -924,7 +924,7 @@ RxString shipId = "".obs;
                                                        e.value.shippingVendorName.value = product.serviceName.toString();
                                                        e.value.vendorPrice.value = product.ratedShipmentDetails![index].totalNetCharge.toString();
 
-                                                       e.value.sPrice = product.ratedShipmentDetails![index].totalNetCharge;
+                                                       e.value.sPrice = product.ratedShipmentDetails![index].totalNetCharge.toDouble();
 
                                                        log("sPrices data:${e.value.sPrice}");
                                                        log("Initial sPrice:$sPrice1");
