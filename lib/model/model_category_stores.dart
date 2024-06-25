@@ -67,6 +67,7 @@ class User {
   dynamic day;
   dynamic start;
   dynamic end;
+  dynamic storeBannerDesccription;
   dynamic status;
   List<VendorStoreData>? data = [];
   List<Links>? links;
@@ -85,6 +86,7 @@ class User {
     currentPage = json['current_page'];
     day = json['day'] ?? "";
     start = json['start'] ?? "";
+    storeBannerDesccription = json['store_banner_desccription'] ?? "";
     end = json['end'] ?? "";
     status = json['status'] ?? '';
     if (json['data'] != null) {
@@ -116,6 +118,7 @@ class User {
     data['start'] = start;
     data['end'] = end;
     data['status'] = status;
+    data['store_banner_desccription'] = storeBannerDesccription;
     if (this.data != null) {
       data['data'] = this.data!.map((v) => v.toJson()).toList();
     }
