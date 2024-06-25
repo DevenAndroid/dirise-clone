@@ -70,7 +70,7 @@ class _SellingPickupAddressState extends State<SellingPickupAddress> {
       map['city'] = widget.city;
       map['country'] = widget.country;
       map['state'] = widget.state;
-      map['zip_code'] = widget.zipcode;
+      map['zip_code'] = widget.zipcode ?? zipcodeController.text.trim();
       map['town'] = widget.town;
       map['street'] = widget.street;
       map['special_instruction'] = specialInstructionController.text.trim();
