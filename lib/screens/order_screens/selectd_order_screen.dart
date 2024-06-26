@@ -345,7 +345,6 @@ class _SelectedOrderScreenState extends State<SelectedOrderScreen> {
                                 ),
                                 Text(
                                   '${widget.modelDataOrder!.shippingPrice} kwd',
-
                                   style: GoogleFonts.poppins(
                                       color: const Color(0xff9B9B9B), fontWeight: FontWeight.w500, fontSize: 14),
                                 ),

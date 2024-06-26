@@ -812,7 +812,7 @@ class _SingleStoreScreenState extends State<SingleStoreScreen> {
                     crossAxisCount: 1, // Set crossAxisCount to 1 to show one item per row
                     crossAxisSpacing: 10,
                     mainAxisSpacing: 10,
-                    childAspectRatio: .74,
+                    childAspectRatio: .82,
                   ),
                   itemCount: filterModel.value.product!.length,
                   itemBuilder: (BuildContext context, int index) {
@@ -840,7 +840,7 @@ class _SingleStoreScreenState extends State<SingleStoreScreen> {
                     crossAxisCount: 1,
                     crossAxisSpacing: 10,
                     mainAxisSpacing: 10,
-                    childAspectRatio: .74,
+                    childAspectRatio: .82,
                   ),
                   itemCount: modelProductsList.data!.length,
                   itemBuilder: (BuildContext context, int index) {

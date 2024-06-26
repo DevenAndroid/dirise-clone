@@ -63,7 +63,7 @@ class _OptionalScreenState extends State<OptionalScreen> {
     map['serial_number'] = serialNumberController.text.trim();
     map['product_number'] = productNumberController.text.trim();
     map['id'] = addProductController.idProduct.value.toString();
-    map['in_stock'] = '1';
+
 
 
     FocusManager.instance.primaryFocus!.unfocus();

@@ -108,7 +108,7 @@ class _WhichplantypedescribeyouScreenState extends State<Whichplantypedescribeyo
               30.spaceY,
               Center(
                 child: Text(
-                  'A Cloud Area Is The Area That You Are Going To Rent From Dirise For A Period Of 12 Months For Your Business'.tr,
+                  'A cloud area is the area that you are going to rent from DIRISE for a period of 12 months for your business'.tr,
                   textAlign: TextAlign.center,
                   style: GoogleFonts.poppins(color: const Color(0xff514949), fontWeight: FontWeight.w400, fontSize: 13),
                 ),
@@ -240,7 +240,7 @@ class _WhichplantypedescribeyouScreenState extends State<Whichplantypedescribeyo
                             Text(
                               'Showcasing Cloud Space '.tr,
                               style: GoogleFonts.poppins(
-                                  color: const Color(0xff111727), fontWeight: FontWeight.w600, fontSize: 16),
+                                  color: const Color(0xff0D5877), fontWeight: FontWeight.w600, fontSize: 16),
                             ),
                             5.spaceY,
                             Text(
@@ -310,10 +310,7 @@ class _WhichplantypedescribeyouScreenState extends State<Whichplantypedescribeyo
                               ],
                             ),
 
-                            Image.asset(
-                              "assets/images/trial.png",
-                              width: 80,
-                            ),
+                            Image.asset('assets/images/monthtrail.png',width: 80,),
                           ],
                         ),
                         const SizedBox(
@@ -433,7 +430,7 @@ class _WhichplantypedescribeyouScreenState extends State<Whichplantypedescribeyo
                             Text(
                               'Cloud Office Space'.tr,
                               style: GoogleFonts.poppins(
-                                  color: const Color(0xff111727), fontWeight: FontWeight.w600, fontSize: 16),
+                                  color: const Color(0xff0D5877), fontWeight: FontWeight.w600, fontSize: 16),
                             ),
                             5.spaceY,
                             Text(
@@ -481,11 +478,8 @@ class _WhichplantypedescribeyouScreenState extends State<Whichplantypedescribeyo
                         //       color: const Color(0xff111727), fontWeight: FontWeight.w600, fontSize: 16),
                         // ),
                         Row(
-                          mainAxisAlignment: MainAxisAlignment.start,
+                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
                           children: [
-                            const SizedBox(
-                              width: 10,
-                            ),
                             Column(
                               mainAxisAlignment: MainAxisAlignment.start,
                               crossAxisAlignment: CrossAxisAlignment.start,
@@ -505,13 +499,8 @@ class _WhichplantypedescribeyouScreenState extends State<Whichplantypedescribeyo
                                 ),
                               ],
                             ),
-                            const SizedBox(
-                              width: 20,
-                            ),
-                            Image.asset(
-                              "assets/images/trial.png",
-                              width: 80,
-                            ),
+
+                            Image.asset('assets/images/monthtrail.png',width: 80,),
                           ],
                         ),
                         Text(
@@ -575,7 +564,7 @@ class _WhichplantypedescribeyouScreenState extends State<Whichplantypedescribeyo
                             Text(
                               'Enterprise Cloud Space '.tr,
                               style: GoogleFonts.poppins(
-                                  color: const Color(0xff111727), fontWeight: FontWeight.w600, fontSize: 16),
+                                  color: const Color(0xff0D5877), fontWeight: FontWeight.w600, fontSize: 16),
                             ),
                             5.spaceY,
                             Text(
@@ -623,11 +612,9 @@ class _WhichplantypedescribeyouScreenState extends State<Whichplantypedescribeyo
                         //       color: const Color(0xff111727), fontWeight: FontWeight.w600, fontSize: 16),
                         // ),
                         Row(
-                          mainAxisAlignment: MainAxisAlignment.start,
+                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
                           children: [
-                            const SizedBox(
-                              width: 10,
-                            ),
+
                             Expanded(
                               child: Column(
                                 mainAxisAlignment: MainAxisAlignment.start,
@@ -657,13 +644,7 @@ class _WhichplantypedescribeyouScreenState extends State<Whichplantypedescribeyo
                                 ],
                               ),
                             ),
-                            const SizedBox(
-                              width: 20,
-                            ),
-                            Image.asset(
-                              "assets/images/trial.png",
-                              width: 80,
-                            ),
+                            Image.asset('assets/images/monthtrail.png',width: 80),
                           ],
                         ),
                         const SizedBox(

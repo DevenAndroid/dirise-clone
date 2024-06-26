@@ -190,7 +190,7 @@ class _SearchProductsScreenState extends State<SearchProductsScreen> {
                           padding: const EdgeInsets.symmetric(vertical: 20, horizontal: 15),
                           gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
                               crossAxisCount: 2,
-                              crossAxisSpacing: 10,
+                              crossAxisSpacing: 5,
                               mainAxisSpacing: 20,
                               childAspectRatio:
                               MediaQuery
@@ -206,7 +206,7 @@ class _SearchProductsScreenState extends State<SearchProductsScreen> {
                               onTap: (){
                                 bottomSheet(productDetails:  ProductElement.fromJson(modelSearch.value.data!.items![index].toJson()), context: context);
                               },
-                              child: Container(
+                              child: item.itemType != 'giveaway' ? Container(
                                 constraints: BoxConstraints(
                                   minWidth: 0,
                                   maxWidth: size.width * .45,
@@ -304,6 +304,114 @@ class _SearchProductsScreenState extends State<SearchProductsScreen> {
                                     //     );
                                     //   }),
                                     // )
+                                  ],
+                                ),
+                              )
+                              : Container(
+                                constraints: BoxConstraints(
+                                  minWidth: 0,
+                                  maxWidth: size.width * .45,
+                                ),
+                                // color: Colors.red,
+                                margin: const EdgeInsets.only(right: 18),
+                                child: Stack(
+                                  children: [
+                                    Column(
+                                      crossAxisAlignment: CrossAxisAlignment.start,
+                                      children: [
+                                        18.spaceY,
+                                        Expanded(
+                                          child: Row(
+                                            children: [
+                                              Expanded(
+                                                child: Align(
+                                                  alignment: Alignment.center,
+                                                  child: CachedNetworkImage(
+                                                    imageUrl: item.featuredImage.toString(),
+                                                    height: 100,
+                                                    fit: BoxFit.cover,
+                                                    errorWidget: (context, url, error) =>
+                                                        Icon(Icons.report_gmailerrorred_rounded, color: Theme
+                                                            .of(context)
+                                                            .colorScheme
+                                                            .error,),
+                                                  ),
+                                                ),
+                                              ),
+                                            ],
+                                          ),
+                                        ),
+                                        const SizedBox(
+                                          height: 10,
+                                        ),
+                                        // Text(
+                                        //   // "${item.discountPercentage ?? ((((item.pPrice.toString().toNum - item.sPrice.toString().toNum) / item.pPrice.toString().toNum) * 100).toStringAsFixed(2))}${''} Off",
+                                        //   '${item.discountOff.toString()}% Off',
+                                        //   style: GoogleFonts.poppins(fontSize: 16, fontWeight: FontWeight.w500, color: const Color(0xffC22E2E)),
+                                        // ),
+                                        const SizedBox(
+                                          height: 3,
+                                        ),
+                                        Text(
+                                          item.pname.toString(),
+                                          maxLines: 2,
+                                          style: GoogleFonts.poppins(fontSize: 15, fontWeight: FontWeight.w500),
+                                        ),
+                                        const SizedBox(
+                                          height: 3,
+                                        ),
+                                        item.inStock == "-1"? SizedBox():
+                                        Text(
+                                          '${item.inStock.toString()} ${'pieces'.tr}',
+                                          style: GoogleFonts.poppins(
+                                              color: Colors.grey.shade700, fontSize: 15, fontWeight: FontWeight.w500),
+                                        ),
+                                        const SizedBox(
+                                          height: 3,
+                                        ),
+                                        Row(
+                                          children: [
+                                            Expanded(
+                                              child: Text(
+                                                'KWD ${item.discountPrice.toString()}',
+                                                style: GoogleFonts.poppins(fontSize: 14, fontWeight: FontWeight.w500),
+                                              ),
+                                            ),
+                                            // Text(
+                                            //   'KWD ${item.pPrice.toString()}',
+                                            //   style:GoogleFonts.poppins(
+                                            //       decoration: TextDecoration.lineThrough,
+                                            //       color: const Color(0xff858484),
+                                            //       fontSize: 13,
+                                            //       fontWeight: FontWeight.w500),
+                                            // ),
+                                          ],
+                                        )
+                                      ],
+                                    ),
+                                    Positioned(
+                                      right: 0,
+                                      top: 0,
+                                      child: Container(
+                                        width: 100,
+                                        decoration: const BoxDecoration(
+                                            boxShadow: [
+                                              BoxShadow(
+                                                // blurStyle: BlurStyle.outer,
+                                                offset: Offset(2, 3),
+                                                color: Colors.black26,
+                                                blurRadius: 3,
+                                              )
+                                            ],
+                                            color: Color(0xFFFFDF33)),
+                                        child: Center(
+                                          child: Text(
+                                            "Free",
+                                            style: GoogleFonts.poppins(fontSize: 20, fontWeight: FontWeight.w400, color: const Color(0xFF0C0D0C)),
+                                          ),
+                                        ),
+                                      ),
+                                    )
                                   ],
                                 ),
                               ),
