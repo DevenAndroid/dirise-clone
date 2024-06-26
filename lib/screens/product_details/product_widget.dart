@@ -588,309 +588,318 @@ class _ProductUIState extends State<ProductUI> {
             ],
           ),
         ),
-      ): Padding(
-              padding: const EdgeInsets.all(5.0),
-              child: Stack(
-                children: [
-                  Container(
-                    padding: const EdgeInsets.all(8),
-                    decoration: const BoxDecoration(
-                        color: Colors.white, boxShadow: [
-                      BoxShadow(
-                        blurStyle: BlurStyle.outer,
-                        offset: Offset(1, 1),
-                        color: Colors.black12,
-                        blurRadius: 3,
-                      )
-                    ]),
-                    constraints: BoxConstraints(
-                      // maxHeight: 100,
-                      minWidth: 0,
-                      maxWidth: size.width * .8,
+      ):
+      Padding(
+        padding: const EdgeInsets.all(5.0),
+        child: Container(
+          // margin: widget.isSingle == false ? EdgeInsets.zero :const EdgeInsets.only(right: 9),
+          // padding: widget.isSingle == false ? EdgeInsets.zero :const EdgeInsets.all(8),
+          decoration: const BoxDecoration(
+              color: Colors.white, boxShadow: [
+            BoxShadow(
+              blurStyle: BlurStyle.outer,
+              offset: Offset(1, 1),
+              color: Colors.black12,
+              blurRadius: 3,
+            )
+          ]),
+          child: Stack(
+            children: [
+              Container(
+                padding: const EdgeInsets.all(8),
+
+                constraints: BoxConstraints(
+                  // maxHeight: 100,
+                  minWidth: 0,
+                  maxWidth: size.width * .8,
+                ),
+                // color: Colors.red,
+                margin: const EdgeInsets.only(right: 9),
+                // constraints: BoxConstraints(
+                //   // maxHeight: 100,
+                //   minWidth: 0,
+                //   maxWidth: size.width,
+                // ),
+                // color: Colors.red,
+                // margin: const EdgeInsets.only(right: 9,left: 10),
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    const SizedBox(
+                      height: 40,
                     ),
-                    // color: Colors.red,
-                    margin: const EdgeInsets.only(right: 9),
-                    // constraints: BoxConstraints(
-                    //   // maxHeight: 100,
-                    //   minWidth: 0,
-                    //   maxWidth: size.width,
-                    // ),
-                    // color: Colors.red,
-                    // margin: const EdgeInsets.only(right: 9,left: 10),
-                    child: Column(
+                    Row(
                       crossAxisAlignment: CrossAxisAlignment.start,
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
                       children: [
+                        Expanded(
+                          flex: 2,
+                          child: CachedNetworkImage(
+                              imageUrl: widget.productElement.featuredImage.toString(),
+                              height: 180,
+                              width: 120,
+                              fit: BoxFit.cover,
+                              errorWidget: (_, __, ___) => Image.asset('assets/images/new_logo.png')),
+                        ),
                         const SizedBox(
-                          height: 40,
+                          width: 20,
                         ),
-                        Row(
-                          crossAxisAlignment: CrossAxisAlignment.start,
-                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                          children: [
-                            Expanded(
-                              flex: 2,
-                              child: CachedNetworkImage(
-                                  imageUrl: widget.productElement.featuredImage.toString(),
-                                  height: 180,
-                                  width: 120,
-                                  fit: BoxFit.cover,
-                                  errorWidget: (_, __, ___) => Image.asset('assets/images/new_logo.png')),
-                            ),
-                            const SizedBox(
-                              width: 20,
-                            ),
-                            Expanded(
-                              child: Column(
-                                crossAxisAlignment: CrossAxisAlignment.end,
-                                children: [
-                                  const SizedBox(
-                                    height: 15,
-                                  ),
-                                 Obx(() {
-                                   if (wishListController.refreshFav.value > 0) {}
-                              
-                                   return LikeButtonCat(
-                                     onPressed: () {
-                                       if (wishListController.favoriteItems.contains(widget.productElement.id.toString())) {
-                                         removeFromWishList();
-                                       } else {
-                                         addToWishList();
-                                       }
-                                     },
-                                     isLiked: wishListController.favoriteItems.contains(widget.productElement.id.toString()),
-                                   );
-                                 }),
-                                  const SizedBox(
-                                    height: 10,
-                                  ),
-                                  Text(
-                                    widget.productElement.pName.toString(),
-                                    style: GoogleFonts.poppins(
-                                        fontSize: 16, fontWeight: FontWeight.w400, color: const Color(0xFF19313C)),
-                                  ),
-                                  const SizedBox(
-                                    height: 10,
-                                  ),
-                                  Text(
-                                    widget.productElement.shortDescription ?? '',
-                                    style: GoogleFonts.poppins(
-                                        fontSize: 16, fontWeight: FontWeight.w400, color: const Color(0xFF19313C)),
-                                  ),
-                                ],
+                        Expanded(
+                          child: Column(
+                            crossAxisAlignment: CrossAxisAlignment.end,
+                            children: [
+                              const SizedBox(
+                                height: 15,
                               ),
-                            )
-                          ],
-                        ),
-                        30.spaceY,
-                        Row(
-                          children: [
-                            Expanded(
-                              child: ElevatedButton(
-                                onPressed: () {
-                                  directBuyProduct();
-                                },
-                                style: ElevatedButton.styleFrom(
-                                  backgroundColor: const Color(0xFFFFDF33),
-                                  surfaceTintColor:const Color(0xFFFFDF33),
-                                ),
-                                child: FittedBox(
-                                  child: Text(
-                                    "Get it".tr,
-                                    style:
-                                    GoogleFonts.poppins(fontSize: 16, fontWeight: FontWeight.w500, color: Colors.black),
-                                  ),
-                                ),
+                             Obx(() {
+                               if (wishListController.refreshFav.value > 0) {}
+
+                               return LikeButtonCat(
+                                 onPressed: () {
+                                   if (wishListController.favoriteItems.contains(widget.productElement.id.toString())) {
+                                     removeFromWishList();
+                                   } else {
+                                     addToWishList();
+                                   }
+                                 },
+                                 isLiked: wishListController.favoriteItems.contains(widget.productElement.id.toString()),
+                               );
+                             }),
+                              const SizedBox(
+                                height: 10,
                               ),
-                            ),
-                            15.spaceX,
-                            Expanded(
-                              child: ElevatedButton(
-                                onPressed: () {
-                                  addToCartProduct();
-                                },
-                                style: ElevatedButton.styleFrom(
-                                  backgroundColor: AppTheme.buttonColor,
-                                  surfaceTintColor: AppTheme.buttonColor,
-                                ),
-                                child: FittedBox(
-                                  child: Text(
-                                    "Add to Cart".tr,
-                                    style:
-                                    GoogleFonts.poppins(fontSize: 16, fontWeight: FontWeight.w500, color: Colors.white),
-                                  ),
-                                ),
-                              ),
-                            ),
-
-
-
-                            widget.productElement.itemType != 'giveaway'
-                                ? Row(
-                              mainAxisAlignment: MainAxisAlignment.center,
-                              crossAxisAlignment: CrossAxisAlignment.center,
-                              children: [
-                                GestureDetector(
-                                  onTap: () {
-                                    if (productQuantity.value > 1) {
-                                      productQuantity.value--;
-                                    }
-                                  },
-                                  child: Center(
-                                      child: Text(
-                                        "-",
-                                        style: GoogleFonts.poppins(
-                                            fontSize: 40, fontWeight: FontWeight.w300, color: const Color(0xFF014E70)),
-                                      )),
-                                ),
-                                SizedBox(
-                                  width: size.width * .02,
-                                ),
-                                Obx(() {
-                                  return Text(
-                                    productQuantity.value.toString(),
-                                    style: GoogleFonts.poppins(
-                                        fontSize: 26, fontWeight: FontWeight.w500, color: const Color(0xFF014E70)),
-                                  );
-                                }),
-                                SizedBox(
-                                  width: size.width * .02,
-                                ),
-                                GestureDetector(
-                                  onTap: () {
-                                    if (widget.productElement.inStock ==0) {
-                                      showToast("Out Of Stock".tr);
-
-                                    } else {
-                                      productQuantity.value++;
-                                    }
-                                  },
-                                  child: Center(
-                                      child: Text(
-                                        "+",
-                                        style: GoogleFonts.poppins(
-                                            fontSize: 30, fontWeight: FontWeight.w300, color: const Color(0xFF014E70)),
-                                      )),
-                                ),
-                              ],
-                            )
-                                : const SizedBox(),
-                          ],
-                        ),
-                        15.spaceY,
-                        widget.productElement.shippingDate != "No Internation Shipping Available"
-                            ?  Expanded(
-                          child: Text.rich(
-                            TextSpan(
-                              text: 'Shipping: ',
-                              style: const TextStyle(
-                                fontSize: 14,
-                                fontWeight: FontWeight.w600,
-                                color: Color(0xFF19313B),
-                              ),
-                              children: [
-                                if (widget.productElement.lowestDeliveryPrice != null)
-                                WidgetSpan(
-                                  alignment: PlaceholderAlignment.middle,
-                                  child:  Text(
-                                    widget.productElement.lowestDeliveryPrice.toString(),
-                                    style: const TextStyle(
-                                      fontSize: 8,
-                                      fontWeight: FontWeight.w500,
-                                      color: Color(0xFF19313B),
-                                    ),
-                                  ),
-                                ),
-                                const WidgetSpan(
-                                  alignment: PlaceholderAlignment.middle,
-                                  child: Text(
-                                    'KWD',
-                                    style: TextStyle(
-                                      fontSize: 8,
-                                      fontWeight: FontWeight.w500,
-                                      color: Color(0xFF19313B),
-                                    ),
-                                  ),
-                                ),
-                                const WidgetSpan(
-                                  alignment: PlaceholderAlignment.middle,
-                                  child: Text(
-                                    ' & Estimated arrival by ',
-                                    style: TextStyle(
-                                      fontSize: 8,
-                                      fontWeight: FontWeight.w500,
-                                      color: Color(0xFF19313B),
-                                    ),
-                                  ),
-                                ),
-                                WidgetSpan(
-                                  alignment: PlaceholderAlignment.middle,
-                                  child:  Text(
-                                    widget.productElement.shippingDate,
-                                    style: const TextStyle(
-                                      fontSize: 8,
-                                      fontWeight: FontWeight.w500,
-                                      color: Color(0xFF19313B),
-                                    ),
-                                  ),
-                                ),
-                              ],
-                            ),
-                          ),
-                        ) : GestureDetector(
-                          onTap: () {
-                            Get.to(() => const ContactUsScreen());
-                          },
-                          child: RichText(
-                            text: TextSpan(
-                                text: 'international shipping not available',
+                              Text(
+                                widget.productElement.pName.toString(),
                                 style: GoogleFonts.poppins(
-                                    color: const Color(0xff858484), fontSize: 13, fontWeight: FontWeight.w500),
-                                children: [
-                                  TextSpan(
-                                      text: ' contact us',
-                                      style: GoogleFonts.poppins(
-                                          decoration: TextDecoration.underline,
-                                          color: AppTheme.buttonColor,
-                                          fontSize: 13,
-                                          fontWeight: FontWeight.w500)),
-                                  TextSpan(
-                                      text: ' for the soloution',
-                                      style: GoogleFonts.poppins(
-                                          color: const Color(0xff858484),
-                                          fontSize: 13,
-                                          fontWeight: FontWeight.w500)),
-                                ]),
+                                    fontSize: 16, fontWeight: FontWeight.w400, color: const Color(0xFF19313C)),
+                              ),
+                              const SizedBox(
+                                height: 10,
+                              ),
+                              Text(
+                                widget.productElement.shortDescription ?? '',
+                                style: GoogleFonts.poppins(
+                                    fontSize: 16, fontWeight: FontWeight.w400, color: const Color(0xFF19313C)),
+                              ),
+                            ],
                           ),
-                        ),
+                        )
                       ],
                     ),
-                  ),
-                  Positioned(
-                    right: 8,
-                    top: 0,
-                    child: Container(
-                      width: 100,
-                      decoration: const BoxDecoration(
-                          boxShadow: [
-                            BoxShadow(
-                              // blurStyle: BlurStyle.outer,
-                              offset: Offset(2, 3),
-                              color: Colors.black26,
-                              blurRadius: 3,
-                            )
+                    30.spaceY,
+                    Row(
+                      children: [
+                        Expanded(
+                          child: ElevatedButton(
+                            onPressed: () {
+                              directBuyProduct();
+                            },
+                            style: ElevatedButton.styleFrom(
+                              backgroundColor: const Color(0xFFFFDF33),
+                              surfaceTintColor:const Color(0xFFFFDF33),
+                            ),
+                            child: FittedBox(
+                              child: Text(
+                                "Get it".tr,
+                                style:
+                                GoogleFonts.poppins(fontSize: 16, fontWeight: FontWeight.w500, color: Colors.black),
+                              ),
+                            ),
+                          ),
+                        ),
+                        15.spaceX,
+                        Expanded(
+                          child: ElevatedButton(
+                            onPressed: () {
+                              addToCartProduct();
+                            },
+                            style: ElevatedButton.styleFrom(
+                              backgroundColor: AppTheme.buttonColor,
+                              surfaceTintColor: AppTheme.buttonColor,
+                            ),
+                            child: FittedBox(
+                              child: Text(
+                                "Add to Cart".tr,
+                                style:
+                                GoogleFonts.poppins(fontSize: 16, fontWeight: FontWeight.w500, color: Colors.white),
+                              ),
+                            ),
+                          ),
+                        ),
+
+
+
+                        widget.productElement.itemType != 'giveaway'
+                            ? Row(
+                          mainAxisAlignment: MainAxisAlignment.center,
+                          crossAxisAlignment: CrossAxisAlignment.center,
+                          children: [
+                            GestureDetector(
+                              onTap: () {
+                                if (productQuantity.value > 1) {
+                                  productQuantity.value--;
+                                }
+                              },
+                              child: Center(
+                                  child: Text(
+                                    "-",
+                                    style: GoogleFonts.poppins(
+                                        fontSize: 40, fontWeight: FontWeight.w300, color: const Color(0xFF014E70)),
+                                  )),
+                            ),
+                            SizedBox(
+                              width: size.width * .02,
+                            ),
+                            Obx(() {
+                              return Text(
+                                productQuantity.value.toString(),
+                                style: GoogleFonts.poppins(
+                                    fontSize: 26, fontWeight: FontWeight.w500, color: const Color(0xFF014E70)),
+                              );
+                            }),
+                            SizedBox(
+                              width: size.width * .02,
+                            ),
+                            GestureDetector(
+                              onTap: () {
+                                if (widget.productElement.inStock ==0) {
+                                  showToast("Out Of Stock".tr);
+
+                                } else {
+                                  productQuantity.value++;
+                                }
+                              },
+                              child: Center(
+                                  child: Text(
+                                    "+",
+                                    style: GoogleFonts.poppins(
+                                        fontSize: 30, fontWeight: FontWeight.w300, color: const Color(0xFF014E70)),
+                                  )),
+                            ),
                           ],
-                          color: Color(0xFFFFDF33)),
-                      child: Center(
-                        child: Text(
-                          "Free",
-                          style: GoogleFonts.poppins(fontSize: 20, fontWeight: FontWeight.w400, color: const Color(0xFF0C0D0C)),
+                        )
+                            : const SizedBox(),
+                      ],
+                    ),
+                    15.spaceY,
+                    widget.productElement.shippingDate != "No Internation Shipping Available"
+                        ?  Expanded(
+                      child: Text.rich(
+                        TextSpan(
+                          text: 'Shipping: ',
+                          style: const TextStyle(
+                            fontSize: 14,
+                            fontWeight: FontWeight.w600,
+                            color: Color(0xFF19313B),
+                          ),
+                          children: [
+                            if (widget.productElement.lowestDeliveryPrice != null)
+                            WidgetSpan(
+                              alignment: PlaceholderAlignment.middle,
+                              child:  Text(
+                                widget.productElement.lowestDeliveryPrice.toString(),
+                                style:  GoogleFonts.poppins(
+                                  fontSize: 14,
+                                  fontWeight: FontWeight.w500,
+                                  color: Colors.black,
+                                ),
+                              ),
+                            ),
+                             WidgetSpan(
+                              alignment: PlaceholderAlignment.middle,
+                              child: Text(
+                                ' KWD ',
+                                style:  GoogleFonts.poppins(
+                                  fontSize: 14,
+                                  fontWeight: FontWeight.w500,
+                                  color: Colors.black,
+                                ),
+                              ),
+                            ),
+                            const WidgetSpan(
+                              alignment: PlaceholderAlignment.middle,
+                              child: Text(
+                                ' & Estimated arrival by ',
+                                style: TextStyle(
+                                  fontSize: 9,
+                                  fontWeight: FontWeight.w500,
+                                  color: Color(0xFF19313B),
+                                ),
+                              ),
+                            ),
+                            WidgetSpan(
+                              alignment: PlaceholderAlignment.middle,
+                              child:  Text(
+                                widget.productElement.shippingDate ?? '',
+                                style:  GoogleFonts.poppins(
+                                  fontSize: 14,
+                                  letterSpacing: 0.5,
+                                  height: 2,
+                                  fontWeight: FontWeight.w500,
+                                  color: Colors.black,
+                                ),
+                              ),
+                            ),
+                          ],
                         ),
                       ),
+                    ) :
+                    GestureDetector(
+                      onTap: () {
+                        Get.to(() => const ContactUsScreen());
+                      },
+                      child: RichText(
+                        text: TextSpan(
+                            text: 'international shipping not available',
+                            style: GoogleFonts.poppins(
+                                color: const Color(0xff858484), fontSize: 13, fontWeight: FontWeight.w500),
+                            children: [
+                              TextSpan(
+                                  text: ' contact us',
+                                  style: GoogleFonts.poppins(
+                                      decoration: TextDecoration.underline,
+                                      color: AppTheme.buttonColor,
+                                      fontSize: 13,
+                                      fontWeight: FontWeight.w500)),
+                              TextSpan(
+                                  text: ' for the soloution',
+                                  style: GoogleFonts.poppins(
+                                      color: const Color(0xff858484),
+                                      fontSize: 13,
+                                      fontWeight: FontWeight.w500)),
+                            ]),
+                      ),
                     ),
-                  )
-                ],
+                  ],
+                ),
               ),
-            ),
+              Positioned(
+                right: 1,
+                top: 0,
+                child: Container(
+                  width: 100,
+                  decoration: const BoxDecoration(
+                      boxShadow: [
+                        BoxShadow(
+                          // blurStyle: BlurStyle.outer,
+                          offset: Offset(2, 3),
+                          color: Colors.black26,
+                          blurRadius: 3,
+                        )
+                      ],
+                      color: Color(0xFFFFDF33)),
+                  child: Center(
+                    child: Text(
+                      "Free",
+                      style: GoogleFonts.poppins(fontSize: 20, fontWeight: FontWeight.w400, color: const Color(0xFF0C0D0C)),
+                    ),
+                  ),
+                ),
+              )
+            ],
+          ),
+        ),
+      ),
     );
   }
 }

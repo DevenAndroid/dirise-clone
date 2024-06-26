@@ -7,10 +7,13 @@ import 'package:flutter_svg/svg.dart';
 import 'package:get/get.dart';
 import 'package:google_fonts/google_fonts.dart';
 
+import '../../controller/wish_list_controller.dart';
 import '../../language/app_strings.dart';
+import '../../model/common_modal.dart';
 import '../../model/get_job_model.dart';
 import '../../repository/repository.dart';
 import '../../utils/api_constant.dart';
+import '../../widgets/like_button.dart';
 
 class GetLookJob extends StatefulWidget {
   const GetLookJob({super.key});
@@ -36,7 +39,42 @@ class _GetLookJobState extends State<GetLookJob> {
       jobTypeApi();
     });
   }
-
+  String id = '';
+  final wishListController = Get.put(WishListController());
+  removeFromWishList() {
+    repositories
+        .postApi(
+        url: ApiUrls.removeFromWishListUrl,
+        mapData: {
+          "product_id": id.toString(),
+        },
+        context: context)
+        .then((value) {
+      ModelCommonResponse response = ModelCommonResponse.fromJson(jsonDecode(value));
+      showToast(response.message);
+      if (response.status == true) {
+        wishListController.getYourWishList();
+        wishListController.updateFav;
+      }
+    });
+  }
+  addToWishList() {
+    repositories
+        .postApi(
+        url: ApiUrls.addToWishListUrl,
+        mapData: {
+          "product_id": id.toString(),
+        },
+        context: context)
+        .then((value) {
+      ModelCommonResponse response = ModelCommonResponse.fromJson(jsonDecode(value));
+      showToast(response.message);
+      if (response.status == true) {
+        wishListController.getYourWishList();
+        wishListController.updateFav;
+      }
+    });
+  }
   @override
   Widget build(BuildContext context) {
     var size = MediaQuery
@@ -84,8 +122,8 @@ class _GetLookJobState extends State<GetLookJob> {
                         Container(
                           width: size.width * .92,
                           padding: const EdgeInsets.all(8),
-                          decoration: BoxDecoration(color: Colors.white, borderRadius: BorderRadius.circular(8), boxShadow: [
-                            const BoxShadow(
+                          decoration: BoxDecoration(color: Colors.white, borderRadius: BorderRadius.circular(8), boxShadow: const [
+                            BoxShadow(
                               blurStyle: BlurStyle.outer,
                               offset: Offset(1, 1),
                               color: Colors.black12,
@@ -102,6 +140,57 @@ class _GetLookJobState extends State<GetLookJob> {
                           child: Column(
                             crossAxisAlignment: CrossAxisAlignment.start,
                             children: [
+                              const SizedBox(
+                                height: 30,
+                              ),
+                              Row(
+                                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                                crossAxisAlignment: CrossAxisAlignment.start,
+                                children: [
+                                  Column(
+                                    crossAxisAlignment: CrossAxisAlignment.start,
+                                    children: [
+                                      Text(
+                                        item.describeJobRole.toString(),
+                                        style: GoogleFonts.poppins(
+                                            fontSize: 15, fontWeight: FontWeight.w500, color: const Color(0xFF19313C)),
+                                      ),
+                                       Text(
+                                        item.describeJobRole.toString(),
+                                        style: GoogleFonts.poppins(
+                                            fontSize: 15, fontWeight: FontWeight.w500, color: const Color(0xFF19313C)),
+                                      ),
+                                    ],
+                                  ),
+                                  Column(
+                                    crossAxisAlignment: CrossAxisAlignment.end,
+                                    children: [
+                                      Obx(() {
+                                        if (wishListController.refreshFav.value > 0) {}
+                                        return Padding(
+                                          padding: const EdgeInsets.only(top: 8.0),
+                                          child: LikeButtonCat(
+                                            onPressed: () {
+                                              item.id = id.toString();
+                                              if (wishListController.favoriteItems.contains(item.id.toString())) {
+                                                removeFromWishList();
+                                              } else {
+                                                addToWishList();
+                                              }
+                                            },
+                                            isLiked: wishListController.favoriteItems.contains(item.id.toString()),
+                                          ),
+                                        );
+                                      }),
+                                      Text(
+                                        item.jobType.toString(),
+                                        style: GoogleFonts.poppins(
+                                            fontSize: 15, fontWeight: FontWeight.w500, color: const Color(0xFF19313C)),
+                                      ),
+                                    ],
+                                  ),
+                                ],
+                              ),
                               const SizedBox(
                                 height: 20,
                               ),
@@ -303,17 +392,17 @@ class _GetLookJobState extends State<GetLookJob> {
                           right: 0,
                           top: 0,
                           child: Container(
-                            decoration: BoxDecoration(
+                            decoration: const BoxDecoration(
                                 boxShadow: [
-                                  const BoxShadow(
+                                  BoxShadow(
                                     // blurStyle: BlurStyle.outer,
                                     offset: Offset(2, 3),
                                     color: Colors.black26,
                                     blurRadius: 3,
                                   )
                                 ],
-                                borderRadius: const BorderRadius.only(topRight: Radius.circular(8)),
-                                color: const Color(0xFF27D6FF).withOpacity(0.6)),
+                                borderRadius: BorderRadius.only(topRight: Radius.circular(8)),
+                                color: Color(0xFF27D6FF)),
                             child: Text(
                               " Job Offer ",
                               style: GoogleFonts.poppins(fontSize: 20, fontWeight: FontWeight.w400, color: Colors.white),

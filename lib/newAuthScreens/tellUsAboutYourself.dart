@@ -1,4 +1,5 @@
 import 'package:dirise/iAmHereToSell/whichplantypedescribeyouScreen.dart';
+import 'package:dirise/utils/helper.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
@@ -63,114 +64,62 @@ class _TellUsAboutYourSelfState extends State<TellUsAboutYourSelf> {
         ),
       ),
       body: SingleChildScrollView(
+        padding: const EdgeInsets.symmetric(vertical: 35,horizontal: 10),
         child: Column(
           children: [
-            Container(
-              height: 250,
-              margin: const EdgeInsets.all(20),
-              decoration: BoxDecoration(borderRadius: BorderRadius.circular(11), color: Colors.grey.shade100),
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.center,
-                children: [
-                  Padding(
-                    padding: const EdgeInsets.all(15),
-                    child: Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                      children: [
-                        Image.asset(
-                          'assets/images/homestore.png',
-                          height: 40,
-                          width: 40,
-                        ),
-                        Radio(
-                          value: 'sell',
-                          groupValue: selectedRadio,
-                          onChanged: (value) {
-                            setState(() {
-                              selectedRadio = value.toString();
-                            });
-                          },
-                        ),
-                      ],
-                    ),
-                  ),
-                  Padding(
-                    padding: const EdgeInsets.only(left: 60, right: 60),
-                    child: Text(
-                      AppStrings.iAmHereToSell.tr,
-                      style: GoogleFonts.poppins(color: Colors.black, fontWeight: FontWeight.w300, fontSize: 36),
-                    ),
-                  ),
-                ],
-              ),
-            ),
-            Container(
-              height: 250,
-              margin: const EdgeInsets.all(20),
-              decoration: BoxDecoration(borderRadius: BorderRadius.circular(11), color: Colors.grey.shade100),
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.center,
-                children: [
-                  Padding(
-                    padding: const EdgeInsets.all(15),
-                    child: Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                      children: [
-                        Image.asset(
-                          'assets/images/bagicon.png',
-                          height: 40,
-                          width: 40,
-                        ),
-                        Radio(
-                          value: 'shop',
-                          groupValue: selectedRadio,
-                          onChanged: (value) {
-                            setState(() {
-                              selectedRadio = value.toString();
-                            });
-                          },
-                        ),
-                      ],
-                    ),
-                  ),
-                  Padding(
-                    padding: const EdgeInsets.only(left: 50, right: 50),
-                    child: Text(
-                      AppStrings.iWantToGoShopping.tr,
-                      style: GoogleFonts.poppins(color: Colors.black, fontWeight: FontWeight.w300, fontSize: 36),
-                    ),
-                  ),
-                ],
-              ),
-            ),
             GestureDetector(
-              onTap: () {
-                navigateNext();
+              onTap: (){
+                Get.to(PickUpAddressScreen());
+                setState(() {
+
+                });
               },
               child: Container(
-                margin: const EdgeInsets.only(left: 20, right: 20),
-                width: Get.width,
-                height: 50,
-                decoration: BoxDecoration(
-                  border: Border.all(
-                    color: const Color(0xff0D5877),
-                    width: 1.0,
-                  ),
-                  borderRadius: BorderRadius.circular(2),
-                ),
-                padding: const EdgeInsets.all(10),
-                child: const Center(
-                  child: Text(
-                    'Next',
-                    style: TextStyle(
-                      fontSize: 16,
-                      fontWeight: FontWeight.bold,
-                      color: Colors.black,
-                    ),
-                  ),
-                ),
+                decoration: BoxDecoration(borderRadius: BorderRadius.circular(11), color: Colors.grey.shade100),
+                child: Image.asset('assets/images/customer_img.png'),
               ),
             ),
+            30.spaceY,
+            GestureDetector(
+              onTap: (){
+                Get.to( const WhichplantypedescribeyouScreen());
+                setState(() {
+
+                });
+              },
+              child: Container(
+                decoration: BoxDecoration(borderRadius: BorderRadius.circular(11), color: Colors.grey.shade100),
+                child: Image.asset('assets/images/vendor-img.png'),
+              ),
+            ),
+            // GestureDetector(
+            //   onTap: () {
+            //     navigateNext();
+            //   },
+            //   child: Container(
+            //     margin: const EdgeInsets.only(left: 20, right: 20),
+            //     width: Get.width,
+            //     height: 50,
+            //     decoration: BoxDecoration(
+            //       border: Border.all(
+            //         color: const Color(0xff0D5877),
+            //         width: 1.0,
+            //       ),
+            //       borderRadius: BorderRadius.circular(2),
+            //     ),
+            //     padding: const EdgeInsets.all(10),
+            //     child: const Center(
+            //       child: Text(
+            //         'Next',
+            //         style: TextStyle(
+            //           fontSize: 16,
+            //           fontWeight: FontWeight.bold,
+            //           color: Colors.black,
+            //         ),
+            //       ),
+            //     ),
+            //   ),
+            // ),
           ],
         ),
       ),
