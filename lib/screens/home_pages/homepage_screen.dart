@@ -296,11 +296,12 @@ class _HomePageState extends State<HomePage> {
   @override
   void initState() {
     super.initState();
-   // locationController.checkGps(context);
+    profileController.aboutUsData();
+    locationController.checkGps(context);
     _getCurrentPosition();
     locationController.getCurrentPosition();
     _loadSavedAddress();
-    profileController.aboutUsData();
+
     WidgetsBinding.instance.addPostFrameCallback((timeStamp) {
       if (!hasShownDialog) {
         log('valueee trueee///${hasShownDialog.toString()}');
