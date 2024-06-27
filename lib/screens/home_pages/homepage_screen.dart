@@ -641,7 +641,7 @@ class _HomePageState extends State<HomePage> {
                         children: [
                           if (!profileController.userLoggedIn)
                             Text(
-                              'Address',
+                              'Address ',
                               style: GoogleFonts.poppins(
                                 color: Colors.black,
                                 fontSize: 18,
