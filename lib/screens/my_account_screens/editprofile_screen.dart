@@ -321,9 +321,21 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
           onTap: () {
             Get.back();
           },
-          child: IconButton(
-            icon: const Icon(Icons.arrow_back_ios, color: Colors.white, size: 20),
-            onPressed: () => Get.back(),
+          child: GestureDetector(
+            onTap: (){
+              Get.back();
+            },
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.center,
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: [
+                Image.asset(
+                  'assets/images/back_icon_new.png',
+                  height: 19,
+                  width: 19,
+                ),
+              ],
+            ),
           ),
         ),
       ),

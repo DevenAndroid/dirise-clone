@@ -90,16 +90,21 @@ class _MyItemISScreenState extends State<MyItemISScreen> {
       appBar: AppBar(
         backgroundColor: Colors.white,
         elevation: 0,
-        leading: IconButton(
-          icon: const Icon(
-            Icons.arrow_back_ios_new,
-            color: Color(0xff0D5877),
-            size: 16,
-          ),
-          onPressed: () {
+        leading: GestureDetector(
+          onTap: (){
             Get.back();
-            // Handle back button press
           },
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.center,
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: [
+              Image.asset(
+                'assets/images/back_icon_new.png',
+                height: 19,
+                width: 19,
+              ),
+            ],
+          ),
         ),
         titleSpacing: 0,
         centerTitle: true,

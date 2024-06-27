@@ -493,7 +493,11 @@ class _ProductUIState extends State<ProductUI> {
                       children: [
                         ElevatedButton(
                           onPressed: () {
-                            directBuyProduct();
+                            if(widget.productElement.productType == 'variants'){
+                              bottomSheet(productDetails: widget.productElement, context: context);
+                            }else {
+                              directBuyProduct();
+                            }
                           },
                           style: ElevatedButton.styleFrom(
                             backgroundColor: Colors.red,

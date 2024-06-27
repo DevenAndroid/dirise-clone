@@ -171,15 +171,21 @@ import 'package:dirise/virtualProduct/singleProductPriceScreen.dart';
   backgroundColor: Colors.white,
   surfaceTintColor: Colors.white,
   elevation: 0,
-  leading: IconButton(
-  onPressed: () {
-  Get.back();
-  },
-  icon: const Icon(
-  Icons.arrow_back_ios_new,
-  color: Color(0xff0D5877),
-  size: 16,
-  ),
+  leading: GestureDetector(
+    onTap: (){
+      Get.back();
+    },
+    child: Column(
+      crossAxisAlignment: CrossAxisAlignment.center,
+      mainAxisAlignment: MainAxisAlignment.center,
+      children: [
+        Image.asset(
+          'assets/images/back_icon_new.png',
+          height: 19,
+          width: 19,
+        ),
+      ],
+    ),
   ),
   titleSpacing: 0,
   title: Row(

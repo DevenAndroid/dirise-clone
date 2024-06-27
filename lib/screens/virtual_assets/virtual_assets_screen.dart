@@ -38,9 +38,22 @@ class _VirtualAssetsScreenState extends State<VirtualAssetsScreen> with Automati
               children: [
                 Row(
                   children: [
-                    IconButton(
-                      icon: const Icon(Icons.arrow_back_ios, color: Colors.white, size: 20),
-                      onPressed: () => Navigator.of(context).pop(),
+                    GestureDetector(
+                      onTap: (){
+                        Get.back();
+                      },
+                      child: Column(
+                        crossAxisAlignment: CrossAxisAlignment.center,
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        children: [
+                          Image.asset(
+                            'assets/images/back_icon_new.png',
+                            height: 19,
+                            width: 19,
+                            color: Colors.white,
+                          ),
+                        ],
+                      ),
                     ),
                     Text(
                      AppStrings.eBooks.tr,

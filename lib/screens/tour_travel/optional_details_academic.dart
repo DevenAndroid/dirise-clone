@@ -97,13 +97,19 @@ class _OptionalDetailsTourAndTravelState extends State<OptionalDetailsTourAndTra
         surfaceTintColor: Colors.white,
         elevation: 0,
         leading: GestureDetector(
-          onTap: () {
+          onTap: (){
             Get.back();
           },
-          child: const Icon(
-            Icons.arrow_back_ios_new,
-            color: Color(0xff0D5877),
-            size: 16,
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.center,
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: [
+              Image.asset(
+                'assets/images/back_icon_new.png',
+                height: 19,
+                width: 19,
+              ),
+            ],
           ),
         ),
         titleSpacing: 0,

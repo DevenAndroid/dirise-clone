@@ -5,6 +5,7 @@ import 'dart:io';
 import 'package:dirise/addNewProduct/pickUpAddressScreen.dart';
 import 'package:dirise/controller/vendor_controllers/add_product_controller.dart';
 import 'package:dirise/singleproductScreen/singleProductPriceScreen.dart';
+import 'package:dirise/utils/helper.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
@@ -171,14 +172,20 @@ class _ProductInformationScreensState extends State<ProductInformationScreens> {
         backgroundColor: Colors.white,
         surfaceTintColor: Colors.white,
         elevation: 0,
-        leading: IconButton(
-          onPressed: () {
+        leading: GestureDetector(
+          onTap: (){
             Get.back();
           },
-          icon: const Icon(
-            Icons.arrow_back_ios_new,
-            color: Color(0xff0D5877),
-            size: 16,
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.center,
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: [
+              Image.asset(
+                'assets/images/back_icon_new.png',
+                height: 19,
+                width: 19,
+              ),
+            ],
           ),
         ),
         titleSpacing: 0,
@@ -490,6 +497,7 @@ class _ProductInformationScreensState extends State<ProductInformationScreens> {
                   }
                 },
               ),
+              30.spaceY,
             ],
           ),
         ),
