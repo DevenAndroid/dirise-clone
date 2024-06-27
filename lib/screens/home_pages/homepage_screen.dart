@@ -296,7 +296,9 @@ class _HomePageState extends State<HomePage> {
   @override
   void initState() {
     super.initState();
-    // locationController.checkGps(context);
+   // locationController.checkGps(context);
+    _getCurrentPosition();
+    locationController.getCurrentPosition();
     _loadSavedAddress();
     profileController.aboutUsData();
     WidgetsBinding.instance.addPostFrameCallback((timeStamp) {
@@ -624,127 +626,92 @@ class _HomePageState extends State<HomePage> {
             },
             child: Column(
               children: [
-                Container(
-                  color: Colors.white,
-                  child: Column(
-                    children: [
-                      const SizedBox(
-                        height: 5,
-                      ),
-                      profileController.userLoggedIn
-                          ? locationController.zipcode.isNotEmpty
-                              ? Padding(
-                                  padding: const EdgeInsets.symmetric(horizontal: 15),
-                                  child: Column(
-                                    crossAxisAlignment: CrossAxisAlignment.start,
-                                    children: [
-                                      // Text(
-                                      //   'Address',
-                                      //   style: GoogleFonts.poppins(
-                                      //     color: Colors.white,
-                                      //     fontSize: 18,
-                                      //     fontWeight: FontWeight.w500,
-                                      //   ),
-                                      // ),
-                                      4.spaceY,
-                                      GestureDetector(
-                                          onTap: () {
-                                            Get.to(() => const HomeAddEditAddressLogin(), arguments: 'home');
-                                          },
-                                          child: Row(
-                                            // mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                                            children: [
-                                              SvgPicture.asset(
-                                                'assets/images/location.svg',
-                                                height: 20,
-                                                color: Colors.black,
-                                              ),
-                                              5.spaceX,
-                                              Flexible(
-                                                  child:
-                                                 Obx(() {return Text(
-                                                 // "Deliver to  ${"Pakistan"} , ${"57170"}",
-                                               "Deliver to  ${locationController.city.toString()} , ${locationController.zipcode ?? ''}",
-                                                 style: GoogleFonts.poppins(
-                                                   color: Colors.black,
-                                                   fontSize: 14,
-                                                   fontWeight: FontWeight.w400,
-                                                 ),
-                                               );
-                                             })
-                                              ),
-                                              5.spaceX,
-                                              SvgPicture.asset(
-                                                'assets/images/pencilImg.svg',
-                                                height: 18,
-                                                color: Colors.white,
-                                              ),
-                                            ],
-                                          )),
-                                    ],
-                                  ),
-                                )
-                              : const SizedBox.shrink()
-                          : locationController.zipcode.isNotEmpty
-                              ? Padding(
-                                  padding: const EdgeInsets.symmetric(horizontal: 15),
-                                  child: Column(
-                                    crossAxisAlignment: CrossAxisAlignment.start,
-                                    children: [
-                                      Text(
-                                        'Address',
-                                        style: GoogleFonts.poppins(
-                                          color: Colors.black,
-                                          fontSize: 18,
-                                          fontWeight: FontWeight.w500,
-                                        ),
-                                      ),
-                                      4.spaceY,
-                                      GestureDetector(
-                                          onTap: () {
-                                            Get.to(() => HomeAddEditAddress(), arguments: 'home');
-                                          },
-                                          child: Row(
-                                            // mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                                            children: [
-                                              SvgPicture.asset(
-                                                'assets/images/location.svg',
-                                                height: 20,
-                                                color: Colors.black,
-                                              ),
-                                              5.spaceX,
-                                              Flexible(
-                                                  child:
-                                                  Obx(() {return Text(
-                                                    // "Deliver to  ${"Pakistan"} , ${"57170"}",
-                                                    "Deliver to  ${locationController.city.toString()} , ${locationController.zipcode ?? ''}",
-                                                    style: GoogleFonts.poppins(
-                                                      color: Colors.black,
-                                                      fontSize: 14,
-                                                      fontWeight: FontWeight.w400,
-                                                    ),
-                                                  );
-                                                  })
-                                              ),
-                                              5.spaceX,
-                                              SvgPicture.asset(
-                                                'assets/images/pencilImg.svg',
-                                                height: 18,
-                                                color: Colors.white,
-                                              ),
-                                            ],
-                                          )),
-                                    ],
-                                  ),
-                                )
-                              : const SizedBox.shrink(),
-                      10.spaceY,
-                      const SizedBox(
-                        height: 8,
-                      ),
-                    ],
+              Container(
+              color: Colors.white,
+              child: Column(
+                children: [
+                  const SizedBox(
+                    height: 5,
                   ),
-                ),
+                  if (locationController.zipcode.isNotEmpty)
+                    Padding(
+                      padding: const EdgeInsets.symmetric(horizontal: 15),
+                      child: Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          if (!profileController.userLoggedIn)
+                            Text(
+                              'Address',
+                              style: GoogleFonts.poppins(
+                                color: Colors.black,
+                                fontSize: 18,
+                                fontWeight: FontWeight.w500,
+                              ),
+                            ),
+                          4.spaceY,
+                          GestureDetector(
+                            onTap: () {
+                              Get.to(() => profileController.userLoggedIn
+                                  ? const HomeAddEditAddressLogin()
+                                  : HomeAddEditAddress(),
+                                arguments: 'home',
+                              );
+                            },
+                            child: Row(
+                              children: [
+                                SvgPicture.asset(
+                                  'assets/images/location.svg',
+                                  height: 20,
+                                  color: Colors.black,
+                                ),
+                                5.spaceX,
+                                Flexible(
+                                  child: Obx(() {
+                                    return Text(
+                                      "Deliver to  ${locationController.city.toString()} , ${locationController.zipcode ?? ''}",
+                                      style: GoogleFonts.poppins(
+                                        color: Colors.black,
+                                        fontSize: 14,
+                                        fontWeight: FontWeight.w400,
+                                      ),
+                                    );
+                                  }),
+                                ),
+                                5.spaceX,
+                                SvgPicture.asset(
+                                  'assets/images/pencilImg.svg',
+                                  height: 18,
+                                  color: Colors.white,
+                                ),
+                              ],
+                            ),
+                          ),
+                        ],
+                      ),
+                    )
+                  else
+                    const SizedBox.shrink(),
+                  10.spaceY,
+                  const SizedBox(
+                    height: 8,
+                  ),
+                ],
+              ),
+            ),
+
+            // Flexible(
+                //     child:
+                //     Obx(() {return Text(
+                //       // "Deliver to  ${"Pakistan"} , ${"57170"}",
+                //       "Deliver to  ${locationController.city.toString()} , ${locationController.zipcode ?? ''}",
+                //       style: GoogleFonts.poppins(
+                //         color: Colors.black,
+                //         fontSize: 14,
+                //         fontWeight: FontWeight.w400,
+                //       ),
+                //     );
+                //     })
+                // ),
                 Expanded(
                   child: Container(
                     color: Color(0xFFF2F2F2).withOpacity(0.6),
