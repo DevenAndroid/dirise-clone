@@ -328,9 +328,10 @@ class _CustomDrawerState extends State<CustomDrawer> {
                                     color: const Color(0xFF2A3032), fontSize: 16, fontWeight: FontWeight.w500),
                               ),
                             ),
-                            const Icon(
-                              Icons.arrow_forward_ios,
-                              size: 15,
+                            Image.asset(
+                              'assets/images/forward_icon.png',
+                              height: 17,
+                              width: 17,
                             ),
                           ],
                         ),
@@ -368,9 +369,10 @@ class _CustomDrawerState extends State<CustomDrawer> {
                             color: const Color(0xFF2A3032), fontSize: 16, fontWeight: FontWeight.w500),
                       ),
                       const Spacer(),
-                      const Icon(
-                        Icons.arrow_forward_ios,
-                        size: 15,
+                      Image.asset(
+                        'assets/images/forward_icon.png',
+                        height: 17,
+                        width: 17,
                       ),
                     ],
                   ),
@@ -405,9 +407,10 @@ class _CustomDrawerState extends State<CustomDrawer> {
                             color: const Color(0xFF2A3032), fontSize: 16, fontWeight: FontWeight.w500),
                       ),
                       const Spacer(),
-                      const Icon(
-                        Icons.arrow_forward_ios,
-                        size: 15,
+                      Image.asset(
+                        'assets/images/forward_icon.png',
+                        height: 17,
+                        width: 17,
                       ),
                     ],
                   ),
@@ -474,9 +477,10 @@ class _CustomDrawerState extends State<CustomDrawer> {
                             color: const Color(0xFF2A3032), fontSize: 16, fontWeight: FontWeight.w500),
                       ),
                       const Spacer(),
-                      const Icon(
-                        Icons.arrow_forward_ios,
-                        size: 15,
+                      Image.asset(
+                        'assets/images/forward_icon.png',
+                        height: 17,
+                        width: 17,
                       ),
                     ],
                   ),
@@ -512,9 +516,10 @@ class _CustomDrawerState extends State<CustomDrawer> {
                             color: const Color(0xFF2A3032), fontSize: 16, fontWeight: FontWeight.w500),
                       ),
                       const Spacer(),
-                      const Icon(
-                        Icons.arrow_forward_ios,
-                        size: 15,
+                      Image.asset(
+                        'assets/images/forward_icon.png',
+                        height: 17,
+                        width: 17,
                       ),
                     ],
                   ),
@@ -546,9 +551,10 @@ class _CustomDrawerState extends State<CustomDrawer> {
                             color: const Color(0xFF2A3032), fontSize: 16, fontWeight: FontWeight.w500),
                       ),
                       const Spacer(),
-                      const Icon(
-                        Icons.arrow_forward_ios,
-                        size: 15,
+                      Image.asset(
+                        'assets/images/forward_icon.png',
+                        height: 17,
+                        width: 17,
                       ),
                     ],
                   ),
@@ -630,9 +636,10 @@ class _CustomDrawerState extends State<CustomDrawer> {
                             color: const Color(0xFF2A3032), fontSize: 16, fontWeight: FontWeight.w500),
                       ),
                       const Spacer(),
-                      const Icon(
-                        Icons.arrow_forward_ios,
-                        size: 15,
+                      Image.asset(
+                        'assets/images/forward_icon.png',
+                        height: 17,
+                        width: 17,
                       ),
                     ],
                   ),
@@ -771,9 +778,10 @@ class _CustomDrawerState extends State<CustomDrawer> {
                             color: const Color(0xFF2A3032), fontSize: 16, fontWeight: FontWeight.w500),
                       ),
                       const Spacer(),
-                      const Icon(
-                        Icons.arrow_forward_ios,
-                        size: 15,
+                      Image.asset(
+                        'assets/images/forward_icon.png',
+                        height: 17,
+                        width: 17,
                       ),
                     ],
                   ),
@@ -805,9 +813,10 @@ class _CustomDrawerState extends State<CustomDrawer> {
                             color: const Color(0xFF2A3032), fontSize: 16, fontWeight: FontWeight.w500),
                       ),
                       const Spacer(),
-                      const Icon(
-                        Icons.arrow_forward_ios,
-                        size: 15,
+                      Image.asset(
+                        'assets/images/forward_icon.png',
+                        height: 17,
+                        width: 17,
                       ),
                     ],
                   ),
@@ -845,9 +854,10 @@ class _CustomDrawerState extends State<CustomDrawer> {
                             color: const Color(0xFF2A3032), fontSize: 16, fontWeight: FontWeight.w500),
                       ),
                       const Spacer(),
-                      const Icon(
-                        Icons.arrow_forward_ios,
-                        size: 15,
+                      Image.asset(
+                        'assets/images/forward_icon.png',
+                        height: 17,
+                        width: 17,
                       ),
                     ],
                   ),
@@ -879,9 +889,10 @@ class _CustomDrawerState extends State<CustomDrawer> {
                             color: const Color(0xFF2A3032), fontSize: 16, fontWeight: FontWeight.w500),
                       ),
                       const Spacer(),
-                      const Icon(
-                        Icons.arrow_forward_ios,
-                        size: 15,
+                      Image.asset(
+                        'assets/images/forward_icon.png',
+                        height: 17,
+                        width: 17,
                       ),
                     ],
                   ),
@@ -913,9 +924,10 @@ class _CustomDrawerState extends State<CustomDrawer> {
                             color: const Color(0xFF2A3032), fontSize: 16, fontWeight: FontWeight.w500),
                       ),
                       const Spacer(),
-                      const Icon(
-                        Icons.arrow_forward_ios,
-                        size: 15,
+                      Image.asset(
+                        'assets/images/forward_icon.png',
+                        height: 17,
+                        width: 17,
                       ),
                     ],
                   ),
@@ -934,7 +946,7 @@ class _CustomDrawerState extends State<CustomDrawer> {
                             context: context,
                             builder: (BuildContext context) => AlertDialog(
                               title: Text('Delete Account'.tr),
-                              content: Text('Do You Want To Delete Your Account'.tr),
+                              content: Text('Do you want to delete your account'.tr),
                               actions: <Widget>[
                                 TextButton(
                                   onPressed: () => Get.back(),
@@ -989,9 +1001,10 @@ class _CustomDrawerState extends State<CustomDrawer> {
                                     color: const Color(0xFF2A3032), fontSize: 16, fontWeight: FontWeight.w500),
                               ),
                             ),
-                            const Icon(
-                              Icons.arrow_forward_ios,
-                              size: 15,
+                            Image.asset(
+                              'assets/images/forward_icon.png',
+                              height: 17,
+                              width: 17,
                             ),
                           ],
                         ),
@@ -1019,7 +1032,7 @@ class _CustomDrawerState extends State<CustomDrawer> {
                         context: context,
                         builder: (BuildContext context) => AlertDialog(
                           title: Text('Logout Account'.tr),
-                          content: Text('Do You Want To Logout Your Account'.tr),
+                          content: Text('Do you want to logout your account'.tr),
                           actions: <Widget>[
                             TextButton(
                               onPressed: () => Get.back(),
@@ -1064,9 +1077,10 @@ class _CustomDrawerState extends State<CustomDrawer> {
                             color: const Color(0xFF2A3032), fontSize: 16, fontWeight: FontWeight.w500),
                       ),
                       const Spacer(),
-                      const Icon(
-                        Icons.arrow_forward_ios,
-                        size: 15,
+                      Image.asset(
+                        'assets/images/forward_icon.png',
+                        height: 17,
+                        width: 17,
                       ),
                     ],
                   ),
@@ -1952,10 +1966,14 @@ class _CustomDrawerState extends State<CustomDrawer> {
                 style: GoogleFonts.poppins(color: const Color(0xFF2A3032), fontSize: 16, fontWeight: FontWeight.w500),
               ),
             ),
-            Icon(
-              !_isValue.value == true ? Icons.arrow_forward_ios : Icons.keyboard_arrow_down,
-              color: Colors.black,
-              size: 15,
+            !_isValue.value == true ?   Image.asset(
+              'assets/images/forward_icon.png',
+              height: 17,
+              width: 17,
+            ) : Image.asset(
+              'assets/images/drop_icon.png',
+              height: 17,
+              width: 17,
             ),
           ],
         ),
@@ -2012,9 +2030,10 @@ class _CustomDrawerState extends State<CustomDrawer> {
                                                       color: Colors.grey.shade500),
                                                 ),
                                               ),
-                                              const Icon(
-                                                Icons.arrow_forward_ios_rounded,
-                                                size: 14,
+                                              Image.asset(
+                                                'assets/images/forward_icon.png',
+                                                height: 14,
+                                                width: 14,
                                               )
                                             ],
                                           ),

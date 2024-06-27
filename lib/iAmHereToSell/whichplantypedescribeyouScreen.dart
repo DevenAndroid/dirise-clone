@@ -233,7 +233,7 @@ class _WhichplantypedescribeyouScreenState extends State<Whichplantypedescribeyo
                 child: Container(
                   width: Get.width,
                   decoration: BoxDecoration(borderRadius: BorderRadius.circular(10), color: Colors.grey.shade200,
-                    border: _selectedOption == 1 ? Border.all(color: Colors.black) : const Border(),
+                    border: _selectedOption == 1 ? Border.all(color: const Color(0xff0D5877)) : const Border(),
                   ),
                   child: Row(
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -423,7 +423,7 @@ class _WhichplantypedescribeyouScreenState extends State<Whichplantypedescribeyo
                 child: Container(
                   width: Get.width,
                   decoration: BoxDecoration(borderRadius: BorderRadius.circular(10), color: Colors.grey.shade200,
-                    border: _selectedOption == 2 ? Border.all(color: Colors.black) : const Border(),
+                    border: _selectedOption == 2 ? Border.all(color: const Color(0xff0D5877)) : const Border(),
                   ),
                   child: Row(
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -558,7 +558,7 @@ class _WhichplantypedescribeyouScreenState extends State<Whichplantypedescribeyo
                 child: Container(
                   width: Get.width,
                   decoration: BoxDecoration(borderRadius: BorderRadius.circular(10), color: Colors.grey.shade200,
-                    border: _selectedOption == 3 ? Border.all(color: Colors.black) : const Border()),
+                    border: _selectedOption == 3 ? Border.all(color: const Color(0xff0D5877)) : const Border()),
                   child: Row(
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
