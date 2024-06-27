@@ -147,7 +147,7 @@ class LocationController extends GetxController {
   }
   final Completer<GoogleMapController> googleMapController = Completer();
   GoogleMapController? mapController;
-  Future<void> _getCurrentPosition() async {
+  Future<void> getCurrentPosition() async {
     final hasPermission = await _handleLocationPermission();
 
     if (!hasPermission) return;
