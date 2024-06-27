@@ -134,7 +134,7 @@ class _TimeScreenState extends State<TimeScreen> {
           child: Padding(
             padding: const EdgeInsets.all(15),
             child: Image.asset(
-              'assets/icons/backicon.png',
+              'assets/images/back_icon_new.png',
               height: 20,
             ),
           ),

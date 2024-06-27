@@ -43,9 +43,9 @@ class _AboutUsScreenState extends State<AboutUsScreen> {
                 children: [
                   IconButton(
                     icon: Image.asset(
-                      'assets/icons/backicon.png',
-                      height: 25,
-                      width: 25,
+                      'assets/images/back_icon_new.png',
+                      height: 20,
+                      width: 20,
                     ),
                     onPressed: () => Navigator.of(context).pop(),
                   ),

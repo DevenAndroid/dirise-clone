@@ -7,6 +7,8 @@ import 'package:get/get.dart';
 import 'package:google_fonts/google_fonts.dart';
 
 import '../../addNewProduct/addProductStartScreen.dart';
+import '../../controller/profile_controller.dart';
+import '../auth_screens/login_screen.dart';
 import 'get_look_job.dart';
 
 
@@ -20,7 +22,7 @@ class GetJobTypeScreen extends StatefulWidget {
 
 class _GetJobTypeScreenState extends State<GetJobTypeScreen> {
   String selectedRadio = '';
-
+  final profileController = Get.put(ProfileController());
   // jobTypeApi(String jobType) {
   //   Map<String, dynamic> map = {};
   //   map['jobseeking_or_offering'] = jobType;
@@ -88,7 +90,11 @@ class _GetJobTypeScreenState extends State<GetJobTypeScreen> {
               20.spaceY,
               GestureDetector(
                   onTap: (){
-                    Get.to(()=>const AddProductOptionScreen());
+                    if (  profileController.userLoggedIn == true) {
+                      Get.to(const AddProductOptionScreen());
+                    } else {
+                      Get.to(const LoginScreen());
+                    }
                     setState(() {
 
                     });

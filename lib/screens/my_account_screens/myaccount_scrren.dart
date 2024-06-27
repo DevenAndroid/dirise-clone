@@ -77,7 +77,7 @@ enum SingingCharacter { lafayette, jefferson }
 class _MyAccountScreenState extends State<MyAccountScreen> {
 
   whatsapp() async {
-    String contact = "+965 98762557";
+    String contact = "+96598762557";
     String text = 'Whatsapp support';
     String androidUrl = "whatsapp://send?phone=$contact&text=$text";
     String iosUrl = "https://wa.me/$contact?text=${Uri.parse(text)}";
@@ -381,7 +381,7 @@ class _MyAccountScreenState extends State<MyAccountScreen> {
       decoration: const BoxDecoration(
         gradient: LinearGradient(
             colors: [
-              AppTheme.buttonColor,
+              Color(0xFFEBF1F4),
               Colors.white,
               Colors.white,
             ],
@@ -401,7 +401,7 @@ class _MyAccountScreenState extends State<MyAccountScreen> {
               children: [
                 Container(
                   width: MediaQuery.sizeOf(context).width,
-                  color: AppTheme.buttonColor,
+                  color: const Color(0xFFEBF1F4),
                   child: Obx(() {
                     if (profileController.refreshInt.value > 0) {}
                     return Column(
@@ -414,7 +414,7 @@ class _MyAccountScreenState extends State<MyAccountScreen> {
                                   ? profileController.model.user!.name ?? ""
                                   : ""
                               : AppStrings.guestUser.tr,
-                          style: GoogleFonts.poppins(color: Colors.white, fontSize: 24, fontWeight: FontWeight.w600),
+                          style: GoogleFonts.poppins(color: AppTheme.buttonColor, fontSize: 24, fontWeight: FontWeight.w600),
                         ),
                         4.spaceY,
                         ClipRRect(
@@ -478,9 +478,9 @@ class _MyAccountScreenState extends State<MyAccountScreen> {
                                   ? profileController.model.user!.email ?? ""
                                   : ""
                               : "",
-                          style: GoogleFonts.poppins(color: Colors.white, fontSize: 16, fontWeight: FontWeight.w400),
+                          style: GoogleFonts.poppins(color: AppTheme.buttonColor, fontSize: 16, fontWeight: FontWeight.w400),
                         ),
-                        5.spaceY,
+                        15.spaceY,
                       ],
                     );
                   }),
@@ -579,7 +579,7 @@ class _MyAccountScreenState extends State<MyAccountScreen> {
                           if (profileController.userLoggedIn) {
                             whatsapp();
                           } else {
-                            Get.toNamed(LoginScreen.route);
+                            whatsapp();
                           }
                         },
                         child: Row(

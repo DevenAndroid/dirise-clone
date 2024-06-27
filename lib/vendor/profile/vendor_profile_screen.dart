@@ -765,18 +765,24 @@ class _VendorProfileScreenState extends State<VendorProfileScreen> {
             )),
         backgroundColor: Colors.white,
         surfaceTintColor: Colors.white,
-        leading: GestureDetector(
-          onTap: () {
-            Get.back();
-            // _scaffoldKey.currentState!.openDrawer();
-          },
-          child: Padding(
-            padding: const EdgeInsets.all(15),
-            child: Image.asset(
-              'assets/icons/backicon.png',
-              height: 20,
+        leading: Column(
+          crossAxisAlignment: CrossAxisAlignment.center,
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: [
+            GestureDetector(
+              onTap: () {
+                Get.back();
+                // _scaffoldKey.currentState!.openDrawer();
+              },
+              child: Padding(
+                padding: const EdgeInsets.all(15),
+                child: Image.asset(
+                  'assets/images/back_icon_new.png',
+                  height: 20,
+                ),
+              ),
             ),
-          ),
+          ],
         ),
       ),
       body: Obx(() {

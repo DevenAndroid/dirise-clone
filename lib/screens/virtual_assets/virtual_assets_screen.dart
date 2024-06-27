@@ -1,4 +1,5 @@
 import 'package:dirise/language/app_strings.dart';
+import 'package:dirise/utils/helper.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:google_fonts/google_fonts.dart';
@@ -38,6 +39,7 @@ class _VirtualAssetsScreenState extends State<VirtualAssetsScreen> with Automati
               children: [
                 Row(
                   children: [
+                    15.spaceX,
                     GestureDetector(
                       onTap: (){
                         Get.back();
@@ -55,6 +57,7 @@ class _VirtualAssetsScreenState extends State<VirtualAssetsScreen> with Automati
                         ],
                       ),
                     ),
+                    20.spaceX,
                     Text(
                      AppStrings.eBooks.tr,
                       style: GoogleFonts.poppins(color: Colors.white, fontSize: 18, fontWeight: FontWeight.w600),

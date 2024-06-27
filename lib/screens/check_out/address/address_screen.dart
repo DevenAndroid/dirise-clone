@@ -206,10 +206,7 @@ class _AddressScreenState extends State<AddressScreen> {
                         if (userLoggedIn) {
                           bottomSheetChangeAddress();
                         } else {
-                          // addAddressWithoutLogin(addressData: cartController.selectedAddress);
-                          Get.toNamed(
-                            LoginScreen.route,
-                          );
+                          addAddressWithoutLogin(addressData: cartController.selectedAddress);
                         }
                       },
                       child: Align(
@@ -330,7 +327,7 @@ class _AddressScreenState extends State<AddressScreen> {
     final TextEditingController titleController = TextEditingController(text: addressData.type ?? "");
 
     final formKey = GlobalKey<FormState>();
-
+    cartController.getAddress();
     return showModalBottomSheet(
         context: context,
         isScrollControlled: true,
@@ -621,22 +618,41 @@ class _AddressScreenState extends State<AddressScreen> {
                         behavior: HitTestBehavior.translucent,
                         onTap: () {
                           if (formKey.currentState!.validate()) {
-                            cartController.selectedAddress = AddressData(
-                              id: "",
-                              type: titleController.text.trim(),
-                              firstName: firstNameController.text.trim(),
-                              lastName: lastNameController.text.trim(),
-                              state: stateController.text.trim(),
-                              country: countryController.text.trim(),
-                              city: cityController.text.trim(),
-                              address2: address2Controller.text.trim(),
-                              address: addressController.text.trim(),
-                              alternatePhone: alternatePhoneController.text.trim(),
-                              landmark: landmarkController.text.trim(),
-                              phone: phoneController.text.trim(),
-                              zipCode: zipCodeController.text.trim(),
-                              email: emailController.text.trim(),
-                            );
+                            cartController.updateAddressApi(
+                                context: context,
+                                firstName: firstNameController.text.trim(),
+                                title: titleController.text.trim(),
+                                lastName: lastNameController.text.trim(),
+                                countryName: cartController.countryName.toString(),
+                                state: cartController.stateName.toString(),
+                                country: cartController.countryCode.toString(),
+                                city: cartController.cityName.toString(),
+                                address2: address2Controller.text.trim(),
+                                address: addressController.text.trim(),
+                                alternatePhone: alternatePhoneController.text.trim(),
+                                landmark: landmarkController.text.trim(),
+                                phone: phoneController.text.trim(),
+                                zipCode: zipCodeController.text.trim(),
+                                email: emailController.text.trim(),
+                                cityId: cartController.cityCode.toString(),
+                                stateId: cartController.stateCode.toString(),
+                                phoneCountryCode: profileController.code.toString());
+                            // cartController.selectedAddress = AddressData(
+                            //   id: "",
+                            //   type: titleController.text.trim(),
+                            //   firstName: firstNameController.text.trim(),
+                            //   lastName: lastNameController.text.trim(),
+                            //   state: stateController.text.trim(),
+                            //   country: countryController.text.trim(),
+                            //   city: cityController.text.trim(),
+                            //   address2: address2Controller.text.trim(),
+                            //   address: addressController.text.trim(),
+                            //   alternatePhone: alternatePhoneController.text.trim(),
+                            //   landmark: landmarkController.text.trim(),
+                            //   phone: phoneController.text.trim(),
+                            //   zipCode: zipCodeController.text.trim(),
+                            //   email: emailController.text.trim(),
+                            // );
                             setState(() {});
                             Get.back();
                           }
