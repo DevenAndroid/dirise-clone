@@ -296,11 +296,12 @@ class _HomePageState extends State<HomePage> {
   @override
   void initState() {
     super.initState();
-   // locationController.checkGps(context);
+    profileController.aboutUsData();
+    locationController.checkGps(context);
     _getCurrentPosition();
     locationController.getCurrentPosition();
     _loadSavedAddress();
-    profileController.aboutUsData();
+
     WidgetsBinding.instance.addPostFrameCallback((timeStamp) {
       if (!hasShownDialog) {
         log('valueee trueee///${hasShownDialog.toString()}');
@@ -633,64 +634,69 @@ class _HomePageState extends State<HomePage> {
                   const SizedBox(
                     height: 5,
                   ),
-                  if (locationController.zipcode.isNotEmpty)
-                    Padding(
-                      padding: const EdgeInsets.symmetric(horizontal: 15),
-                      child: Column(
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        children: [
-                          if (!profileController.userLoggedIn)
-                            Text(
-                              'Address ',
-                              style: GoogleFonts.poppins(
-                                color: Colors.black,
-                                fontSize: 18,
-                                fontWeight: FontWeight.w500,
-                              ),
-                            ),
-                          4.spaceY,
-                          GestureDetector(
-                            onTap: () {
-                              Get.to(() => profileController.userLoggedIn
-                                  ? const HomeAddEditAddressLogin()
-                                  : HomeAddEditAddress(),
-                                arguments: 'home',
-                              );
-                            },
-                            child: Row(
-                              children: [
-                                SvgPicture.asset(
-                                  'assets/images/location.svg',
-                                  height: 20,
-                                  color: Colors.black,
-                                ),
-                                5.spaceX,
-                                Flexible(
-                                  child: Obx(() {
-                                    return Text(
-                                      "Deliver to  ${locationController.city.toString()} , ${locationController.zipcode ?? ''}",
-                                      style: GoogleFonts.poppins(
-                                        color: Colors.black,
-                                        fontSize: 14,
-                                        fontWeight: FontWeight.w400,
-                                      ),
-                                    );
-                                  }),
-                                ),
-                                5.spaceX,
-                                SvgPicture.asset(
-                                  'assets/images/pencilImg.svg',
-                                  height: 18,
-                                  color: Colors.white,
-                                ),
-                              ],
-                            ),
-                          ),
-                        ],
-                      ),
-                    )
-                  else
-                    const SizedBox.shrink(),
+                  Row(
+                    children: [
+                      Center(child: Text("  Addres:- Pakistan ,50217")),
+                    ],
+                  ),
+                  // if (locationController.zipcode.isNotEmpty)
+                  //   Padding(
+                  //     padding: const EdgeInsets.symmetric(horizontal: 15),
+                  //     child: Column(
+                  //       crossAxisAlignment: CrossAxisAlignment.start,
+                  //       children: [
+                  //         if (!profileController.userLoggedIn)
+                  //           Text(
+                  //             'Address ',
+                  //             style: GoogleFonts.poppins(
+                  //               color: Colors.black,
+                  //               fontSize: 18,
+                  //               fontWeight: FontWeight.w500,
+                  //             ),
+                  //           ),
+                  //         4.spaceY,
+                  //         GestureDetector(
+                  //           onTap: () {
+                  //             Get.to(() => profileController.userLoggedIn
+                  //                 ? const HomeAddEditAddressLogin()
+                  //                 : HomeAddEditAddress(),
+                  //               arguments: 'home',
+                  //             );
+                  //           },
+                  //           child: Row(
+                  //             children: [
+                  //               SvgPicture.asset(
+                  //                 'assets/images/location.svg',
+                  //                 height: 20,
+                  //                 color: Colors.black,
+                  //               ),
+                  //               5.spaceX,
+                  //               Flexible(
+                  //                 child: Obx(() {
+                  //                   return Text(
+                  //                     "Deliver to  ${locationController.city.toString()} , ${locationController.zipcode ?? ''}",
+                  //                     style: GoogleFonts.poppins(
+                  //                       color: Colors.black,
+                  //                       fontSize: 14,
+                  //                       fontWeight: FontWeight.w400,
+                  //                     ),
+                  //                   );
+                  //                 }),
+                  //               ),
+                  //               5.spaceX,
+                  //               SvgPicture.asset(
+                  //                 'assets/images/pencilImg.svg',
+                  //                 height: 18,
+                  //                 color: Colors.white,
+                  //               ),
+                  //             ],
+                  //           ),
+                  //         ),
+                  //       ],
+                  //     ),
+                  //   )
+                  // else
+                  //   const SizedBox.shrink(),
                   10.spaceY,
                   const SizedBox(
                     height: 8,
