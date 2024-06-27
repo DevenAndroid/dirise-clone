@@ -123,7 +123,7 @@ class _WhatdoyousellScreenState extends State<WhatdoyousellScreen> {
         await prefs.setString('email', storeEmail.text.trim());
         log('message ${allSelectedCategory.entries.map((e) => e.key).toList().join(",")}');
         vendorRegister = 'done';
-        showToast('Otp has been successfully sent to your email/SMS');
+        showToast('Otp has been successfully sent to your email.');
         setState(() {
           isOtpDone = true;
           showResend = true;
