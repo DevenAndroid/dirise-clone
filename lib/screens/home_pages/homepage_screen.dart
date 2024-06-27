@@ -65,13 +65,14 @@ class _HomePageState extends State<HomePage> {
   Rx<ErrorLogModel> errorLog = ErrorLogModel().obs;
   errorApi() {
     Map<String, dynamic> map = {
-      "type": "location",
+      "type": "home page location",
       "payload": [
         {
           "street": locationController.street.toString(),
           "city": locationController.city.value,
           "state": locationController.state.toString(),
-          "country": locationController.countryName.toString(),
+        "country": locationController.countryName.toString(),
+          // "country": "Pakistan",
           "zipcode": locationController.zipcode.value.toString(),
           "town":  locationController.town.toString(),
 
@@ -611,16 +612,27 @@ class _HomePageState extends State<HomePage> {
                                                 color: Colors.black,
                                               ),
                                               5.spaceX,
-                                              Flexible(child: Obx(() {
-                                                return Text(
-                                                  "Deliver to  ${locationController.city.toString()} , ${locationController.zipcode ?? ''}",
-                                                  style: GoogleFonts.poppins(
-                                                    color: Colors.black,
-                                                    fontSize: 14,
-                                                    fontWeight: FontWeight.w400,
-                                                  ),
-                                                );
-                                              })),
+                                              Flexible(
+                                                  child: Text(
+                                                    "Deliver to  ${"Pakistan"} , ${"57170"}",
+                                                    // "Deliver to  ${locationController.city.toString()} , ${locationController.zipcode ?? ''}",
+                                                    style: GoogleFonts.poppins(
+                                                      color: Colors.black,
+                                                      fontSize: 14,
+                                                      fontWeight: FontWeight.w400,
+                                                    ),
+                                                  )
+                                              //     Obx(() {return Text(
+                                              //     "Deliver to  ${"Pakistan"} , ${"57170"}",
+                                              //     // "Deliver to  ${locationController.city.toString()} , ${locationController.zipcode ?? ''}",
+                                              //     style: GoogleFonts.poppins(
+                                              //       color: Colors.black,
+                                              //       fontSize: 14,
+                                              //       fontWeight: FontWeight.w400,
+                                              //     ),
+                                              //   );
+                                              // })
+                                              ),
                                               5.spaceX,
                                               SvgPicture.asset(
                                                 'assets/images/pencilImg.svg',
@@ -662,16 +674,18 @@ class _HomePageState extends State<HomePage> {
                                               ),
                                               5.spaceX,
                                               Flexible(
-                                                child: Obx(() {
-                                                  return Text(
-                                                    "Deliver to ${locationController.city.toString()} , ${locationController.zipcode.toString()}",
-                                                    style: GoogleFonts.poppins(
-                                                      color: Colors.black,
-                                                      fontSize: 14,
-                                                      fontWeight: FontWeight.w400,
-                                                    ),
-                                                  );
-                                                }),
+                                                child:Text(
+                                                  "Deliver to  ${"Pakistan"} , ${"57170"}",
+                                                  // "Deliver to ${locationController.city.toString()} , ${locationController.zipcode.toString()}",
+                                                  style: GoogleFonts.poppins(
+                                                    color: Colors.black,
+                                                    fontSize: 14,
+                                                    fontWeight: FontWeight.w400,
+                                                  ),
+                                                )
+                                                // Obx(() {
+                                                //   return
+                                                // }),
                                               ),
                                               5.spaceX,
                                               SvgPicture.asset(
