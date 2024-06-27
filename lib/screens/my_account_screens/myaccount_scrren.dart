@@ -1194,7 +1194,7 @@ class _MyAccountScreenState extends State<MyAccountScreen> {
                                   context: context,
                                   builder: (BuildContext context) => AlertDialog(
                                     title: Text('Delete Account'.tr),
-                                    content: Text('Do You Want To Delete Your Account'.tr),
+                                    content: Text('Do you want to delete your account'.tr),
                                     actions: <Widget>[
                                       TextButton(
                                         onPressed: () => Get.back(),
@@ -1279,7 +1279,7 @@ class _MyAccountScreenState extends State<MyAccountScreen> {
                               context: context,
                               builder: (BuildContext context) => AlertDialog(
                                 title: Text('Logout Account'.tr),
-                                content: Text('Do You Want To Logout Your Account'.tr),
+                                content: Text('Do you want to logout your account'.tr),
                                 actions: <Widget>[
                                   TextButton(
                                     onPressed: () => Get.back(),

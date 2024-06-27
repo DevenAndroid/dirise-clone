@@ -123,7 +123,7 @@ class _WhatdoyousellScreenState extends State<WhatdoyousellScreen> {
         await prefs.setString('email', storeEmail.text.trim());
         log('message ${allSelectedCategory.entries.map((e) => e.key).toList().join(",")}');
         vendorRegister = 'done';
-        showToast('OTP has been successfully sent to your email/SMS');
+        showToast('Otp has been successfully sent to your email/SMS');
         setState(() {
           isOtpDone = true;
           showResend = true;
@@ -148,11 +148,11 @@ class _WhatdoyousellScreenState extends State<WhatdoyousellScreen> {
     String? token = await FirebaseMessaging.instance.getToken();
     String? token1 = await FirebaseMessaging.instance.getToken();
     if (_otpController.text.trim().isEmpty) {
-      showToast("Please enter OTP".tr);
+      showToast("Please enter otp".tr);
       return;
     }
     if (_otpController.text.trim().length < 4) {
-      showToast("Enter complete OTP".tr);
+      showToast("Enter complete otp".tr);
       return;
     }
     FocusManager.instance.primaryFocus!.unfocus();
