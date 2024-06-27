@@ -167,12 +167,21 @@ RxString shippingType= "".obs;
         backgroundColor: Colors.white,
         surfaceTintColor: Colors.white,
         elevation: 0,
-        leading: IconButton(
-          icon: const Icon(Icons.arrow_back_ios, color: Color(0xff014E70), size: 20),
-          onPressed: () {
-            Get.back();
+        leading: GestureDetector(
+          onTap: (){
             Get.back();
           },
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.center,
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: [
+              Image.asset(
+                'assets/images/back_icon_new.png',
+                height: 19,
+                width: 19,
+              ),
+            ],
+          ),
         ),
         titleSpacing: 0,
         title: Row(
@@ -2282,7 +2291,7 @@ RxString shippingType= "".obs;
                                       cartController.selectedAddress = address;
                                       cartController.countryId = address.countryId.toString();
                                       cartController.zipCode = address.zipCode.toString();
-                                      directOrderResponse;
+                                      // directBuyProduct();
                                       cartController.getCart();
                                       cartController.countryName.value = address.country.toString();
                                       print('onTap is....${cartController.countryName.value}');

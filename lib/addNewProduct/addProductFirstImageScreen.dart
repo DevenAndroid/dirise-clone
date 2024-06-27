@@ -85,7 +85,7 @@ class _AddProductFirstImageScreenState extends State<AddProductFirstImageScreen>
             children: [
               ImageWidget(
                 // key: paymentReceiptCertificateKey,
-                title: " Upload cover photo".tr,
+                title: "Upload cover photo".tr,
                 file: featuredImage,
                 validation: checkValidation(showValidation.value, featuredImage.path.isEmpty),
                 filePicked: (File g) {
@@ -106,6 +106,7 @@ class _AddProductFirstImageScreenState extends State<AddProductFirstImageScreen>
               ),
 
               SizedBox(height: 50,),
+
               CustomOutlineButton(
                 title: 'Next',
                 onPressed: () {

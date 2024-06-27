@@ -20,9 +20,21 @@ class _PrivacyPolicyState extends State<PrivacyPolicy> {
           child: SafeArea(
             child: Row(
               children: [
-                IconButton(
-                  icon: const Icon(Icons.arrow_back_ios, color: Color(0xff014E70), size: 20),
-                  onPressed: () => Navigator.of(context).pop(),
+                GestureDetector(
+                  onTap: (){
+                    Get.back();
+                  },
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.center,
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: [
+                      Image.asset(
+                        'assets/images/back_icon_new.png',
+                        height: 19,
+                        width: 19,
+                      ),
+                    ],
+                  ),
                 ),
                 Text(
                   'Privacy Policy'.tr,

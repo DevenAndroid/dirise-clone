@@ -179,14 +179,20 @@ class _NewOtpScreenState extends State<NewOtpScreen> {
     return Scaffold(
       appBar: AppBar(
         backgroundColor: AppTheme.buttonColor,
-        leading: GestureDetector(
+        leading:GestureDetector(
           onTap: (){
             Get.back();
           },
-          child: const Icon(
-            Icons.arrow_back_ios_new,
-            color: Colors.white,
-            size: 16,
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.center,
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: [
+              Image.asset(
+                'assets/images/back_icon_new.png',
+                height: 19,
+                width: 19,
+              ),
+            ],
           ),
         ),
       ),

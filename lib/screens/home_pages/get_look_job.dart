@@ -6,6 +6,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:get/get.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:lottie/lottie.dart';
 
 import '../../controller/wish_list_controller.dart';
 import '../../language/app_strings.dart';
@@ -84,16 +85,21 @@ class _GetLookJobState extends State<GetLookJob> {
       appBar: AppBar(
         backgroundColor: Colors.white,
         elevation: 0,
-        leading: IconButton(
-          icon: const Icon(
-            Icons.arrow_back_ios_new,
-            color: Color(0xff0D5877),
-            size: 16,
-          ),
-          onPressed: () {
+        leading: GestureDetector(
+          onTap: (){
             Get.back();
-            // Handle back button press
           },
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.center,
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: [
+              Image.asset(
+                'assets/images/back_icon_new.png',
+                height: 19,
+                width: 19,
+              ),
+            ],
+          ),
         ),
         centerTitle: true,
         titleSpacing: 0,
@@ -109,7 +115,25 @@ class _GetLookJobState extends State<GetLookJob> {
           shrinkWrap: true,
           itemBuilder: (context, index) {
             var item =  getJobModel.value.jobProduct!.data![index];
-            return Column(
+            return  getJobModel.value.jobProduct!.data!.isEmpty ?
+            Column(
+              crossAxisAlignment: CrossAxisAlignment.center,
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: [
+                // Image(
+                //     height: context.getSize.height * .24,
+                //     image: const AssetImage(
+                //       'assets/images/bucket.png',
+                //     )),
+                Lottie.asset("assets/loti/wishlist.json"),
+                Center(
+                  child: Text(
+                    'Job\'s not found'.tr,
+                    style: GoogleFonts.poppins(fontWeight: FontWeight.w500, fontSize: 22),
+                  ),
+                ),
+              ],
+            ):Column(
               children: [
                 InkWell(
                   onTap: () {
@@ -155,7 +179,7 @@ class _GetLookJobState extends State<GetLookJob> {
                                         style: GoogleFonts.poppins(
                                             fontSize: 15, fontWeight: FontWeight.w500, color: const Color(0xFF19313C)),
                                       ),
-                                       Text(
+                                      Text(
                                         item.describeJobRole.toString(),
                                         style: GoogleFonts.poppins(
                                             fontSize: 15, fontWeight: FontWeight.w500, color: const Color(0xFF19313C)),
@@ -415,7 +439,8 @@ class _GetLookJobState extends State<GetLookJob> {
                 ),
               ],
             );
-          },): const SizedBox.shrink();
+          },):
+          const SizedBox.shrink();
       }),
     );
   }
