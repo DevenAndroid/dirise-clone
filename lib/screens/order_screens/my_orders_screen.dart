@@ -46,13 +46,21 @@ class _MyOrdersScreenState extends State<MyOrdersScreen> {
           backgroundColor: const Color(0xffEBF1F4).withOpacity(.7),
           surfaceTintColor: Colors.white,
           elevation: 0,
-          leading: IconButton(
-            icon: Image.asset(
-              'assets/icons/backicon.png',
-              height: 25,
-              width: 25,
+          leading: GestureDetector(
+            onTap: (){
+              Get.back();
+            },
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.center,
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: [
+                Image.asset(
+                  'assets/images/back_icon_new.png',
+                  height: 19,
+                  width: 19,
+                ),
+              ],
             ),
-            onPressed: () => Navigator.of(context).pop(),
           ),
           titleSpacing: 0,
           title: Text(

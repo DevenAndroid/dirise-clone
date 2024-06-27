@@ -71,7 +71,7 @@ class _RemarkScreenState extends State<RemarkScreen> {
                 children: [
                   IconButton(
                     icon: Image.asset(
-                      'assets/icons/backicon.png',
+                      'assets/images/back_icon_new.png',
                       height: 25,
                       width: 25,
                     ),

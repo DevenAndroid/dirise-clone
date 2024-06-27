@@ -42,8 +42,8 @@ class _AppBarScreenState extends State<AppBarScreen> {
                   Get.back();
                 },
                 child: Image.asset(
-                  'assets/icons/backicon.png',
-                  height: 25,
+                  'assets/images/back_icon_new.png',
+                  height: 20,
                 ),
               ),
             ),

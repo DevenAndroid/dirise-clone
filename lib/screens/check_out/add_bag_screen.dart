@@ -524,13 +524,21 @@ class _BagsScreenState extends State<BagsScreen> {
       backgroundColor: Colors.white,
       surfaceTintColor: Colors.white,
       elevation: 0,
-      leading: IconButton(
-          icon: Image.asset(
-        'assets/icons/backicon.png',
-        height: 25,
-        width: 25,
-      ),
-        onPressed: () => Get.back(),
+      leading:GestureDetector(
+        onTap: (){
+          Get.back();
+        },
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.center,
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: [
+            Image.asset(
+              'assets/images/back_icon_new.png',
+              height: 19,
+              width: 19,
+            ),
+          ],
+        ),
       ),
       titleSpacing: 0,
       title: Row(

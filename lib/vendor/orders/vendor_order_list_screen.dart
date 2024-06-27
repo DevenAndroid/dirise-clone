@@ -136,10 +136,11 @@ class _VendorOrderListState extends State<VendorOrderList> {
                                 onPressed: () {
                                   Get.back();
                                 },
-                                icon: Icon(
-                                  Icons.adaptive.arrow_back,
-                                  color: Colors.white,
-                                ),
+                                icon: Image.asset('assets/images/back_icon_new.png',
+                                    color : Colors.white,
+                                  height: 20,
+                                  width: 20,
+                                )
                               ),
                               // addWidth(20),
                               Text(

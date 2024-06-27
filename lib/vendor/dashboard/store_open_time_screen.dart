@@ -132,18 +132,24 @@ class _SetTimeScreenState extends State<SetTimeScreen> {
               fontWeight: FontWeight.w600,
               color: const Color(0xff423E5E),
             )),
-        leading: GestureDetector(
-          onTap: () {
-            Get.back();
-            // _scaffoldKey.currentState!.openDrawer();
-          },
-          child: Padding(
-            padding: const EdgeInsets.all(15),
-            child: Image.asset(
-              'assets/icons/backicon.png',
-              height: 20,
+        leading:Column(
+          crossAxisAlignment: CrossAxisAlignment.center,
+          mainAxisAlignment : MainAxisAlignment.center,
+          children: [
+            GestureDetector(
+              onTap: () {
+                Get.back();
+              },
+              child: Padding(
+                padding: const EdgeInsets.all(15),
+                child: Image.asset(
+                  'assets/images/back_icon_new.png',
+                  height: 19,
+                  width: 19,
+                ),
+              ),
             ),
-          ),
+          ],
         ),
       ),
       body: Obx(() {
