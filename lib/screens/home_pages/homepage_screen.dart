@@ -567,6 +567,54 @@ class _HomePageState extends State<HomePage> {
                   )
                 : SizedBox.shrink(),
           ),
+          // bottom: PreferredSize(
+          //   preferredSize: search.value == true ? Size.fromHeight(20.0) : Size.fromHeight(0.0),
+          //   child: search.value == true
+          //       ? Container(
+          //     decoration: BoxDecoration(
+          //       border: Border.all(color: Colors.black)
+          //     ),
+          //         child: Row(
+          //                       // mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+          //                       children: [
+          //         SvgPicture.asset(
+          //           'assets/images/location.svg',
+          //           height: 20,
+          //           color: Colors.black,
+          //         ),
+          //         5.spaceX,
+          //         Flexible(
+          //             child: Text(
+          //               "Deliver to  ${"Pakistan"} , ${"57170"}",
+          //               // "Deliver to  ${locationController.city.toString()} , ${locationController.zipcode ?? ''}",
+          //               style: GoogleFonts.poppins(
+          //                 color: Colors.black,
+          //                 fontSize: 14,
+          //                 fontWeight: FontWeight.w400,
+          //               ),
+          //             )
+          //           //     Obx(() {return Text(
+          //           //     "Deliver to  ${"Pakistan"} , ${"57170"}",
+          //           //     // "Deliver to  ${locationController.city.toString()} , ${locationController.zipcode ?? ''}",
+          //           //     style: GoogleFonts.poppins(
+          //           //       color: Colors.black,
+          //           //       fontSize: 14,
+          //           //       fontWeight: FontWeight.w400,
+          //           //     ),
+          //           //   );
+          //           // })
+          //         ),
+          //         5.spaceX,
+          //         SvgPicture.asset(
+          //           'assets/images/pencilImg.svg',
+          //           height: 18,
+          //           color: Colors.white,
+          //         ),
+          //                       ],
+          //                     ),
+          //       )
+          //       : SizedBox.shrink(),
+          // ),
         ),
         drawer: const CustomDrawer(),
         backgroundColor: const Color(0xFFEBF3F6),
@@ -613,25 +661,17 @@ class _HomePageState extends State<HomePage> {
                                               ),
                                               5.spaceX,
                                               Flexible(
-                                                  child: Text(
-                                                    "Deliver to  ${"Pakistan"} , ${"57170"}",
-                                                    // "Deliver to  ${locationController.city.toString()} , ${locationController.zipcode ?? ''}",
-                                                    style: GoogleFonts.poppins(
-                                                      color: Colors.black,
-                                                      fontSize: 14,
-                                                      fontWeight: FontWeight.w400,
-                                                    ),
-                                                  )
-                                              //     Obx(() {return Text(
-                                              //     "Deliver to  ${"Pakistan"} , ${"57170"}",
-                                              //     // "Deliver to  ${locationController.city.toString()} , ${locationController.zipcode ?? ''}",
-                                              //     style: GoogleFonts.poppins(
-                                              //       color: Colors.black,
-                                              //       fontSize: 14,
-                                              //       fontWeight: FontWeight.w400,
-                                              //     ),
-                                              //   );
-                                              // })
+                                                  child:
+                                                 Obx(() {return Text(
+                                                 // "Deliver to  ${"Pakistan"} , ${"57170"}",
+                                               "Deliver to  ${locationController.city.toString()} , ${locationController.zipcode ?? ''}",
+                                                 style: GoogleFonts.poppins(
+                                                   color: Colors.black,
+                                                   fontSize: 14,
+                                                   fontWeight: FontWeight.w400,
+                                                 ),
+                                               );
+                                             })
                                               ),
                                               5.spaceX,
                                               SvgPicture.asset(
@@ -674,18 +714,17 @@ class _HomePageState extends State<HomePage> {
                                               ),
                                               5.spaceX,
                                               Flexible(
-                                                child:Text(
-                                                  "Deliver to  ${"Pakistan"} , ${"57170"}",
-                                                  // "Deliver to ${locationController.city.toString()} , ${locationController.zipcode.toString()}",
-                                                  style: GoogleFonts.poppins(
-                                                    color: Colors.black,
-                                                    fontSize: 14,
-                                                    fontWeight: FontWeight.w400,
-                                                  ),
-                                                )
-                                                // Obx(() {
-                                                //   return
-                                                // }),
+                                                  child:
+                                                  Obx(() {return Text(
+                                                    // "Deliver to  ${"Pakistan"} , ${"57170"}",
+                                                    "Deliver to  ${locationController.city.toString()} , ${locationController.zipcode ?? ''}",
+                                                    style: GoogleFonts.poppins(
+                                                      color: Colors.black,
+                                                      fontSize: 14,
+                                                      fontWeight: FontWeight.w400,
+                                                    ),
+                                                  );
+                                                  })
                                               ),
                                               5.spaceX,
                                               SvgPicture.asset(
