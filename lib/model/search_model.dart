@@ -122,11 +122,13 @@ class Items {
   dynamic returnPolicyDesc;
   dynamic discountOff;
   dynamic discountPrice;
+  dynamic itemType;
   Items(
       {this.id,
         this.vendorId,
         this.catId,
         this.catId2,
+        this.itemType,
         this.catId3,
         this.brandSlug,
         this.discountPercentage,
@@ -207,6 +209,7 @@ class Items {
     prodectSku = json['prodect_sku'];
     views = json['views'];
     code = json['code'];
+    itemType = json['item_type'];
     discountPercentage = json['discount_percentage'];
     bookingProductType = json['booking_product_type'];
     prodectPrice = json['prodect_price'];
@@ -303,6 +306,7 @@ class Items {
     data['long_description'] = longDescription;
     data['arab_long_description'] = arabLongDescription;
     data['featured_image'] = featuredImage;
+    data['item_type'] = itemType;
     data['gallery_image'] = galleryImage;
     data['virtual_product_file'] = virtualProductFile;
     data['virtual_product_file_type'] = virtualProductFileType;
