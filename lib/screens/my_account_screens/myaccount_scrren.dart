@@ -517,9 +517,10 @@ class _MyAccountScreenState extends State<MyAccountScreen> {
                                           color: const Color(0xFF2A3032), fontSize: 16, fontWeight: FontWeight.w500),
                                     ),
                                   ),
-                                  const Icon(
-                                    Icons.arrow_forward_ios,
-                                    size: 15,
+                                  Image.asset(
+                                    'assets/images/forward_icon.png',
+                                    height: 17,
+                                    width: 17,
                                   ),
                                 ],
                               ),
@@ -555,9 +556,10 @@ class _MyAccountScreenState extends State<MyAccountScreen> {
                                   color: const Color(0xFF2A3032), fontSize: 16, fontWeight: FontWeight.w500),
                             ),
                             const Spacer(),
-                            const Icon(
-                              Icons.arrow_forward_ios,
-                              size: 15,
+                            Image.asset(
+                              'assets/images/forward_icon.png',
+                              height: 17,
+                              width: 17,
                             ),
                           ],
                         ),
@@ -592,10 +594,11 @@ class _MyAccountScreenState extends State<MyAccountScreen> {
                                   color: const Color(0xFF2A3032), fontSize: 16, fontWeight: FontWeight.w500),
                             ),
                             const Spacer(),
-                            const Icon(
-                              Icons.arrow_forward_ios,
-                              size: 15,
-                            ),
+                              Image.asset(
+                                    'assets/images/forward_icon.png',
+                                    height: 17,
+                                    width: 17,
+                                  ),
                           ],
                         ),
                       ),
@@ -629,10 +632,11 @@ class _MyAccountScreenState extends State<MyAccountScreen> {
                                   color: const Color(0xFF2A3032), fontSize: 16, fontWeight: FontWeight.w500),
                             ),
                             const Spacer(),
-                            const Icon(
-                              Icons.arrow_forward_ios,
-                              size: 15,
-                            ),
+                              Image.asset(
+                                    'assets/images/forward_icon.png',
+                                    height: 17,
+                                    width: 17,
+                                  ),
                           ],
                         ),
                       ),
@@ -698,10 +702,11 @@ class _MyAccountScreenState extends State<MyAccountScreen> {
                                   color: const Color(0xFF2A3032), fontSize: 16, fontWeight: FontWeight.w500),
                             ),
                             const Spacer(),
-                            const Icon(
-                              Icons.arrow_forward_ios,
-                              size: 15,
-                            ),
+                              Image.asset(
+                                    'assets/images/forward_icon.png',
+                                    height: 17,
+                                    width: 17,
+                                  ),
                           ],
                         ),
                       ),
@@ -736,10 +741,11 @@ class _MyAccountScreenState extends State<MyAccountScreen> {
                                   color: const Color(0xFF2A3032), fontSize: 16, fontWeight: FontWeight.w500),
                             ),
                             const Spacer(),
-                            const Icon(
-                              Icons.arrow_forward_ios,
-                              size: 15,
-                            ),
+                              Image.asset(
+                                    'assets/images/forward_icon.png',
+                                    height: 17,
+                                    width: 17,
+                                  ),
                           ],
                         ),
                       ),
@@ -770,10 +776,11 @@ class _MyAccountScreenState extends State<MyAccountScreen> {
                                   color: const Color(0xFF2A3032), fontSize: 16, fontWeight: FontWeight.w500),
                             ),
                             const Spacer(),
-                            const Icon(
-                              Icons.arrow_forward_ios,
-                              size: 15,
-                            ),
+                              Image.asset(
+                                    'assets/images/forward_icon.png',
+                                    height: 17,
+                                    width: 17,
+                                  ),
                           ],
                         ),
                       ),
@@ -804,10 +811,11 @@ class _MyAccountScreenState extends State<MyAccountScreen> {
                                   color: const Color(0xFF2A3032), fontSize: 16, fontWeight: FontWeight.w500),
                             ),
                             const Spacer(),
-                            const Icon(
-                              Icons.arrow_forward_ios,
-                              size: 15,
-                            ),
+                              Image.asset(
+                                    'assets/images/forward_icon.png',
+                                    height: 17,
+                                    width: 17,
+                                  ),
                           ],
                         ),
                       ),
@@ -888,10 +896,11 @@ class _MyAccountScreenState extends State<MyAccountScreen> {
                                   color: const Color(0xFF2A3032), fontSize: 16, fontWeight: FontWeight.w500),
                             ),
                             const Spacer(),
-                            const Icon(
-                              Icons.arrow_forward_ios,
-                              size: 15,
-                            ),
+                              Image.asset(
+                                    'assets/images/forward_icon.png',
+                                    height: 17,
+                                    width: 17,
+                                  ),
                           ],
                         ),
                       ),
@@ -1031,10 +1040,11 @@ class _MyAccountScreenState extends State<MyAccountScreen> {
                                   color: const Color(0xFF2A3032), fontSize: 16, fontWeight: FontWeight.w500),
                             ),
                             const Spacer(),
-                            const Icon(
-                              Icons.arrow_forward_ios,
-                              size: 15,
-                            ),
+                              Image.asset(
+                                    'assets/images/forward_icon.png',
+                                    height: 17,
+                                    width: 17,
+                                  ),
                           ],
                         ),
                       ),
@@ -1065,10 +1075,11 @@ class _MyAccountScreenState extends State<MyAccountScreen> {
                                   color: const Color(0xFF2A3032), fontSize: 16, fontWeight: FontWeight.w500),
                             ),
                             const Spacer(),
-                            const Icon(
-                              Icons.arrow_forward_ios,
-                              size: 15,
-                            ),
+                              Image.asset(
+                                    'assets/images/forward_icon.png',
+                                    height: 17,
+                                    width: 17,
+                                  ),
                           ],
                         ),
                       ),
@@ -1105,10 +1116,11 @@ class _MyAccountScreenState extends State<MyAccountScreen> {
                                   color: const Color(0xFF2A3032), fontSize: 16, fontWeight: FontWeight.w500),
                             ),
                             const Spacer(),
-                            const Icon(
-                              Icons.arrow_forward_ios,
-                              size: 15,
-                            ),
+                              Image.asset(
+                                    'assets/images/forward_icon.png',
+                                    height: 17,
+                                    width: 17,
+                                  ),
                           ],
                         ),
                       ),
@@ -1139,10 +1151,11 @@ class _MyAccountScreenState extends State<MyAccountScreen> {
                                   color: const Color(0xFF2A3032), fontSize: 16, fontWeight: FontWeight.w500),
                             ),
                             const Spacer(),
-                            const Icon(
-                              Icons.arrow_forward_ios,
-                              size: 15,
-                            ),
+                              Image.asset(
+                                    'assets/images/forward_icon.png',
+                                    height: 17,
+                                    width: 17,
+                                  ),
                           ],
                         ),
                       ),
@@ -1173,10 +1186,11 @@ class _MyAccountScreenState extends State<MyAccountScreen> {
                                   color: const Color(0xFF2A3032), fontSize: 16, fontWeight: FontWeight.w500),
                             ),
                             const Spacer(),
-                            const Icon(
-                              Icons.arrow_forward_ios,
-                              size: 15,
-                            ),
+                              Image.asset(
+                                    'assets/images/forward_icon.png',
+                                    height: 17,
+                                    width: 17,
+                                  ),
                           ],
                         ),
                       ),
@@ -1249,9 +1263,10 @@ class _MyAccountScreenState extends State<MyAccountScreen> {
                                           color: const Color(0xFF2A3032), fontSize: 16, fontWeight: FontWeight.w500),
                                     ),
                                   ),
-                                  const Icon(
-                                    Icons.arrow_forward_ios,
-                                    size: 15,
+                                  Image.asset(
+                                    'assets/images/forward_icon.png',
+                                    height: 17,
+                                    width: 17,
                                   ),
                                 ],
                               ),
@@ -1324,10 +1339,11 @@ class _MyAccountScreenState extends State<MyAccountScreen> {
                                   color: const Color(0xFF2A3032), fontSize: 16, fontWeight: FontWeight.w500),
                             ),
                             const Spacer(),
-                            const Icon(
-                              Icons.arrow_forward_ios,
-                              size: 15,
-                            ),
+                              Image.asset(
+                                    'assets/images/forward_icon.png',
+                                    height: 17,
+                                    width: 17,
+                                  ),
                           ],
                         ),
                       ),
@@ -2236,10 +2252,14 @@ class _MyAccountScreenState extends State<MyAccountScreen> {
                 style: GoogleFonts.poppins(color: const Color(0xFF2A3032), fontSize: 16, fontWeight: FontWeight.w500),
               ),
             ),
-            Icon(
-              !_isValue.value == true ? Icons.arrow_forward_ios : Icons.keyboard_arrow_down,
-              color: Colors.black,
-              size: 15,
+            !_isValue.value == true ?   Image.asset(
+              'assets/images/forward_icon.png',
+              height: 17,
+              width: 17,
+            ) : Image.asset(
+              'assets/images/drop_icon.png',
+              height: 17,
+              width: 17,
             ),
           ],
         ),
@@ -2310,9 +2330,10 @@ class _MyAccountScreenState extends State<MyAccountScreen> {
                                                       color: Colors.grey.shade500),
                                                 ),
                                               ),
-                                              const Icon(
-                                                Icons.arrow_forward_ios_rounded,
-                                                size: 14,
+                                              Image.asset(
+                                                'assets/images/forward_icon.png',
+                                                height: 14,
+                                                width: 14,
                                               )
                                             ],
                                           ),
