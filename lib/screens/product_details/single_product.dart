@@ -204,6 +204,16 @@ class _SingleProductDetailsState extends State<SingleProductDetails> {
   directBuyProduct() {
     if (!validateSlots()) return;
     Map<String, dynamic> map = {};
+    cartController.productElementId = productElement.id.toString();
+    cartController.productQuantity =  productQuantity.value.toString();
+    cartController.isBookingProduct =  isBookingProduct;
+    cartController.selectedDate =  selectedDate.text.trim();
+    cartController.selectedSlot =  selectedSlot.split("--").first;
+    cartController.selectedSlotEnd = selectedSlot.split("--").last;
+    cartController.isVariantType = isVariantType;
+    if (isVariantType) {
+      cartController.selectedVariant = selectedVariant!.id.toString();
+    }
     map["product_id"] = productElement.id.toString();
     map["quantity"] = map["quantity"] = int.tryParse(productQuantity.value.toString());
     map["key"] = 'fedexRate';
@@ -220,16 +230,16 @@ class _SingleProductDetailsState extends State<SingleProductDetails> {
     repositories.postApi(url: ApiUrls.buyNowDetailsUrl, mapData: map, context: context).then((value) {
       log("Value>>>>>>>$value");
       print('singleee');
-      ModelDirectOrderResponse response = ModelDirectOrderResponse.fromJson(jsonDecode(value));
+      cartController.directOrderResponse.value = ModelDirectOrderResponse.fromJson(jsonDecode(value));
 
-      showToast(response.message.toString());
-      if (response.status == true) {
+      showToast(cartController.directOrderResponse.value.message.toString());
+      if (cartController.directOrderResponse.value.status == true) {
 
-        response.prodcutData!.inStock = productQuantity.value;
+        cartController.directOrderResponse.value.prodcutData!.inStock = productQuantity.value;
         if (kDebugMode) {
-          print(response.prodcutData!.inStock);
+          print(cartController.directOrderResponse.value.prodcutData!.inStock);
         }
-        Get.toNamed(DirectCheckOutScreen.route, arguments: response);
+        Get.toNamed(DirectCheckOutScreen.route);
       }
     });
   }

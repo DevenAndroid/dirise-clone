@@ -448,7 +448,7 @@ class _ProductUIState extends State<ProductUI> {
                                     ),
                                   if (widget.productElement.shippingDate != null)
                                     Text(
-                                      '${widget.productElement.shippingDate.toString()}',
+                                      widget.productElement.shippingDate.toString(),
                                       style: GoogleFonts.poppins(
                                           color: const Color(0xff858484), fontSize: 13, fontWeight: FontWeight.w500),
                                     ),

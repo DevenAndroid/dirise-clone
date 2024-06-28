@@ -1,4 +1,6 @@
 import 'dart:convert';
+import 'dart:developer';
+import 'package:dirise/controller/profile_controller.dart';
 import 'package:dirise/repository/repository.dart';
 import 'package:get/get.dart';
 import '../model/author_modal.dart';
@@ -24,14 +26,15 @@ class TrendingProductsController extends GetxController {
   ModelVendorCategory vendorCategory = ModelVendorCategory();
   RxInt updateCate = 0.obs;
   Rx<GetFeaturedStoreModel> getFeaturedModel = GetFeaturedStoreModel().obs;
-
+  final profileController = Get.put(ProfileController());
   Future trendingData() async {
     Map<String, dynamic> map = {};
 
-    // map["country_id"]= profileController.model.user!= null && countryId.isEmpty ? profileController.model.user!.country_id : countryId.toString();
-    map["country_id"]= cartController.countryId.toString();
+    map["country_id"]= profileController.model.user!= null && cartController.countryId.isEmpty ? profileController.model.user!.country_id : cartController.countryId.toString();
+    // map["country_id"]= cartController.countryId.toString();
       map["zip_code"]= locationController.zipcode.value.toString();
       map["state"]= locationController.state.toString();
+      log('Tranding Api ${map}');
     await repositories.postApi(url: ApiUrls.trendingProductsUrl, mapData:map,showResponse: true).then((value) {
       trendingModel.value = TendingModel.fromJson(jsonDecode(value));
     });

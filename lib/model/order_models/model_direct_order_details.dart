@@ -16,7 +16,7 @@ class ModelDirectOrderResponse {
   ReturnData? returnData;
   ProdcutData? prodcutData;
   bool? localShipping;
-
+  double sPrice = 0.0;
   ModelDirectOrderResponse(
       {this.status,
       this.message,
