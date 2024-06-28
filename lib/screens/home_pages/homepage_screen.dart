@@ -134,6 +134,7 @@ class _HomePageState extends State<HomePage> {
         locationController.countryName = placemark.country ?? '';
         locationController.zipcode.value = placemark.postalCode ?? '';
         locationController.town = placemark.subAdministrativeArea ?? '';
+        showToast(locationController.countryName.toString());
         errorApi();
       });
 
@@ -172,6 +173,7 @@ class _HomePageState extends State<HomePage> {
       cartController.zipCode = prefs.getString('zipcode') ?? '';
       cartController.city.value = prefs.getString('city') ?? '';
       cartController.address.value = prefs.getString('town') ?? '';
+      showToast(locationController.countryName.toString());
       errorApi();
     });
 
@@ -301,8 +303,8 @@ class _HomePageState extends State<HomePage> {
     _getCurrentPosition();
     locationController.getCurrentPosition();
     _loadSavedAddress();
-
-    WidgetsBinding.instance.addPostFrameCallback((timeStamp) {
+showToast(locationController.countryName.toString());
+WidgetsBinding.instance.addPostFrameCallback((timeStamp) {
       if (!hasShownDialog) {
         log('valueee trueee///${hasShownDialog.toString()}');
         _showWelcomeDialog();
@@ -636,7 +638,7 @@ class _HomePageState extends State<HomePage> {
                   ),
                   Row(
                     children: [
-                      Center(child: Text("  Addres:- Pakistan ,50217")),
+                      Center(child: Text("Deliver to  ${locationController.city.toString()} , ${locationController.zipcode ?? ''}",)),
                     ],
                   ),
                   // if (locationController.zipcode.isNotEmpty)
