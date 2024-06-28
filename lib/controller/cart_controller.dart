@@ -13,6 +13,7 @@ import '../language/app_strings.dart';
 import '../model/model_address_list.dart';
 import '../model/model_cart_response.dart';
 import '../model/myDefaultAddressModel.dart';
+import '../model/order_models/model_direct_order_details.dart';
 import '../model/order_models/place_order_response.dart';
 import '../screens/check_out/order_completed_screen.dart';
 import '../utils/api_constant.dart';
@@ -532,6 +533,7 @@ class CartController extends GetxController {
     map["identifier_key"]= "checkout";
 
     log("mappppppp::::::$map");
+    log("mappppppp::::::$countryId");
     await repositories.postApi(url: ApiUrls.cartListUrl,mapData: map ).then((value) {
      cartModel = ModelCartResponse.fromJson(jsonDecode(value));
       log('cart model is ${cartModel.toJson()}');
@@ -567,6 +569,17 @@ class CartController extends GetxController {
   updateUIAdd() {
     refreshInt11.value = DateTime.now().microsecondsSinceEpoch;
   }
+
+  //buy now call address
+  String productElementId = '';
+  String productQuantity = '';
+  bool isBookingProduct = false;
+  String selectedDate = '';
+  String selectedSlot = '';
+  String selectedSlotEnd = '';
+  bool isVariantType = false;
+  String selectedVariant = '';
+  Rx<ModelDirectOrderResponse> directOrderResponse = ModelDirectOrderResponse().obs;
 
   @override
   void onInit() {

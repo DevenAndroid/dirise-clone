@@ -25,6 +25,7 @@ import '../../controller/homepage_controller.dart';
 import '../../controller/location_controller.dart';
 import '../../controller/profile_controller.dart';
 import '../../language/app_strings.dart';
+import '../../model/add_current_address.dart';
 import '../../model/common_modal.dart';
 import '../../model/error_log_model.dart';
 import '../../repository/repository.dart';
@@ -195,7 +196,18 @@ class _HomePageState extends State<HomePage> {
       debugPrint(e.toString());
     });
   }
-
+  addCurrentAddress() {
+    Map<String, dynamic> map = {};
+    map['zip_code'] = locationController.zipcode.value.toString();
+    print('current location${map.toString()}');
+    FocusManager.instance.primaryFocus!.unfocus();
+    repositories.postApi(url: ApiUrls.addCurrentAddress, context: context, mapData: map).then((value) {
+      AddCorrentAddressModel response = AddCorrentAddressModel.fromJson(jsonDecode(value));
+      cartController.countryId = response.data!.countryId.toString();
+      // showToast(response.message.toString());
+      getAllAsync();
+    });
+  }
   Future getAllAsync() async {
     if (!mounted) return;
     homeController.homeData();
@@ -204,10 +216,6 @@ class _HomePageState extends State<HomePage> {
     if (!mounted) return;
     homeController.getVendorCategories();
     if (!mounted) return;
-    homeController.trendingData();
-    if (!mounted) return;
-    homeController.popularProductsData();
-    if (!mounted) return;
     homeController.authorData();
     if (!mounted) return;
     cartController.myDefaultAddressData();
@@ -215,6 +223,10 @@ class _HomePageState extends State<HomePage> {
     homeController.featuredStores();
     if (!mounted) return;
     homeController.showCaseProductsData();
+    if (!mounted) return;
+    homeController.trendingData();
+    if (!mounted) return;
+    homeController.popularProductsData();
     if (!mounted) return;
   }
 
@@ -299,12 +311,12 @@ class _HomePageState extends State<HomePage> {
   void initState() {
     super.initState();
     profileController.aboutUsData();
-    locationController.checkGps(context);
-    _getCurrentPosition();
-    locationController.getCurrentPosition();
+    // locationController.checkGps(context);
+    // _getCurrentPosition();
+    // locationController.getCurrentPosition();
     _loadSavedAddress();
-showToast(locationController.countryName.toString());
-WidgetsBinding.instance.addPostFrameCallback((timeStamp) {
+    showToast(locationController.countryName.toString());
+     WidgetsBinding.instance.addPostFrameCallback((timeStamp) {
       if (!hasShownDialog) {
         log('valueee trueee///${hasShownDialog.toString()}');
         _showWelcomeDialog();
@@ -320,8 +332,14 @@ WidgetsBinding.instance.addPostFrameCallback((timeStamp) {
       // });
     });
     // _showWelcomeDialog();
-    SchedulerBinding.instance.addPostFrameCallback((timeStamp) {
-      getAllAsync();
+    // SchedulerBinding.instance.addPostFrameCallback((timeStamp) {
+    //   getAllAsync();
+    // });
+
+    Future.delayed(const Duration(seconds: 5), () {
+      SchedulerBinding.instance.addPostFrameCallback((timeStamp) {
+        getAllAsync();
+      });
     });
   }
 
@@ -361,6 +379,7 @@ WidgetsBinding.instance.addPostFrameCallback((timeStamp) {
                       await preferences.setBool('hasShownDialog', true);
                       Navigator.of(context).pop();
                       _getCurrentPosition();
+                      addCurrentAddress();
                       log('valueee clickk...${hasShownDialog.toString()}');
                     },
                     child: const Text("Allow"),
@@ -638,7 +657,7 @@ WidgetsBinding.instance.addPostFrameCallback((timeStamp) {
                   ),
                   Row(
                     children: [
-                      Center(child: Text("Deliver to  ${locationController.city.toString()} , ${locationController.zipcode ?? ''}",)),
+                      Center(child: Text("   Deliver to  ${locationController.city.toString()} , ${locationController.zipcode ?? ''}",)),
                     ],
                   ),
                   // if (locationController.zipcode.isNotEmpty)
