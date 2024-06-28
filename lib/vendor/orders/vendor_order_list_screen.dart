@@ -7,6 +7,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/scheduler.dart';
 import 'package:get/get.dart';
 import 'package:google_fonts/google_fonts.dart';
+import '../../controller/profile_controller.dart';
 import '../../controller/vendor_controllers/vendor_profile_controller.dart';
 import '../../model/vendor_models/model_vendor_orders.dart';
 import '../../widgets/common_colour.dart';
@@ -89,7 +90,7 @@ class _VendorOrderListState extends State<VendorOrderList> {
     super.dispose();
     scrollController.dispose();
   }
-
+  final profileController = Get.put(ProfileController());
   @override
   Widget build(BuildContext context) {
     return Container(
@@ -136,11 +137,18 @@ class _VendorOrderListState extends State<VendorOrderList> {
                                 onPressed: () {
                                   Get.back();
                                 },
-                                icon: Image.asset('assets/images/back_icon_new.png',
+                                icon:  profileController.selectedLAnguage.value == 'English' ?
+                                Image.asset('assets/images/back_icon_new.png',
                                     color : Colors.white,
                                   height: 20,
                                   width: 20,
-                                )
+                                ) :
+                    Image.asset(
+                      'assets/images/forward_icon.png',
+                      height: 19,
+                      width: 19,
+                      color: Colors.white,
+                    )
                               ),
                               // addWidth(20),
                               Text(

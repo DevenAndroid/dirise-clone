@@ -39,6 +39,7 @@ class _GetJobTypeScreenState extends State<GetJobTypeScreen> {
   //     }
   //   });
   // }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -53,6 +54,12 @@ class _GetJobTypeScreenState extends State<GetJobTypeScreen> {
             crossAxisAlignment: CrossAxisAlignment.center,
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
+              profileController.selectedLAnguage.value != 'English' ?
+              Image.asset(
+                'assets/images/forward_icon.png',
+                height: 19,
+                width: 19,
+              ) :
               Image.asset(
                 'assets/images/back_icon_new.png',
                 height: 19,

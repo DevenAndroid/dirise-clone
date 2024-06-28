@@ -90,6 +90,12 @@ class _ReviewandPublishTourScreenScreenState extends State<ReviewandPublishTourS
             crossAxisAlignment: CrossAxisAlignment.center,
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
+              profileController.selectedLAnguage.value != 'English' ?
+              Image.asset(
+                'assets/images/forward_icon.png',
+                height: 19,
+                width: 19,
+              ) :
               Image.asset(
                 'assets/images/back_icon_new.png',
                 height: 19,

@@ -207,7 +207,7 @@ class _CustomDrawerState extends State<CustomDrawer> {
               height: screenSize.height * 0.28,
               width: screenSize.width,
               decoration: const BoxDecoration(
-                color: AppTheme.buttonColor,
+                color: AppTheme.newPrimaryColor,
               ),
               child: Column(
                 children: [
@@ -222,7 +222,7 @@ class _CustomDrawerState extends State<CustomDrawer> {
                         },
                         child: Container(
                           width: MediaQuery.sizeOf(context).width,
-                          color: AppTheme.buttonColor,
+                          color: AppTheme.newPrimaryColor,
                           child: Obx(() {
                             if (profileController.refreshInt.value > 0) {}
                             return Column(
@@ -236,13 +236,13 @@ class _CustomDrawerState extends State<CustomDrawer> {
                                           : ""
                                       : AppStrings.guestUser.tr,
                                   style: GoogleFonts.poppins(
-                                      color: Colors.white, fontSize: 24, fontWeight: FontWeight.w600),
+                                      color: AppTheme.buttonColor, fontSize: 24, fontWeight: FontWeight.w600),
                                 ),
                                 4.spaceY,
                                 Container(
                                   decoration: BoxDecoration(
                                       shape: BoxShape.circle,
-                                      color: Colors.white,
+                                      color: AppTheme.buttonColor,
                                       border: Border.all(color: Colors.white)),
                                   child: SizedBox(
                                       height: 65,
@@ -277,7 +277,7 @@ class _CustomDrawerState extends State<CustomDrawer> {
                                           : ""
                                       : "",
                                   style: GoogleFonts.poppins(
-                                      color: Colors.white, fontSize: 16, fontWeight: FontWeight.w400),
+                                      color: AppTheme.buttonColor, fontSize: 16, fontWeight: FontWeight.w400),
                                 ),
                                 5.spaceY,
                               ],
@@ -328,8 +328,14 @@ class _CustomDrawerState extends State<CustomDrawer> {
                                     color: const Color(0xFF2A3032), fontSize: 16, fontWeight: FontWeight.w500),
                               ),
                             ),
+                            profileController.selectedLAnguage.value == 'English' ?
                             Image.asset(
                               'assets/images/forward_icon.png',
+                              height: 17,
+                              width: 17,
+                            ) :
+                            Image.asset(
+                              'assets/images/back_icon_new.png',
                               height: 17,
                               width: 17,
                             ),
@@ -369,8 +375,14 @@ class _CustomDrawerState extends State<CustomDrawer> {
                             color: const Color(0xFF2A3032), fontSize: 16, fontWeight: FontWeight.w500),
                       ),
                       const Spacer(),
+                      profileController.selectedLAnguage.value == 'English' ?
                       Image.asset(
                         'assets/images/forward_icon.png',
+                        height: 17,
+                        width: 17,
+                      ) :
+                      Image.asset(
+                        'assets/images/back_icon_new.png',
                         height: 17,
                         width: 17,
                       ),
@@ -407,8 +419,14 @@ class _CustomDrawerState extends State<CustomDrawer> {
                             color: const Color(0xFF2A3032), fontSize: 16, fontWeight: FontWeight.w500),
                       ),
                       const Spacer(),
+                      profileController.selectedLAnguage.value == 'English' ?
                       Image.asset(
                         'assets/images/forward_icon.png',
+                        height: 17,
+                        width: 17,
+                      ) :
+                      Image.asset(
+                        'assets/images/back_icon_new.png',
                         height: 17,
                         width: 17,
                       ),
@@ -477,8 +495,14 @@ class _CustomDrawerState extends State<CustomDrawer> {
                             color: const Color(0xFF2A3032), fontSize: 16, fontWeight: FontWeight.w500),
                       ),
                       const Spacer(),
+                      profileController.selectedLAnguage.value == 'English' ?
                       Image.asset(
                         'assets/images/forward_icon.png',
+                        height: 17,
+                        width: 17,
+                      ) :
+                      Image.asset(
+                        'assets/images/back_icon_new.png',
                         height: 17,
                         width: 17,
                       ),
@@ -516,8 +540,14 @@ class _CustomDrawerState extends State<CustomDrawer> {
                             color: const Color(0xFF2A3032), fontSize: 16, fontWeight: FontWeight.w500),
                       ),
                       const Spacer(),
+                      profileController.selectedLAnguage.value == 'English' ?
                       Image.asset(
                         'assets/images/forward_icon.png',
+                        height: 17,
+                        width: 17,
+                      ) :
+                      Image.asset(
+                        'assets/images/back_icon_new.png',
                         height: 17,
                         width: 17,
                       ),
@@ -551,8 +581,14 @@ class _CustomDrawerState extends State<CustomDrawer> {
                             color: const Color(0xFF2A3032), fontSize: 16, fontWeight: FontWeight.w500),
                       ),
                       const Spacer(),
+                      profileController.selectedLAnguage.value == 'English' ?
                       Image.asset(
                         'assets/images/forward_icon.png',
+                        height: 17,
+                        width: 17,
+                      ) :
+                      Image.asset(
+                        'assets/images/back_icon_new.png',
                         height: 17,
                         width: 17,
                       ),
@@ -636,8 +672,14 @@ class _CustomDrawerState extends State<CustomDrawer> {
                             color: const Color(0xFF2A3032), fontSize: 16, fontWeight: FontWeight.w500),
                       ),
                       const Spacer(),
+                      profileController.selectedLAnguage.value == 'English' ?
                       Image.asset(
                         'assets/images/forward_icon.png',
+                        height: 17,
+                        width: 17,
+                      ) :
+                      Image.asset(
+                        'assets/images/back_icon_new.png',
                         height: 17,
                         width: 17,
                       ),
@@ -778,8 +820,14 @@ class _CustomDrawerState extends State<CustomDrawer> {
                             color: const Color(0xFF2A3032), fontSize: 16, fontWeight: FontWeight.w500),
                       ),
                       const Spacer(),
+                      profileController.selectedLAnguage.value == 'English' ?
                       Image.asset(
                         'assets/images/forward_icon.png',
+                        height: 17,
+                        width: 17,
+                      ) :
+                      Image.asset(
+                        'assets/images/back_icon_new.png',
                         height: 17,
                         width: 17,
                       ),
@@ -813,8 +861,14 @@ class _CustomDrawerState extends State<CustomDrawer> {
                             color: const Color(0xFF2A3032), fontSize: 16, fontWeight: FontWeight.w500),
                       ),
                       const Spacer(),
+                      profileController.selectedLAnguage.value == 'English' ?
                       Image.asset(
                         'assets/images/forward_icon.png',
+                        height: 17,
+                        width: 17,
+                      ) :
+                      Image.asset(
+                        'assets/images/back_icon_new.png',
                         height: 17,
                         width: 17,
                       ),
@@ -854,8 +908,14 @@ class _CustomDrawerState extends State<CustomDrawer> {
                             color: const Color(0xFF2A3032), fontSize: 16, fontWeight: FontWeight.w500),
                       ),
                       const Spacer(),
+                      profileController.selectedLAnguage.value == 'English' ?
                       Image.asset(
                         'assets/images/forward_icon.png',
+                        height: 17,
+                        width: 17,
+                      ) :
+                      Image.asset(
+                        'assets/images/back_icon_new.png',
                         height: 17,
                         width: 17,
                       ),
@@ -889,8 +949,14 @@ class _CustomDrawerState extends State<CustomDrawer> {
                             color: const Color(0xFF2A3032), fontSize: 16, fontWeight: FontWeight.w500),
                       ),
                       const Spacer(),
+                      profileController.selectedLAnguage.value == 'English' ?
                       Image.asset(
                         'assets/images/forward_icon.png',
+                        height: 17,
+                        width: 17,
+                      ) :
+                      Image.asset(
+                        'assets/images/back_icon_new.png',
                         height: 17,
                         width: 17,
                       ),
@@ -924,8 +990,14 @@ class _CustomDrawerState extends State<CustomDrawer> {
                             color: const Color(0xFF2A3032), fontSize: 16, fontWeight: FontWeight.w500),
                       ),
                       const Spacer(),
+                      profileController.selectedLAnguage.value == 'English' ?
                       Image.asset(
                         'assets/images/forward_icon.png',
+                        height: 17,
+                        width: 17,
+                      ) :
+                      Image.asset(
+                        'assets/images/back_icon_new.png',
                         height: 17,
                         width: 17,
                       ),
@@ -1001,8 +1073,14 @@ class _CustomDrawerState extends State<CustomDrawer> {
                                     color: const Color(0xFF2A3032), fontSize: 16, fontWeight: FontWeight.w500),
                               ),
                             ),
+                            profileController.selectedLAnguage.value == 'English' ?
                             Image.asset(
                               'assets/images/forward_icon.png',
+                              height: 17,
+                              width: 17,
+                            ) :
+                            Image.asset(
+                              'assets/images/back_icon_new.png',
                               height: 17,
                               width: 17,
                             ),
@@ -1077,8 +1155,14 @@ class _CustomDrawerState extends State<CustomDrawer> {
                             color: const Color(0xFF2A3032), fontSize: 16, fontWeight: FontWeight.w500),
                       ),
                       const Spacer(),
+                      profileController.selectedLAnguage.value == 'English' ?
                       Image.asset(
                         'assets/images/forward_icon.png',
+                        height: 17,
+                        width: 17,
+                      ) :
+                      Image.asset(
+                        'assets/images/back_icon_new.png',
                         height: 17,
                         width: 17,
                       ),
@@ -1966,15 +2050,29 @@ class _CustomDrawerState extends State<CustomDrawer> {
                 style: GoogleFonts.poppins(color: const Color(0xFF2A3032), fontSize: 16, fontWeight: FontWeight.w500),
               ),
             ),
-            !_isValue.value == true ?   Image.asset(
-              'assets/images/forward_icon.png',
-              height: 17,
-              width: 17,
-            ) : Image.asset(
-              'assets/images/drop_icon.png',
-              height: 17,
-              width: 17,
-            ),
+            if( profileController.selectedLAnguage.value == 'English')
+              !_isValue.value == true ?   Image.asset(
+                'assets/images/forward_icon.png',
+                height: 17,
+                width: 17,
+              ) :
+              Image.asset(
+                'assets/images/drop_icon.png',
+                height: 17,
+                width: 17,
+              ),
+            if( profileController.selectedLAnguage.value != 'English')
+              !_isValue.value == true ?
+              Image.asset(
+                'assets/images/back_icon_new.png',
+                height: 17,
+                width: 17,
+              ) :
+              Image.asset(
+                'assets/images/drop_icon.png',
+                height: 17,
+                width: 17,
+              ),
           ],
         ),
       ),
@@ -2030,11 +2128,17 @@ class _CustomDrawerState extends State<CustomDrawer> {
                                                       color: Colors.grey.shade500),
                                                 ),
                                               ),
+                                              profileController.selectedLAnguage.value == 'English' ?
                                               Image.asset(
                                                 'assets/images/forward_icon.png',
-                                                height: 14,
-                                                width: 14,
-                                              )
+                                                height: 17,
+                                                width: 17,
+                                              ) :
+                                              Image.asset(
+                                                'assets/images/back_icon_new.png',
+                                                height: 17,
+                                                width: 17,
+                                              ),
                                             ],
                                           ),
                                         ),

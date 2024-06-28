@@ -8,6 +8,7 @@ import 'package:flutter/widgets.dart';
 import 'package:get/get.dart';
 import 'package:google_fonts/google_fonts.dart';
 
+import '../controller/profile_controller.dart';
 import '../language/app_strings.dart';
 import '../model/common_modal.dart';
 import '../model/returnPolicyModel.dart';
@@ -49,6 +50,7 @@ class _ReturnnPolicyListState extends State<ReturnnPolicyList> {
     super.initState();
     getReturnPolicyData();
   }
+  final profileController = Get.put(ProfileController());
   @override
   Widget build(BuildContext context) {
     final size = MediaQuery
@@ -66,6 +68,12 @@ class _ReturnnPolicyListState extends State<ReturnnPolicyList> {
               crossAxisAlignment: CrossAxisAlignment.center,
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
+                profileController.selectedLAnguage.value != 'English' ?
+                Image.asset(
+                  'assets/images/forward_icon.png',
+                  height: 19,
+                  width: 19,
+                ) :
                 Image.asset(
                   'assets/images/back_icon_new.png',
                   height: 19,

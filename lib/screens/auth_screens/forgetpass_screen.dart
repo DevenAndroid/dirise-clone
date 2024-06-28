@@ -8,6 +8,7 @@ import 'package:dirise/widgets/common_colour.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:google_fonts/google_fonts.dart';
+import '../../controller/profile_controller.dart';
 import '../../model/common_modal.dart';
 import '../../utils/api_constant.dart';
 import '../../utils/helper.dart';
@@ -47,7 +48,7 @@ class _ForgetPasswordScreenState extends State<ForgetPasswordScreen> {
       throw Exception(response.body);
     }
   }
-
+  final profileController = Get.put(ProfileController());
   @override
   Widget build(BuildContext context) {
     Size size = MediaQuery.of(context).size;
@@ -58,10 +59,16 @@ class _ForgetPasswordScreenState extends State<ForgetPasswordScreen> {
           surfaceTintColor: Colors.white,
           elevation: 0,
           leading: IconButton(
-            icon: Image.asset(
+            icon: profileController.selectedLAnguage.value != 'English' ?
+            Image.asset(
+              'assets/images/forward_icon.png',
+              height: 19,
+              width: 19,
+            ) :
+            Image.asset(
               'assets/images/back_icon_new.png',
-              height: 25,
-              width: 25,
+              height: 19,
+              width: 19,
             ),
             onPressed: () => Navigator.of(context).pop(),
           ),

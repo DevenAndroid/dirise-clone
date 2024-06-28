@@ -78,7 +78,7 @@ class _MyAccountScreenState extends State<MyAccountScreen> {
 
   whatsapp() async {
     String contact = "+96598762557";
-    String text = 'Whatsapp support';
+    String text = '';
     String androidUrl = "whatsapp://send?phone=$contact&text=$text";
     String iosUrl = "https://wa.me/$contact?text=${Uri.parse(text)}";
 
@@ -517,8 +517,14 @@ class _MyAccountScreenState extends State<MyAccountScreen> {
                                           color: const Color(0xFF2A3032), fontSize: 16, fontWeight: FontWeight.w500),
                                     ),
                                   ),
+                                  profileController.selectedLAnguage.value == 'English' ?
                                   Image.asset(
                                     'assets/images/forward_icon.png',
+                                    height: 17,
+                                    width: 17,
+                                  ) :
+                                  Image.asset(
+                                    'assets/images/back_icon_new.png',
                                     height: 17,
                                     width: 17,
                                   ),
@@ -556,8 +562,14 @@ class _MyAccountScreenState extends State<MyAccountScreen> {
                                   color: const Color(0xFF2A3032), fontSize: 16, fontWeight: FontWeight.w500),
                             ),
                             const Spacer(),
+                            profileController.selectedLAnguage.value == 'English' ?
                             Image.asset(
                               'assets/images/forward_icon.png',
+                              height: 17,
+                              width: 17,
+                            ) :
+                            Image.asset(
+                              'assets/images/back_icon_new.png',
                               height: 17,
                               width: 17,
                             ),
@@ -594,11 +606,17 @@ class _MyAccountScreenState extends State<MyAccountScreen> {
                                   color: const Color(0xFF2A3032), fontSize: 16, fontWeight: FontWeight.w500),
                             ),
                             const Spacer(),
-                              Image.asset(
-                                    'assets/images/forward_icon.png',
-                                    height: 17,
-                                    width: 17,
-                                  ),
+                            profileController.selectedLAnguage.value == 'English' ?
+                            Image.asset(
+                              'assets/images/forward_icon.png',
+                              height: 17,
+                              width: 17,
+                            ) :
+                            Image.asset(
+                              'assets/images/back_icon_new.png',
+                              height: 17,
+                              width: 17,
+                            ),
                           ],
                         ),
                       ),
@@ -632,11 +650,17 @@ class _MyAccountScreenState extends State<MyAccountScreen> {
                                   color: const Color(0xFF2A3032), fontSize: 16, fontWeight: FontWeight.w500),
                             ),
                             const Spacer(),
-                              Image.asset(
-                                    'assets/images/forward_icon.png',
-                                    height: 17,
-                                    width: 17,
-                                  ),
+                            profileController.selectedLAnguage.value == 'English' ?
+                            Image.asset(
+                              'assets/images/forward_icon.png',
+                              height: 17,
+                              width: 17,
+                            ) :
+                            Image.asset(
+                              'assets/images/back_icon_new.png',
+                              height: 17,
+                              width: 17,
+                            ),
                           ],
                         ),
                       ),
@@ -702,11 +726,17 @@ class _MyAccountScreenState extends State<MyAccountScreen> {
                                   color: const Color(0xFF2A3032), fontSize: 16, fontWeight: FontWeight.w500),
                             ),
                             const Spacer(),
-                              Image.asset(
-                                    'assets/images/forward_icon.png',
-                                    height: 17,
-                                    width: 17,
-                                  ),
+                            profileController.selectedLAnguage.value == 'English' ?
+                            Image.asset(
+                              'assets/images/forward_icon.png',
+                              height: 17,
+                              width: 17,
+                            ) :
+                            Image.asset(
+                              'assets/images/back_icon_new.png',
+                              height: 17,
+                              width: 17,
+                            ),
                           ],
                         ),
                       ),
@@ -741,11 +771,17 @@ class _MyAccountScreenState extends State<MyAccountScreen> {
                                   color: const Color(0xFF2A3032), fontSize: 16, fontWeight: FontWeight.w500),
                             ),
                             const Spacer(),
-                              Image.asset(
-                                    'assets/images/forward_icon.png',
-                                    height: 17,
-                                    width: 17,
-                                  ),
+                            profileController.selectedLAnguage.value == 'English' ?
+                            Image.asset(
+                              'assets/images/forward_icon.png',
+                              height: 17,
+                              width: 17,
+                            ) :
+                            Image.asset(
+                              'assets/images/back_icon_new.png',
+                              height: 17,
+                              width: 17,
+                            ),
                           ],
                         ),
                       ),
@@ -776,11 +812,17 @@ class _MyAccountScreenState extends State<MyAccountScreen> {
                                   color: const Color(0xFF2A3032), fontSize: 16, fontWeight: FontWeight.w500),
                             ),
                             const Spacer(),
-                              Image.asset(
-                                    'assets/images/forward_icon.png',
-                                    height: 17,
-                                    width: 17,
-                                  ),
+                            profileController.selectedLAnguage.value == 'English' ?
+                            Image.asset(
+                              'assets/images/forward_icon.png',
+                              height: 17,
+                              width: 17,
+                            ) :
+                            Image.asset(
+                              'assets/images/back_icon_new.png',
+                              height: 17,
+                              width: 17,
+                            ),
                           ],
                         ),
                       ),
@@ -811,11 +853,17 @@ class _MyAccountScreenState extends State<MyAccountScreen> {
                                   color: const Color(0xFF2A3032), fontSize: 16, fontWeight: FontWeight.w500),
                             ),
                             const Spacer(),
-                              Image.asset(
-                                    'assets/images/forward_icon.png',
-                                    height: 17,
-                                    width: 17,
-                                  ),
+                            profileController.selectedLAnguage.value == 'English' ?
+                            Image.asset(
+                              'assets/images/forward_icon.png',
+                              height: 17,
+                              width: 17,
+                            ) :
+                            Image.asset(
+                              'assets/images/back_icon_new.png',
+                              height: 17,
+                              width: 17,
+                            ),
                           ],
                         ),
                       ),
@@ -896,11 +944,17 @@ class _MyAccountScreenState extends State<MyAccountScreen> {
                                   color: const Color(0xFF2A3032), fontSize: 16, fontWeight: FontWeight.w500),
                             ),
                             const Spacer(),
-                              Image.asset(
-                                    'assets/images/forward_icon.png',
-                                    height: 17,
-                                    width: 17,
-                                  ),
+                            profileController.selectedLAnguage.value == 'English' ?
+                            Image.asset(
+                              'assets/images/forward_icon.png',
+                              height: 17,
+                              width: 17,
+                            ) :
+                            Image.asset(
+                              'assets/images/back_icon_new.png',
+                              height: 17,
+                              width: 17,
+                            ),
                           ],
                         ),
                       ),
@@ -1040,11 +1094,17 @@ class _MyAccountScreenState extends State<MyAccountScreen> {
                                   color: const Color(0xFF2A3032), fontSize: 16, fontWeight: FontWeight.w500),
                             ),
                             const Spacer(),
-                              Image.asset(
-                                    'assets/images/forward_icon.png',
-                                    height: 17,
-                                    width: 17,
-                                  ),
+                            profileController.selectedLAnguage.value == 'English' ?
+                            Image.asset(
+                              'assets/images/forward_icon.png',
+                              height: 17,
+                              width: 17,
+                            ) :
+                            Image.asset(
+                              'assets/images/back_icon_new.png',
+                              height: 17,
+                              width: 17,
+                            ),
                           ],
                         ),
                       ),
@@ -1075,11 +1135,17 @@ class _MyAccountScreenState extends State<MyAccountScreen> {
                                   color: const Color(0xFF2A3032), fontSize: 16, fontWeight: FontWeight.w500),
                             ),
                             const Spacer(),
-                              Image.asset(
-                                    'assets/images/forward_icon.png',
-                                    height: 17,
-                                    width: 17,
-                                  ),
+                            profileController.selectedLAnguage.value == 'English' ?
+                            Image.asset(
+                              'assets/images/forward_icon.png',
+                              height: 17,
+                              width: 17,
+                            ) :
+                            Image.asset(
+                              'assets/images/back_icon_new.png',
+                              height: 17,
+                              width: 17,
+                            ),
                           ],
                         ),
                       ),
@@ -1116,11 +1182,17 @@ class _MyAccountScreenState extends State<MyAccountScreen> {
                                   color: const Color(0xFF2A3032), fontSize: 16, fontWeight: FontWeight.w500),
                             ),
                             const Spacer(),
-                              Image.asset(
-                                    'assets/images/forward_icon.png',
-                                    height: 17,
-                                    width: 17,
-                                  ),
+                            profileController.selectedLAnguage.value == 'English' ?
+                            Image.asset(
+                              'assets/images/forward_icon.png',
+                              height: 17,
+                              width: 17,
+                            ) :
+                            Image.asset(
+                              'assets/images/back_icon_new.png',
+                              height: 17,
+                              width: 17,
+                            ),
                           ],
                         ),
                       ),
@@ -1151,11 +1223,17 @@ class _MyAccountScreenState extends State<MyAccountScreen> {
                                   color: const Color(0xFF2A3032), fontSize: 16, fontWeight: FontWeight.w500),
                             ),
                             const Spacer(),
-                              Image.asset(
-                                    'assets/images/forward_icon.png',
-                                    height: 17,
-                                    width: 17,
-                                  ),
+                            profileController.selectedLAnguage.value == 'English' ?
+                            Image.asset(
+                              'assets/images/forward_icon.png',
+                              height: 17,
+                              width: 17,
+                            ) :
+                            Image.asset(
+                              'assets/images/back_icon_new.png',
+                              height: 17,
+                              width: 17,
+                            ),
                           ],
                         ),
                       ),
@@ -1186,11 +1264,17 @@ class _MyAccountScreenState extends State<MyAccountScreen> {
                                   color: const Color(0xFF2A3032), fontSize: 16, fontWeight: FontWeight.w500),
                             ),
                             const Spacer(),
-                              Image.asset(
-                                    'assets/images/forward_icon.png',
-                                    height: 17,
-                                    width: 17,
-                                  ),
+                            profileController.selectedLAnguage.value == 'English' ?
+                            Image.asset(
+                              'assets/images/forward_icon.png',
+                              height: 17,
+                              width: 17,
+                            ) :
+                            Image.asset(
+                              'assets/images/back_icon_new.png',
+                              height: 17,
+                              width: 17,
+                            ),
                           ],
                         ),
                       ),
@@ -1263,8 +1347,14 @@ class _MyAccountScreenState extends State<MyAccountScreen> {
                                           color: const Color(0xFF2A3032), fontSize: 16, fontWeight: FontWeight.w500),
                                     ),
                                   ),
+                                  profileController.selectedLAnguage.value == 'English' ?
                                   Image.asset(
                                     'assets/images/forward_icon.png',
+                                    height: 17,
+                                    width: 17,
+                                  ) :
+                                  Image.asset(
+                                    'assets/images/back_icon_new.png',
                                     height: 17,
                                     width: 17,
                                   ),
@@ -1339,11 +1429,17 @@ class _MyAccountScreenState extends State<MyAccountScreen> {
                                   color: const Color(0xFF2A3032), fontSize: 16, fontWeight: FontWeight.w500),
                             ),
                             const Spacer(),
-                              Image.asset(
-                                    'assets/images/forward_icon.png',
-                                    height: 17,
-                                    width: 17,
-                                  ),
+                            profileController.selectedLAnguage.value == 'English' ?
+                            Image.asset(
+                              'assets/images/forward_icon.png',
+                              height: 17,
+                              width: 17,
+                            ) :
+                            Image.asset(
+                              'assets/images/back_icon_new.png',
+                              height: 17,
+                              width: 17,
+                            ),
                           ],
                         ),
                       ),
@@ -2252,11 +2348,25 @@ class _MyAccountScreenState extends State<MyAccountScreen> {
                 style: GoogleFonts.poppins(color: const Color(0xFF2A3032), fontSize: 16, fontWeight: FontWeight.w500),
               ),
             ),
+            if( profileController.selectedLAnguage.value == 'English')
             !_isValue.value == true ?   Image.asset(
               'assets/images/forward_icon.png',
               height: 17,
               width: 17,
-            ) : Image.asset(
+            ) :
+            Image.asset(
+              'assets/images/drop_icon.png',
+              height: 17,
+              width: 17,
+            ),
+            if( profileController.selectedLAnguage.value != 'English')
+              !_isValue.value == true ?
+              Image.asset(
+                'assets/images/back_icon_new.png',
+                height: 17,
+                width: 17,
+              ) :
+            Image.asset(
               'assets/images/drop_icon.png',
               height: 17,
               width: 17,
@@ -2330,11 +2440,17 @@ class _MyAccountScreenState extends State<MyAccountScreen> {
                                                       color: Colors.grey.shade500),
                                                 ),
                                               ),
+                                              profileController.selectedLAnguage.value == 'English' ?
                                               Image.asset(
                                                 'assets/images/forward_icon.png',
                                                 height: 14,
                                                 width: 14,
-                                              )
+                                              ) :
+                                              Image.asset(
+                                                'assets/images/back_icon_new.png',
+                                                height: 14,
+                                                width: 14,
+                                              ),
                                             ],
                                           ),
                                         ),
@@ -2379,10 +2495,17 @@ class _MyAccountScreenState extends State<MyAccountScreen> {
                                               color: Colors.grey.shade500),
                                         ),
                                       ),
-                                      const Icon(
-                                        Icons.arrow_forward_ios_rounded,
-                                        size: 14,
-                                      )
+                                      profileController.selectedLAnguage.value == 'English' ?
+                                      Image.asset(
+                                        'assets/images/forward_icon.png',
+                                        height: 14,
+                                        width: 14,
+                                      ) :
+                                      Image.asset(
+                                        'assets/images/back_icon_new.png',
+                                        height: 14,
+                                        width: 14,
+                                      ),
                                     ],
                                   ),
                                 ),

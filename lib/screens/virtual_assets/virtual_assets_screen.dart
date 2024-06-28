@@ -3,6 +3,7 @@ import 'package:dirise/utils/helper.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:google_fonts/google_fonts.dart';
+import '../../controller/profile_controller.dart';
 import '../../widgets/common_colour.dart';
 import 'audio_files_list.dart';
 import 'e_books_screen.dart';
@@ -25,7 +26,7 @@ class _VirtualAssetsScreenState extends State<VirtualAssetsScreen> with Automati
   // void initState() {
   //   super.initState();
   // }
-
+ final profileController = Get.put(ProfileController());
   @override
   Widget build(BuildContext context) {
     super.build(context);
@@ -33,7 +34,7 @@ class _VirtualAssetsScreenState extends State<VirtualAssetsScreen> with Automati
       appBar: PreferredSize(
         preferredSize: const Size.fromHeight(120),
         child: Container(
-          color: AppTheme.buttonColor,
+          color: AppTheme.newPrimaryColor,
           child: SafeArea(
             child: Column(
               children: [
@@ -48,11 +49,16 @@ class _VirtualAssetsScreenState extends State<VirtualAssetsScreen> with Automati
                         crossAxisAlignment: CrossAxisAlignment.center,
                         mainAxisAlignment: MainAxisAlignment.center,
                         children: [
+                          profileController.selectedLAnguage.value != 'English' ?
+                          Image.asset(
+                            'assets/images/forward_icon.png',
+                            height: 19,
+                            width: 19,
+                          ) :
                           Image.asset(
                             'assets/images/back_icon_new.png',
                             height: 19,
                             width: 19,
-                            color: Colors.white,
                           ),
                         ],
                       ),
@@ -60,7 +66,7 @@ class _VirtualAssetsScreenState extends State<VirtualAssetsScreen> with Automati
                     20.spaceX,
                     Text(
                      AppStrings.eBooks.tr,
-                      style: GoogleFonts.poppins(color: Colors.white, fontSize: 18, fontWeight: FontWeight.w600),
+                      style: GoogleFonts.poppins(color: Colors.black, fontSize: 18, fontWeight: FontWeight.w600),
                     )
                   ],
                 ),

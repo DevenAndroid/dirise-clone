@@ -313,10 +313,10 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
       appBar: AppBar(
         title: Text(
           AppStrings.editProfile.tr,
-          style: GoogleFonts.poppins(color: Colors.white, fontSize: 20),
+          style: GoogleFonts.poppins(color: Colors.black, fontSize: 20),
         ),
         centerTitle: true,
-        backgroundColor: AppTheme.buttonColor,
+        backgroundColor: AppTheme.newPrimaryColor,
         leading: InkWell(
           onTap: () {
             Get.back();
@@ -329,6 +329,12 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
               crossAxisAlignment: CrossAxisAlignment.center,
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
+                profileController.selectedLAnguage.value != 'English' ?
+                Image.asset(
+                  'assets/images/forward_icon.png',
+                  height: 19,
+                  width: 19,
+                ) :
                 Image.asset(
                   'assets/images/back_icon_new.png',
                   height: 19,

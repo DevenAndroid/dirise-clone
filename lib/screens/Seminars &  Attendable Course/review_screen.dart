@@ -13,6 +13,7 @@ import 'package:get/get.dart';
 import 'package:google_fonts/google_fonts.dart';
 
 import '../../bottomavbar.dart';
+import '../../controller/profile_controller.dart';
 import '../../controller/vendor_controllers/add_product_controller.dart';
 import '../../iAmHereToSell/productAccountCreatedSuccessfullyScreen.dart';
 import '../../model/common_modal.dart';
@@ -74,7 +75,7 @@ class _ReviewScreenSeminarAndAttendableState extends State<ReviewScreenSeminarAn
     super.initState();
     getVendorCategories(addProductController.idProduct.value.toString());
   }
-
+  final profileController = Get.put(ProfileController());
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -90,6 +91,12 @@ class _ReviewScreenSeminarAndAttendableState extends State<ReviewScreenSeminarAn
             crossAxisAlignment: CrossAxisAlignment.center,
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
+              profileController.selectedLAnguage.value != 'English' ?
+              Image.asset(
+                'assets/images/forward_icon.png',
+                height: 19,
+                width: 19,
+              ) :
               Image.asset(
                 'assets/images/back_icon_new.png',
                 height: 19,

@@ -7,6 +7,7 @@ import 'package:get/get.dart';
 import 'package:google_fonts/google_fonts.dart';
 
 import '../../controller/home_controller.dart';
+import '../../controller/profile_controller.dart';
 import '../../widgets/common_colour.dart';
 
 class TrendingProducts extends StatefulWidget {
@@ -18,6 +19,7 @@ class TrendingProducts extends StatefulWidget {
 
 class _TrendingProductsState extends State<TrendingProducts> {
   final homeController = Get.put(TrendingProductsController());
+  final profileController = Get.put(ProfileController());
 
   @override
   Widget build(BuildContext context) {
@@ -60,7 +62,10 @@ class _TrendingProductsState extends State<TrendingProducts> {
                           // });
                           // scrollToItem(index1);
                         },
-                        child:Image.asset("assets/icons/new_arrow.png",width: 35,height: 35,)
+                        child: profileController.selectedLAnguage.value != 'English' ?
+                        Image.asset("assets/images/arab_forward.png",width: 40,height: 40,) :
+                        Image.asset("assets/icons/new_arrow.png",width: 35,height: 35,)
+
                     ),
                     SizedBox(width: 20,)
                   ],

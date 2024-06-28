@@ -51,10 +51,16 @@ class _TermConditionScreenState extends State<TermConditionScreen> {
               child: Row(
                 children: [
                   IconButton(
-                    icon: Image.asset(
+                    icon:    profileController.selectedLAnguage.value != 'English' ?
+                    Image.asset(
+                      'assets/images/forward_icon.png',
+                      height: 19,
+                      width: 19,
+                    ) :
+                    Image.asset(
                       'assets/images/back_icon_new.png',
-                      height: 20,
-                      width: 20,
+                      height: 19,
+                      width: 19,
                     ),
                     onPressed: () => Navigator.of(context).pop(),
                   ),

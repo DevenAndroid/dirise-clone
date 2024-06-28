@@ -6,6 +6,7 @@ import 'package:dirise/widgets/common_colour.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:google_fonts/google_fonts.dart';
+import '../../../controller/profile_controller.dart';
 import '../../../controller/vendor_controllers/add_product_controller.dart';
 import '../../../utils/helper.dart';
 import '../../../widgets/dimension_screen.dart';
@@ -53,7 +54,7 @@ class _AddProductScreenState extends State<AddProductScreen> {
   }
 
 
-
+final profileController = Get.put(ProfileController());
   @override
   Widget build(BuildContext context) {
     return WillPopScope(
@@ -71,9 +72,16 @@ class _AddProductScreenState extends State<AddProductScreen> {
               },
               child: Padding(
                 padding: const EdgeInsets.all(15),
-                child: Image.asset(
+                child: profileController.selectedLAnguage.value != 'English' ?
+                Image.asset(
+                  'assets/images/forward_icon.png',
+                  height: 19,
+                  width: 19,
+                ) :
+                Image.asset(
                   'assets/images/back_icon_new.png',
-                  // height: 21,
+                  height: 19,
+                  width: 19,
                 ),
               ),
             ),

@@ -10,6 +10,7 @@ import 'package:google_fonts/google_fonts.dart';
 import 'package:lottie/lottie.dart';
 import 'package:url_launcher/url_launcher_string.dart';
 
+import '../../controller/profile_controller.dart';
 import '../../controller/wish_list_controller.dart';
 import '../../language/app_strings.dart';
 import '../../model/common_modal.dart';
@@ -78,6 +79,7 @@ class _GetLookJobState extends State<GetLookJob> {
       }
     });
   }
+  final profileController = Get.put(ProfileController());
   @override
   Widget build(BuildContext context) {
     var size = MediaQuery
@@ -95,6 +97,12 @@ class _GetLookJobState extends State<GetLookJob> {
             crossAxisAlignment: CrossAxisAlignment.center,
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
+              profileController.selectedLAnguage.value != 'English' ?
+              Image.asset(
+                'assets/images/forward_icon.png',
+                height: 19,
+                width: 19,
+              ) :
               Image.asset(
                 'assets/images/back_icon_new.png',
                 height: 19,
