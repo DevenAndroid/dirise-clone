@@ -14,6 +14,7 @@ import '../../Services/review_publish_service.dart';
 import '../../addNewProduct/addProductScreen.dart';
 import '../../addNewProduct/myItemIsScreen.dart';
 import '../../addNewProduct/reviewPublishScreen.dart';
+import '../../controller/profile_controller.dart';
 import '../../controller/vendor_controllers/add_product_controller.dart';
 import '../../controller/vendor_controllers/products_controller.dart';
 import '../../jobOffers/JobReviewandPublishScreen.dart';
@@ -65,6 +66,7 @@ class _VendorProductScreenState extends State<VendorProductScreen> {
   }
   String publish = '';
   final addProductController = Get.put(AddProductController());
+  final profileController = Get.put(ProfileController());
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -86,7 +88,13 @@ class _VendorProductScreenState extends State<VendorProductScreen> {
                 },
                 child: Padding(
                   padding: const EdgeInsets.all(15),
-                  child: Image.asset(
+                  child:     profileController.selectedLAnguage.value != 'English' ?
+                  Image.asset(
+                    'assets/images/forward_icon.png',
+                    height: 19,
+                    width: 19,
+                  ) :
+                  Image.asset(
                     'assets/images/back_icon_new.png',
                     height: 19,
                     width: 19,

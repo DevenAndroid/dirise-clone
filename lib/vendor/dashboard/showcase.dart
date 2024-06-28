@@ -8,6 +8,7 @@ import 'package:get/get.dart';
 import 'package:google_fonts/google_fonts.dart';
 
 import '../../controller/home_controller.dart';
+import '../../controller/profile_controller.dart';
 import '../../widgets/common_colour.dart';
 
 class ShowCaseProducts extends StatefulWidget {
@@ -19,6 +20,7 @@ class ShowCaseProducts extends StatefulWidget {
 
 class _ShowCaseProductsState extends State<ShowCaseProducts> {
   final homeController = Get.put(TrendingProductsController());
+  final profileController = Get.put(ProfileController());
   @override
   Widget build(BuildContext context) {
     var size = MediaQuery.of(context).size;
@@ -60,7 +62,9 @@ class _ShowCaseProductsState extends State<ShowCaseProducts> {
                     // });
                     // scrollToItem(index1);
                   },
-                  child:Image.asset("assets/icons/new_arrow.png",width: 35,height: 35,)
+                  child: profileController.selectedLAnguage.value != 'English' ?
+                  Image.asset("assets/images/arab_forward.png",width: 40,height: 40,) :
+                  Image.asset("assets/icons/new_arrow.png",width: 35,height: 35,)
               ),
               SizedBox(width: 20,)
             ],

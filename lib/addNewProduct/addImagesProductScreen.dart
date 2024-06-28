@@ -8,6 +8,7 @@ import 'package:flutter/widgets.dart';
 import 'package:get/get.dart';
 import 'package:google_fonts/google_fonts.dart';
 
+import '../controller/profile_controller.dart';
 import '../model/vendor_models/model_vendor_details.dart';
 import '../repository/repository.dart';
 import '../vendor/authentication/image_widget.dart';
@@ -41,6 +42,7 @@ class _AddImagesProductScreenState extends State<AddImagesProductScreen> {
   get updateUI => refreshInt.value = DateTime.now().millisecondsSinceEpoch;
   File storeBanner = File("");
   Map<String, File> images = {};
+  final profileController = Get.put(ProfileController());
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -56,6 +58,12 @@ class _AddImagesProductScreenState extends State<AddImagesProductScreen> {
             crossAxisAlignment: CrossAxisAlignment.center,
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
+              profileController.selectedLAnguage.value != 'English' ?
+              Image.asset(
+                'assets/images/forward_icon.png',
+                height: 19,
+                width: 19,
+              ) :
               Image.asset(
                 'assets/images/back_icon_new.png',
                 height: 19,

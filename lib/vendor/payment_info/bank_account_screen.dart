@@ -7,6 +7,7 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:google_fonts/google_fonts.dart';
 
+import '../../controller/profile_controller.dart';
 import '../../controller/vendor_controllers/bank_details_controller.dart';
 import '../../repository/repository.dart';
 import '../../widgets/common_button.dart';
@@ -71,7 +72,7 @@ class _BankDetailsScreenState extends State<BankDetailsScreen> {
     super.initState();
     getData();
   }
-
+ final profileController = Get.put(ProfileController());
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -93,7 +94,13 @@ class _BankDetailsScreenState extends State<BankDetailsScreen> {
                 },
                 child: Padding(
                   padding: const EdgeInsets.all(15),
-                  child: Image.asset(
+                  child: profileController.selectedLAnguage.value != 'English' ?
+                  Image.asset(
+                    'assets/images/forward_icon.png',
+                    height: 19,
+                    width: 19,
+                  ) :
+                  Image.asset(
                     'assets/images/back_icon_new.png',
                     height: 19,
                     width: 19,

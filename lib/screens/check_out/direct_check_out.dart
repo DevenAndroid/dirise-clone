@@ -175,6 +175,12 @@ RxString shippingType= "".obs;
             crossAxisAlignment: CrossAxisAlignment.center,
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
+              profileController.selectedLAnguage.value != 'English' ?
+              Image.asset(
+                'assets/images/forward_icon.png',
+                height: 19,
+                width: 19,
+              ) :
               Image.asset(
                 'assets/images/back_icon_new.png',
                 height: 19,
@@ -553,8 +559,8 @@ RxString shippingType= "".obs;
                                                     shippingType.value = "fedex_shipping";
                                                     shipId.value = "";
                                                     shipmentProvider.value = "";
-                                                    cartController.shippingDates = product.commit!.dateDetail!.dayFormat!
-                                                        .toString();
+                                                    // cartController.shippingDates = product.commit!.dateDetail!.dayFormat!
+                                                    //     .toString();
                                                     // e.value.shipping![ii].output!.rateReplyDetails![index].shippingDate = product.operationalDetail!.deliveryDate;
                                                     cartController.shippingTitle = product.serviceName.toString();
                                                     // cartController.shippingPrices = product.ratedShipmentDetails![index].totalNetCharge.toString();

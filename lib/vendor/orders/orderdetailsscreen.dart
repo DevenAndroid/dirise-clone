@@ -11,6 +11,7 @@ import 'package:google_fonts/google_fonts.dart';
 import 'package:open_filex/open_filex.dart';
 import 'package:url_launcher/url_launcher.dart';
 import 'package:path_provider/path_provider.dart';
+import '../../controller/profile_controller.dart';
 import '../../model/common_modal.dart';
 import '../../model/create_shipment_model.dart';
 import '../../model/order_models/model_single_order_response.dart';
@@ -391,6 +392,7 @@ RxString kgValue = "".obs;
   }
 
   String statusValue = '';
+  final profileController = Get.put(ProfileController());
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -411,10 +413,17 @@ RxString kgValue = "".obs;
             },
             child: Padding(
               padding: const EdgeInsets.all(15),
-              child: Image.asset(
+              child:  profileController.selectedLAnguage.value != 'English' ?
+              Image.asset(
+                'assets/images/forward_icon.png',
+                height: 19,
+                width: 19,
+              ) :
+              Image.asset(
                 'assets/images/back_icon_new.png',
-                height: 20,
-              ),
+                height: 19,
+                width: 19,
+              )
             ),
           ),
         ),

@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:google_fonts/google_fonts.dart';
 
+import '../../controller/profile_controller.dart';
 import '../../widgets/common_colour.dart';
 
 class PublicSpeakerScreen extends StatefulWidget {
@@ -13,6 +14,7 @@ class PublicSpeakerScreen extends StatefulWidget {
 }
 
 class _PublicSpeakerScreenState extends State<PublicSpeakerScreen> {
+  final profileController = Get.put(ProfileController());
   @override
   Widget build(BuildContext context) {
     Size size = MediaQuery.of(context).size;
@@ -34,6 +36,12 @@ class _PublicSpeakerScreenState extends State<PublicSpeakerScreen> {
                         crossAxisAlignment: CrossAxisAlignment.center,
                         mainAxisAlignment: MainAxisAlignment.center,
                         children: [
+                          profileController.selectedLAnguage.value != 'English' ?
+                          Image.asset(
+                            'assets/images/forward_icon.png',
+                            height: 19,
+                            width: 19,
+                          ) :
                           Image.asset(
                             'assets/images/back_icon_new.png',
                             height: 19,

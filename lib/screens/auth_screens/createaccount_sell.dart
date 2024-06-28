@@ -1,4 +1,5 @@
 import 'dart:convert';
+import 'package:dirise/controller/profile_controller.dart';
 import 'package:dirise/language/app_strings.dart';
 import 'package:dirise/widgets/common_colour.dart';
 import 'package:flutter/gestures.dart';
@@ -78,7 +79,7 @@ class _CreateAccountScreenSellState extends State<CreateAccountScreenSell> {
     _emailController.dispose();
     _passwordController.dispose();
   }
-
+  final profileController = Get.put(ProfileController());
   @override
   Widget build(BuildContext context) {
     Size size = MediaQuery.of(context).size;
@@ -96,6 +97,12 @@ class _CreateAccountScreenSellState extends State<CreateAccountScreenSell> {
             crossAxisAlignment: CrossAxisAlignment.center,
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
+              profileController.selectedLAnguage.value != 'English' ?
+              Image.asset(
+                'assets/images/forward_icon.png',
+                height: 19,
+                width: 19,
+              ) :
               Image.asset(
                 'assets/images/back_icon_new.png',
                 height: 19,

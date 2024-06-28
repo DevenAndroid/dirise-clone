@@ -6,6 +6,7 @@ import 'package:get/get.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:intl/intl.dart';
 
+import '../../controller/profile_controller.dart';
 import '../../controller/vendor_controllers/vendor_profile_controller.dart';
 import '../../controller/vendor_controllers/vendor_store_timing.dart';
 import '../../model/vendor_models/model_store_availability.dart';
@@ -26,7 +27,7 @@ class AppBarScreen extends StatefulWidget implements PreferredSizeWidget {
 class _AppBarScreenState extends State<AppBarScreen> {
   final vendorProfileController = Get.put(VendorProfileController());
   final vendorStoreTimingController = Get.put(VendorStoreTimingController());
-
+  final profileController = Get.put(ProfileController());
   @override
   Widget build(BuildContext context) {
     return AppBar(
@@ -41,9 +42,16 @@ class _AppBarScreenState extends State<AppBarScreen> {
                 onTap: () {
                   Get.back();
                 },
-                child: Image.asset(
+                child:     profileController.selectedLAnguage.value != 'English' ?
+                Image.asset(
+                  'assets/images/forward_icon.png',
+                  height: 19,
+                  width: 19,
+                ) :
+                Image.asset(
                   'assets/images/back_icon_new.png',
-                  height: 20,
+                  height: 19,
+                  width: 19,
                 ),
               ),
             ),

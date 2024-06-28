@@ -8,6 +8,7 @@ import 'package:google_fonts/google_fonts.dart';
 import '../../Services/choose_map_service.dart';
 import '../../addNewProduct/locationScreen.dart';
 import '../../controller/location_controller.dart';
+import '../../controller/profile_controller.dart';
 import '../../model/common_modal.dart';
 import '../../model/model_address_list.dart';
 import '../../newAddress/customeraccountcreatedsuccessfullyScreen.dart';
@@ -80,6 +81,7 @@ class _HomeAddEditAddressState extends State<HomeAddEditAddress> {
     }
     return await Geolocator.getCurrentPosition();
   }
+  final profileController = Get.put(ProfileController());
   @override
   Widget build(BuildContext context) {
     Size size = MediaQuery.of(context).size;
@@ -96,6 +98,12 @@ class _HomeAddEditAddressState extends State<HomeAddEditAddress> {
             crossAxisAlignment: CrossAxisAlignment.center,
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
+              profileController.selectedLAnguage.value != 'English' ?
+              Image.asset(
+                'assets/images/forward_icon.png',
+                height: 19,
+                width: 19,
+              ) :
               Image.asset(
                 'assets/images/back_icon_new.png',
                 height: 19,

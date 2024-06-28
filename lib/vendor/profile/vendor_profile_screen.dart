@@ -776,9 +776,16 @@ class _VendorProfileScreenState extends State<VendorProfileScreen> {
               },
               child: Padding(
                 padding: const EdgeInsets.all(15),
-                child: Image.asset(
+                child:    profileController.selectedLAnguage.value != 'English' ?
+                Image.asset(
+                  'assets/images/forward_icon.png',
+                  height: 19,
+                  width: 19,
+                ) :
+                Image.asset(
                   'assets/images/back_icon_new.png',
-                  height: 20,
+                  height: 19,
+                  width: 19,
                 ),
               ),
             ),

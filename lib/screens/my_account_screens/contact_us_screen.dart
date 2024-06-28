@@ -12,6 +12,7 @@ import 'package:flutter_svg/flutter_svg.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:get/get.dart';
 import 'package:url_launcher/url_launcher.dart';
+import '../../controller/profile_controller.dart';
 import '../../model/aboutus_model.dart';
 import '../../model/model_common.dart';
 import '../../model/model_contact_us.dart';
@@ -84,6 +85,7 @@ class _ContactUsScreenState extends State<ContactUsScreen> {
     contactUsEmail();
   }
   final GlobalKey<FormState> formKey = GlobalKey<FormState>();
+  final profileController = Get.put(ProfileController());
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -94,10 +96,16 @@ class _ContactUsScreenState extends State<ContactUsScreen> {
               child: Row(
                 children: [
                   IconButton(
-                    icon: Image.asset(
+                    icon: profileController.selectedLAnguage.value != 'English' ?
+                    Image.asset(
+                      'assets/images/forward_icon.png',
+                      height: 19,
+                      width: 19,
+                    ) :
+                    Image.asset(
                       'assets/images/back_icon_new.png',
-                      height: 20,
-                      width: 20,
+                      height: 19,
+                      width: 19,
                     ),
                     onPressed: () => Navigator.of(context).pop(),
                   ),

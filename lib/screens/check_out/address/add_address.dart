@@ -9,6 +9,7 @@ import 'package:get/get_core/src/get_main.dart';
 import 'package:google_fonts/google_fonts.dart';
 
 import '../../../controller/cart_controller.dart';
+import '../../../controller/profile_controller.dart';
 import '../../../iAmHereToSell/PersonalizeAddAddressScreen.dart';
 import '../../../iAmHereToSell/personalizeyourstoreScreen.dart';
 import '../../../language/app_strings.dart';
@@ -100,9 +101,8 @@ class _AddAddressScreenState extends State<AddAddressScreen> {
     // TODO: implement initState
     super.initState();
     getAddressDetails();
-
-
   }
+  final profileController = Get.put(ProfileController());
   @override
   Widget build(BuildContext context) {
     final size = MediaQuery.of(context).size;
@@ -118,6 +118,12 @@ class _AddAddressScreenState extends State<AddAddressScreen> {
             crossAxisAlignment: CrossAxisAlignment.center,
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
+              profileController.selectedLAnguage.value != 'English' ?
+              Image.asset(
+                'assets/images/forward_icon.png',
+                height: 19,
+                width: 19,
+              ) :
               Image.asset(
                 'assets/images/back_icon_new.png',
                 height: 19,

@@ -8,6 +8,7 @@ import 'package:flutter_svg/flutter_svg.dart';
 import 'package:get/get.dart';
 import 'package:google_fonts/google_fonts.dart';
 import '../../controller/cart_controller.dart';
+import '../../controller/profile_controller.dart';
 import '../../model/model_cart_response.dart';
 import '../../model/product_model/model_product_element.dart';
 import '../../utils/api_constant.dart';
@@ -25,7 +26,7 @@ class BagsScreen extends StatefulWidget {
 
 class _BagsScreenState extends State<BagsScreen> {
   final cartController = Get.put(CartController());
-
+  final profileController = Get.put(ProfileController());
   @override
   void initState() {
     super.initState();
@@ -532,6 +533,12 @@ class _BagsScreenState extends State<BagsScreen> {
           crossAxisAlignment: CrossAxisAlignment.center,
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
+            profileController.selectedLAnguage.value != 'English' ?
+            Image.asset(
+              'assets/images/forward_icon.png',
+              height: 19,
+              width: 19,
+            ) :
             Image.asset(
               'assets/images/back_icon_new.png',
               height: 19,

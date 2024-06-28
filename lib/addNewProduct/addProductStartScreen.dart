@@ -4,6 +4,7 @@ import 'package:flutter/widgets.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:get/get.dart';
 
+import '../controller/profile_controller.dart';
 import '../screens/tell_us_about_yourself.dart';
 import '../vendor/products/multiple_Product_screen.dart';
 import 'addProductFirstImageScreen.dart';
@@ -16,6 +17,7 @@ class AddProductOptionScreen extends StatefulWidget {
 }
 
 class _AddProductOptionScreenState extends State<AddProductOptionScreen> {
+  final profileController = Get.put(ProfileController());
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -30,6 +32,12 @@ class _AddProductOptionScreenState extends State<AddProductOptionScreen> {
             crossAxisAlignment: CrossAxisAlignment.center,
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
+              profileController.selectedLAnguage.value != 'English' ?
+              Image.asset(
+                'assets/images/forward_icon.png',
+                height: 19,
+                width: 19,
+              ) :
               Image.asset(
                 'assets/images/back_icon_new.png',
                 height: 19,
