@@ -1,4 +1,5 @@
 import 'dart:convert';
+import 'dart:io';
 
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:dirise/controller/profile_controller.dart';
@@ -14,6 +15,7 @@ import 'package:google_fonts/google_fonts.dart';
 import 'package:intl_phone_field/intl_phone_field.dart';
 
 import 'package:shared_preferences/shared_preferences.dart';
+import 'package:url_launcher/url_launcher.dart';
 import '../../Services/pick_up_address_service.dart';
 import '../../controller/cart_controller.dart';
 import '../../controller/home_controller.dart';
@@ -51,6 +53,7 @@ import '../my_account_screens/return_policy_screen.dart';
 import '../my_account_screens/termsconditions_screen.dart';
 import '../order_screens/my_orders_screen.dart';
 import '../virtual_assets/virtual_assets_screen.dart';
+import 'get_job_screen.dart';
 
 Locale locale = const Locale('en', 'US');
 
@@ -78,7 +81,29 @@ class _CustomDrawerState extends State<CustomDrawer> {
 
   ModelCountryList? modelCountryList;
   Country? selectedCountry;
+  whatsapp() async {
+    String contact = "+96598762557";
+    String text = '';
+    String androidUrl = "whatsapp://send?phone=$contact&text=$text";
+    String iosUrl = "https://wa.me/$contact?text=${Uri.parse(text)}";
 
+    String webUrl = 'https://api.whatsapp.com/send/?phone=$contact&text=hi';
+
+    try {
+      if (Platform.isIOS) {
+        if (await canLaunchUrl(Uri.parse(iosUrl))) {
+          await launchUrl(Uri.parse(iosUrl));
+        }
+      } else {
+        if (await canLaunchUrl(Uri.parse(androidUrl))) {
+          await launchUrl(Uri.parse(androidUrl));
+        }
+      }
+    } catch(e) {
+      print('object');
+      await launchUrl(Uri.parse(webUrl), mode: LaunchMode.externalApplication);
+    }
+  }
   ModelStateList? modelStateList;
   CountryState? selectedState;
   City? selectedCity;
@@ -512,7 +537,88 @@ class _CustomDrawerState extends State<CustomDrawer> {
                 const SizedBox(
                   height: 5,
                 ),
-
+                const Divider(
+                  thickness: 1,
+                  color: Color(0x1A000000),
+                ),
+                const SizedBox(
+                  height: 5,
+                ),
+                InkWell(
+                  onTap: () {
+                    if (profileController.userLoggedIn) {
+                      whatsapp();
+                    } else {
+                      whatsapp();
+                    }
+                  },
+                  child: Row(
+                    children: [
+                      Image.asset(height: 25, 'assets/images/whatsapp_icon.png'),
+                      const SizedBox(
+                        width: 20,
+                      ),
+                      Text(
+                        "WhatsApp Support",
+                        style: GoogleFonts.poppins(
+                            color: const Color(0xFF2A3032), fontSize: 16, fontWeight: FontWeight.w500),
+                      ),
+                      const Spacer(),
+                      profileController.selectedLAnguage.value == 'English' ?
+                      Image.asset(
+                        'assets/images/forward_icon.png',
+                        height: 17,
+                        width: 17,
+                      ) :
+                      Image.asset(
+                        'assets/images/back_icon_new.png',
+                        height: 17,
+                        width: 17,
+                      ),
+                    ],
+                  ),
+                ),
+                const SizedBox(
+                  height: 5,
+                ),
+                const Divider(
+                  thickness: 1,
+                  color: Color(0x1A000000),
+                ),
+                const SizedBox(
+                  height: 5,
+                ),
+                GestureDetector(
+                  behavior: HitTestBehavior.translucent,
+                  onTap: () {
+                    Get.to(()=>const GetJobTypeScreen());
+                  },
+                  child: Row(
+                    children: [
+                      Image.asset(height: 24, 'assets/images/job_icon.png'),
+                      const SizedBox(
+                        width: 20,
+                      ),
+                      Text(
+                        'Jobs'.tr,
+                        style: GoogleFonts.poppins(
+                            color: const Color(0xFF2A3032), fontSize: 16, fontWeight: FontWeight.w500),
+                      ),
+                      const Spacer(),
+                      profileController.selectedLAnguage.value == 'English' ?
+                      Image.asset(
+                        'assets/images/forward_icon.png',
+                        height: 17,
+                        width: 17,
+                      ) :
+                      Image.asset(
+                        'assets/images/back_icon_new.png',
+                        height: 17,
+                        width: 17,
+                      ),
+                    ],
+                  ),
+                ),
                 const SizedBox(
                   height: 5,
                 ),

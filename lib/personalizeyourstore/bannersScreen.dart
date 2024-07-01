@@ -57,7 +57,7 @@ class _BannersScreenState extends State<BannersScreen> {
             onProgress: (int bytes, int totalBytes) {})
         .then((value) {
       Get.to(const PersonalizeyourstoreScreen());
-      showToast('Add Banner successfully');
+      showToast('Banner added successfully');
     });
   }
 

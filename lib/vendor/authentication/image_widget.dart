@@ -77,7 +77,7 @@ class _ImageWidgetState extends State<ImageWidget> {
 
               ListTile(
                 leading: const Icon(Icons.photo_library),
-                title: const Text('File manager'),
+                title: const Text('Files'),
                 onTap: () async {
                   Get.back();
                   if (widget.imageOnly == true) {

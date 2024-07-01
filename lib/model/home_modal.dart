@@ -62,22 +62,33 @@ class Slider {
   dynamic bannerMobile;
   dynamic url;
   dynamic sliderAlt;
-
-  Slider({this.image, this.bannerMobile, this.url, this.sliderAlt});
+  dynamic id;
+  dynamic name;
+  dynamic status;
+  dynamic description;
+  Slider({this.image, this.bannerMobile, this.url, this.sliderAlt,this.id, this.name,this.status,this.description});
 
   Slider.fromJson(Map<String, dynamic> json) {
     image = json['image'];
     bannerMobile = json['banner_mobile'];
     url = json['url'];
     sliderAlt = json['slider_alt'];
+    id = json['id'];
+  name = json['name'];
+  status = json['status'];
+  description = json['description'];
   }
 
   Map<String, dynamic> toJson() {
     final Map<String, dynamic> data = <String, dynamic>{};
     data['image'] = image;
+    data['id'] = id;
     data['banner_mobile'] = bannerMobile;
     data['url'] = url;
     data['slider_alt'] = sliderAlt;
+  data['name'] = this.name;
+  data['status'] = this.status;
+  data['description'] = this.description;
     return data;
   }
 }

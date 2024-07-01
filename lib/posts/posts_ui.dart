@@ -430,9 +430,9 @@ class _PublishPostScreenState extends State<PublishPostScreen> {
                               shrinkWrap: true,
                               controller: _scrollController,
                               padding: const EdgeInsets.symmetric(horizontal: 2),
-                              itemCount: getPublishModel.value.allNews!.data!.length,
+                              itemCount: getPublishModel.value.allNews!.length,
                               itemBuilder: (context, index) {
-                                var item = getPublishModel.value.allNews!.data![index];
+                                var item = getPublishModel.value.allNews![index];
                                 String inputDateString = item.createdAt.toString();
                                 DateTime dateTime = DateTime.parse(inputDateString);
                                 String  formattedDate =

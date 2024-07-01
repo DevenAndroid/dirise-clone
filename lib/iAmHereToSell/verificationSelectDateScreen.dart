@@ -238,18 +238,18 @@ TextEditingController phoneController = TextEditingController();
                   decoration: BoxDecoration(
                     border: Border.all(
                       color: const Color(0xff0D5877), // Border color
-                      width: 1.0, // Border width
+                      width: 2.0, // Border width
                     ),
                     borderRadius: BorderRadius.circular(2), // Border radius
                   ),
                   padding: const EdgeInsets.all(10), // Padding inside the container
-                  child: const Center(
+                  child:  const Center(
                     child: Text(
                       'Next',
                       style: TextStyle(
                         fontSize: 16,
                         fontWeight: FontWeight.bold,
-                        color: Colors.black, // Text color
+                        color: AppTheme.buttonColor, // Text color
                       ),
                     ),
                   ),

@@ -21,6 +21,7 @@ import '../language/app_strings.dart';
 import '../newAddress/pickUpAddressScreen.dart';
 import '../singleproductScreen/product_information_screen.dart';
 import '../widgets/common_button.dart';
+import '../widgets/common_colour.dart';
 
 class DifferentPolicyScreen extends StatefulWidget {
   static String route = "/TellUsAboutYourSelf";
@@ -143,7 +144,7 @@ class _DifferentPolicyScreenState extends State<DifferentPolicyScreen> {
                       style: TextStyle(
                         fontSize: 16,
                         fontWeight: FontWeight.bold,
-                        color: Colors.black, // Text color
+                        color: AppTheme.buttonColor
                       ),
                     ),
                   ),

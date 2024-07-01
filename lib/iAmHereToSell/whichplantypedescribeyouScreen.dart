@@ -1009,13 +1009,13 @@ class _WhichplantypedescribeyouScreenState extends State<Whichplantypedescribeyo
                     borderRadius: BorderRadius.circular(2), // Border radius
                   ),
                   padding: const EdgeInsets.all(10), // Padding inside the container
-                  child: const Center(
+                  child:  const Center(
                     child: Text(
                       'Next',
                       style: TextStyle(
                         fontSize: 16,
                         fontWeight: FontWeight.bold,
-                        color: Colors.black, // Text color
+                        color: AppTheme.buttonColor, // Text color
                       ),
                     ),
                   ),

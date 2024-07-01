@@ -86,4 +86,6 @@ class ServiceController extends GetxController {
   TextEditingController pinterestController   = TextEditingController();
   TextEditingController tiktokController     = TextEditingController();
   TextEditingController threadsController   = TextEditingController();
+
+   TextEditingController detailsController = TextEditingController();
 }

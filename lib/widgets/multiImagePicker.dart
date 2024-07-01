@@ -62,7 +62,7 @@ class _MultiImageWidgetState extends State<MultiImageWidget> {
 
               ListTile(
                 leading: Icon(Icons.photo_library),
-                title: Text('File manager'),
+                title: Text('Files'),
                 onTap: () async {
                 Get.back();
                   if (widget.imageOnly == true) {

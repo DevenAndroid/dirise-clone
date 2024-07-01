@@ -14,6 +14,9 @@ import 'package:get/get.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:intl/intl.dart';
 import 'package:url_launcher/url_launcher.dart';
+import '../../../controller/cart_controller.dart';
+import '../../../controller/location_controller.dart';
+import '../../../controller/profile_controller.dart';
 import '../../../controller/single_product_controller.dart';
 import '../../../model/filter_by_price_model.dart';
 import '../../../model/model_category_stores.dart';
@@ -90,7 +93,9 @@ class _SingleStoreScreenState extends State<SingleStoreScreen> {
       }
     });
   }
-
+  final profileController = Get.put(ProfileController());
+  final locationController = Get.put(LocationController());
+  final cartController = Get.put(CartController());
   Future getCategoryStores({required int page, String? search, bool? resetAll}) async {
     if (resetAll == true) {
       allLoaded = false;
@@ -104,12 +109,12 @@ class _SingleStoreScreenState extends State<SingleStoreScreen> {
 
     String url = "vendor_id=$vendorId";
     paginationLoading = true;
-
-    await repositories.getApi(url: "${ApiUrls.vendorProductListUrl}$url").then((value) {
+    await repositories.getApi(url: "${ApiUrls.vendorProductListUrl}$url&country_id=${profileController.model.user!= null && cartController.countryId.isEmpty ? profileController.model.user!.country_id : cartController.countryId.toString()}&key=fedexRate&zip_code=${locationController.zipcode.value.toString()}").then((value) {
       paginationLoading = false;
 
       modelProductsList.data ??= [];
       final response = ModelStoreProducts.fromJson(jsonDecode(value));
+      print('mapmapmap${response.toJson()}');
       if (response.data != null && response.data!.isNotEmpty) {
         modelProductsList.data!.addAll(response.data!);
       } else {

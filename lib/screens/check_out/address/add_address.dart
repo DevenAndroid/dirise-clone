@@ -222,7 +222,7 @@ class _AddAddressScreenState extends State<AddAddressScreen> {
                                   Text('City - ${addressList.city.toString()}'),
                                   Text('state - ${addressList.state.toString()}'),
                                   Text('country - ${addressList.country.toString()}'),
-                                  Text('zip code - ${addressList.zipCode.toString()}'),
+                                  Text('zip code - ${addressList.zipCode ?? ''}'),
                                   const SizedBox(
                                     height: 8,
                                   ),

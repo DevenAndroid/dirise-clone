@@ -66,15 +66,17 @@ class _SellingPickupAddressState extends State<SellingPickupAddress> {
         widget.country != null &&
         widget.zipcode != null &&
         widget.town != null) {
+      print('now true call');
       map['address_type'] = 'Both';
       map['city'] = widget.city;
       map['country'] = widget.country;
       map['state'] = widget.state;
-      map['zip_code'] = widget.zipcode ?? zipcodeController.text.trim();
+      map['zip_code'] = widget.zipcode!.isNotEmpty ? widget.zipcode :  zipcodeController.text.trim();
       map['town'] = widget.town;
       map['street'] = widget.street;
       map['special_instruction'] = specialInstructionController.text.trim();
     }else{
+      print('now else call');
       map['address_type'] = 'Both';
       map['city'] = cityController.text.trim();
       map['country'] = countryController.text.trim();

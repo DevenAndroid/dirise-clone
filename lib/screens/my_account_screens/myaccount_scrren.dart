@@ -596,7 +596,7 @@ class _MyAccountScreenState extends State<MyAccountScreen> {
                         },
                         child: Row(
                           children: [
-                            Image.asset(height: 25, 'assets/icons/order.png'),
+                            Image.asset(height: 25, 'assets/images/whatsapp_icon.png'),
                             const SizedBox(
                               width: 20,
                             ),
@@ -802,7 +802,7 @@ class _MyAccountScreenState extends State<MyAccountScreen> {
                         },
                         child: Row(
                           children: [
-                            Image.asset(height: 24, 'assets/icons/send_icon.png'),
+                            Image.asset(height: 24, 'assets/images/job_icon.png'),
                             const SizedBox(
                               width: 20,
                             ),
