@@ -79,7 +79,7 @@ class AppStrings{
   static String popularProducts = "Popular Products";
   static String type = "Type";
   static String notHaveAnyProduct = "Category don't have any store.";
-  static String whishlistEmpty = "Your wishlist is empty";
+  static String whishlistEmpty = "Your favourite is empty";
   static String salesNotAvailable = "Sales not available";
   static String myProfile1 = "My profile";
   static String firstName = "First Name";

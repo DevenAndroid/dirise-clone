@@ -126,9 +126,21 @@ class _SocialMediaStoreState extends State<SocialMediaStore> {
           ],
         ),
       ),
+      bottomNavigationBar: Padding(
+        padding: const EdgeInsets.all(8.0),
+        child: SizedBox(
+          height: 50,
+          child: CustomOutlineButton(
+            title: 'Add Now',
+            onPressed: () {
+              socialMediaApi();
+            },
+          ),
+        ),
+      ),
       body: SingleChildScrollView(
         child: Container(
-          margin: EdgeInsets.only(left: 20, right: 20),
+          margin: const EdgeInsets.only(left: 20, right: 20),
           child: Column(
             children: [
               const SizedBox(
@@ -139,7 +151,10 @@ class _SocialMediaStoreState extends State<SocialMediaStore> {
                         CommonTextField(
                             controller: controller.instagramController,
                             obSecure: false,
-                            prefix: Image.asset('assets/images/instagram.png'),
+                            prefix: Padding(
+                              padding: const EdgeInsets.all(8.0),
+                              child: Image.asset('assets/images/instagram.png',width: 35,height: 35,),
+                            ),
                             // hintText: 'Name',
                             hintText: 'Enter Your Instagram Profile Link'.tr,
                             validator: MultiValidator([
@@ -150,7 +165,10 @@ class _SocialMediaStoreState extends State<SocialMediaStore> {
                         CommonTextField(
                             controller: controller.youtubeController,
                             obSecure: false,
-                            prefix: Image.network('https://img.icons8.com/color/48/youtube-play'),
+                            prefix: Padding(
+                              padding: const EdgeInsets.all(4.0),
+                              child: Image.asset('assets/images/youtube.png',width: 35,height: 35),
+                            ),
                             // hintText: 'Name',
                             hintText: 'Enter Your youtube Profile Link'.tr,
                             validator: MultiValidator([
@@ -160,7 +178,10 @@ class _SocialMediaStoreState extends State<SocialMediaStore> {
                         CommonTextField(
                             controller: controller.twitterController,
                             obSecure: false,
-                            prefix: Image.network('https://img.icons8.com/fluency/48/twitter.png'),
+                            prefix: Padding(
+                              padding: const EdgeInsets.all(8.0),
+                              child: Image.asset('assets/images/twiter-new.png',width: 25,height: 25),
+                            ),
                             // hintText: 'Name',
                             hintText: 'Enter Your twitter Profile Link'.tr,
                             validator: MultiValidator([
@@ -170,7 +191,10 @@ class _SocialMediaStoreState extends State<SocialMediaStore> {
                         CommonTextField(
                             controller: controller.linkedinController,
                             obSecure: false,
-                            prefix: Image.network('https://img.icons8.com/fluency/48/linkedin.png'),
+                            prefix: Padding(
+                              padding: const EdgeInsets.all(8.0),
+                              child: Image.asset('assets/images/linkedin_new.png',width: 35,height: 35),
+                            ),
                             // hintText: 'Name',
                             hintText: 'Enter Your linkedin Profile Link'.tr,
                             validator: MultiValidator([
@@ -180,7 +204,10 @@ class _SocialMediaStoreState extends State<SocialMediaStore> {
                         CommonTextField(
                             controller: controller.facebookController,
                             obSecure: false,
-                            prefix: Image.network('https://img.icons8.com/color/48/facebook-new.png'),
+                            prefix: Padding(
+                              padding: const EdgeInsets.all(8.0),
+                              child: Image.asset('assets/images/facebook_new.png',width: 35,height: 35,),
+                            ),
                             // hintText: 'Name',
                             hintText: 'Enter Your facebook Profile Link'.tr,
                             validator: MultiValidator([
@@ -190,7 +217,10 @@ class _SocialMediaStoreState extends State<SocialMediaStore> {
                         CommonTextField(
                             controller: controller.snapchatController,
                             obSecure: false,
-                            prefix: Image.network('https://img.icons8.com/parakeet/48/snapchat.png'),
+                            prefix:  Padding(
+                              padding: const EdgeInsets.all(8.0),
+                              child: Image.asset('assets/images/snap_new.png',width: 35,height: 35,),
+                            ),
                             // hintText: 'Name',
                             hintText: 'Enter Your snapchat Profile Link'.tr,
                             validator: MultiValidator([
@@ -200,7 +230,10 @@ class _SocialMediaStoreState extends State<SocialMediaStore> {
                         CommonTextField(
                             controller: controller.pinterestController,
                             obSecure: false,
-                            prefix: Image.network('https://img.icons8.com/color/48/pinterest--v1.png'),
+                            prefix:  Padding(
+                              padding: const EdgeInsets.all(8.0),
+                              child: Image.asset('assets/images/pinterest.png',width: 35,height: 35,),
+                            ),
                             // hintText: 'Name',
                             hintText: 'Enter Your pinterest Profile Link'.tr,
                             validator: MultiValidator([
@@ -210,7 +243,10 @@ class _SocialMediaStoreState extends State<SocialMediaStore> {
                         CommonTextField(
                             controller: controller.tiktokController,
                             obSecure: false,
-                            prefix: Image.network('https://img.icons8.com/color-glass/48/tiktok.png'),
+                            prefix: Padding(
+                              padding: const EdgeInsets.all(8.0),
+                              child: Image.asset('assets/images/tiktok-new.png',width: 37,height: 37),
+                            ),
                             // hintText: 'Name',
                             hintText: 'Enter Your tiktok Profile Link'.tr,
                             validator: MultiValidator([
@@ -220,19 +256,17 @@ class _SocialMediaStoreState extends State<SocialMediaStore> {
                         CommonTextField(
                             controller: controller.threadsController,
                             obSecure: false,
-                            prefix: Image.network('https://img.icons8.com/color/48/clew.png'),
+                            prefix:Padding(
+                              padding: const EdgeInsets.all(8.0),
+                              child: Image.asset('assets/images/threads-new.png',width: 30,height: 30),
+                            ),
                             // hintText: 'Name',
                             hintText: 'Enter Your threads Profile Link'.tr,
                             validator: MultiValidator([
                               RequiredValidator(errorText: 'threads Username is required'.tr),
                             ])),
                         const SizedBox(height: 20,),
-                        CustomOutlineButton(
-                          title: 'Add Now',
-                          onPressed: () {
-                            socialMediaApi();
-                          },
-                        ),
+
                       ],
                     )
 

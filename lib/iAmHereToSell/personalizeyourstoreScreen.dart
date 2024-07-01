@@ -16,6 +16,7 @@ import 'package:get/get.dart';
 import 'package:google_fonts/google_fonts.dart';
 
 import '../controller/profile_controller.dart';
+import '../controller/service_controller.dart';
 import '../model/common_modal.dart';
 import '../model/vendor_models/model_vendor_details.dart';
 import '../newAddress/customeraccountcreatedsuccessfullyScreen.dart';
@@ -58,7 +59,7 @@ class _PersonalizeyourstoreScreenState extends State<PersonalizeyourstoreScreen>
     }
   }
 
-  final TextEditingController detailsController = TextEditingController();
+  final controller = Get.put(ServiceController());
   File idProof = File("");
   bool checkValidation(bool bool1, bool2) {
     if (bool1 == true && bool2 == true) {
@@ -92,7 +93,7 @@ class _PersonalizeyourstoreScreenState extends State<PersonalizeyourstoreScreen>
 
         })
         .then((value) {
-      if(detailsController.text.isNotEmpty){
+      if(controller.detailsController.text.isNotEmpty){
         Get.to(RequiredDocumentsScreen());
       }
       else{
@@ -245,7 +246,8 @@ class _PersonalizeyourstoreScreenState extends State<PersonalizeyourstoreScreen>
               ),
               CommonTextField(
                 hintText: 'Details',
-                controller: detailsController,
+                controller: controller.detailsController,
+                textInputAction: TextInputAction.done,
                 // minLines: 2,
                 // maxLines: 2,
               ),

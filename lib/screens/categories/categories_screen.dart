@@ -120,7 +120,7 @@ class _CategoriesScreenState extends State<CategoriesScreen> {
                                     Expanded(
                                       child: Text(
                                         profileController.selectedLAnguage.value == 'English' ?  item.name.toString() : item.arabName.toString(),
-                                        maxLines: 1,
+                                        maxLines: 3,
                                         overflow: TextOverflow.ellipsis,
                                         style: GoogleFonts.poppins(
                                             fontSize: 14, fontWeight: FontWeight.w500, color: const Color(0xff014E70)),

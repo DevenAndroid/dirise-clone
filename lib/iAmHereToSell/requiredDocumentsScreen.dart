@@ -74,7 +74,7 @@ class _RequiredDocumentsScreenState extends State<RequiredDocumentsScreen> {
 
         })
         .then((value) {
-      showToast('Add Image successfully');
+      showToast('Documents added successfully');
       Get.to(const VerificationOptionScreen());
 
     });
@@ -263,6 +263,9 @@ class _RequiredDocumentsScreenState extends State<RequiredDocumentsScreen> {
                     ),
                   ),
                 ),
+              ),
+              const SizedBox(
+                height: 40,
               ),
             ],
           ),

@@ -129,11 +129,11 @@ class _HomePageState extends State<HomePage> {
       Placemark placemark = placemarks[0];
 
       setState(() {
+        locationController.zipcode.value = placemark.postalCode ?? '';
         locationController.street = placemark.street ?? '';
         locationController.city.value = placemark.locality ?? '';
         locationController.state = placemark.administrativeArea ?? '';
         locationController.countryName = placemark.country ?? '';
-        locationController.zipcode.value = placemark.postalCode ?? '';
         locationController.town = placemark.subAdministrativeArea ?? '';
         showToast(locationController.countryName.toString());
         errorApi();
@@ -313,7 +313,7 @@ class _HomePageState extends State<HomePage> {
     profileController.aboutUsData();
     // locationController.checkGps(context);
     // _getCurrentPosition();
-    // locationController.getCurrentPosition();
+    locationController.getCurrentPosition();
     _loadSavedAddress();
     showToast(locationController.countryName.toString());
      WidgetsBinding.instance.addPostFrameCallback((timeStamp) {
@@ -336,8 +336,9 @@ class _HomePageState extends State<HomePage> {
     //   getAllAsync();
     // });
 
-    Future.delayed(const Duration(seconds: 5), () {
+    Future.delayed(const Duration(seconds: 7), () {
       SchedulerBinding.instance.addPostFrameCallback((timeStamp) {
+        addCurrentAddress();
         getAllAsync();
       });
     });
@@ -653,11 +654,11 @@ class _HomePageState extends State<HomePage> {
               child: Column(
                 children: [
                   const SizedBox(
-                    height: 5,
+                    height: 10,
                   ),
                   Row(
                     children: [
-                      Center(child: Text("   Deliver to  ${locationController.city.toString()} , ${locationController.zipcode ?? ''}",)),
+                      Center(child: Text("   Deliver to ${locationController.city.toString()},${locationController.zipcode ?? ''}",)),
                     ],
                   ),
                   // if (locationController.zipcode.isNotEmpty)
@@ -718,10 +719,8 @@ class _HomePageState extends State<HomePage> {
                   //   )
                   // else
                   //   const SizedBox.shrink(),
-                  10.spaceY,
-                  const SizedBox(
-                    height: 8,
-                  ),
+
+
                 ],
               ),
             ),

@@ -54,10 +54,11 @@ class TrendingProductsController extends GetxController {
   Future popularProductsData() async {
     Map<String, dynamic> map = {};
 
-    // map["country_id"]= profileController.model.user!= null && countryId.isEmpty ? profileController.model.user!.country_id : countryId.toString();
-    map["country_id"]= cartController.countryId.isNotEmpty ? cartController.countryId.toString() : '117';
+    map["country_id"]= profileController.model.user!= null && cartController.countryId.isEmpty ? profileController.model.user!.country_id : cartController.countryId.toString();
+    // map["country_id"]= cartController.countryId.isNotEmpty ? cartController.countryId.toString() : '117';
     map["zip_code"]= locationController.zipcode.value.toString();
     map["state"]= locationController.state.toString();
+    log('this is calll........${map.toString()}');
     await repositories.postApi(url: ApiUrls.popularProductUrl, mapData: map).then((value) {
       popularProdModal.value = PopularProductsModal.fromJson(jsonDecode(value));
     });

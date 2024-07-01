@@ -1029,19 +1029,45 @@ class _DirectCheckOutScreenState extends State<DirectCheckOutScreen> {
                                       onChanged: (bool? value) {
                                         setState(() {
                                           cartController.isDelivery.value = value!;
-                                          if (cartController.isDelivery.value == true && selectedAddress.id != null) {
-                                            cartController.addressDeliFirstName.text = selectedAddress.getFirstName;
-                                            cartController.addressDeliLastName.text = selectedAddress.getLastName;
-                                            cartController.addressDeliEmail.text = selectedAddress.getEmail;
-                                            cartController.addressDeliPhone.text = selectedAddress.getPhone;
-                                            cartController.addressDeliAlternate.text = selectedAddress.getAlternate;
-                                            cartController.addressDeliAddress.text = selectedAddress.getAddress;
-                                            cartController.addressDeliZipCode.text = selectedAddress.getZipCode;
-                                            cartController.addressCountryController.text = selectedAddress.getCountry;
-                                            cartController.addressStateController.text = selectedAddress.getState;
-                                            cartController.addressCityController.text = selectedAddress.getCity;
+                                          if (cartController.isDelivery.value == true &&
+                                              (cartController.selectedAddress.id != null ||
+                                                  cartController.myDefaultAddressModel.value.defaultAddress != null)) {
+                                            if (cartController.selectedAddress.id != null) {
+                                              cartController.addressDeliFirstName.text = cartController.selectedAddress.getFirstName;
+                                              cartController.addressDeliLastName.text = cartController.selectedAddress.getLastName;
+                                              cartController.addressDeliEmail.text = cartController.selectedAddress.getEmail;
+                                              cartController.addressDeliPhone.text = cartController.selectedAddress.getPhone;
+                                              cartController.addressDeliAlternate.text = cartController.selectedAddress.getAlternate;
+                                              cartController.addressDeliAddress.text = cartController.selectedAddress.getAddress;
+                                              cartController.addressCountryController.text = cartController.selectedAddress.getCountry;
+                                              cartController.addressStateController.text = cartController.selectedAddress.getState;
+                                              cartController.addressCityController.text = cartController.selectedAddress.getCity;
+                                              cartController.addressDeliZipCode.text = cartController.selectedAddress.getZipCode;
+                                            } else if (cartController.myDefaultAddressModel.value.defaultAddress != null) {
+                                              cartController.addressDeliFirstName.text =
+                                                  cartController.myDefaultAddressModel.value.defaultAddress!.getFirstName;
+                                              cartController.addressDeliLastName.text =
+                                                  cartController.myDefaultAddressModel.value.defaultAddress!.getLastName;
+                                              cartController.addressDeliEmail.text =
+                                                  cartController.myDefaultAddressModel.value.defaultAddress!.getEmail;
+                                              cartController.addressDeliPhone.text =
+                                                  cartController.myDefaultAddressModel.value.defaultAddress!.getPhone;
+                                              cartController.addressDeliAlternate.text =
+                                                  cartController.myDefaultAddressModel.value.defaultAddress!.getAlternate;
+                                              cartController.addressDeliAddress.text =
+                                                  cartController.myDefaultAddressModel.value.defaultAddress!.getAddress;
+                                              cartController.addressCountryController.text =
+                                                  cartController.myDefaultAddressModel.value.defaultAddress!.getCountry;
+                                              cartController.addressStateController.text =
+                                                  cartController.myDefaultAddressModel.value.defaultAddress!.getState;
+                                              cartController.addressCityController.text =
+                                                  cartController.myDefaultAddressModel.value.defaultAddress!.getCity;
+                                              cartController.addressDeliZipCode.text =
+                                                  cartController.myDefaultAddressModel.value.defaultAddress!.getZipCode;
+                                            }
                                           } else if (cartController.isDelivery.value == true &&
-                                              cartController.countryId == "") {
+                                              cartController.selectedAddress.id == null &&
+                                              cartController.myDefaultAddressModel.value.defaultAddress == null) {
                                             showToast("Please Select Address".tr);
                                             cartController.isDelivery.value = false;
                                           } else {

@@ -369,26 +369,32 @@ class _SingleCategoriesState extends State<SingleCategories> {
             ],
           ),
         ),
-        leadingWidth: 120,
-        title: Column(
-          children: [
-            ClipRRect(
-                borderRadius: BorderRadius.circular(10),
-                child: SizedBox(
-                    // width: double.maxFinite,
-                    height: context.getSize.width * .1,
-                    child: Hero(
-                      tag: mainCategory.bannerProfile.toString(),
-                      child: Material(
-                        color: Colors.transparent,
-                        surfaceTintColor: Colors.transparent,
-                        child: CachedNetworkImage(
-                            imageUrl: mainCategory.bannerProfile.toString(),
-                            errorWidget: (_, __, ___) => Image.asset('assets/images/new_logo.png')),
-                      ),
-                    ))),
-            Text(mainCategory.name.toString().tr),
-          ],
+        leadingWidth: 100,
+        title: Expanded(
+          child: Column(
+            children: [
+              ClipRRect(
+                  borderRadius: BorderRadius.circular(10),
+                  child: SizedBox(
+                      // width: double.maxFinite,
+                      height: context.getSize.width * .1,
+                      child: Hero(
+                        tag: mainCategory.bannerProfile.toString(),
+                        child: Material(
+                          color: Colors.transparent,
+                          surfaceTintColor: Colors.transparent,
+                          child: CachedNetworkImage(
+                              imageUrl: mainCategory.bannerProfile.toString(),
+                              errorWidget: (_, __, ___) => Image.asset('assets/images/new_logo.png')),
+                        ),
+                      ))),
+              Text(mainCategory.name.toString().tr,style: const TextStyle(
+                fontSize: 13
+              ),
+                maxLines: 2,
+              ),
+            ],
+          ),
         ),
         centerTitle: true,
         actions: [

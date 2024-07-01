@@ -15,7 +15,10 @@ import 'package:google_fonts/google_fonts.dart';
 import 'package:scroll_loop_auto_scroll/scroll_loop_auto_scroll.dart';
 import '../../controller/home_controller.dart';
 import '../../controller/profile_controller.dart';
+import '../../model/model_category_list.dart';
+import '../../model/model_category_stores.dart';
 import '../../model/model_news_trend.dart';
+import '../../model/vendor_models/vendor_category_model.dart';
 import '../../posts/post_ui_player.dart';
 import '../../repository/repository.dart';
 import '../../tellaboutself/ExtraInformation.dart';
@@ -24,6 +27,8 @@ import '../../vendor/shipping_policy.dart';
 import '../../widgets/common_colour.dart';
 import '../../widgets/dimension_screen.dart';
 import '../../widgets/loading_animation.dart';
+import '../categories/single_category_with_stores/single_categorie.dart';
+import '../categories/single_category_with_stores/single_store_screen.dart';
 import '../check_out/address/add_address.dart';
 
 class SliderWidget extends StatefulWidget {
@@ -38,12 +43,14 @@ class _SliderWidgetState extends State<SliderWidget> {
   final profileController = Get.put(ProfileController());
 
   Rx<ModelNewsTrends> getNewsTrendModel = ModelNewsTrends().obs;
+  Rx<ModelSingleCategoryList> modelSingleCategoryList = ModelSingleCategoryList().obs;
 
   Future getNewsTrendData() async {
     repositories.getApi(url: ApiUrls.getNewsTrendsUrl).then((value) {
       getNewsTrendModel.value = ModelNewsTrends.fromJson(jsonDecode(value));
     });
   }
+
 
   final Repositories repositories = Repositories();
 
@@ -77,7 +84,7 @@ class _SliderWidgetState extends State<SliderWidget> {
         ),
             child: Column(
                     children: [
-                      SizedBox(height: 10,),
+                      SizedBox(height: 5,),
             Padding(
                 padding: const EdgeInsets.fromLTRB(0, 0, 0, 18),
                 child: SizedBox(
@@ -87,6 +94,17 @@ class _SliderWidgetState extends State<SliderWidget> {
                     outer: false,
                     autoplayDelay: 5000,
                     autoplayDisableOnInteraction: false,
+                    onTap: (index) {
+                      print('valueee:::::::${homeController.homeModal.value.home!.slider![index].id.toString()}');
+                      Get.to(() =>
+                          SingleCategories(
+                            vendorCategories:  VendorCategoriesData(id: homeController.homeModal.value.home!.slider![index].id.toString(),
+                                bannerProfile: homeController.homeModal.value.home!.slider![index].bannerMobile.toString(),
+                              name: homeController.homeModal.value.home!.slider![index].name.toString()
+                            ),
+                          ));
+
+                    },
                     // pagination:  const SwiperPagination(
                     //     margin: EdgeInsets.only(top: 40),
                     //   builder: DotSwiperPaginationBuilder(

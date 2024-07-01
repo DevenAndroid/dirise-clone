@@ -230,6 +230,7 @@ class _SingleProductShippingPolicyScreenState extends State<SingleProductShippin
         backgroundColor: Colors.white,
       ),
       body: SingleChildScrollView(
+        padding: const EdgeInsets.symmetric(horizontal: 12),
         child: Form(
           key: formKey1,
           child: Column(
