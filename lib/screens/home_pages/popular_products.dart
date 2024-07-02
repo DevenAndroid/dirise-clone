@@ -33,7 +33,7 @@ class _PopularProductsState extends State<PopularProducts> {
                     children: [
                       SizedBox(),
                       Text(
-                        "Popular Products".toUpperCase(),
+                        "Popular Products".tr.toUpperCase(),
                         style: GoogleFonts.poppins(fontSize: 20, fontWeight: FontWeight.w500),
                       ),
                     SizedBox()
@@ -42,7 +42,7 @@ class _PopularProductsState extends State<PopularProducts> {
                 ),
                 SizedBox(height: 20,),
                 Text(
-                  "All what you need for a fun and exciting day in",
+                  "All what you need for a fun and exciting day in".tr,
                   style: GoogleFonts.poppins(fontSize: 12, fontWeight: FontWeight.w400),
                 ),
                 SizedBox(height: 20,),

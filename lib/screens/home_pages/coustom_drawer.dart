@@ -559,7 +559,7 @@ class _CustomDrawerState extends State<CustomDrawer> {
                         width: 20,
                       ),
                       Text(
-                        "WhatsApp Support",
+                        "WhatsApp Support".tr,
                         style: GoogleFonts.poppins(
                             color: const Color(0xFF2A3032), fontSize: 16, fontWeight: FontWeight.w500),
                       ),

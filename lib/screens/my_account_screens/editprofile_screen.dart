@@ -437,8 +437,8 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
                 ],
               ),
               ...fieldWithName(
-                title: AppStrings.firstName,
-                hintText: AppStrings.enterFirstName,
+                title: AppStrings.firstName.tr,
+                hintText: AppStrings.enterFirstName.tr,
                 controller: firstNameController,
                 validator: (v) {
                   if (v!.trim().isEmpty) {
@@ -452,8 +452,8 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
                 ],
               ),
               ...fieldWithName(
-                title: AppStrings.lastName,
-                hintText: AppStrings.lastName,
+                title: AppStrings.lastName.tr,
+                hintText: AppStrings.lastName.tr,
                 controller: lastNameController,
                 keyboardType: TextInputType.name,
                 inputFormatters: [
@@ -461,14 +461,14 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
                 ],
                 validator: (v) {
                   if (v!.trim().isEmpty) {
-                    return AppStrings.pleaseenteryourlastname;
+                    return AppStrings.pleaseenteryourlastname.tr;
                   }
                   return null;
                 },
               ),
               ...fieldWithName(
-                title: AppStrings.email,
-                hintText: AppStrings.enterEmail,
+                title: AppStrings.email.tr,
+                hintText: AppStrings.enterEmail.tr,
                 readOnly: true,
                 controller: emailController,
                 validator: (v) {
@@ -482,8 +482,8 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
                 },
               ),
               ...fieldWithName(
-                title: AppStrings.referralEmail,
-                hintText: AppStrings.referralEmail,
+                title: AppStrings.referralEmail.tr,
+                hintText: AppStrings.referralEmail.tr,
                 readOnly: true,
                 controller: referralEmailController,
                 // validator: (v) {
@@ -513,16 +513,16 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
                     color: AppTheme.textColor
                 ),
                 controller: phoneController,
-                decoration: const InputDecoration(
+                decoration:  InputDecoration(
                     contentPadding: EdgeInsets.zero,
-                    hintStyle: TextStyle(color: AppTheme.textColor),
-                    hintText: 'Phone Number',
-                    labelStyle: TextStyle(color: AppTheme.textColor),
-                    border: OutlineInputBorder(
+                    hintStyle: const TextStyle(color: AppTheme.textColor),
+                    hintText: 'Phone Number'.tr,
+                    labelStyle: const TextStyle(color: AppTheme.textColor),
+                    border: const OutlineInputBorder(
                       borderSide: BorderSide(),
                     ),
-                    enabledBorder: OutlineInputBorder(borderSide: BorderSide(color: AppTheme.shadowColor)),
-                    focusedBorder: OutlineInputBorder(borderSide: BorderSide(color: AppTheme.shadowColor))),
+                    enabledBorder: const OutlineInputBorder(borderSide: BorderSide(color: AppTheme.shadowColor)),
+                    focusedBorder: const OutlineInputBorder(borderSide: BorderSide(color: AppTheme.shadowColor))),
                 initialCountryCode: profileController.code.toString(),
                 languageCode: '+91',
                 onCountryChanged: (phone) {
@@ -559,7 +559,7 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
               // ),
                4.spaceY,
               ...fieldWithName(
-                title: AppStrings.country,
+                title: AppStrings.country.tr,
                 hintText: AppStrings.selectCountry,
                 readOnly: true,
                 onTap: () {
@@ -590,8 +590,8 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
                 },
               ),
               ...fieldWithName(
-                title: AppStrings.state,
-                hintText: AppStrings.selectState,
+                title: AppStrings.state.tr,
+                hintText: AppStrings.selectState.tr,
                 controller:
                     TextEditingController(text: (profileController.selectedState ?? CountryState()).stateName ?? ""),
                 readOnly: true,
@@ -639,8 +639,8 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
               ),
               if(profileController.modelCityList != null && profileController.modelCityList!.city!.isNotEmpty)
               ...fieldWithName(
-                title: AppStrings.city,
-                hintText: AppStrings.selectCity,
+                title: AppStrings.city.tr,
+                hintText: AppStrings.selectCity.tr,
                 controller: TextEditingController(text: (profileController.selectedCity ?? City()).cityName ?? ""),
                 onTap: () {
                   if (profileController.modelCityList == null && profileController.cityRefresh.value > 0) {
@@ -680,8 +680,8 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
               ),
 
               ...fieldWithName(
-                title: AppStrings.streetAddress,
-                hintText: AppStrings.enterstreetAddress,
+                title: AppStrings.streetAddress.tr,
+                hintText: AppStrings.enterstreetAddress.tr,
                 controller: addressController,
                 // validator: (v) {
                 //   if (v!.trim().isEmpty) {
@@ -715,13 +715,13 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
                     actions: <Widget>[
                       TextButton(
                         onPressed: () => Get.back(),
-                        child: const Text('Cancel'),
+                        child:  Text('Cancel'.tr),
                       ),
                       TextButton(
                         onPressed: ()  {
                           updateProfile();
                         },
-                        child: const Text('OK'),
+                        child:  Text('OK'.tr),
                       ),
                     ],
                   ),

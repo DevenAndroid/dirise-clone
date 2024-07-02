@@ -131,7 +131,7 @@ class _SliderWidgetState extends State<SliderWidget> {
                 )
             ),
             Text(
-             "What are you looking for",
+             "What are you looking for".tr,
               style: GoogleFonts.poppins(fontWeight: FontWeight.w600, fontSize: 20, color: AppTheme.buttonColor),
             )
             // Padding(

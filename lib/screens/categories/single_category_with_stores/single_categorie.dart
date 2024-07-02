@@ -388,7 +388,10 @@ class _SingleCategoriesState extends State<SingleCategories> {
                               errorWidget: (_, __, ___) => Image.asset('assets/images/new_logo.png')),
                         ),
                       ))),
-              Text(mainCategory.name.toString().tr,style: const TextStyle(
+              Text(
+                profileController.selectedLAnguage.value == 'English' ?    mainCategory.name.toString() :
+                mainCategory.arabName.toString(),
+                style: const TextStyle(
                 fontSize: 13
               ),
                 maxLines: 2,

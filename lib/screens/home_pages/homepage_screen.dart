@@ -360,9 +360,9 @@ class _HomePageState extends State<HomePage> {
                 return false;
               },
               child: AlertDialog(
-                title: const Text("Purpose of collecting location"),
-                content: const Text(
-                    "This app collects location data to show your current city and zip code, and also for shipping information, even when the app is closed or not in use."),
+                title:  Text("Purpose of collecting location".tr),
+                content:  Text(
+                    "This app collects location data to show your current city and zip code, and also for shipping information, even when the app is closed or not in use.".tr),
                 actions: [
                   TextButton(
                     onPressed: () {
@@ -373,7 +373,7 @@ class _HomePageState extends State<HomePage> {
                         FlutterExitApp.exitApp(iosForceExit: true);
                       }
                     },
-                    child: const Text("Exit App"),
+                    child:  Text("Exit App".tr),
                   ),
                   TextButton(
                     onPressed: () async {
@@ -383,7 +383,7 @@ class _HomePageState extends State<HomePage> {
                       addCurrentAddress();
                       log('valueee clickk...${hasShownDialog.toString()}');
                     },
-                    child: const Text("Allow"),
+                    child:  Text("Allow".tr),
                   ),
                 ],
               ),
@@ -658,7 +658,9 @@ class _HomePageState extends State<HomePage> {
                   ),
                   Row(
                     children: [
-                      Center(child: Text("   Deliver to ${locationController.city.toString()},${locationController.zipcode ?? ''}",)),
+                      profileController.selectedLAnguage.value == 'English'
+                          ? Center(child: Text("   Deliver to ${locationController.city.toString()},${locationController.zipcode ?? ''}",)):
+                      Center(child: Text("   يسلم إلى ${locationController.city.toString()},${locationController.zipcode ?? ''}",))
                     ],
                   ),
                   // if (locationController.zipcode.isNotEmpty)

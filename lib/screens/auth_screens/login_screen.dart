@@ -294,7 +294,7 @@ class _LoginScreenState extends State<LoginScreen> {
                       const SizedBox(
                         width: 10,
                       ),
-                      Text('Remember me', style: titleStyle),
+                      Text('Remember me'.tr, style: titleStyle),
                     ],
                   ),
                   const SizedBox(

@@ -6,6 +6,7 @@ import 'package:get/get.dart';
 import 'package:google_fonts/google_fonts.dart';
 
 import '../addNewProduct/locationScreen.dart';
+import '../controller/profile_controller.dart';
 import '../language/app_strings.dart';
 import '../newAddress/pickUpAddressScreen.dart';
 import '../utils/api_constant.dart';
@@ -30,7 +31,7 @@ class _TellUsAboutYourSelfState extends State<TellUsAboutYourSelf> {
       showToast('Select type of Account');
     }
   }
-
+  final profileController = Get.put(ProfileController());
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -45,6 +46,12 @@ class _TellUsAboutYourSelfState extends State<TellUsAboutYourSelf> {
             crossAxisAlignment: CrossAxisAlignment.center,
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
+              profileController.selectedLAnguage.value != 'English' ?
+              Image.asset(
+                'assets/images/forward_icon.png',
+                height: 19,
+                width: 19,
+              ) :
               Image.asset(
                 'assets/images/back_icon_new.png',
                 height: 19,
@@ -77,7 +84,8 @@ class _TellUsAboutYourSelfState extends State<TellUsAboutYourSelf> {
               },
               child: Container(
                 decoration: BoxDecoration(borderRadius: BorderRadius.circular(11), color: Colors.grey.shade100),
-                child: Image.asset('assets/images/customer_img.png'),
+                child:   profileController.selectedLAnguage.value != 'English' ? Image.asset('assets/images/Group 1000004990 1.png'):
+                Image.asset('assets/images/customer_img.png'),
               ),
             ),
             30.spaceY,
@@ -90,7 +98,8 @@ class _TellUsAboutYourSelfState extends State<TellUsAboutYourSelf> {
               },
               child: Container(
                 decoration: BoxDecoration(borderRadius: BorderRadius.circular(11), color: Colors.grey.shade100),
-                child: Image.asset('assets/images/vendor-img.png'),
+                child:   profileController.selectedLAnguage.value == 'English' ?  Image.asset('assets/images/vendor-img.png'):
+                Image.asset('assets/images/vendor-img-arab.png'),
               ),
             ),
             // GestureDetector(

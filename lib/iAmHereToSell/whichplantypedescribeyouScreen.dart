@@ -250,7 +250,7 @@ class _WhichplantypedescribeyouScreenState extends State<Whichplantypedescribeyo
                           crossAxisAlignment: CrossAxisAlignment.start,
                           children: [
                             Text(
-                              'Showcasing Cloud Space '.tr,
+                              'Showcasing Cloud Space'.tr,
                               style: GoogleFonts.poppins(
                                   color: const Color(0xff0D5877), fontWeight: FontWeight.w600, fontSize: 16),
                             ),
@@ -307,7 +307,7 @@ class _WhichplantypedescribeyouScreenState extends State<Whichplantypedescribeyo
                               crossAxisAlignment: CrossAxisAlignment.start,
                               children: [
                                 Text(
-                                  "Cloud Description  ",
+                                  "Cloud Description  ".tr,
                                   style: GoogleFonts.poppins(
                                       color: const Color(0xff111727), fontWeight: FontWeight.w600, fontSize: 12),
                                 ),
@@ -315,7 +315,7 @@ class _WhichplantypedescribeyouScreenState extends State<Whichplantypedescribeyo
                                   height: 15,
                                 ),
                                 Text(
-                                  "Limited to showcasing only  ",
+                                  "Limited to showcasing only  ".tr,
                                   style: GoogleFonts.poppins(
                                       color: const Color(0xff111727), fontWeight: FontWeight.w600, fontSize: 10),
                                 ),
@@ -329,7 +329,7 @@ class _WhichplantypedescribeyouScreenState extends State<Whichplantypedescribeyo
                           height: 6,
                         ),
                         Text(
-                          "Owners of the Showcasing cloud can only showcase their products, all payments will be done outside of the DIRISE platform. Customers will contact the vendor directly through a phone number or messages  ",
+                          "Owners of the Showcasing cloud can only showcase their products, all payments will be done outside of the DIRISE platform. Customers will contact the vendor directly through a phone number or messages  ".tr,
                           style: GoogleFonts.poppins(
                               color: const Color(0xff111727), fontWeight: FontWeight.w600, fontSize: 10),
                         ),
@@ -346,13 +346,13 @@ class _WhichplantypedescribeyouScreenState extends State<Whichplantypedescribeyo
                               children: [
                                 Image.asset("assets/images/cart_img_neww.png",height: 80, width: 80),
                                 Text(
-                                  "500 products",
+                                  "500 products".tr,
                                   style: GoogleFonts.poppins(
                                       color: const Color(0xff111727), fontWeight: FontWeight.w500, fontSize: 12),
                                 ),
                                 3.spaceY,
                                 Text(
-                                  "Per 12 Months",
+                                  "Per 12 Months".tr,
                                   textAlign: TextAlign.center,
                                   style: GoogleFonts.poppins(
                                       color: const Color(0xff5AC036), fontWeight: FontWeight.w500, fontSize: 10),
@@ -365,13 +365,13 @@ class _WhichplantypedescribeyouScreenState extends State<Whichplantypedescribeyo
                               children: [
                                 Image.asset("assets/images/camera.png",height: 80, width: 80),
                                 Text(
-                                  "Product Photography",
+                                  "Product Photography".tr,
                                   style: GoogleFonts.poppins(
                                       color: const Color(0xff111727), fontWeight: FontWeight.w500, fontSize: 12),
                                 ),
                                 3.spaceY,
                                 Text(
-                                  "Available upon request",
+                                  "Available upon request".tr,
                                   textAlign: TextAlign.center,
                                   style: GoogleFonts.poppins(
                                       color: const Color(0xff5AC036), fontWeight: FontWeight.w500, fontSize: 10),
@@ -392,13 +392,13 @@ class _WhichplantypedescribeyouScreenState extends State<Whichplantypedescribeyo
                           children: [
                             Image.asset("assets/images/card_new.png",height: 80, width: 80),
                             Text(
-                              "Receive Payments",
+                              "Receive Payments".tr,
                               style: GoogleFonts.poppins(
                                   color: const Color(0xff111727), fontWeight: FontWeight.w500, fontSize: 12),
                             ),
                             3.spaceY,
                             Text(
-                              "Never Allowed",
+                              "Never Allowed".tr,
                               textAlign: TextAlign.center,
                               style: GoogleFonts.poppins(
                                   color: const Color(0xffEB4335), fontWeight: FontWeight.w500, fontSize: 10),
@@ -497,7 +497,7 @@ class _WhichplantypedescribeyouScreenState extends State<Whichplantypedescribeyo
                               crossAxisAlignment: CrossAxisAlignment.start,
                               children: [
                                 Text(
-                                  "Cloud Description  ",
+                                  "Cloud Description  ".tr,
                                   style: GoogleFonts.poppins(
                                       color: const Color(0xff111727), fontWeight: FontWeight.w600, fontSize: 12),
                                 ),
@@ -505,7 +505,7 @@ class _WhichplantypedescribeyouScreenState extends State<Whichplantypedescribeyo
                                   height: 10,
                                 ),
                                 Text(
-                                  "Small businesses & start ups  ",
+                                  "Small businesses & start ups  ".tr,
                                   style: GoogleFonts.poppins(
                                       color: const Color(0xff111727), fontWeight: FontWeight.w600, fontSize: 10),
                                 ),
@@ -516,7 +516,7 @@ class _WhichplantypedescribeyouScreenState extends State<Whichplantypedescribeyo
                           ],
                         ),
                         Text(
-                          "For businesses that are working on getting the required official document to be recognized as an official company",
+                          "For businesses that are working on getting the required official document to be recognized as an official company".tr,
                           style: GoogleFonts.poppins(
                               color: const Color(0xff111727), fontWeight: FontWeight.w600, fontSize: 10),
                         ),
@@ -633,7 +633,7 @@ class _WhichplantypedescribeyouScreenState extends State<Whichplantypedescribeyo
                                 crossAxisAlignment: CrossAxisAlignment.start,
                                 children: [
                                   Text(
-                                    "Cloud Description",
+                                    "Cloud Description  ".tr,
                                     style: GoogleFonts.poppins(
                                         color: AppTheme.buttonColor, fontWeight: FontWeight.w500, fontSize: 18),
                                   ),
@@ -641,7 +641,7 @@ class _WhichplantypedescribeyouScreenState extends State<Whichplantypedescribeyo
                                     height: 3,
                                   ),
                                   Text(
-                                    "Official businesses  ",
+                                    "Official businesses  ".tr,
                                     style: GoogleFonts.poppins(
                                         color: const Color(0xff111727), fontWeight: FontWeight.w500, fontSize: 16),
                                   ),
@@ -649,7 +649,7 @@ class _WhichplantypedescribeyouScreenState extends State<Whichplantypedescribeyo
                                     height: 3,
                                   ),
                                   Text(
-                                    "This Cloud is suitable for any official business that has already been established with a corporate bank account",
+                                    "This Cloud is suitable for any official business that has already been established with a corporate bank account".tr,
                                     style: GoogleFonts.poppins(
                                         color: const Color(0xff514949), fontWeight: FontWeight.w400, fontSize: 11),
                                   ),
@@ -992,10 +992,10 @@ class _WhichplantypedescribeyouScreenState extends State<Whichplantypedescribeyo
                     if (_isValue == true) {
                       Get.to(const WhatdoyousellScreen());
                     } else {
-                      showToast("Agree terms and Conditions");
+                      showToast("Agree terms and Conditions".tr);
                     }
                   } else {
-                    showToast("Please select a plan first");
+                    showToast("Please select a plan first".tr);
                   }
                 },
                 child: Container(
@@ -1009,10 +1009,10 @@ class _WhichplantypedescribeyouScreenState extends State<Whichplantypedescribeyo
                     borderRadius: BorderRadius.circular(2), // Border radius
                   ),
                   padding: const EdgeInsets.all(10), // Padding inside the container
-                  child:  const Center(
+                  child:   Center(
                     child: Text(
-                      'Next',
-                      style: TextStyle(
+                      'Next'.tr,
+                      style: const TextStyle(
                         fontSize: 16,
                         fontWeight: FontWeight.bold,
                         color: AppTheme.buttonColor, // Text color

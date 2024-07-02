@@ -178,6 +178,12 @@ class _CreateAccountNewScreenState extends State<CreateAccountNewScreen> {
             crossAxisAlignment: CrossAxisAlignment.center,
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
+              profileController.selectedLAnguage.value != 'English' ?
+              Image.asset(
+                'assets/images/forward_icon.png',
+                height: 19,
+                width: 19,
+              ) :
               Image.asset(
                 'assets/images/back_icon_new.png',
                 height: 19,
@@ -217,10 +223,10 @@ class _CreateAccountNewScreenState extends State<CreateAccountNewScreen> {
                   hintText: AppStrings.firstName.tr,
                   validator: (value) {
                     if (value!.trim().isEmpty) {
-                      return 'Please enter your first name';
+                      return 'Please enter your first name'.tr;
                     }
                     if (value.trim().length < 3) {
-                      return 'Please enter at least 3 latter\'s';
+                      return 'Please enter at least 3 latter\'s'.tr;
                     }
                     return null;
                   },
@@ -235,10 +241,10 @@ class _CreateAccountNewScreenState extends State<CreateAccountNewScreen> {
                   hintText: AppStrings.lastName.tr,
                   validator: (value) {
                     if (value!.trim().isEmpty) {
-                      return 'Last Name is required';
+                      return 'Last Name is required'.tr;
                     }
                     if (value.trim().length < 3) {
-                      return 'Please enter at least 3 latter\'s';
+                      return 'Please enter at least 3 latter\'s'.tr;
                     }
                     return null;
                   },
@@ -253,9 +259,9 @@ class _CreateAccountNewScreenState extends State<CreateAccountNewScreen> {
                     hintText: AppStrings.email.tr,
                   validator: (value) {
                     if (value!.isEmpty) {
-                      return 'Please enter email address';
+                      return 'Please enter email address'.tr;
                     }
-                    final emailValidator = EmailValidator(errorText: 'Please enter valid email address');
+                    final emailValidator = EmailValidator(errorText: 'Please enter valid email address'.tr);
                     if (!emailValidator.isValid(value)) {
                       return emailValidator.errorText;
                     }
@@ -278,16 +284,16 @@ class _CreateAccountNewScreenState extends State<CreateAccountNewScreen> {
                       color: AppTheme.textColor
                   ),
                   controller: phoneNumberController,
-                  decoration: const InputDecoration(
+                  decoration:  InputDecoration(
                       contentPadding: EdgeInsets.zero,
-                      hintStyle: TextStyle(color: AppTheme.textColor),
-                      hintText: 'Phone Number',
-                      labelStyle: TextStyle(color: AppTheme.textColor),
-                      border: OutlineInputBorder(
+                      hintStyle: const TextStyle(color: AppTheme.textColor),
+                      hintText: 'Phone Number'.tr,
+                      labelStyle: const TextStyle(color: AppTheme.textColor),
+                      border: const OutlineInputBorder(
                         borderSide: BorderSide(),
                       ),
-                      enabledBorder: OutlineInputBorder(borderSide: BorderSide(color: AppTheme.shadowColor)),
-                      focusedBorder: OutlineInputBorder(borderSide: BorderSide(color: AppTheme.shadowColor))),
+                      enabledBorder: const OutlineInputBorder(borderSide: BorderSide(color: AppTheme.shadowColor)),
+                      focusedBorder: const OutlineInputBorder(borderSide: BorderSide(color: AppTheme.shadowColor))),
                   initialCountryCode: profileController.code.toString(),
                   languageCode: '+91',
                   onCountryChanged: (phone) {
@@ -361,13 +367,13 @@ class _CreateAccountNewScreenState extends State<CreateAccountNewScreen> {
                     ),
                     validator: (value) {
                       if (value!.isEmpty) {
-                        return 'Password is required';
+                        return 'Password is required'.tr;
                       }
                       if (value.length < 8) {
-                        return 'Password must be at least 8 characters long';
+                        return 'Password must be at least 8 characters long'.tr;
                       }
                       if (!RegExp(r"(?=.*\W)(?=.*?[#?!@()$%^&*-_])(?=.*[0-9])").hasMatch(value)) {
-                        return 'Password must contain at least 1 special character and 1 numerical';
+                        return 'Password must contain at least 1 special character and 1 numerical'.tr;
                       }
                       return null;
                     },
@@ -470,7 +476,7 @@ class _CreateAccountNewScreenState extends State<CreateAccountNewScreen> {
                   height: size.height * .03,
                 ),
                 CustomOutlineButton(
-                  title: AppStrings.register,
+                  title: AppStrings.register.tr,
                   onPressed: () {
                     showValidation = true;
                     if (formKey1.currentState!.validate()) {

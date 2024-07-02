@@ -315,7 +315,7 @@ class _ChooseAddressState extends State<ChooseAddress> {
                                         ));
                                   },
                                   child: Text(
-                                    'Save Location',
+                                    'Save Location'.tr,
                                     style: Theme.of(context).textTheme.headlineSmall!.copyWith(
                                         fontWeight: FontWeight.w600,
                                         fontSize: AddSize.font16,

@@ -258,7 +258,7 @@ class _ProductUIState extends State<ProductUI> {
                     child: Row(
                       children: [
                         Text(
-                          " SALE",
+                          " SALE".tr,
                           style: GoogleFonts.poppins(
                               fontSize: 12, fontWeight: FontWeight.w700, color: const Color(0xFFFFDF33)),
                         ),
@@ -894,7 +894,7 @@ class _ProductUIState extends State<ProductUI> {
                       color: Color(0xFFFFDF33)),
                   child: Center(
                     child: Text(
-                      "Free",
+                      "Free".tr,
                       style: GoogleFonts.poppins(fontSize: 20, fontWeight: FontWeight.w400, color: const Color(0xFF0C0D0C)),
                     ),
                   ),

@@ -93,7 +93,7 @@ class _StarOfMonthScreenState extends State<StarOfMonthScreen> {
                       child: Column(
                         children: [
                           Text(
-                            ' Trending This Months'.tr.toUpperCase().toString(),
+                            'Trending This Months'.tr.toUpperCase().toString(),
                             style: GoogleFonts.poppins(fontSize: 17, fontWeight: FontWeight.w600,color: Color(0xFF041D28)),
                           ),
                           SizedBox(height: 25,),
