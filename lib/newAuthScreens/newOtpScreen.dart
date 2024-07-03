@@ -22,6 +22,7 @@ import 'package:http/http.dart' as http;
 import '../addNewProduct/addProductScreen.dart';
 import '../addNewProduct/itemdetailsScreen.dart';
 import '../addNewProduct/pickUpAddressScreen.dart';
+import '../controller/profile_controller.dart';
 import '../screens/auth_screens/newpasswordscreen.dart';
 
 class NewOtpScreen extends StatefulWidget {
@@ -173,6 +174,7 @@ class _NewOtpScreenState extends State<NewOtpScreen> {
         width: 4.0,
       ))));
 
+  final profileController = Get.put(ProfileController());
   @override
   Widget build(BuildContext context) {
     Size size = MediaQuery.of(context).size;
@@ -187,6 +189,12 @@ class _NewOtpScreenState extends State<NewOtpScreen> {
             crossAxisAlignment: CrossAxisAlignment.center,
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
+              profileController.selectedLAnguage.value != 'English' ?
+              Image.asset(
+                'assets/images/forward_icon.png',
+                height: 19,
+                width: 19,
+              ) :
               Image.asset(
                 'assets/images/back_icon_new.png',
                 height: 19,
@@ -274,7 +282,7 @@ class _NewOtpScreenState extends State<NewOtpScreen> {
                             },
                             child: Obx(() {
                               return Text(
-                                ' Resend OTP\n'
+                                '${'Resend OTP'.tr}\n'
                                 '${timerInt.value > 0 ? "In ${timerInt.value > 9 ? timerInt.value : "0${timerInt.value}"}" : ""}',
                                 textAlign: TextAlign.center,
                                 style: GoogleFonts.poppins(

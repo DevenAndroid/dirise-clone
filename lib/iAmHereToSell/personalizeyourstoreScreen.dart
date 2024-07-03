@@ -97,7 +97,7 @@ class _PersonalizeyourstoreScreenState extends State<PersonalizeyourstoreScreen>
         Get.to(RequiredDocumentsScreen());
       }
       else{
-        showToast('please enter Details');
+        showToast('please enter details'.tr);
       }
 
     });
@@ -297,7 +297,7 @@ class _PersonalizeyourstoreScreenState extends State<PersonalizeyourstoreScreen>
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
                     Text(
-                      'Operating hour',
+                      'Operating hour'.tr,
                       style: GoogleFonts.poppins(color: Colors.black, fontSize: 14),
                     ),
                     const Icon(

@@ -9,6 +9,7 @@ import 'package:form_field_validator/form_field_validator.dart';
 import 'package:get/get.dart';
 import 'package:google_fonts/google_fonts.dart';
 
+import '../controller/profile_controller.dart';
 import '../controller/vendor_controllers/add_product_controller.dart';
 import '../model/vendor_models/add_product_model.dart';
 import '../repository/repository.dart';
@@ -81,6 +82,8 @@ class _SingleProductDiscriptionScreenState extends State<SingleProductDiscriptio
       tagDiscount.text=widget.sEOTags.toString();
     }
   }
+
+  final profileController = Get.put(ProfileController());
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -96,6 +99,12 @@ class _SingleProductDiscriptionScreenState extends State<SingleProductDiscriptio
             crossAxisAlignment: CrossAxisAlignment.center,
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
+              profileController.selectedLAnguage.value != 'English' ?
+              Image.asset(
+                'assets/images/forward_icon.png',
+                height: 19,
+                width: 19,
+              ) :
               Image.asset(
                 'assets/images/back_icon_new.png',
                 height: 19,

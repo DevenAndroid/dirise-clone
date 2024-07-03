@@ -10,6 +10,7 @@ import 'package:google_fonts/google_fonts.dart';
 import 'package:intl/intl.dart';
 import 'package:intl_phone_field/intl_phone_field.dart';
 
+import '../controller/profile_controller.dart';
 import '../language/app_strings.dart';
 import '../model/model_varification.dart';
 import '../repository/repository.dart';
@@ -73,13 +74,15 @@ TextEditingController phoneController = TextEditingController();
 
       if (response.status == true) {
         showToast(response.message.toString());
-        Get.to(ListOfQuestionsScreen());
+        Get.to(const ListOfQuestionsScreen());
       }
       else{
         showToast(response.message.toString());
       }
     });
   }
+
+  final profileController = Get.put(ProfileController());
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -94,6 +97,12 @@ TextEditingController phoneController = TextEditingController();
             crossAxisAlignment: CrossAxisAlignment.center,
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
+              profileController.selectedLAnguage.value != 'English' ?
+              Image.asset(
+                'assets/images/forward_icon.png',
+                height: 19,
+                width: 19,
+              ) :
               Image.asset(
                 'assets/images/back_icon_new.png',
                 height: 19,
@@ -121,7 +130,7 @@ TextEditingController phoneController = TextEditingController();
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               Text(
-                'Select the date, meeting will be conducted over zoom',
+                'Select the date, meeting will be conducted over zoom'.tr,
                 style: GoogleFonts.poppins(fontWeight: FontWeight.w400, fontSize: 16, color: Colors.black),
               ),
               const SizedBox(
@@ -135,14 +144,14 @@ TextEditingController phoneController = TextEditingController();
                 height: 20,
               ),
               date.text !=""?
-              CommonTextField(hintText: "date",controller: date,):SizedBox(
+              CommonTextField(hintText: "date".tr,controller: date,):const SizedBox(
 
               ),
               const SizedBox(
                 height: 20,
               ),
               Text(
-                'Where should we send you the meeting link?',
+                'Where should we send you the meeting link?'.tr,
                 style: GoogleFonts.poppins(fontWeight: FontWeight.w400, fontSize: 20, color: Colors.black),
               ),
               const SizedBox(
@@ -200,16 +209,16 @@ TextEditingController phoneController = TextEditingController();
                       style: const TextStyle(color: AppTheme.textColor),
 
                      controller: phoneController,
-                      decoration: const InputDecoration(
+                      decoration:  InputDecoration(
                           contentPadding: EdgeInsets.zero,
-                          hintStyle: TextStyle(color: AppTheme.textColor),
-                          hintText: 'Enter your phone number',
-                          labelStyle: TextStyle(color: AppTheme.textColor),
-                          border: OutlineInputBorder(
+                          hintStyle: const TextStyle(color: AppTheme.textColor),
+                          hintText: 'Enter your phone number'.tr,
+                          labelStyle: const TextStyle(color: AppTheme.textColor),
+                          border: const OutlineInputBorder(
                             borderSide: BorderSide(),
                           ),
-                          enabledBorder: OutlineInputBorder(borderSide: BorderSide(color: AppTheme.shadowColor)),
-                          focusedBorder: OutlineInputBorder(borderSide: BorderSide(color: AppTheme.shadowColor))),
+                          enabledBorder: const OutlineInputBorder(borderSide: BorderSide(color: AppTheme.shadowColor)),
+                          focusedBorder: const OutlineInputBorder(borderSide: BorderSide(color: AppTheme.shadowColor))),
                       initialCountryCode: '+91',
                       languageCode: '+91',
                       onCountryChanged: (phone) {
@@ -243,10 +252,10 @@ TextEditingController phoneController = TextEditingController();
                     borderRadius: BorderRadius.circular(2), // Border radius
                   ),
                   padding: const EdgeInsets.all(10), // Padding inside the container
-                  child:  const Center(
+                  child:   Center(
                     child: Text(
-                      'Next',
-                      style: TextStyle(
+                      'Next'.tr,
+                      style: const TextStyle(
                         fontSize: 16,
                         fontWeight: FontWeight.bold,
                         color: AppTheme.buttonColor, // Text color

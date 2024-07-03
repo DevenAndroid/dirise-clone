@@ -9,6 +9,7 @@ import 'package:form_field_validator/form_field_validator.dart';
 import 'package:get/get.dart';
 import 'package:google_fonts/google_fonts.dart';
 
+import '../controller/profile_controller.dart';
 import '../controller/service_controller.dart';
 import '../model/common_modal.dart';
 import '../model/socialMediaModel.dart';
@@ -79,6 +80,7 @@ class _SocialMediaStoreState extends State<SocialMediaStore> {
 
   }
 
+  final profileController = Get.put(ProfileController());
   bool check = false;
   @override
   Widget build(BuildContext context) {
@@ -95,6 +97,12 @@ class _SocialMediaStoreState extends State<SocialMediaStore> {
             crossAxisAlignment: CrossAxisAlignment.center,
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
+              profileController.selectedLAnguage.value != 'English' ?
+              Image.asset(
+                'assets/images/forward_icon.png',
+                height: 19,
+                width: 19,
+              ) :
               Image.asset(
                 'assets/images/back_icon_new.png',
                 height: 19,
@@ -131,7 +139,7 @@ class _SocialMediaStoreState extends State<SocialMediaStore> {
         child: SizedBox(
           height: 50,
           child: CustomOutlineButton(
-            title: 'Add Now',
+            title: 'Add Now'.tr,
             onPressed: () {
               socialMediaApi();
             },

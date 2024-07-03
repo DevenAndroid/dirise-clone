@@ -42,15 +42,21 @@ class _DifferentPolicyScreenState extends State<DifferentPolicyScreen> {
     'Pickup Policy',
 
   ];
+  List<String> itemTextsArab = [
+    'سياسة العائدات',
+    'سياسة الشحن',
+    'سياسة الالتقاط',
+
+  ];
 
   void navigateNext() {
 
-      if (selectedRadio == 'Return Policy') {
+      if (selectedRadio == 'Return Policy' || selectedRadio ==  'سياسة العائدات') {
         Get.to(const ReturnPolicyListScreen());
-      } else if (selectedRadio == 'Shipping Policy') {
-        Get.to(ShippingPolicyListScreen());
-      } else if (selectedRadio == 'Pickup Policy') {
-        Get.to(PickUpPolicyListScreen());
+      } else if (selectedRadio == 'Shipping Policy' || selectedRadio ==  'سياسة الشحن') {
+        Get.to(const ShippingPolicyListScreen());
+      } else if (selectedRadio == 'Pickup Policy' || selectedRadio == 'سياسة الالتقاط') {
+        Get.to(const PickUpPolicyListScreen());
       } else {
         // Handle the case where the selected radio doesn't match any case
         // For example, show a message or perform a different action
@@ -74,6 +80,12 @@ class _DifferentPolicyScreenState extends State<DifferentPolicyScreen> {
             crossAxisAlignment: CrossAxisAlignment.center,
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
+              profileController.selectedLAnguage.value != 'English' ?
+              Image.asset(
+                'assets/images/forward_icon.png',
+                height: 19,
+                width: 19,
+              ) :
               Image.asset(
                 'assets/images/back_icon_new.png',
                 height: 19,
@@ -103,7 +115,7 @@ class _DifferentPolicyScreenState extends State<DifferentPolicyScreen> {
           children: [
             Expanded(
               child: GridView.builder(
-                gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
+                gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
                   crossAxisCount: 2,
                   crossAxisSpacing: 5,
                   mainAxisSpacing: 5,
@@ -112,7 +124,7 @@ class _DifferentPolicyScreenState extends State<DifferentPolicyScreen> {
                 ),
                 itemCount: itemTexts.length, // Number of grid items
                 itemBuilder: (BuildContext context, int index) {
-                  return buildStack(itemTexts[index]);
+                  return     profileController.selectedLAnguage.value == 'English' ? buildStack(itemTexts[index]) : buildStack(itemTextsArab[index]);
                 },
               ),
             ),
@@ -124,7 +136,7 @@ class _DifferentPolicyScreenState extends State<DifferentPolicyScreen> {
                     navigateNext();
                   }
                   else{
-                    showToast('Please select any policy');
+                    showToast('Please select any policy'.tr);
                   }
                 },
                 child: Container(
@@ -138,10 +150,10 @@ class _DifferentPolicyScreenState extends State<DifferentPolicyScreen> {
                     borderRadius: BorderRadius.circular(1), // Border radius
                   ),
                   padding: const EdgeInsets.all(10), // Padding inside the container
-                  child: const Center(
+                  child:  Center(
                     child: Text(
-                      'Next',
-                      style: TextStyle(
+                      'Next'.tr,
+                      style: const TextStyle(
                         fontSize: 16,
                         fontWeight: FontWeight.bold,
                         color: AppTheme.buttonColor

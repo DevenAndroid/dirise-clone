@@ -292,7 +292,8 @@ class _WhatdoyousellScreenState extends State<WhatdoyousellScreen> {
                 Obx(() {
                   if (kDebugMode) {
                     print(modelVendorCategory.usphone!
-                        .map((e) => DropdownMenuItem(value: e, child: Text(e.name.toString().capitalize!)))
+                        .map((e) => DropdownMenuItem(value: e, child: Text( profileController.selectedLAnguage.value == 'English' ?
+                    e.name.toString().capitalize! :  e.arabName.toString().capitalize!)))
                         .toList());
                   }
                   return DropdownButtonFormField<VendorCategoriesData>(
@@ -330,7 +331,8 @@ class _WhatdoyousellScreenState extends State<WhatdoyousellScreen> {
                       ),
                     ),
                     items: modelVendorCategory.usphone!
-                        .map((e) => DropdownMenuItem(value: e, child: Text(e.name.toString().capitalize!)))
+                        .map((e) => DropdownMenuItem(value: e, child: Text(profileController.selectedLAnguage.value == 'English' ?
+                    e.name.toString().capitalize! :  e.arabName.toString().capitalize!)))
                         .toList(),
                     hint: Text('Category'.tr),
                     onChanged: (value) {

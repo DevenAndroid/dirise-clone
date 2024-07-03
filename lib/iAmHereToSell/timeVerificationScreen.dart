@@ -8,6 +8,7 @@ import 'package:get/get.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:intl_phone_field/intl_phone_field.dart';
 
+import '../controller/profile_controller.dart';
 import '../model/model_varification.dart';
 import '../repository/repository.dart';
 import '../utils/api_constant.dart';
@@ -53,14 +54,16 @@ showToast(response.message.toString());
 
   void validateAndProceed() {
     if (selectedRadio == "") {
-      showToast("Please select a time slot");
+      showToast("Please select a time slot".tr);
     }
     else if(phoneController.text.isEmpty){
-      showToast("Please enter phone number");}
+      showToast("Please enter phone number".tr);}
    else {
       verificationApi();
     }
   }
+
+  final profileController = Get.put(ProfileController());
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -75,6 +78,12 @@ showToast(response.message.toString());
             crossAxisAlignment: CrossAxisAlignment.center,
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
+              profileController.selectedLAnguage.value != 'English' ?
+              Image.asset(
+                'assets/images/forward_icon.png',
+                height: 19,
+                width: 19,
+              ) :
               Image.asset(
                 'assets/images/back_icon_new.png',
                 height: 19,
@@ -102,7 +111,7 @@ showToast(response.message.toString());
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               Text(
-                'Here are some of the questions that we want to ask',
+                'Here are some of the questions that we want to ask'.tr,
                 style: GoogleFonts.poppins(fontWeight: FontWeight.w400, fontSize: 16, color: Colors.black),
               ),
               const SizedBox(
@@ -135,14 +144,14 @@ showToast(response.message.toString());
                             ),
                             const SizedBox(width: 10,),
                             Text(
-                              'Morning',
+                              'Morning'.tr,
                               style: GoogleFonts.poppins(fontWeight: FontWeight.w500, fontSize: 24, color: Colors.black),
                             )
                           ],
                         ),
                         const SizedBox(height: 10,),
                         Text(
-                          'Between  10:00 AM to 12:00 PM GMT+3 Kuwait Time',
+                          'Between 10:00 AM to 12:00 PM GMT+3 Kuwait Time'.tr,
                           style: GoogleFonts.poppins(fontWeight: FontWeight.w400, fontSize: 14, color: Colors.black),
                         )
                       ],
@@ -191,14 +200,14 @@ showToast(response.message.toString());
                             ),
                             const SizedBox(width: 10,),
                             Text(
-                              'Afternoon',
+                              'Afternoon'.tr,
                               style: GoogleFonts.poppins(fontWeight: FontWeight.w500, fontSize: 24, color: Colors.black),
                             )
                           ],
                         ),
                         const SizedBox(height: 10,),
                         Text(
-                          'Between  01:00 PM to 06:00 PM GMT+3 Kuwait Time',
+                          'Between 01:00 PM to 06:00 PM GMT+3 Kuwait Time'.tr,
                           style: GoogleFonts.poppins(fontWeight: FontWeight.w400, fontSize: 14, color: Colors.black),
                         )
                       ],
@@ -222,11 +231,11 @@ showToast(response.message.toString());
               ),
               SizedBox(height: 20,),
               Text(
-                'How can we reach you?',
+                'How can we reach you?'.tr,
                 style: GoogleFonts.poppins(fontWeight: FontWeight.w400, fontSize: 20, color: Colors.black),
               ),
               Text(
-                'Phone number',
+                'Phone number'.tr,
                 style: GoogleFonts.poppins(fontWeight: FontWeight.w400, fontSize: 14, color: Colors.black),
               ),
               SizedBox(height: 20,),
@@ -282,10 +291,10 @@ showToast(response.message.toString());
                     borderRadius: BorderRadius.circular(2), // Border radius
                   ),
                   padding: const EdgeInsets.all(10), // Padding inside the container
-                  child: const Center(
+                  child:  Center(
                     child: Text(
-                      'Next',
-                      style: TextStyle(
+                      'Next'.tr,
+                      style: const TextStyle(
                         fontSize: 16,
                         fontWeight: FontWeight.bold,
                         color: AppTheme.buttonColor, // Text color

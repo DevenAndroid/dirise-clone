@@ -401,7 +401,7 @@ class _VendorLocationState extends State<VendorLocation> {
                                             .copyWith(fontWeight: FontWeight.w500, fontSize: AddSize.font16),
                                       ),
                                     ),
-                                    SizedBox(
+                                    const SizedBox(
                                       width: 10,
                                     ),
                                     InkWell(
@@ -427,7 +427,7 @@ class _VendorLocationState extends State<VendorLocation> {
                                             ));
                                       },
                                       child: Text(
-                                        'Save Location',
+                                        'Save Location'.tr,
                                         style: Theme.of(context).textTheme.headlineSmall!.copyWith(
                                             fontWeight: FontWeight.w600, fontSize: AddSize.font16, color: Color(0xff014E70)),
                                       ),

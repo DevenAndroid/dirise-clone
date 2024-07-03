@@ -313,44 +313,6 @@ class _CreateAccountNewScreenState extends State<CreateAccountNewScreen> {
                     print(profileController.code.toString());
                   },
                 ),
-                // IntlPhoneField(
-                //   dropdownIcon: const Icon(Icons.arrow_drop_down_rounded, color: Colors.black),
-                //   flagsButtonPadding: const EdgeInsets.all(8),
-                //   dropdownIconPosition: IconPosition.trailing,
-                //   controller: phoneNumberController,
-                //   style: const TextStyle(color: Colors.black),
-                //   validator: MultiValidator([
-                //     RequiredValidator(errorText: 'Please enter your phone number'.tr),
-                //   ]).call,
-                //   dropdownTextStyle: const TextStyle(color: Colors.black),
-                //   decoration: InputDecoration(
-                //     hintText: 'Enter your Mobile number'.tr,
-                //     hintStyle: const TextStyle(color: AppTheme.secondaryColor),
-                //     filled: true,
-                //     enabled: true,
-                //     enabledBorder: const OutlineInputBorder(borderSide: BorderSide(color: AppTheme.secondaryColor)),
-                //     focusedBorder: const OutlineInputBorder(borderSide: BorderSide(color: AppTheme.secondaryColor)),
-                //     iconColor: Colors.black,
-                //     errorBorder: const OutlineInputBorder(borderSide: BorderSide(width: 1)),
-                //     fillColor: const Color(0x63ffffff).withOpacity(.2),
-                //     border: OutlineInputBorder(
-                //       borderRadius: BorderRadius.circular(5),
-                //       borderSide: const BorderSide(width: 1, color: Colors.black),
-                //     ),
-                //     disabledBorder: const OutlineInputBorder(borderSide: BorderSide(color: AppTheme.secondaryColor)),
-                //   ),
-                //   onCountryChanged: (Country phone) {
-                //     setState(() {
-                //       code = "+${phone.dialCode}";
-                //       if (kDebugMode) {
-                //         print(code.toString());
-                //       }
-                //     });
-                //   },
-                //   initialCountryCode: 'IE',
-                //   cursorColor: Colors.black,
-                //   keyboardType: TextInputType.number,
-                // ),
                 SizedBox(
                   height: size.height * .01,
                 ),

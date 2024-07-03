@@ -234,10 +234,16 @@ class _LoginScreenState extends State<LoginScreen> {
                       }
                     },
                   ),
+                  if( profileController.selectedLAnguage.value == 'English' )
                   messageForEmail.value == 'Email is incorrect' ? Align(
                       alignment: Alignment.topLeft, child: Text(messageForEmail.toString(), style: const TextStyle(
                       color: Colors.red
                   ),)) : const SizedBox.shrink(),
+                  if(    profileController.selectedLAnguage.value != 'English' )
+                    messageForEmail.value == 'Email is incorrect' ? const Align(
+                        alignment: Alignment.topRight, child: Text('البريد الإلكتروني غير صحيح', style: TextStyle(
+                        color: Colors.red
+                    ),)) : const SizedBox.shrink(),
                   SizedBox(
                     height: size.height * .01,
                   ),
@@ -264,11 +270,16 @@ class _LoginScreenState extends State<LoginScreen> {
                       },
                     );
                   }),
+                  if(    profileController.selectedLAnguage.value == 'English' )
                   messageForPass.value == 'Password is incorrect' ? Align(
                       alignment: Alignment.topLeft, child: Text(messageForPass.toString(), style: const TextStyle(
                       color: Colors.red
                   ),)) : const SizedBox.shrink(),
-
+                  if(    profileController.selectedLAnguage.value != 'English' )
+                    messageForPass.value == 'Password is incorrect' ? const Align(
+                        alignment: Alignment.topRight, child: Text('كلمة المرور غير صحيحة', style: TextStyle(
+                        color: Colors.red
+                    ),)) : const SizedBox.shrink(),
                   const SizedBox(
                     height: 16,
                   ),
