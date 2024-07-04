@@ -309,10 +309,10 @@ class _WhichplantypedescribeyouScreenState extends State<Whichplantypedescribeyo
                                 Text(
                                   "Cloud Description  ".tr,
                                   style: GoogleFonts.poppins(
-                                      color: const Color(0xff111727), fontWeight: FontWeight.w600, fontSize: 12),
+                                      color: AppTheme.buttonColor, fontWeight: FontWeight.w500, fontSize: 18),
                                 ),
                                 const SizedBox(
-                                  height: 15,
+                                  height: 3,
                                 ),
                                 Text(
                                   "Limited to showcasing only  ".tr,
@@ -331,7 +331,7 @@ class _WhichplantypedescribeyouScreenState extends State<Whichplantypedescribeyo
                         Text(
                           "Owners of the Showcasing cloud can only showcase their products, all payments will be done outside of the DIRISE platform. Customers will contact the vendor directly through a phone number or messages  ".tr,
                           style: GoogleFonts.poppins(
-                              color: const Color(0xff111727), fontWeight: FontWeight.w600, fontSize: 10),
+                              color: const Color(0xff111727), fontWeight: FontWeight.w400, fontSize: 10),
                         ),
                         const SizedBox(
                           height: 10,
@@ -499,10 +499,10 @@ class _WhichplantypedescribeyouScreenState extends State<Whichplantypedescribeyo
                                 Text(
                                   "Cloud Description  ".tr,
                                   style: GoogleFonts.poppins(
-                                      color: const Color(0xff111727), fontWeight: FontWeight.w600, fontSize: 12),
+                                      color: AppTheme.buttonColor, fontWeight: FontWeight.w500, fontSize: 18),
                                 ),
                                 const SizedBox(
-                                  height: 10,
+                                  height: 3,
                                 ),
                                 Text(
                                   "Small businesses & start ups  ".tr,
@@ -518,7 +518,7 @@ class _WhichplantypedescribeyouScreenState extends State<Whichplantypedescribeyo
                         Text(
                           "For businesses that are working on getting the required official document to be recognized as an official company".tr,
                           style: GoogleFonts.poppins(
-                              color: const Color(0xff111727), fontWeight: FontWeight.w600, fontSize: 10),
+                              color: const Color(0xff111727), fontWeight: FontWeight.w400, fontSize: 10),
                         ),
                         const SizedBox(
                           height: 10,
