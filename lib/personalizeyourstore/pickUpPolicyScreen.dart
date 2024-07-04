@@ -21,13 +21,19 @@ import '../widgets/common_textfield.dart';
 
 class PickUpPolicyPolicyScreen extends StatefulWidget {
   String? policyName;
-  int?     id;
+  int? id;
   String? policydesc;
   int? vendor_will_pay;
-  int?    handling_days;
-  String?  pick_option;
+  int? handling_days;
+  String? pick_option;
   PickUpPolicyPolicyScreen(
-      {super.key, this.policyName, this.policydesc, this.vendor_will_pay, this.handling_days,this.pick_option, this.id});
+      {super.key,
+      this.policyName,
+      this.policydesc,
+      this.vendor_will_pay,
+      this.handling_days,
+      this.pick_option,
+      this.id});
   static var route = "/shippingPolicyScreen";
 
   @override
@@ -94,9 +100,6 @@ class _PickUpPolicyPolicyScreenState extends State<PickUpPolicyPolicyScreen> {
     });
   }
 
-
-
-
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -118,11 +121,10 @@ class _PickUpPolicyPolicyScreenState extends State<PickUpPolicyPolicyScreen> {
         child: Form(
           key: formKey1,
           child: Container(
-            margin: EdgeInsets.only(left: 15,right: 15),
+            margin: EdgeInsets.only(left: 15, right: 15),
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-
                 Row(
                   children: [
                     // Radio(value: 1, groupValue: 1, onChanged: (value) {}),
@@ -149,8 +151,10 @@ class _PickUpPolicyPolicyScreenState extends State<PickUpPolicyPolicyScreen> {
                     obSecure: false,
                     hintText: 'DIRISE standard Policy',
                     validator: MultiValidator([
-                      RequiredValidator(errorText: ''
-                          'Dirise standard policy must be required'.tr),
+                      RequiredValidator(
+                          errorText: ''
+                                  'Dirise standard policy must be required'
+                              .tr),
                     ])),
                 const SizedBox(
                   height: 18,
@@ -175,10 +179,8 @@ class _PickUpPolicyPolicyScreenState extends State<PickUpPolicyPolicyScreen> {
                 ),
                 Padding(
                   padding: const EdgeInsets.symmetric(horizontal: 16),
-                  child: Text("Pick Up Option",
-                      style: GoogleFonts.poppins(fontSize: 14, fontWeight: FontWeight.w600)),
+                  child: Text("Pick Up Option", style: GoogleFonts.poppins(fontSize: 14, fontWeight: FontWeight.w600)),
                 ),
-
                 Column(
                   children: [
                     Row(
@@ -230,78 +232,83 @@ class _PickUpPolicyPolicyScreenState extends State<PickUpPolicyPolicyScreen> {
                           },
                         ),
                         Expanded(
-                          child: Text("Always schedule a pick up for me but split the charge between me and my customer",
+                          child: Text(
+                              "Always schedule a pick up for me but split the charge between me and my customer",
                               style: GoogleFonts.poppins(fontSize: 14, fontWeight: FontWeight.w400)),
                         )
                       ],
                     ),
                   ],
                 ),
-                selectedRadio == "split_charges" ?
-                Row(
-                  children: [
-                    Expanded(
-                      child: Container(
-                        height: 50,
-                        padding: const EdgeInsets.only(left: 15, top: 12),
-                        decoration: BoxDecoration(
-                          color: Colors.grey.shade100,
-                          border: Border.all(color: Colors.grey.shade400),
-                          borderRadius: BorderRadius.circular(8),
-                        ),
-                        child: const Text('I will pay up to '),
-                      ),
-                    ),
-                    const SizedBox(
-                      width: 10,
-                    ),
-                    Expanded(
-                      child: CommonTextField(
-                        contentPadding: const EdgeInsets.symmetric(horizontal: 15),
-                        controller: vendorWillPayController,
-                        keyboardType: TextInputType.number,
-                        obSecure: false,
-                        hintText: 'Amount per package',
-                      ),
-                    ),
-                  ],
-                ) : SizedBox(),
+                selectedRadio == "split_charges"
+                    ? Row(
+                        children: [
+                          Expanded(
+                            child: Container(
+                              height: 50,
+                              padding: const EdgeInsets.only(left: 15, top: 12),
+                              decoration: BoxDecoration(
+                                color: Colors.grey.shade100,
+                                border: Border.all(color: Colors.grey.shade400),
+                                borderRadius: BorderRadius.circular(8),
+                              ),
+                              child: const Text('I will pay up to '),
+                            ),
+                          ),
+                          const SizedBox(
+                            width: 10,
+                          ),
+                          Expanded(
+                            child: CommonTextField(
+                              contentPadding: const EdgeInsets.symmetric(horizontal: 15),
+                              controller: vendorWillPayController,
+                              keyboardType: TextInputType.number,
+                              obSecure: false,
+                              hintText: 'Amount per package',
+                            ),
+                          ),
+                        ],
+                      )
+                    : SizedBox(),
                 const SizedBox(
                   height: 10,
                 ),
-
-                Text("''* We try to make your experience as easy and affordable as possible. However, extra fees might apply according to your location and the nearest shipping carrier. Fees typically range from 5 to 15. This fee is not determined by DIRISE and we cant predict until we organize your shipment with our partners in your country.''",
-                    style: GoogleFonts.poppins(fontSize: 10, fontWeight: FontWeight.w600,color:Colors.red)
-                ),
+                Text(
+                    "''* We try to make your experience as easy and affordable as possible. However, extra fees might apply according to your location and the nearest shipping carrier. Fees typically range from 5 to 15. This fee is not determined by DIRISE and we cant predict until we organize your shipment with our partners in your country.''",
+                    style: GoogleFonts.poppins(fontSize: 10, fontWeight: FontWeight.w600, color: Colors.red)),
                 const SizedBox(
                   height: 10,
                 ),
-
-                Text("Handling time",
-                    style: GoogleFonts.poppins(fontSize: 18, fontWeight: FontWeight.w600)),
+                Text("Handling time", style: GoogleFonts.poppins(fontSize: 18, fontWeight: FontWeight.w600)),
                 const SizedBox(
                   height: 10,
                 ),
-
-                Text("The time that you need to process the order and get it ready to be shipped or dropped off to the shipping company.",
+                Text(
+                    "The time that you need to process the order and get it ready to be shipped or dropped off to the shipping company.",
                     style: GoogleFonts.poppins(fontSize: 14, fontWeight: FontWeight.w500)),
-
                 const SizedBox(
                   height: 10,
                 ),
                 CommonTextField(
-                  contentPadding: const EdgeInsets.symmetric(horizontal: 15),
-                  controller: handlingDaysController,
-                  keyboardType: TextInputType.number,
-                  obSecure: false,
-                  hintText: 'Select Your handling time',
+                    contentPadding: const EdgeInsets.symmetric(horizontal: 15),
+                    controller: handlingDaysController,
+                    keyboardType: TextInputType.number,
+                    obSecure: false,
+                    hintText: 'Select Your handling time',
+                    validator: MultiValidator([
+                      RequiredValidator(errorText: 'handling time must be required'.tr),
+                    ])),
+                const SizedBox(
+                  height: 20,
                 ),
                 CustomOutlineButton(
                     title: 'Next',
                     borderRadius: 11,
                     onPressed: () {
                       if (formKey1.currentState!.validate()) {
-                        if (selectedRadio == 'dropoff_package' || selectedRadio == 'picked_from_my_location' || selectedRadio == 'split_charges') {
+                        if (selectedRadio == 'dropoff_package' ||
+                            selectedRadio == 'picked_from_my_location' ||
+                            selectedRadio == 'split_charges') {
                           pickUpPolicyApi();
                         } else {
                           showToast('Please select PickUp Fees');
@@ -318,6 +325,4 @@ class _PickUpPolicyPolicyScreenState extends State<PickUpPolicyPolicyScreen> {
       ),
     );
   }
-
-
 }

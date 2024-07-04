@@ -55,10 +55,9 @@ class _ServiceInternationalShippingServiceState extends State<ServiceInternation
 
   String unitOfMeasure = 'cm/kg';
   List<String> unitOfMeasureList = [
-    'cm/kg',
-    'lb/inch',
-    'Kilogram (kg)'
-    'Pound (lb)'
+    'Cm/Kg',
+    'Lb/Inch',
+    'Kilogram (Kg)/Pound (Lb)'
   ];
 
   String selectNumberOfPackages  = '1';

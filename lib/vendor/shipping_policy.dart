@@ -10,6 +10,7 @@ import 'package:get/get.dart';
 import 'package:google_fonts/google_fonts.dart';
 
 import '../Services/service_international_shipping_details.dart';
+import '../iAmHereToSell/personalizeyourstoreScreen.dart';
 import '../language/app_strings.dart';
 import '../model/common_modal.dart';
 import '../repository/repository.dart';
@@ -135,7 +136,7 @@ class _ShippingPolicyScreenState extends State<ShippingPolicyScreen> {
       showToast(response.message.toString());
       if (response.status == true) {
         log('ghfkhjsdgsd${selectZone}');
-        Get.to(ServiceInternationalShippingService());
+        Get.to(const PersonalizeyourstoreScreen());
       }
     });
   }
@@ -177,7 +178,8 @@ class _ShippingPolicyScreenState extends State<ShippingPolicyScreen> {
                   hintText: 'DIRISE standard Policy'.tr,
                   validator: MultiValidator([
                     RequiredValidator(errorText: 'Dirise standard policy must be required'.tr),
-                  ])),
+                  ])
+              ),
               const SizedBox(
                 height: 18,
               ),
@@ -195,6 +197,9 @@ class _ShippingPolicyScreenState extends State<ShippingPolicyScreen> {
                 isMulti: true,
                 obSecure: false,
                 hintText: '',
+                  validator: MultiValidator([
+                    RequiredValidator(errorText: 'Policy Description must be required'.tr),
+                  ])
               ),
               const SizedBox(
                 height: 5,

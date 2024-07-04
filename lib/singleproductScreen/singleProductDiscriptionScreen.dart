@@ -1,4 +1,5 @@
 import 'dart:convert';
+import 'dart:developer';
 
 import 'package:dirise/singleproductScreen/singleProductReturnPolicy.dart';
 import 'package:dirise/singleproductScreen/virtualProductScreen.dart';
@@ -61,6 +62,7 @@ class _SingleProductDiscriptionScreenState extends State<SingleProductDiscriptio
       print('API Response Status Code: ${response.status}');
       showToast(response.message.toString());
       if (response.status == true) {
+        log("sssssss${response.toJson()}");
         // addProductController.idProduct.value = response.productDetails!.product!.id.toString();
         print(addProductController.idProduct.value.toString());
         if(widget.id != null){
@@ -219,6 +221,7 @@ class _SingleProductDiscriptionScreenState extends State<SingleProductDiscriptio
                               onChanged: (bool? value) {
                                 setState(() {
                                   isDelivery.value = value!;
+                                  log("ffffffff${isDelivery.value.toString()}");
                                 });
                               }),
                         ),
