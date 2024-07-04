@@ -10,6 +10,7 @@ import 'package:form_field_validator/form_field_validator.dart';
 import 'package:get/get.dart';
 import 'package:google_fonts/google_fonts.dart';
 
+import '../controller/profile_controller.dart';
 import '../language/app_strings.dart';
 import '../model/common_modal.dart';
 import '../newAddress/customeraccountcreatedsuccessfullyScreen.dart';
@@ -111,6 +112,7 @@ class _SellingPickupAddressState extends State<SellingPickupAddress> {
       townController.text = widget.town ?? '';
     }
   }
+  final profileController = Get.put(ProfileController());
   @override
   Widget build(BuildContext context) {
     Size size = MediaQuery.of(context).size;
@@ -127,6 +129,12 @@ class _SellingPickupAddressState extends State<SellingPickupAddress> {
             crossAxisAlignment: CrossAxisAlignment.center,
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
+              profileController.selectedLAnguage.value != 'English' ?
+              Image.asset(
+                'assets/images/forward_icon.png',
+                height: 19,
+                width: 19,
+              ) :
               Image.asset(
                 'assets/images/back_icon_new.png',
                 height: 19,
@@ -260,7 +268,7 @@ class _SellingPickupAddressState extends State<SellingPickupAddress> {
                     hintText: 'Zip Code'.tr,
                     validator: (value) {
                       if (value!.trim().isEmpty) {
-                        return 'Zip Code is required';
+                        return 'Zip Code is required'.tr;
                       }
                       return null; // Return null if validation passes
                     },

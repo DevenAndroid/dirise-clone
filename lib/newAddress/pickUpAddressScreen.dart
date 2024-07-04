@@ -9,6 +9,7 @@ import 'package:flutter/widgets.dart';
 import 'package:get/get.dart';
 import 'package:google_fonts/google_fonts.dart';
 
+import '../controller/profile_controller.dart';
 import '../language/app_strings.dart';
 import '../model/common_modal.dart';
 import '../repository/repository.dart';
@@ -107,9 +108,8 @@ class _PickUpAddressScreenState extends State<PickUpAddressScreen> {
       zipcodeController.text = widget.zipcode ?? '';
       townController.text = widget.town ?? '';
     }
-
-
   }
+  final profileController = Get.put(ProfileController());
   @override
   Widget build(BuildContext context) {
     Size size = MediaQuery.of(context).size;
@@ -126,6 +126,12 @@ class _PickUpAddressScreenState extends State<PickUpAddressScreen> {
             crossAxisAlignment: CrossAxisAlignment.center,
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
+              profileController.selectedLAnguage.value != 'English' ?
+              Image.asset(
+                'assets/images/forward_icon.png',
+                height: 19,
+                width: 19,
+              ) :
               Image.asset(
                 'assets/images/back_icon_new.png',
                 height: 19,
@@ -188,7 +194,7 @@ class _PickUpAddressScreenState extends State<PickUpAddressScreen> {
                   hintText: 'Street'.tr,
                   validator: (value) {
                     if (value!.trim().isEmpty) {
-                      return 'Street is required';
+                      return 'Street is required'.tr;
                     }
                     return null; // Return null if validation passes
                   },
@@ -206,7 +212,7 @@ class _PickUpAddressScreenState extends State<PickUpAddressScreen> {
                   hintText: 'city'.tr,
                   validator: (value) {
                     if (value!.trim().isEmpty) {
-                      return 'city is required';
+                      return 'city is required'.tr;
                     }
                     return null; // Return null if validation passes
                   },
@@ -223,7 +229,7 @@ class _PickUpAddressScreenState extends State<PickUpAddressScreen> {
                   hintText: 'State'.tr,
                   validator: (value) {
                     if (value!.trim().isEmpty) {
-                      return 'State is required';
+                      return 'State is required'.tr;
                     }
                     return null; // Return null if validation passes
                   },
@@ -241,7 +247,7 @@ class _PickUpAddressScreenState extends State<PickUpAddressScreen> {
                   hintText: 'Country'.tr,
                   validator: (value) {
                     if (value!.trim().isEmpty) {
-                      return 'Country is required';
+                      return 'Country is required'.tr;
                     }
                     return null; // Return null if validation passes
                   },
@@ -259,7 +265,7 @@ class _PickUpAddressScreenState extends State<PickUpAddressScreen> {
                   hintText: 'Zip Code'.tr,
                   validator: (value) {
                     if (value!.trim().isEmpty) {
-                      return 'Zip Code is required';
+                      return 'Zip Code is required'.tr;
                     }
                     return null; // Return null if validation passes
                   },
@@ -276,7 +282,7 @@ class _PickUpAddressScreenState extends State<PickUpAddressScreen> {
                   hintText: 'Town'.tr,
                   validator: (value) {
                     if (value!.trim().isEmpty) {
-                      return 'Town is required';
+                      return 'Town is required'.tr;
                     }
                     return null; // Return null if validation passes
                   },
@@ -318,10 +324,10 @@ class _PickUpAddressScreenState extends State<PickUpAddressScreen> {
                       borderRadius: BorderRadius.circular(10), // Border radius
                     ),
                     padding: const EdgeInsets.all(10), // Padding inside the container
-                    child: const Center(
+                    child:  Center(
                       child: Text(
-                        'Confirm Your Location',
-                        style: TextStyle(
+                        'Confirm Your Location'.tr,
+                        style: const TextStyle(
                           fontSize: 16,
                           fontWeight: FontWeight.bold,
                           color: Colors.black, // Text color

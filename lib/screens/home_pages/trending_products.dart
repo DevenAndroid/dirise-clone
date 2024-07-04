@@ -44,7 +44,7 @@ class _TrendingProductsState extends State<TrendingProducts> {
                 ),
                 SizedBox(height: 10,),
                 Text(
-                  "Trending all over the world",
+                  "Trending all over the world".tr,
                   style: GoogleFonts.poppins(fontSize: 12, fontWeight: FontWeight.w400),
                 ),
                 SizedBox(height: 20,),

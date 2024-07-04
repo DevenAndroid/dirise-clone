@@ -77,7 +77,7 @@ enum SingingCharacter { lafayette, jefferson }
 class _MyAccountScreenState extends State<MyAccountScreen> {
 
   whatsapp() async {
-    String contact = "+96598762557";
+    String contact = "+96565556490";
     String text = '';
     String androidUrl = "whatsapp://send?phone=$contact&text=$text";
     String iosUrl = "https://wa.me/$contact?text=${Uri.parse(text)}";
@@ -601,7 +601,7 @@ class _MyAccountScreenState extends State<MyAccountScreen> {
                               width: 20,
                             ),
                             Text(
-                              "WhatsApp Support",
+                              "WhatsApp Support".tr,
                               style: GoogleFonts.poppins(
                                   color: const Color(0xFF2A3032), fontSize: 16, fontWeight: FontWeight.w500),
                             ),

@@ -93,7 +93,8 @@ class _GetJobTypeScreenState extends State<GetJobTypeScreen> {
 
                     });
                   },
-                  child: Image.asset('assets/images/job_seeking.png')),
+                  child:  profileController.selectedLAnguage.value == 'English' ?
+                  Image.asset('assets/images/job_seeking.png'):Image.asset('assets/images/job_seeking_arab.png')),
               20.spaceY,
               GestureDetector(
                   onTap: (){
@@ -106,7 +107,9 @@ class _GetJobTypeScreenState extends State<GetJobTypeScreen> {
 
                     });
                   },
-                  child: Image.asset('assets/images/job_offer.png')),
+                  child: profileController.selectedLAnguage.value == 'English' ?
+                  Image.asset('assets/images/job_offer.png'):
+                  Image.asset('assets/images/job_offer_arab.png')),
               40.spaceY,
               // Stack(
               //   children: [

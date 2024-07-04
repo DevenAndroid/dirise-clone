@@ -427,7 +427,7 @@ class _BagsScreenState extends State<BagsScreen> {
                           Center(
                             child: Text(
                               "${'Your cart is currently empty'.tr}\n"
-                              "Checkout products to added them in cart".tr,
+                              "${'Checkout products to added them in cart'.tr}",
                               textAlign: TextAlign.center,
                             ),
                           ),

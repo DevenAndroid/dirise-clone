@@ -174,7 +174,7 @@ class _VendorInformationState extends State<VendorInformation> {
                     hintText: 'Company Number'.tr,
                     validator: (value) {
                       if (value!.trim().isEmpty) {
-                        return 'Company Number is required';
+                        return 'Company Number is required'.tr;
                       }
                       return null; // Return null if validation passes
                     },
@@ -196,7 +196,7 @@ class _VendorInformationState extends State<VendorInformation> {
                     hintText: 'Store URL'.tr,
                     validator: (value) {
                       if (value!.trim().isEmpty) {
-                        return 'Store URL is required';
+                        return 'Store URL is required'.tr;
                       }
                       return null; // Return null if validation passes
                     },
@@ -217,9 +217,9 @@ class _VendorInformationState extends State<VendorInformation> {
                     hintText: 'Work Email'.tr,
                   validator: (value) {
                     if (value!.isEmpty) {
-                      return 'Please enter email address';
+                      return 'Please enter email address'.tr;
                     }
-                    final emailValidator = EmailValidator(errorText: 'Please enter valid email address');
+                    final emailValidator = EmailValidator(errorText: 'Please enter valid email address'.tr);
                     if (!emailValidator.isValid(value)) {
                       return emailValidator.errorText;
                     }
@@ -242,7 +242,7 @@ class _VendorInformationState extends State<VendorInformation> {
                     hintText: 'Work Address'.tr,
                     validator: (value) {
                       if (value!.trim().isEmpty) {
-                        return 'Work Address is required';
+                        return 'Work Address is required'.tr;
                       }
                       return null; // Return null if validation passes
                     },
@@ -253,7 +253,7 @@ class _VendorInformationState extends State<VendorInformation> {
                 ),
                 Center(
                     child: Text(
-                  "Bank Details",
+                  "Bank Details".tr,
                   style: GoogleFonts.poppins(color: Colors.black, fontWeight: FontWeight.w500, fontSize: 16),
                 )),
                 const SizedBox(
@@ -272,7 +272,7 @@ class _VendorInformationState extends State<VendorInformation> {
                     hintText: 'Bank Name'.tr,
                     validator: (value) {
                       if (value!.trim().isEmpty) {
-                        return 'Bank Name is required';
+                        return 'Bank Name is required'.tr;
                       }
                       return null; // Return null if validation passes
                     },
@@ -293,7 +293,7 @@ class _VendorInformationState extends State<VendorInformation> {
                     hintText: 'Bank Account Holder Name'.tr,
                     validator: (value) {
                       if (value!.trim().isEmpty) {
-                        return 'Bank Account Holder Name is required';
+                        return 'Bank Account Holder Name is required'.tr;
                       }
                       return null; // Return null if validation passes
                     },
@@ -314,7 +314,7 @@ class _VendorInformationState extends State<VendorInformation> {
                     hintText: 'Bank Account Number'.tr,
                     validator: (value) {
                       if (value!.trim().isEmpty) {
-                        return 'Bank Account Number is required';
+                        return 'Bank Account Number is required'.tr;
                       }
                       return null; // Return null if validation passes
                     },
@@ -335,7 +335,7 @@ class _VendorInformationState extends State<VendorInformation> {
                     hintText: 'IBAN Number'.tr,
                     validator: (value) {
                       if (value!.trim().isEmpty) {
-                        return 'IBAN Number is required';
+                        return 'IBAN Number is required'.tr;
                       }
                       return null; // Return null if validation passes
                     },

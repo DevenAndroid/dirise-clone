@@ -22,7 +22,7 @@ class _AddProductOptionScreenState extends State<AddProductOptionScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: const Text('Add Product'),
+        title:  Text('Add Product'.tr),
         centerTitle: true,
         leading: GestureDetector(
           onTap: (){

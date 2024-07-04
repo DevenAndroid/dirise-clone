@@ -105,6 +105,12 @@ class _RequiredDocumentsScreenState extends State<RequiredDocumentsScreen> {
             crossAxisAlignment: CrossAxisAlignment.center,
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
+              profileController.selectedLAnguage.value != 'English' ?
+              Image.asset(
+                'assets/images/forward_icon.png',
+                height: 19,
+                width: 19,
+              ) :
               Image.asset(
                 'assets/images/back_icon_new.png',
                 height: 19,
@@ -252,10 +258,10 @@ class _RequiredDocumentsScreenState extends State<RequiredDocumentsScreen> {
                     borderRadius: BorderRadius.circular(2), // Border radius
                   ),
                   padding: const EdgeInsets.all(10), // Padding inside the container
-                  child: const Center(
+                  child:  Center(
                     child: Text(
-                      'I will set later',
-                      style: TextStyle(
+                      'I will set later'.tr,
+                      style: const TextStyle(
                         fontSize: 16,
                         fontWeight: FontWeight.bold,
                         color: Color(0xff514949), // Text color

@@ -622,7 +622,7 @@ class _SingleStoreScreenState extends State<SingleStoreScreen> {
                                     crossAxisAlignment: CrossAxisAlignment.start,
                                     mainAxisAlignment: MainAxisAlignment.start,
                                     children: [
-                                      Text('Store Break Time', style: normalStyle.copyWith(
+                                      Text('Store Break Time'.tr, style: normalStyle.copyWith(
                                         color: Colors.black,
                                       ),),
                                       10.spaceY,
@@ -865,7 +865,7 @@ class _SingleStoreScreenState extends State<SingleStoreScreen> {
 
                     : SliverToBoxAdapter(
                     child: Center(
-                      child: Text(AppStrings.storeDontHaveAnyProduct),
+                      child: Text(AppStrings.storeDontHaveAnyProduct.tr),
                     ))
               else
                 SliverToBoxAdapter(child: controller.isFilter.value == false ? const LoadingAnimation() : const SizedBox()),

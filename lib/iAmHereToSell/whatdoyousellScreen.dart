@@ -123,7 +123,7 @@ class _WhatdoyousellScreenState extends State<WhatdoyousellScreen> {
         await prefs.setString('email', storeEmail.text.trim());
         log('message ${allSelectedCategory.entries.map((e) => e.key).toList().join(",")}');
         vendorRegister = 'done';
-        showToast('Otp has been successfully sent to your email.');
+        showToast('Otp has been successfully sent to your email.'.tr);
         setState(() {
           isOtpDone = true;
           showResend = true;
@@ -181,7 +181,7 @@ class _WhatdoyousellScreenState extends State<WhatdoyousellScreen> {
   bool _resendEnabled = true;
 
   void _startTimer() {
-    _resendTimer = Timer.periodic(Duration(seconds: 1), (timer) {
+    _resendTimer = Timer.periodic(const Duration(seconds: 1), (timer) {
       setState(() {
         if (_secondsRemaining > 0) {
           _secondsRemaining--;
@@ -233,7 +233,6 @@ class _WhatdoyousellScreenState extends State<WhatdoyousellScreen> {
       borderRadius: BorderRadius.circular(8), // Border radius for each box
     ),
   );
-
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -249,6 +248,12 @@ class _WhatdoyousellScreenState extends State<WhatdoyousellScreen> {
             crossAxisAlignment: CrossAxisAlignment.center,
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
+              profileController.selectedLAnguage.value != 'English' ?
+              Image.asset(
+                'assets/images/forward_icon.png',
+                height: 19,
+                width: 19,
+              ) :
               Image.asset(
                 'assets/images/back_icon_new.png',
                 height: 19,
@@ -272,13 +277,13 @@ class _WhatdoyousellScreenState extends State<WhatdoyousellScreen> {
         child: Form(
           key: formKey1,
           child: Container(
-            padding: EdgeInsets.only(left: 20, right: 20),
+            padding: const EdgeInsets.only(left: 20, right: 20),
             child: Column(
               mainAxisAlignment: MainAxisAlignment.start,
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 Text(
-                  'This is where your product will be shown. Category can’t be changed later.',
+                  'This is where your product will be shown. Category can’t be changed later.'.tr,
                   style: GoogleFonts.poppins(color: const Color(0xff111727), fontSize: 13, fontWeight: FontWeight.w400),
                 ),
                 const SizedBox(
@@ -287,7 +292,8 @@ class _WhatdoyousellScreenState extends State<WhatdoyousellScreen> {
                 Obx(() {
                   if (kDebugMode) {
                     print(modelVendorCategory.usphone!
-                        .map((e) => DropdownMenuItem(value: e, child: Text(e.name.toString().capitalize!)))
+                        .map((e) => DropdownMenuItem(value: e, child: Text( profileController.selectedLAnguage.value == 'English' ?
+                    e.name.toString().capitalize! :  e.arabName.toString().capitalize!)))
                         .toList());
                   }
                   return DropdownButtonFormField<VendorCategoriesData>(
@@ -325,7 +331,8 @@ class _WhatdoyousellScreenState extends State<WhatdoyousellScreen> {
                       ),
                     ),
                     items: modelVendorCategory.usphone!
-                        .map((e) => DropdownMenuItem(value: e, child: Text(e.name.toString().capitalize!)))
+                        .map((e) => DropdownMenuItem(value: e, child: Text(profileController.selectedLAnguage.value == 'English' ?
+                    e.name.toString().capitalize! :  e.arabName.toString().capitalize!)))
                         .toList(),
                     hint: Text('Category'.tr),
                     onChanged: (value) {
@@ -348,11 +355,11 @@ class _WhatdoyousellScreenState extends State<WhatdoyousellScreen> {
                   height: 10,
                 ),
                 CommonTextField(
-                  hintText: 'Store Name*',
+                  hintText: 'Store Name*'.tr,
                   controller: storeName,
                   validator: (value) {
                     if (value!.trim().isEmpty) {
-                      return 'Please enter valid store Name';
+                      return 'Please enter valid store Name'.tr;
                     }
                     return null; // Return null if validation passes
                   },
@@ -361,13 +368,13 @@ class _WhatdoyousellScreenState extends State<WhatdoyousellScreen> {
                   height: 10,
                 ),
                 CommonTextField(
-                  hintText: 'Store Email*',
+                  hintText: 'Store Email*'.tr,
                   controller: storeEmail,
                   validator: (value) {
                     if (value!.isEmpty) {
-                      return 'Please enter email address';
+                      return 'Please enter email address'.tr;
                     }
-                    final emailValidator = EmailValidator(errorText: 'Please enter valid email address');
+                    final emailValidator = EmailValidator(errorText: 'Please enter valid email address'.tr);
                     if (!emailValidator.isValid(value)) {
                       return emailValidator.errorText;
                     }
@@ -387,16 +394,16 @@ class _WhatdoyousellScreenState extends State<WhatdoyousellScreen> {
                   dropdownTextStyle: const TextStyle(color: Colors.black),
                   style: const TextStyle(color: AppTheme.textColor),
                   controller: storeNumber,
-                  decoration: const InputDecoration(
+                  decoration:  InputDecoration(
                       contentPadding: EdgeInsets.zero,
-                      hintStyle: TextStyle(color: AppTheme.textColor),
-                      hintText: 'Store Number*',
-                      labelStyle: TextStyle(color: AppTheme.textColor),
-                      border: OutlineInputBorder(
+                      hintStyle: const TextStyle(color: AppTheme.textColor),
+                      hintText: 'Store Number*'.tr,
+                      labelStyle: const TextStyle(color: AppTheme.textColor),
+                      border: const OutlineInputBorder(
                         borderSide: BorderSide(),
                       ),
-                      enabledBorder: OutlineInputBorder(borderSide: BorderSide(color: AppTheme.shadowColor)),
-                      focusedBorder: OutlineInputBorder(borderSide: BorderSide(color: AppTheme.shadowColor))),
+                      enabledBorder: const OutlineInputBorder(borderSide: BorderSide(color: AppTheme.shadowColor)),
+                      focusedBorder: const OutlineInputBorder(borderSide: BorderSide(color: AppTheme.shadowColor))),
                   initialCountryCode: profileController.code.toString(),
                   languageCode: '+91',
                   onCountryChanged: (phone) {
@@ -461,7 +468,7 @@ class _WhatdoyousellScreenState extends State<WhatdoyousellScreen> {
                               ? const SizedBox()
                               : vendorregister();
                         } else {
-                          showToast('Please Accept Terms of Service');
+                          showToast('Please Accept Terms of Service'.tr);
                         }
                       }
                     },
@@ -479,10 +486,10 @@ class _WhatdoyousellScreenState extends State<WhatdoyousellScreen> {
                             ),
                             padding: const EdgeInsets.all(10),
                             // Padding inside the container
-                            child: const Center(
+                            child:  Center(
                               child: Text(
-                                'Send Otp',
-                                style: TextStyle(
+                                'Send Otp'.tr,
+                                style: const TextStyle(
                                   fontSize: 16,
                                   fontWeight: FontWeight.bold,
                                   color: Colors.black, // Text color
@@ -500,10 +507,10 @@ class _WhatdoyousellScreenState extends State<WhatdoyousellScreen> {
                             ),
                             padding: const EdgeInsets.all(10),
                             // Padding inside the container
-                            child: const Center(
+                            child:  Center(
                               child: Text(
-                                'Send Otp',
-                                style: TextStyle(
+                                'Send Otp'.tr,
+                                style: const TextStyle(
                                   fontSize: 16,
                                   fontWeight: FontWeight.bold,
                                   color: Colors.white, // Text color
@@ -553,9 +560,9 @@ class _WhatdoyousellScreenState extends State<WhatdoyousellScreen> {
                   child: Align(
                     alignment: Alignment.centerRight,
                     child: Container(
-                      padding: EdgeInsets.only(left: 10, right: 10, top: 5, bottom: 5),
+                      padding: const EdgeInsets.only(left: 10, right: 10, top: 5, bottom: 5),
                       decoration: BoxDecoration(
-                          color: Color(
+                          color: const Color(
                             0xff1D2C3D,
                           ),
                           borderRadius: BorderRadius.circular(5)),
@@ -572,24 +579,24 @@ class _WhatdoyousellScreenState extends State<WhatdoyousellScreen> {
                 showResend == true
                     ? RichText(
                         text: TextSpan(
-                          text: 'If you don\'t receive a code, ',
-                          style: TextStyle(fontFamily: 'Your App Font Family', color: Colors.black),
+                          text: 'If you don\'t receive a code, '.tr,
+                          style: const TextStyle(fontFamily: 'Your App Font Family', color: Colors.black),
                           children: [
                             if (_secondsRemaining > 0)
                               TextSpan(
                                 text: 'Wait $_secondsRemaining seconds to resend',
-                                style: TextStyle(fontWeight: FontWeight.w500, color: Color(0xff014E70)),
+                                style: const TextStyle(fontWeight: FontWeight.w500, color: Color(0xff014E70)),
                               )
                             else
                               TextSpan(
-                                text: 'Resend',
+                                text: 'Resend OTP'.tr,
                                 recognizer: TapGestureRecognizer()..onTap = _resendOTP,
-                                style: TextStyle(fontWeight: FontWeight.w500, color: Color(0xff014E70)),
+                                style: const TextStyle(fontWeight: FontWeight.w500, color: Color(0xff014E70)),
                               ),
                           ],
                         ),
                       )
-                    : SizedBox(),
+                    : const SizedBox(),
                 const SizedBox(
                   height: 10,
                 ),
@@ -599,7 +606,7 @@ class _WhatdoyousellScreenState extends State<WhatdoyousellScreen> {
                       if (_isValue == true) {
                         Get.to(SellingPickupAddress());
                       } else {
-                        showToast('please accept Terms and Condition');
+                        showToast('please accept Terms and Condition'.tr);
                       }
                     }
                   },
@@ -614,10 +621,10 @@ class _WhatdoyousellScreenState extends State<WhatdoyousellScreen> {
                           ),
                           padding: const EdgeInsets.all(10),
                           // Padding inside the container
-                          child: const Center(
+                          child:  Center(
                             child: Text(
-                              'Next',
-                              style: TextStyle(
+                              'Next'.tr,
+                              style: const TextStyle(
                                 fontSize: 16,
                                 fontWeight: FontWeight.bold,
                                 color: Colors.white, // Text color
@@ -637,10 +644,10 @@ class _WhatdoyousellScreenState extends State<WhatdoyousellScreen> {
                           ),
                           padding: const EdgeInsets.all(10),
                           // Padding inside the container
-                          child: const Center(
+                          child:  Center(
                             child: Text(
-                              'Next',
-                              style: TextStyle(
+                              'Next'.tr,
+                              style: const TextStyle(
                                 fontSize: 16,
                                 fontWeight: FontWeight.bold,
                                 color: Colors.black, // Text color

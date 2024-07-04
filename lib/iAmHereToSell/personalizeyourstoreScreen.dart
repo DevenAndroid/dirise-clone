@@ -97,7 +97,7 @@ class _PersonalizeyourstoreScreenState extends State<PersonalizeyourstoreScreen>
         Get.to(RequiredDocumentsScreen());
       }
       else{
-        showToast('please enter Details');
+        showToast('please enter details'.tr);
       }
 
     });
@@ -123,6 +123,12 @@ class _PersonalizeyourstoreScreenState extends State<PersonalizeyourstoreScreen>
             crossAxisAlignment: CrossAxisAlignment.center,
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
+              profileController.selectedLAnguage.value != 'English' ?
+              Image.asset(
+                'assets/images/forward_icon.png',
+                height: 19,
+                width: 19,
+              ) :
               Image.asset(
                 'assets/images/back_icon_new.png',
                 height: 19,
@@ -144,7 +150,7 @@ class _PersonalizeyourstoreScreenState extends State<PersonalizeyourstoreScreen>
       ),
       body: SingleChildScrollView(
         child: Container(
-          padding: EdgeInsets.only(left: 20, right: 20),
+          padding: const EdgeInsets.only(left: 20, right: 20),
           child: Column(
             mainAxisAlignment: MainAxisAlignment.center,
             crossAxisAlignment: CrossAxisAlignment.center,
@@ -245,7 +251,7 @@ class _PersonalizeyourstoreScreenState extends State<PersonalizeyourstoreScreen>
                 height: 10,
               ),
               CommonTextField(
-                hintText: 'Details',
+                hintText: 'Details'.tr,
                 controller: controller.detailsController,
                 textInputAction: TextInputAction.done,
                 // minLines: 2,
@@ -261,7 +267,7 @@ class _PersonalizeyourstoreScreenState extends State<PersonalizeyourstoreScreen>
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
                     Text(
-                      'Social media',
+                      'Social media'.tr,
                       style: GoogleFonts.poppins(color: Colors.black, fontSize: 14),
                     ),
                     const Icon(
@@ -291,7 +297,7 @@ class _PersonalizeyourstoreScreenState extends State<PersonalizeyourstoreScreen>
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
                     Text(
-                      'Operating hour',
+                      'Operating hour'.tr,
                       style: GoogleFonts.poppins(color: Colors.black, fontSize: 14),
                     ),
                     const Icon(
@@ -321,7 +327,7 @@ class _PersonalizeyourstoreScreenState extends State<PersonalizeyourstoreScreen>
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
                     Text(
-                      'Vendor information',
+                      'Vendor information'.tr,
                       style: GoogleFonts.poppins(color: Colors.black, fontSize: 14),
                     ),
                     const Icon(
@@ -351,7 +357,7 @@ class _PersonalizeyourstoreScreenState extends State<PersonalizeyourstoreScreen>
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
                     Text(
-                      'Addresses',
+                      'Addresses'.tr,
                       style: GoogleFonts.poppins(color: Colors.black, fontSize: 14),
                     ),
                     const Icon(
@@ -381,7 +387,7 @@ class _PersonalizeyourstoreScreenState extends State<PersonalizeyourstoreScreen>
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
                     Text(
-                      'Banners',
+                      'Banners'.tr,
                       style: GoogleFonts.poppins(color: Colors.black, fontSize: 14),
                     ),
                     const Icon(
@@ -411,7 +417,7 @@ class _PersonalizeyourstoreScreenState extends State<PersonalizeyourstoreScreen>
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
                     Text(
-                      'Select Policy',
+                      'Select Policy'.tr,
                       style: GoogleFonts.poppins(color: Colors.black, fontSize: 14),
                     ),
                     const Icon(
@@ -438,10 +444,10 @@ class _PersonalizeyourstoreScreenState extends State<PersonalizeyourstoreScreen>
                     borderRadius: BorderRadius.circular(2), // Border radius
                   ),
                   padding: const EdgeInsets.all(10), // Padding inside the container
-                  child: const Center(
+                  child:  Center(
                     child: Text(
-                      'Save',
-                      style: TextStyle(
+                      'Save'.tr,
+                      style: const TextStyle(
                         fontSize: 16,
                         fontWeight: FontWeight.bold,
                         color: Color(0xff514949), // Text color

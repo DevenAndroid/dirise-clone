@@ -159,7 +159,7 @@ class _ContactUsScreenState extends State<ContactUsScreen> {
                         controller: nameController,
                         validator: (value) {
                           if (value!.trim().isEmpty) {
-                            return "Please enter your name";
+                            return "Please enter your name".tr;
                           }
                           return null;
                         },
@@ -215,7 +215,7 @@ class _ContactUsScreenState extends State<ContactUsScreen> {
                           if (value!.trim().isEmpty) {
                             return "Please enter your email".tr;
                           } else if (value.trim().contains('+') || value.trim().contains(' ')) {
-                            return "Email is invalid";
+                            return "Email is invalid".tr;
                           } else if (RegExp(r"^[a-zA-Z0-9.a-zA-Z0-9.!#$%&'*+-/=?^_`{|}~]+@[a-zA-Z0-9]+\.[a-zA-Z]+")
                               .hasMatch(value.trim())) {
                             return null;
@@ -281,13 +281,13 @@ class _ContactUsScreenState extends State<ContactUsScreen> {
                         keyboardType: TextInputType.phone,
                         validator: (value) {
                           if (value!.trim().isEmpty) {
-                            return "Please enter phone number";
+                            return "Please enter phone number".tr;
                           }
                           if (value.trim().length > 15) {
-                            return "Please enter valid phone number";
+                            return "Please enter valid phone number".tr;
                           }
                           if (value.trim().length < 8) {
-                            return "Please enter valid phone number";
+                            return "Please enter valid phone number".tr;
                           }
                           return null;
                         },

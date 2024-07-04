@@ -10,6 +10,7 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:google_fonts/google_fonts.dart';
 
+import '../controller/profile_controller.dart';
 import '../model/vendor_models/model_vendor_details.dart';
 import '../repository/repository.dart';
 import '../utils/api_constant.dart';
@@ -78,7 +79,7 @@ class _BannersScreenState extends State<BannersScreen> {
 
 
   }
-
+  final profileController = Get.put(ProfileController());
   RxBool showValidation = false.obs;
   @override
   Widget build(BuildContext context) {
@@ -95,9 +96,15 @@ class _BannersScreenState extends State<BannersScreen> {
             crossAxisAlignment: CrossAxisAlignment.center,
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
+              profileController.selectedLAnguage.value != 'English' ?
               Image.asset(
-                 'assets/images/back_icon_new.png',
-                 height: 19,
+                'assets/images/forward_icon.png',
+                height: 19,
+                width: 19,
+              ) :
+              Image.asset(
+                'assets/images/back_icon_new.png',
+                height: 19,
                 width: 19,
               ),
             ],
@@ -109,19 +116,19 @@ class _BannersScreenState extends State<BannersScreen> {
           children: [
             Text(
               'Banners'.tr,
-              style: GoogleFonts.poppins(color: Color(0xff292F45), fontWeight: FontWeight.w600, fontSize: 20),
+              style: GoogleFonts.poppins(color: const Color(0xff292F45), fontWeight: FontWeight.w600, fontSize: 20),
             ),
           ],
         ),
       ),
       body: SingleChildScrollView(
         child: Container(
-          margin: EdgeInsets.all(10),
+          margin: const EdgeInsets.all(10),
           child: Column(
             children: [
               ImageWidget(
                 // key: paymentReceiptCertificateKey,
-                title: "Banner".tr,
+                title: "Banners".tr,
                 file: idProof,
                 validation: checkValidation(showValidation.value, idProof.path.isEmpty),
                 filePicked: (File g) {
@@ -129,24 +136,24 @@ class _BannersScreenState extends State<BannersScreen> {
                 },
               ),
               CustomOutlineButton(
-                title: 'Add Banners',
+                title: 'Add Banners'.tr,
                 onPressed: () {
                   if(idProof.path.isEmpty){
-                    showToast('Please select Banner');
+                    showToast('Please select Banner'.tr);
                   }else{
                     updateProfile();
                   }
                   
                 },
               ),
-          SizedBox(height: 30,),
+          const SizedBox(height: 30,),
           model.user != null ?
          CachedNetworkImage(
             imageUrl: model.user!.bannerProfile.toString(),
             errorWidget: (context, url, error) {
-              return SizedBox.shrink();
+              return const SizedBox.shrink();
             },
-            height: 200,width: Get.width,) : SizedBox()
+            height: 200,width: Get.width,) : const SizedBox()
             ],
           ),
         ),

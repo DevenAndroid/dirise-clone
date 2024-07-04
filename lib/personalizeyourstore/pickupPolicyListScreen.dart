@@ -8,6 +8,7 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:google_fonts/google_fonts.dart';
 
+import '../controller/profile_controller.dart';
 import '../model/getShippingModel.dart';
 import '../model/pickUpModel.dart';
 import '../repository/repository.dart';
@@ -41,6 +42,7 @@ class _PickUpPolicyListScreenState extends State<PickUpPolicyListScreen> {
     getShippingPolicyData();
   }
 
+  final profileController = Get.put(ProfileController());
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -56,6 +58,12 @@ class _PickUpPolicyListScreenState extends State<PickUpPolicyListScreen> {
             crossAxisAlignment: CrossAxisAlignment.center,
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
+              profileController.selectedLAnguage.value != 'English' ?
+              Image.asset(
+                'assets/images/forward_icon.png',
+                height: 19,
+                width: 19,
+              ) :
               Image.asset(
                 'assets/images/back_icon_new.png',
                 height: 19,
@@ -84,10 +92,10 @@ class _PickUpPolicyListScreenState extends State<PickUpPolicyListScreen> {
                   onTap: () {
                     Get.to(PickUpPolicyPolicyScreen());
                   },
-                  child: const Padding(
+                  child: Padding(
                     padding: EdgeInsets.only(right: 15),
                     child: Text(
-                      '+Add New',
+                      '+Add New'.tr,
                       style: TextStyle(color: AppTheme.buttonColor),
                     ),
                   ),
@@ -152,7 +160,7 @@ class _PickUpPolicyListScreenState extends State<PickUpPolicyListScreen> {
                             )),
                       );
                     })
-                : const Center(child: Text('No Shipping policy Available'))
+                :  Center(child: Text('No Shipping policy Available'.tr))
           ],
         ),
       ),

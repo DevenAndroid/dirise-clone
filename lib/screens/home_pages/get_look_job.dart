@@ -233,65 +233,74 @@ class _GetLookJobState extends State<GetLookJob> {
                                 crossAxisAlignment: CrossAxisAlignment.start,
                                 mainAxisAlignment: MainAxisAlignment.spaceAround,
                                 children: [
-                                  CachedNetworkImage(
-                                      imageUrl: item.featuredImage.toString(),
-                                      height: 150,
-                                      width: 150,
-                                      fit: BoxFit.contain,
-                                      errorWidget: (_, __, ___) => Image.asset('assets/images/new_logo.png')),
+                                  Expanded(
+                                    child: CachedNetworkImage(
+                                        imageUrl: item.featuredImage.toString(),
+                                        height: 150,
+                                        width: 150,
+                                        fit: BoxFit.contain,
+                                        errorWidget: (_, __, ___) => Image.asset('assets/images/new_logo.png')),
+                                  ),
                                   const SizedBox(
                                     width: 20,
                                   ),
-                                  Column(
-                                    children: [
-                                      const SizedBox(
-                                        height: 15,
-                                      ),
-                                      const Icon(Icons.location_on_outlined),
-                                      10.spaceY,
-                                      Text(
-                                       item.jobCountryId.toString(),
-                                        style: GoogleFonts.poppins(
-                                            fontSize: 14, fontWeight: FontWeight.w400, color: const Color(0xFF19313C)),
-                                      ),
-                                      2.spaceY,
-                                      Text(
-                                       item.jobStateId.toString(),
-                                        style: GoogleFonts.poppins(
-                                            fontSize: 14, fontWeight: FontWeight.w400, color: const Color(0xFF19313C)),
-                                      ),
-                                      const SizedBox(
-                                        height: 15,
-                                      ),
-                                      Row(
-                                        children: [
-
-                                          // SvgPicture.asset(
-                                          //   'assets/svgs/phonee.svg',
-                                          //   width: 20,
-                                          //   height: 20,
-                                          // ),
-                                          // const SizedBox(
-                                          //   width: 10,
-                                          // ),
-                                          // SvgPicture.asset(
-                                          //   'assets/svgs/chat-dots.svg',
-                                          //   width: 20,
-                                          //   height: 20,
-                                          // ),
-                                          GestureDetector(
-                                            onTap : (){
-                                              launchUrlString(item.linkdinUrl.toString());
-                                            },
-                                            child: Image.asset(
-                                              'assets/images/linkdin_new.png',
-                                              width: 20,
-                                              height: 20,
+                                  Expanded(
+                                    child: Column(
+                                      crossAxisAlignment: CrossAxisAlignment.center,
+                                      mainAxisAlignment: MainAxisAlignment.center,
+                                      children: [
+                                        const SizedBox(
+                                          height: 15,
+                                        ),
+                                        const Icon(Icons.location_on_outlined),
+                                        10.spaceY,
+                                        Text(
+                                         item.jobCountryId.toString(),
+                                          style: GoogleFonts.poppins(
+                                              fontSize: 14, fontWeight: FontWeight.w400, color: const Color(0xFF19313C)),
+                                        ),
+                                        2.spaceY,
+                                        Text(
+                                         item.jobStateId.toString(),
+                                          textAlign: TextAlign.center,
+                                          style: GoogleFonts.poppins(
+                                              fontSize: 14, fontWeight: FontWeight.w400, color: const Color(0xFF19313C)),
+                                        ),
+                                        const SizedBox(
+                                          height: 15,
+                                        ),
+                                        Row(
+                                          crossAxisAlignment: CrossAxisAlignment.center,
+                                          mainAxisAlignment: MainAxisAlignment.center,
+                                          children: [
+                                    
+                                            // SvgPicture.asset(
+                                            //   'assets/svgs/phonee.svg',
+                                            //   width: 20,
+                                            //   height: 20,
+                                            // ),
+                                            // const SizedBox(
+                                            //   width: 10,
+                                            // ),
+                                            // SvgPicture.asset(
+                                            //   'assets/svgs/chat-dots.svg',
+                                            //   width: 20,
+                                            //   height: 20,
+                                            // ),
+                                            GestureDetector(
+                                              onTap : (){
+                                                launchUrlString(item.linkdinUrl.toString());
+                                              },
+                                              child: Image.asset(
+                                                'assets/images/linkdin_new.png',
+                                                width: 20,
+                                                height: 20,
+                                              ),
                                             ),
-                                          ),
-                                        ],
-                                      ),
-                                    ],
+                                          ],
+                                        ),
+                                      ],
+                                    ),
                                   )
                                 ],
                               ),
@@ -304,7 +313,7 @@ class _GetLookJobState extends State<GetLookJob> {
                                     child: Column(
                                       children: [
                                         Text(
-                                          'Account Status',
+                                          'Account Status'.tr,
                                           maxLines: 1,
                                           overflow: TextOverflow.ellipsis,
                                           style: GoogleFonts.poppins(
@@ -324,7 +333,7 @@ class _GetLookJobState extends State<GetLookJob> {
                                     child: Column(
                                       children: [
                                         Text(
-                                          'Asking Salary',
+                                          'Asking Salary'.tr,
                                           style: GoogleFonts.poppins(
                                               fontSize: 15, fontWeight: FontWeight.w500, color: const Color(0xFF19313C)),
                                         ),
@@ -341,7 +350,7 @@ class _GetLookJobState extends State<GetLookJob> {
                                     child: Column(
                                       children: [
                                         Text(
-                                          'Experience',
+                                          'Experience'.tr,
                                           style: GoogleFonts.poppins(
                                               fontSize: 15, fontWeight: FontWeight.w500, color: const Color(0xFF19313C)),
                                         ),
@@ -375,7 +384,7 @@ class _GetLookJobState extends State<GetLookJob> {
                                 borderRadius: BorderRadius.only(topRight: Radius.circular(8)),
                                 color: Color(0xFF27D6FF)),
                             child: Text(
-                              " Job Offer ",
+                              " Job Offer ".tr,
                               style: GoogleFonts.poppins(fontSize: 20, fontWeight: FontWeight.w400, color: Colors.white),
                             ),
                           ),
