@@ -115,8 +115,8 @@ class _SearchProductsScreenState extends State<SearchProductsScreen> {
     return Scaffold(
         appBar: CommonAppBar(
           titleText: "Search".tr,
-          backGroundColor: AppTheme.buttonColor,
-          textColor: Colors.white,
+          backGroundColor: AppTheme.newPrimaryColor,
+          textColor: Colors.black,
         ),
         body: RefreshIndicator(
             onRefresh: () async {
@@ -127,7 +127,7 @@ class _SearchProductsScreenState extends State<SearchProductsScreen> {
                 Column(
                 children: [
                   Container(
-                    color: AppTheme.buttonColor,
+                    color: AppTheme.newPrimaryColor,
                     child: Column(
                       children: [
                         Hero(

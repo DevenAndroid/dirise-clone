@@ -438,8 +438,8 @@ class _MyAccountScreenState extends State<MyAccountScreen> {
                                    errorBuilder: (_,__,___) => Container(
                                      decoration: BoxDecoration(
                                          shape: BoxShape.circle,
-                                         color: Colors.white,
-                                         border: Border.all(color: Colors.white)),
+                                         color: AppTheme.buttonColor,
+                                         border: Border.all(color:  AppTheme.buttonColor)),
                                      child: const SizedBox(
                                          height: 65,
                                          width: 65,

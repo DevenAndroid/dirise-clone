@@ -1,3 +1,4 @@
+import 'package:auto_size_text/auto_size_text.dart';
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:dirise/utils/helper.dart';
 import 'package:dirise/widgets/loading_animation.dart';
@@ -118,9 +119,11 @@ class _CategoriesScreenState extends State<CategoriesScreen> {
                                       width: 10,
                                     ),
                                     Expanded(
-                                      child: Text(
+                                      child: AutoSizeText(
+                                        wrapWords: false,
                                         profileController.selectedLAnguage.value == 'English' ?  item.name.toString() : item.arabName.toString(),
                                         maxLines: 3,
+                                        softWrap: true,
                                         overflow: TextOverflow.ellipsis,
                                         style: GoogleFonts.poppins(
                                             fontSize: 14, fontWeight: FontWeight.w500, color: const Color(0xff014E70)),

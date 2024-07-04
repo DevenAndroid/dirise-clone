@@ -193,7 +193,10 @@ class _ServiceOptionalScreenState extends State<ServiceOptionalScreen> {
                   minLines: 2,
                   validator: (value) {
                     if (value!.trim().isEmpty) {
-                      return "Meta Description is required".tr;
+                      return 'Meta description is required'.tr;
+                    }
+                    if (value.trim().length < 15) {
+                      return 'Meta description must be at least 15 characters long'.tr;
                     }
                     return null;
                   },

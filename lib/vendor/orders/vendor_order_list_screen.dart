@@ -97,7 +97,7 @@ class _VendorOrderListState extends State<VendorOrderList> {
       decoration: const BoxDecoration(
           gradient: LinearGradient(
               colors: [
-                Color(0xff014E70),
+               AppTheme.newPrimaryColor,
                 Colors.white,
                 Colors.white,
               ],
@@ -119,13 +119,8 @@ class _VendorOrderListState extends State<VendorOrderList> {
                 SliverToBoxAdapter(
                   child: Container(
                     decoration: const BoxDecoration(
-                        color: AppTheme.buttonColor,
-                        image: DecorationImage(
-                          image: AssetImage(
-                            'assets/images/orderlitscontainer.png',
-                          ),
-                          fit: BoxFit.cover,
-                        )),
+                        color: AppTheme.newPrimaryColor,
+                       ),
                     child: Padding(
                       padding: EdgeInsets.symmetric(vertical: AddSize.padding10),
                       child: Column(
@@ -139,7 +134,6 @@ class _VendorOrderListState extends State<VendorOrderList> {
                                 },
                                 icon:  profileController.selectedLAnguage.value == 'English' ?
                                 Image.asset('assets/images/back_icon_new.png',
-                                    color : Colors.white,
                                   height: 20,
                                   width: 20,
                                 ) :
@@ -147,14 +141,13 @@ class _VendorOrderListState extends State<VendorOrderList> {
                       'assets/images/forward_icon.png',
                       height: 19,
                       width: 19,
-                      color: Colors.white,
                     )
                               ),
                               // addWidth(20),
                               Text(
                                 'Orders List'.tr,
                                 style: GoogleFonts.poppins(
-                                  color: Colors.white,
+                                  color: Colors.black,
                                   fontSize: 18,
                                   fontWeight: FontWeight.w600,
                                   letterSpacing: 1,
@@ -167,7 +160,7 @@ class _VendorOrderListState extends State<VendorOrderList> {
                           ),
                           Container(
                               decoration: BoxDecoration(
-                                color: Colors.white.withOpacity(.1),
+                                color: AppTheme.buttonColor,
                                 borderRadius: BorderRadius.circular(6),
                                 border: Border.all(color: Colors.white24),
                               ),
@@ -244,7 +237,7 @@ class _VendorOrderListState extends State<VendorOrderList> {
                               // vendorOrderListController.searchController,
                               style: GoogleFonts.poppins(
                                 fontSize: 17,
-                                color: Colors.white,
+                                color: Colors.black,
                               ),
                               textAlignVertical: TextAlignVertical.center,
                               textInputAction: TextInputAction.search,
@@ -252,18 +245,18 @@ class _VendorOrderListState extends State<VendorOrderList> {
                               decoration: InputDecoration(
                                   filled: true,
                                   fillColor: Colors.white.withOpacity(.1),
-                                  border: OutlineInputBorder(
-                                      borderSide: BorderSide(color: Colors.white.withOpacity(.2)),
-                                      borderRadius: const BorderRadius.all(Radius.circular(6))),
+                                  border: const OutlineInputBorder(
+                                      borderSide: BorderSide(color: AppTheme.buttonColor),
+                                      borderRadius: BorderRadius.all(Radius.circular(6))),
                                   enabled: true,
-                                  enabledBorder: OutlineInputBorder(
-                                      borderSide: BorderSide(color: Colors.white.withOpacity(.2)),
-                                      borderRadius: const BorderRadius.all(Radius.circular(6))),
+                                  enabledBorder: const OutlineInputBorder(
+                                      borderSide: BorderSide(color:AppTheme.buttonColor),
+                                      borderRadius: BorderRadius.all(Radius.circular(6))),
                                   contentPadding:
                                       EdgeInsets.symmetric(horizontal: AddSize.padding20, vertical: AddSize.padding10),
                                   hintText: 'Search'.tr,
                                   hintStyle: GoogleFonts.poppins(
-                                      fontSize: AddSize.font16, color: Colors.white, fontWeight: FontWeight.w400)),
+                                      fontSize: AddSize.font16, color: Colors.black, fontWeight: FontWeight.w400)),
                             ),
                           ),
                           SizedBox(
