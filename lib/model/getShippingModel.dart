@@ -1,7 +1,7 @@
 class GetShippingModel {
   bool? status;
   String? message;
-  List<ShippingPolicy>? shippingPolicy;
+  List<ShippingPolicy>? shippingPolicy = [];
 
   GetShippingModel({this.status, this.message, this.shippingPolicy});
 
@@ -14,6 +14,10 @@ class GetShippingModel {
         shippingPolicy!.add(new ShippingPolicy.fromJson(v));
       });
     }
+    else {
+      shippingPolicy = [];
+    }
+
   }
 
   Map<String, dynamic> toJson() {

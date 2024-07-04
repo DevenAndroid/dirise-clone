@@ -5,7 +5,9 @@ import 'package:flutter/widgets.dart';
 import 'package:get/get.dart';
 import 'package:google_fonts/google_fonts.dart';
 
+import '../controller/profile_controller.dart';
 import '../language/app_strings.dart';
+import '../widgets/common_colour.dart';
 
 class ListOfQuestionsScreen extends StatefulWidget {
   const ListOfQuestionsScreen({super.key});
@@ -15,25 +17,33 @@ class ListOfQuestionsScreen extends StatefulWidget {
 }
 
 class _ListOfQuestionsScreenState extends State<ListOfQuestionsScreen> {
+  final profileController = Get.put(ProfileController());
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
         backgroundColor: Colors.white,
         elevation: 0,
-        leading: GestureDetector(
-          onTap: () {
+        leading:GestureDetector(
+          onTap: (){
             Get.back();
           },
-          child: IconButton(
-            icon: const Icon(
-              Icons.arrow_back_ios_new,
-              color: Color(0xff0D5877),
-              size: 16,
-            ),
-            onPressed: () {
-              // Handle back button press
-            },
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.center,
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: [
+              profileController.selectedLAnguage.value != 'English' ?
+              Image.asset(
+                'assets/images/forward_icon.png',
+                height: 19,
+                width: 19,
+              ) :
+              Image.asset(
+                'assets/images/back_icon_new.png',
+                height: 19,
+                width: 19,
+              ),
+            ],
           ),
         ),
         titleSpacing: 0,
@@ -53,7 +63,7 @@ class _ListOfQuestionsScreenState extends State<ListOfQuestionsScreen> {
           child: Column(
             children: [
               Text(
-                'Here are some of the questions that we want to ask',
+                'Here are some of the questions that we want to ask'.tr,
                 style: GoogleFonts.poppins(fontWeight: FontWeight.w400, fontSize: 16, color: Colors.black),
               ),
               const SizedBox(
@@ -88,7 +98,7 @@ class _ListOfQuestionsScreenState extends State<ListOfQuestionsScreen> {
                         ),
                         Expanded(
                           child: Text(
-                            'Social Media',
+                            'Social Media'.tr,
                             style: GoogleFonts.poppins(fontWeight: FontWeight.w500, fontSize: 24, color: Colors.black),
                           ),
                         )
@@ -98,7 +108,7 @@ class _ListOfQuestionsScreenState extends State<ListOfQuestionsScreen> {
                       height: 10,
                     ),
                     Text(
-                      'Any social media that is related to your store',
+                      'Any social media that is related to your store'.tr,
                       style: GoogleFonts.poppins(fontWeight: FontWeight.w400, fontSize: 14, color: Colors.black),
                     )
                   ],
@@ -136,7 +146,7 @@ class _ListOfQuestionsScreenState extends State<ListOfQuestionsScreen> {
                         ),
                         Expanded(
                           child: Text(
-                            'Products & services',
+                            'Products & services'.tr,
                             style: GoogleFonts.poppins(fontWeight: FontWeight.w500, fontSize: 24, color: Colors.black),
                           ),
                         )
@@ -146,7 +156,7 @@ class _ListOfQuestionsScreenState extends State<ListOfQuestionsScreen> {
                       height: 10,
                     ),
                     Text(
-                      'What are the product or service you that you provide',
+                      'What are the product or service you that you provide'.tr,
                       style: GoogleFonts.poppins(fontWeight: FontWeight.w400, fontSize: 14, color: Colors.black),
                     )
                   ],
@@ -184,7 +194,7 @@ class _ListOfQuestionsScreenState extends State<ListOfQuestionsScreen> {
                         ),
                         Expanded(
                           child: Text(
-                            'History & Location',
+                            'History & Location'.tr,
                             style: GoogleFonts.poppins(fontWeight: FontWeight.w500, fontSize: 24, color: Colors.black),
                           ),
                         )
@@ -194,7 +204,7 @@ class _ListOfQuestionsScreenState extends State<ListOfQuestionsScreen> {
                       height: 10,
                     ),
                     Text(
-                      'Tell us more about your story. ',
+                      'Tell us more about your story.'.tr,
                       style: GoogleFonts.poppins(fontWeight: FontWeight.w400, fontSize: 14, color: Colors.black),
                     )
                   ],
@@ -204,7 +214,7 @@ class _ListOfQuestionsScreenState extends State<ListOfQuestionsScreen> {
                 height: 20,
               ),
               Text(
-                'Our goal is to make sure that our platform is safe. Thank you for being understanding.  '.tr,
+                'Our goal is to make sure that our platform is safe. Thank you for being understanding.'.tr,
                 style: GoogleFonts.poppins(fontWeight: FontWeight.w400, fontSize: 16, color: Colors.black),
               ),
               const SizedBox(
@@ -221,18 +231,18 @@ class _ListOfQuestionsScreenState extends State<ListOfQuestionsScreen> {
                   decoration: BoxDecoration(
                     border: Border.all(
                       color: const Color(0xff0D5877), // Border color
-                      width: 1.0, // Border width
+                      width: 2.0, // Border width
                     ),
                     borderRadius: BorderRadius.circular(2), // Border radius
                   ),
                   padding: const EdgeInsets.all(10), // Padding inside the container
-                  child: const Center(
+                  child:  Center(
                     child: Text(
-                      'Next',
-                      style: TextStyle(
+                      'Next'.tr,
+                      style: const TextStyle(
                         fontSize: 16,
                         fontWeight: FontWeight.bold,
-                        color: Colors.black, // Text color
+                        color: AppTheme.buttonColor, // Text color
                       ),
                     ),
                   ),

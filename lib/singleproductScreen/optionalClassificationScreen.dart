@@ -7,6 +7,7 @@ import 'package:flutter/widgets.dart';
 import 'package:get/get.dart';
 import 'package:google_fonts/google_fonts.dart';
 
+import '../controller/profile_controller.dart';
 import '../controller/service_controller.dart';
 import '../controller/vendor_controllers/add_product_controller.dart';
 import '../model/common_modal.dart';
@@ -20,11 +21,11 @@ import 'ReviewandPublishScreen.dart';
 
 class OptionalClassificationScreen extends StatefulWidget {
   int? id;
-  String? Packagedetails;
-  int? PromotionCode;
-  int? ProductCode;
-  String? SerialNumber;
-  String? Productnumber;
+  dynamic Packagedetails;
+  dynamic PromotionCode;
+  dynamic  ProductCode;
+  dynamic SerialNumber;
+  dynamic Productnumber;
   OptionalClassificationScreen(
       {super.key,
       this.id,
@@ -58,7 +59,7 @@ class _OptionalClassificationScreenState extends State<OptionalClassificationScr
     map['product_code'] = controller.productCodeController.text.trim();
     map['promotion_code'] = controller.promotionCodeController.text.trim();
     map['package_detail'] = controller.packageDetailsController.text.trim();
-    map['item_type'] = 'service';
+    map['item_type'] = 'product';
     map['id'] = addProductController.idProduct.value.toString();
     FocusManager.instance.primaryFocus!.unfocus();
     repositories.postApi(url: ApiUrls.giveawayProductAddress, context: context, mapData: map).then((value) {
@@ -66,7 +67,7 @@ class _OptionalClassificationScreenState extends State<OptionalClassificationScr
       print('API Response Status Code: ${response.status}');
       showToast(response.message.toString());
       if (response.status == true) {
-        Get.to(ReviewandPublishScreen());
+        Get.to(ProductReviewPublicScreen());
       }
     });
   }
@@ -76,14 +77,15 @@ class _OptionalClassificationScreenState extends State<OptionalClassificationScr
     // TODO: implement initState
     super.initState();
     if (widget.id != null) {
-      controller.serialNumberController.text = widget.SerialNumber.toString();
-      controller.productNumberController.text = widget.Productnumber.toString();
-      controller.productCodeController.text = widget.ProductCode.toString();
-      controller.promotionCodeController.text = widget.SerialNumber.toString();
-      controller.packageDetailsController.text = widget.Productnumber.toString();
+      controller.serialNumberController.text = widget.SerialNumber ?? "";
+      controller.productNumberController.text = widget.Productnumber ?? "";
+      controller.productCodeController.text = widget.PromotionCode.toString();
+      controller.promotionCodeController.text = widget.SerialNumber ?? "";
+      controller.packageDetailsController.text = widget.Productnumber ?? "";
     }
   }
 
+  final profileController = Get.put(ProfileController());
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -92,13 +94,25 @@ class _OptionalClassificationScreenState extends State<OptionalClassificationScr
         surfaceTintColor: Colors.white,
         elevation: 0,
         leading: GestureDetector(
-          onTap: () {
+          onTap: (){
             Get.back();
           },
-          child: const Icon(
-            Icons.arrow_back_ios_new,
-            color: Color(0xff0D5877),
-            size: 16,
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.center,
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: [
+              profileController.selectedLAnguage.value != 'English' ?
+              Image.asset(
+                'assets/images/forward_icon.png',
+                height: 19,
+                width: 19,
+              ) :
+              Image.asset(
+                'assets/images/back_icon_new.png',
+                height: 19,
+                width: 19,
+              ),
+            ],
           ),
         ),
         titleSpacing: 0,
@@ -130,6 +144,7 @@ class _OptionalClassificationScreenState extends State<OptionalClassificationScr
                     return null;
                   },
                 ),
+                const SizedBox(height: 10),
                 CommonTextField(
                   controller: controller.productNumberController,
                   obSecure: false,
@@ -141,6 +156,7 @@ class _OptionalClassificationScreenState extends State<OptionalClassificationScr
                     return null;
                   },
                 ),
+                const SizedBox(height: 10),
                 CommonTextField(
                   controller: controller.productCodeController,
                   obSecure: false,
@@ -152,6 +168,7 @@ class _OptionalClassificationScreenState extends State<OptionalClassificationScr
                     return null;
                   },
                 ),
+                const SizedBox(height: 10),
                 CommonTextField(
                   controller: controller.promotionCodeController,
                   obSecure: false,
@@ -163,6 +180,7 @@ class _OptionalClassificationScreenState extends State<OptionalClassificationScr
                     return null;
                   },
                 ),
+                const SizedBox(height: 10),
                 TextFormField(
                   controller: controller.packageDetailsController,
                   maxLines: 5,
@@ -220,7 +238,7 @@ class _OptionalClassificationScreenState extends State<OptionalClassificationScr
                 const SizedBox(height: 20),
                 GestureDetector(
                   onTap: () {
-                    Get.to(const ReviewandPublishScreen());
+                    Get.to( ProductReviewPublicScreen());
                   },
                   child: Container(
                     width: Get.width,

@@ -9,6 +9,7 @@ import 'package:get/get_core/src/get_main.dart';
 import 'package:google_fonts/google_fonts.dart';
 
 import '../../../controller/cart_controller.dart';
+import '../../../controller/profile_controller.dart';
 import '../../../iAmHereToSell/PersonalizeAddAddressScreen.dart';
 import '../../../iAmHereToSell/personalizeyourstoreScreen.dart';
 import '../../../language/app_strings.dart';
@@ -100,9 +101,8 @@ class _AddAddressScreenState extends State<AddAddressScreen> {
     // TODO: implement initState
     super.initState();
     getAddressDetails();
-
-
   }
+  final profileController = Get.put(ProfileController());
   @override
   Widget build(BuildContext context) {
     final size = MediaQuery.of(context).size;
@@ -110,16 +110,27 @@ class _AddAddressScreenState extends State<AddAddressScreen> {
       appBar: AppBar(
         backgroundColor: Colors.white,
         elevation: 0,
-        leading: IconButton(
-          icon: const Icon(
-            Icons.arrow_back_ios_new,
-            color: Color(0xff0D5877),
-            size: 16,
-          ),
-          onPressed: () {
+        leading: GestureDetector(
+          onTap: (){
             Get.back();
-            // Handle back button press
           },
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.center,
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: [
+              profileController.selectedLAnguage.value != 'English' ?
+              Image.asset(
+                'assets/images/forward_icon.png',
+                height: 19,
+                width: 19,
+              ) :
+              Image.asset(
+                'assets/images/back_icon_new.png',
+                height: 19,
+                width: 19,
+              ),
+            ],
+          ),
         ),
         titleSpacing: 0,
         title: Row(
@@ -157,7 +168,7 @@ class _AddAddressScreenState extends State<AddAddressScreen> {
                         size: 35,
                         color: Color(0xffE4E2E2),
                       ),
-                      Text("Address",
+                      Text("Address".tr,
                           style: GoogleFonts.poppins(
                               fontSize: 32, fontWeight: FontWeight.w400, color: const Color(0xffACACAC)))
                     ],
@@ -169,7 +180,7 @@ class _AddAddressScreenState extends State<AddAddressScreen> {
               ),
               addressListModel.address?.billing != null ?
               ListView.builder(
-                physics: NeverScrollableScrollPhysics(),
+                physics: const NeverScrollableScrollPhysics(),
                 itemCount: addressListModel.address!.billing!.length,
                 shrinkWrap: true,
                 itemBuilder: (context,index){
@@ -184,7 +195,7 @@ class _AddAddressScreenState extends State<AddAddressScreen> {
                         child: Column(
                           crossAxisAlignment: CrossAxisAlignment.start,
                           children: [
-                            SizedBox(height: 10,),
+                            const SizedBox(height: 10,),
                             Padding(
                               padding: const EdgeInsets.symmetric(horizontal: 13),
                               child:
@@ -208,15 +219,15 @@ class _AddAddressScreenState extends State<AddAddressScreen> {
                               child: Column(
                                 crossAxisAlignment: CrossAxisAlignment.start,
                                 children: [
-                                  Text('City - ${addressList.city.toString()}'),
-                                  Text('state - ${addressList.state.toString()}'),
-                                  Text('country - ${addressList.country.toString()}'),
-                                  Text('zip code - ${addressList.zipCode.toString()}'),
+                                  Text('${'City'.tr} - ${addressList.city.toString()}'),
+                                  Text('${'state'.tr} - ${addressList.state.toString()}'),
+                                  Text('${'country'.tr} - ${addressList.country.toString()}'),
+                                  Text('${'zip code'.tr} - ${addressList.zipCode ?? ''}'),
                                   const SizedBox(
                                     height: 8,
                                   ),
                                   Text(
-                                    "Add delivery instructions",
+                                    "Add delivery instructions".tr,
                                     style: GoogleFonts.poppins(
                                         fontSize: 18, fontWeight: FontWeight.w500, color: const Color(0xff014E70)),
                                   ),
@@ -238,7 +249,7 @@ class _AddAddressScreenState extends State<AddAddressScreen> {
                                             town: addressList.town,
                                           ));
                                         },
-                                        child: Text("Edit",
+                                        child: Text("Edit".tr,
                                             style: GoogleFonts.poppins(
                                                 fontSize: 18,
                                                 fontWeight: FontWeight.w300,
@@ -249,7 +260,7 @@ class _AddAddressScreenState extends State<AddAddressScreen> {
                                         onTap:(){
                                           deleteAddress(context: context, id: addressList.id.toString());
                                         },
-                                        child: Text("|Remove",
+                                        child: Text("|Remove".tr,
                                             style: GoogleFonts.poppins(
                                                 fontSize: 18,
                                                 fontWeight: FontWeight.w300,
@@ -259,7 +270,7 @@ class _AddAddressScreenState extends State<AddAddressScreen> {
                                         onTap:(){
                                           defaultAddressApi(addressList.id.toString());
                                         },
-                                        child: Text("|Set as default",
+                                        child: Text("|Set as default".tr,
                                             style: GoogleFonts.poppins(
                                                 fontSize: 18,
                                                 fontWeight: FontWeight.w300,

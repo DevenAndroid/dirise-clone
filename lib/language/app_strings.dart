@@ -29,9 +29,10 @@ class AppStrings{
   static String faq = "FAQs";
   static String newsFeed = "News Feed";
   static String pdfReader = "Digital Pdf Reader";
-  static String vendorPartner = "Sell Better";
+  static String vendorPartner = "Sell Better Dashboard";
   static String language = "Language";
   static String aboutUs = "About Us";
+  static String remark = "Remark";
   static String termsCondition = "Terms and Conditions";
   static String returnPolicy = "Return Policy";
   static String signOut = "Logout";
@@ -73,10 +74,12 @@ class AppStrings{
   static String artificialIntelligenceAI = " Artificial Intelligence (Al) is gaining a strong foothold in various niches, and blogging is no exception.By making use of the best Al writing tools, you can create a long-form affiliate blog post in 10 to 15 minutes (instead of spending hours writing it yourself) and generate traffic";
   static String more = "More";
   static String trendingProducts = "trending Products";
+  static String showProducts = "Featured showcase";
+  static String authersProducts = "Featured Stores";
   static String popularProducts = "Popular Products";
   static String type = "Type";
   static String notHaveAnyProduct = "Category don't have any store.";
-  static String whishlistEmpty = "Your wishlist is empty";
+  static String whishlistEmpty = "Your favourite is empty";
   static String salesNotAvailable = "Sales not available";
   static String myProfile1 = "My profile";
   static String firstName = "First Name";
@@ -103,7 +106,7 @@ class AppStrings{
   static String relatedProduct = "Related Products";
   static String product = "product";
   static String generalLibraries = "General Libraries";
-  static String bagEmpty = "Your bag is empty";
+  static String bagEmpty = "Your cart is empty";
   static String schoolNursery = "School & Nurseries";
   static String audio = "Audio";
   static String shopNow = "Shop now!";

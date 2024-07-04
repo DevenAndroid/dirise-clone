@@ -1,5 +1,11 @@
 import 'dart:async';
 import 'dart:developer';
+import 'dart:ffi';
+import 'dart:ffi';
+import 'dart:ffi';
+import 'dart:ffi';
+import 'dart:ffi';
+import 'dart:ffi';
 import 'dart:ui' as ui;
 import 'package:dirise/Services/pick_up_address_service.dart';
 import 'package:dirise/newAddress/pickUpAddressScreen.dart';
@@ -15,6 +21,9 @@ import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:geolocator/geolocator.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
+import '../controller/google_map_controlleer.dart';
+import '../controller/location_controller.dart';
+import '../controller/service_controller.dart';
 import '../widgets/common_button.dart';
 import '../widgets/common_colour.dart';
 import '../widgets/dimension_screen.dart';
@@ -30,33 +39,37 @@ class ChooseAddressService extends StatefulWidget {
 }
 
 class _ChooseAddressServiceState extends State<ChooseAddressService> {
-  final Completer<GoogleMapController> googleMapController = Completer();
-  GoogleMapController? mapController;
 
-  String? _address = "";
   Position? _currentPosition;
-
+  final serviceController = Get.put(ServiceController());
+  final controllerMap = Get.put(ControllerMap());
   Future<bool> _handleLocationPermission() async {
     bool serviceEnabled;
     LocationPermission permission;
 
     serviceEnabled = await Geolocator.isLocationServiceEnabled();
     if (!serviceEnabled) {
-      ScaffoldMessenger.of(context)
-          .showSnackBar(const SnackBar(content: Text('Location services are disabled. Please enable the services')));
+      ScaffoldMessenger.of(context).showSnackBar(
+        const SnackBar(content: Text('Location services are disabled. Please enable the services')),
+      );
       return false;
     }
     permission = await Geolocator.checkPermission();
     if (permission == LocationPermission.denied) {
       permission = await Geolocator.requestPermission();
       if (permission == LocationPermission.denied) {
-        ScaffoldMessenger.of(context).showSnackBar(const SnackBar(content: Text('Location permissions are denied')));
+        ScaffoldMessenger.of(context).showSnackBar(
+          const SnackBar(content: Text('Location permissions are denied')),
+        );
         return false;
       }
     }
     if (permission == LocationPermission.deniedForever) {
       ScaffoldMessenger.of(context).showSnackBar(
-          const SnackBar(content: Text('Location permissions are permanently denied, we cannot request permissions.')));
+        const SnackBar(
+          content: Text('Location permissions are permanently denied, we cannot request permissions.'),
+        ),
+      );
       return false;
     }
     return true;
@@ -68,49 +81,17 @@ class _ChooseAddressServiceState extends State<ChooseAddressService> {
     if (!hasPermission) return;
     await Geolocator.getCurrentPosition(desiredAccuracy: LocationAccuracy.high).then((Position position) {
       setState(() => _currentPosition = position);
-      _getAddressFromLatLng(_currentPosition!);
-      mapController!.animateCamera(CameraUpdate.newCameraPosition(
-          CameraPosition(target: LatLng(_currentPosition!.latitude, _currentPosition!.longitude), zoom: 15)));
+      controllerMap.getAddressFromLatLng(LatLng(_currentPosition!.latitude, _currentPosition!.longitude), "current location");
+      controllerMap.mapController!.animateCamera(CameraUpdate.newCameraPosition(
+        CameraPosition(target: LatLng(_currentPosition!.latitude, _currentPosition!.longitude), zoom: 15),
+      ));
       _onAddMarkerButtonPressed(LatLng(_currentPosition!.latitude, _currentPosition!.longitude), "current location");
       setState(() {});
-      // location = _currentAddress!;
     }).catchError((e) {
       debugPrint(e);
     });
   }
 
-  String? street;
-  String? city;
-  String? state;
-  String? country;
-  String? zipcode;
-  String? town;
-
-  Future<void> _getAddressFromLatLng(Position position) async {
-    List<Placemark> placemarks = await placemarkFromCoordinates(position.latitude, position.longitude);
-
-    if (placemarks != null && placemarks.isNotEmpty) {
-      Placemark placemark = placemarks[0];
-
-      setState(() {
-        street = placemark.street ?? '';
-        city = placemark.locality ?? '';
-        state = placemark.administrativeArea ?? '';
-        country = placemark.country ?? '';
-        zipcode = placemark.postalCode ?? '';
-        town = placemark.subAdministrativeArea ?? '';
-      });
-    }
-    await placemarkFromCoordinates(_currentPosition!.latitude, _currentPosition!.longitude)
-        .then((List<Placemark> placemarks) {
-      Placemark place = placemarks[0];
-      setState(() {
-        _address = '${place.subLocality}, ${place.subAdministrativeArea}, ${place.postalCode}';
-      });
-    }).catchError((e) {
-      debugPrint(e.toString());
-    });
-  }
 
   String? appLanguage = "English";
   getLanguage() async {
@@ -133,7 +114,10 @@ class _ChooseAddressServiceState extends State<ChooseAddressService> {
   GoogleMapController? mapController1;
   CameraPosition? cameraPosition;
   String location = "Search Location";
+  bool isMarkerDraggable = true;
+  Marker? redPinMarker;
   final Set<Marker> markers = {};
+
   Future<Uint8List> getBytesFromAsset(String path, int width) async {
     ByteData data = await rootBundle.load(path);
     ui.Codec codec = await ui.instantiateImageCodec(data.buffer.asUint8List(), targetWidth: width);
@@ -143,28 +127,32 @@ class _ChooseAddressServiceState extends State<ChooseAddressService> {
 
   Future<void> _onAddMarkerButtonPressed(LatLng lastMapPosition, markerTitle, {allowZoomIn = true}) async {
     final Uint8List markerIcon = await getBytesFromAsset('assets/icons/location.png', 140);
-    markers.clear();
-    markers.add(Marker(
-        markerId: MarkerId(lastMapPosition.toString()),
-        position: lastMapPosition,
-        infoWindow: const InfoWindow(
-          title: "",
+
+    redPinMarker = Marker(
+      markerId: MarkerId('redPin'),
+      position: lastMapPosition,
+      draggable: isMarkerDraggable,
+      icon: BitmapDescriptor.defaultMarkerWithHue(BitmapDescriptor.hueRed),
+    );
+
+    if (  controllerMap.googleMapController.isCompleted) {
+      controllerMap.mapController!.animateCamera(
+        CameraUpdate.newCameraPosition(
+          CameraPosition(target: lastMapPosition, zoom: allowZoomIn ? 13 : 10),
         ),
-        icon: BitmapDescriptor.fromBytes(markerIcon)));
-    // BitmapDescriptor.defaultMarkerWithHue(BitmapDescriptor.hueCyan,)));
-    if (googleMapController.isCompleted) {
-      mapController!.animateCamera(
-          CameraUpdate.newCameraPosition(CameraPosition(target: lastMapPosition, zoom: allowZoomIn ? 14 : 11)));
+      );
     }
     setState(() {});
   }
+
+  final locationController = Get.put(LocationController());
 
   @override
   Widget build(BuildContext context) {
     log(appLanguage.toString());
     return WillPopScope(
       onWillPop: () async {
-        mapController!.dispose();
+        controllerMap.mapController!.dispose();
         return true;
       },
       child: GestureDetector(
@@ -183,14 +171,23 @@ class _ChooseAddressServiceState extends State<ChooseAddressService> {
               ),
               mapType: MapType.normal,
               onMapCreated: (controller) {
-                mapController = controller;
+                controllerMap.mapController = controller;
                 setState(() async {});
               },
-              markers: markers,
-              onCameraMove: (CameraPosition cameraPositions) {
-                cameraPosition = cameraPositions;
+              markers: {
+                if (redPinMarker != null) redPinMarker!,
               },
-              onCameraIdle: () async {},
+              onCameraMove: (CameraPosition cameraPositions) {
+                if (isMarkerDraggable && redPinMarker != null) {
+                  setState(() {
+                    redPinMarker = redPinMarker!.copyWith(positionParam: cameraPositions.target);
+                  });
+                }},
+              onCameraIdle: () async {
+                if (redPinMarker != null) {
+                  await   controllerMap.getAddressFromLatLng(redPinMarker!.position, "current location");
+                }
+              },
             ),
             Positioned(
                 top: 10,
@@ -210,7 +207,7 @@ class _ChooseAddressServiceState extends State<ChooseAddressService> {
                           });
                       if (place != null) {
                         setState(() {
-                          _address = place.description.toString();
+                          controllerMap.address.value = place.description.toString();
                         });
                         final plist = GoogleMapsPlaces(
                           apiKey: googleApikey,
@@ -224,10 +221,10 @@ class _ChooseAddressServiceState extends State<ChooseAddressService> {
                         final lang = geometry.location.lng;
                         var newlatlang = LatLng(lat, lang);
                         setState(() {
-                          _address = place.description.toString();
+                          controllerMap.address.value = place.description.toString();
                           _onAddMarkerButtonPressed(LatLng(lat, lang), place.description);
                         });
-                        mapController?.animateCamera(
+                        controllerMap.mapController?.animateCamera(
                             CameraUpdate.newCameraPosition(CameraPosition(target: newlatlang, zoom: 17)));
                         setState(() {});
                       }
@@ -242,7 +239,7 @@ class _ChooseAddressServiceState extends State<ChooseAddressService> {
                             child: ListTile(
                               leading: const Icon(Icons.location_on_outlined, color: AppTheme.primaryColor),
                               title: Text(
-                                _address.toString(),
+                                controllerMap.address.value.toString(),
                                 style: TextStyle(fontSize: AddSize.font14),
                               ),
                               trailing: const Icon(Icons.search),
@@ -273,38 +270,61 @@ class _ChooseAddressServiceState extends State<ChooseAddressService> {
                           const SizedBox(
                             height: 20,
                           ),
-                          Row(
-                            children: [
-                              Icon(
-                                Icons.location_on,
-                                color: AppTheme.primaryColor,
-                                size: AddSize.size25,
-                              ),
-                              SizedBox(
-                                width: AddSize.size12,
-                              ),
-                              Expanded(
-                                child: Text(
-                                  _address.toString(),
-                                  style: Theme.of(context)
-                                      .textTheme
-                                      .headlineSmall!
-                                      .copyWith(fontWeight: FontWeight.w500, fontSize: AddSize.font16),
+                          Expanded(
+                            child: Row(
+                              children: [
+                                Icon(
+                                  Icons.location_on,
+                                  color: AppTheme.primaryColor,
+                                  size: AddSize.size25,
                                 ),
-                              ),
-                              const SizedBox(
-                                width: 10,
-                              ),
-                              Expanded(
-                                child: Text(
-                                  'Save Location',
-                                  style: Theme.of(context).textTheme.headlineSmall!.copyWith(
-                                      fontWeight: FontWeight.w600,
-                                      fontSize: AddSize.font16,
-                                      color: const Color(0xff014E70)),
+                                SizedBox(
+                                  width: AddSize.size12,
                                 ),
-                              )
-                            ],
+                                Expanded(
+                                  child: Text(
+                                    controllerMap.address.value.toString(),
+                                    style: Theme.of(context)
+                                        .textTheme
+                                        .headlineSmall!
+                                        .copyWith(fontWeight: FontWeight.w500, fontSize: AddSize.font16),
+                                  ),
+                                ),
+                                const SizedBox(
+                                  width: 10,
+                                ),
+                                InkWell(
+                                  onTap: (){
+                                    showDialog<String>(
+                                        context: context,
+                                        builder: (BuildContext context) => AlertDialog(
+                                          title: Text('Save Location'.tr),
+                                          content: Text('Do you want to save your location.'.tr),
+                                          actions: <Widget>[
+                                            TextButton(
+                                              onPressed: () => Get.back(),
+                                              child: Text('Cancel'.tr),
+                                            ),
+                                            TextButton(
+                                              onPressed: () async {
+                                                Get.back();
+                                                controllerMap.sellingPickupAddressApi(context);
+                                              },
+                                              child: Text('OK'.tr),
+                                            ),
+                                          ],
+                                        ));
+                                  },
+                                  child: Text(
+                                    'Save Location',
+                                    style: Theme.of(context).textTheme.headlineSmall!.copyWith(
+                                        fontWeight: FontWeight.w600,
+                                        fontSize: AddSize.font16,
+                                        color: const Color(0xff014E70)),
+                                  ),
+                                )
+                              ],
+                            ),
                           ),
                           const SizedBox(
                             height: 20,
@@ -314,12 +334,12 @@ class _ChooseAddressServiceState extends State<ChooseAddressService> {
                             borderRadius: 11,
                             onPressed: () {
                               Get.to(PickUpAddressService(
-                                street: street,
-                                city: city,
-                                state: state,
-                                country: country,
-                                town: town,
-                                zipcode: zipcode,
+                                street:   controllerMap.street.value,
+                                city:   controllerMap.city.value,
+                                state:   controllerMap.state.value,
+                                country:   controllerMap.country.value,
+                                town:   controllerMap.town.value,
+                                zipcode:   controllerMap.zipcode.value,
                               ));
                             },
                           ),

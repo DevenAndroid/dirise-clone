@@ -54,7 +54,7 @@ class _TellUsYourSelfScreenState extends State<TellUsYourSelfScreen> {
                     repositories.postApi(url: ApiUrls.giveawayProductAddress, context: context, mapData: map).then((value) {
                       ModelCommonResponse response = ModelCommonResponse.fromJson(jsonDecode(value));
                       if (response.status == true) {
-                        Get.to(()=> const DateRangeScreen());
+                        Get.to(()=> DateRangeScreen());
                       }
                     });
                   },
@@ -102,7 +102,7 @@ class _TellUsYourSelfScreenState extends State<TellUsYourSelfScreen> {
                     repositories.postApi(url: ApiUrls.giveawayProductAddress, context: context, mapData: map).then((value) {
                       ModelCommonResponse response = ModelCommonResponse.fromJson(jsonDecode(value));
                       if (response.status == true) {
-                        Get.to(()=> const AcademicDateScreen());
+                        Get.to(()=> AcademicDateScreen());
                       }
                     });
                   },
@@ -141,7 +141,7 @@ class _TellUsYourSelfScreenState extends State<TellUsYourSelfScreen> {
                     repositories.postApi(url: ApiUrls.giveawayProductAddress, context: context, mapData: map).then((value) {
                       ModelCommonResponse response = ModelCommonResponse.fromJson(jsonDecode(value));
                       if (response.status == true) {
-                        Get.to(()=>const ExtendedProgramsScreenDateScreen());
+                        Get.to(()=> ExtendedProgramsScreenDateScreen());
                       }
                     });
                   },
@@ -182,7 +182,7 @@ class _TellUsYourSelfScreenState extends State<TellUsYourSelfScreen> {
                     repositories.postApi(url: ApiUrls.giveawayProductAddress, context: context, mapData: map).then((value) {
                       ModelCommonResponse response = ModelCommonResponse.fromJson(jsonDecode(value));
                       if (response.status == true) {
-                        Get.to(()=> const DateRangeScreenTour());
+                        Get.to(()=> DateRangeScreenTour());
                       }
                     });
                   },
@@ -222,7 +222,7 @@ class _TellUsYourSelfScreenState extends State<TellUsYourSelfScreen> {
                     repositories.postApi(url: ApiUrls.giveawayProductAddress, context: context, mapData: map).then((value) {
                       ModelCommonResponse response = ModelCommonResponse.fromJson(jsonDecode(value));
                       if (response.status == true) {
-                        Get.to(()=> const DateRangeSeminarsScreen());
+                        Get.to(()=> DateRangeSeminarsScreen());
                       }
                     });
                   },
@@ -262,7 +262,7 @@ class _TellUsYourSelfScreenState extends State<TellUsYourSelfScreen> {
                     repositories.postApi(url: ApiUrls.giveawayProductAddress, context: context, mapData: map).then((value) {
                       ModelCommonResponse response = ModelCommonResponse.fromJson(jsonDecode(value));
                       if (response.status == true) {
-                        Get.to(()=> const DateRangeWebiinarsScreen());
+                        Get.to(()=> DateRangeWebiinarsScreen());
                       }
                     });
                   },

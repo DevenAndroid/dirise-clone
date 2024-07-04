@@ -9,6 +9,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:get/get.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
+import '../../controller/profile_controller.dart';
 import '../../controller/vendor_controllers/add_product_controller.dart';
 import '../../controller/vendor_controllers/vendor_store_timing.dart';
 import '../../model/vendor_models/model_store_availability.dart';
@@ -118,7 +119,7 @@ class _SetTimeScreenState extends State<SetTimeScreen> {
       debounce!.cancel();
     }
   }
-
+  final profileController = Get.put(ProfileController());
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -132,18 +133,30 @@ class _SetTimeScreenState extends State<SetTimeScreen> {
               fontWeight: FontWeight.w600,
               color: const Color(0xff423E5E),
             )),
-        leading: GestureDetector(
-          onTap: () {
-            Get.back();
-            // _scaffoldKey.currentState!.openDrawer();
-          },
-          child: Padding(
-            padding: const EdgeInsets.all(15),
-            child: Image.asset(
-              'assets/icons/backicon.png',
-              height: 20,
+        leading:Column(
+          crossAxisAlignment: CrossAxisAlignment.center,
+          mainAxisAlignment : MainAxisAlignment.center,
+          children: [
+            GestureDetector(
+              onTap: () {
+                Get.back();
+              },
+              child: Padding(
+                padding: const EdgeInsets.all(15),
+                child:  profileController.selectedLAnguage.value != 'English' ?
+                Image.asset(
+                  'assets/images/forward_icon.png',
+                  height: 19,
+                  width: 19,
+                ) :
+                Image.asset(
+                  'assets/images/back_icon_new.png',
+                  height: 19,
+                  width: 19,
+                ),
+              ),
             ),
-          ),
+          ],
         ),
       ),
       body: Obx(() {

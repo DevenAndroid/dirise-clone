@@ -123,7 +123,7 @@ class _AddMultipleProductScreenState extends State<AddMultipleProductScreen> {
                   if(featuredImage.path.isNotEmpty){
                     addProduct();
                   }else{
-                    showToast('Please select Image');
+                    showToast('Please upload file');
                   }
 
                 },

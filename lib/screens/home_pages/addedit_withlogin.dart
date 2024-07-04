@@ -7,11 +7,14 @@ import 'package:get/get.dart';
 import 'package:google_fonts/google_fonts.dart';
 import '../../controller/cart_controller.dart';
 import '../../controller/location_controller.dart';
+import '../../controller/profile_controller.dart';
 import '../../model/common_modal.dart';
 import '../../model/model_address_list.dart';
 import '../../repository/repository.dart';
 import '../../utils/api_constant.dart';
 import '../../widgets/common_textfield.dart';
+import '../check_out/address/edit_address.dart';
+import 'find_my_location.dart';
 
 
 class HomeAddEditAddressLogin extends StatefulWidget {
@@ -69,6 +72,7 @@ class _HomeAddEditAddressLoginState extends State<HomeAddEditAddressLogin> {
     });
   }
   final cartController = Get.put(CartController());
+  final profileController = Get.put(ProfileController());
   @override
   Widget build(BuildContext context) {
     Size size = MediaQuery
@@ -83,10 +87,22 @@ class _HomeAddEditAddressLoginState extends State<HomeAddEditAddressLogin> {
           onTap: (){
             Get.back();
           },
-          child: const Icon(
-            Icons.arrow_back_ios_new,
-            color: Color(0xff0D5877),
-            size: 16,
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.center,
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: [
+              profileController.selectedLAnguage.value != 'English' ?
+              Image.asset(
+                'assets/images/forward_icon.png',
+                height: 19,
+                width: 19,
+              ) :
+              Image.asset(
+                'assets/images/back_icon_new.png',
+                height: 19,
+                width: 19,
+              ),
+            ],
           ),
         ),
         titleSpacing: 0,
@@ -118,6 +134,30 @@ class _HomeAddEditAddressLoginState extends State<HomeAddEditAddressLogin> {
               SizedBox(
                 height: size.height * .02,
               ),
+              InkWell(
+                onTap: (){
+                  Get.to(()=>FindMyLocation());
+                },
+                child: Text(
+                  "Find my location".tr,
+                  style: GoogleFonts.poppins(color: const Color(0xff044484), fontWeight: FontWeight.w400, fontSize: 14),
+                ),
+              ),
+              SizedBox(
+                height: size.height * .02,
+              ),
+              InkWell(
+                onTap: (){
+                  bottomSheet(addressData: AddressData());
+                },
+                child: Text(
+                  "Add new location".tr,
+                  style: GoogleFonts.poppins(color: const Color(0xff044484), fontWeight: FontWeight.w400, fontSize: 14),
+                ),
+              ),
+              SizedBox(
+                height: size.height * .02,
+              ),
 
               InkWell(
                 onTap: () {
@@ -126,7 +166,7 @@ class _HomeAddEditAddressLoginState extends State<HomeAddEditAddressLogin> {
                   });
                 },
                 child: Text(
-                  "Enter an zip code".tr,
+                  "Enter your zip code".tr,
                   style: GoogleFonts.poppins(color: const Color(0xff044484), fontWeight: FontWeight.w400, fontSize: 14),
                 ),
               ),
@@ -342,6 +382,17 @@ class _HomeAddEditAddressLoginState extends State<HomeAddEditAddressLogin> {
             : const LoadingAnimation();
       }),
     );
+  }
+  Future bottomSheet({required AddressData addressData}) {
+    return showModalBottomSheet(
+        context: context,
+        isScrollControlled: true,
+        backgroundColor: Colors.white,
+        builder: (context12) {
+          return EditAddressSheet(
+            addressData: addressData,
+          );
+        });
   }
 }
 

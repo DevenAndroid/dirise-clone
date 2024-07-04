@@ -135,7 +135,7 @@ class _ShippingPolicyScreenState extends State<ShippingPolicyScreen> {
       showToast(response.message.toString());
       if (response.status == true) {
         log('ghfkhjsdgsd${selectZone}');
-        Get.to(const ServiceInternationalShippingService());
+        Get.to(ServiceInternationalShippingService());
       }
     });
   }
@@ -145,14 +145,14 @@ class _ShippingPolicyScreenState extends State<ShippingPolicyScreen> {
     return Scaffold(
       appBar: AppBar(
         title: Text(
-          "Shipping Policy",
+          "Shipping Policy".tr,
           style: GoogleFonts.poppins(fontSize: 20, fontWeight: FontWeight.w600),
         ),
         leading: GestureDetector(
             onTap: () {
               Navigator.pop(context);
             },
-            child: Icon(Icons.arrow_back)),
+            child: const Icon(Icons.arrow_back)),
         automaticallyImplyLeading: false,
         // centerTitle: true,
         backgroundColor: Colors.white,
@@ -165,7 +165,7 @@ class _ShippingPolicyScreenState extends State<ShippingPolicyScreen> {
             children: [
               Padding(
                 padding: const EdgeInsets.symmetric(horizontal: 16),
-                child: Text("Policy Name", style: GoogleFonts.poppins(fontSize: 18, fontWeight: FontWeight.w600)),
+                child: Text("Policy Name".tr, style: GoogleFonts.poppins(fontSize: 18, fontWeight: FontWeight.w600)),
               ),
               const SizedBox(
                 height: 8,
@@ -174,16 +174,16 @@ class _ShippingPolicyScreenState extends State<ShippingPolicyScreen> {
                   contentPadding: const EdgeInsets.all(5),
                   controller: policyNameController,
                   obSecure: false,
-                  hintText: 'DIRISE standard Policy',
+                  hintText: 'DIRISE standard Policy'.tr,
                   validator: MultiValidator([
-                    RequiredValidator(errorText: 'Weight Of the Item is required'.tr),
+                    RequiredValidator(errorText: 'Dirise standard policy must be required'.tr),
                   ])),
               const SizedBox(
                 height: 18,
               ),
               Padding(
                 padding: const EdgeInsets.symmetric(horizontal: 16),
-                child: Text("Policy Description (Optional)",
+                child: Text("Policy Description (Optional)".tr,
                     style: GoogleFonts.poppins(fontSize: 18, fontWeight: FontWeight.w600)),
               ),
               const SizedBox(
@@ -201,12 +201,12 @@ class _ShippingPolicyScreenState extends State<ShippingPolicyScreen> {
               ),
               Padding(
                 padding: const EdgeInsets.symmetric(horizontal: 16),
-                child: Text("Shipping Discounts & Charges",
+                child: Text("Shipping Discounts & Charges".tr,
                     style: GoogleFonts.poppins(fontSize: 18, fontWeight: FontWeight.w600)),
               ),
               Padding(
                 padding: const EdgeInsets.symmetric(horizontal: 16),
-                child: Text("The amount you want to charge or offer your customers.",
+                child: Text("The amount you want to charge or offer your customers.".tr,
                     style: GoogleFonts.poppins(fontSize: 14)),
               ),
               Column(
@@ -224,7 +224,7 @@ class _ShippingPolicyScreenState extends State<ShippingPolicyScreen> {
                         },
                       ),
                       Expanded(
-                        child: Text("I want to offer free shipping",
+                        child: Text("I want to offer free shipping".tr,
                             style: GoogleFonts.poppins(fontSize: 14, fontWeight: FontWeight.w400)),
                       )
                     ],
@@ -242,7 +242,7 @@ class _ShippingPolicyScreenState extends State<ShippingPolicyScreen> {
                         },
                       ),
                       Expanded(
-                        child: Text("Pay partial of the shipping",
+                        child: Text("Pay partial of the shipping".tr,
                             style: GoogleFonts.poppins(fontSize: 14, fontWeight: FontWeight.w400)),
                       )
                     ],
@@ -260,7 +260,7 @@ class _ShippingPolicyScreenState extends State<ShippingPolicyScreen> {
                         },
                       ),
                       Expanded(
-                        child: Text("Charge my customer for shipping",
+                        child: Text("Charge my customer for shipping".tr,
                             style: GoogleFonts.poppins(fontSize: 16, fontWeight: FontWeight.w400)),
                       )
                     ],
@@ -273,12 +273,12 @@ class _ShippingPolicyScreenState extends State<ShippingPolicyScreen> {
                         Row(
                           crossAxisAlignment: CrossAxisAlignment.start,
                           children: [
-                            const Expanded(
+                             Expanded(
                               child: CommonTextField(
-                                contentPadding: EdgeInsets.symmetric(horizontal: 20),
+                                contentPadding: const EdgeInsets.symmetric(horizontal: 20),
                                 readOnly: true,
                                 obSecure: false,
-                                hintText: 'Free for',
+                                hintText: 'Free for'.tr,
                               ),
                             ),
                             const SizedBox(
@@ -327,7 +327,7 @@ class _ShippingPolicyScreenState extends State<ShippingPolicyScreen> {
                                 ),
                                 validator: (value) {
                                   if (value == null || value.isEmpty) {
-                                    return 'Please select an item';
+                                    return 'Please select an item'.tr;
                                   }
                                   return null;
                                 },
@@ -346,7 +346,7 @@ class _ShippingPolicyScreenState extends State<ShippingPolicyScreen> {
                                   border: Border.all(color: Colors.grey.shade400),
                                   borderRadius: BorderRadius.circular(8),
                                 ),
-                                child: const Text('Shipping'),
+                                child:  Text('Shipping'.tr),
                               ),
                             ),
                             const SizedBox(
@@ -358,7 +358,7 @@ class _ShippingPolicyScreenState extends State<ShippingPolicyScreen> {
                                 controller: policyPriceController,
                                 keyboardType: TextInputType.number,
                                 obSecure: false,
-                                hintText: 'Enter Price limit',
+                                hintText: 'Enter Price limit'.tr,
                                 validator: (value) {
                                   if (value!.trim().isEmpty) {
                                     return "Enter Price limit".tr;
@@ -388,7 +388,7 @@ class _ShippingPolicyScreenState extends State<ShippingPolicyScreen> {
                             controller: iPayController,
                             keyboardType: TextInputType.number,
                             obSecure: false,
-                            hintText: 'I pay 15%',
+                            hintText: 'I pay 15%'.tr,
                             validator: (value) {
                               if (value!.trim().isEmpty) {
                                 return "Enter Value".tr;
@@ -403,7 +403,7 @@ class _ShippingPolicyScreenState extends State<ShippingPolicyScreen> {
                             controller: from1KWDController,
                             keyboardType: TextInputType.number,
                             obSecure: false,
-                            hintText: 'From 01kwd',
+                            hintText: 'From 01kwd'.tr,
                             validator: (value) {
                               if (value!.trim().isEmpty) {
                                 return "Enter Value".tr;
@@ -421,7 +421,7 @@ class _ShippingPolicyScreenState extends State<ShippingPolicyScreen> {
                             controller: upTo20Controller,
                             keyboardType: TextInputType.number,
                             obSecure: false,
-                            hintText: 'Up to 20 KWD',
+                            hintText: 'Up to 20 KWD'.tr,
                             validator: (value) {
                               if (value!.trim().isEmpty) {
                                 return "Enter Value".tr;
@@ -441,7 +441,7 @@ class _ShippingPolicyScreenState extends State<ShippingPolicyScreen> {
                             controller: thenController,
                             keyboardType: TextInputType.number,
                             obSecure: false,
-                            hintText: 'Then  10%',
+                            hintText: 'Then  10%'.tr,
                             validator: (value) {
                               if (value!.trim().isEmpty) {
                                 return "Enter Value".tr;
@@ -456,7 +456,7 @@ class _ShippingPolicyScreenState extends State<ShippingPolicyScreen> {
                             controller: from2KWDController,
                             keyboardType: TextInputType.number,
                             obSecure: false,
-                            hintText: 'From  20 kwd',
+                            hintText: 'From  20 kwd'.tr,
                             validator: (value) {
                               if (value!.trim().isEmpty) {
                                 return "Enter Value".tr;
@@ -474,7 +474,7 @@ class _ShippingPolicyScreenState extends State<ShippingPolicyScreen> {
                             controller: upTo40Controller,
                             keyboardType: TextInputType.number,
                             obSecure: false,
-                            hintText: 'Up to 40 KWD',
+                            hintText: 'Up to 40 KWD'.tr,
                             validator: (value) {
                               if (value!.trim().isEmpty) {
                                 return "Enter Value".tr;
@@ -502,7 +502,7 @@ class _ShippingPolicyScreenState extends State<ShippingPolicyScreen> {
                         ),
                         Expanded(
                           child:
-                              Text("After  that  charge full to my customer", style: GoogleFonts.poppins(fontSize: 14)),
+                              Text("After that charge full to my customer", style: GoogleFonts.poppins(fontSize: 14)),
                         ),
                       ],
                     ),
@@ -522,7 +522,7 @@ class _ShippingPolicyScreenState extends State<ShippingPolicyScreen> {
                           selectedRadio == 'charge_my_customer') {
                         shippingPolicyApi();
                       } else {
-                        showToast('Please select Shipping Shipping Fees');
+                        showToast('Please select Shipping Shipping Fees'.tr);
                       }
                     }
                     // Get.to(()=> const SinglePInternationalshippingdetailsScreen());

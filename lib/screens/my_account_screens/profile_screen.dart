@@ -34,13 +34,32 @@ class _ProfileScreenState extends State<ProfileScreen> {
       appBar: AppBar(
         title: Text(
           AppStrings.myProfile1.tr,
-          style: GoogleFonts.poppins(color: Colors.white, fontSize: 20),
+          style: GoogleFonts.poppins(color: Colors.black, fontSize: 20),
         ),
         centerTitle: true,
-        backgroundColor: AppTheme.buttonColor,
-        leading: IconButton(
-          icon: const Icon(Icons.arrow_back_ios, color: Colors.white, size: 20),
-          onPressed: () => Get.back(),
+        // backgroundColor: AppTheme.buttonColor,
+        backgroundColor: AppTheme.newPrimaryColor,
+        leading: GestureDetector(
+          onTap: (){
+            Get.back();
+          },
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.center,
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: [
+              profileController.selectedLAnguage.value != 'English' ?
+              Image.asset(
+                'assets/images/forward_icon.png',
+                height: 19,
+                width: 19,
+              ) :
+              Image.asset(
+                'assets/images/back_icon_new.png',
+                height: 19,
+                width: 19,
+              ),
+            ],
+          ),
         ),
       ),
       body: Obx(() {
@@ -140,7 +159,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
                       ...profileCard(
                         imagePath: "assets/svgs/referral_img.svg",
                         title: AppStrings.referralEmail.tr,
-                        value: profileController.model.user!.referralEmail.toString(),
+                        value: profileController.model.user!.referralEmail ?? '',
                       ),
                       ...profileCard(
                         imagePath: "assets/svgs/country.svg",

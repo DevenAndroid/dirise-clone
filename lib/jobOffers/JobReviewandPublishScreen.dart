@@ -5,12 +5,15 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:google_fonts/google_fonts.dart';
 
+import '../controller/profile_controller.dart';
 import '../controller/vendor_controllers/add_product_controller.dart';
+import '../model/common_modal.dart';
 import '../model/product_details.dart';
 import '../repository/repository.dart';
 import '../utils/api_constant.dart';
 import '../widgets/common_button.dart';
 import 'congratulationScreen.dart';
+import 'jobDetailsScreen.dart';
 
 class JobReviewPublishScreen extends StatefulWidget {
   String? category;
@@ -36,7 +39,19 @@ class _JobReviewPublishScreenState extends State<JobReviewPublishScreen> {
       productDetailsModel.value = ModelProductDetails.fromJson(jsonDecode(value));
     });
   }
+  completeApi() {
+    Map<String, dynamic> map = {};
 
+    map['is_complete'] = true;
+    map['id'] = addProductController.idProduct.value.toString();
+    FocusManager.instance.primaryFocus!.unfocus();
+    repositories.postApi(url: ApiUrls.giveawayProductAddress, context: context, mapData: map).then((value) {
+      ModelCommonResponse response = ModelCommonResponse.fromJson(jsonDecode(value));
+      print('API Response Status Code: ${response.status}');
+      showToast(response.message.toString());
+      if (response.status == true) {
+        Get.to(const CongratulationScreen());
+      }});}
   @override
   void initState() {
     // TODO: implement initState
@@ -44,6 +59,7 @@ class _JobReviewPublishScreenState extends State<JobReviewPublishScreen> {
     getVendorCategories(addProductController.idProduct.value.toString());
   }
 
+  final profileController = Get.put(ProfileController());
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -51,14 +67,26 @@ class _JobReviewPublishScreenState extends State<JobReviewPublishScreen> {
         backgroundColor: Colors.white,
         surfaceTintColor: Colors.white,
         elevation: 0,
-        leading: GestureDetector(
-          onTap: () {
+        leading:GestureDetector(
+          onTap: (){
             Get.back();
           },
-          child: const Icon(
-            Icons.arrow_back_ios_new,
-            color: Color(0xff0D5877),
-            size: 16,
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.center,
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: [
+              profileController.selectedLAnguage.value != 'English' ?
+              Image.asset(
+                'assets/images/forward_icon.png',
+                height: 19,
+                width: 19,
+              ) :
+              Image.asset(
+                'assets/images/back_icon_new.png',
+                height: 19,
+                width: 19,
+              ),
+            ],
           ),
         ),
         titleSpacing: 0,
@@ -100,35 +128,62 @@ class _JobReviewPublishScreenState extends State<JobReviewPublishScreen> {
                         ),
                         Visibility(
                             visible: isItemDetailsVisible,
-                            child: Container(
-                              margin: const EdgeInsets.only(top: 10),
-                              width: Get.width,
-                              padding: const EdgeInsets.all(10),
-                              decoration:
+                            child: Stack(
+                              children: [
+                                Container(
+                                  margin: const EdgeInsets.only(top: 10),
+                                  width: Get.width,
+                                  padding: const EdgeInsets.all(10),
+                                  decoration:
                                   BoxDecoration(color: Colors.grey.shade200, borderRadius: BorderRadius.circular(11)),
-                              child: Column(
-                                mainAxisAlignment: MainAxisAlignment.start,
-                                crossAxisAlignment: CrossAxisAlignment.start,
-                                children: [
-                                  Text('Job title: ${productDetailsModel.value.productDetails!.product!.pname ?? ""}'),
-                                  Text('Job Category: ${productDetailsModel.value.productDetails!.product!.jobParentCat ?? ""}'),
-                                  Text(
-                                      'Job Sub Category: ${productDetailsModel.value.productDetails!.product!.jobCat ?? ""}'),
-                                  Text(
-                                      'Job Country: ${productDetailsModel.value.productDetails!.product!.jobCountry ?? ""}'),
-                                  Text(
-                                      'Job State: ${productDetailsModel.value.productDetails!.product!.jobState ?? ""}'),
-                                  Text('Job City: ${productDetailsModel.value.productDetails!.product!.jobCity ?? ""}'),
-                                  Text('Job Type: ${productDetailsModel.value.productDetails!.product!.jobType ?? ""}'),
-                                  Text(
-                                      'Job Model: ${productDetailsModel.value.productDetails!.product!.jobModel ?? ""}'),
-                                  Text(
-                                      'Experience: ${productDetailsModel.value.productDetails!.product!.experience ?? ""}'),
-                                  Text('Salary: ${productDetailsModel.value.productDetails!.product!.salary ?? ""}'),
-                                  Text(
-                                      'LinkedIn Url: ${productDetailsModel.value.productDetails!.product!.linkdinUrl ?? ""}'),
-                                ],
-                              ),
+                                  child: Column(
+                                    mainAxisAlignment: MainAxisAlignment.start,
+                                    crossAxisAlignment: CrossAxisAlignment.start,
+                                    children: [
+                                      Text('Job title: ${productDetailsModel.value.productDetails!.product!.pname ?? ""}'),
+                                      Text('Job Category: ${productDetailsModel.value.productDetails!.product!.jobParentCat ?? ""}'),
+                                      Text(
+                                          'Job Sub Category: ${productDetailsModel.value.productDetails!.product!.jobCat ?? ""}'),
+                                      Text(
+                                          'Job Country: ${productDetailsModel.value.productDetails!.product!.jobCountry ?? ""}'),
+                                      Text(
+                                          'Job State: ${productDetailsModel.value.productDetails!.product!.jobState ?? ""}'),
+                                      Text('Job City: ${productDetailsModel.value.productDetails!.product!.jobCity ?? ""}'),
+                                      Text('Job Type: ${productDetailsModel.value.productDetails!.product!.jobType ?? ""}'),
+                                      Text(
+                                          'Job Model: ${productDetailsModel.value.productDetails!.product!.jobModel ?? ""}'),
+                                      Text(
+                                          'Experience: ${productDetailsModel.value.productDetails!.product!.experience ?? ""}'),
+                                      Text('Salary: ${productDetailsModel.value.productDetails!.product!.salary ?? ""}'),
+                                      Text('LinkedIn Url: ${productDetailsModel.value.productDetails!.product!.linkdinUrl ?? ""}'),
+                                    ],
+                                  ),
+                                ),
+                                Positioned(
+                                    right: 10,
+                                    top: 20,
+                                    child: GestureDetector(
+                                        onTap: (){
+                                          Get.to(JobDetailsScreen(
+                                            id: productDetailsModel.value.productDetails!.product!.id,
+                                            experience: productDetailsModel.value.productDetails!.product!.experience,
+                                            jobCategory: productDetailsModel.value.productDetails!.product!.jobParentCat,
+                                            jobCity: productDetailsModel.value.productDetails!.product!.jobCity,
+                                            jobCountry: productDetailsModel.value.productDetails!.product!.jobCountry,
+                                            jobModel:productDetailsModel.value.productDetails!.product!.jobModel ,
+                                            jobState: productDetailsModel.value.productDetails!.product!.jobState,
+                                            jobSubCategory: productDetailsModel.value.productDetails!.product!.jobCat,
+                                            jobTitle: productDetailsModel.value.productDetails!.product!.pname,
+                                            jobType: productDetailsModel.value.productDetails!.product!.jobType,
+                                            linkedIn: productDetailsModel.value.productDetails!.product!.linkdinUrl,
+                                            salary:productDetailsModel.value.productDetails!.product!.salary ,
+                                            tellUsAboutYourSelf: productDetailsModel.value.productDetails!.product!.describeJobRole,
+
+                                          ));
+                                        },
+                                        child: const Text('Edit',style: TextStyle(color: Colors.red,fontSize: 13),)))
+                              ],
+
                             )),
                         const SizedBox(height: 20),
                         GestureDetector(
@@ -172,7 +227,8 @@ class _JobReviewPublishScreenState extends State<JobReviewPublishScreen> {
                           title: 'Confirm',
                           borderRadius: 11,
                           onPressed: () {
-                            Get.to(const CongratulationScreen());
+                            completeApi();
+
                           },
                         ),
                       ],

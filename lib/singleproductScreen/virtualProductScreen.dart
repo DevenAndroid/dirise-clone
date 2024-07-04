@@ -16,6 +16,7 @@ import '../model/virtualProductModel.dart';
 import '../repository/repository.dart';
 import '../utils/api_constant.dart';
 import '../vendor/authentication/image_widget.dart';
+import '../virtualProduct/optionalDiscrptionsScreen.dart';
 import '../virtualProduct/singleProductReturnPolicy.dart';
 import '../widgets/common_button.dart';
 import '../widgets/common_colour.dart';
@@ -58,9 +59,11 @@ class _VirtualProductScreenState extends State<VirtualProductScreen> {
   final addProductController = Get.put(AddProductController());
   optionalApi() {
     if (featuredImage.path.isEmpty) {
+
       if (featuredImage.path.isEmpty) {
         showToastCenter('Please select an file');
       }
+
       showValidation.value = true;
       return;
     }
@@ -88,7 +91,7 @@ class _VirtualProductScreenState extends State<VirtualProductScreen> {
       log(response.message.toString());
       showToast(response.message.toString());
       if (response.status == true) {
-        Get.to(const VirtualReturnPolicy());
+        Get.to(VirtualOptionalDiscrptionsScreen());
       }
     });
 
@@ -101,10 +104,27 @@ class _VirtualProductScreenState extends State<VirtualProductScreen> {
         backgroundColor: Colors.white,
         surfaceTintColor: Colors.white,
         elevation: 0,
-        leading: const Icon(
-          Icons.arrow_back_ios_new,
-          color: Color(0xff0D5877),
-          size: 16,
+        leading: GestureDetector(
+          onTap: (){
+            Get.back();
+          },
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.center,
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: [
+              profileController.selectedLAnguage.value != 'English' ?
+              Image.asset(
+                'assets/images/forward_icon.png',
+                height: 19,
+                width: 19,
+              ) :
+              Image.asset(
+                'assets/images/back_icon_new.png',
+                height: 19,
+                width: 19,
+              ),
+            ],
+          ),
         ),
         titleSpacing: 0,
         title: Row(
@@ -197,6 +217,8 @@ class _VirtualProductScreenState extends State<VirtualProductScreen> {
                     width: 200,
                     child: ImageWidget(
                       // key: paymentReceiptCertificateKey,
+
+                      imageOnly: productItem == "Image"?true:false,
                       title: "Click To Edit Uploaded  File".tr,
                       file: featuredImage,
                       validation: checkValidation(showValidation.value, featuredImage.path.isEmpty),

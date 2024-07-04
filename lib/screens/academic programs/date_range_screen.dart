@@ -8,6 +8,7 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:intl/intl.dart';
+import '../../controller/profile_controller.dart';
 import '../../controller/vendor_controllers/add_product_controller.dart';
 import '../../model/jobResponceModel.dart';
 import '../../repository/repository.dart';
@@ -18,7 +19,15 @@ import 'duration_screen.dart';
 
 
 class AcademicDateScreen extends StatefulWidget {
-  const AcademicDateScreen({super.key});
+  int? id;
+  String? from_date;
+  String? to_date;
+  String? vacation_from_date;
+  String? vacation_to_date;
+  int? spot;
+
+  AcademicDateScreen({super.key, this.from_date, this.to_date, this.vacation_from_date, this.vacation_to_date, this.id,this.spot});
+
 
   @override
   State<AcademicDateScreen> createState() => _AcademicDateScreenState();
@@ -140,13 +149,26 @@ class _AcademicDateScreenState extends State<AcademicDateScreen> {
       JobResponceModel response = JobResponceModel.fromJson(jsonDecode(value));
       if (response.status == true) {
         showToast(response.message.toString());
-        Get.to(()=> const SetTimeScreenAcademic());
+        Get.to(()=>  SetTimeScreenAcademic());
         print('value isssss${response.toJson()}');
       }else{
         showToast(response.message.toString());
       }
     });
   }
+
+  @override
+  void initState() {
+    // TODO: implement initState
+    super.initState();
+    if (widget.id != null) {
+      addProductController.formattedStartDate = widget.from_date;
+      formattedStartDate1 = widget.to_date;
+      spotsController.text = widget.spot.toString();
+    }
+  }
+
+  final profileController = Get.put(ProfileController());
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -155,13 +177,25 @@ class _AcademicDateScreenState extends State<AcademicDateScreen> {
         surfaceTintColor: Colors.white,
         elevation: 0,
         leading: GestureDetector(
-          onTap: () {
+          onTap: (){
             Get.back();
           },
-          child: const Icon(
-            Icons.arrow_back_ios_new,
-            color: Color(0xff0D5877),
-            size: 16,
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.center,
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: [
+              profileController.selectedLAnguage.value != 'English' ?
+              Image.asset(
+                'assets/images/forward_icon.png',
+                height: 19,
+                width: 19,
+              ) :
+              Image.asset(
+                'assets/images/back_icon_new.png',
+                height: 19,
+                width: 19,
+              ),
+            ],
           ),
         ),
         titleSpacing: 0,
@@ -411,7 +445,7 @@ class _AcademicDateScreenState extends State<AcademicDateScreen> {
             ),
             InkWell(
               onTap: (){
-                Get.to(()=> const SetTimeScreenAcademic());
+                Get.to(()=>  SetTimeScreenAcademic());
               },
               child: Container(
                 width: Get.width,

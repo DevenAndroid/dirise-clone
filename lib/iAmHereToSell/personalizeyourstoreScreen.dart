@@ -16,6 +16,7 @@ import 'package:get/get.dart';
 import 'package:google_fonts/google_fonts.dart';
 
 import '../controller/profile_controller.dart';
+import '../controller/service_controller.dart';
 import '../model/common_modal.dart';
 import '../model/vendor_models/model_vendor_details.dart';
 import '../newAddress/customeraccountcreatedsuccessfullyScreen.dart';
@@ -58,7 +59,7 @@ class _PersonalizeyourstoreScreenState extends State<PersonalizeyourstoreScreen>
     }
   }
 
-  final TextEditingController detailsController = TextEditingController();
+  final controller = Get.put(ServiceController());
   File idProof = File("");
   bool checkValidation(bool bool1, bool2) {
     if (bool1 == true && bool2 == true) {
@@ -92,11 +93,11 @@ class _PersonalizeyourstoreScreenState extends State<PersonalizeyourstoreScreen>
 
         })
         .then((value) {
-      if(detailsController.text.isNotEmpty){
+      if(controller.detailsController.text.isNotEmpty){
         Get.to(RequiredDocumentsScreen());
       }
       else{
-        showToast('please enter Details');
+        showToast('please enter details'.tr);
       }
 
     });
@@ -114,10 +115,27 @@ class _PersonalizeyourstoreScreenState extends State<PersonalizeyourstoreScreen>
         backgroundColor: Colors.white,
         surfaceTintColor: Colors.white,
         elevation: 0,
-        leading: const Icon(
-          Icons.arrow_back_ios_new,
-          color: Color(0xff0D5877),
-          size: 16,
+        leading: GestureDetector(
+          onTap: (){
+            Get.back();
+          },
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.center,
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: [
+              profileController.selectedLAnguage.value != 'English' ?
+              Image.asset(
+                'assets/images/forward_icon.png',
+                height: 19,
+                width: 19,
+              ) :
+              Image.asset(
+                'assets/images/back_icon_new.png',
+                height: 19,
+                width: 19,
+              ),
+            ],
+          ),
         ),
         titleSpacing: 0,
         title: Row(
@@ -132,7 +150,7 @@ class _PersonalizeyourstoreScreenState extends State<PersonalizeyourstoreScreen>
       ),
       body: SingleChildScrollView(
         child: Container(
-          padding: EdgeInsets.only(left: 20, right: 20),
+          padding: const EdgeInsets.only(left: 20, right: 20),
           child: Column(
             mainAxisAlignment: MainAxisAlignment.center,
             crossAxisAlignment: CrossAxisAlignment.center,
@@ -233,12 +251,15 @@ class _PersonalizeyourstoreScreenState extends State<PersonalizeyourstoreScreen>
                 height: 10,
               ),
               CommonTextField(
-                hintText: 'Details',
-                controller: detailsController,
+                hintText: 'Details'.tr,
+                controller: controller.detailsController,
+                textInputAction: TextInputAction.done,
                 // minLines: 2,
                 // maxLines: 2,
               ),
+              15.spaceY,
               GestureDetector(
+                behavior: HitTestBehavior.translucent,
                 onTap: (){
                   Get.to(const SocialMediaStore());
                 },
@@ -246,7 +267,7 @@ class _PersonalizeyourstoreScreenState extends State<PersonalizeyourstoreScreen>
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
                     Text(
-                      'Social media',
+                      'Social media'.tr,
                       style: GoogleFonts.poppins(color: Colors.black, fontSize: 14),
                     ),
                     const Icon(
@@ -268,6 +289,7 @@ class _PersonalizeyourstoreScreenState extends State<PersonalizeyourstoreScreen>
                 height: 5,
               ),
               GestureDetector(
+                behavior: HitTestBehavior.translucent,
                 onTap: (){
                   Get.to(const SetTimeScreen());
                 },
@@ -275,7 +297,7 @@ class _PersonalizeyourstoreScreenState extends State<PersonalizeyourstoreScreen>
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
                     Text(
-                      'Operating hour',
+                      'Operating hour'.tr,
                       style: GoogleFonts.poppins(color: Colors.black, fontSize: 14),
                     ),
                     const Icon(
@@ -297,6 +319,7 @@ class _PersonalizeyourstoreScreenState extends State<PersonalizeyourstoreScreen>
                 height: 5,
               ),
               GestureDetector(
+                behavior: HitTestBehavior.translucent,
                 onTap: (){
                   Get.to(const VendorInformation());
                 },
@@ -304,7 +327,7 @@ class _PersonalizeyourstoreScreenState extends State<PersonalizeyourstoreScreen>
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
                     Text(
-                      'Vendor information',
+                      'Vendor information'.tr,
                       style: GoogleFonts.poppins(color: Colors.black, fontSize: 14),
                     ),
                     const Icon(
@@ -326,6 +349,7 @@ class _PersonalizeyourstoreScreenState extends State<PersonalizeyourstoreScreen>
                 height: 5,
               ),
               GestureDetector(
+                behavior: HitTestBehavior.translucent,
                 onTap: (){
                   Get.to(AddAddressScreen());
                 },
@@ -333,7 +357,7 @@ class _PersonalizeyourstoreScreenState extends State<PersonalizeyourstoreScreen>
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
                     Text(
-                      'Addresses',
+                      'Addresses'.tr,
                       style: GoogleFonts.poppins(color: Colors.black, fontSize: 14),
                     ),
                     const Icon(
@@ -355,6 +379,7 @@ class _PersonalizeyourstoreScreenState extends State<PersonalizeyourstoreScreen>
                 height: 5,
               ),
               GestureDetector(
+                behavior: HitTestBehavior.translucent,
                 onTap: (){
                   Get.to(const BannersScreen());
                 },
@@ -362,7 +387,7 @@ class _PersonalizeyourstoreScreenState extends State<PersonalizeyourstoreScreen>
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
                     Text(
-                      'Banners',
+                      'Banners'.tr,
                       style: GoogleFonts.poppins(color: Colors.black, fontSize: 14),
                     ),
                     const Icon(
@@ -384,6 +409,7 @@ class _PersonalizeyourstoreScreenState extends State<PersonalizeyourstoreScreen>
                 height: 5,
               ),
               GestureDetector(
+                behavior: HitTestBehavior.translucent,
                 onTap: (){
                   Get.to(DifferentPolicyScreen());
                 },
@@ -391,7 +417,7 @@ class _PersonalizeyourstoreScreenState extends State<PersonalizeyourstoreScreen>
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
                     Text(
-                      'Select Policy',
+                      'Select Policy'.tr,
                       style: GoogleFonts.poppins(color: Colors.black, fontSize: 14),
                     ),
                     const Icon(
@@ -418,10 +444,10 @@ class _PersonalizeyourstoreScreenState extends State<PersonalizeyourstoreScreen>
                     borderRadius: BorderRadius.circular(2), // Border radius
                   ),
                   padding: const EdgeInsets.all(10), // Padding inside the container
-                  child: const Center(
+                  child:  Center(
                     child: Text(
-                      'Save',
-                      style: TextStyle(
+                      'Save'.tr,
+                      style: const TextStyle(
                         fontSize: 16,
                         fontWeight: FontWeight.bold,
                         color: Color(0xff514949), // Text color

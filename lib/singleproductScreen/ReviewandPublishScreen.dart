@@ -7,13 +7,17 @@ import 'package:dirise/singleproductScreen/product_information_screen.dart';
 import 'package:dirise/singleproductScreen/singlePInternationalshippingdetails.dart';
 import 'package:dirise/singleproductScreen/singleProductDiscriptionScreen.dart';
 import 'package:dirise/singleproductScreen/singleProductPriceScreen.dart';
+import 'package:dirise/singleproductScreen/singleProductReturnPolicy.dart';
 import 'package:dirise/singleproductScreen/singleproductDeliverySize.dart';
+import 'package:dirise/tellaboutself/ExtraInformation.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:google_fonts/google_fonts.dart';
 
+import '../controller/profile_controller.dart';
 import '../controller/service_controller.dart';
+import '../model/common_modal.dart';
 import '../model/getShippingModel.dart';
 import '../model/product_details.dart';
 import '../model/returnPolicyModel.dart';
@@ -24,21 +28,20 @@ import '../widgets/common_colour.dart';
 import 'optionalClassificationScreen.dart';
 import 'optionalDiscrptionsScreen.dart';
 
-class ReviewandPublishScreen extends StatefulWidget {
-  const ReviewandPublishScreen({super.key});
+class ProductReviewPublicScreen extends StatefulWidget {
+  const ProductReviewPublicScreen({super.key});
 
   @override
-  State<ReviewandPublishScreen> createState() => _ReviewandPublishScreenState();
+  State<ProductReviewPublicScreen> createState() => _ProductReviewPublicScreenState();
 }
 
-class _ReviewandPublishScreenState extends State<ReviewandPublishScreen> {
+class _ProductReviewPublicScreenState extends State<ProductReviewPublicScreen> {
   String selectedItem = 'Item 1';
   final serviceController = Get.put(ServiceController());
 
   RxBool isServiceProvide = false.obs;
   RxBool isTellUs = false.obs;
   RxBool isReturnPolicy = false.obs;
-  RxBool isLocationPolicy = false.obs;
   RxBool isInternationalPolicy = false.obs;
   RxBool optionalDescription = false.obs;
   RxBool optionalClassification = false.obs;
@@ -79,6 +82,20 @@ class _ReviewandPublishScreenState extends State<ReviewandPublishScreen> {
       setState(() {});
     });
   }
+  completeApi() {
+    Map<String, dynamic> map = {};
+
+    map['is_complete'] = true;
+    map['id'] = addProductController.idProduct.value.toString();
+
+    FocusManager.instance.primaryFocus!.unfocus();
+    repositories.postApi(url: ApiUrls.giveawayProductAddress, context: context, mapData: map).then((value) {
+      ModelCommonResponse response = ModelCommonResponse.fromJson(jsonDecode(value));
+      print('API Response Status Code: ${response.status}');
+      showToast(response.message.toString());
+      if (response.status == true) {
+        Get.to(ExtraInformation());
+      }});}
 
   @override
   void initState() {
@@ -86,7 +103,7 @@ class _ReviewandPublishScreenState extends State<ReviewandPublishScreen> {
     getVendorCategories(addProductController.idProduct.value.toString());
     getReturnPolicyData();
   }
-
+  final profileController = Get.put(ProfileController());
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -95,16 +112,27 @@ class _ReviewandPublishScreenState extends State<ReviewandPublishScreen> {
         surfaceTintColor: Colors.white,
         elevation: 0,
         leading: GestureDetector(
-          onTap: () {
+          onTap: (){
             Get.back();
           },
-          child: const Icon(
-            Icons.arrow_back_ios_new,
-            color: Color(0xff0D5877),
-            size: 16,
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.center,
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: [
+              profileController.selectedLAnguage.value != 'English' ?
+              Image.asset(
+                'assets/images/forward_icon.png',
+                height: 19,
+                width: 19,
+              ) :
+              Image.asset(
+                'assets/images/back_icon_new.png',
+                height: 19,
+                width: 19,
+              ),
+            ],
           ),
         ),
-
         titleSpacing: 0,
         title: Row(
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -167,9 +195,7 @@ class _ReviewandPublishScreenState extends State<ReviewandPublishScreen> {
                             Container(
                               width: Get.width,
                               padding: EdgeInsets.all(10),
-                              decoration: BoxDecoration(
-                                  color: Colors.grey.shade200
-                              ),
+                              decoration: BoxDecoration(color: Colors.grey.shade200),
                               child: Column(
                                 mainAxisAlignment: MainAxisAlignment.start,
                                 crossAxisAlignment: CrossAxisAlignment.start,
@@ -178,6 +204,8 @@ class _ReviewandPublishScreenState extends State<ReviewandPublishScreen> {
                                       'product name: ${productDetailsModel.value.productDetails!.product!.pname ?? ""}'),
                                   Text(
                                       'product Type: ${productDetailsModel.value.productDetails!.product!.productType ?? ''}'),
+                                  Text(
+                                      'Category ID: ${productDetailsModel.value.productDetails!.product!.catId ?? ''}'),
                                   Text('product ID: ${productDetailsModel.value.productDetails!.product!.id ?? ""}'),
                                 ],
                               ),
@@ -186,16 +214,18 @@ class _ReviewandPublishScreenState extends State<ReviewandPublishScreen> {
                                 right: 10,
                                 top: 20,
                                 child: GestureDetector(
-                                    onTap: (){
+                                    onTap: () {
                                       Get.to(ProductInformationScreens(
                                         id: productDetailsModel.value.productDetails!.product!.id,
                                         name: productDetailsModel.value.productDetails!.product!.pname,
-
+                                        catid: productDetailsModel.value.productDetails!.product!.pname,
                                       ));
                                     },
-                                    child: const Text('Edit',style: TextStyle(color: Colors.red,fontSize: 13),)))
+                                    child: const Text(
+                                      'Edit',
+                                      style: TextStyle(color: Colors.red, fontSize: 13),
+                                    )))
                           ],
-
                         ),
 
                       const SizedBox(height: 20),
@@ -244,9 +274,7 @@ class _ReviewandPublishScreenState extends State<ReviewandPublishScreen> {
                             Container(
                               width: Get.width,
                               padding: EdgeInsets.all(10),
-                              decoration: BoxDecoration(
-                                  color: Colors.grey.shade200
-                              ),
+                              decoration: BoxDecoration(color: Colors.grey.shade200),
                               child: Column(
                                 mainAxisAlignment: MainAxisAlignment.start,
                                 crossAxisAlignment: CrossAxisAlignment.start,
@@ -255,29 +283,27 @@ class _ReviewandPublishScreenState extends State<ReviewandPublishScreen> {
                                   Text(
                                       'Fixed Discounted Price : ${productDetailsModel.value.productDetails!.product!.fixedDiscountPrice ?? ""} KWD'),
                                   Text(
-                                      'Discount Percentage: ${productDetailsModel.value.productDetails!.product!.discountPrice ?? ''}'),
+                                      'Discount Percentage: ${productDetailsModel.value.productDetails!.product!.discountPercent ?? ''}'),
                                 ],
                               ),
-
                             ),
                             Positioned(
                                 right: 10,
                                 top: 20,
                                 child: GestureDetector(
-                                    onTap: (){
+                                    onTap: () {
                                       Get.to(SingleProductPriceScreen(
                                         id: productDetailsModel.value.productDetails!.product!.id,
                                         price: productDetailsModel.value.productDetails!.product!.pPrice,
-                                        fixDiscount: productDetailsModel.value.productDetails!.product!.fixedDiscountPrice,
-                                        percentage: productDetailsModel.value.productDetails!.product!.discountPrice,
-                                        name: '',
-                                        fetaureImage: File(''),
-
-
+                                        fixDiscount:
+                                            productDetailsModel.value.productDetails!.product!.fixedDiscountPrice,
+                                        percentage: productDetailsModel.value.productDetails!.product!.discountPercent,
                                       ));
                                     },
-                                    child: const Text('Edit',style: TextStyle(color: Colors.red,fontSize: 13),)))
-
+                                    child: const Text(
+                                      'Edit',
+                                      style: TextStyle(color: Colors.red, fontSize: 13),
+                                    )))
                           ],
                         ),
 
@@ -326,39 +352,39 @@ class _ReviewandPublishScreenState extends State<ReviewandPublishScreen> {
                             Container(
                               width: Get.width,
                               padding: EdgeInsets.all(10),
-                              decoration: BoxDecoration(
-                                  color: Colors.grey.shade200
-                              ),
+                              decoration: BoxDecoration(color: Colors.grey.shade200),
                               child: Column(
                                 mainAxisAlignment: MainAxisAlignment.start,
                                 crossAxisAlignment: CrossAxisAlignment.start,
                                 children: [
-                                  Text('Short Description: ${productDetailsModel.value.productDetails!.product!.shortDescription ?? ""} KWD'),
-                                  Text('Stock/spot quantity : ${productDetailsModel.value.productDetails!.product!.inStock ?? ""} KWD'),
-                                  Text('Set stock/spot alert: ${productDetailsModel.value.productDetails!.product!.stockAlert ?? ''}'),
+                                  Text(
+                                      'Short Description: ${productDetailsModel.value.productDetails!.product!.shortDescription ?? ""}'),
+                                  Text(
+                                      'Stock/spot quantity : ${productDetailsModel.value.productDetails!.product!.inStock ?? ""}'),
+                                  Text(
+                                      'Set stock/spot alert: ${productDetailsModel.value.productDetails!.product!.stockAlert ?? ''}'),
                                   Text('SEO Tags: ${productDetailsModel.value.productDetails!.product!.seoTags ?? ''}'),
                                 ],
                               ),
-
                             ),
                             Positioned(
                                 right: 10,
                                 top: 20,
                                 child: GestureDetector(
-                                    onTap: (){
+                                    onTap: () {
                                       Get.to(SingleProductDiscriptionScreen(
                                         id: productDetailsModel.value.productDetails!.product!.id,
-                                        description: productDetailsModel.value.productDetails!.product!.shortDescription,
+                                        description:
+                                            productDetailsModel.value.productDetails!.product!.shortDescription,
                                         stockquantity: productDetailsModel.value.productDetails!.product!.inStock,
                                         setstock: productDetailsModel.value.productDetails!.product!.stockAlert,
-                                        sEOTags:  productDetailsModel.value.productDetails!.product!.seoTags,
-
-
-
+                                        sEOTags: productDetailsModel.value.productDetails!.product!.seoTags,
                                       ));
                                     },
-                                    child: const Text('Edit',style: TextStyle(color: Colors.red,fontSize: 13),)))
-
+                                    child: const Text(
+                                      'Edit',
+                                      style: TextStyle(color: Colors.red, fontSize: 13),
+                                    )))
                           ],
                         ),
 
@@ -401,41 +427,40 @@ class _ReviewandPublishScreenState extends State<ReviewandPublishScreen> {
                       const SizedBox(height: 20),
                       if (isDeliverySize.value == true)
                         Stack(
-                         children: [
-                           Container(
-                             width: Get.width,
-                             padding: EdgeInsets.all(10),
-                             decoration: BoxDecoration(
-                                 color: Colors.grey.shade200
-                             ),
-                             child: Column(
-                               mainAxisAlignment: MainAxisAlignment.start,
-                               crossAxisAlignment: CrossAxisAlignment.start,
-                               children: [
-                                 Text(
-                                     'Who will pay the shipping: ${productDetailsModel.value.productDetails!.product!.shippingPay}'),
-                                 SizedBox(
-                                   height: 5,
-                                 ),
-                                 Text(
-                                     'Choose Delivery According To Package Size : ${productDetailsModel.value.productDetails!.product!.deliverySize}'),
-                               ],
-                             ),
-                           ),
-                           Positioned(
-                               right: 10,
-                               top: 20,
-                               child: GestureDetector(
-                                   onTap: (){
-                                     Get.to(SingleProductDeliverySize(
-                                       id: productDetailsModel.value.productDetails!.product!.id,
-                                         whowillpay: productDetailsModel.value.productDetails!.product!.shippingPay,
-                                         packagSize :productDetailsModel.value.productDetails!.product!.deliverySize
-                                     )
-                                     );
-                                   },
-                                   child: const Text('Edit',style: TextStyle(color: Colors.red,fontSize: 13),)))
-                         ],
+                          children: [
+                            Container(
+                              width: Get.width,
+                              padding: EdgeInsets.all(10),
+                              decoration: BoxDecoration(color: Colors.grey.shade200),
+                              child: Column(
+                                mainAxisAlignment: MainAxisAlignment.start,
+                                crossAxisAlignment: CrossAxisAlignment.start,
+                                children: [
+                                  Text(
+                                      'Who will pay the shipping: ${productDetailsModel.value.productDetails!.product!.shippingPay}'),
+                                  SizedBox(
+                                    height: 5,
+                                  ),
+                                  Text(
+                                      'Choose Delivery According To Package Size : ${productDetailsModel.value.productDetails!.product!.deliverySize}'),
+                                ],
+                              ),
+                            ),
+                            Positioned(
+                                right: 10,
+                                top: 20,
+                                child: GestureDetector(
+                                    onTap: () {
+                                      Get.to(SingleProductDeliverySize(
+                                          id: productDetailsModel.value.productDetails!.product!.id,
+                                          whowillpay: productDetailsModel.value.productDetails!.product!.shippingPay,
+                                          packagSize: productDetailsModel.value.productDetails!.product!.deliverySize));
+                                    },
+                                    child: const Text(
+                                      'Edit',
+                                      style: TextStyle(color: Colors.red, fontSize: 13),
+                                    )))
+                          ],
                         ),
 
                       // return policy
@@ -478,130 +503,82 @@ class _ReviewandPublishScreenState extends State<ReviewandPublishScreen> {
                       ),
                       const SizedBox(height: 20),
                       if (isReturnPolicy.value == true)
-                        modelReturnPolicy != null
-                            ? ListView.builder(
-                                shrinkWrap: true,
-                                physics: AlwaysScrollableScrollPhysics(),
-                                itemCount: modelReturnPolicy!.returnPolicy!.length,
-                                itemBuilder: (context, index) {
-                                  var returnPolicy = modelReturnPolicy!.returnPolicy![index];
-                                  return Container(
-                                    padding: EdgeInsets.all(10),
-                                    decoration: BoxDecoration(border: Border.all(color: Colors.grey)),
-                                    child: Column(
-                                      mainAxisAlignment: MainAxisAlignment.start,
-                                      crossAxisAlignment: CrossAxisAlignment.start,
-                                      children: [
-                                        Text('Policy Name: ${returnPolicy.title ?? ""}'),
-                                        Text('Return Policy Description : ${returnPolicy.policyDiscreption ?? ""}'),
-                                        Text('Return Within: ${returnPolicy.days ?? ""}'),
-                                        Text('Return Shipping Fees: ${returnPolicy.returnShippingFees ?? ""}'),
-                                      ],
-                                    ),
-                                  );
-                                })
-                            : const CircularProgressIndicator(),
-
-                      GestureDetector(
-                        onTap: () {
-                          setState(() {
-                            isLocationPolicy.toggle();
-                          });
-                        },
-                        child: Container(
-                          padding: const EdgeInsets.symmetric(vertical: 12, horizontal: 12),
-                          decoration: BoxDecoration(
-                              color: Colors.white,
-                              borderRadius: BorderRadius.circular(8),
-                              border: Border.all(color: AppTheme.secondaryColor)),
-                          child: Row(
-                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                            children: [
-                              Text(
-                                'Location where customer will join ',
-                                style: GoogleFonts.poppins(
-                                  color: AppTheme.primaryColor,
-                                  fontSize: 15,
-                                ),
-                              ),
-                              GestureDetector(
-                                child: isReturnPolicy.value == true
-                                    ? const Icon(Icons.keyboard_arrow_up_rounded)
-                                    : const Icon(Icons.keyboard_arrow_down_outlined),
-                                onTap: () {
-                                  setState(() {
-                                    isReturnPolicy.toggle();
-                                  });
-                                },
-                              ),
-                            ],
-                          ),
-                        ),
-                      ),
-                      if (isLocationPolicy.value == true)
-                        Column(
-                          mainAxisAlignment: MainAxisAlignment.start,
-                          crossAxisAlignment: CrossAxisAlignment.start,
+                        Stack(
                           children: [
-                            Text('Town: ${productDetailsModel.value.productDetails!.address!.town ?? ""}'),
-                            Text('city: ${productDetailsModel.value.productDetails!.address!.city ?? ""}'),
-                            Text('state: ${productDetailsModel.value.productDetails!.address!.state ?? ""}'),
-                            Text('address: ${productDetailsModel.value.productDetails!.address!.address ?? ""}'),
-                            Text('zip code: ${productDetailsModel.value.productDetails!.address!.zipCode ?? ""}'),
+                            Container(
+                              width: Get.width,
+                              padding: EdgeInsets.all(10),
+                              decoration: BoxDecoration(color: Colors.grey.shade200),
+                              child: Column(
+                                mainAxisAlignment: MainAxisAlignment.start,
+                                crossAxisAlignment: CrossAxisAlignment.start,
+                                children: [
+                                  Text(
+                                      'Policy Name: ${productDetailsModel.value.productDetails!.product!.returnPolicyDesc!.title ?? ""}'),
+                                  const SizedBox(
+                                    height: 5,
+                                  ),
+                                  Text(
+                                      'Policy Description: ${productDetailsModel.value.productDetails!.product!.returnPolicyDesc!.policyDiscreption ?? ""}'),
+                                  const SizedBox(
+                                    height: 5,
+                                  ),
+                                  Text(
+                                      'Return with In: ${productDetailsModel.value.productDetails!.product!.returnPolicyDesc!.days ?? ""}'),
+                                  const SizedBox(
+                                    height: 5,
+                                  ),
+                                  Text(
+                                      'Return Shipping Fees: ${productDetailsModel.value.productDetails!.product!.returnPolicyDesc!.returnShippingFees ?? ""}'),
+                                ],
+                              ),
+                            ),
+                            Positioned(
+                                right: 10,
+                                top: 20,
+                                child: GestureDetector(
+                                    onTap: () {
+                                      Get.to(SingleProductReturnPolicy(
+                                        id: productDetailsModel.value.productDetails!.product!.id,
+                                        policyName:
+                                            productDetailsModel.value.productDetails!.product!.returnPolicyDesc!.title,
+                                        policyDescription: productDetailsModel
+                                            .value.productDetails!.product!.returnPolicyDesc!.policyDiscreption,
+                                        returnShippingFees: productDetailsModel
+                                            .value.productDetails!.product!.returnPolicyDesc!.returnShippingFees,
+                                        returnWithIn:
+                                            productDetailsModel.value.productDetails!.product!.returnPolicyDesc!.days,
+                                      ));
+                                    },
+                                    child: const Text(
+                                      'Edit',
+                                      style: TextStyle(color: Colors.red, fontSize: 13),
+                                    )))
                           ],
                         ),
-
-                      const SizedBox(height: 20),
-
-                      GestureDetector(
-                        onTap: () {
-                          setState(() {
-                            isShippingPolicy.toggle();
-                          });
-                        },
-                        child: Container(
-                          padding: const EdgeInsets.symmetric(vertical: 12, horizontal: 12),
-                          decoration: BoxDecoration(
-                              color: Colors.white,
-                              borderRadius: BorderRadius.circular(8),
-                              border: Border.all(color: AppTheme.secondaryColor)),
-                          child: Row(
-                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                            children: [
-                              Text(
-                                'Location where customer will join ',
-                                style: GoogleFonts.poppins(
-                                  color: AppTheme.primaryColor,
-                                  fontSize: 15,
-                                ),
-                              ),
-                              GestureDetector(
-                                child: isShippingPolicy.value == true
-                                    ? const Icon(Icons.keyboard_arrow_up_rounded)
-                                    : const Icon(Icons.keyboard_arrow_down_outlined),
-                                onTap: () {
-                                  setState(() {
-                                    isShippingPolicy.toggle();
-                                  });
-                                },
-                              ),
-                            ],
-                          ),
-                        ),
-                      ),
-                      if (isShippingPolicy.value == true)
-                        Column(
-                          mainAxisAlignment: MainAxisAlignment.start,
-                          crossAxisAlignment: CrossAxisAlignment.start,
-                          children: [
-                            Text('Town: ${productDetailsModel.value.productDetails!.address!.town ?? ""}'),
-                            Text('city: ${productDetailsModel.value.productDetails!.address!.city ?? ""}'),
-                            Text('state: ${productDetailsModel.value.productDetails!.address!.state ?? ""}'),
-                            Text('address: ${productDetailsModel.value.productDetails!.address!.address ?? ""}'),
-                            Text('zip code: ${productDetailsModel.value.productDetails!.address!.zipCode ?? ""}'),
-                          ],
-                        ),
-                      const SizedBox(height: 20),
+                      // modelReturnPolicy != null
+                      //     ? ListView.builder(
+                      //         shrinkWrap: true,
+                      //         physics: AlwaysScrollableScrollPhysics(),
+                      //         itemCount: modelReturnPolicy!.returnPolicy!.length,
+                      //         itemBuilder: (context, index) {
+                      //           var returnPolicy = modelReturnPolicy!.returnPolicy![index];
+                      //           return Container(
+                      //             padding: EdgeInsets.all(10),
+                      //             decoration: BoxDecoration(border: Border.all(color: Colors.grey)),
+                      //             child: Column(
+                      //               mainAxisAlignment: MainAxisAlignment.start,
+                      //               crossAxisAlignment: CrossAxisAlignment.start,
+                      //               children: [
+                      //                 Text('Policy Name: ${returnPolicy.title ?? ""}'),
+                      //                 Text('Return Policy Description : ${returnPolicy.policyDiscreption ?? ""}'),
+                      //                 Text('Return Within: ${returnPolicy.days ?? ""}'),
+                      //                 Text('Return Shipping Fees: ${returnPolicy.returnShippingFees ?? ""}'),
+                      //               ],
+                      //             ),
+                      //           );
+                      //         })
+                      //     : const CircularProgressIndicator(),
 
                       GestureDetector(
                         onTap: () {
@@ -619,7 +596,7 @@ class _ReviewandPublishScreenState extends State<ReviewandPublishScreen> {
                             mainAxisAlignment: MainAxisAlignment.spaceBetween,
                             children: [
                               Text(
-                                'International Shipping Details',
+                                'Item Weight & Dimensions',
                                 style: GoogleFonts.poppins(
                                   color: AppTheme.primaryColor,
                                   fontSize: 15,
@@ -646,9 +623,7 @@ class _ReviewandPublishScreenState extends State<ReviewandPublishScreen> {
                             Container(
                               width: Get.width,
                               padding: EdgeInsets.all(10),
-                              decoration: BoxDecoration(
-                                  color: Colors.grey.shade200
-                              ),
+                              decoration: BoxDecoration(color: Colors.grey.shade200),
                               child: Column(
                                 mainAxisAlignment: MainAxisAlignment.start,
                                 crossAxisAlignment: CrossAxisAlignment.start,
@@ -673,21 +648,31 @@ class _ReviewandPublishScreenState extends State<ReviewandPublishScreen> {
                                 right: 10,
                                 top: 20,
                                 child: GestureDetector(
-                                    onTap: (){
+                                    onTap: () {
                                       Get.to(SinglePInternationalshippingdetailsScreen(
                                         id: productDetailsModel.value.productDetails!.product!.id,
-                                        WeightOftheItem: productDetailsModel.value.productDetails!.productDimentions!.weight,
-                                        Unitofmeasure: productDetailsModel.value.productDetails!.productDimentions!.units,
-                                        SelectTypeOfPackaging: productDetailsModel.value.productDetails!.productDimentions!.typeOfPackages,
-                                        SelectTypeMaterial:productDetailsModel.value.productDetails!.productDimentions!.material ,
-                                        SelectNumberOfPackages:productDetailsModel.value.productDetails!.productDimentions!.numberOfPackage ,
-                                        Length: "${productDetailsModel.value.productDetails!.productDimentions!.boxLength}X" ,
-                                        Width : "${productDetailsModel.value.productDetails!.productDimentions!.boxWidth ?? ""}X",
-                                        Height : "${productDetailsModel.value.productDetails!.productDimentions!.boxHeight ?? ""}X",
-                                      )
-                                      );
+                                        WeightOftheItem:
+                                            productDetailsModel.value.productDetails!.productDimentions!.weight,
+                                        Unitofmeasure:
+                                            productDetailsModel.value.productDetails!.productDimentions!.units,
+                                        SelectTypeOfPackaging:
+                                            productDetailsModel.value.productDetails!.productDimentions!.typeOfPackages,
+                                        SelectTypeMaterial:
+                                            productDetailsModel.value.productDetails!.productDimentions!.material,
+                                        SelectNumberOfPackages: productDetailsModel
+                                            .value.productDetails!.productDimentions!.numberOfPackage,
+                                        Length:
+                                            "${productDetailsModel.value.productDetails!.productDimentions!.boxLength}X",
+                                        Width:
+                                            "${productDetailsModel.value.productDetails!.productDimentions!.boxWidth ?? ""}X",
+                                        Height:
+                                            "${productDetailsModel.value.productDetails!.productDimentions!.boxHeight ?? ""}X",
+                                      ));
                                     },
-                                    child: const Text('Edit',style: TextStyle(color: Colors.red,fontSize: 13),)))
+                                    child: const Text(
+                                      'Edit',
+                                      style: TextStyle(color: Colors.red, fontSize: 13),
+                                    )))
                           ],
                         ),
                       GestureDetector(
@@ -732,17 +717,17 @@ class _ReviewandPublishScreenState extends State<ReviewandPublishScreen> {
                             Container(
                               width: Get.width,
                               padding: EdgeInsets.all(10),
-                              decoration: BoxDecoration(
-                                  color: Colors.grey.shade200
-                              ),
+                              decoration: BoxDecoration(color: Colors.grey.shade200),
                               child: Column(
                                 mainAxisAlignment: MainAxisAlignment.start,
                                 crossAxisAlignment: CrossAxisAlignment.start,
                                 children: [
-                                  Text('Meta Title: ${productDetailsModel.value.productDetails!.product!.metaTitle ?? ""}'),
+                                  Text(
+                                      'Meta Title: ${productDetailsModel.value.productDetails!.product!.metaTitle ?? ""}'),
                                   Text(
                                       'Meta Description: ${productDetailsModel.value.productDetails!.product!.metaDescription ?? ""}'),
-                                  Text('Meta Tags: ${productDetailsModel.value.productDetails!.product!.metaTags ?? ""}'),
+                                  Text(
+                                      'Meta Tags: ${productDetailsModel.value.productDetails!.product!.metaTags ?? ""}'),
                                 ],
                               ),
                             ),
@@ -750,19 +735,19 @@ class _ReviewandPublishScreenState extends State<ReviewandPublishScreen> {
                                 right: 10,
                                 top: 10,
                                 child: GestureDetector(
-                                    onTap: (){
+                                    onTap: () {
                                       Get.to(OptionalDiscrptionsScreen(
-
                                         id: productDetailsModel.value.productDetails!.product!.id ?? "",
                                         MetaTitle: productDetailsModel.value.productDetails!.product!.metaTitle ?? "",
-                                        MetaDescription: productDetailsModel.value.productDetails!.product!.metaDescription ?? "",
+                                        MetaDescription:
+                                            productDetailsModel.value.productDetails!.product!.metaDescription ?? "",
                                         metaTags: productDetailsModel.value.productDetails!.product!.metaTags ?? "",
-
                                       ));
                                     },
-                                    child: const Text('Edit',style: TextStyle(color: Colors.red,fontSize: 13),)
-                                )
-                            )
+                                    child: const Text(
+                                      'Edit',
+                                      style: TextStyle(color: Colors.red, fontSize: 13),
+                                    )))
                           ],
                         ),
                       SizedBox(
@@ -810,9 +795,7 @@ class _ReviewandPublishScreenState extends State<ReviewandPublishScreen> {
                             Container(
                               width: Get.width,
                               padding: EdgeInsets.all(10),
-                              decoration: BoxDecoration(
-                                color: Colors.grey.shade200
-                              ),
+                              decoration: BoxDecoration(color: Colors.grey.shade200),
                               child: Column(
                                 mainAxisAlignment: MainAxisAlignment.start,
                                 crossAxisAlignment: CrossAxisAlignment.start,
@@ -834,22 +817,26 @@ class _ReviewandPublishScreenState extends State<ReviewandPublishScreen> {
                                 right: 10,
                                 top: 10,
                                 child: GestureDetector(
-                                    onTap: (){
+                                    onTap: () {
                                       Get.to(OptionalClassificationScreen(
-
                                         id: productDetailsModel.value.productDetails!.product!.id ?? "",
-                                        Productnumber: productDetailsModel.value.productDetails!.product!.productNumber ?? "",
-                                        ProductCode: productDetailsModel.value.productDetails!.product!.productCode ?? "",
-                                        PromotionCode: productDetailsModel.value.productDetails!.product!.promotionCode ?? "",
-                                        SerialNumber: productDetailsModel.value.productDetails!.product!.serialNumber ?? "",
-                                        Packagedetails: productDetailsModel.value.productDetails!.product!.packageDetail ?? "",
+                                        Productnumber:
+                                            productDetailsModel.value.productDetails!.product!.productNumber ?? "",
+                                        ProductCode:
+                                            productDetailsModel.value.productDetails!.product!.productCode ?? "",
+                                        PromotionCode:
+                                            productDetailsModel.value.productDetails!.product!.promotionCode ?? "",
+                                        SerialNumber:
+                                            productDetailsModel.value.productDetails!.product!.serialNumber ?? "",
+                                        Packagedetails:
+                                            productDetailsModel.value.productDetails!.product!.packageDetail ?? "",
                                       ));
                                     },
-                                    child: const Text('Edit',style: TextStyle(color: Colors.red,fontSize: 13),)
-                                )
-                            )
+                                    child: const Text(
+                                      'Edit',
+                                      style: TextStyle(color: Colors.red, fontSize: 13),
+                                    )))
                           ],
-
                         ),
                       const SizedBox(
                         height: 20,
@@ -859,7 +846,9 @@ class _ReviewandPublishScreenState extends State<ReviewandPublishScreen> {
                         title: 'Confirm',
                         borderRadius: 11,
                         onPressed: () {
-                          Get.to(RewardScreen());
+                          completeApi();
+
+                          // Get.to(RewardScreen());
                         },
                       ),
                     ],

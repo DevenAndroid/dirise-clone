@@ -1,6 +1,8 @@
 import 'dart:convert';
+import 'dart:developer';
 
 import 'package:dirise/addNewProduct/optionalScreen.dart';
+import 'package:dirise/addNewProduct/reviewPublishScreen.dart';
 import 'package:dirise/utils/helper.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
@@ -9,6 +11,7 @@ import 'package:form_field_validator/form_field_validator.dart';
 import 'package:get/get.dart';
 import 'package:google_fonts/google_fonts.dart';
 
+import '../controller/profile_controller.dart';
 import '../controller/vendor_controllers/add_product_controller.dart';
 import '../iAmHereToSell/personalizeyourstoreScreen.dart';
 import '../model/common_modal.dart';
@@ -20,25 +23,25 @@ import '../widgets/common_textfield.dart';
 
 class InternationalshippingdetailsScreen extends StatefulWidget {
   int? id;
-  int? Unitofmeasure;
-  String? WeightOftheItem;
-  int? SelectNumberOfPackages;
-  String? SelectTypeMaterial;
-  String? SelectTypeOfPackaging;
-  String? Length;
-  String? Width;
-  String? Height;
+  dynamic Unitofmeasure;
+  dynamic WeightOftheItem;
+  dynamic SelectNumberOfPackages;
+  dynamic SelectTypeMaterial;
+  dynamic SelectTypeOfPackaging;
+  dynamic Length;
+  dynamic Width;
+  dynamic Height;
   InternationalshippingdetailsScreen(
       {super.key,
-      this.id,
-      this.WeightOftheItem,
-      this.Unitofmeasure,
-      this.SelectTypeOfPackaging,
-      this.SelectTypeMaterial,
-      this.SelectNumberOfPackages,
-      this.Length,
-      this.Height,
-      this.Width});
+        this.id,
+        this.WeightOftheItem,
+        this.Unitofmeasure,
+        this.SelectTypeOfPackaging,
+        this.SelectTypeMaterial,
+        this.SelectNumberOfPackages,
+        this.Length,
+        this.Height,
+        this.Width});
 
   @override
   State<InternationalshippingdetailsScreen> createState() => _InternationalshippingdetailsScreenState();
@@ -56,29 +59,45 @@ class _InternationalshippingdetailsScreenState extends State<Internationalshippi
   List<String> unitOfMeasureList = [
     'cm/kg',
     'lb/inch',
+    'Kilogram (kg)',
+    'Pound (lb)'
   ];
 
   String selectNumberOfPackages = '1';
   List<String> selectNumberOfPackagesList = List.generate(30, (index) => (index + 1).toString());
 
-  String selectTypeMaterial = 'plastic';
+  String selectTypeMaterial = 'Paper';
   List<String> selectTypeMaterialList = [
-    'plastic',
-    'glass',
-    'iron',
+    'Paper',
+    'Plastic',
+    'Glass',
+    'Metal',
+    'Wood',
+    'Fabric',
+    'Leather',
+    'Rubber',
+    'Ceramic',
+    'Stone',
+    'Cardboard',
+    'Carton',
+    'Foam',
+    'Fiberglass',
+    'Carbon',
+    'fiber',
+    'Concrete',
+    'Brick',
+    'Tile',
+    'Vinyl',
+    'Plywood',
   ];
   final formKey2 = GlobalKey<FormState>();
-  String selectTypeOfPackaging = 'fedex 10kg box';
-  List<String> selectTypeOfPackagingList = [
-    'fedex 10kg box',
-    'fedex 25kg box',
-    'fedex box',
-    'fedex Envelop',
-    'fedex pak',
-    'fedex Tube',
-    'your packaging',
-    'custom packaging',
+  String? selectTypeOfPackaging;
+  final List<Map<String, String>> selectTypeOfPackagingList = [
+    {'display': 'Custom packaging', 'value': 'custom_packaging'},
+    {'display': 'Your packaging', 'value': 'your_packaging'},
   ];
+
+
   final addProductController = Get.put(AddProductController());
   RxBool hide = true.obs;
   RxBool hide1 = true.obs;
@@ -86,6 +105,7 @@ class _InternationalshippingdetailsScreenState extends State<Internationalshippi
   bool? _isValue = false;
   final Repositories repositories = Repositories();
   String code = "+91";
+
   shippingDetailsApi() {
     Map<String, dynamic> map = {};
     map['weight_unit'] = unitOfMeasure;
@@ -104,27 +124,32 @@ class _InternationalshippingdetailsScreenState extends State<Internationalshippi
     repositories.postApi(url: ApiUrls.giveawayProductAddress, context: context, mapData: map).then((value) {
       ModelCommonResponse response = ModelCommonResponse.fromJson(jsonDecode(value));
       showToast(response.message.toString());
-      if (response.status == true) {
+      if (widget.id != null) {
+        Get.to(ReviewPublishScreen());
+      } else {
         Get.to(OptionalScreen());
       }
     });
   }
 
+  var id = Get.arguments[0];
+
   @override
   void initState() {
     // TODO: implement initState
     super.initState();
-    if(widget.id != null){
-      // unitOfMeasure = widget.Unitofmeasure.toString();
+
+
+    if (widget.id != null) {
       weightController.text = widget.WeightOftheItem.toString();
       numberOfPackageController.text = widget.SelectNumberOfPackages.toString();
-      // selectTypeMaterial = widget.SelectTypeMaterial.toString();
       dimensionController.text = widget.Length.toString();
       dimensionWidthController.text = widget.Width.toString();
       dimensionHeightController.text = widget.Height.toString();
-      // selectTypeOfPackaging = widget.SelectTypeOfPackaging.toString();
     }
   }
+
+  final profileController = Get.put(ProfileController());
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -133,13 +158,25 @@ class _InternationalshippingdetailsScreenState extends State<Internationalshippi
         surfaceTintColor: Colors.white,
         elevation: 0,
         leading: GestureDetector(
-          onTap: () {
+          onTap: (){
             Get.back();
           },
-          child: const Icon(
-            Icons.arrow_back_ios_new,
-            color: Color(0xff0D5877),
-            size: 16,
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.center,
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: [
+              profileController.selectedLAnguage.value != 'English' ?
+              Image.asset(
+                'assets/images/forward_icon.png',
+                height: 19,
+                width: 19,
+              ) :
+              Image.asset(
+                'assets/images/back_icon_new.png',
+                height: 19,
+                width: 19,
+              ),
+            ],
           ),
         ),
         titleSpacing: 0,
@@ -147,7 +184,7 @@ class _InternationalshippingdetailsScreenState extends State<Internationalshippi
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: [
             Text(
-              'International shipping details'.tr,
+              'Item Weight & Dimensions'.tr,
               style: GoogleFonts.poppins(color: const Color(0xff292F45), fontWeight: FontWeight.w600, fontSize: 20),
             ),
           ],
@@ -162,6 +199,10 @@ class _InternationalshippingdetailsScreenState extends State<Internationalshippi
               mainAxisAlignment: MainAxisAlignment.start,
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
+                Text(
+                  'We use this information to estimate your shipping prices. If you plan to ship internationally or your item is bigger than 5kg or 0.05 CBM then you must fill all the details below.'.tr,
+                  style: GoogleFonts.poppins(color: const Color(0xff292F45), fontWeight: FontWeight.w500, fontSize: 18),
+                ),
                 SizedBox(
                   height: 40,
                 ),
@@ -244,6 +285,7 @@ class _InternationalshippingdetailsScreenState extends State<Internationalshippi
                     controller: weightController,
                     obSecure: false,
                     hintText: 'Weight Of the Item ',
+                    keyboardType: TextInputType.number,
                     validator: MultiValidator([
                       RequiredValidator(errorText: 'Weight Of the Itemis required'.tr),
                     ])),
@@ -386,7 +428,7 @@ class _InternationalshippingdetailsScreenState extends State<Internationalshippi
                   ],
                 ),
                 Text(
-                  'Select Type Of Packaging '.tr,
+                  'Package type '.tr,
                   style: GoogleFonts.poppins(color: const Color(0xff292F45), fontWeight: FontWeight.w500, fontSize: 18),
                 ),
                 const SizedBox(height: 5),
@@ -397,10 +439,10 @@ class _InternationalshippingdetailsScreenState extends State<Internationalshippi
                       selectTypeOfPackaging = newValue!;
                     });
                   },
-                  items: selectTypeOfPackagingList.map<DropdownMenuItem<String>>((String value) {
+                  items: selectTypeOfPackagingList.map<DropdownMenuItem<String>>((item) {
                     return DropdownMenuItem<String>(
-                      value: value,
-                      child: Text(value),
+                      value: item['value'],
+                      child: Text(item['display']!),
                     );
                   }).toList(),
                   decoration: InputDecoration(
@@ -433,6 +475,7 @@ class _InternationalshippingdetailsScreenState extends State<Internationalshippi
                     return null;
                   },
                 ),
+
                 const SizedBox(height: 10),
                 CustomOutlineButton(
                   title: 'Confirm',
@@ -444,6 +487,7 @@ class _InternationalshippingdetailsScreenState extends State<Internationalshippi
                   },
                 ),
                 const SizedBox(height: 20),
+                id == "need_truck"?SizedBox():
                 GestureDetector(
                   onTap: () {
                     Get.to( OptionalScreen());

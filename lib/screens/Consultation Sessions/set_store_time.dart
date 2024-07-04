@@ -2,6 +2,7 @@ import 'dart:async';
 import 'dart:convert';
 import 'package:dirise/model/common_modal.dart';
 import 'package:dirise/repository/repository.dart';
+import 'package:dirise/screens/Consultation%20Sessions/review_screen.dart';
 import 'package:dirise/utils/api_constant.dart';
 import 'package:dirise/utils/helper.dart';
 import 'package:dirise/widgets/common_colour.dart';
@@ -9,6 +10,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:get/get.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
+import '../../controller/profile_controller.dart';
 import '../../controller/vendor_controllers/add_product_controller.dart';
 import '../../controller/vendor_controllers/vendor_store_timing.dart';
 import '../../model/jobResponceModel.dart';
@@ -17,7 +19,8 @@ import '../../widgets/loading_animation.dart';
 import 'duration_screen.dart';
 
 class SetTimeScreenConsultation extends StatefulWidget {
-  const SetTimeScreenConsultation({Key? key}) : super(key: key);
+  int? id;
+  SetTimeScreenConsultation({Key? key,this.id}) : super(key: key);
   static var route = "/SetTimeScreenConsultation";
 
   @override
@@ -66,7 +69,12 @@ class _SetTimeScreenConsultationState extends State<SetTimeScreenConsultation> {
       showToast(modelCommonResponse.message.toString());
       controller.getTime( addProductController.idProduct.value.toString());
       if (modelCommonResponse.status == true) {
-        Get.to(()=> const DurationScreen());
+        if(widget.id != null){
+          Get.to(ReviewScreen());
+        }else{
+          Get.to(()=> DurationScreen());
+        }
+
         // Get.back();
       }
     });
@@ -110,7 +118,7 @@ class _SetTimeScreenConsultationState extends State<SetTimeScreenConsultation> {
       debounce!.cancel();
     }
   }
-
+  final profileController = Get.put(ProfileController());
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -131,9 +139,16 @@ class _SetTimeScreenConsultationState extends State<SetTimeScreenConsultation> {
           },
           child: Padding(
             padding: const EdgeInsets.all(15),
-            child: Image.asset(
-              'assets/icons/backicon.png',
-              height: 20,
+            child:    profileController.selectedLAnguage.value != 'English' ?
+            Image.asset(
+              'assets/images/forward_icon.png',
+              height: 19,
+              width: 19,
+            ) :
+            Image.asset(
+              'assets/images/back_icon_new.png',
+              height: 19,
+              width: 19,
             ),
           ),
         ),
@@ -432,7 +447,7 @@ print( status.value.toString());
             InkWell(
               onTap: (){
                 // updateTime();
-           Get.to(()=> const DurationScreen());
+           Get.to(()=>  DurationScreen());
               },
               child: Container(
                 width: Get.width,

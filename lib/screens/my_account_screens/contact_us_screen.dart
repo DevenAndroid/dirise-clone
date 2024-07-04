@@ -12,6 +12,7 @@ import 'package:flutter_svg/flutter_svg.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:get/get.dart';
 import 'package:url_launcher/url_launcher.dart';
+import '../../controller/profile_controller.dart';
 import '../../model/aboutus_model.dart';
 import '../../model/model_common.dart';
 import '../../model/model_contact_us.dart';
@@ -43,12 +44,12 @@ class _ContactUsScreenState extends State<ContactUsScreen> {
     repositories.postApi(url: ApiUrls.contactUsUrl, mapData: map, context: context).then((value) {
       CommonModel response = CommonModel.fromJson(jsonDecode(value));
       if (response.status == true) {
+        showToast(response.message.toString(), center: true);
         nameController.text = '';
         emailController.text = '';
         phoneController.text = '';
         companyController.text = '';
         messageController.text = '';
-        showToast(response.message.toString(), center: true);
       }
       else {
         showToast(response.message.toString(), center: true);
@@ -84,6 +85,7 @@ class _ContactUsScreenState extends State<ContactUsScreen> {
     contactUsEmail();
   }
   final GlobalKey<FormState> formKey = GlobalKey<FormState>();
+  final profileController = Get.put(ProfileController());
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -94,10 +96,16 @@ class _ContactUsScreenState extends State<ContactUsScreen> {
               child: Row(
                 children: [
                   IconButton(
-                    icon: Image.asset(
-                      'assets/icons/backicon.png',
-                      height: 25,
-                      width: 25,
+                    icon: profileController.selectedLAnguage.value != 'English' ?
+                    Image.asset(
+                      'assets/images/forward_icon.png',
+                      height: 19,
+                      width: 19,
+                    ) :
+                    Image.asset(
+                      'assets/images/back_icon_new.png',
+                      height: 19,
+                      width: 19,
                     ),
                     onPressed: () => Navigator.of(context).pop(),
                   ),
@@ -147,24 +155,67 @@ class _ContactUsScreenState extends State<ContactUsScreen> {
                         ),
                       ),
                       addHeight(20),
-                      CommonTextField(
-                        hintText: 'Your Name'.tr,
+                      TextFormField(
                         controller: nameController,
-                          validator: (value) {
-                            if (value!.trim().isEmpty) {
-                              return "Please enter your name";
-                            }
-                            return null;
-                          }),
+                        validator: (value) {
+                          if (value!.trim().isEmpty) {
+                            return "Please enter your name".tr;
+                          }
+                          return null;
+                        },
+                        decoration: InputDecoration(
+                          counterStyle: GoogleFonts.poppins(
+                            color: AppTheme.primaryColor,
+                            fontSize: 25,
+                          ),
+                          counter: const Offstage(),
+
+                          errorMaxLines: 2,
+                          contentPadding: const EdgeInsets.all(15),
+                          //   fillColor: Colors.transparent,
+                          hintText: 'Your Name'.tr,
+                          hintStyle: GoogleFonts.poppins(
+                            color: AppTheme.primaryColor,
+                            fontSize: 15,
+                          ),
+
+                          border: InputBorder.none,
+                          focusedErrorBorder: const OutlineInputBorder(
+                              borderRadius: BorderRadius.all(Radius.circular(8)),
+                              borderSide: BorderSide(color: AppTheme.secondaryColor)),
+                          errorBorder: const OutlineInputBorder(
+                              borderRadius: BorderRadius.all(Radius.circular(8)),
+                              borderSide: BorderSide(color: AppTheme.secondaryColor)),
+                          focusedBorder: const OutlineInputBorder(
+                              borderRadius: BorderRadius.all(Radius.circular(8)),
+                              borderSide: BorderSide(color: AppTheme.secondaryColor)),
+                          disabledBorder: const OutlineInputBorder(
+                            borderRadius: BorderRadius.all(Radius.circular(8)),
+                            borderSide: BorderSide(color: AppTheme.secondaryColor),
+                          ),
+                          enabledBorder: const OutlineInputBorder(
+                            borderRadius: BorderRadius.all(Radius.circular(8)),
+                            borderSide: BorderSide(color: AppTheme.secondaryColor),
+                          ),
+                        ),
+                      ),
+                      // CommonTextField(
+                      //   hintText: 'Your Name'.tr,
+                      //   controller: nameController,
+                      //     validator: (value) {
+                      //       if (value!.trim().isEmpty) {
+                      //         return "Please enter your name";
+                      //       }
+                      //       return null;
+                      //     }),
                       addHeight(7),
-                      CommonTextField(
-                        hintText: 'Your Email'.tr,
+                      TextFormField(
                         controller: emailController,
                         validator: (value) {
                           if (value!.trim().isEmpty) {
                             return "Please enter your email".tr;
                           } else if (value.trim().contains('+') || value.trim().contains(' ')) {
-                            return "Email is invalid";
+                            return "Email is invalid".tr;
                           } else if (RegExp(r"^[a-zA-Z0-9.a-zA-Z0-9.!#$%&'*+-/=?^_`{|}~]+@[a-zA-Z0-9]+\.[a-zA-Z]+")
                               .hasMatch(value.trim())) {
                             return null;
@@ -172,24 +223,126 @@ class _ContactUsScreenState extends State<ContactUsScreen> {
                             return 'Please type a valid email address'.tr;
                           }
                         },
+                        decoration: InputDecoration(
+                          counterStyle: GoogleFonts.poppins(
+                            color: AppTheme.primaryColor,
+                            fontSize: 25,
+                          ),
+                          counter: const Offstage(),
+
+                          errorMaxLines: 2,
+                          contentPadding: const EdgeInsets.all(15),
+                          //   fillColor: Colors.transparent,
+                          hintText: 'Your Email'.tr,
+                          hintStyle: GoogleFonts.poppins(
+                            color: AppTheme.primaryColor,
+                            fontSize: 15,
+                          ),
+
+                          border: InputBorder.none,
+                          focusedErrorBorder: const OutlineInputBorder(
+                              borderRadius: BorderRadius.all(Radius.circular(8)),
+                              borderSide: BorderSide(color: AppTheme.secondaryColor)),
+                          errorBorder: const OutlineInputBorder(
+                              borderRadius: BorderRadius.all(Radius.circular(8)),
+                              borderSide: BorderSide(color: AppTheme.secondaryColor)),
+                          focusedBorder: const OutlineInputBorder(
+                              borderRadius: BorderRadius.all(Radius.circular(8)),
+                              borderSide: BorderSide(color: AppTheme.secondaryColor)),
+                          disabledBorder: const OutlineInputBorder(
+                            borderRadius: BorderRadius.all(Radius.circular(8)),
+                            borderSide: BorderSide(color: AppTheme.secondaryColor),
+                          ),
+                          enabledBorder: const OutlineInputBorder(
+                            borderRadius: BorderRadius.all(Radius.circular(8)),
+                            borderSide: BorderSide(color: AppTheme.secondaryColor),
+                          ),
+                        ),
                       ),
+                      // CommonTextField(
+                      //   hintText: 'Your Email'.tr,
+                      //   controller: emailController,
+                      //   validator: (value) {
+                      //     if (value!.trim().isEmpty) {
+                      //       return "Please enter your email".tr;
+                      //     } else if (value.trim().contains('+') || value.trim().contains(' ')) {
+                      //       return "Email is invalid";
+                      //     } else if (RegExp(r"^[a-zA-Z0-9.a-zA-Z0-9.!#$%&'*+-/=?^_`{|}~]+@[a-zA-Z0-9]+\.[a-zA-Z]+")
+                      //         .hasMatch(value.trim())) {
+                      //       return null;
+                      //     } else {
+                      //       return 'Please type a valid email address'.tr;
+                      //     }
+                      //   },
+                      // ),
                       addHeight(7),
-                      CommonTextField(
-                        hintText: 'Phone Number'.tr,
+                      TextFormField(
                         controller: phoneController,
                         keyboardType: TextInputType.phone,
-                          validator: (value) {
-                            if (value!.trim().isEmpty) {
-                              return "Please enter phone number";
-                            }
-                            if (value.trim().length > 15) {
-                              return "Please enter valid phone number";
-                            }
-                            if (value.trim().length < 8) {
-                              return "Please enter valid phone number";
-                            }
-                            return null;
-                          }),
+                        validator: (value) {
+                          if (value!.trim().isEmpty) {
+                            return "Please enter phone number".tr;
+                          }
+                          if (value.trim().length > 15) {
+                            return "Please enter valid phone number".tr;
+                          }
+                          if (value.trim().length < 8) {
+                            return "Please enter valid phone number".tr;
+                          }
+                          return null;
+                        },
+                        decoration: InputDecoration(
+                          counterStyle: GoogleFonts.poppins(
+                            color: AppTheme.primaryColor,
+                            fontSize: 25,
+                          ),
+                          counter: const Offstage(),
+
+                          errorMaxLines: 2,
+                          contentPadding: const EdgeInsets.all(15),
+                          //   fillColor: Colors.transparent,
+                          hintText: 'Phone Number'.tr,
+                          hintStyle: GoogleFonts.poppins(
+                            color: AppTheme.primaryColor,
+                            fontSize: 15,
+                          ),
+
+                          border: InputBorder.none,
+                          focusedErrorBorder: const OutlineInputBorder(
+                              borderRadius: BorderRadius.all(Radius.circular(8)),
+                              borderSide: BorderSide(color: AppTheme.secondaryColor)),
+                          errorBorder: const OutlineInputBorder(
+                              borderRadius: BorderRadius.all(Radius.circular(8)),
+                              borderSide: BorderSide(color: AppTheme.secondaryColor)),
+                          focusedBorder: const OutlineInputBorder(
+                              borderRadius: BorderRadius.all(Radius.circular(8)),
+                              borderSide: BorderSide(color: AppTheme.secondaryColor)),
+                          disabledBorder: const OutlineInputBorder(
+                            borderRadius: BorderRadius.all(Radius.circular(8)),
+                            borderSide: BorderSide(color: AppTheme.secondaryColor),
+                          ),
+                          enabledBorder: const OutlineInputBorder(
+                            borderRadius: BorderRadius.all(Radius.circular(8)),
+                            borderSide: BorderSide(color: AppTheme.secondaryColor),
+                          ),
+                        ),
+                      ),
+                      // CommonTextField(
+                      //   hintText: 'Phone Number'.tr,
+                      //   controller: phoneController,
+                      //   keyboardType: TextInputType.phone,
+                      //     validator: (value) {
+                      //       if (value!.trim().isEmpty) {
+                      //         return "Please enter phone number";
+                      //       }
+                      //       if (value.trim().length > 15) {
+                      //         return "Please enter valid phone number";
+                      //       }
+                      //       if (value.trim().length < 8) {
+                      //         return "Please enter valid phone number";
+                      //       }
+                      //       return null;
+                      //     }),
                       addHeight(7),
                       CommonTextField(
                         hintText: 'Company'.tr,

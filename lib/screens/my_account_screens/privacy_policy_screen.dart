@@ -2,6 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:google_fonts/google_fonts.dart';
 
+import '../../controller/profile_controller.dart';
+
 class PrivacyPolicy extends StatefulWidget {
   static String route = "/PrivacyPolicy";
   const PrivacyPolicy({Key? key}) : super(key: key);
@@ -11,6 +13,7 @@ class PrivacyPolicy extends StatefulWidget {
 }
 
 class _PrivacyPolicyState extends State<PrivacyPolicy> {
+  final profileController = Get.put(ProfileController());
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -20,9 +23,27 @@ class _PrivacyPolicyState extends State<PrivacyPolicy> {
           child: SafeArea(
             child: Row(
               children: [
-                IconButton(
-                  icon: const Icon(Icons.arrow_back_ios, color: Color(0xff014E70), size: 20),
-                  onPressed: () => Navigator.of(context).pop(),
+                GestureDetector(
+                  onTap: (){
+                    Get.back();
+                  },
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.center,
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: [
+                      profileController.selectedLAnguage.value != 'English' ?
+                      Image.asset(
+                        'assets/images/forward_icon.png',
+                        height: 19,
+                        width: 19,
+                      ) :
+                      Image.asset(
+                        'assets/images/back_icon_new.png',
+                        height: 19,
+                        width: 19,
+                      ),
+                    ],
+                  ),
                 ),
                 Text(
                   'Privacy Policy'.tr,

@@ -56,7 +56,7 @@ class _VendorAccountCreatedSuccessfullyScreenState extends State<VendorAccountCr
                   height: 60,
                 ),
                 Text(
-                  "Vendor account created successfully ".tr,
+                  "Vendor account created successfully".tr,
                   textAlign: TextAlign.center,
                   style: Theme.of(context)
                       .textTheme
@@ -102,7 +102,7 @@ class _VendorAccountCreatedSuccessfullyScreenState extends State<VendorAccountCr
                     // Get.offNamed( .route);
                   },
                   child: Text(
-                    'Cutomer Support'.tr,
+                    'Customer Support'.tr,
                     style: GoogleFonts.poppins(color: Colors.black, fontWeight: FontWeight.w400, fontSize: 14),
                   ),
                 ),

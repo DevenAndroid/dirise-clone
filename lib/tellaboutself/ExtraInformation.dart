@@ -39,7 +39,7 @@ class _ExtraInformationState extends State<ExtraInformation> {
                   Get.to(()=>const ProductAccountCreatedSuccessfullyScreen());
                 },
                 child: Container(
-                  width:size.width,
+                   width:size.width,
                     decoration: const BoxDecoration(borderRadius: BorderRadius.all(Radius.circular(10)),
                       image: DecorationImage(
                         image: AssetImage('assets/images/tellus.png'),
@@ -47,7 +47,7 @@ class _ExtraInformationState extends State<ExtraInformation> {
                       ),
                     ),
                      // adjust the width and height as needed
-                    height: 170,
+                    height: 180,
                     child:  Padding(
                       padding: const EdgeInsets.symmetric(horizontal: 15, vertical: 13),
                       child: Column(

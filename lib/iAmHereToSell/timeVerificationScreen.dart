@@ -1,3 +1,6 @@
+import 'dart:convert';
+import 'dart:developer';
+
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
@@ -5,6 +8,10 @@ import 'package:get/get.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:intl_phone_field/intl_phone_field.dart';
 
+import '../controller/profile_controller.dart';
+import '../model/model_varification.dart';
+import '../repository/repository.dart';
+import '../utils/api_constant.dart';
 import '../widgets/common_colour.dart';
 import 'listofquestionScreen.dart';
 
@@ -16,6 +23,47 @@ class VerificationTimeScreen extends StatefulWidget {
 }
 
 class _VerificationTimeScreenState extends State<VerificationTimeScreen> {
+  String selectedRadio = '';
+  String code = '';
+  TextEditingController phoneController = TextEditingController();
+  final Repositories repositories = Repositories();
+  Future verificationApi() async {
+    Map<String, dynamic> map = {};
+
+    map['verification_type'] = 'calling';
+    map['verification_schedule'] = selectedRadio;
+    map['verification_mode_type'] = "phone";
+    map['verification_mode'] = "+"+code+phoneController.text.toString();
+    // map['name'] = _nameController.text.trim();
+    // map['phone'] = _mobileNumberController.text.trim();
+    // map['password'] = _passwordController.text.trim();
+    FocusManager.instance.primaryFocus!.unfocus();
+    await repositories.postApi(url: ApiUrls.vendorVerification, context: context, mapData: map).then((value) {
+      VarificationModel response = VarificationModel.fromJson(jsonDecode(value));
+      // showToast(response.message.toString());
+
+      if (response.status == true) {
+showToast(response.message.toString());
+        Get.to(ListOfQuestionsScreen());
+      }
+      else{
+        showToast(response.message.toString());
+      }
+    });
+  }
+
+  void validateAndProceed() {
+    if (selectedRadio == "") {
+      showToast("Please select a time slot".tr);
+    }
+    else if(phoneController.text.isEmpty){
+      showToast("Please enter phone number".tr);}
+   else {
+      verificationApi();
+    }
+  }
+
+  final profileController = Get.put(ProfileController());
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -23,18 +71,25 @@ class _VerificationTimeScreenState extends State<VerificationTimeScreen> {
         backgroundColor: Colors.white,
         elevation: 0,
         leading: GestureDetector(
-          onTap: () {
+          onTap: (){
             Get.back();
           },
-          child: IconButton(
-            icon: const Icon(
-              Icons.arrow_back_ios_new,
-              color: Color(0xff0D5877),
-              size: 16,
-            ),
-            onPressed: () {
-              // Handle back button press
-            },
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.center,
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: [
+              profileController.selectedLAnguage.value != 'English' ?
+              Image.asset(
+                'assets/images/forward_icon.png',
+                height: 19,
+                width: 19,
+              ) :
+              Image.asset(
+                'assets/images/back_icon_new.png',
+                height: 19,
+                width: 19,
+              ),
+            ],
           ),
         ),
         titleSpacing: 0,
@@ -56,7 +111,7 @@ class _VerificationTimeScreenState extends State<VerificationTimeScreen> {
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               Text(
-                'Here are some of the questions that we want to ask',
+                'Here are some of the questions that we want to ask'.tr,
                 style: GoogleFonts.poppins(fontWeight: FontWeight.w400, fontSize: 16, color: Colors.black),
               ),
               const SizedBox(
@@ -89,26 +144,30 @@ class _VerificationTimeScreenState extends State<VerificationTimeScreen> {
                             ),
                             const SizedBox(width: 10,),
                             Text(
-                              'Morning',
+                              'Morning'.tr,
                               style: GoogleFonts.poppins(fontWeight: FontWeight.w500, fontSize: 24, color: Colors.black),
                             )
                           ],
                         ),
                         const SizedBox(height: 10,),
                         Text(
-                          'Between  10:00 AM to 12:00 PM GMT+3 Kuwait Time',
+                          'Between 10:00 AM to 12:00 PM GMT+3 Kuwait Time'.tr,
                           style: GoogleFonts.poppins(fontWeight: FontWeight.w400, fontSize: 14, color: Colors.black),
                         )
                       ],
                     ),
                   ),
-                  const Positioned(
+                   Positioned(
                     right: 20,
                     top: 20,
-                    child: Radio(
-                      value: 1,
-                      groupValue: 1,
-                      onChanged: null,
+                    child:  Radio(
+                      value: "morning",
+                      groupValue: selectedRadio,
+                      onChanged: (value) {
+                        setState(() {
+                          selectedRadio = value.toString();
+                        });
+                      },
                     ),
                   ),
 
@@ -141,26 +200,30 @@ class _VerificationTimeScreenState extends State<VerificationTimeScreen> {
                             ),
                             const SizedBox(width: 10,),
                             Text(
-                              'Afternoon',
+                              'Afternoon'.tr,
                               style: GoogleFonts.poppins(fontWeight: FontWeight.w500, fontSize: 24, color: Colors.black),
                             )
                           ],
                         ),
                         const SizedBox(height: 10,),
                         Text(
-                          'Between  01:00 PM to 06:00 PM GMT+3 Kuwait Time',
+                          'Between 01:00 PM to 06:00 PM GMT+3 Kuwait Time'.tr,
                           style: GoogleFonts.poppins(fontWeight: FontWeight.w400, fontSize: 14, color: Colors.black),
                         )
                       ],
                     ),
                   ),
-                  const Positioned(
+                   Positioned(
                     right: 20,
                     top: 20,
                     child: Radio(
-                      value: 1,
-                      groupValue: 1,
-                      onChanged: null,
+                      value: "afternoon",
+                      groupValue: selectedRadio,
+                      onChanged: (value) {
+                        setState(() {
+                          selectedRadio = value.toString();
+                        });
+                      },
                     ),
                   ),
 
@@ -168,11 +231,11 @@ class _VerificationTimeScreenState extends State<VerificationTimeScreen> {
               ),
               SizedBox(height: 20,),
               Text(
-                'How can we reach you?',
+                'How can we reach you?'.tr,
                 style: GoogleFonts.poppins(fontWeight: FontWeight.w400, fontSize: 20, color: Colors.black),
               ),
               Text(
-                'Phone number',
+                'Phone number'.tr,
                 style: GoogleFonts.poppins(fontWeight: FontWeight.w400, fontSize: 14, color: Colors.black),
               ),
               SizedBox(height: 20,),
@@ -187,7 +250,7 @@ class _VerificationTimeScreenState extends State<VerificationTimeScreen> {
                     color: AppTheme.textColor
                 ),
 
-                // controller: alternatePhoneController,
+              controller: phoneController,
                 decoration: const InputDecoration(
                     contentPadding: EdgeInsets.zero,
                     hintStyle: TextStyle(color: AppTheme.textColor),
@@ -201,12 +264,13 @@ class _VerificationTimeScreenState extends State<VerificationTimeScreen> {
                 initialCountryCode: '+91',
                 languageCode: '+91',
                 onCountryChanged: (phone) {
-                  // profileController.code = phone.code;
-                  // print(phone.code);
+                   code = phone.dialCode;
+                 print("code"+code);
                   // print(profileController.code.toString());
                 },
                 onChanged: (phone) {
-                  // profileController.code = phone.countryISOCode.toString();
+                  // code = phone.countryISOCode;
+                  // print("code"+code);
                   // print(phone.countryCode);
                   // print(profileController.code.toString());
                 },
@@ -214,9 +278,7 @@ class _VerificationTimeScreenState extends State<VerificationTimeScreen> {
               SizedBox(height: 20,),
 
               InkWell(
-                onTap: (){
-                  Get.to(ListOfQuestionsScreen());
-                },
+                onTap:validateAndProceed,
                 child: Container(
                   margin: EdgeInsets.only(left: 15,right: 15),
                   width: Get.width,
@@ -224,18 +286,18 @@ class _VerificationTimeScreenState extends State<VerificationTimeScreen> {
                   decoration: BoxDecoration(
                     border: Border.all(
                       color: const Color(0xff0D5877), // Border color
-                      width: 1.0, // Border width
+                      width: 2.0, // Border width
                     ),
                     borderRadius: BorderRadius.circular(2), // Border radius
                   ),
                   padding: const EdgeInsets.all(10), // Padding inside the container
-                  child: const Center(
+                  child:  Center(
                     child: Text(
-                      'Next',
-                      style: TextStyle(
+                      'Next'.tr,
+                      style: const TextStyle(
                         fontSize: 16,
                         fontWeight: FontWeight.bold,
-                        color: Colors.black, // Text color
+                        color: AppTheme.buttonColor, // Text color
                       ),
                     ),
                   ),

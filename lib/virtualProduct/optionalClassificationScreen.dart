@@ -7,6 +7,7 @@ import 'package:flutter/widgets.dart';
 import 'package:get/get.dart';
 import 'package:google_fonts/google_fonts.dart';
 
+import '../controller/profile_controller.dart';
 import '../controller/service_controller.dart';
 import '../controller/vendor_controllers/add_product_controller.dart';
 import '../model/common_modal.dart';
@@ -19,7 +20,15 @@ import '../widgets/common_textfield.dart';
 import 'ReviewandPublishScreen.dart';
 
 class VirtualOptionalClassificationScreen extends StatefulWidget {
-  const VirtualOptionalClassificationScreen({super.key});
+
+  String? serialNumber;
+  int? id;
+  String? productNumber;
+  String? productCode;
+  String? promotionCode;
+  String? packageDetail;
+  VirtualOptionalClassificationScreen(
+      {super.key, this.packageDetail, this.promotionCode, this.productCode, this.productNumber, this.serialNumber,  this.id});
 
   @override
   State<VirtualOptionalClassificationScreen> createState() => _VirtualOptionalClassificationScreenState();
@@ -34,14 +43,21 @@ class _VirtualOptionalClassificationScreenState extends State<VirtualOptionalCla
   final formKey1 = GlobalKey<FormState>();
   String code = "+91";
   final addProductController = Get.put(AddProductController());
+  TextEditingController serialNumberController  = TextEditingController();
+  TextEditingController productNumberController = TextEditingController();
+  TextEditingController productCodeController   = TextEditingController();
+  TextEditingController promotionCodeController  = TextEditingController();
+  TextEditingController packageDetailsController = TextEditingController();
   optionalApi() {
     Map<String, dynamic> map = {};
 
-    map['serial_number'] = controller.serialNumberController.text.trim();
-    map['product_number'] = controller.productNumberController.text.trim();
-    map['product_code'] = controller.productCodeController.text.trim();
-    map['promotion_code'] = controller.promotionCodeController.text.trim();
-    map['package_detail'] = controller.packageDetailsController.text.trim();
+
+
+    map['serial_number'] = serialNumberController.text.trim();
+    map['product_number'] = productNumberController.text.trim();
+    map['product_code'] = productCodeController.text.trim();
+    map['promotion_code'] = promotionCodeController.text.trim();
+    map['package_detail'] = packageDetailsController.text.trim();
     map['item_type'] = 'service';
     map['id'] = addProductController.idProduct.value.toString();
     FocusManager.instance.primaryFocus!.unfocus();
@@ -50,11 +66,30 @@ class _VirtualOptionalClassificationScreenState extends State<VirtualOptionalCla
       print('API Response Status Code: ${response.status}');
       showToast(response.message.toString());
       if (response.status == true) {
-        Get.to(VirtualReviewandPublishScreen());
+        if(widget.id != null){
+          Get.to(VirtualReviewandPublishScreen());
+        }else{
+          Get.to(VirtualReviewandPublishScreen());
+        }
 
       }
     });
   }
+
+  @override
+  void initState() {
+    // TODO: implement initState
+    super.initState();
+    if(widget.id != null){
+      serialNumberController.text = widget.serialNumber.toString();
+      productNumberController.text = widget.productNumber.toString();
+      productCodeController.text = widget.productCode.toString();
+      promotionCodeController.text = widget.promotionCode.toString();
+      packageDetailsController.text = widget.packageDetail.toString();
+    }
+  }
+
+  final profileController = Get.put(ProfileController());
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -63,13 +98,25 @@ class _VirtualOptionalClassificationScreenState extends State<VirtualOptionalCla
         surfaceTintColor: Colors.white,
         elevation: 0,
         leading: GestureDetector(
-          onTap: () {
+          onTap: (){
             Get.back();
           },
-          child: const Icon(
-            Icons.arrow_back_ios_new,
-            color: Color(0xff0D5877),
-            size: 16,
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.center,
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: [
+              profileController.selectedLAnguage.value != 'English' ?
+              Image.asset(
+                'assets/images/forward_icon.png',
+                height: 19,
+                width: 19,
+              ) :
+              Image.asset(
+                'assets/images/back_icon_new.png',
+                height: 19,
+                width: 19,
+              ),
+            ],
           ),
         ),
         titleSpacing: 0,
@@ -91,7 +138,7 @@ class _VirtualOptionalClassificationScreenState extends State<VirtualOptionalCla
             child: Column(
               children: [
                 CommonTextField(
-                  controller: controller.serialNumberController,
+                  controller: serialNumberController,
                   obSecure: false,
                   hintText: 'Serial Number'.tr,
                   validator: (value) {
@@ -102,7 +149,7 @@ class _VirtualOptionalClassificationScreenState extends State<VirtualOptionalCla
                   },
                 ),
                 CommonTextField(
-                  controller: controller.productNumberController,
+                  controller: productNumberController,
                   obSecure: false,
                   hintText: 'Product number'.tr,
                   validator: (value) {
@@ -113,7 +160,7 @@ class _VirtualOptionalClassificationScreenState extends State<VirtualOptionalCla
                   },
                 ),
                 CommonTextField(
-                  controller: controller.productCodeController,
+                  controller: productCodeController,
                   obSecure: false,
                   hintText: 'Product Code'.tr,
                   validator: (value) {
@@ -124,7 +171,7 @@ class _VirtualOptionalClassificationScreenState extends State<VirtualOptionalCla
                   },
                 ),
                 CommonTextField(
-                  controller: controller.promotionCodeController,
+                  controller: promotionCodeController,
                   obSecure: false,
                   hintText: 'Promotion Code'.tr,
                   validator: (value) {
@@ -135,7 +182,7 @@ class _VirtualOptionalClassificationScreenState extends State<VirtualOptionalCla
                   },
                 ),
                 TextFormField(
-                  controller: controller.packageDetailsController,
+                  controller: packageDetailsController,
                   maxLines: 5,
                   minLines: 5,
                   validator: (value) {
@@ -186,7 +233,6 @@ class _VirtualOptionalClassificationScreenState extends State<VirtualOptionalCla
                     if (formKey1.currentState!.validate()) {
                       optionalApi();
                     }
-
                   },
                 ),
                 const SizedBox(height: 20),

@@ -1,8 +1,15 @@
+import 'dart:async';
+import 'dart:developer';
+
 import 'package:flutter/cupertino.dart';
+import 'package:geocoding/geocoding.dart';
 import 'package:get/get.dart';
+import 'package:google_maps_flutter/google_maps_flutter.dart';
 
 
 class ServiceController extends GetxController {
+
+
   TextEditingController serviceNameController = TextEditingController();
   TextEditingController priceController = TextEditingController();
   TextEditingController fixedPriceController = TextEditingController();
@@ -54,4 +61,31 @@ class ServiceController extends GetxController {
   final TextEditingController zipcodeController = TextEditingController();
   final TextEditingController townController = TextEditingController();
   final TextEditingController specialInstructionController = TextEditingController();
+
+
+  final TextEditingController firstNameController= TextEditingController();
+  final TextEditingController lastNameController= TextEditingController();
+  final TextEditingController phoneController= TextEditingController();
+  final TextEditingController emailController= TextEditingController();
+  final TextEditingController alternatePhoneController= TextEditingController();
+  final TextEditingController addressController= TextEditingController();
+  final TextEditingController address2Controller= TextEditingController();
+  final TextEditingController zipCodeController= TextEditingController();
+  final TextEditingController landmarkController= TextEditingController();
+  final TextEditingController titleController1= TextEditingController();
+  TextEditingController countryController1 = TextEditingController();
+  TextEditingController stateController1 = TextEditingController();
+  TextEditingController cityController1 = TextEditingController();
+
+  TextEditingController instagramController  = TextEditingController();
+  TextEditingController youtubeController   = TextEditingController();
+  TextEditingController twitterController   = TextEditingController();
+  TextEditingController linkedinController  = TextEditingController();
+  TextEditingController facebookController   = TextEditingController();
+  TextEditingController snapchatController   = TextEditingController();
+  TextEditingController pinterestController   = TextEditingController();
+  TextEditingController tiktokController     = TextEditingController();
+  TextEditingController threadsController   = TextEditingController();
+
+   TextEditingController detailsController = TextEditingController();
 }

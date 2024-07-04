@@ -9,6 +9,7 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:google_fonts/google_fonts.dart';
 
+import '../../controller/profile_controller.dart';
 import '../../controller/vendor_controllers/add_product_controller.dart';
 import '../../model/common_modal.dart';
 import '../../model/sponsors_list_model.dart';
@@ -23,7 +24,11 @@ import 'eligible_customer_academic.dart';
 import 'optional_details_academic.dart';
 
 class SponsorsScreenExtendedPrograms extends StatefulWidget {
-  const SponsorsScreenExtendedPrograms({super.key});
+  int? id;
+  String? sponsorType;
+  String? sponsorName;
+
+  SponsorsScreenExtendedPrograms({super.key,this.id,this.sponsorName,this.sponsorType});
 
   @override
   State<SponsorsScreenExtendedPrograms> createState() => _SponsorsScreenExtendedProgramsState();
@@ -55,7 +60,7 @@ class _SponsorsScreenExtendedProgramsState extends State<SponsorsScreenExtendedP
     map['sponsor_type'] = sponsorTypeController.text.trim();
     map['sponsor_name'] = sponsorNameController.text.trim();
     images['sponsor_logo'] = idProof;
-    map["id"] = addProductController.idProduct.value.toString();
+    // map["id"] = addProductController.idProduct.value.toString();
 
     FocusManager.instance.primaryFocus!.unfocus();
     repositories
@@ -83,6 +88,7 @@ class _SponsorsScreenExtendedProgramsState extends State<SponsorsScreenExtendedP
         showToast(sponsorsDetailsModel.value.message.toString());
       }
     });
+
   }
 
   createSponsors() {
@@ -97,7 +103,7 @@ class _SponsorsScreenExtendedProgramsState extends State<SponsorsScreenExtendedP
       if (response.status == true) {
         showToast(response.message.toString());
         if (formKey1.currentState!.validate()) {
-          Get.to(() => const EligibleCustomersExtendedPrograms());
+          Get.to(() => EligibleCustomersExtendedPrograms());
         }
       }
     });
@@ -109,8 +115,12 @@ class _SponsorsScreenExtendedProgramsState extends State<SponsorsScreenExtendedP
     WidgetsBinding.instance.addPostFrameCallback((timeStamp) {
       getSponsors();
     });
+    if(widget.id != null){
+      sponsorTypeController.text = widget.sponsorType.toString();
+      sponsorNameController.text = widget.sponsorName.toString();
+    }
   }
-
+  final profileController = Get.put(ProfileController());
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -119,13 +129,25 @@ class _SponsorsScreenExtendedProgramsState extends State<SponsorsScreenExtendedP
           surfaceTintColor: Colors.white,
           elevation: 0,
           leading: GestureDetector(
-            onTap: () {
+            onTap: (){
               Get.back();
             },
-            child: const Icon(
-              Icons.arrow_back_ios_new,
-              color: Color(0xff0D5877),
-              size: 16,
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.center,
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: [
+                profileController.selectedLAnguage.value != 'English' ?
+                Image.asset(
+                  'assets/images/forward_icon.png',
+                  height: 19,
+                  width: 19,
+                ) :
+                Image.asset(
+                  'assets/images/back_icon_new.png',
+                  height: 19,
+                  width: 19,
+                ),
+              ],
             ),
           ),
           titleSpacing: 0,
@@ -305,7 +327,7 @@ class _SponsorsScreenExtendedProgramsState extends State<SponsorsScreenExtendedP
                         const SizedBox(height: 20),
                         GestureDetector(
                           onTap: () {
-                            Get.to(() => const EligibleCustomersExtendedPrograms());
+                            Get.to(() =>  EligibleCustomersExtendedPrograms());
                           },
                           child: Container(
                             width: Get.width,

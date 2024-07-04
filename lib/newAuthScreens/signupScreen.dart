@@ -1,6 +1,11 @@
 import 'dart:convert';
+import 'dart:developer';
+import 'dart:io';
 import 'package:dirise/language/app_strings.dart';
+import 'package:dirise/newAuthScreens/tellUsAboutYourself.dart';
 import 'package:dirise/widgets/common_colour.dart';
+import 'package:firebase_auth/firebase_auth.dart';
+import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/gestures.dart';
@@ -8,13 +13,17 @@ import 'package:flutter/material.dart';
 import 'package:form_field_validator/form_field_validator.dart';
 import 'package:get/get.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:google_sign_in/google_sign_in.dart';
 import 'package:intl_phone_field/countries.dart';
 import 'package:intl_phone_field/intl_phone_field.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 import 'package:url_launcher/url_launcher.dart';
 import '../../widgets/common_button.dart';
 import '../../widgets/common_textfield.dart';
+import '../bottomavbar.dart';
 import '../controller/profile_controller.dart';
 import '../model/common_modal.dart';
+import '../model/login_model.dart';
 import '../repository/repository.dart';
 import '../screens/auth_screens/otp_screen.dart';
 import '../utils/api_constant.dart';
@@ -75,7 +84,7 @@ class _CreateAccountNewScreenState extends State<CreateAccountNewScreen> {
       throw 'Could not launch $url';
     }
   }
-
+  final GoogleSignIn _googleSignIn = GoogleSignIn();
   _termsCondition() async {
     var url = Uri.parse('https://diriseapp.com/en/terms-and-conditions/');
     if (await canLaunchUrl(url)) {
@@ -84,7 +93,64 @@ class _CreateAccountNewScreenState extends State<CreateAccountNewScreen> {
       throw 'Could not launch $url';
     }
   }
-
+  signInWithGoogle() async {
+    var fcmToken = await FirebaseMessaging.instance.getToken();
+    await GoogleSignIn().signOut();
+    final GoogleSignInAccount? googleUser = await _googleSignIn.signIn();
+    final GoogleSignInAuthentication googleAuth = await googleUser!.authentication;
+    final credential = GoogleAuthProvider.credential(
+      idToken: googleAuth.idToken,
+      accessToken: googleAuth.accessToken,
+    );
+    await FirebaseAuth.instance.signInWithCredential(credential).then((value) {
+      Map<String, dynamic> map = {};
+      map['provider'] = "google";
+      map['access_token'] = value.credential!.accessToken!;
+      map['keyword'] = 'signup';
+      repositories.postApi(url: ApiUrls.socialLoginUrl, context: context, mapData: map).then((value) async {
+        LoginModal response = LoginModal.fromJson(jsonDecode(value));
+        repositories.saveLoginDetails(jsonEncode(response));
+        if (response.status == true) {
+          showToast(response.message.toString());
+          profileController.userLoggedIn = true;
+          repositories.saveLoginDetails(jsonEncode(response));
+          if(response.user!.alreadyRegistered == true){
+              Get.offAllNamed(BottomNavbar.route);
+          }else{
+            Get.to(const TellUsAboutYourSelf());
+          }
+        } else {
+          showToast(response.message.toString());
+        }
+      });
+    });
+  }
+  loginWithApple() async {
+    // var fcmToken = await FirebaseMessaging.instance.getToken();
+    final appleProvider = AppleAuthProvider().addScope("email").addScope("FullName");
+    await FirebaseAuth.instance.signInWithProvider(appleProvider).then((value1) async {
+      Map<String, dynamic> map = {};
+      map['provider'] = "apple";
+      map['access_token'] = value1.credential!.accessToken!;
+      log(value1.credential!.accessToken.toString());
+      repositories.postApi(url: ApiUrls.socialLoginUrl, context: context, mapData: map,showResponse: true).then((value)  async {
+        LoginModal response = LoginModal.fromJson(jsonDecode(value));
+        repositories.saveLoginDetails(jsonEncode(response));
+        if (response.status == true) {
+          showToast(response.message.toString());
+          profileController.userLoggedIn = true;
+          repositories.saveLoginDetails(jsonEncode(response));
+          if(response.user!.alreadyRegistered == true){
+            Get.offAllNamed(BottomNavbar.route);
+          }else{
+            Get.to(const TellUsAboutYourSelf());
+          }
+        } else {
+          showToast(response.message.toString());
+        }
+      });
+    });
+  }
   @override
   void dispose() {
     super.dispose();
@@ -104,10 +170,27 @@ class _CreateAccountNewScreenState extends State<CreateAccountNewScreen> {
         backgroundColor: Colors.white,
         surfaceTintColor: Colors.white,
         elevation: 0,
-        leading: const Icon(
-          Icons.arrow_back_ios_new,
-          color: Color(0xff0D5877),
-          size: 16,
+        leading:GestureDetector(
+          onTap: (){
+            Get.back();
+          },
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.center,
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: [
+              profileController.selectedLAnguage.value != 'English' ?
+              Image.asset(
+                'assets/images/forward_icon.png',
+                height: 19,
+                width: 19,
+              ) :
+              Image.asset(
+                'assets/images/back_icon_new.png',
+                height: 19,
+                width: 19,
+              ),
+            ],
+          ),
         ),
         titleSpacing: 0,
         title: Row(
@@ -140,9 +223,12 @@ class _CreateAccountNewScreenState extends State<CreateAccountNewScreen> {
                   hintText: AppStrings.firstName.tr,
                   validator: (value) {
                     if (value!.trim().isEmpty) {
-                      return 'Please enter your first name';
+                      return 'Please enter your first name'.tr;
                     }
-                    return null; // Return null if validation passes
+                    if (value.trim().length < 3) {
+                      return 'Please enter at least 3 latter\'s'.tr;
+                    }
+                    return null;
                   },
                 ),
                 SizedBox(
@@ -155,9 +241,12 @@ class _CreateAccountNewScreenState extends State<CreateAccountNewScreen> {
                   hintText: AppStrings.lastName.tr,
                   validator: (value) {
                     if (value!.trim().isEmpty) {
-                      return 'Last Name is required';
+                      return 'Last Name is required'.tr;
                     }
-                    return null; // Return null if validation passes
+                    if (value.trim().length < 3) {
+                      return 'Please enter at least 3 latter\'s'.tr;
+                    }
+                    return null;
                   },
                 ),
                 SizedBox(
@@ -170,9 +259,9 @@ class _CreateAccountNewScreenState extends State<CreateAccountNewScreen> {
                     hintText: AppStrings.email.tr,
                   validator: (value) {
                     if (value!.isEmpty) {
-                      return 'Please enter email address';
+                      return 'Please enter email address'.tr;
                     }
-                    final emailValidator = EmailValidator(errorText: 'Please enter valid email address');
+                    final emailValidator = EmailValidator(errorText: 'Please enter valid email address'.tr);
                     if (!emailValidator.isValid(value)) {
                       return emailValidator.errorText;
                     }
@@ -195,16 +284,16 @@ class _CreateAccountNewScreenState extends State<CreateAccountNewScreen> {
                       color: AppTheme.textColor
                   ),
                   controller: phoneNumberController,
-                  decoration: const InputDecoration(
+                  decoration:  InputDecoration(
                       contentPadding: EdgeInsets.zero,
-                      hintStyle: TextStyle(color: AppTheme.textColor),
-                      hintText: 'Phone Number',
-                      labelStyle: TextStyle(color: AppTheme.textColor),
-                      border: OutlineInputBorder(
+                      hintStyle: const TextStyle(color: AppTheme.textColor),
+                      hintText: 'Phone Number'.tr,
+                      labelStyle: const TextStyle(color: AppTheme.textColor),
+                      border: const OutlineInputBorder(
                         borderSide: BorderSide(),
                       ),
-                      enabledBorder: OutlineInputBorder(borderSide: BorderSide(color: AppTheme.shadowColor)),
-                      focusedBorder: OutlineInputBorder(borderSide: BorderSide(color: AppTheme.shadowColor))),
+                      enabledBorder: const OutlineInputBorder(borderSide: BorderSide(color: AppTheme.shadowColor)),
+                      focusedBorder: const OutlineInputBorder(borderSide: BorderSide(color: AppTheme.shadowColor))),
                   initialCountryCode: profileController.code.toString(),
                   languageCode: '+91',
                   onCountryChanged: (phone) {
@@ -224,44 +313,6 @@ class _CreateAccountNewScreenState extends State<CreateAccountNewScreen> {
                     print(profileController.code.toString());
                   },
                 ),
-                // IntlPhoneField(
-                //   dropdownIcon: const Icon(Icons.arrow_drop_down_rounded, color: Colors.black),
-                //   flagsButtonPadding: const EdgeInsets.all(8),
-                //   dropdownIconPosition: IconPosition.trailing,
-                //   controller: phoneNumberController,
-                //   style: const TextStyle(color: Colors.black),
-                //   validator: MultiValidator([
-                //     RequiredValidator(errorText: 'Please enter your phone number'.tr),
-                //   ]).call,
-                //   dropdownTextStyle: const TextStyle(color: Colors.black),
-                //   decoration: InputDecoration(
-                //     hintText: 'Enter your Mobile number'.tr,
-                //     hintStyle: const TextStyle(color: AppTheme.secondaryColor),
-                //     filled: true,
-                //     enabled: true,
-                //     enabledBorder: const OutlineInputBorder(borderSide: BorderSide(color: AppTheme.secondaryColor)),
-                //     focusedBorder: const OutlineInputBorder(borderSide: BorderSide(color: AppTheme.secondaryColor)),
-                //     iconColor: Colors.black,
-                //     errorBorder: const OutlineInputBorder(borderSide: BorderSide(width: 1)),
-                //     fillColor: const Color(0x63ffffff).withOpacity(.2),
-                //     border: OutlineInputBorder(
-                //       borderRadius: BorderRadius.circular(5),
-                //       borderSide: const BorderSide(width: 1, color: Colors.black),
-                //     ),
-                //     disabledBorder: const OutlineInputBorder(borderSide: BorderSide(color: AppTheme.secondaryColor)),
-                //   ),
-                //   onCountryChanged: (Country phone) {
-                //     setState(() {
-                //       code = "+${phone.dialCode}";
-                //       if (kDebugMode) {
-                //         print(code.toString());
-                //       }
-                //     });
-                //   },
-                //   initialCountryCode: 'IE',
-                //   cursorColor: Colors.black,
-                //   keyboardType: TextInputType.number,
-                // ),
                 SizedBox(
                   height: size.height * .01,
                 ),
@@ -278,13 +329,13 @@ class _CreateAccountNewScreenState extends State<CreateAccountNewScreen> {
                     ),
                     validator: (value) {
                       if (value!.isEmpty) {
-                        return 'Password is required';
+                        return 'Password is required'.tr;
                       }
                       if (value.length < 8) {
-                        return 'Password must be at least 8 characters long';
+                        return 'Password must be at least 8 characters long'.tr;
                       }
                       if (!RegExp(r"(?=.*\W)(?=.*?[#?!@()$%^&*-_])(?=.*[0-9])").hasMatch(value)) {
-                        return 'Password must contain at least 1 special character and 1 numerical';
+                        return 'Password must contain at least 1 special character and 1 numerical'.tr;
                       }
                       return null;
                     },
@@ -387,7 +438,7 @@ class _CreateAccountNewScreenState extends State<CreateAccountNewScreen> {
                   height: size.height * .03,
                 ),
                 CustomOutlineButton(
-                  title: AppStrings.register,
+                  title: AppStrings.register.tr,
                   onPressed: () {
                     showValidation = true;
                     if (formKey1.currentState!.validate()) {
@@ -430,34 +481,45 @@ class _CreateAccountNewScreenState extends State<CreateAccountNewScreen> {
                 Row(
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: [
-                    Container(
-                      height: 62,
-                      width: 62,
-                      decoration: BoxDecoration(
-                        borderRadius: BorderRadius.circular(10),
-                        color: Colors.black,
-                      ),
-                      child: const Center(
-                        child: Icon(
-                          Icons.apple,
-                          color: Colors.white,
-                          size: 35,
+                   if(Platform.isIOS)
+                    GestureDetector(
+                      onTap: (){
+                        loginWithApple();
+                      },
+                      child: Container(
+                        height: 62,
+                        width: 62,
+                        decoration: BoxDecoration(
+                          borderRadius: BorderRadius.circular(10),
+                          color: Colors.black,
+                        ),
+                        child: const Center(
+                          child: Icon(
+                            Icons.apple,
+                            color: Colors.white,
+                            size: 35,
+                          ),
                         ),
                       ),
                     ),
                     SizedBox(
                       width: size.width * .02,
                     ),
-                    Container(
-                      height: 62,
-                      width: 62,
-                      decoration: BoxDecoration(
-                          borderRadius: BorderRadius.circular(10),
-                          border: Border.all(color: const Color(0xffCACACA), width: 2)),
-                      child: Center(
-                        child: Image.asset(
-                          'assets/icons/google.png',
-                          height: 27,
+                    InkWell(
+                      onTap: () {
+                        signInWithGoogle();
+                      },
+                      child: Container(
+                        height: 62,
+                        width: 62,
+                        decoration: BoxDecoration(
+                            borderRadius: BorderRadius.circular(10),
+                            border: Border.all(color: const Color(0xffCACACA), width: 2)),
+                        child: Center(
+                          child: Image.asset(
+                            'assets/icons/google.png',
+                            height: 27,
+                          ),
                         ),
                       ),
                     ),

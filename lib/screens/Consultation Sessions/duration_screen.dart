@@ -1,10 +1,12 @@
 import 'dart:convert';
 
+import 'package:dirise/screens/Consultation%20Sessions/review_screen.dart';
 import 'package:dirise/utils/helper.dart';
 import 'package:dirise/widgets/common_textfield.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:google_fonts/google_fonts.dart';
+import '../../controller/profile_controller.dart';
 import '../../controller/vendor_controllers/add_product_controller.dart';
 import '../../model/create_slots_model.dart';
 import '../../model/vendor_models/add_product_model.dart';
@@ -15,7 +17,12 @@ import 'optional_details.dart';
 
 
 class DurationScreen extends StatefulWidget {
-  const  DurationScreen({super.key});
+  int? id;
+  dynamic recoveryBlockTime;
+  dynamic preparationBlockTime;
+  dynamic interval;
+
+  DurationScreen({super.key,this.recoveryBlockTime,this.preparationBlockTime,this.interval,this.id});
 
   @override
   State<DurationScreen> createState() => _DurationScreenState();
@@ -26,7 +33,6 @@ class _DurationScreenState extends State<DurationScreen> {
   TextEditingController timeController = TextEditingController();
   TextEditingController timeControllerPreparation = TextEditingController();
   TextEditingController timeControllerRecovery = TextEditingController();
-  TextEditingController timeController1 = TextEditingController();
   final Repositories repositories = Repositories();
   Rx<CreateSlotsModel> createSlotsModel = CreateSlotsModel().obs;
   final addProductController = Get.put(AddProductController());
@@ -46,7 +52,12 @@ class _DurationScreenState extends State<DurationScreen> {
       if (response.status == true) {
         addProductController.idProduct.value = response.productDetails!.product!.id.toString();
         print(addProductController.idProduct.value.toString());
-        Get.to(()=>const OptionalDetailsScreen());
+        if(widget.id != null){
+          Get.to(()=>const ReviewScreen());
+        }else{
+          Get.to(()=> OptionalDetailsScreen());
+        }
+
       }
     });
   }
@@ -64,6 +75,19 @@ class _DurationScreenState extends State<DurationScreen> {
       showToast(createSlotsModel.value.message.toString());
     });
   }
+
+  @override
+  void initState() {
+    // TODO: implement initState
+    super.initState();
+    if(widget.id != null){
+      timeControllerRecovery.text = widget.recoveryBlockTime.toString();
+      timeControllerPreparation.text = widget.preparationBlockTime.toString();
+      timeController.text = widget.interval.toString();
+    }
+
+  }
+  final profileController = Get.put(ProfileController());
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -83,9 +107,16 @@ class _DurationScreenState extends State<DurationScreen> {
           },
           child: Padding(
             padding: const EdgeInsets.all(15),
-            child: Image.asset(
-              'assets/icons/backicon.png',
-              height: 20,
+            child:     profileController.selectedLAnguage.value != 'English' ?
+            Image.asset(
+              'assets/images/forward_icon.png',
+              height: 19,
+              width: 19,
+            ) :
+            Image.asset(
+              'assets/images/back_icon_new.png',
+              height: 19,
+              width: 19,
             ),
           ),
         ),
@@ -538,7 +569,7 @@ class _DurationScreenState extends State<DurationScreen> {
               ),
               InkWell(
                 onTap: (){
-                  Get.to(()=>const OptionalDetailsScreen());
+                  Get.to(()=>OptionalDetailsScreen());
                 },
                 child: Container(
                   width: Get.width,

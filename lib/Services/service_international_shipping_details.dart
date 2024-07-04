@@ -11,6 +11,7 @@ import 'package:form_field_validator/form_field_validator.dart';
 import 'package:get/get.dart';
 import 'package:google_fonts/google_fonts.dart';
 
+import '../controller/profile_controller.dart';
 import '../controller/service_controller.dart';
 import '../controller/vendor_controllers/add_product_controller.dart';
 import '../iAmHereToSell/personalizeyourstoreScreen.dart';
@@ -22,7 +23,27 @@ import '../widgets/common_colour.dart';
 import '../widgets/common_textfield.dart';
 
 class ServiceInternationalShippingService extends StatefulWidget {
-  const ServiceInternationalShippingService({super.key});
+  int? id;
+  String? Unitofmeasure;
+  int? WeightOftheItem;
+  int? SelectNumberOfPackages;
+  String? SelectTypeMaterial;
+  String? SelectTypeOfPackaging;
+  String? Length;
+  String? Width;
+  String? Height;
+  ServiceInternationalShippingService(
+      {super.key,
+        this.id,
+        this.WeightOftheItem,
+        this.Unitofmeasure,
+        this.SelectTypeOfPackaging,
+        this.SelectTypeMaterial,
+        this.SelectNumberOfPackages,
+        this.Length,
+        this.Height,
+        this.Width});
+
 
   @override
   State<ServiceInternationalShippingService> createState() => _ServiceInternationalShippingServiceState();
@@ -31,21 +52,41 @@ class ServiceInternationalShippingService extends StatefulWidget {
 class _ServiceInternationalShippingServiceState extends State<ServiceInternationalShippingService> {
   // Default selected item\
 
-  final serviceController = Get.put(ServiceController());
+
   String unitOfMeasure = 'cm/kg';
   List<String> unitOfMeasureList = [
     'cm/kg',
     'lb/inch',
+    'Kilogram (kg)'
+    'Pound (lb)'
   ];
 
   String selectNumberOfPackages  = '1';
   List<String> selectNumberOfPackagesList = List.generate(30, (index) => (index + 1).toString());
 
-  String selectTypeMaterial   = 'plastic';
+  String selectTypeMaterial   = 'Paper';
   List<String> selectTypeMaterialList = [
-    'plastic',
-    'glass',
-    'iron',
+    'Paper',
+    'Plastic',
+    'Glass',
+    'Metal',
+    'Wood',
+    'Fabric',
+    'Leather',
+    'Rubber',
+    'Ceramic',
+    'Stone',
+    'Cardboard',
+    'Carton',
+    'Foam',
+    'Fiberglass',
+    'Carbon',
+    'fiber',
+    'Concrete',
+    'Brick',
+    'Tile',
+    'Vinyl',
+    'Plywood',
   ];
 
   String selectTypeOfPackaging   = 'fedex 10kg box';
@@ -57,6 +98,11 @@ class _ServiceInternationalShippingServiceState extends State<ServiceInternation
     'fedex pak',
     'fedex Tube',
   ];
+
+  TextEditingController dimensionController = TextEditingController();
+  TextEditingController dimensionWidthController = TextEditingController();
+  TextEditingController dimensionHeightController = TextEditingController();
+  TextEditingController weightController = TextEditingController();
   final formKey = GlobalKey<FormState>();
   RxBool hide = true.obs;
   RxBool hide1 = true.obs;
@@ -69,12 +115,12 @@ class _ServiceInternationalShippingServiceState extends State<ServiceInternation
     Map<String, dynamic> map = {};
     map['weight_unit'] = unitOfMeasure;
     map['item_type'] = 'service';
-    map['weight'] = serviceController.weightController.text.trim();
+    map['weight'] = weightController.text.trim();
     map['number_of_package'] = selectNumberOfPackages;
     map['material'] = selectTypeMaterial;
-    map['box_length'] = serviceController.dimensionController.text.trim();
-    map['box_width'] = serviceController.dimensionWidthController.text.trim();
-    map['box_height'] = serviceController.dimensionHeightController.text.trim();
+    map['box_length'] = dimensionController.text.trim();
+    map['box_width'] = dimensionWidthController.text.trim();
+    map['box_height'] = dimensionHeightController.text.trim();
     map['type_of_packages'] = selectTypeOfPackaging;
     map['id'] = addProductController.idProduct.value.toString();
 
@@ -83,11 +129,26 @@ class _ServiceInternationalShippingServiceState extends State<ServiceInternation
       ModelCommonResponse response = ModelCommonResponse.fromJson(jsonDecode(value));
       showToast(response.message.toString());
       if (response.status == true) {
-        Get.to(()=> const ServiceOptionalScreen());
+        Get.to(()=> ServiceOptionalScreen());
       }
     });
   }
+  @override
+  void initState() {
+    // TODO: implement initState
+    super.initState();
+    if(widget.id != null){
+      // unitOfMeasure = widget.Unitofmeasure.toString();
+      weightController.text = widget.WeightOftheItem.toString();
+      // selectTypeMaterial = widget.SelectTypeMaterial.toString();
+      dimensionController.text = widget.Length.toString();
+      dimensionWidthController.text = widget.Width.toString();
+      dimensionHeightController.text = widget.Height.toString();
+      // selectTypeOfPackaging = widget.SelectTypeOfPackaging.toString();
+    }
+  }
 
+  final profileController = Get.put(ProfileController());
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -96,13 +157,25 @@ class _ServiceInternationalShippingServiceState extends State<ServiceInternation
         surfaceTintColor: Colors.white,
         elevation: 0,
         leading: GestureDetector(
-          onTap: () {
+          onTap: (){
             Get.back();
           },
-          child: const Icon(
-            Icons.arrow_back_ios_new,
-            color: Color(0xff0D5877),
-            size: 16,
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.center,
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: [
+              profileController.selectedLAnguage.value != 'English' ?
+              Image.asset(
+                'assets/images/forward_icon.png',
+                height: 19,
+                width: 19,
+              ) :
+              Image.asset(
+                'assets/images/back_icon_new.png',
+                height: 19,
+                width: 19,
+              ),
+            ],
           ),
         ),
         titleSpacing: 0,
@@ -110,7 +183,7 @@ class _ServiceInternationalShippingServiceState extends State<ServiceInternation
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: [
             Text(
-              'International shipping details'.tr,
+              'Item Weight & Dimensions'.tr,
               style: GoogleFonts.poppins(color: const Color(0xff292F45), fontWeight: FontWeight.w600, fontSize: 20),
             ),
           ],
@@ -125,6 +198,10 @@ class _ServiceInternationalShippingServiceState extends State<ServiceInternation
               mainAxisAlignment: MainAxisAlignment.start,
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
+                Text(
+                  'We use this information to estimate your shipping prices. If you plan to ship internationally or your item is bigger than 5kg or 0.05 CBM then you must fill all the details below.'.tr,
+                  style: GoogleFonts.poppins(color: const Color(0xff292F45), fontWeight: FontWeight.w500, fontSize: 18),
+                ),
                 const SizedBox(height: 40,),
                 Text(
                   'Int. Shipping details (Optional)'.tr,
@@ -197,7 +274,7 @@ class _ServiceInternationalShippingServiceState extends State<ServiceInternation
                 ),
                 const SizedBox(height: 10),
                 CommonTextField(
-                    controller: serviceController.weightController,
+                    controller: weightController,
                     obSecure: false,
                     hintText: 'Weight Of the Item ',
                     keyboardType: TextInputType.number,
@@ -205,16 +282,16 @@ class _ServiceInternationalShippingServiceState extends State<ServiceInternation
                       RequiredValidator(errorText: 'Product Name is required'.tr),
                     ])),
                 DropdownButtonFormField<String>(
-                  value: selectNumberOfPackages,
+                  value: selectTypeMaterial,
                   onChanged: (String? newValue) {
                     setState(() {
-                      selectNumberOfPackages = newValue!;
+                      selectTypeMaterial = newValue!;
                     });
                   },
-                  items: selectNumberOfPackagesList.map<DropdownMenuItem<String>>((String value) {
+                  items: selectTypeMaterialList.map<DropdownMenuItem<String>>((String value) {
                     return DropdownMenuItem<String>(
                       value: value,
-                      child: Text('Material'),
+                      child: Text(value),
                     );
                   }).toList(),
                   decoration: InputDecoration(
@@ -301,7 +378,7 @@ class _ServiceInternationalShippingServiceState extends State<ServiceInternation
                 Row(
                   children: [
                     Expanded(child: CommonTextField(
-                        controller: serviceController.dimensionController,
+                        controller: dimensionController,
                         obSecure: false,
                         keyboardType: TextInputType.number,
                         hintText: 'Length X ',
@@ -311,7 +388,7 @@ class _ServiceInternationalShippingServiceState extends State<ServiceInternation
                     ),
                     10.spaceX,
                     Expanded(child:   CommonTextField(
-                        controller: serviceController.dimensionWidthController,
+                        controller: dimensionWidthController,
                         obSecure: false,
                         hintText: 'Width X',
                         keyboardType: TextInputType.number,
@@ -320,7 +397,7 @@ class _ServiceInternationalShippingServiceState extends State<ServiceInternation
                         ]))),
                     10.spaceX,
                     Expanded(child:   CommonTextField(
-                        controller: serviceController.dimensionHeightController,
+                        controller: dimensionHeightController,
                         obSecure: false,
                         hintText: 'Height X',
                         keyboardType: TextInputType.number,
@@ -329,6 +406,12 @@ class _ServiceInternationalShippingServiceState extends State<ServiceInternation
                         ]))),
                   ],
                 ),
+                const SizedBox(height: 15),
+                Text(
+                  'Package type'.tr,
+                  style: GoogleFonts.poppins(color: const Color(0xff292F45), fontWeight: FontWeight.w500, fontSize: 16),
+                ),
+                const SizedBox(height: 15),
                 DropdownButtonFormField<String>(
                   value: selectTypeOfPackaging,
                   onChanged: (String? newValue) {
@@ -339,7 +422,7 @@ class _ServiceInternationalShippingServiceState extends State<ServiceInternation
                   items: selectTypeOfPackagingList.map<DropdownMenuItem<String>>((String value) {
                     return DropdownMenuItem<String>(
                       value: value,
-                      child: Text('Type of packages'),
+                      child: Text(value),
                     );
                   }).toList(),
                   decoration: InputDecoration(
@@ -372,7 +455,7 @@ class _ServiceInternationalShippingServiceState extends State<ServiceInternation
                     return null;
                   },
                 ),
-                const SizedBox(height: 10),
+                const SizedBox(height: 20),
                 CustomOutlineButton(
                   title: 'Confirm',
                   borderRadius: 11,
@@ -385,7 +468,7 @@ class _ServiceInternationalShippingServiceState extends State<ServiceInternation
                 const SizedBox(height: 20),
                 GestureDetector(
                   onTap: (){
-                    Get.to(()=> const ServiceOptionalScreen());
+                    Get.to(()=> ServiceOptionalScreen());
                   },
                   child: Container(
                     width: Get.width,
@@ -410,6 +493,7 @@ class _ServiceInternationalShippingServiceState extends State<ServiceInternation
                     ),
                   ),
                 ),
+                SizedBox(height: 20,)
               ],
             ),
           ),

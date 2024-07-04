@@ -7,6 +7,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:get/get.dart';
 import 'package:google_fonts/google_fonts.dart';
+import '../../controller/profile_controller.dart';
 import '../../model/vendor_earnings_model.dart';
 import '../../model/vendor_models/model_withdrawal_list.dart';
 import '../../utils/api_constant.dart';
@@ -43,9 +44,7 @@ class _WithdrawMoneyState extends State<WithdrawMoney> {
   //   });
   // }
   getEarnings() {
-    repositories.getApi(url: ApiUrls.vendorEarning).then((value) {
-
-
+    repositories.getApi(url: ApiUrls.vendorEarningNew).then((value) {
       vendorEarningsModel.value = VendorEarningsModel.fromJson(jsonDecode(value));
       setState(() {
 
@@ -79,7 +78,7 @@ class _WithdrawMoneyState extends State<WithdrawMoney> {
 
      // getWithdrawalMoney();
   }
-
+  final profileController = Get.put(ProfileController());
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -92,17 +91,30 @@ class _WithdrawMoneyState extends State<WithdrawMoney> {
               color: const Color(0xff423E5E),
             ),
           ),
-          leading: GestureDetector(
-            onTap: () {
-              Get.back();
-            },
-            child: Padding(
-              padding: const EdgeInsets.all(15),
-              child: Image.asset(
-                'assets/icons/backicon.png',
-                height: 23,
+          leading: Column(
+            crossAxisAlignment: CrossAxisAlignment.center,
+            mainAxisAlignment : MainAxisAlignment.center,
+            children: [
+              GestureDetector(
+                onTap: () {
+                  Get.back();
+                },
+                child: Padding(
+                  padding: const EdgeInsets.all(15),
+                  child: profileController.selectedLAnguage.value != 'English' ?
+                  Image.asset(
+                    'assets/images/forward_icon.png',
+                    height: 19,
+                    width: 19,
+                  ) :
+                  Image.asset(
+                    'assets/images/back_icon_new.png',
+                    height: 19,
+                    width: 19,
+                  ),
+                ),
               ),
-            ),
+            ],
           ),
         ),
         // appBar: backAppBar(title: "Withdrawal money".tr, context: context),

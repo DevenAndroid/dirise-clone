@@ -2,12 +2,15 @@ import 'dart:convert';
 
 import 'package:dirise/addNewProduct/rewardScreen.dart';
 import 'package:dirise/controller/vendor_controllers/add_product_controller.dart';
+import 'package:dirise/vendor/products/review_screen_multiple.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:google_fonts/google_fonts.dart';
 
+import '../../controller/profile_controller.dart';
 import '../../controller/service_controller.dart';
+import '../../model/common_modal.dart';
 import '../../model/getShippingModel.dart';
 import '../../model/product_details.dart';
 import '../../model/returnPolicyModel.dart';
@@ -74,14 +77,26 @@ class _MultipleReviewAndPublishScreenState extends State<MultipleReviewAndPublis
   //     setState(() {});
   //   });
   // }
+  completeApi() {
+    Map<String, dynamic> map = {};
 
+    map['is_complete'] = true;
+    map['id'] = addProductController.idProduct.value.toString();
+    FocusManager.instance.primaryFocus!.unfocus();
+    repositories.postApi(url: ApiUrls.giveawayProductAddress, context: context, mapData: map).then((value) {
+      ModelCommonResponse response = ModelCommonResponse.fromJson(jsonDecode(value));
+      print('API Response Status Code: ${response.status}');
+      showToast(response.message.toString());
+      if (response.status == true) {
+        Get.to(const RewardScreenMultiple());
+      }});}
   @override
   void initState() {
     super.initState();
     // getVendorCategories(addProductController.idProduct.value.toString());
     // getReturnPolicyData();
   }
-
+  final profileController = Get.put(ProfileController());
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -90,13 +105,25 @@ class _MultipleReviewAndPublishScreenState extends State<MultipleReviewAndPublis
         surfaceTintColor: Colors.white,
         elevation: 0,
         leading: GestureDetector(
-          onTap: () {
+          onTap: (){
             Get.back();
           },
-          child: const Icon(
-            Icons.arrow_back_ios_new,
-            color: Color(0xff0D5877),
-            size: 16,
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.center,
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: [
+              profileController.selectedLAnguage.value != 'English' ?
+              Image.asset(
+                'assets/images/forward_icon.png',
+                height: 19,
+                width: 19,
+              ) :
+              Image.asset(
+                'assets/images/back_icon_new.png',
+                height: 19,
+                width: 19,
+              ),
+            ],
           ),
         ),
         // actions: [
@@ -197,7 +224,8 @@ class _MultipleReviewAndPublishScreenState extends State<MultipleReviewAndPublis
                 title: 'Confirm',
                 borderRadius: 11,
                 onPressed: () {
-                  Get.to(RewardScreen());
+                  completeApi();
+
                 },
               ),
             ],

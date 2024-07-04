@@ -1,6 +1,7 @@
 import 'dart:convert';
 import 'package:dirise/Services/services_classification.dart';
 import 'package:dirise/controller/service_controller.dart';
+import 'package:dirise/screens/Consultation%20Sessions/review_screen.dart';
 import 'package:dirise/screens/Consultation%20Sessions/sponsors_screen.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
@@ -8,6 +9,7 @@ import 'package:flutter/widgets.dart';
 import 'package:get/get.dart';
 import 'package:google_fonts/google_fonts.dart';
 
+import '../../controller/profile_controller.dart';
 import '../../controller/vendor_controllers/add_product_controller.dart';
 import '../../model/common_modal.dart';
 import '../../repository/repository.dart';
@@ -17,7 +19,20 @@ import '../../widgets/common_colour.dart';
 import '../../widgets/common_textfield.dart';
 
 class OptionalDetailsScreen extends StatefulWidget {
-  const OptionalDetailsScreen({super.key});
+  int? id;
+  String? locationController;
+  String? hostNameController;
+  String? programNameController;
+  String? programGoalController;
+  String? programDescription;
+  OptionalDetailsScreen(
+      {super.key,
+        this.id,
+      this.locationController,
+      this.programDescription,
+      this.hostNameController,
+      this.programGoalController,
+      this.programNameController});
 
   @override
   State<OptionalDetailsScreen> createState() => _OptionalDetailsScreenState();
@@ -39,7 +54,7 @@ class _OptionalDetailsScreenState extends State<OptionalDetailsScreen> {
   final TextEditingController programDescription = TextEditingController();
   optionalApi() {
     Map<String, dynamic> map = {};
-    map["id"] =  addProductController.idProduct.value.toString();
+    map["id"] = addProductController.idProduct.value.toString();
     map['bookable_product_location'] = locationController.text.trim();
     map['item_type'] = 'product';
     map['host_name'] = hostNameController.text.trim();
@@ -54,13 +69,31 @@ class _OptionalDetailsScreenState extends State<OptionalDetailsScreen> {
       if (response.status == true) {
         showToast(response.message.toString());
 
-        if(formKey1.currentState!.validate()){
-          Get.to(()=> const SponsorsScreen());
+        if (formKey1.currentState!.validate()) {
+          if(widget.id != null){
+            Get.to(() => const ReviewScreen());
+          }else{
+            Get.to(() =>  SponsorsScreen());
+          }
+
         }
       }
     });
   }
 
+  @override
+  void initState() {
+    // TODO: implement initState
+    super.initState();
+    if(widget.id != null){
+      locationController.text = widget.locationController.toString();
+      hostNameController.text  =  widget.hostNameController.toString();
+      programNameController.text =  widget.programNameController.toString();
+      programGoalController.text = widget.programGoalController.toString();
+      programDescription.text = widget.programDescription.toString();
+    }
+  }
+   final profileController = Get.put(ProfileController());
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -69,13 +102,25 @@ class _OptionalDetailsScreenState extends State<OptionalDetailsScreen> {
         surfaceTintColor: Colors.white,
         elevation: 0,
         leading: GestureDetector(
-          onTap: () {
+          onTap: (){
             Get.back();
           },
-          child: const Icon(
-            Icons.arrow_back_ios_new,
-            color: Color(0xff0D5877),
-            size: 16,
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.center,
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: [
+              profileController.selectedLAnguage.value != 'English' ?
+              Image.asset(
+                'assets/images/forward_icon.png',
+                height: 19,
+                width: 19,
+              ) :
+              Image.asset(
+                'assets/images/back_icon_new.png',
+                height: 19,
+                width: 19,
+              ),
+            ],
           ),
         ),
         titleSpacing: 0,
@@ -144,7 +189,6 @@ class _OptionalDetailsScreenState extends State<OptionalDetailsScreen> {
                     }
                     return null;
                   },
-
                 ),
                 CommonTextField(
                   controller: programNameController,
@@ -157,7 +201,6 @@ class _OptionalDetailsScreenState extends State<OptionalDetailsScreen> {
                     }
                     return null;
                   },
-
                 ),
                 CommonTextField(
                   controller: programGoalController,
@@ -214,20 +257,18 @@ class _OptionalDetailsScreenState extends State<OptionalDetailsScreen> {
                     ),
                   ),
                 ),
-
                 const SizedBox(height: 20),
                 CustomOutlineButton(
                   title: 'Done',
                   borderRadius: 11,
                   onPressed: () {
                     optionalApi();
-
                   },
                 ),
                 const SizedBox(height: 20),
                 GestureDetector(
                   onTap: () {
-                    Get.to(()=> const SponsorsScreen());
+                    Get.to(() =>  SponsorsScreen());
                   },
                   child: Container(
                     width: Get.width,

@@ -74,7 +74,7 @@ class _RequiredDocumentsScreenState extends State<RequiredDocumentsScreen> {
 
         })
         .then((value) {
-      showToast('Add Image successfully');
+      showToast('Documents added successfully');
       Get.to(const VerificationOptionScreen());
 
     });
@@ -101,10 +101,22 @@ class _RequiredDocumentsScreenState extends State<RequiredDocumentsScreen> {
           onTap: (){
             Get.back();
           },
-          child: const Icon(
-            Icons.arrow_back_ios_new,
-            color: Color(0xff0D5877),
-            size: 16,
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.center,
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: [
+              profileController.selectedLAnguage.value != 'English' ?
+              Image.asset(
+                'assets/images/forward_icon.png',
+                height: 19,
+                width: 19,
+              ) :
+              Image.asset(
+                'assets/images/back_icon_new.png',
+                height: 19,
+                width: 19,
+              ),
+            ],
           ),
         ),
         titleSpacing: 0,
@@ -132,7 +144,7 @@ class _RequiredDocumentsScreenState extends State<RequiredDocumentsScreen> {
                 children: [
                   ImageWidget(
                     // key: paymentReceiptCertificateKey,
-                    title: "Documents".tr,
+                    title: "Id Card Front".tr,
                     file: commercial_license,
                     validation: checkValidation(showValidation.value, commercial_license.path.isEmpty),
                     filePicked: (File g) {
@@ -141,7 +153,7 @@ class _RequiredDocumentsScreenState extends State<RequiredDocumentsScreen> {
                   ),
                   ImageWidget(
                     // key: paymentReceiptCertificateKey,
-                    title: "Documents".tr,
+                    title: "Id Card Back".tr,
                     file: memorandum_of_association,
                     validation: checkValidation(showValidation.value, memorandum_of_association.path.isEmpty),
                     filePicked: (File g) {
@@ -150,7 +162,7 @@ class _RequiredDocumentsScreenState extends State<RequiredDocumentsScreen> {
                   ),
                   ImageWidget(
                     // key: paymentReceiptCertificateKey,
-                    title: "Documents".tr,
+                    title: "Bank Statement".tr,
                     file: ministy_of_commerce,
                     validation: checkValidation(showValidation.value, ministy_of_commerce.path.isEmpty),
                     filePicked: (File g) {
@@ -159,7 +171,7 @@ class _RequiredDocumentsScreenState extends State<RequiredDocumentsScreen> {
                   ),
                   ImageWidget(
                     // key: paymentReceiptCertificateKey,
-                    title: "Documents".tr,
+                    title: "Original civil information ".tr,
                     file: original_civil_information,
                     validation: checkValidation(showValidation.value, original_civil_information.path.isEmpty),
                     filePicked: (File g) {
@@ -168,7 +180,7 @@ class _RequiredDocumentsScreenState extends State<RequiredDocumentsScreen> {
                   ),
                   ImageWidget(
                     // key: paymentReceiptCertificateKey,
-                    title: "Documents".tr,
+                    title: "Other".tr,
                     file: signature_approval,
                     validation: checkValidation(showValidation.value, signature_approval.path.isEmpty),
                     filePicked: (File g) {
@@ -177,7 +189,7 @@ class _RequiredDocumentsScreenState extends State<RequiredDocumentsScreen> {
                   ),
                   ImageWidget(
                     // key: paymentReceiptCertificateKey,
-                    title: "Documents".tr,
+                    title: "Company bank account".tr,
                     file: company_bank_account,
                     validation: checkValidation(showValidation.value, company_bank_account.path.isEmpty),
                     filePicked: (File g) {
@@ -190,7 +202,7 @@ class _RequiredDocumentsScreenState extends State<RequiredDocumentsScreen> {
               profileController.selectedPlan == '2' ?
               ImageWidget(
                 // key: paymentReceiptCertificateKey,
-                title: "Documents".tr,
+                title: "Payment certificate".tr,
                 file: payment_certificate,
                 validation: checkValidation(showValidation.value, payment_certificate.path.isEmpty),
                 filePicked: (File g) {
@@ -201,7 +213,7 @@ class _RequiredDocumentsScreenState extends State<RequiredDocumentsScreen> {
               profileController.selectedPlan == '3' ?
               ImageWidget(
                 // key: paymentReceiptCertificateKey,
-                title: "Documents".tr,
+                title: "Payment certificate".tr,
                 file: payment_certificate,
                 validation: checkValidation(showValidation.value, payment_certificate.path.isEmpty),
                 filePicked: (File g) {
@@ -215,14 +227,15 @@ class _RequiredDocumentsScreenState extends State<RequiredDocumentsScreen> {
               CustomOutlineButton(
                 title: "Upload".tr,
                 onPressed: () {
-                  if(payment_certificate.path.isEmpty &&
-                      commercial_license.path.isEmpty &&
-                      memorandum_of_association.path.isEmpty){
-                    showToast('Please select Required Documents');
-                  }else
-                  {
-                    updateProfile();
-                  }
+                  updateProfile();
+                  // if(payment_certificate.path.isEmpty &&
+                  //     commercial_license.path.isEmpty &&
+                  //     memorandum_of_association.path.isEmpty){
+                  //   showToast('Please select Required Documents');
+                  // }else
+                  // {
+                  //   updateProfile();
+                  // }
 
                 },
               ),
@@ -245,10 +258,10 @@ class _RequiredDocumentsScreenState extends State<RequiredDocumentsScreen> {
                     borderRadius: BorderRadius.circular(2), // Border radius
                   ),
                   padding: const EdgeInsets.all(10), // Padding inside the container
-                  child: const Center(
+                  child:  Center(
                     child: Text(
-                      'I will set later',
-                      style: TextStyle(
+                      'I will set later'.tr,
+                      style: const TextStyle(
                         fontSize: 16,
                         fontWeight: FontWeight.bold,
                         color: Color(0xff514949), // Text color
@@ -256,6 +269,9 @@ class _RequiredDocumentsScreenState extends State<RequiredDocumentsScreen> {
                     ),
                   ),
                 ),
+              ),
+              const SizedBox(
+                height: 40,
               ),
             ],
           ),

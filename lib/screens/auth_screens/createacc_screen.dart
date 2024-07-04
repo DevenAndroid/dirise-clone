@@ -7,6 +7,7 @@ import 'package:form_field_validator/form_field_validator.dart';
 import 'package:get/get.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:url_launcher/url_launcher.dart';
+import '../../controller/profile_controller.dart';
 import '../../model/common_modal.dart';
 import '../../repository/repository.dart';
 import '../../utils/api_constant.dart';
@@ -77,7 +78,7 @@ class _CreateAccountScreenState extends State<CreateAccountScreen> {
     _emailController.dispose();
     _passwordController.dispose();
   }
-
+  final profileController = Get.put(ProfileController());
   @override
   Widget build(BuildContext context) {
     Size size = MediaQuery.of(context).size;
@@ -88,10 +89,16 @@ class _CreateAccountScreenState extends State<CreateAccountScreen> {
         surfaceTintColor: Colors.white,
         elevation: 0,
         leading: IconButton(
-          icon: Image.asset(
-            'assets/icons/backicon.png',
-            height: 25,
-            width: 25,
+          icon: profileController.selectedLAnguage.value != 'English' ?
+          Image.asset(
+            'assets/images/forward_icon.png',
+            height: 19,
+            width: 19,
+          ) :
+          Image.asset(
+            'assets/images/back_icon_new.png',
+            height: 19,
+            width: 19,
           ),
           onPressed: () => Get.back(),
         ),

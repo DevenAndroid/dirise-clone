@@ -6,6 +6,7 @@ import 'package:dirise/widgets/common_textfield.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:google_fonts/google_fonts.dart';
+import '../../controller/profile_controller.dart';
 import '../../controller/vendor_controllers/add_product_controller.dart';
 import '../../model/create_slots_model.dart';
 import '../../model/vendor_models/add_product_model.dart';
@@ -16,7 +17,13 @@ import 'optional_details_academic.dart';
 
 
 class AcademicDurationScreen extends StatefulWidget {
-  const  AcademicDurationScreen({super.key});
+  int? id;
+  dynamic recoveryBlockTime;
+  dynamic preparationBlockTime;
+  dynamic interval;
+
+  AcademicDurationScreen({super.key,this.recoveryBlockTime,this.preparationBlockTime,this.interval,this.id});
+
 
   @override
   State<AcademicDurationScreen> createState() => _AcademicDurationScreenState();
@@ -47,7 +54,7 @@ class _AcademicDurationScreenState extends State<AcademicDurationScreen> {
       if (response.status == true) {
         addProductController.idProduct.value = response.productDetails!.product!.id.toString();
         print(addProductController.idProduct.value.toString());
-        Get.to(()=>const SponsorsScreenAcademic());
+        Get.to(()=> SponsorsScreenAcademic());
       }
     });
   }
@@ -65,6 +72,20 @@ class _AcademicDurationScreenState extends State<AcademicDurationScreen> {
       showToast(createSlotsModel.value.message.toString());
     });
   }
+
+
+  @override
+  void initState() {
+    // TODO: implement initState
+    super.initState();
+    if(widget.id != null){
+      timeControllerRecovery.text = widget.recoveryBlockTime.toString();
+      timeControllerPreparation.text = widget.preparationBlockTime.toString();
+      timeController.text = widget.interval.toString();
+    }
+
+  }
+  final profileController = Get.put(ProfileController());
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -84,9 +105,16 @@ class _AcademicDurationScreenState extends State<AcademicDurationScreen> {
           },
           child: Padding(
             padding: const EdgeInsets.all(15),
-            child: Image.asset(
-              'assets/icons/backicon.png',
-              height: 20,
+            child:    profileController.selectedLAnguage.value != 'English' ?
+            Image.asset(
+              'assets/images/forward_icon.png',
+              height: 19,
+              width: 19,
+            ) :
+            Image.asset(
+              'assets/images/back_icon_new.png',
+              height: 19,
+              width: 19,
             ),
           ),
         ),
@@ -539,7 +567,7 @@ class _AcademicDurationScreenState extends State<AcademicDurationScreen> {
               ),
               InkWell(
                 onTap: (){
-                  Get.to(()=>const SponsorsScreenAcademic());
+                  Get.to(()=> SponsorsScreenAcademic());
                 },
                 child: Container(
                   width: Get.width,

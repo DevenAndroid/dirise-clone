@@ -5,6 +5,7 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:google_fonts/google_fonts.dart';
 
+import '../controller/profile_controller.dart';
 import '../controller/service_controller.dart';
 import '../controller/vendor_controllers/add_product_controller.dart';
 import '../model/common_modal.dart';
@@ -18,7 +19,14 @@ import '../widgets/vendor_common_textfield.dart';
 import 'locationwherecustomerwilljoin.dart';
 
 class ServicesReturnPolicy extends StatefulWidget {
-  const ServicesReturnPolicy({super.key});
+  String? policyName;
+  String? policyDescription;
+  String? returnWithIn;
+  String? returnShippingFees;
+  int? id;
+  ServicesReturnPolicy(
+      {super.key, this.policyName, this.policyDescription, this.returnShippingFees, this.returnWithIn, this.id});
+
 
   @override
   State<ServicesReturnPolicy> createState() => _ServicesReturnPolicyState();
@@ -28,7 +36,8 @@ class _ServicesReturnPolicyState extends State<ServicesReturnPolicy> {
   final Repositories repositories = Repositories();
   final formKey1 = GlobalKey<FormState>();
   bool isRadioButtonSelected = false;
-
+  TextEditingController titleController = TextEditingController();
+  TextEditingController descController = TextEditingController();
   String selectedItem = '1';
   String selectedItemDay = 'Days';
 
@@ -39,7 +48,7 @@ class _ServicesReturnPolicyState extends State<ServicesReturnPolicy> {
   RxInt returnPolicyLoaded = 0.obs;
   ReturnPolicyModel? modelReturnPolicy;
   ReturnPolicy? selectedReturnPolicy;
-
+  String returnSelectId = '';
   bool isButtonEnabled = false;
   void updateButtonState() {
     setState(() {
@@ -65,14 +74,13 @@ class _ServicesReturnPolicyState extends State<ServicesReturnPolicy> {
       setState(() {
         singleModelReturnPolicy.value = SingleReturnPolicy.fromJson(jsonDecode(value));
         radioButtonValue = singleModelReturnPolicy.value.data!.returnShippingFees.toString();
-        serviceController.titleController.text = singleModelReturnPolicy.value.data!.title.toString();
-        serviceController.descController.text = singleModelReturnPolicy.value.data!.policyDiscreption.toString();
+        titleController.text = singleModelReturnPolicy.value.data!.title.toString();
+        descController.text = singleModelReturnPolicy.value.data!.policyDiscreption.toString();
       });
       returnPolicyLoaded.value = DateTime.now().millisecondsSinceEpoch;
     });
   }
 
-  final serviceController = Get.put(ServiceController());
   bool? noReturn;
   bool noReturnSelected = false;
   String radioButtonValue = 'buyer_pays';
@@ -80,10 +88,10 @@ class _ServicesReturnPolicyState extends State<ServicesReturnPolicy> {
   returnPolicyApi() {
     Map<String, dynamic> map = {};
 
-    map['title'] = serviceController.titleController.text.trim();
+    map['title'] = titleController.text.trim();
     map['days'] = selectedItem;
     map['item_type'] = 'service';
-    map['policy_description'] = serviceController.descController.text.trim();
+    map['policy_description'] = descController.text.trim();
     map['return_shipping_fees'] = radioButtonValue.toString();
     map['no_return'] = noReturnSelected;
     map['id'] = addProductController.idProduct.value.toString();
@@ -98,14 +106,39 @@ class _ServicesReturnPolicyState extends State<ServicesReturnPolicy> {
       }
     });
   }
+  nextPageApi() {
+    Map<String, dynamic> map = {};
+    map['return_policy_desc'] = selectedReturnPolicy!.id.toString();
+    map['item_type'] = 'service';
 
+    FocusManager.instance.primaryFocus!.unfocus();
+    repositories.postApi(url: ApiUrls.giveawayProductAddress, context: context, mapData: map).then((value) {
+      ModelCommonResponse response = ModelCommonResponse.fromJson(jsonDecode(value));
+      print('API Response Status Code: ${response.status}');
+      showToast(response.message.toString());
+      if (response.status == true) {
+        Get.to(() => const Locationwherecustomerwilljoin());
+      }else {
+         showToast(response.message.toString());
+        }
+    });
+  }
   @override
   void initState() {
     // TODO: implement initState
     super.initState();
     getReturnPolicyData();
+    if(widget.id != null){
+      titleController.text = widget.policyName.toString();
+      descController.text = widget.policyDescription.toString();
+    }
   }
-
+  @override
+  void dispose() {
+    super.dispose();
+    getReturnPolicyData();
+  }
+  final profileController = Get.put(ProfileController());
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -114,13 +147,25 @@ class _ServicesReturnPolicyState extends State<ServicesReturnPolicy> {
         surfaceTintColor: Colors.white,
         elevation: 0,
         leading: GestureDetector(
-          onTap: () {
+          onTap: (){
             Get.back();
           },
-          child: const Icon(
-            Icons.arrow_back_ios_new,
-            color: Color(0xff0D5877),
-            size: 16,
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.center,
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: [
+              profileController.selectedLAnguage.value != 'English' ?
+              Image.asset(
+                'assets/images/forward_icon.png',
+                height: 19,
+                width: 19,
+              ) :
+              Image.asset(
+                'assets/images/back_icon_new.png',
+                height: 19,
+                width: 19,
+              ),
+            ],
           ),
         ),
         titleSpacing: 0,
@@ -208,7 +253,9 @@ class _ServicesReturnPolicyState extends State<ServicesReturnPolicy> {
                                 setState(() {
                                   selectedReturnPolicy = value;
                                   getSingleReturnPolicyData(selectedReturnPolicy!.id.toString());
+                                  returnSelectId = selectedReturnPolicy!.id.toString();
                                 });
+
                               },
                               // validator: (value){
                               //   if (value == null) {
@@ -236,7 +283,7 @@ class _ServicesReturnPolicyState extends State<ServicesReturnPolicy> {
                           ),
                           VendorCommonTextfield(
                               readOnly: singleModelReturnPolicy.value.data!= null ? true : false,
-                              controller: serviceController.titleController,
+                              controller: titleController,
                               hintText: selectedReturnPolicy != null
                                   ? selectedReturnPolicy!.title.toString()
                                   : 'DIRISE Standard Policy',
@@ -430,7 +477,7 @@ class _ServicesReturnPolicyState extends State<ServicesReturnPolicy> {
                               }
                               return null;
                             },
-                            controller: serviceController.descController,
+                            controller: descController,
                             decoration: InputDecoration(
                               counterStyle: GoogleFonts.poppins(
                                 color: AppTheme.primaryColor,
@@ -476,21 +523,23 @@ class _ServicesReturnPolicyState extends State<ServicesReturnPolicy> {
                 CustomOutlineButton(
                   title: 'Next',
                   borderRadius: 11,
-                  onPressed: isButtonEnabled || noReturnSelected == true
-                      ? () {
-                          if (noReturnSelected == false) {
-                            if (formKey1.currentState!.validate()) {
-                              if (radioButtonValue != '') {
-                                returnPolicyApi();
-                              } else {
-                                showToastCenter('Select Return shipping fees');
-                              }
-                            }
-                          } else {
-                            Get.to(const Locationwherecustomerwilljoin());
-                          }
+                  onPressed: (){
+                    if (noReturnSelected == false) {
+                      if (formKey1.currentState!.validate()) {
+                        if (radioButtonValue != '') {
+                           if(returnSelectId.isEmpty) {
+                             returnPolicyApi();
+                           }else{
+                             nextPageApi();
+                           }
+                        } else {
+                          showToastCenter('Select Return shipping fees');
                         }
-                      : null, // Disable button if no radio button is selected
+                      }
+                    } else {
+                      Get.to(const Locationwherecustomerwilljoin());
+                    }
+                  } // Disable button if no radio button is selected
                 ),
               ],
             ),

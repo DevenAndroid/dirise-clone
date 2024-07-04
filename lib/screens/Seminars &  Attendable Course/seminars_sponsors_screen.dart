@@ -9,6 +9,7 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:google_fonts/google_fonts.dart';
 
+import '../../controller/profile_controller.dart';
 import '../../model/common_modal.dart';
 import '../../model/sponsors_list_model.dart';
 import '../../repository/repository.dart';
@@ -22,7 +23,11 @@ import 'optional_details_academic.dart';
 
 
 class SponsorsSeminarScreen extends StatefulWidget {
-  const SponsorsSeminarScreen({super.key});
+  int? id;
+  String? sponsorType;
+  String? sponsorName;
+
+  SponsorsSeminarScreen({super.key,this.id,this.sponsorName,this.sponsorType});
 
   @override
   State<SponsorsSeminarScreen> createState() => _SponsorsSeminarScreenState();
@@ -87,7 +92,7 @@ class _SponsorsSeminarScreenState extends State<SponsorsSeminarScreen> {
       if (response.status == true) {
         showToast(response.message.toString());
         if(formKey1.currentState!.validate()){
-          Get.to(()=> const OptionalDetailsSeminarAndAttendable());
+          Get.to(()=>  OptionalDetailsSeminarAndAttendable());
         }
       }
     });
@@ -98,7 +103,12 @@ class _SponsorsSeminarScreenState extends State<SponsorsSeminarScreen> {
     WidgetsBinding.instance.addPostFrameCallback((timeStamp) {
       getSponsors();
     });
+    if(widget.id != null){
+      sponsorTypeController.text = widget.sponsorType.toString();
+      sponsorNameController.text = widget.sponsorName.toString();
+    }
   }
+  final profileController = Get.put(ProfileController());
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -107,13 +117,25 @@ class _SponsorsSeminarScreenState extends State<SponsorsSeminarScreen> {
           surfaceTintColor: Colors.white,
           elevation: 0,
           leading: GestureDetector(
-            onTap: () {
+            onTap: (){
               Get.back();
             },
-            child: const Icon(
-              Icons.arrow_back_ios_new,
-              color: Color(0xff0D5877),
-              size: 16,
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.center,
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: [
+                profileController.selectedLAnguage.value != 'English' ?
+                Image.asset(
+                  'assets/images/forward_icon.png',
+                  height: 19,
+                  width: 19,
+                ) :
+                Image.asset(
+                  'assets/images/back_icon_new.png',
+                  height: 19,
+                  width: 19,
+                ),
+              ],
             ),
           ),
           titleSpacing: 0,
@@ -295,7 +317,7 @@ class _SponsorsSeminarScreenState extends State<SponsorsSeminarScreen> {
                   const SizedBox(height: 20),
                   GestureDetector(
                     onTap: () {
-                      Get.to(()=> const OptionalDetailsSeminarAndAttendable());
+                      Get.to(()=>  OptionalDetailsSeminarAndAttendable());
                     },
                     child: Container(
                       width: Get.width,

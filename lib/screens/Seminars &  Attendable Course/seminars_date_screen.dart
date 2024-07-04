@@ -7,6 +7,7 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:intl/intl.dart';
+import '../../controller/profile_controller.dart';
 import '../../controller/vendor_controllers/add_product_controller.dart';
 import '../../model/jobResponceModel.dart';
 import '../../repository/repository.dart';
@@ -16,7 +17,18 @@ import 'optional_details_academic.dart';
 
 
 class DateRangeSeminarsScreen extends StatefulWidget {
-  const DateRangeSeminarsScreen({super.key});
+  int? id;
+  String? from_date;
+  String? to_date;
+
+
+  DateRangeSeminarsScreen(
+      {super.key,
+        this.id,
+        this.from_date,
+        this.to_date,
+      });
+
 
   @override
   State<DateRangeSeminarsScreen> createState() => _DateRangeSeminarsScreenState();
@@ -34,6 +46,7 @@ class _DateRangeSeminarsScreenState extends State<DateRangeSeminarsScreen> {
   bool thurSelected = false;
   bool friSelected = false;
   bool satSelected = false;
+  final profileController = Get.put(ProfileController());
   Future<void> _selectStartDate(BuildContext context) async {
     final DateTime? picked = await showDatePicker(
       context: context,
@@ -83,9 +96,9 @@ class _DateRangeSeminarsScreenState extends State<DateRangeSeminarsScreen> {
       DateRangeInTravelModel response = DateRangeInTravelModel.fromJson(jsonDecode(value));
       if (response.status == true) {
         showToast(response.message.toString());
-        int? id = response.productDetails!.productAvailabilityId?.id;
+        profileController.productAvailabilityId = response.productDetails!.productAvailabilityId!.id!;
         // Get.to(WebinarScreen());
-         Get.to(()=> WebinarScreen(id: id,));
+         Get.to(()=> WebinarScreen());
         print('value isssss${response.toJson()}');
       }else{
         showToast(response.message.toString());
@@ -98,6 +111,10 @@ class _DateRangeSeminarsScreenState extends State<DateRangeSeminarsScreen> {
   void initState() {
     super.initState();
     addProductController.startDate.text  = '';
+    if (widget.id != null) {
+      addProductController.formattedStartDate = widget.from_date;
+      formattedStartDate1 = widget.to_date;
+    }
   }
   @override
   Widget build(BuildContext context) {
@@ -107,13 +124,25 @@ class _DateRangeSeminarsScreenState extends State<DateRangeSeminarsScreen> {
         surfaceTintColor: Colors.white,
         elevation: 0,
         leading: GestureDetector(
-          onTap: () {
+          onTap: (){
             Get.back();
           },
-          child: const Icon(
-            Icons.arrow_back_ios_new,
-            color: Color(0xff0D5877),
-            size: 16,
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.center,
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: [
+              profileController.selectedLAnguage.value != 'English' ?
+              Image.asset(
+                'assets/images/forward_icon.png',
+                height: 19,
+                width: 19,
+              ) :
+              Image.asset(
+                'assets/images/back_icon_new.png',
+                height: 19,
+                width: 19,
+              ),
+            ],
           ),
         ),
         titleSpacing: 0,
@@ -240,7 +269,7 @@ class _DateRangeSeminarsScreenState extends State<DateRangeSeminarsScreen> {
             InkWell(
               onTap: (){
                 // updateProfile();
-                Get.to(()=> const SponsorsSeminarScreen());
+                Get.to(()=>  SponsorsSeminarScreen());
               },
               child: Container(
                 width: Get.width,

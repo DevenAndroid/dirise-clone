@@ -13,11 +13,13 @@ import '../language/app_strings.dart';
 import '../model/model_address_list.dart';
 import '../model/model_cart_response.dart';
 import '../model/myDefaultAddressModel.dart';
+import '../model/order_models/model_direct_order_details.dart';
 import '../model/order_models/place_order_response.dart';
 import '../screens/check_out/order_completed_screen.dart';
 import '../utils/api_constant.dart';
 import '../vendor/authentication/payment_screen.dart';
 import '../vendor/authentication/thank_you_screen.dart';
+import 'location_controller.dart';
 
 enum PurchaseType { buy, cart }
 
@@ -28,6 +30,8 @@ class CartController extends GetxController {
   String stateCode = '';
   String cityCode = '';
   RxString countryName = ''.obs;
+  RxString address = ''.obs;
+  RxString city = ''.obs;
   // int isKuwait = 0;
   RxString stateName = ''.obs;
   RxString cityName = ''.obs;
@@ -38,7 +42,7 @@ class CartController extends GetxController {
   bool addressLoaded = false;
   String shippingId = "";
   AddressData selectedAddress = AddressData();
-
+  // final locationController = Get.put(LocationController());
   final GlobalKey addressKey = GlobalKey();
   RxString deliveryOption1 = "delivery".obs;
   RxBool showValidation = false.obs;
@@ -58,6 +62,9 @@ class CartController extends GetxController {
   String shippingTitle = '';
   String shippingPrices = '';
   String shippingPrices1 = '';
+  String shippingPrices2 = '';
+  double withoutSelectPrice = 0.0;
+  String shippingPrices3 = '';
   final TextEditingController billingFirstName = TextEditingController();
   final TextEditingController billingLastName = TextEditingController();
   final TextEditingController billingEmail = TextEditingController();
@@ -65,7 +72,10 @@ class CartController extends GetxController {
   RxInt countDown = 30.obs;
   Timer? _timer;
   String formattedTotal = '';
+  String formattedTotalddf = '';
+  String formattedTotal3 = '';
   String formattedTotal2 = '';
+  String formattedTotal4 = '';
   String shippingDates = '';
   double formattedTotal1 = 0.0;
   List<String> shippingList = [];
@@ -105,6 +115,7 @@ class CartController extends GetxController {
     required String currencyCode,
     required String deliveryOption,
     required String paymentMethod,
+    required String title,
     String? couponCode,
     required String idd,
     String? shippingPrice,
@@ -137,9 +148,11 @@ class CartController extends GetxController {
       'callback_url': 'https://diriseapp.com/home/$navigationBackUrl',
       'failure_url': 'https://diriseapp.com/home/$failureUrl',
       "shipping": [
-        {"type":purchaseType1,
+        {"title":title,
+
+          "type":purchaseType1,
           "shipment_provider": shipmentProvider,
-          "store_id":  storeIdShipping.toString(), "store_name": storeNameShipping.toString(), "title": shippingTitle.toString(), "ship_price": shippingPrices1.toString() , "shipping_type_id": shippingId,
+          "store_id":  storeIdShipping.toString(), "store_name": storeNameShipping.toString(),"ship_price": shippingPrices1.toString() , "shipping_type_id": shippingId,
         'shipping_date' :  shippingDates.toString()}
       ],
       "cart_id": ["2"],
@@ -180,6 +193,7 @@ class CartController extends GetxController {
                 paymentMethod: paymentMethod,
                 purchaseType: purchaseType,
                 subTotalPrice: subTotalPrice,
+                title: title,
                 currencyCode: currencyCode,
                 totalPrice: totalPrice,
                 address: address,
@@ -201,6 +215,7 @@ class CartController extends GetxController {
     required PurchaseType purchaseType,
     required String subTotalPrice,
     required String totalPrice,
+    required String title,
     required String currencyCode,
     required String deliveryOption,
     required String paymentMethod,
@@ -253,6 +268,7 @@ class CartController extends GetxController {
                           paymentMethod: paymentMethod,
                           currencyCode: currencyCode,
                           subTotalPrice: subTotalPrice,
+                          title: title,
                           totalPrice: totalPrice,
                           couponCode: couponCode,
                           quantity: quantity,
@@ -305,6 +321,7 @@ class CartController extends GetxController {
                                 subTotalPrice: subTotalPrice,
                                 totalPrice: totalPrice,
                                 couponCode: couponCode,
+                                title: title,
                                 quantity: quantity,
                                 productID: productID,
                                 deliveryOption: deliveryOption,
@@ -498,7 +515,8 @@ class CartController extends GetxController {
   }
   String countryId = '';
   String zipCode = '';
-
+  String zipCode1 = '';
+  TextEditingController addressController = TextEditingController();
   Future getCart() async {
     // if (cartModel.cart != null) {
     //   for (var element in cartModel.cart!) {
@@ -507,14 +525,19 @@ class CartController extends GetxController {
     // }
     Map<String, dynamic> map = {};
     map["key"] = 'fedexRate';
-    // map["country_id"]= profileController.model.user!= null && countryId.isEmpty ? profileController.model.user!.country_id : countryId.toString();
-    map["country_id"]= countryId.toString();
-    map["zip_code"]= zipCode.toString();
+    map["country_id"]= profileController.model.user!= null && countryId.isEmpty ? profileController.model.user!.country_id : countryId.toString();
+    // map["country_id"]= countryId.isNotEmpty ? countryId.toString() : '117';
+    map["zip_code"]= zipCode.isNotEmpty ? zipCode.toString() : '302021';
+    map["city"]= zipCode.isNotEmpty ?city.value.toString():"jaipur";
+    map["address"]= address.value.toString();
+    map["identifier_key"]= "checkout";
 
     log("mappppppp::::::$map");
+    log("mappppppp::::::$countryId");
     await repositories.postApi(url: ApiUrls.cartListUrl,mapData: map ).then((value) {
      cartModel = ModelCartResponse.fromJson(jsonDecode(value));
       log('cart model is ${cartModel.toJson()}');
+      print("zip:::::::::::"+zipCode1);
       apiLoaded = true;
       updateUI();
     });
@@ -523,7 +546,7 @@ class CartController extends GetxController {
   myDefaultAddressData() {
     repositories.getApi(url: ApiUrls.myDefaultAddressStatus).then((value) {
       myDefaultAddressModel.value = MyDefaultAddressModel.fromJson(jsonDecode(value));
-      // log('defalut address value....${      myDefaultAddressModel.value.defaultAddress!.toJson()}');
+      // log('defalut address value....${myDefaultAddressModel.value.defaultAddress!.toJson()}');
     });
   }
 
@@ -546,6 +569,17 @@ class CartController extends GetxController {
   updateUIAdd() {
     refreshInt11.value = DateTime.now().microsecondsSinceEpoch;
   }
+
+  //buy now call address
+  String productElementId = '';
+  String productQuantity = '';
+  bool isBookingProduct = false;
+  String selectedDate = '';
+  String selectedSlot = '';
+  String selectedSlotEnd = '';
+  bool isVariantType = false;
+  String selectedVariant = '';
+  Rx<ModelDirectOrderResponse> directOrderResponse = ModelDirectOrderResponse().obs;
 
   @override
   void onInit() {

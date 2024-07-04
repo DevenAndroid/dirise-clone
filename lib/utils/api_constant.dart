@@ -7,10 +7,10 @@ import '../model/login_model.dart';
 import '../widgets/common_colour.dart';
 
 class ApiUrls {
-  static const String baseUrl = 'https://dirise.eoxyslive.com/api/';
+  static const String baseUrl = 'https://admin.diriseapp.com/api/';
   // static const String baseUrl = 'https://backend.diriseapp.com/api/';
   //
-  // static const String baseUrl = 'https://admin.diriseapp.com/api/';
+  // static const String baseUrl = 'https://beta-dirise.eoxyslive.com/api/';
   static const String signInUrl = "${baseUrl}register";
   static const String vendorShippingPolicy = "${baseUrl}vendor-shipping-policy";
   static const String vendorPickUpPolicy = "${baseUrl}vendor-pickup-policy";
@@ -22,6 +22,7 @@ class ApiUrls {
   static const String getSocialMediaUrl = "${baseUrl}social-media";
   static const String loginUrl = "${baseUrl}login";
   static const String resendOtpUrl = "${baseUrl}resend-otp";
+  static const String vendorVerification = "${baseUrl}vendor-verification";
   static const String verifyOtpEmail = "${baseUrl}verify-otp-email";
   static const String forgotPasswordUrl = "${baseUrl}forget-password";
   static const String changePasswordUrl = "${baseUrl}change-password";
@@ -58,10 +59,13 @@ class ApiUrls {
   static const String vendorResendOTPUrl = "${baseUrl}vendor-resend-otp";
   static const String deleteAddressUrl = "${baseUrl}delete-address";
   static const String getVendorDetailUrl = "${baseUrl}my-vendor-details";
+  static const String productRemark = "${baseUrl}product-remark-list?product_id=";
+  static const String productAddRemark = "${baseUrl}add-product-remark";
   static const String addVendorProductUrl = "${baseUrl}add-vendor-product";
   static const String productCategoryListUrl = "${baseUrl}prodect-category-list";
   static const String taxDataUrl = "${baseUrl}tax";
   static const String myProductsListUrl = "${baseUrl}my-product-list";
+  static const String myApproved = "${baseUrl}my-approved-product-list";
   static const String getProductDetailsUrl = "${baseUrl}edit-product/";
   static const String aboutUsUrl = "${baseUrl}page-data";
   static const String deleteUser = "${baseUrl}delete-user";
@@ -100,9 +104,11 @@ class ApiUrls {
   static const String deleteReturnPolicy= "${baseUrl}remove-return-policy";
   static const String returnPolicyUrl= "${baseUrl}return-policy";
   static const String singleReturnPolicyUrl= "${baseUrl}single-return-policy?id=";
+  static const String singleShippingPolicyUrl= "${baseUrl}single-shipping-policy?id=";
   static const String stateList= "${baseUrl}all-states";
   static const String citiesList= "${baseUrl}all-cities";
   static const String productCategoriesListUrl = "${baseUrl}categries";
+  static const String showCaseProductUrl = "${baseUrl}get-showcase-product";
   static const String categoryListUrl = "${baseUrl}categories-list?category_id=";
   static const String categoryFilterUrl = "${baseUrl}category-filter";
   static const String faqListUrl = "${baseUrl}faq-list";
@@ -122,10 +128,14 @@ class ApiUrls {
   static const String defaultAddressStatus = "${baseUrl}default-address";
   static const String myDefaultAddressStatus = "${baseUrl}my-default-address";
   static const String vendorEarning = "${baseUrl}vendor-earning";
+  static const String vendorEarningNew = "${baseUrl}get-vendor-earnings";
   static const String addCurrentAddress = "${baseUrl}add-current-address";
+  static const String insertErrorLog = "${baseUrl}insert-error-log";
   static const String productCreateSlots = "${baseUrl}product-create-slots";
   static const String addProductSponsor = "${baseUrl}add-product-sponsor";
   static const String sponsorList = "${baseUrl}sponsor-list";
+  static const String featuredStore = "${baseUrl}get-featured-store";
+  static const String getJobList = "${baseUrl}job-product-list";
 
 
 
@@ -134,7 +144,7 @@ class ApiUrls {
 showToast(message, {ToastGravity? gravity, bool? center}) {
   Fluttertoast.cancel();
   Fluttertoast.showToast(
-      msg: message.toString().capitalize!,
+      msg: message.toString(),
       toastLength: Toast.LENGTH_LONG,
       gravity: center == true ? ToastGravity.CENTER :  gravity ?? ToastGravity.BOTTOM,
       timeInSecForIosWeb: 4,

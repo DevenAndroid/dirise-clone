@@ -48,22 +48,23 @@ class _CategoryItemsState extends State<CategoryItems> {
             child: GridView.builder(
                 shrinkWrap: true,
                 physics: const NeverScrollableScrollPhysics(),
-                itemCount: min(homeController.vendorCategory.usphone!.length + 1,12),
+                itemCount: min(homeController.vendorCategory.usphone!.length + 1,4),
                 padding: const EdgeInsets.symmetric(horizontal: 15, vertical: 20).copyWith(top: 0),
                 gridDelegate:  SliverGridDelegateWithMaxCrossAxisExtent(
                   maxCrossAxisExtent: Get.width*.230,
-                  childAspectRatio: .65,
+                  childAspectRatio: .55,
                   crossAxisSpacing: 14,
                   mainAxisSpacing: 16,
                 ),
                 itemBuilder: (BuildContext context, int index) {
-                  if (index ==  min(homeController.vendorCategory.usphone!.length + 1,12)-1) {
+                  if (index ==  min(homeController.vendorCategory.usphone!.length + 1,4)-1) {
                     return Column(
                       children: [
                         const SizedBox(
                           height: 10,
                         ),
                         Expanded(
+                          flex: 2,
                           child: InkWell(
                             onTap: () {
                               bottomController.pageIndex.value = 1;
@@ -73,20 +74,23 @@ class _CategoryItemsState extends State<CategoryItems> {
                                 height: 70,
                                 padding: EdgeInsets.all(10),
                                 decoration: BoxDecoration(
-                                    shape: BoxShape.circle,
+                                  // shape: BoxShape.circle,
                                     color: Color(0xFFF0EEEE),
-                                    border: Border.all(color: Color(0xFFCCCCCC))
+                                    borderRadius: BorderRadius.circular(12)
+                                  // border: Border.all(color: Color(0xFFCCCCCC))
                                 ),
-                                child: Image.asset("assets/svgs/more.png")),
+                                child: Image.asset("assets/images/morebutton.png")),
                           ),
                         ),
                         // ignore: prefer_const_constructors
                         SizedBox(
                           height: 10,
                         ),
-                        Text(
-                         AppStrings.more.tr,
-                          style: GoogleFonts.poppins(fontWeight: FontWeight.w500, fontSize: 15, color: AppTheme.buttonColor),
+                        Expanded(
+                          child: Text(
+                           AppStrings.more.tr,
+                            style: GoogleFonts.poppins(fontWeight: FontWeight.w500, fontSize: 12, color: AppTheme.buttonColor),
+                          ),
                         )
                       ],
                     )
@@ -109,12 +113,14 @@ class _CategoryItemsState extends State<CategoryItems> {
                             height: 10,
                           ),
                           Expanded(
+                            flex: 2,
                             child: Container(
-            padding: EdgeInsets.all(10),
+                              padding: const EdgeInsets.all(10),
                               decoration: BoxDecoration(
-                              shape: BoxShape.circle,
-                                color: Color(0xFFF0EEEE),
-                                border: Border.all(color: Color(0xFFCCCCCC))
+                                  // shape: BoxShape.circle,
+                                  color: Color(0xFFF0EEEE),
+                                  borderRadius: BorderRadius.circular(12)
+                                  // border: Border.all(color: Color(0xFFCCCCCC))
                               ),
                               child: Hero(
                                 tag: item.bannerProfile.toString(),
@@ -134,12 +140,19 @@ class _CategoryItemsState extends State<CategoryItems> {
                           const SizedBox(
                             height: 10,
                           ),
-                          Text(
-                            profileController.selectedLAnguage.value == 'English' ?  item.name.toString() : item.arabName.toString(),
-                            maxLines: 1,
-                            // overflow: TextOverflow.ellipsis,
-                            style: GoogleFonts.poppins(fontWeight: FontWeight.w500, fontSize: 14, color: AppTheme.buttonColor),
-                            textAlign: TextAlign.center,
+                          Expanded(
+                            child: Text(
+                              profileController.selectedLAnguage.value == 'English'
+                                  ? item.name.toString()
+                                  : item.arabName.toString(),
+                              maxLines: 2,
+                              style: GoogleFonts.poppins(
+                                fontWeight: FontWeight.w500,
+                                fontSize: 12,
+                                color: AppTheme.buttonColor,
+                              ),
+                              textAlign: TextAlign.center,
+                            ),
                           )
                         ],
                       ),

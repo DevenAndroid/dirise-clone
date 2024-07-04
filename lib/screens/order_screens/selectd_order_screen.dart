@@ -3,6 +3,9 @@ import 'package:dirise/utils/helper.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:intl/intl.dart';
+import '../../controller/profile_controller.dart';
+import '../../model/model_all_order.dart';
 import '../../model/model_single_product.dart';
 import '../../model/order_models/model_single_order_response.dart';
 import '../../model/product_model/model_product_element.dart';
@@ -14,7 +17,8 @@ import '../product_details/single_product.dart';
 import '../virtual_assets/virtual_assets_screen.dart';
 
 class SelectedOrderScreen extends StatefulWidget {
-  const SelectedOrderScreen({super.key});
+  Order? modelDataOrder;
+  SelectedOrderScreen({super.key, this.modelDataOrder});
   static var route = "/selectedOrderScreen";
 
   @override
@@ -23,12 +27,12 @@ class SelectedOrderScreen extends StatefulWidget {
 
 class _SelectedOrderScreenState extends State<SelectedOrderScreen> {
   final Repositories repositories = Repositories();
-  String orderId = "";
+  // String orderId = "";
   ModelSingleOrderResponse singleOrder = ModelSingleOrderResponse();
   ModelSingleProduct modelSingleProduct = ModelSingleProduct();
   Future getOrderDetails() async {
     await repositories.postApi(url: ApiUrls.orderDetailsUrl, mapData: {
-      "order_id": orderId,
+      "order_id": widget.modelDataOrder!.orderId,
     }).then((value) {
       singleOrder = ModelSingleOrderResponse.fromJson(jsonDecode(value));
       setState(() {});
@@ -38,12 +42,13 @@ class _SelectedOrderScreenState extends State<SelectedOrderScreen> {
   @override
   void initState() {
     super.initState();
-    if (Get.arguments != null) {
-      orderId = Get.arguments;
-      getOrderDetails();
-    }
+    getOrderDetails();
+    // if (Get.arguments != null) {
+    //   orderId = Get.arguments;
+    //
+    // }
   }
-
+  final profileController = Get.put(ProfileController());
   @override
   Widget build(BuildContext context) {
     Size size = MediaQuery.of(context).size;
@@ -53,10 +58,27 @@ class _SelectedOrderScreenState extends State<SelectedOrderScreen> {
         backgroundColor: Colors.white,
         surfaceTintColor: Colors.white,
         elevation: 0,
-        leading: IconButton(
-          icon: const Icon(Icons.arrow_back_ios,
-              color: Color(0xff014E70), size: 20),
-          onPressed: () => Navigator.of(context).pop(),
+        leading: GestureDetector(
+          onTap: (){
+            Get.back();
+          },
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.center,
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: [
+              profileController.selectedLAnguage.value != 'English' ?
+              Image.asset(
+                'assets/images/forward_icon.png',
+                height: 19,
+                width: 19,
+              ) :
+              Image.asset(
+                'assets/images/back_icon_new.png',
+                height: 19,
+                width: 19,
+              ),
+            ],
+          ),
         ),
         titleSpacing: 0,
         title: Row(
@@ -64,10 +86,7 @@ class _SelectedOrderScreenState extends State<SelectedOrderScreen> {
           children: [
             Text(
               "Order Details".tr,
-              style: GoogleFonts.poppins(
-                  color: Colors.black,
-                  fontWeight: FontWeight.w600,
-                  fontSize: 22),
+              style: GoogleFonts.poppins(color: Colors.black, fontWeight: FontWeight.w600, fontSize: 22),
             ),
           ],
         ),
@@ -85,11 +104,8 @@ class _SelectedOrderScreenState extends State<SelectedOrderScreen> {
                       child: Padding(
                         padding: const EdgeInsets.symmetric(vertical: 10),
                         child: Text(
-                          "${'Order'.tr} #$orderId",
-                          style: GoogleFonts.poppins(
-                              color: Colors.black,
-                              fontWeight: FontWeight.w500,
-                              fontSize: 18),
+                          "${'Order'.tr}: #"+widget.modelDataOrder!.orderId.toString(),
+                          style: GoogleFonts.poppins(color: Colors.black, fontWeight: FontWeight.w500, fontSize: 18),
                         ),
                       ),
                     ),
@@ -99,20 +115,21 @@ class _SelectedOrderScreenState extends State<SelectedOrderScreen> {
                       (context, index) {
                         final item = singleOrder.order!.orderItem![index];
                         return GestureDetector(
-                          onTap: (){
-                            repositories.postApi(url: ApiUrls.singleProductUrl, mapData: {"id": item.productId.toString()}).then((value) {
+                          onTap: () {
+                            repositories.postApi(
+                                url: ApiUrls.singleProductUrl,
+                                mapData: {"id": item.productId.toString()}).then((value) {
                               modelSingleProduct = ModelSingleProduct.fromJson(jsonDecode(value));
                               if (modelSingleProduct.product != null) {
                                 // log("modelSingleProduct.product!.toJson().....      ${modelSingleProduct.product!.toJson()}");
-                                bottomSheet(productDetails: modelSingleProduct.product!,context: context);
+                                bottomSheet(productDetails: modelSingleProduct.product!, context: context);
                               }
                               setState(() {});
                             });
                           },
                           child: Container(
                             decoration: const BoxDecoration(
-                              border: Border(
-                                  bottom: BorderSide(color: Color(0xffD9D9D9))),
+                              border: Border(bottom: BorderSide(color: Color(0xffD9D9D9))),
                             ),
                             padding: const EdgeInsets.only(bottom: 12, top: 12),
                             child: Row(
@@ -129,8 +146,7 @@ class _SelectedOrderScreenState extends State<SelectedOrderScreen> {
                                   height: size.height * .12,
                                   width: size.height * .12,
                                   item.featuredImage.toString(),
-                                  errorBuilder: (_, __, ___) =>
-                                      const SizedBox.shrink(),
+                                  errorBuilder: (_, __, ___) => const SizedBox.shrink(),
                                 ),
                                 const SizedBox(
                                   width: 10,
@@ -141,9 +157,7 @@ class _SelectedOrderScreenState extends State<SelectedOrderScreen> {
                                     children: [
                                       Text(
                                         item.productName.toString(),
-                                        style: GoogleFonts.poppins(
-                                            fontWeight: FontWeight.w500,
-                                            fontSize: 14),
+                                        style: GoogleFonts.poppins(fontWeight: FontWeight.w500, fontSize: 14),
                                       ),
                                       const SizedBox(
                                         height: 4,
@@ -151,9 +165,7 @@ class _SelectedOrderScreenState extends State<SelectedOrderScreen> {
                                       Text(
                                         'KWD ${item.productPrice}',
                                         style: GoogleFonts.poppins(
-                                            fontSize: 14,
-                                            fontWeight: FontWeight.w500,
-                                            color: const Color(0xff014E70)),
+                                            fontSize: 14, fontWeight: FontWeight.w500, color: const Color(0xff014E70)),
                                       ),
                                       if (item.orderTrackData != null) ...[
                                         const SizedBox(
@@ -172,13 +184,11 @@ class _SelectedOrderScreenState extends State<SelectedOrderScreen> {
                                       ),
                                       Text(
                                         '${item.quantity.toString()} ${'piece'.tr}',
-                                        style: GoogleFonts.poppins(
-                                            color: const Color(0xff858484)),
+                                        style: GoogleFonts.poppins(color: const Color(0xff858484)),
                                       ),
                                       if (item.isVirtualProduct)
                                         Row(
-                                          mainAxisAlignment:
-                                              MainAxisAlignment.end,
+                                          mainAxisAlignment: MainAxisAlignment.end,
                                           children: [
                                             InkWell(
                                                 onTap: () {
@@ -202,18 +212,15 @@ class _SelectedOrderScreenState extends State<SelectedOrderScreen> {
                                                 )),
                                           ],
                                         ),
-                                      if (item.selectedSlotDate.toString() !=
-                                              "" &&
+                                      if (item.selectedSlotDate.toString() != "" &&
                                           item.selectedSlotStart.toString() != "")
                                         GestureDetector(
                                           behavior: HitTestBehavior.translucent,
                                           onTap: () {
-                                            item.showDetails.value =
-                                                !item.showDetails.value;
+                                            item.showDetails.value = !item.showDetails.value;
                                           },
                                           child: Padding(
-                                            padding: const EdgeInsets.symmetric(
-                                                vertical: 6),
+                                            padding: const EdgeInsets.symmetric(vertical: 6),
                                             child: Row(
                                               children: [
                                                 Expanded(
@@ -224,15 +231,12 @@ class _SelectedOrderScreenState extends State<SelectedOrderScreen> {
                                                 Obx(() {
                                                   return item.showDetails.value
                                                       ? const Icon(
-                                                          Icons
-                                                              .keyboard_arrow_down_rounded,
-                                                          color: AppTheme
-                                                              .buttonColor,
+                                                          Icons.keyboard_arrow_down_rounded,
+                                                          color: AppTheme.buttonColor,
                                                           size: 22,
                                                         )
                                                       : const Icon(
-                                                          Icons
-                                                              .arrow_forward_ios_rounded,
+                                                          Icons.arrow_forward_ios_rounded,
                                                           size: 16,
                                                         );
                                                 }),
@@ -296,16 +300,14 @@ class _SelectedOrderScreenState extends State<SelectedOrderScreen> {
                                 Text(
                                   "Order Date".tr,
                                   style: GoogleFonts.poppins(
-                                      color: Colors.black,
-                                      fontWeight: FontWeight.w500,
-                                      fontSize: 18),
+                                      color: Colors.black, fontWeight: FontWeight.w500, fontSize: 18),
                                 ),
                                 Text(
-                                  singleOrder.order!.createdDate.toString(),
+                                  widget.modelDataOrder!.createdAtDateTime != null
+                                      ? DateFormat("dd-MM-yyyy").format(widget.modelDataOrder!.createdAtDateTime!)
+                                      : "",
                                   style: GoogleFonts.poppins(
-                                      color: const Color(0xff9B9B9B),
-                                      fontWeight: FontWeight.w500,
-                                      fontSize: 14),
+                                      color: const Color(0xff9B9B9B), fontWeight: FontWeight.w500, fontSize: 14),
                                 ),
                               ],
                             ),
@@ -318,16 +320,14 @@ class _SelectedOrderScreenState extends State<SelectedOrderScreen> {
                                 Text(
                                   "Status".tr,
                                   style: GoogleFonts.poppins(
-                                      color: Colors.black,
-                                      fontWeight: FontWeight.w500,
-                                      fontSize: 18),
+                                      color: Colors.black, fontWeight: FontWeight.w500, fontSize: 18),
                                 ),
                                 Text(
-                                  singleOrder.order!.status
-                                      .toString()
-                                      .capitalize!,
+                                  singleOrder.order!.status.toString().capitalize!,
                                   style: GoogleFonts.poppins(
-                                      color:  singleOrder.order!.status == 'payment failed' ? Colors.red : const Color(0xff9B9B9B),
+                                      color: singleOrder.order!.status == 'payment failed'
+                                          ? Colors.red
+                                          : const Color(0xff9B9B9B),
                                       fontWeight: FontWeight.w500,
                                       fontSize: 14),
                                 ),
@@ -342,16 +342,12 @@ class _SelectedOrderScreenState extends State<SelectedOrderScreen> {
                                 Text(
                                   "Payment".tr,
                                   style: GoogleFonts.poppins(
-                                      color: Colors.black,
-                                      fontWeight: FontWeight.w500,
-                                      fontSize: 18),
+                                      color: Colors.black, fontWeight: FontWeight.w500, fontSize: 18),
                                 ),
                                 Text(
                                   "${singleOrder.order!.orderMeta!.totalPrice.toString()} ${singleOrder.order!.orderMeta!.currencySign.toString() == '\$' ? 'kwd' : 'kwd'}",
                                   style: GoogleFonts.poppins(
-                                      color: const Color(0xff9B9B9B),
-                                      fontWeight: FontWeight.w500,
-                                      fontSize: 14),
+                                      color: const Color(0xff9B9B9B), fontWeight: FontWeight.w500, fontSize: 14),
                                 ),
                               ],
                             ),
@@ -364,16 +360,13 @@ class _SelectedOrderScreenState extends State<SelectedOrderScreen> {
                                 Text(
                                   "Delivery".tr,
                                   style: GoogleFonts.poppins(
-                                      color: Colors.black,
-                                      fontWeight: FontWeight.w500,
-                                      fontSize: 18),
+                                      color: Colors.black, fontWeight: FontWeight.w500, fontSize: 18),
                                 ),
                                 Text(
-                                  '${singleOrder.order!.deliveryCharges.toString()} kwd',
+                                  '${singleOrder.order!.orderShipping!.shippingPrice.toString()} kwd',
+
                                   style: GoogleFonts.poppins(
-                                      color: const Color(0xff9B9B9B),
-                                      fontWeight: FontWeight.w500,
-                                      fontSize: 14),
+                                      color: const Color(0xff9B9B9B), fontWeight: FontWeight.w500, fontSize: 14),
                                 ),
                               ],
                             ),
@@ -386,7 +379,9 @@ class _SelectedOrderScreenState extends State<SelectedOrderScreen> {
                               boxShadow: [
                                 BoxShadow(
                                   color: Colors.grey.shade300,
-                                  offset: const Offset(.1, .1,
+                                  offset: const Offset(
+                                    .1,
+                                    .1,
                                   ),
                                   blurRadius: 19.0,
                                   spreadRadius: 1.0,
@@ -401,9 +396,7 @@ class _SelectedOrderScreenState extends State<SelectedOrderScreen> {
                                   Text(
                                     "Tracking".tr,
                                     style: GoogleFonts.poppins(
-                                        color: Colors.black,
-                                        fontWeight: FontWeight.w500,
-                                        fontSize: 18),
+                                        color: Colors.black, fontWeight: FontWeight.w500, fontSize: 18),
                                   ),
                                   20.spaceY,
                                   Row(
@@ -413,30 +406,22 @@ class _SelectedOrderScreenState extends State<SelectedOrderScreen> {
                                       Text(
                                         "Ordered".tr,
                                         style: GoogleFonts.poppins(
-                                            color: Colors.grey,
-                                            fontWeight: FontWeight.w500,
-                                            fontSize: 15),
+                                            color: Colors.grey, fontWeight: FontWeight.w500, fontSize: 15),
                                       ),
                                       Text(
                                         "Picked".tr,
                                         style: GoogleFonts.poppins(
-                                            color: Colors.grey,
-                                            fontWeight: FontWeight.w500,
-                                            fontSize: 15),
+                                            color: Colors.grey, fontWeight: FontWeight.w500, fontSize: 15),
                                       ),
                                       Text(
                                         "Shipped".tr,
                                         style: GoogleFonts.poppins(
-                                            color: Colors.grey,
-                                            fontWeight: FontWeight.w500,
-                                            fontSize: 15),
+                                            color: Colors.grey, fontWeight: FontWeight.w500, fontSize: 15),
                                       ),
                                       Text(
                                         "Delivery".tr,
                                         style: GoogleFonts.poppins(
-                                            color: Colors.grey,
-                                            fontWeight: FontWeight.w500,
-                                            fontSize: 15),
+                                            color: Colors.grey, fontWeight: FontWeight.w500, fontSize: 15),
                                       ),
                                     ],
                                   ),
@@ -444,10 +429,12 @@ class _SelectedOrderScreenState extends State<SelectedOrderScreen> {
                                   Row(
                                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                                     crossAxisAlignment: CrossAxisAlignment.center,
-                                    children:  [
+                                    children: [
                                       3.spaceY,
-                                      const CircleAvatar(
-                                        backgroundColor: AppTheme.buttonColor,
+                                      CircleAvatar(
+                                        backgroundColor: widget.modelDataOrder!.status == 'order placed'
+                                            ? AppTheme.buttonColor
+                                            : Colors.red,
                                         radius: 8,
                                       ),
                                       Flexible(
@@ -458,8 +445,10 @@ class _SelectedOrderScreenState extends State<SelectedOrderScreen> {
                                           height: 2,
                                         ),
                                       ),
-                                      const CircleAvatar(
-                                        backgroundColor: AppTheme.buttonColor,
+                                      CircleAvatar(
+                                        backgroundColor: widget.modelDataOrder!.status == 'shipped'
+                                            ? AppTheme.buttonColor
+                                            : Colors.red,
                                         radius: 8,
                                       ),
                                       Flexible(
@@ -470,8 +459,10 @@ class _SelectedOrderScreenState extends State<SelectedOrderScreen> {
                                           height: 2,
                                         ),
                                       ),
-                                      const CircleAvatar(
-                                        backgroundColor: AppTheme.buttonColor,
+                                      CircleAvatar(
+                                        backgroundColor: widget.modelDataOrder!.status == 'out of delivery'
+                                            ? AppTheme.buttonColor
+                                            : Colors.red,
                                         radius: 8,
                                       ),
                                       Flexible(
@@ -482,8 +473,10 @@ class _SelectedOrderScreenState extends State<SelectedOrderScreen> {
                                           height: 2,
                                         ),
                                       ),
-                                      const CircleAvatar(
-                                        backgroundColor: AppTheme.buttonColor,
+                                      CircleAvatar(
+                                        backgroundColor: widget.modelDataOrder!.status == 'delivered'
+                                            ? AppTheme.buttonColor
+                                            : Colors.red,
                                         radius: 8,
                                       ),
                                     ],
@@ -506,6 +499,7 @@ class _SelectedOrderScreenState extends State<SelectedOrderScreen> {
             ),
     );
   }
+
   Future bottomSheet({required ProductElement productDetails, required BuildContext context}) {
     return showModalBottomSheet(
         context: context,

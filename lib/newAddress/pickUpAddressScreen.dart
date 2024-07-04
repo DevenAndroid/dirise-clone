@@ -9,6 +9,7 @@ import 'package:flutter/widgets.dart';
 import 'package:get/get.dart';
 import 'package:google_fonts/google_fonts.dart';
 
+import '../controller/profile_controller.dart';
 import '../language/app_strings.dart';
 import '../model/common_modal.dart';
 import '../repository/repository.dart';
@@ -27,6 +28,8 @@ class PickUpAddressScreen extends StatefulWidget {
   final String? town;
 
 
+
+
   PickUpAddressScreen({
     Key? key,
     this.street,
@@ -35,6 +38,7 @@ class PickUpAddressScreen extends StatefulWidget {
     this.country,
     this.zipcode,
     this.town,
+
   }) : super(key: key);
 
   @override
@@ -105,6 +109,7 @@ class _PickUpAddressScreenState extends State<PickUpAddressScreen> {
       townController.text = widget.town ?? '';
     }
   }
+  final profileController = Get.put(ProfileController());
   @override
   Widget build(BuildContext context) {
     Size size = MediaQuery.of(context).size;
@@ -113,10 +118,27 @@ class _PickUpAddressScreenState extends State<PickUpAddressScreen> {
         backgroundColor: Colors.white,
         surfaceTintColor: Colors.white,
         elevation: 0,
-        leading: const Icon(
-          Icons.arrow_back_ios_new,
-          color: Color(0xff0D5877),
-          size: 16,
+        leading: GestureDetector(
+          onTap: (){
+            Get.back();
+          },
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.center,
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: [
+              profileController.selectedLAnguage.value != 'English' ?
+              Image.asset(
+                'assets/images/forward_icon.png',
+                height: 19,
+                width: 19,
+              ) :
+              Image.asset(
+                'assets/images/back_icon_new.png',
+                height: 19,
+                width: 19,
+              ),
+            ],
+          ),
         ),
         titleSpacing: 0,
         title: Row(
@@ -172,7 +194,7 @@ class _PickUpAddressScreenState extends State<PickUpAddressScreen> {
                   hintText: 'Street'.tr,
                   validator: (value) {
                     if (value!.trim().isEmpty) {
-                      return 'Street is required';
+                      return 'Street is required'.tr;
                     }
                     return null; // Return null if validation passes
                   },
@@ -190,7 +212,7 @@ class _PickUpAddressScreenState extends State<PickUpAddressScreen> {
                   hintText: 'city'.tr,
                   validator: (value) {
                     if (value!.trim().isEmpty) {
-                      return 'city is required';
+                      return 'city is required'.tr;
                     }
                     return null; // Return null if validation passes
                   },
@@ -207,7 +229,25 @@ class _PickUpAddressScreenState extends State<PickUpAddressScreen> {
                   hintText: 'State'.tr,
                   validator: (value) {
                     if (value!.trim().isEmpty) {
-                      return 'State is required';
+                      return 'State is required'.tr;
+                    }
+                    return null; // Return null if validation passes
+                  },
+
+                ),
+                const SizedBox(height: 10,),
+                Text(
+                  "Country*".tr,
+                  style: GoogleFonts.poppins(color: const Color(0xff044484), fontWeight: FontWeight.w600, fontSize: 14),
+                ),
+                const SizedBox(height: 5,),
+                CommonTextField(
+                  controller: countryController,
+                  obSecure: false,
+                  hintText: 'Country'.tr,
+                  validator: (value) {
+                    if (value!.trim().isEmpty) {
+                      return 'Country is required'.tr;
                     }
                     return null; // Return null if validation passes
                   },
@@ -225,7 +265,7 @@ class _PickUpAddressScreenState extends State<PickUpAddressScreen> {
                   hintText: 'Zip Code'.tr,
                   validator: (value) {
                     if (value!.trim().isEmpty) {
-                      return 'Zip Code is required';
+                      return 'Zip Code is required'.tr;
                     }
                     return null; // Return null if validation passes
                   },
@@ -242,7 +282,7 @@ class _PickUpAddressScreenState extends State<PickUpAddressScreen> {
                   hintText: 'Town'.tr,
                   validator: (value) {
                     if (value!.trim().isEmpty) {
-                      return 'Town is required';
+                      return 'Town is required'.tr;
                     }
                     return null; // Return null if validation passes
                   },
@@ -250,7 +290,7 @@ class _PickUpAddressScreenState extends State<PickUpAddressScreen> {
                 const SizedBox(height: 10,),
 
                 Text(
-                  "Special instruction*".tr,
+                  "Special instruction".tr,
                   style: GoogleFonts.poppins(color: const Color(0xff044484), fontWeight: FontWeight.w600, fontSize: 14),
                 ),
                 const SizedBox(height: 5,),
@@ -284,10 +324,10 @@ class _PickUpAddressScreenState extends State<PickUpAddressScreen> {
                       borderRadius: BorderRadius.circular(10), // Border radius
                     ),
                     padding: const EdgeInsets.all(10), // Padding inside the container
-                    child: const Center(
+                    child:  Center(
                       child: Text(
-                        'Confirm Your Location',
-                        style: TextStyle(
+                        'Confirm Your Location'.tr,
+                        style: const TextStyle(
                           fontSize: 16,
                           fontWeight: FontWeight.bold,
                           color: Colors.black, // Text color

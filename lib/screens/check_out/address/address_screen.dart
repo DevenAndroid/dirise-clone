@@ -18,6 +18,7 @@ import '../../../model/customer_profile/model_country_list.dart';
 import '../../../model/customer_profile/model_state_list.dart';
 import '../../../model/login_model.dart';
 import '../../../model/model_address_list.dart';
+import '../../../newAddress/map_find_my_location.dart';
 import '../../../repository/repository.dart';
 import '../../../utils/api_constant.dart';
 import '../../../widgets/common_colour.dart';
@@ -145,7 +146,7 @@ class _AddressScreenState extends State<AddressScreen> {
                                 context: context,
                                 builder: (BuildContext context) => AlertDialog(
                                       title: Text('Change Address'.tr),
-                                      content: Text('Do You Want To Changed Your Address.'.tr),
+                                  content: Text('Do you want to change your address.'.tr),
                                       actions: <Widget>[
                                         TextButton(
                                           onPressed: () => Get.back(),
@@ -205,10 +206,7 @@ class _AddressScreenState extends State<AddressScreen> {
                         if (userLoggedIn) {
                           bottomSheetChangeAddress();
                         } else {
-                          // addAddressWithoutLogin(addressData: cartController.selectedAddress);
-                          Get.toNamed(
-                            LoginScreen.route,
-                          );
+                          addAddressWithoutLogin(addressData: cartController.selectedAddress);
                         }
                       },
                       child: Align(
@@ -329,7 +327,6 @@ class _AddressScreenState extends State<AddressScreen> {
     final TextEditingController titleController = TextEditingController(text: addressData.type ?? "");
 
     final formKey = GlobalKey<FormState>();
-
     return showModalBottomSheet(
         context: context,
         isScrollControlled: true,
@@ -456,10 +453,14 @@ class _AddressScreenState extends State<AddressScreen> {
                                     modelCountryList!.country!.firstWhere((element) => element.id.toString() == gg);
                                 cartController.countryCode = gg.toString();
                                 cartController.countryName.value = selectedCountry!.name.toString();
+                                cartController.countryId = selectedCountry!.id.toString();
+                                print('country code ${cartController.countryId.toString()}');
                                 print('countrrtr ${cartController.countryName.toString()}');
-                                print('countrrtr ${cartController.countryCode.toString()}');
+                                print('countrrtr ${cartController.countryId.toString()}');
                                 if (previous != selectedCountry!.id.toString()) {
                                   countryIddd = gg.toString();
+                                  cartController.countryId  = selectedCountry!.id.toString();
+                                  print('Countryy tertete${ cartController.countryId.toString()}');
                                   getStateList(countryId: countryIddd.toString(), reset: true).then((value) {
                                     setState(() {});
                                   });
@@ -634,6 +635,7 @@ class _AddressScreenState extends State<AddressScreen> {
                               zipCode: zipCodeController.text.trim(),
                               email: emailController.text.trim(),
                             );
+                            cartController.getCart();
                             setState(() {});
                             Get.back();
                           }
@@ -695,11 +697,11 @@ class _AddressScreenState extends State<AddressScreen> {
                     obSecure: false,
                     hintText: '+ Add Address',
                   ),
+                  if(cartController.addressListModel.address!= null)
                   Expanded(
                     child: Obx(() {
                       if (cartController.refreshInt11.value > 0) {}
                       List<AddressData> shippingAddress = cartController.addressListModel.address!.shipping ?? [];
-
                       return CustomScrollView(
                         shrinkWrap: true,
                         slivers: [
@@ -728,6 +730,28 @@ class _AddressScreenState extends State<AddressScreen> {
                               ],
                             ),
                           ),
+                          SliverToBoxAdapter(
+                            child: Row(
+                              children: [
+                                const Expanded(
+                                  child:SizedBox(),
+                                ),
+                                TextButton.icon(
+                                    onPressed: () {
+                                      Get.to(()=> FindMyLocationAddress());
+                                    },
+                                    style: TextButton.styleFrom(padding: EdgeInsets.zero),
+                                    icon: const Icon(
+                                      Icons.add,
+                                      size: 20,
+                                    ),
+                                    label: Text(
+                                      "Find my location",
+                                      style: GoogleFonts.poppins(fontSize: 15),
+                                    ))
+                              ],
+                            ),
+                          ),
                           const SliverPadding(padding: EdgeInsets.only(top: 4)),
                           shippingAddress.isNotEmpty
                               ? SliverList(
@@ -742,6 +766,9 @@ class _AddressScreenState extends State<AddressScreen> {
                                         cartController.countryId = address.getCountryId.toString();
                                         cartController.getCart();
                                         cartController.countryName.value = address.country.toString();
+                                        cartController.address.value = address.address.toString();
+                                        cartController.city.value = address.city.toString();
+                                        cartController.zipCode = address.zipCode.toString();
                                         print('onTap is....${cartController.countryName.value}');
                                         if (cartController.isDelivery.value == true) {
                                           cartController.addressDeliFirstName.text =
@@ -822,9 +849,11 @@ class _AddressScreenState extends State<AddressScreen> {
                                                           PopupMenuItem(
                                                             onTap: () {
                                                               cartController.selectedAddress = address;
-                                                              cartController.countryName.value =
-                                                                  address.country.toString();
                                                               cartController.countryId = address.getCountryId.toString();
+                                                              cartController.countryName.value = address.country.toString();
+                                                              cartController.address.value = address.address.toString();
+                                                              cartController.city.value = address.city.toString();
+                                                              cartController.zipCode = address.zipCode.toString();
                                                               cartController.getCart();
                                                               print('onTap is....${cartController.countryName.value}');
                                                               print(

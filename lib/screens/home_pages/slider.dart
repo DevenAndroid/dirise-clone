@@ -15,7 +15,10 @@ import 'package:google_fonts/google_fonts.dart';
 import 'package:scroll_loop_auto_scroll/scroll_loop_auto_scroll.dart';
 import '../../controller/home_controller.dart';
 import '../../controller/profile_controller.dart';
+import '../../model/model_category_list.dart';
+import '../../model/model_category_stores.dart';
 import '../../model/model_news_trend.dart';
+import '../../model/vendor_models/vendor_category_model.dart';
 import '../../posts/post_ui_player.dart';
 import '../../repository/repository.dart';
 import '../../tellaboutself/ExtraInformation.dart';
@@ -24,6 +27,8 @@ import '../../vendor/shipping_policy.dart';
 import '../../widgets/common_colour.dart';
 import '../../widgets/dimension_screen.dart';
 import '../../widgets/loading_animation.dart';
+import '../categories/single_category_with_stores/single_categorie.dart';
+import '../categories/single_category_with_stores/single_store_screen.dart';
 import '../check_out/address/add_address.dart';
 
 class SliderWidget extends StatefulWidget {
@@ -38,12 +43,14 @@ class _SliderWidgetState extends State<SliderWidget> {
   final profileController = Get.put(ProfileController());
 
   Rx<ModelNewsTrends> getNewsTrendModel = ModelNewsTrends().obs;
+  Rx<ModelSingleCategoryList> modelSingleCategoryList = ModelSingleCategoryList().obs;
 
   Future getNewsTrendData() async {
     repositories.getApi(url: ApiUrls.getNewsTrendsUrl).then((value) {
       getNewsTrendModel.value = ModelNewsTrends.fromJson(jsonDecode(value));
     });
   }
+
 
   final Repositories repositories = Repositories();
 
@@ -61,8 +68,8 @@ class _SliderWidgetState extends State<SliderWidget> {
     return Obx(() {
       return homeController.homeModal.value.home != null
           ? Container(
-        padding: EdgeInsets.all(8),
-        decoration: BoxDecoration(
+        padding: const EdgeInsets.all(8),
+        decoration: const BoxDecoration(
             color: Colors.white,
             boxShadow: [
               BoxShadow(
@@ -77,35 +84,44 @@ class _SliderWidgetState extends State<SliderWidget> {
         ),
             child: Column(
                     children: [
-                      SizedBox(height: 10,),
+                      SizedBox(height: 5,),
             Padding(
                 padding: const EdgeInsets.fromLTRB(0, 0, 0, 18),
                 child: SizedBox(
-              height: size.height * 0.19,
+                  height: size.height * 0.25,
                   child: Swiper(
                     autoplay: true,
                     outer: false,
                     autoplayDelay: 5000,
                     autoplayDisableOnInteraction: false,
-                    pagination:  const SwiperPagination(
-                        // margin: EdgeInsets.only(top: 30),
-                      builder: DotSwiperPaginationBuilder(
-                        color: Colors.grey,
-                        // Inactive dot color
-                        activeColor: AppTheme.buttonColor, // Active dot color
-                      ),
-                    ),
+                    onTap: (index) {
+                      print('valueee:::::::${homeController.homeModal.value.home!.slider![index].id.toString()}');
+                      Get.to(() =>
+                          SingleCategories(
+                            vendorCategories:  VendorCategoriesData(id: homeController.homeModal.value.home!.slider![index].id.toString(),
+                                bannerProfile: homeController.homeModal.value.home!.slider![index].bannerMobile.toString(),
+                              name: homeController.homeModal.value.home!.slider![index].name.toString()
+                            ),
+                          ));
+
+                    },
+                    // pagination:  const SwiperPagination(
+                    //     margin: EdgeInsets.only(top: 40),
+                    //   builder: DotSwiperPaginationBuilder(
+                    //     color: Colors.grey,
+                    //    space: 4,
+                    //     // Inactive dot color
+                    //     activeColor: AppTheme.buttonColor,
+                    //   ),
+                    // ),
                     itemBuilder: (BuildContext context, int index) {
-                      return ClipRRect(
-                        borderRadius: BorderRadius.circular(30),
-                        child: CachedNetworkImage(
-                          // height: 130,
-                          // width: 200,
-                            imageUrl: homeController.homeModal.value.home!.slider![index].bannerMobile.toString(),
-                            fit: BoxFit.fill,
-                            placeholder: (context, url) => const SizedBox(),
-                            errorWidget: (context, url, error) => const SizedBox()),
-                      );
+                      return CachedNetworkImage(
+                        // height: 130,
+                        // width: 200,
+                          imageUrl: homeController.homeModal.value.home!.slider![index].bannerMobile.toString(),
+                          fit: BoxFit.fill,
+                          placeholder: (context, url) => const SizedBox(),
+                          errorWidget: (context, url, error) => const SizedBox());
                     },
                     itemCount: homeController.homeModal.value.home!.slider!.length,
                     // pagination: const SwiperPagination(),
@@ -115,7 +131,7 @@ class _SliderWidgetState extends State<SliderWidget> {
                 )
             ),
             Text(
-             "What are you looking for",
+             "What are you looking for".tr,
               style: GoogleFonts.poppins(fontWeight: FontWeight.w600, fontSize: 20, color: AppTheme.buttonColor),
             )
             // Padding(

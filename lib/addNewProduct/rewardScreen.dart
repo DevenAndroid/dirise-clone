@@ -1,4 +1,5 @@
 import 'package:dirise/bottomavbar.dart';
+import 'package:dirise/widgets/common_colour.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
@@ -43,7 +44,7 @@ class _RewardScreenState extends State<RewardScreen> {
             children: [
 
               Image.asset(
-                'assets/images/newlogoo.png',
+                'assets/images/reward_logo.png',
                 height: 200,
                 width: 200,
               ),
@@ -57,7 +58,7 @@ class _RewardScreenState extends State<RewardScreen> {
               ),
               Text(
                 'Thank you for your donation, you will get 1000 Dicoins as a reward for your generosity'.tr,
-                style: GoogleFonts.poppins(color: Colors.black, fontWeight: FontWeight.w400, fontSize: 16,),
+                style: GoogleFonts.poppins(color: Colors.black, fontWeight: FontWeight.w600, fontSize: 16,),
                 textAlign: TextAlign.center,
               ),
               Text(
@@ -66,11 +67,12 @@ class _RewardScreenState extends State<RewardScreen> {
               ),
               GestureDetector(
                 onTap: () {
-                  Get.offNamed(FrequentlyAskedQuestionsScreen.route);
+                  Get.to(()=>const FrequentlyAskedQuestionsScreen());
+                  // Get.offNamed(FrequentlyAskedQuestionsScreen.route);
                 },
                 child: Text(
                   'FAQs'.tr,
-                  style: GoogleFonts.poppins(color: Colors.black, fontWeight: FontWeight.w400, fontSize: 14),
+                  style: GoogleFonts.poppins(color: AppTheme.buttonColor, fontWeight: FontWeight.w500, fontSize: 14,decoration: TextDecoration.underline),
                 ),
               ),
               GestureDetector(
@@ -80,7 +82,7 @@ class _RewardScreenState extends State<RewardScreen> {
                 },
                 child: Text(
                   'Cutomer Support'.tr,
-                  style: GoogleFonts.poppins(color: Colors.black, fontWeight: FontWeight.w400, fontSize: 14),
+                  style: GoogleFonts.poppins(color: AppTheme.buttonColor, fontWeight: FontWeight.w500, fontSize: 14,decoration: TextDecoration.underline),
                 ),
               ),
               GestureDetector(
@@ -89,7 +91,7 @@ class _RewardScreenState extends State<RewardScreen> {
                 },
                 child: Text(
                   'call'.tr,
-                  style: GoogleFonts.poppins(color: Colors.black, fontWeight: FontWeight.w400, fontSize: 14),
+                  style: GoogleFonts.poppins(color: AppTheme.buttonColor, fontWeight: FontWeight.w500, fontSize: 14,decoration: TextDecoration.underline),
                 ),
               ),
               const SizedBox(

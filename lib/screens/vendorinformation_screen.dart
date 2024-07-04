@@ -98,18 +98,27 @@ class _VendorInformationState extends State<VendorInformation> {
       appBar: AppBar(
         backgroundColor: Colors.white,
         elevation: 0,
-        leading: IconButton(
-          icon: const Icon(
-            Icons.arrow_back_ios_new,
-            color: Color(0xff0D5877),
-            size: 16,
-          ),
-          onPressed: () {
+        leading: GestureDetector(
+          onTap: (){
             Get.back();
-            // Handle back button press
           },
-
-          
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.center,
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: [
+              profileController.selectedLAnguage.value != 'English' ?
+              Image.asset(
+                'assets/images/forward_icon.png',
+                height: 19,
+                width: 19,
+              ) :
+              Image.asset(
+                'assets/images/back_icon_new.png',
+                height: 19,
+                width: 19,
+              ),
+            ],
+          ),
         ),
         titleSpacing: 0,
         title: Row(
@@ -165,7 +174,7 @@ class _VendorInformationState extends State<VendorInformation> {
                     hintText: 'Company Number'.tr,
                     validator: (value) {
                       if (value!.trim().isEmpty) {
-                        return 'Company Number is required';
+                        return 'Company Number is required'.tr;
                       }
                       return null; // Return null if validation passes
                     },
@@ -187,7 +196,7 @@ class _VendorInformationState extends State<VendorInformation> {
                     hintText: 'Store URL'.tr,
                     validator: (value) {
                       if (value!.trim().isEmpty) {
-                        return 'Store URL is required';
+                        return 'Store URL is required'.tr;
                       }
                       return null; // Return null if validation passes
                     },
@@ -208,9 +217,9 @@ class _VendorInformationState extends State<VendorInformation> {
                     hintText: 'Work Email'.tr,
                   validator: (value) {
                     if (value!.isEmpty) {
-                      return 'Please enter email address';
+                      return 'Please enter email address'.tr;
                     }
-                    final emailValidator = EmailValidator(errorText: 'Please enter valid email address');
+                    final emailValidator = EmailValidator(errorText: 'Please enter valid email address'.tr);
                     if (!emailValidator.isValid(value)) {
                       return emailValidator.errorText;
                     }
@@ -233,7 +242,7 @@ class _VendorInformationState extends State<VendorInformation> {
                     hintText: 'Work Address'.tr,
                     validator: (value) {
                       if (value!.trim().isEmpty) {
-                        return 'Work Address is required';
+                        return 'Work Address is required'.tr;
                       }
                       return null; // Return null if validation passes
                     },
@@ -244,7 +253,7 @@ class _VendorInformationState extends State<VendorInformation> {
                 ),
                 Center(
                     child: Text(
-                  "Bank Details",
+                  "Bank Details".tr,
                   style: GoogleFonts.poppins(color: Colors.black, fontWeight: FontWeight.w500, fontSize: 16),
                 )),
                 const SizedBox(
@@ -263,7 +272,7 @@ class _VendorInformationState extends State<VendorInformation> {
                     hintText: 'Bank Name'.tr,
                     validator: (value) {
                       if (value!.trim().isEmpty) {
-                        return 'Bank Name is required';
+                        return 'Bank Name is required'.tr;
                       }
                       return null; // Return null if validation passes
                     },
@@ -284,7 +293,7 @@ class _VendorInformationState extends State<VendorInformation> {
                     hintText: 'Bank Account Holder Name'.tr,
                     validator: (value) {
                       if (value!.trim().isEmpty) {
-                        return 'Bank Account Holder Name is required';
+                        return 'Bank Account Holder Name is required'.tr;
                       }
                       return null; // Return null if validation passes
                     },
@@ -305,7 +314,7 @@ class _VendorInformationState extends State<VendorInformation> {
                     hintText: 'Bank Account Number'.tr,
                     validator: (value) {
                       if (value!.trim().isEmpty) {
-                        return 'Bank Account Number is required';
+                        return 'Bank Account Number is required'.tr;
                       }
                       return null; // Return null if validation passes
                     },
@@ -326,7 +335,7 @@ class _VendorInformationState extends State<VendorInformation> {
                     hintText: 'IBAN Number'.tr,
                     validator: (value) {
                       if (value!.trim().isEmpty) {
-                        return 'IBAN Number is required';
+                        return 'IBAN Number is required'.tr;
                       }
                       return null; // Return null if validation passes
                     },

@@ -1,5 +1,5 @@
 import 'dart:convert';
-import 'dart:math';
+import 'dart:developer';
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:dirise/language/app_strings.dart';
 import 'package:dirise/utils/helper.dart';
@@ -14,6 +14,9 @@ import 'package:get/get.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:intl/intl.dart';
 import 'package:url_launcher/url_launcher.dart';
+import '../../../controller/cart_controller.dart';
+import '../../../controller/location_controller.dart';
+import '../../../controller/profile_controller.dart';
 import '../../../controller/single_product_controller.dart';
 import '../../../model/filter_by_price_model.dart';
 import '../../../model/model_category_stores.dart';
@@ -68,7 +71,7 @@ class _SingleStoreScreenState extends State<SingleStoreScreen> {
   bool paginationLoading = false;
 
   ScrollController scrollController = ScrollController();
-  ModelStoreProducts modelProductsList = ModelStoreProducts(data: null);
+  ModelStoreProducts modelProductsList = ModelStoreProducts();
   Rx<ModelFilterByPrice> filterModel = ModelFilterByPrice().obs;
 
   filterProduct({productId}) {
@@ -90,7 +93,9 @@ class _SingleStoreScreenState extends State<SingleStoreScreen> {
       }
     });
   }
-
+  final profileController = Get.put(ProfileController());
+  final locationController = Get.put(LocationController());
+  final cartController = Get.put(CartController());
   Future getCategoryStores({required int page, String? search, bool? resetAll}) async {
     if (resetAll == true) {
       allLoaded = false;
@@ -104,12 +109,12 @@ class _SingleStoreScreenState extends State<SingleStoreScreen> {
 
     String url = "vendor_id=$vendorId";
     paginationLoading = true;
-
-    await repositories.getApi(url: "${ApiUrls.vendorProductListUrl}$url").then((value) {
+    await repositories.getApi(url: "${ApiUrls.vendorProductListUrl}$url&country_id=${profileController.model.user!= null && cartController.countryId.isEmpty ? profileController.model.user!.country_id : cartController.countryId.toString()}&key=fedexRate&zip_code=${locationController.zipcode.value.toString()}").then((value) {
       paginationLoading = false;
 
       modelProductsList.data ??= [];
       final response = ModelStoreProducts.fromJson(jsonDecode(value));
+      print('mapmapmap${response.toJson()}');
       if (response.data != null && response.data!.isNotEmpty) {
         modelProductsList.data!.addAll(response.data!);
       } else {
@@ -138,6 +143,7 @@ class _SingleStoreScreenState extends State<SingleStoreScreen> {
   // }
 
   String productCount = '';
+  String description = '';
   String bannerString = '';
   String storeLogo = '';
 
@@ -185,9 +191,11 @@ class _SingleStoreScreenState extends State<SingleStoreScreen> {
     repositories.getApi(url: ApiUrls.getVendorInfoUrl + vendorId).then((value) {
       ModelSingleVendor response = ModelSingleVendor.fromJson(jsonDecode(value));
       productCount = response.productCount.toString();
+       description = response.user!.storeBannerDesccription.toString();
       bannerString = response.user!.bannerProfileApp.toString();
-      storeLogo = response.user!.storeLogoApp.toString();
+      storeLogo = response.user!.storeLogo.toString();
       gg = VendorStoreData.fromJson(response.user!.toJson());
+      log('vendorrrrrr${gg.toJson()}');
       ee = SocialLinks.fromJson(response.toJson());
       ss = ModelCategoryStores.fromJson(response.user!.toJson());
       setState(() {});
@@ -467,7 +475,7 @@ class _SingleStoreScreenState extends State<SingleStoreScreen> {
                               height: 10,
                             ),
                             Text(
-                              storeInfo.description.toString(),
+                              description.toString(),
                               style: GoogleFonts.poppins(
                                   color: const Color(0xFF014E70), fontSize: 14, fontWeight: FontWeight.w500),
                             ),
@@ -579,6 +587,7 @@ class _SingleStoreScreenState extends State<SingleStoreScreen> {
                                     children: [
                                       GestureDetector(
                                         onTap: () {
+                                          log('storeeeeeeee${storeInfo.toJson()}');
                                           print(storeInfo.status.toString());
                                           print(getCategoryStoresModel.value.user!.status.toString());
                                         },
@@ -604,7 +613,51 @@ class _SingleStoreScreenState extends State<SingleStoreScreen> {
                                         ),) : const SizedBox(),
                                     ],
                                   ),
-                                )
+                                ),
+                              const SizedBox(height: 20,),
+                              if ( storeInfo.startBreakTime != '' || storeInfo.endBreakTime != '' )
+                                Padding(
+                                  padding: const EdgeInsets.symmetric(horizontal: 17),
+                                  child: Column(
+                                    crossAxisAlignment: CrossAxisAlignment.start,
+                                    mainAxisAlignment: MainAxisAlignment.start,
+                                    children: [
+                                      Text('Store Break Time'.tr, style: normalStyle.copyWith(
+                                        color: Colors.black,
+                                      ),),
+                                      10.spaceY,
+                                      Row(
+                                        children: [
+                                          GestureDetector(
+                                            onTap: () {
+                                              print(storeInfo.status.toString());
+                                              print(getCategoryStoresModel.value.user!.status.toString());
+                                            },
+                                            child: SvgPicture.asset(
+                                              'assets/svgs/watch_icon.svg',
+                                              width: 20,
+                                              height: 20,
+                                            ),
+                                          ),
+                                          const SizedBox(
+                                            width: 5,
+                                          ),
+                                          Text(storeInfo.day.toString(), style: normalStyle.copyWith(
+                                            color: const Color(0xFF7D7D7D),
+                                          ),),
+                                          const SizedBox(
+                                            width: 10,
+                                          ),
+                                         Text(
+                                            '${storeInfo.startBreakTime.toString()} - ${storeInfo.startBreakTime.toString()}',
+                                            style: normalStyle.copyWith(
+                                              color: const Color(0xFF7D7D7D),
+                                            ),),
+                                        ],
+                                      ),
+                                    ],
+                                  ),
+                                ),
                             ],
                           ],
                         ),
@@ -624,7 +677,7 @@ class _SingleStoreScreenState extends State<SingleStoreScreen> {
                           ),
                           RangeSlider(
                             values: controller.currentRangeValues,
-                            max: 2000,
+                            max: 200000,
                             divisions: 99,
                             labels: RangeLabels(
                               controller.currentRangeValues.start.round().toString(),
@@ -761,16 +814,21 @@ class _SingleStoreScreenState extends State<SingleStoreScreen> {
                 filterModel.value.product!.isNotEmpty
                     ? SliverGrid.builder(
                   gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
-                      crossAxisCount: 2, crossAxisSpacing: 10, mainAxisSpacing: 10, childAspectRatio: .74),
+                    crossAxisCount: 1, // Set crossAxisCount to 1 to show one item per row
+                    crossAxisSpacing: 10,
+                    mainAxisSpacing: 10,
+                    childAspectRatio: .82,
+                  ),
                   itemCount: filterModel.value.product!.length,
                   itemBuilder: (BuildContext context, int index) {
                     final item = filterModel.value.product![index];
                     return Padding(
                       padding: const EdgeInsets.symmetric(horizontal: 12),
                       child: ProductUI(
-                        productElement: ProductElement.fromJson(item.toJson()),
+                        productElement:item,
+                        isSingle: true,
                         onLiked: (value) {
-                          // modelProductsList.data![index].inWishlist = value;
+                          filterModel.value.product![index].inWishlist = value;
                         },
                       ),
                     );
@@ -783,25 +841,31 @@ class _SingleStoreScreenState extends State<SingleStoreScreen> {
               if (modelProductsList.data != null && controller.isFilter.value == false )
                 modelProductsList.data!.isNotEmpty
                     ? SliverGrid.builder(
-                  gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
-                      crossAxisCount: 2, crossAxisSpacing: 10, mainAxisSpacing: 10, childAspectRatio: .74),
+                    gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
+                    crossAxisCount: 1,
+                    crossAxisSpacing: 10,
+                    mainAxisSpacing: 10,
+                    childAspectRatio: .82,
+                  ),
                   itemCount: modelProductsList.data!.length,
                   itemBuilder: (BuildContext context, int index) {
                     final item = modelProductsList.data![index];
                     return Padding(
                       padding: const EdgeInsets.symmetric(horizontal: 12),
                       child: ProductUI(
-                        productElement: ProductElement.fromJson(item.toJson()),
+                        isSingle: true,
+                        productElement: item,
                         onLiked: (value) {
-                          // modelProductsList.data![index].inWishlist = value;
+                         modelProductsList.data![index].inWishlist = value;
                         },
                       ),
                     );
                   },
                 )
+
                     : SliverToBoxAdapter(
                     child: Center(
-                      child: Text(AppStrings.storeDontHaveAnyProduct),
+                      child: Text(AppStrings.storeDontHaveAnyProduct.tr),
                     ))
               else
                 SliverToBoxAdapter(child: controller.isFilter.value == false ? const LoadingAnimation() : const SizedBox()),

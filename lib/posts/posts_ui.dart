@@ -234,13 +234,31 @@ class _PublishPostScreenState extends State<PublishPostScreen> {
       appBar: AppBar(
         title: Text(
           AppStrings.publishPostScreen.tr,
-          style: GoogleFonts.poppins(color: Colors.white, fontSize: 20),
+          style: GoogleFonts.poppins(color: Colors.black, fontSize: 20),
         ),
         centerTitle: true,
-        backgroundColor: AppTheme.buttonColor,
-        leading: IconButton(
-          icon: const Icon(Icons.arrow_back_ios, color: Colors.white, size: 20),
-          onPressed: () =>   Get.back(),
+        backgroundColor: AppTheme.newPrimaryColor,
+        leading: GestureDetector(
+          onTap: (){
+            Get.back();
+          },
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.center,
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: [
+              profileController.selectedLAnguage.value != 'English' ?
+              Image.asset(
+                'assets/images/forward_icon.png',
+                height: 19,
+                width: 19,
+              ) :
+              Image.asset(
+                'assets/images/back_icon_new.png',
+                height: 19,
+                width: 19,
+              ),
+            ],
+          ),
         ),
       ),
       body: RefreshIndicator(
@@ -412,9 +430,9 @@ class _PublishPostScreenState extends State<PublishPostScreen> {
                               shrinkWrap: true,
                               controller: _scrollController,
                               padding: const EdgeInsets.symmetric(horizontal: 2),
-                              itemCount: getPublishModel.value.data!.length,
+                              itemCount: getPublishModel.value.allNews!.length,
                               itemBuilder: (context, index) {
-                                var item = getPublishModel.value.data![index];
+                                var item = getPublishModel.value.allNews![index];
                                 String inputDateString = item.createdAt.toString();
                                 DateTime dateTime = DateTime.parse(inputDateString);
                                 String  formattedDate =
@@ -445,7 +463,7 @@ class _PublishPostScreenState extends State<PublishPostScreen> {
                                                     ClipRRect(
                                                       borderRadius: BorderRadius.circular(100),
                                                       child: CachedNetworkImage(
-                                                        imageUrl: item.userId!.profileImage.toString(),
+                                                        imageUrl: item.userDetails!.profileImage.toString(),
                                                         height: 45,
                                                         width: 45,
                                                         fit: BoxFit.cover,
@@ -458,7 +476,7 @@ class _PublishPostScreenState extends State<PublishPostScreen> {
                                                     ),
                                                     Expanded(
                                                       child: Text(
-                                                        item.userId!.name == '' ? item.userId!.email.toString() : item.userId!.name.toString(),
+                                                        item.userDetails!.name == '' ? item.userDetails!.email.toString() : item.userDetails!.name.toString(),
                                                         style: GoogleFonts.poppins(
                                                             color: Colors.black, fontWeight: FontWeight.w500, fontSize: 15),
                                                       ),
@@ -497,8 +515,8 @@ class _PublishPostScreenState extends State<PublishPostScreen> {
                                                 TextSpan(
                                                   text: item.isOpen
                                                       ? item.discription ?? ''
-                                                      : (item.discription.length > 100
-                                                      ? item.discription.substring(0, 100) + "..."
+                                                      : (item.discription!.length > 100
+                                                      ? item.discription!.substring(0, 100) + "..."
                                                       : item.discription),
                                                   style: GoogleFonts.poppins(
                                                     color: const Color(0xFF5B5B5B),
@@ -507,7 +525,7 @@ class _PublishPostScreenState extends State<PublishPostScreen> {
                                                     letterSpacing: 0.24,
                                                   ),
                                                 ),
-                                                if (item.discription.length > 100)
+                                                if (item.discription!.length > 100)
                                                   WidgetSpan(
                                                     child: InkWell(
                                                       onTap: (){

@@ -2,16 +2,22 @@ import 'dart:convert';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
+import 'package:geolocator/geolocator.dart';
 import 'package:get/get.dart';
 import 'package:google_fonts/google_fonts.dart';
+import '../../Services/choose_map_service.dart';
 import '../../addNewProduct/locationScreen.dart';
 import '../../controller/location_controller.dart';
+import '../../controller/profile_controller.dart';
 import '../../model/common_modal.dart';
+import '../../model/model_address_list.dart';
 import '../../newAddress/customeraccountcreatedsuccessfullyScreen.dart';
 import '../../repository/repository.dart';
 import '../../utils/api_constant.dart';
 import '../../widgets/common_textfield.dart';
+import '../check_out/address/edit_address.dart';
 import 'choose_map_home.dart';
+import 'find_my_location.dart';
 
 
 class HomeAddEditAddress extends StatefulWidget {
@@ -60,6 +66,22 @@ class _HomeAddEditAddressState extends State<HomeAddEditAddress> {
   RxBool isSelect = false.obs;
   final TextEditingController zipcodeController = TextEditingController();
 
+  Position? _currentPosition;
+  String? _currentAddress;
+  bool isLoading = false;
+
+  Future<Position> _getPosition() async {
+    LocationPermission permission;
+
+    permission = await Geolocator.checkPermission();
+    if(permission == LocationPermission.deniedForever){
+      return Future.error('Location not available');
+    }else{
+      print('Location not available');
+    }
+    return await Geolocator.getCurrentPosition();
+  }
+  final profileController = Get.put(ProfileController());
   @override
   Widget build(BuildContext context) {
     Size size = MediaQuery.of(context).size;
@@ -68,10 +90,27 @@ class _HomeAddEditAddressState extends State<HomeAddEditAddress> {
         backgroundColor: Colors.white,
         surfaceTintColor: Colors.white,
         elevation: 0,
-        leading: const Icon(
-          Icons.arrow_back_ios_new,
-          color: Color(0xff0D5877),
-          size: 16,
+        leading: GestureDetector(
+          onTap: (){
+            Get.back();
+          },
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.center,
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: [
+              profileController.selectedLAnguage.value != 'English' ?
+              Image.asset(
+                'assets/images/forward_icon.png',
+                height: 19,
+                width: 19,
+              ) :
+              Image.asset(
+                'assets/images/back_icon_new.png',
+                height: 19,
+                width: 19,
+              ),
+            ],
+          ),
         ),
         titleSpacing: 0,
         title: Row(
@@ -105,13 +144,38 @@ class _HomeAddEditAddressState extends State<HomeAddEditAddress> {
                 ),
 
                 InkWell(
+                 onTap: (){
+                   Get.to(()=>FindMyLocation());
+                 },
+                  child: Text(
+                    "Find my location".tr,
+                    style: GoogleFonts.poppins(color: const Color(0xff044484), fontWeight: FontWeight.w400, fontSize: 14),
+                  ),
+                ),
+                SizedBox(
+                  height: size.height * .02,
+                ),
+                InkWell(
+                 onTap: (){
+                   bottomSheet(addressData: AddressData());
+                 },
+                  child: Text(
+                    "Add new location".tr,
+                    style: GoogleFonts.poppins(color: const Color(0xff044484), fontWeight: FontWeight.w400, fontSize: 14),
+                  ),
+                ),
+                SizedBox(
+                  height: size.height * .02,
+                ),
+
+                InkWell(
                   onTap: () {
                     setState(() {
                       isSelect.value = !isSelect.value;
                     });
                   },
                   child: Text(
-                    "Enter an zip code".tr,
+                    "Enter your zip code".tr,
                     style: GoogleFonts.poppins(color: const Color(0xff044484), fontWeight: FontWeight.w400, fontSize: 14),
                   ),
                 ),
@@ -246,6 +310,18 @@ class _HomeAddEditAddressState extends State<HomeAddEditAddress> {
         ),
       ),
     );
+
+  }
+  Future bottomSheet({required AddressData addressData}) {
+    return showModalBottomSheet(
+        context: context,
+        isScrollControlled: true,
+        backgroundColor: Colors.white,
+        builder: (context12) {
+          return EditAddressSheet(
+            addressData: addressData,
+          );
+        });
   }
 }
 

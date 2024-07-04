@@ -1,5 +1,6 @@
 import 'dart:convert';
 
+import 'package:dirise/Services/review_publish_service.dart';
 import 'package:dirise/Services/servicesReturnPolicyScreen.dart';
 import 'package:dirise/singleproductScreen/singleProductReturnPolicy.dart';
 import 'package:flutter/cupertino.dart';
@@ -9,6 +10,7 @@ import 'package:form_field_validator/form_field_validator.dart';
 import 'package:get/get.dart';
 import 'package:google_fonts/google_fonts.dart';
 
+import '../controller/profile_controller.dart';
 import '../controller/service_controller.dart';
 import '../controller/vendor_controllers/add_product_controller.dart';
 import '../model/common_modal.dart';
@@ -18,27 +20,42 @@ import '../widgets/common_colour.dart';
 import '../widgets/common_textfield.dart';
 
 class TellUsScreen extends StatefulWidget {
-  const TellUsScreen({super.key});
+  String? description;
+  String? stockquantity;
+  String? setstock;
+  String? sEOTags;
+  int? id;
+
+  TellUsScreen({super.key,this.description,this.sEOTags,this.setstock,this.stockquantity,this.id});
+
+
 
   @override
   State<TellUsScreen> createState() => _TellUsScreenState();
 }
 
 class _TellUsScreenState extends State<TellUsScreen> {
-  final serviceController = Get.put(ServiceController());
   String enteredText = '';
   final formKey = GlobalKey<FormState>();
   final addProductController = Get.put(AddProductController());
+
+
+  TextEditingController inStockController = TextEditingController();
+  TextEditingController shortController   = TextEditingController();
+  TextEditingController alertDiscount    = TextEditingController();
+  TextEditingController tagDiscount      = TextEditingController();
   serviceApi() {
     Map<String, dynamic> map = {};
-    map['short_description'] = serviceController.shortDescriptionController.text.trim();
+    map['short_description'] = shortController.text.trim();
     map['item_type'] = 'service';
-    map['seo_tags'] = serviceController.writeTagsController.text.trim();
+    map['seo_tags'] = tagDiscount.text.trim();
     map['id'] = addProductController.idProduct.value.toString();
+    map['no_need_stock'] = 'true';
 
     if (!isDelivery.value) {
-      map['in_stock'] = serviceController.inStockController.text.trim();
-      map['stock_alert'] = serviceController.stockAlertController.text.trim();
+      map['in_stock'] = inStockController.text.trim();
+      map['stock_alert'] = alertDiscount.text.trim();
+      map['no_need_stock'] = 'false';
     }
 
     final Repositories repositories = Repositories();
@@ -48,11 +65,27 @@ class _TellUsScreenState extends State<TellUsScreen> {
       print('API Response Status Code: ${response.status}');
       // showToast(response.message.toString());
       if (response.status == true) {
-        Get.to(const ServicesReturnPolicy());
+        if(widget.id != null){
+          Get.to(const ReviewPublishServiceScreen());
+        }
+        Get.to(ServicesReturnPolicy());
       }
     });
   }
+
+  @override
+  void initState() {
+    // TODO: implement initState
+    super.initState();
+    if(widget.id != null){
+      inStockController.text=widget.stockquantity.toString();
+      shortController.text=widget.description.toString();
+      alertDiscount.text=widget.setstock.toString();
+      tagDiscount.text=widget.sEOTags.toString();
+    }
+  }
   RxBool isDelivery = false.obs;
+  final profileController = Get.put(ProfileController());
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -64,10 +97,22 @@ class _TellUsScreenState extends State<TellUsScreen> {
           onTap: (){
             Get.back();
           },
-          child: const Icon(
-            Icons.arrow_back_ios_new,
-            color: Color(0xff0D5877),
-            size: 16,
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.center,
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: [
+              profileController.selectedLAnguage.value != 'English' ?
+              Image.asset(
+                'assets/images/forward_icon.png',
+                height: 19,
+                width: 19,
+              ) :
+              Image.asset(
+                'assets/images/back_icon_new.png',
+                height: 19,
+                width: 19,
+              ),
+            ],
           ),
         ),
         titleSpacing: 0,
@@ -101,7 +146,7 @@ class _TellUsScreenState extends State<TellUsScreen> {
                 TextFormField(
                   maxLines: 2,
                   minLines: 2,
-                  controller: serviceController.shortDescriptionController,
+                  controller: shortController,
                   decoration: InputDecoration(
                     counterStyle: GoogleFonts.poppins(
                       color: AppTheme.primaryColor,
@@ -206,7 +251,7 @@ class _TellUsScreenState extends State<TellUsScreen> {
                       style: GoogleFonts.poppins(color: const Color(0xff292F45), fontWeight: FontWeight.w600, fontSize: 14),
                     ),
                     CommonTextField(
-                      controller: serviceController.inStockController,
+                      controller: inStockController,
                       obSecure: false,
                       // hintText: 'Name',
                       keyboardType: TextInputType.number,
@@ -229,21 +274,21 @@ class _TellUsScreenState extends State<TellUsScreen> {
                       style: GoogleFonts.poppins(color: const Color(0xff292F45), fontWeight: FontWeight.w600, fontSize: 14),
                     ),
                     CommonTextField(
-                      controller: serviceController.stockAlertController,
+                      controller: alertDiscount,
                       obSecure: false,
                       keyboardType: TextInputType.number,
                       onChanged: (value){
                         double sellingPrice = double.tryParse(value) ?? 0.0;
-                        double purchasePrice = double.tryParse(serviceController.inStockController.text) ?? 0.0;
-                        if (serviceController.inStockController.text.isEmpty) {
+                        double purchasePrice = double.tryParse(inStockController.text) ?? 0.0;
+                        if (inStockController.text.isEmpty) {
                           FocusManager.instance.primaryFocus!.unfocus();
-                          serviceController.stockAlertController.clear();
+                          alertDiscount.clear();
                           showToastCenter('Enter stock quantity first');
                           return;
                         }
                         if (sellingPrice > purchasePrice) {
                           FocusManager.instance.primaryFocus!.unfocus();
-                          serviceController.stockAlertController.clear();
+                          alertDiscount.clear();
                           showToastCenter('Stock alert cannot be higher than stock quantity');
                         }
                       },
@@ -277,7 +322,7 @@ class _TellUsScreenState extends State<TellUsScreen> {
                   height: 5,
                 ),
                 CommonTextField(
-                  controller: serviceController.writeTagsController,
+                  controller: tagDiscount,
                     obSecure: false,
                     textInputAction: TextInputAction.done,
                     onChanged: (text){

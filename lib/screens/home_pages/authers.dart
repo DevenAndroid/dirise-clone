@@ -7,6 +7,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:get/get.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:url_launcher/url_launcher.dart';
 import '../../controller/home_controller.dart';
 import '../../model/model_category_stores.dart';
 import '../../widgets/common_colour.dart';
@@ -21,180 +22,280 @@ class AuthorScreen extends StatefulWidget {
 
 class _AuthorScreenState extends State<AuthorScreen> {
   final homeController = Get.put(TrendingProductsController());
+  void launchURLl(String url) async {
+    if (await canLaunch(url)) {
+      await launch(url);
+    } else {
+      print('Could not launch $url');
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
     Size size = MediaQuery.of(context).size;
     return Obx(() {
-      return homeController.authorModal.value.data != null
+      return homeController.getFeaturedModel.value.data != null
           ? Column(
-              children: [  homeController.authorModal.value.data!.isNotEmpty ?
-
-              Padding(
+             crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                const SizedBox(height: 20,),
+                Padding(
+                  padding: const EdgeInsets.symmetric(horizontal: 22),
+                  child: Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    children: [
+                      const SizedBox(),
+                      Text(
+                        AppStrings.authersProducts.tr.toUpperCase(),
+                        style: GoogleFonts.poppins(fontSize: 20, fontWeight: FontWeight.w600),
+                      ),
+                      const SizedBox()
+                    ],
+                  ),
+                ),
+                homeController.getFeaturedModel.value.data != null &&  homeController.getFeaturedModel.value.data!.isNotEmpty
+                    ?  Padding(
                   padding: const EdgeInsets.fromLTRB(0, 20, 0, 18),
                   child: SizedBox(
-                    height: size.height * 0.28,
-                    child: Swiper(
-                      autoplay: true,
-                      outer: false,
-                      autoplayDelay: 5000,
-
-                      autoplayDisableOnInteraction: false,
-
-                      //                   onTap: (value){
-                      // Get.to(()=> SingleStoreScreen(
-                      // storeDetails: VendorStoreData(id: homeController.authorModal.value.data![value].id.toString()),
-                      // ));
-                      //                   },
-                      itemBuilder: (BuildContext context, int index) {
-                        return Padding(
-                          padding: const EdgeInsets.all( 12),
-                          child: InkWell(
-                            onTap: (){
-                              Get.to(()=> SingleStoreScreen(
-                                storeDetails: VendorStoreData(id: homeController.authorModal.value.data![index].id.toString()),
-                              ));
-                            },
-                            child: Container(
-                              padding: const EdgeInsets.symmetric(horizontal: 8.0,vertical: 13),
-                              decoration: BoxDecoration(
-                                  color: Colors.white,
-                                  boxShadow: [
-                                    BoxShadow(
-                                      color: const Color(0xFF5F5F5F).withOpacity(0.4),
-                                      offset: const Offset(0.0, 0.5),
-                                      blurRadius: 5,),
-                                  ]
-                              ),
-                              child: Row(
-                                crossAxisAlignment: CrossAxisAlignment.center,
-                                mainAxisAlignment: MainAxisAlignment.center,
-                                children: [
-
-                                  Expanded(
-                                    child: Column(
-                                      children: [
-                                        // SizedBox(height: 20,),
-
-                                                Image.asset(
-                                                    'assets/svgs/man.png'
-                                                )
-                                        // Text(
-                                        //   getStarVendorModel.value.data![index].ofTheMonth!.storeName.toString(),
-                                        //   maxLines: 1,
-                                        //   style: GoogleFonts.poppins(fontSize: 16, fontWeight: FontWeight.w500),
-                                        // ),
-                                      ],
+                    height: size.height * 0.29,
+                    child: ListView.builder(
+                        itemCount: homeController.getFeaturedModel.value.data!.length,
+                        shrinkWrap: true,
+                        scrollDirection: Axis.horizontal,
+                        itemBuilder: (context, index) {
+                          return Padding(
+                            padding: const EdgeInsets.all( 12),
+                            child: InkWell(
+                              onTap: (){
+                                Get.to(()=> SingleStoreScreen(
+                                  storeDetails: VendorStoreData(id: homeController.getFeaturedModel.value.data![index].user!.id.toString()),
+                                ));
+                              },
+                              child: Container(
+                                padding: const EdgeInsets.symmetric(horizontal: 8.0,vertical: 13),
+                                decoration: BoxDecoration(
+                                    color: Colors.white,
+                                    boxShadow: [
+                                      BoxShadow(
+                                        color: const Color(0xFF5F5F5F).withOpacity(0.4),
+                                        offset: const Offset(0.0, 0.5),
+                                        blurRadius: 5,),
+                                    ]
+                                ),
+                                constraints: BoxConstraints(
+                                  // maxHeight: 100,
+                                  minWidth: 0,
+                                  maxWidth: size.width * .85,
+                                ),
+                                child: Row(
+                                  crossAxisAlignment: CrossAxisAlignment.start,
+                                  mainAxisAlignment: MainAxisAlignment.start,
+                                  children: [
+                                    const SizedBox(width: 10),
+                                    CachedNetworkImage(
+                                      imageUrl: homeController.getFeaturedModel.value.data![index].user!.bannerProfileApp.toString(),
+                                      height: 140,
+                                      fit: BoxFit.fill,
+                                      errorWidget: (_, __, ___) => Image.asset('assets/images/Dirise-App-Logo.png',
+                                      height: 50,
+                                        width: 50,
+                                      ),
+                                      placeholder: (context, url) => Image.asset('assets/images/Dirise-App-Logo.png',
+                                        height: 50,
+                                        width: 50,
+                                      ),
                                     ),
-                                  ),
-                                  SizedBox(width: 10,),
-                                  Expanded(
-                                    flex: 2,
-                                    child: Column(
-                                      crossAxisAlignment: CrossAxisAlignment.start,
-                                      mainAxisAlignment: MainAxisAlignment.start,
-                                      children: [
-
-                                        Text(
-                                         "YOUSEF AHMAD NASEER JABER MNAWER",
-                                          style: GoogleFonts.poppins(fontSize: 15, fontWeight: FontWeight.w600),
-                                        ),
-                                        10.spaceY,
-                                        Text(
-                                         "Padded liea’s built-in bra vest tank top Padded liea’s built-in",
-                                          style: GoogleFonts.poppins(fontSize: 12, fontWeight: FontWeight.w300),
-                                        ),SizedBox(height: 10,),
-Row(
-  children: [
-Image.asset("assets/svgs/mg.png",height: 28,width: 28,),
-    SizedBox(width: 8,),
-    Image.asset("assets/svgs/cl.png",height: 28,width: 28,),
-    SizedBox(width: 8,),
-    Image.asset("assets/svgs/fg.png",height: 28,width: 28,),SizedBox(width: 8,),
-    SvgPicture.asset("assets/svgs/x.svg",height: 30,width: 30,),
-  ],
-),
-SizedBox(height: 5,),
-Row(
-  children: [
-
-
-SvgPicture.asset("assets/svgs/ins.svg",height: 30,width: 30,), SizedBox(width: 8,),
-SvgPicture.asset("assets/svgs/in.svg",height: 30,width: 30,), SizedBox(width: 8,),
-SvgPicture.asset("assets/svgs/tik.svg",height: 30,width: 30,), SizedBox(width: 8,),
-SvgPicture.asset("assets/svgs/yt.svg",height: 30,width: 30,), SizedBox(width: 8,),
-SvgPicture.asset("assets/svgs/fb.svg",height: 30,width: 30,),
-  ],
-),
-
-                                      ],
+                                    const SizedBox(width: 30,),
+                                    Expanded(
+                                      child: Column(
+                                        crossAxisAlignment: CrossAxisAlignment.start,
+                                        mainAxisAlignment: MainAxisAlignment.start,
+                                        children: [
+                                          Text(
+                                           homeController.getFeaturedModel.value.data![index].user!.storeName.toString(),
+                                            maxLines: 1,
+                                            overflow: TextOverflow.ellipsis,
+                                            style: GoogleFonts.poppins(fontSize: 15, fontWeight: FontWeight.w600),
+                                          ),
+                                          10.spaceY,
+                                          Text(
+                                            homeController.getFeaturedModel.value.data![index].user!.description ?? '',
+                                            maxLines: 1,
+                                            overflow: TextOverflow.ellipsis,
+                                            style: GoogleFonts.poppins(fontSize: 12, fontWeight: FontWeight.w300),
+                                          ),const SizedBox(height: 10,),
+                                          Wrap(
+                                            spacing: 3.0,
+                                            runSpacing: 5.0,
+                                            children: [
+                                              if (homeController.getFeaturedModel.value.data![index].user!.email != '')
+                                                GestureDetector(
+                                                  onTap: () {
+                                                    launchURLl('mailto:${homeController.getFeaturedModel.value.data![index].user!.email.toString()}');
+                                                  },
+                                                  child: Image.asset(
+                                                    "assets/svgs/mg.png",
+                                                    height: 28,
+                                                    width: 28,
+                                                  ),
+                                                ),
+                                              if (homeController.getFeaturedModel.value.data![index].user!.storePhone != '')
+                                                GestureDetector(
+                                                  onTap: () {
+                                                    launchURLl('tel:${homeController.getFeaturedModel.value.data![index].user!.storePhone.toString()}');
+                                                  },
+                                                  child: Image.asset(
+                                                    "assets/svgs/cl.png",
+                                                    height: 28,
+                                                    width: 28,
+                                                  ),
+                                                ),
+                                              if (homeController.getFeaturedModel.value.data![index].socialLoginKeys!.pinterest != '')
+                                                GestureDetector(
+                                                  onTap: () {
+                                                    launchURLl(homeController.getFeaturedModel.value.data![index].socialLoginKeys!.pinterest.toString());
+                                                  },
+                                                  child: Image.asset(
+                                                    "assets/svgs/fg.png",
+                                                    height: 28,
+                                                    width: 28,
+                                                  ),
+                                                ),
+                                              if (homeController.getFeaturedModel.value.data![index].socialLoginKeys!.twitter != '')
+                                                GestureDetector(
+                                                  onTap: () {
+                                                    launchURLl(homeController.getFeaturedModel.value.data![index].socialLoginKeys!.twitter.toString());
+                                                  },
+                                                  child: SvgPicture.asset(
+                                                    "assets/svgs/x.svg",
+                                                    height: 30,
+                                                    width: 30,
+                                                  ),
+                                                ),
+                                              if (homeController.getFeaturedModel.value.data![index].socialLoginKeys!.instagram != '')
+                                                GestureDetector(
+                                                  onTap: () {
+                                                    launchURLl(homeController.getFeaturedModel.value.data![index].socialLoginKeys!.instagram.toString());
+                                                  },
+                                                  child: SvgPicture.asset(
+                                                    "assets/svgs/ins.svg",
+                                                    height: 30,
+                                                    width: 30,
+                                                  ),
+                                                ),
+                                              if (homeController.getFeaturedModel.value.data![index].socialLoginKeys!.linkedin != '')
+                                                GestureDetector(
+                                                  onTap: () {
+                                                    launchURLl(homeController.getFeaturedModel.value.data![index].socialLoginKeys!.linkedin.toString());
+                                                  },
+                                                  child: SvgPicture.asset(
+                                                    "assets/svgs/in.svg",
+                                                    height: 30,
+                                                    width: 30,
+                                                  ),
+                                                ),
+                                              if (homeController.getFeaturedModel.value.data![index].socialLoginKeys!.tiktok != '')
+                                                GestureDetector(
+                                                  onTap: () {
+                                                    launchURLl(homeController.getFeaturedModel.value.data![index].socialLoginKeys!.tiktok.toString());
+                                                  },
+                                                  child: SvgPicture.asset(
+                                                    "assets/svgs/tik.svg",
+                                                    height: 30,
+                                                    width: 30,
+                                                  ),
+                                                ),
+                                              if (homeController.getFeaturedModel.value.data![index].socialLoginKeys!.youtube != '')
+                                                GestureDetector(
+                                                  onTap: () {
+                                                    launchURLl(homeController.getFeaturedModel.value.data![index].socialLoginKeys!.youtube.toString());
+                                                  },
+                                                  child: SvgPicture.asset(
+                                                    "assets/svgs/yt.svg",
+                                                    height: 30,
+                                                    width: 30,
+                                                  ),
+                                                ),
+                                              if (homeController.getFeaturedModel.value.data![index].socialLoginKeys!.facebook != '')
+                                                GestureDetector(
+                                                  onTap: () {
+                                                    launchURLl(homeController.getFeaturedModel.value.data![index].socialLoginKeys!.facebook.toString());
+                                                  },
+                                                  child: SvgPicture.asset(
+                                                    "assets/svgs/fb.svg",
+                                                    height: 30,
+                                                    width: 30,
+                                                  ),
+                                                ),
+                                            ],
+                                          ),
+                                          const SizedBox(
+                                            height: 5,
+                                          ),
+                                        ],
+                                      ),
                                     ),
-                                  ),
-                                  // homeController.authorModal.value.data != null?
-                                  // Expanded(
-                                  //   child: Column(
-                                  //     children: [
-                                  //       // SizedBox(height: 20,),
-                                  //       CachedNetworkImage(
-                                  //           imageUrl:homeController.authorModal.value.data![index].profileImage.toString(),
-                                  //           fit: BoxFit.cover,
-                                  //           width: 150,
-                                  //           height : 130,
-                                  //           placeholder: (context, url) => const SizedBox(),
-                                  //           errorWidget: (_, __, ___) =>
-                                  //               Image.asset(
-                                  //                   'assets/images/new_logo.png'
-                                  //               )),
-                                  //       // Text(
-                                  //       //   getStarVendorModel.value.data![index].ofTheMonth!.storeName.toString(),
-                                  //       //   maxLines: 1,
-                                  //       //   style: GoogleFonts.poppins(fontSize: 16, fontWeight: FontWeight.w500),
-                                  //       // ),
-                                  //     ],
-                                  //   ),
-                                  // ): const SizedBox(),
-                                  // SizedBox(width: 10,),
-                                  // Expanded(
-                                  //   flex: 2,
-                                  //   child: Column(
-                                  //     crossAxisAlignment: CrossAxisAlignment.start,
-                                  //     mainAxisAlignment: MainAxisAlignment.start,
-                                  //     children: [
-                                  //
-                                  //       Row(
-                                  //         crossAxisAlignment: CrossAxisAlignment.start,
-                                  //         children: [
-                                  //           // SvgPicture.asset('assets/svgs/star_xmas.svg',height: 20,),
-                                  //           // 10.spaceX,  // SvgPicture.asset('assets/svgs/star_xmas.svg',height: 20,),
-                                  //           // 10.spaceX,
-                                  //           Expanded(
-                                  //             child: Text(
-                                  //               homeController.authorModal.value.data![index].name.toString(),
-                                  //               style: GoogleFonts.poppins(fontSize: 17, fontWeight: FontWeight.w500),
-                                  //             ),
-                                  //           ),
-                                  //         ],
-                                  //       ),
-                                  //       10.spaceY,
-                                  //
-                                  //     ],
-                                  //   ),
-                                  // ),
+                                    // homeController.authorModal.value.data != null?
+                                    // Expanded(
+                                    //   child: Column(
+                                    //     children: [
+                                    //       // SizedBox(height: 20,),
+                                    //       CachedNetworkImage(
+                                    //           imageUrl:homeController.authorModal.value.data![index].profileImage.toString(),
+                                    //           fit: BoxFit.cover,
+                                    //           width: 150,
+                                    //           height : 130,
+                                    //           placeholder: (context, url) => const SizedBox(),
+                                    //           errorWidget: (_, __, ___) =>
+                                    //               Image.asset(
+                                    //                   'assets/images/new_logo.png'
+                                    //               )),
+                                    //       // Text(
+                                    //       //   getStarVendorModel.value.data![index].ofTheMonth!.storeName.toString(),
+                                    //       //   maxLines: 1,
+                                    //       //   style: GoogleFonts.poppins(fontSize: 16, fontWeight: FontWeight.w500),
+                                    //       // ),
+                                    //     ],
+                                    //   ),
+                                    // ): const SizedBox(),
+                                    // SizedBox(width: 10,),
+                                    // Expanded(
+                                    //   flex: 2,
+                                    //   child: Column(
+                                    //     crossAxisAlignment: CrossAxisAlignment.start,
+                                    //     mainAxisAlignment: MainAxisAlignment.start,
+                                    //     children: [
+                                    //
+                                    //       Row(
+                                    //         crossAxisAlignment: CrossAxisAlignment.start,
+                                    //         children: [
+                                    //           // SvgPicture.asset('assets/svgs/star_xmas.svg',height: 20,),
+                                    //           // 10.spaceX,  // SvgPicture.asset('assets/svgs/star_xmas.svg',height: 20,),
+                                    //           // 10.spaceX,
+                                    //           Expanded(
+                                    //             child: Text(
+                                    //               homeController.authorModal.value.data![index].name.toString(),
+                                    //               style: GoogleFonts.poppins(fontSize: 17, fontWeight: FontWeight.w500),
+                                    //             ),
+                                    //           ),
+                                    //         ],
+                                    //       ),
+                                    //       10.spaceY,
+                                    //
+                                    //     ],
+                                    //   ),
+                                    // ),
 
 
-                                ],
+                                  ],
+                                ),
                               ),
                             ),
-                          ),
-                        );
-                      },
-                      itemCount:  homeController.authorModal.value.data!.length,
-                      // pagination: const SwiperPagination(),
-                      control: const SwiperControl(size: 0),
-
-                    ),
+                          );
+                        },
+                    )
                   )
-              ):LoadingAnimation(),
-
+              ): const SizedBox.shrink()
                             ])  : const SizedBox.shrink();
 
     });

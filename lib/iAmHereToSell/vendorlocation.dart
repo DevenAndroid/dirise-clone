@@ -1,4 +1,5 @@
 import 'dart:async';
+import 'dart:convert';
 import 'dart:developer';
 import 'dart:ui' as ui;
 import 'package:dirise/iAmHereToSell/pickUpAddressForsellHere.dart';
@@ -15,6 +16,11 @@ import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:geolocator/geolocator.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
+import '../controller/location_controller.dart';
+import '../controller/service_controller.dart';
+import '../model/common_modal.dart';
+import '../repository/repository.dart';
+import '../utils/api_constant.dart';
 import '../widgets/common_button.dart';
 import '../widgets/common_colour.dart';
 import '../widgets/dimension_screen.dart';
@@ -35,6 +41,7 @@ class _VendorLocationState extends State<VendorLocation> {
 
   String? _address = "";
   Position? _currentPosition;
+  final serviceController = Get.put(ServiceController());
 
   Future<bool> _handleLocationPermission() async {
     bool serviceEnabled;
@@ -42,21 +49,27 @@ class _VendorLocationState extends State<VendorLocation> {
 
     serviceEnabled = await Geolocator.isLocationServiceEnabled();
     if (!serviceEnabled) {
-      ScaffoldMessenger.of(context)
-          .showSnackBar(const SnackBar(content: Text('Location services are disabled. Please enable the services')));
+      ScaffoldMessenger.of(context).showSnackBar(
+        const SnackBar(content: Text('Location services are disabled. Please enable the services')),
+      );
       return false;
     }
     permission = await Geolocator.checkPermission();
     if (permission == LocationPermission.denied) {
       permission = await Geolocator.requestPermission();
       if (permission == LocationPermission.denied) {
-        ScaffoldMessenger.of(context).showSnackBar(const SnackBar(content: Text('Location permissions are denied')));
+        ScaffoldMessenger.of(context).showSnackBar(
+          const SnackBar(content: Text('Location permissions are denied')),
+        );
         return false;
       }
     }
     if (permission == LocationPermission.deniedForever) {
       ScaffoldMessenger.of(context).showSnackBar(
-          const SnackBar(content: Text('Location permissions are permanently denied, we cannot request permissions.')));
+        const SnackBar(
+          content: Text('Location permissions are permanently denied, we cannot request permissions.'),
+        ),
+      );
       return false;
     }
     return true;
@@ -68,50 +81,128 @@ class _VendorLocationState extends State<VendorLocation> {
     if (!hasPermission) return;
     await Geolocator.getCurrentPosition(desiredAccuracy: LocationAccuracy.high).then((Position position) {
       setState(() => _currentPosition = position);
-      _getAddressFromLatLng(_currentPosition!);
+      _getAddressFromLatLng(LatLng(_currentPosition!.latitude, _currentPosition!.longitude), "current location");
       mapController!.animateCamera(CameraUpdate.newCameraPosition(
-          CameraPosition(target: LatLng(_currentPosition!.latitude, _currentPosition!.longitude), zoom: 15)));
+        CameraPosition(target: LatLng(_currentPosition!.latitude, _currentPosition!.longitude), zoom: 15),
+      ));
       _onAddMarkerButtonPressed(LatLng(_currentPosition!.latitude, _currentPosition!.longitude), "current location");
       setState(() {});
-      // location = _currentAddress!;
     }).catchError((e) {
       debugPrint(e);
     });
   }
+
   String? street;
   String? city;
   String? state;
   String? country;
   String? zipcode;
   String? town;
+  final Repositories repositories = Repositories();
 
-  Future<void> _getAddressFromLatLng(Position position) async {
-    List<Placemark> placemarks = await placemarkFromCoordinates(position.latitude, position.longitude);
+  sellingPickupAddressApi() {
+    Map<String, dynamic> map = {};
 
-    if (placemarks != null && placemarks.isNotEmpty) {
-      Placemark placemark = placemarks[0];
+    map['address_type'] = 'shipping';
+    map['city'] =city.toString();
+    map['country'] = country.toString();
+    map['state'] = state.toString();
+    map['zip_code'] = zipcode.toString();
+    map['town'] = town.toString();
+    map['street'] = street.toString();
 
-      setState(() {
-        street = placemark.street ?? '';
-        city = placemark.locality ?? '';
-        state = placemark.administrativeArea ?? '';
-        country = placemark.country ?? '';
-        zipcode = placemark.postalCode ?? '';
-        town = placemark.subAdministrativeArea ?? '';
 
-      });
-    }
-    await placemarkFromCoordinates(_currentPosition!.latitude, _currentPosition!.longitude)
-        .then((List<Placemark> placemarks) {
-      Placemark place = placemarks[0];
-      setState(() {
-        _address = '${place.subLocality}, ${place.subAdministrativeArea}, ${place.postalCode}';
-      });
-    }).catchError((e) {
-      debugPrint(e.toString());
+
+    FocusManager.instance.primaryFocus!.unfocus();
+    repositories.postApi(url: ApiUrls.editAddressUrl, context: context, mapData: map).then((value) {
+      ModelCommonResponse response = ModelCommonResponse.fromJson(jsonDecode(value));
+      showToast(response.message.toString());
+      if (response.status == true) {
+        showToast(response.message.toString());
+        Get.back();
+      }
     });
   }
+  Future<void> _getAddressFromLatLng(LatLng lastMapPosition, markerTitle, {allowZoomIn = true}) async {
+    final List<Placemark> placemarks = await placemarkFromCoordinates(
+      lastMapPosition.latitude,
+      lastMapPosition.longitude,
+    );
+    if (placemarks.isNotEmpty) {
+      final Placemark placemark = placemarks[0];
 
+      String houseNo = '';
+      String streetNo = '';
+      String blockNo = '';
+      String city = placemark.locality ?? '';
+
+      // Example regex patterns for house number and street components
+      final housePattern = RegExp(r'\d+\s*\w*');
+      final streetPattern = RegExp(r'(?<=\d\s).+'); // Assumes street name follows house number
+
+      // Extracting house number
+      if (placemark.street != null) {
+        final houseMatch = housePattern.firstMatch(placemark.street!);
+        if (houseMatch != null) {
+          houseNo = houseMatch.group(0) ?? '';
+        }
+
+        // Extracting street name
+        final streetMatch = streetPattern.firstMatch(placemark.street!);
+        if (streetMatch != null) {
+          streetNo = streetMatch.group(0) ?? '';
+        }
+      }
+
+      // Assuming block information might be part of subLocality or another component
+      if (placemark.subLocality != null) {
+        blockNo = placemark.subLocality!;
+      }
+
+      setState(() {
+        _address = '${houseNo},${placemark.thoroughfare}, ${blockNo}, ${city}, ${placemark.country}';
+        street = placemark.street;
+        this.city = city;
+        state = placemark.administrativeArea;
+        country = placemark.country;
+        zipcode = placemark.postalCode;
+        town = placemark.subLocality;
+
+        log('House No: $houseNo');
+        log('Street No: $streetNo');
+        log('Block No: $blockNo');
+        log('City: $city');
+
+        log(placemark.subLocality.toString());
+        log(placemark.country.toString());
+        log(placemark.street.toString());
+        log(placemark.locality.toString());
+        log(placemark.name.toString());
+        log(placemark.administrativeArea.toString());
+        log(placemark.subThoroughfare.toString());
+        log(placemark.thoroughfare.toString());
+        log(placemark.subAdministrativeArea.toString());
+        log(placemark.postalCode.toString());
+        log(placemark.isoCountryCode.toString());
+      });
+    }
+
+    redPinMarker = Marker(
+      markerId: MarkerId('redPin'),
+      position: lastMapPosition,
+      draggable: isMarkerDraggable,
+      icon: BitmapDescriptor.defaultMarkerWithHue(BitmapDescriptor.hueRed),
+    );
+
+    if (googleMapController.isCompleted) {
+      mapController!.animateCamera(
+        CameraUpdate.newCameraPosition(
+          CameraPosition(target: lastMapPosition, zoom: allowZoomIn ? 13 : 10),
+        ),
+      );
+    }
+    setState(() {});
+  }
 
   String? appLanguage = "English";
   getLanguage() async {
@@ -130,11 +221,14 @@ class _VendorLocationState extends State<VendorLocation> {
     });
   }
 
-  String googleApikey = "AIzaSyAP9njE_z7lH2tii68WLoQGju0DF8KryXA";
+  String googleApikey = "AIzaSyDXySHy9RuRf6UJmcS1E57SZjdi08NWFxA";
   GoogleMapController? mapController1;
   CameraPosition? cameraPosition;
   String location = "Search Location";
+  bool isMarkerDraggable = true;
+  Marker? redPinMarker;
   final Set<Marker> markers = {};
+
   Future<Uint8List> getBytesFromAsset(String path, int width) async {
     ByteData data = await rootBundle.load(path);
     ui.Codec codec = await ui.instantiateImageCodec(data.buffer.asUint8List(), targetWidth: width);
@@ -144,21 +238,25 @@ class _VendorLocationState extends State<VendorLocation> {
 
   Future<void> _onAddMarkerButtonPressed(LatLng lastMapPosition, markerTitle, {allowZoomIn = true}) async {
     final Uint8List markerIcon = await getBytesFromAsset('assets/icons/location.png', 140);
-    markers.clear();
-    markers.add(Marker(
-        markerId: MarkerId(lastMapPosition.toString()),
-        position: lastMapPosition,
-        infoWindow: const InfoWindow(
-          title: "",
-        ),
-        icon: BitmapDescriptor.fromBytes(markerIcon)));
-    // BitmapDescriptor.defaultMarkerWithHue(BitmapDescriptor.hueCyan,)));
+
+    redPinMarker = Marker(
+      markerId: MarkerId('redPin'),
+      position: lastMapPosition,
+      draggable: isMarkerDraggable,
+      icon: BitmapDescriptor.defaultMarkerWithHue(BitmapDescriptor.hueRed),
+    );
+
     if (googleMapController.isCompleted) {
       mapController!.animateCamera(
-          CameraUpdate.newCameraPosition(CameraPosition(target: lastMapPosition, zoom: allowZoomIn ? 14 : 11)));
+        CameraUpdate.newCameraPosition(
+          CameraPosition(target: lastMapPosition, zoom: allowZoomIn ? 13 : 10),
+        ),
+      );
     }
     setState(() {});
   }
+
+  final locationController = Get.put(LocationController());
 
   @override
   Widget build(BuildContext context) {
@@ -187,11 +285,20 @@ class _VendorLocationState extends State<VendorLocation> {
                     mapController = controller;
                     setState(() async {});
                   },
-                  markers: markers,
-                  onCameraMove: (CameraPosition cameraPositions) {
-                    cameraPosition = cameraPositions;
+                  markers: {
+                    if (redPinMarker != null) redPinMarker!,
                   },
-                  onCameraIdle: () async {},
+                  onCameraMove: (CameraPosition cameraPositions) {
+                    if (isMarkerDraggable && redPinMarker != null) {
+                      setState(() {
+                        redPinMarker = redPinMarker!.copyWith(positionParam: cameraPositions.target);
+                      });
+                    }},
+                  onCameraIdle: () async {
+                    if (redPinMarker != null) {
+                      await _getAddressFromLatLng(redPinMarker!.position, "current location");
+                    }
+                  },
                 ),
                 Positioned(
                     top: 10,
@@ -274,36 +381,59 @@ class _VendorLocationState extends State<VendorLocation> {
                               const SizedBox(
                                 height: 20,
                               ),
-                              Row(
-                                children: [
-                                  Icon(
-                                    Icons.location_on,
-                                    color: AppTheme.primaryColor,
-                                    size: AddSize.size25,
-                                  ),
-                                  SizedBox(
-                                    width: AddSize.size12,
-                                  ),
-                                  Expanded(
-                                    child: Text(
-                                      _address.toString(),
-                                      style: Theme.of(context)
-                                          .textTheme
-                                          .headlineSmall!
-                                          .copyWith(fontWeight: FontWeight.w500, fontSize: AddSize.font16),
+                              Expanded(
+                                child: Row(
+                                  children: [
+                                    Icon(
+                                      Icons.location_on,
+                                      color: AppTheme.primaryColor,
+                                      size: AddSize.size25,
                                     ),
-                                  ),
-                                  SizedBox(
-                                    width: 10,
-                                  ),
-                                  Expanded(
-                                    child: Text(
-                                      'Save Location',
-                                      style: Theme.of(context).textTheme.headlineSmall!.copyWith(
-                                          fontWeight: FontWeight.w600, fontSize: AddSize.font16, color: Color(0xff014E70)),
+                                    SizedBox(
+                                      width: AddSize.size12,
                                     ),
-                                  )
-                                ],
+                                    Expanded(
+                                      child: Text(
+                                        _address.toString(),
+                                        style: Theme.of(context)
+                                            .textTheme
+                                            .headlineSmall!
+                                            .copyWith(fontWeight: FontWeight.w500, fontSize: AddSize.font16),
+                                      ),
+                                    ),
+                                    const SizedBox(
+                                      width: 10,
+                                    ),
+                                    InkWell(
+                                      onTap: (){
+                                        showDialog<String>(
+                                            context: context,
+                                            builder: (BuildContext context) => AlertDialog(
+                                              title: Text('Save Location'.tr),
+                                              content: Text('Do you want to save your location.'.tr),
+                                              actions: <Widget>[
+                                                TextButton(
+                                                  onPressed: () => Get.back(),
+                                                  child: Text('Cancel'.tr),
+                                                ),
+                                                TextButton(
+                                                  onPressed: () async {
+                                                    Get.back();
+                                                  sellingPickupAddressApi();
+                                                  },
+                                                  child: Text('OK'.tr),
+                                                ),
+                                              ],
+                                            ));
+                                      },
+                                      child: Text(
+                                        'Save Location'.tr,
+                                        style: Theme.of(context).textTheme.headlineSmall!.copyWith(
+                                            fontWeight: FontWeight.w600, fontSize: AddSize.font16, color: Color(0xff014E70)),
+                                      ),
+                                    )
+                                  ],
+                                ),
                               ),
                               const SizedBox(
                                 height: 20,

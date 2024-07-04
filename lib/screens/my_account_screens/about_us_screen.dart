@@ -42,10 +42,16 @@ class _AboutUsScreenState extends State<AboutUsScreen> {
               child: Row(
                 children: [
                   IconButton(
-                    icon: Image.asset(
-                      'assets/icons/backicon.png',
-                      height: 25,
-                      width: 25,
+                    icon:     profileController.selectedLAnguage.value != 'English' ?
+                    Image.asset(
+                      'assets/images/forward_icon.png',
+                      height: 19,
+                      width: 19,
+                    ) :
+                    Image.asset(
+                      'assets/images/back_icon_new.png',
+                      height: 19,
+                      width: 19,
                     ),
                     onPressed: () => Navigator.of(context).pop(),
                   ),

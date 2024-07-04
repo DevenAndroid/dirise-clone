@@ -9,6 +9,7 @@ import 'package:get/get.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:url_launcher/url_launcher.dart';
 
+import '../../controller/profile_controller.dart';
 import '../../model/aboutus_model.dart';
 import '../../model/faq_model.dart';
 import '../../repository/repository.dart';
@@ -56,7 +57,7 @@ class _FrequentlyAskedQuestionsScreenState extends State<FrequentlyAskedQuestion
       throw 'Could not launch $url';
     }
   }
-
+  final profileController = Get.put(ProfileController());
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -67,10 +68,16 @@ class _FrequentlyAskedQuestionsScreenState extends State<FrequentlyAskedQuestion
               child: Row(
                 children: [
                   IconButton(
-                    icon: Image.asset(
-                      'assets/icons/backicon.png',
-                      height: 25,
-                      width: 25,
+                    icon: profileController.selectedLAnguage.value != 'English' ?
+                    Image.asset(
+                      'assets/images/forward_icon.png',
+                      height: 19,
+                      width: 19,
+                    ) :
+                    Image.asset(
+                      'assets/images/back_icon_new.png',
+                      height: 19,
+                      width: 19,
                     ),
                     onPressed: () {
                       Get.back();

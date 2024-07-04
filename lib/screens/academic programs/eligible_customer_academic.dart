@@ -6,6 +6,7 @@ import 'package:dirise/utils/helper.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:google_fonts/google_fonts.dart';
+import '../../controller/profile_controller.dart';
 import '../../controller/vendor_controllers/add_product_controller.dart';
 import '../../model/common_modal.dart';
 import '../../repository/repository.dart';
@@ -13,7 +14,13 @@ import '../../utils/api_constant.dart';
 import '../../widgets/common_button.dart';
 
 class EligibleCustomersAcademic extends StatefulWidget {
-  const EligibleCustomersAcademic({super.key});
+  int? id;
+  int? eligibleMinAge;
+  int? eligibleMaxAge;
+  String? eligibleGender;
+
+  EligibleCustomersAcademic({super.key,this.id,this.eligibleGender,this.eligibleMaxAge,this.eligibleMinAge});
+
 
   @override
   State<EligibleCustomersAcademic> createState() => _EligibleCustomersAcademicState();
@@ -50,7 +57,17 @@ class _EligibleCustomersAcademicState extends State<EligibleCustomersAcademic> {
       }
     });
   }
-
+  @override
+  void initState() {
+    // TODO: implement initState
+    super.initState();
+    if(widget.id != null){
+      digitsBeforeDecimal = widget.eligibleMinAge.toString();
+      endDigitsBeforeDecimal = widget.eligibleMaxAge.toString();
+      selectedGender = widget.eligibleGender.toString();
+    }
+  }
+   final profileController = Get.put(ProfileController());
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -58,14 +75,26 @@ class _EligibleCustomersAcademicState extends State<EligibleCustomersAcademic> {
         backgroundColor: Colors.white,
         surfaceTintColor: Colors.white,
         elevation: 0,
-        leading: GestureDetector(
-          onTap: () {
+        leading:GestureDetector(
+          onTap: (){
             Get.back();
           },
-          child: const Icon(
-            Icons.arrow_back_ios_new,
-            color: Color(0xff0D5877),
-            size: 16,
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.center,
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: [
+              profileController.selectedLAnguage.value != 'English' ?
+              Image.asset(
+                'assets/images/forward_icon.png',
+                height: 19,
+                width: 19,
+              ) :
+              Image.asset(
+                'assets/images/back_icon_new.png',
+                height: 19,
+                width: 19,
+              ),
+            ],
           ),
         ),
         titleSpacing: 0,

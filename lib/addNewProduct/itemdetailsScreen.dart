@@ -10,6 +10,7 @@ import 'package:flutter/material.dart';
 import 'package:form_field_validator/form_field_validator.dart';
 import 'package:get/get.dart';
 import 'package:google_fonts/google_fonts.dart';
+import '../controller/profile_controller.dart';
 import '../controller/vendor_controllers/vendor_profile_controller.dart';
 import '../model/common_modal.dart';
 import '../model/getSubCategoryModel.dart';
@@ -39,6 +40,7 @@ class ItemDetailsScreens extends StatefulWidget {
 class _ItemDetailsScreensState extends State<ItemDetailsScreens> {
   ProductCategoryData? selectedSubcategory;
   SubProductData? selectedProductSubcategory;
+  final profileController = Get.put(ProfileController());
 
   final TextEditingController ProductNameController = TextEditingController();
 
@@ -91,6 +93,7 @@ class _ItemDetailsScreensState extends State<ItemDetailsScreens> {
     });
   }
   int tappedIndex = -1;
+  String selectedValue = "";
   ModelVendorCategory modelVendorCategory = ModelVendorCategory(usphone: []);
   Rx<ModelCategoryList> productCategoryModel = ModelCategoryList().obs;
   Rx<RxStatus> vendorCategoryStatus = RxStatus
@@ -125,7 +128,7 @@ class _ItemDetailsScreensState extends State<ItemDetailsScreens> {
   List<SubProductData> subProductData = [];
 
   void fetchDataBasedOnId(int id) async {
-    String apiUrl = 'https://dirise.eoxyslive.com/api/product-category?id=$id';
+    String apiUrl = 'https://admin.diriseapp.com/api/product-category?id=$id';
     await repositories.getApi(url: apiUrl).then((value) {
       productCategoryModel.value = ModelCategoryList.fromJson(jsonDecode(value));
       // setState(() {
@@ -137,7 +140,7 @@ class _ItemDetailsScreensState extends State<ItemDetailsScreens> {
   SubCategoryModel subProductCategoryModel = SubCategoryModel();
 
   void fetchSubCategoryBasedOnId(int id1) async {
-    String apiUrl1 = 'https://dirise.eoxyslive.com/api/product-subcategory?category_id=$id1';
+    String apiUrl1 = 'https://admin.diriseapp.com/api/product-subcategory?category_id=$id1';
     await repositories.getApi(url: apiUrl1).then((value) {
       subProductCategoryModel = SubCategoryModel.fromJson(jsonDecode(value));
       setState(() {
@@ -177,14 +180,26 @@ class _ItemDetailsScreensState extends State<ItemDetailsScreens> {
         backgroundColor: Colors.white,
         surfaceTintColor: Colors.white,
         elevation: 0,
-        leading: IconButton(
-          onPressed: () {
+        leading: GestureDetector(
+          onTap: (){
             Get.back();
           },
-          icon: const Icon(
-            Icons.arrow_back_ios_new,
-            color: Color(0xff0D5877),
-            size: 16,
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.center,
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: [
+              profileController.selectedLAnguage.value != 'English' ?
+              Image.asset(
+                'assets/images/forward_icon.png',
+                height: 19,
+                width: 19,
+              ) :
+              Image.asset(
+                'assets/images/back_icon_new.png',
+                height: 19,
+                width: 19,
+              ),
+            ],
           ),
         ),
         titleSpacing: 0,
@@ -252,35 +267,37 @@ class _ItemDetailsScreensState extends State<ItemDetailsScreens> {
               Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  Text(
+                  const Text(
                     'Search Vendor Category',
                     style: TextStyle(fontWeight: FontWeight.bold),
                   ),
-                  SizedBox(height: 5),
+                  const SizedBox(height: 5),
                   TextField(
                     onChanged: (value) {
+                      selectedValue = '';
                       fetchedDropdownItems = modelVendorCategory.usphone!
                           .where((element) =>
                           element.name.toLowerCase().contains(value.toLowerCase()))
                           .map((vendorCategory) => ProductCategoryData(
                           id: vendorCategory.id,
-                          title: vendorCategory.name)) // Convert vendor category to product category
+                          title: vendorCategory.name))
                           .toList();
                       setState(() {});
                     },
                     decoration: InputDecoration(
                       hintText: 'Search',
-                      prefixIcon: Icon(Icons.search),
+                      prefixIcon: const Icon(Icons.search),
                       border: OutlineInputBorder(
                         borderRadius: BorderRadius.circular(10),
                       ),
                     ),
                   ),
-                  SizedBox(height: 10),
+                  const SizedBox(height: 10),
+                  if (selectedValue.isEmpty)
                   ListView.builder(
                     itemCount: fetchedDropdownItems.length,
                     shrinkWrap: true,
-                    physics: NeverScrollableScrollPhysics(),
+                    physics: const NeverScrollableScrollPhysics(),
                     itemBuilder: (context, index) {
                       var data = fetchedDropdownItems[index];
                       return GestureDetector(
@@ -290,11 +307,12 @@ class _ItemDetailsScreensState extends State<ItemDetailsScreens> {
                           categoryName.value = data.title.toString();
                           id.value = data.id.toString();
                           setState(() {
+                            selectedValue = data.title;
                             tappedIndex = index;
                           });
                         },
                         child: Container(
-                          margin: EdgeInsets.only(bottom: 5),
+                          margin: const EdgeInsets.only(bottom: 5),
                           padding: const EdgeInsets.all(10),
                           height: 50,
                           decoration: BoxDecoration(
@@ -306,6 +324,17 @@ class _ItemDetailsScreensState extends State<ItemDetailsScreens> {
                       );
                     },
                   ),
+                  if (selectedValue.isNotEmpty)
+                  Container(
+                    padding: const EdgeInsets.all(10),
+                    height: 50,
+                    width: Get.width,
+                    decoration: BoxDecoration(
+                        color: Colors.grey.shade200,
+                        borderRadius: BorderRadius.circular(10),
+                        border: Border.all(color: AppTheme.buttonColor, width: 2)),
+                    child: Text(selectedValue),
+                  ),
                 ],
               ),
 
@@ -316,7 +345,7 @@ class _ItemDetailsScreensState extends State<ItemDetailsScreens> {
               Text(
                 'Filters(Optional)'.tr,
                 style: GoogleFonts.poppins(color: Colors.black, fontWeight: FontWeight.w600, fontSize: 16),
-              ):SizedBox(),
+              ):const SizedBox(),
               const SizedBox(
                 height: 5,
               ),
@@ -459,7 +488,7 @@ class _ItemDetailsScreensState extends State<ItemDetailsScreens> {
                           ],
                         ))
                         .toList(),
-                  ) : SizedBox();
+                  ) : const SizedBox();
               }),
               const SizedBox(
                 height: 20,
@@ -484,6 +513,7 @@ class _ItemDetailsScreensState extends State<ItemDetailsScreens> {
                   }
                   else {
                     deliverySizeApi();
+                    profileController.thankYouValue = 'Giveaway';
                   }
                 },
               ),

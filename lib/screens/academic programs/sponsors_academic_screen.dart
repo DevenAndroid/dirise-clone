@@ -9,6 +9,7 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:google_fonts/google_fonts.dart';
 
+import '../../controller/profile_controller.dart';
 import '../../controller/vendor_controllers/add_product_controller.dart';
 import '../../model/common_modal.dart';
 import '../../model/sponsors_list_model.dart';
@@ -22,7 +23,12 @@ import '../../widgets/dimension_screen.dart';
 import 'optional_details_academic.dart';
 
 class SponsorsScreenAcademic extends StatefulWidget {
-  const SponsorsScreenAcademic({super.key});
+  int? id;
+  String? sponsorType;
+  String? sponsorName;
+
+  SponsorsScreenAcademic({super.key,this.id,this.sponsorName,this.sponsorType});
+
 
   @override
   State<SponsorsScreenAcademic> createState() => _SponsorsScreenAcademicState();
@@ -54,7 +60,7 @@ class _SponsorsScreenAcademicState extends State<SponsorsScreenAcademic> {
     map['sponsor_type'] = sponsorTypeController.text.trim();
     map['sponsor_name'] = sponsorNameController.text.trim();
     images['sponsor_logo'] = idProof;
-    map["id"] = addProductController.idProduct.value.toString();
+    // map["id"] = addProductController.idProduct.value.toString();
 
     FocusManager.instance.primaryFocus!.unfocus();
     repositories
@@ -96,7 +102,7 @@ class _SponsorsScreenAcademicState extends State<SponsorsScreenAcademic> {
       if (response.status == true) {
         showToast(response.message.toString());
         if (formKey1.currentState!.validate()) {
-          Get.to(() => const OptionalDetailsAcademicScreen());
+          Get.to(() =>  OptionalDetailsAcademicScreen());
         }
       }
     });
@@ -108,8 +114,12 @@ class _SponsorsScreenAcademicState extends State<SponsorsScreenAcademic> {
     WidgetsBinding.instance.addPostFrameCallback((timeStamp) {
       getSponsors();
     });
+    if(widget.id != null){
+      sponsorTypeController.text = widget.sponsorType.toString();
+      sponsorNameController.text = widget.sponsorName.toString();
+    }
   }
-
+  final profileController = Get.put(ProfileController());
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -118,13 +128,25 @@ class _SponsorsScreenAcademicState extends State<SponsorsScreenAcademic> {
           surfaceTintColor: Colors.white,
           elevation: 0,
           leading: GestureDetector(
-            onTap: () {
+            onTap: (){
               Get.back();
             },
-            child: const Icon(
-              Icons.arrow_back_ios_new,
-              color: Color(0xff0D5877),
-              size: 16,
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.center,
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: [
+                profileController.selectedLAnguage.value != 'English' ?
+                Image.asset(
+                  'assets/images/forward_icon.png',
+                  height: 19,
+                  width: 19,
+                ) :
+                Image.asset(
+                  'assets/images/back_icon_new.png',
+                  height: 19,
+                  width: 19,
+                ),
+              ],
             ),
           ),
           titleSpacing: 0,
@@ -304,7 +326,7 @@ class _SponsorsScreenAcademicState extends State<SponsorsScreenAcademic> {
                         const SizedBox(height: 20),
                         GestureDetector(
                           onTap: () {
-                            Get.to(() => const OptionalDetailsAcademicScreen());
+                            Get.to(() => OptionalDetailsAcademicScreen());
                           },
                           child: Container(
                             width: Get.width,

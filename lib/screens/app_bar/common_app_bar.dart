@@ -2,6 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:google_fonts/google_fonts.dart';
 
+import '../../controller/profile_controller.dart';
+
 class CommonAppBar extends StatelessWidget implements PreferredSizeWidget {
   final String? titleText;
   final List<Widget>? actions;
@@ -12,6 +14,7 @@ class CommonAppBar extends StatelessWidget implements PreferredSizeWidget {
 
   @override
   Widget build(BuildContext context) {
+    final profileController = Get.put(ProfileController());
     return AppBar(
       elevation: 0,
       surfaceTintColor: backGroundColor ?? Colors.white,
@@ -21,7 +24,13 @@ class CommonAppBar extends StatelessWidget implements PreferredSizeWidget {
               onPressed: () {
                 Get.back();
               },
-        icon: const Icon(Icons.arrow_back_ios, color: Colors.white, size: 20),)
+        icon: Image.asset(
+          'assets/images/back_icon_new.png',
+          height: 19,
+          width: 19,
+          color: Colors.white,
+        ),
+      )
           : Padding(
               padding: const EdgeInsets.only(top: 2),
               child: Hero(
@@ -33,10 +42,16 @@ class CommonAppBar extends StatelessWidget implements PreferredSizeWidget {
                     onPressed: () {
                       Get.back();
                     },
-                    icon: Image.asset(
-                      'assets/icons/backicon.png',
-                      height: 25,
-                      width: 25,
+                    icon:  profileController.selectedLAnguage.value != 'English' ?
+                    Image.asset(
+                      'assets/images/forward_icon.png',
+                      height: 19,
+                      width: 19,
+                    ) :
+                    Image.asset(
+                      'assets/images/back_icon_new.png',
+                      height: 19,
+                      width: 19,
                     ),
                   ),
                 ),

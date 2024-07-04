@@ -1,3 +1,5 @@
+import 'dart:convert';
+
 import 'package:dirise/addNewProduct/rewardScreen.dart';
 import 'package:dirise/controller/vendor_controllers/add_product_controller.dart';
 import 'package:flutter/cupertino.dart';
@@ -5,6 +7,10 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:google_fonts/google_fonts.dart';
 
+import '../../controller/profile_controller.dart';
+import '../../model/common_modal.dart';
+import '../../repository/repository.dart';
+import '../../utils/api_constant.dart';
 import '../../widgets/common_button.dart';
 import '../../widgets/common_colour.dart';
 
@@ -25,6 +31,22 @@ class _ConsulationreviewandPublishScreenState extends State<Consulationreviewand
     'Item 4',
     'Item 5',
   ];
+  final Repositories repositories = Repositories();
+  completeApi() {
+    Map<String, dynamic> map = {};
+
+    map['is_complete'] = true;
+    map['id'] = addProductController.idProduct.value.toString();
+    FocusManager.instance.primaryFocus!.unfocus();
+    repositories.postApi(url: ApiUrls.giveawayProductAddress, context: context, mapData: map).then((value) {
+      ModelCommonResponse response = ModelCommonResponse.fromJson(jsonDecode(value));
+      print('API Response Status Code: ${response.status}');
+      showToast(response.message.toString());
+      if (response.status == true) {
+        Get.to(addProductController.addProduct(context: context));
+      }});}
+
+  final profileController = Get.put(ProfileController());
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -32,14 +54,26 @@ class _ConsulationreviewandPublishScreenState extends State<Consulationreviewand
         backgroundColor: Colors.white,
         surfaceTintColor: Colors.white,
         elevation: 0,
-        leading: GestureDetector(
-          onTap: () {
+        leading:GestureDetector(
+          onTap: (){
             Get.back();
           },
-          child: const Icon(
-            Icons.arrow_back_ios_new,
-            color: Color(0xff0D5877),
-            size: 16,
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.center,
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: [
+              profileController.selectedLAnguage.value != 'English' ?
+              Image.asset(
+                'assets/images/forward_icon.png',
+                height: 19,
+                width: 19,
+              ) :
+              Image.asset(
+                'assets/images/back_icon_new.png',
+                height: 19,
+                width: 19,
+              ),
+            ],
           ),
         ),
         actions: [
@@ -340,7 +374,8 @@ class _ConsulationreviewandPublishScreenState extends State<Consulationreviewand
                 title: 'Confirm',
                 borderRadius: 11,
                 onPressed: () {
-                  Get.to(addProductController.addProduct(context: context));
+                  completeApi();
+
                 },
               ),
             ],

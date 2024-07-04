@@ -15,15 +15,15 @@ class SingleCategoryController extends GetxController {
   @override
   void onInit() {
     super.onInit();
-    getYourSingleOrder();
+    // getYourSingleOrder();
   }
 
-  getYourSingleOrder() async {
-    await repositories.postApi(url: ApiUrls.storesUrl).then((value) {
-      model.value = SingleCategoryModel.fromJson(jsonDecode(value));
-      isDataLoading.value = true;
-    });
-  }
+  // getYourSingleOrder() async {
+  //   await repositories.postApi(url: ApiUrls.storesUrl).then((value) {
+  //     model.value = SingleCategoryModel.fromJson(jsonDecode(value));
+  //     isDataLoading.value = true;
+  //   });
+  // }
   // filterProduct({productId}) {
   //   repositories
   //       .postApi(

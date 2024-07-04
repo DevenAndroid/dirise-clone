@@ -1,4 +1,5 @@
 import 'dart:convert';
+import 'package:dirise/Services/review_publish_service.dart';
 import 'package:dirise/addNewProduct/reviewPublishScreen.dart';
 import 'package:dirise/controller/service_controller.dart';
 import 'package:flutter/cupertino.dart';
@@ -7,6 +8,7 @@ import 'package:flutter/widgets.dart';
 import 'package:form_field_validator/form_field_validator.dart';
 import 'package:get/get.dart';
 import 'package:google_fonts/google_fonts.dart';
+import '../controller/profile_controller.dart';
 import '../controller/vendor_controllers/add_product_controller.dart';
 import '../model/common_modal.dart';
 import '../repository/repository.dart';
@@ -16,14 +18,27 @@ import '../widgets/common_colour.dart';
 import '../widgets/common_textfield.dart';
 
 class OptionalColloectionScreen extends StatefulWidget {
-  const OptionalColloectionScreen({super.key});
+  int? id;
+  String? Packagedetails;
+  int? PromotionCode;
+  int? ProductCode;
+  String? SerialNumber;
+  String? Productnumber;
+  OptionalColloectionScreen(
+      {super.key,
+        this.id,
+        this.Packagedetails,
+        this.Productnumber,
+        this.SerialNumber,
+        this.PromotionCode,
+        this.ProductCode});
+
 
   @override
   State<OptionalColloectionScreen> createState() => _OptionalColloectionScreenState();
 }
 
 class _OptionalColloectionScreenState extends State<OptionalColloectionScreen> {
-  final controller = Get.put(ServiceController());
   RxBool hide = true.obs;
   RxBool hide1 = true.obs;
   bool showValidation = false;
@@ -31,28 +46,49 @@ class _OptionalColloectionScreenState extends State<OptionalColloectionScreen> {
   final formKey1 = GlobalKey<FormState>();
   String code = "+91";
   final addProductController = Get.put(AddProductController());
+  TextEditingController serialNumberController = TextEditingController();
+  TextEditingController productNumberController = TextEditingController();
+  TextEditingController productCodeController = TextEditingController();
+  TextEditingController promotionCodeController = TextEditingController();
+  TextEditingController packageDetailsController = TextEditingController();
   optionalApi() {
     Map<String, dynamic> map = {};
-
-    map['serial_number'] = controller.serialNumberController.text.trim();
-    map['product_number'] = controller.productNumberController.text.trim();
-    map['product_code'] = controller.productCodeController.text.trim();
-    map['promotion_code'] = controller.promotionCodeController.text.trim();
-    map['package_detail'] = controller.packageDetailsController.text.trim();
     map['item_type'] = 'service';
     map['id'] = addProductController.idProduct.value.toString();
+    map['serial_number'] = serialNumberController.text.trim();
+    map['product_number'] = productNumberController.text.trim();
+    map['product_code'] = productCodeController.text.trim();
+    map['promotion_code'] = promotionCodeController.text.trim();
+    map['package_detail'] = packageDetailsController.text.trim();
     FocusManager.instance.primaryFocus!.unfocus();
     repositories.postApi(url: ApiUrls.giveawayProductAddress, context: context, mapData: map).then((value) {
       ModelCommonResponse response = ModelCommonResponse.fromJson(jsonDecode(value));
       print('API Response Status Code: ${response.status}');
       showToast(response.message.toString());
       if (response.status == true) {
-        Get.to(ReviewPublishScreen());
+        if(widget.id != null){
+          Get.to(ReviewPublishServiceScreen());
+        }
+        Get.to(ReviewPublishServiceScreen());
 
       }
     });
   }
 
+  @override
+  void initState() {
+    // TODO: implement initState
+    super.initState();
+    if (widget.id != null) {
+     serialNumberController.text = widget.SerialNumber.toString();
+     productNumberController.text = widget.Productnumber.toString();
+     productCodeController.text = widget.ProductCode.toString();
+     promotionCodeController.text = widget.SerialNumber.toString();
+     packageDetailsController.text = widget.Productnumber.toString();
+    }
+  }
+
+  final profileController = Get.put(ProfileController());
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -61,13 +97,25 @@ class _OptionalColloectionScreenState extends State<OptionalColloectionScreen> {
         surfaceTintColor: Colors.white,
         elevation: 0,
         leading: GestureDetector(
-          onTap: () {
+          onTap: (){
             Get.back();
           },
-          child: const Icon(
-            Icons.arrow_back_ios_new,
-            color: Color(0xff0D5877),
-            size: 16,
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.center,
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: [
+              profileController.selectedLAnguage.value != 'English' ?
+              Image.asset(
+                'assets/images/forward_icon.png',
+                height: 19,
+                width: 19,
+              ) :
+              Image.asset(
+                'assets/images/back_icon_new.png',
+                height: 19,
+                width: 19,
+              ),
+            ],
           ),
         ),
         titleSpacing: 0,
@@ -89,7 +137,7 @@ class _OptionalColloectionScreenState extends State<OptionalColloectionScreen> {
             child: Column(
               children: [
                 CommonTextField(
-                  controller: controller.serialNumberController,
+                  controller: serialNumberController,
                   obSecure: false,
                   hintText: 'Serial Number'.tr,
                   validator: (value) {
@@ -100,7 +148,7 @@ class _OptionalColloectionScreenState extends State<OptionalColloectionScreen> {
                   },
                 ),
                 CommonTextField(
-                  controller: controller.productNumberController,
+                  controller: productNumberController,
                   obSecure: false,
                   hintText: 'Product number'.tr,
                   validator: (value) {
@@ -111,7 +159,7 @@ class _OptionalColloectionScreenState extends State<OptionalColloectionScreen> {
                   },
                 ),
                 CommonTextField(
-                  controller: controller.productCodeController,
+                  controller: productCodeController,
                   obSecure: false,
                   hintText: 'Product Code'.tr,
                   validator: (value) {
@@ -122,7 +170,7 @@ class _OptionalColloectionScreenState extends State<OptionalColloectionScreen> {
                   },
                 ),
                 CommonTextField(
-                  controller: controller.promotionCodeController,
+                  controller: promotionCodeController,
                   obSecure: false,
                   hintText: 'Promotion Code'.tr,
                   validator: (value) {
@@ -133,7 +181,7 @@ class _OptionalColloectionScreenState extends State<OptionalColloectionScreen> {
                   },
                 ),
                 TextFormField(
-                  controller: controller.packageDetailsController,
+                  controller: packageDetailsController,
                   maxLines: 5,
                   minLines: 5,
                   validator: (value) {

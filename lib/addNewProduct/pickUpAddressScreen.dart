@@ -11,6 +11,7 @@ import 'package:get/get.dart';
 import 'package:google_fonts/google_fonts.dart';
 
 import '../bottomavbar.dart';
+import '../controller/profile_controller.dart';
 import '../controller/vendor_controllers/add_product_controller.dart';
 import '../language/app_strings.dart';
 import '../model/common_modal.dart';
@@ -31,6 +32,12 @@ class AddProductPickUpAddressScreen extends StatefulWidget {
   final String? town;
   int? id;
 
+  final String? locationstreet;
+  final String? locationcity;
+  final String? locationstate;
+  final String? locationcountry;
+  final String? locationzipcode;
+  final String? locationtown;
   AddProductPickUpAddressScreen({
     Key? key,
     this.street,
@@ -40,6 +47,12 @@ class AddProductPickUpAddressScreen extends StatefulWidget {
     this.zipcode,
     this.town,
     this.id,
+    this.locationcity,
+    this.locationcountry,
+    this.locationstate,
+    this.locationstreet,
+    this.locationtown,
+    this.locationzipcode
   }) : super(key: key);
 
   @override
@@ -48,10 +61,12 @@ class AddProductPickUpAddressScreen extends StatefulWidget {
 
 class _AddProductPickUpAddressScreenState extends State<AddProductPickUpAddressScreen> {
   final TextEditingController streetController = TextEditingController();
+  final TextEditingController countryController = TextEditingController();
   final TextEditingController cityController = TextEditingController();
   final TextEditingController stateController = TextEditingController();
   final TextEditingController zipcodeController = TextEditingController();
   final TextEditingController townController = TextEditingController();
+  // final TextEditingController countryController = TextEditingController();
   final TextEditingController specialInstructionController = TextEditingController();
   final addProductController = Get.put(AddProductController());
   RxBool hide = true.obs;
@@ -72,6 +87,7 @@ class _AddProductPickUpAddressScreenState extends State<AddProductPickUpAddressS
       map['state'] =  stateController.text.trim();
       map['zip_code'] = zipcodeController.text.trim();
       map['town'] = townController.text.trim();
+      map['country'] = countryController.text.trim();
       map['id'] = addProductController.idProduct.value.toString();
       map['street'] =  streetController.text.trim();
       map['special_instruction'] = specialInstructionController.text.trim();
@@ -81,6 +97,7 @@ class _AddProductPickUpAddressScreenState extends State<AddProductPickUpAddressS
       map['state'] = stateController.text.trim();
       map['zip_code'] = zipcodeController.text.trim();
       map['town'] = townController.text.trim();
+      map['country'] = countryController.text.trim();
       map['street'] = streetController.text.trim();
       map['id'] = addProductController.idProduct.value.toString();
       map['special_instruction'] = specialInstructionController.text.trim();
@@ -111,11 +128,22 @@ class _AddProductPickUpAddressScreenState extends State<AddProductPickUpAddressS
       streetController.text = widget.street!;
       cityController.text = widget.city ?? '';
       stateController.text = widget.state ?? '';
+      countryController.text = widget.country ?? '';
       zipcodeController.text = widget.zipcode ?? '';
       townController.text = widget.town ?? '';
     }
+
+    if(widget.locationzipcode != null){
+      streetController.text = widget.locationstreet!;
+      cityController.text = widget.locationcity ?? '';
+      stateController.text = widget.locationstate ?? '';
+      countryController.text = widget.locationcountry ?? '';
+      zipcodeController.text = widget.locationzipcode ?? '';
+      townController.text = widget.locationtown ?? '';
+    }
   }
 
+  final profileController = Get.put(ProfileController());
   @override
   Widget build(BuildContext context) {
     Size size = MediaQuery.of(context).size;
@@ -128,10 +156,22 @@ class _AddProductPickUpAddressScreenState extends State<AddProductPickUpAddressS
           onTap: (){
             Get.back();
           },
-          child: const Icon(
-            Icons.arrow_back_ios_new,
-            color: Color(0xff0D5877),
-            size: 16,
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.center,
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: [
+              profileController.selectedLAnguage.value != 'English' ?
+              Image.asset(
+                'assets/images/forward_icon.png',
+                height: 19,
+                width: 19,
+              ) :
+              Image.asset(
+                'assets/images/back_icon_new.png',
+                height: 19,
+                width: 19,
+              ),
+            ],
           ),
         ),
         titleSpacing: 0,
@@ -184,12 +224,30 @@ class _AddProductPickUpAddressScreenState extends State<AddProductPickUpAddressS
                 ),
                 SizedBox(height: 5,),
                 CommonTextField(
-                   controller: streetController,
+                  controller: streetController,
+                  obSecure: false,
+                  hintText: 'Street'.tr,
+                  validator: (value) {
+                    if (value!.trim().isEmpty) {
+                      return 'Street is required'.tr;
+                    }
+                    return null; // Return null if validation passes
+                  },
+                ),
+
+                SizedBox(height: 20,),
+                Text(
+                  "Country*".tr,
+                  style: GoogleFonts.poppins(color: Color(0xff044484), fontWeight: FontWeight.w600, fontSize: 14),
+                ),
+                SizedBox(height: 5,),
+                CommonTextField(
+                   controller: countryController,
                     obSecure: false,
-                    hintText: 'Street'.tr,
+                    hintText: 'Country'.tr,
                     validator: (value) {
                       if (value!.trim().isEmpty) {
-                        return 'Street is required'.tr;
+                        return 'Country is required'.tr;
                       }
                       return null; // Return null if validation passes
                     },

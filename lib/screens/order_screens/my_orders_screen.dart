@@ -10,6 +10,7 @@ import 'package:get/get.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:intl/intl.dart';
 
+import '../../controller/profile_controller.dart';
 import '../../language/app_strings.dart';
 import '../../model/model_all_order.dart';
 
@@ -37,7 +38,7 @@ class _MyOrdersScreenState extends State<MyOrdersScreen> {
     super.initState();
     getOrdersList();
   }
-
+  final profileController = Get.put(ProfileController());
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -46,13 +47,27 @@ class _MyOrdersScreenState extends State<MyOrdersScreen> {
           backgroundColor: const Color(0xffEBF1F4).withOpacity(.7),
           surfaceTintColor: Colors.white,
           elevation: 0,
-          leading: IconButton(
-            icon: Image.asset(
-              'assets/icons/backicon.png',
-              height: 25,
-              width: 25,
+          leading: GestureDetector(
+            onTap: (){
+              Get.back();
+            },
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.center,
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: [
+                profileController.selectedLAnguage.value != 'English' ?
+                Image.asset(
+                  'assets/images/forward_icon.png',
+                  height: 19,
+                  width: 19,
+                ) :
+                Image.asset(
+                  'assets/images/back_icon_new.png',
+                  height: 19,
+                  width: 19,
+                ),
+              ],
             ),
-            onPressed: () => Navigator.of(context).pop(),
           ),
           titleSpacing: 0,
           title: Text(
@@ -117,7 +132,7 @@ class _MyOrdersScreenState extends State<MyOrdersScreen> {
                                     ),
                                     InkWell(
                                       onTap: () {
-                                        Get.toNamed(SelectedOrderScreen.route, arguments: order.orderId.toString());
+                                        Get.to(SelectedOrderScreen(modelDataOrder: order,));
                                       },
                                       child: Container(
                                         decoration: BoxDecoration(

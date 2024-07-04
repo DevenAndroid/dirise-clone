@@ -1,3 +1,5 @@
+import 'dart:convert';
+
 import 'package:dirise/iAmHereToSell/listofquestionScreen.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
@@ -5,9 +7,14 @@ import 'package:flutter/widgets.dart';
 import 'package:form_field_validator/form_field_validator.dart';
 import 'package:get/get.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:intl/intl.dart';
 import 'package:intl_phone_field/intl_phone_field.dart';
 
+import '../controller/profile_controller.dart';
 import '../language/app_strings.dart';
+import '../model/model_varification.dart';
+import '../repository/repository.dart';
+import '../utils/api_constant.dart';
 import '../widgets/common_colour.dart';
 import '../widgets/common_textfield.dart';
 
@@ -20,7 +27,9 @@ class VerificationSelectDateScreen extends StatefulWidget {
 
 class _VerificationSelectDateScreenState extends State<VerificationSelectDateScreen> {
   DateTime selectedDate = DateTime.now();
-
+TextEditingController date = TextEditingController();
+TextEditingController emailController = TextEditingController();
+TextEditingController phoneController = TextEditingController();
   Future<void> _selectDate(BuildContext context) async {
     final DateTime? pickedDate = await showDatePicker(
       context: context,
@@ -31,9 +40,49 @@ class _VerificationSelectDateScreenState extends State<VerificationSelectDateScr
     if (pickedDate != null && pickedDate != selectedDate) {
       setState(() {
         selectedDate = pickedDate;
+        date.text = DateFormat('yyyy-MM-dd').format(selectedDate);
       });
     }
   }
+  String selectedRadio = '';
+  String code = '';
+  void _validateAndProceed() {
+    if(date.text.isEmpty){showToast("Please select date");}
+  else  if (selectedRadio == "email" && emailController.text.isEmpty) {
+      showToast("Please enter email");
+    } else if (selectedRadio == "phone" && phoneController.text.isEmpty) {
+      showToast("Please enter phone number");
+    } else {
+      verificationApi();
+    }
+  }
+  final Repositories repositories = Repositories();
+  Future verificationApi() async {
+    Map<String, dynamic> map = {};
+
+    map['verification_type'] = 'meeting';
+ map['verification_date'] = date.text.toString();
+    map['verification_mode_type'] = selectedRadio;
+    map['verification_mode'] = selectedRadio == "email"?emailController.text.toString():"+"+code+phoneController.text.toString();
+    // map['name'] = _nameController.text.trim();
+    // map['phone'] = _mobileNumberController.text.trim();
+    // map['password'] = _passwordController.text.trim();
+    FocusManager.instance.primaryFocus!.unfocus();
+    await repositories.postApi(url: ApiUrls.vendorVerification, context: context, mapData: map).then((value) {
+      VarificationModel response = VarificationModel.fromJson(jsonDecode(value));
+      // showToast(response.message.toString());
+
+      if (response.status == true) {
+        showToast(response.message.toString());
+        Get.to(const ListOfQuestionsScreen());
+      }
+      else{
+        showToast(response.message.toString());
+      }
+    });
+  }
+
+  final profileController = Get.put(ProfileController());
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -41,18 +90,25 @@ class _VerificationSelectDateScreenState extends State<VerificationSelectDateScr
         backgroundColor: Colors.white,
         elevation: 0,
         leading: GestureDetector(
-          onTap: () {
+          onTap: (){
             Get.back();
           },
-          child: IconButton(
-            icon: const Icon(
-              Icons.arrow_back_ios_new,
-              color: Color(0xff0D5877),
-              size: 16,
-            ),
-            onPressed: () {
-              // Handle back button press
-            },
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.center,
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: [
+              profileController.selectedLAnguage.value != 'English' ?
+              Image.asset(
+                'assets/images/forward_icon.png',
+                height: 19,
+                width: 19,
+              ) :
+              Image.asset(
+                'assets/images/back_icon_new.png',
+                height: 19,
+                width: 19,
+              ),
+            ],
           ),
         ),
         titleSpacing: 0,
@@ -74,7 +130,7 @@ class _VerificationSelectDateScreenState extends State<VerificationSelectDateScr
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               Text(
-                'Select the date, meeting will be conducted over zoom',
+                'Select the date, meeting will be conducted over zoom'.tr,
                 style: GoogleFonts.poppins(fontWeight: FontWeight.w400, fontSize: 16, color: Colors.black),
               ),
               const SizedBox(
@@ -87,23 +143,35 @@ class _VerificationSelectDateScreenState extends State<VerificationSelectDateScr
               const SizedBox(
                 height: 20,
               ),
+              date.text !=""?
+              CommonTextField(hintText: "date".tr,controller: date,):const SizedBox(
+
+              ),
+              const SizedBox(
+                height: 20,
+              ),
               Text(
-                'Where should we send you the meeting link?',
+                'Where should we send you the meeting link?'.tr,
                 style: GoogleFonts.poppins(fontWeight: FontWeight.w400, fontSize: 20, color: Colors.black),
               ),
               const SizedBox(
                 height: 20,
               ),
+
               Row(
                 children: [
-                  const Radio(
-                    value: 1,
-                    groupValue: 1,
-                    onChanged: null,
+                   Radio(
+                    value: "email",
+                    groupValue: selectedRadio,
+                    onChanged: (value) {
+                      setState(() {
+                        selectedRadio = value.toString();
+                      });
+                    },
                   ),
                   Expanded(
                     child: CommonTextField(
-                        // controller: _emailController,
+                      controller: emailController,
                         obSecure: false,
                         // hintText: 'Name',
                         hintText: AppStrings.email.tr,
@@ -121,10 +189,14 @@ class _VerificationSelectDateScreenState extends State<VerificationSelectDateScr
                 mainAxisAlignment: MainAxisAlignment.center,
                 crossAxisAlignment: CrossAxisAlignment.center,
                 children: [
-                  const Radio(
-                    value: 1,
-                    groupValue: 1,
-                    onChanged: null,
+                  Radio(
+                    value: "phone",
+                    groupValue: selectedRadio,
+                    onChanged: (value) {
+                      setState(() {
+                        selectedRadio = value.toString();
+                      });
+                    },
                   ),
                   Expanded(
                     child: IntlPhoneField(
@@ -136,17 +208,17 @@ class _VerificationSelectDateScreenState extends State<VerificationSelectDateScr
                       dropdownTextStyle: const TextStyle(color: Colors.black),
                       style: const TextStyle(color: AppTheme.textColor),
 
-                      // controller: alternatePhoneController,
-                      decoration: const InputDecoration(
+                     controller: phoneController,
+                      decoration:  InputDecoration(
                           contentPadding: EdgeInsets.zero,
-                          hintStyle: TextStyle(color: AppTheme.textColor),
-                          hintText: 'Enter your phone number',
-                          labelStyle: TextStyle(color: AppTheme.textColor),
-                          border: OutlineInputBorder(
+                          hintStyle: const TextStyle(color: AppTheme.textColor),
+                          hintText: 'Enter your phone number'.tr,
+                          labelStyle: const TextStyle(color: AppTheme.textColor),
+                          border: const OutlineInputBorder(
                             borderSide: BorderSide(),
                           ),
-                          enabledBorder: OutlineInputBorder(borderSide: BorderSide(color: AppTheme.shadowColor)),
-                          focusedBorder: OutlineInputBorder(borderSide: BorderSide(color: AppTheme.shadowColor))),
+                          enabledBorder: const OutlineInputBorder(borderSide: BorderSide(color: AppTheme.shadowColor)),
+                          focusedBorder: const OutlineInputBorder(borderSide: BorderSide(color: AppTheme.shadowColor))),
                       initialCountryCode: '+91',
                       languageCode: '+91',
                       onCountryChanged: (phone) {
@@ -167,9 +239,7 @@ class _VerificationSelectDateScreenState extends State<VerificationSelectDateScr
                 height: 20,
               ),
               InkWell(
-                onTap: (){
-                  Get.to(ListOfQuestionsScreen());
-                },
+                onTap:_validateAndProceed,
                 child: Container(
                   margin: const EdgeInsets.only(left: 15, right: 15),
                   width: Get.width,
@@ -177,18 +247,18 @@ class _VerificationSelectDateScreenState extends State<VerificationSelectDateScr
                   decoration: BoxDecoration(
                     border: Border.all(
                       color: const Color(0xff0D5877), // Border color
-                      width: 1.0, // Border width
+                      width: 2.0, // Border width
                     ),
                     borderRadius: BorderRadius.circular(2), // Border radius
                   ),
                   padding: const EdgeInsets.all(10), // Padding inside the container
-                  child: const Center(
+                  child:   Center(
                     child: Text(
-                      'Next',
-                      style: TextStyle(
+                      'Next'.tr,
+                      style: const TextStyle(
                         fontSize: 16,
                         fontWeight: FontWeight.bold,
-                        color: Colors.black, // Text color
+                        color: AppTheme.buttonColor, // Text color
                       ),
                     ),
                   ),

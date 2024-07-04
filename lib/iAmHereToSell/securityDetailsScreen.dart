@@ -24,6 +24,7 @@ class _SecurityDetailsScreenState extends State<SecurityDetailsScreen> {
   bool? _isValue = false;
 
 
+  final profileController = Get.put(ProfileController());
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -31,10 +32,27 @@ class _SecurityDetailsScreenState extends State<SecurityDetailsScreen> {
         backgroundColor: Colors.white,
         surfaceTintColor: Colors.white,
         elevation: 0,
-        leading: const Icon(
-          Icons.arrow_back_ios_new,
-          color: Color(0xff0D5877),
-          size: 16,
+        leading: GestureDetector(
+          onTap: (){
+            Get.back();
+          },
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.center,
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: [
+              profileController.selectedLAnguage.value != 'English' ?
+              Image.asset(
+                'assets/images/forward_icon.png',
+                height: 19,
+                width: 19,
+              ) :
+              Image.asset(
+                'assets/images/back_icon_new.png',
+                height: 19,
+                width: 19,
+              ),
+            ],
+          ),
         ),
         titleSpacing: 0,
         title: Row(
@@ -109,7 +127,7 @@ class _SecurityDetailsScreenState extends State<SecurityDetailsScreen> {
                   ),
                   Expanded(
                     child: Text(
-                      'I understood that dirise will never charge me and it’s only for security '.tr,
+                      'I understood that dirise will never charge me and it’s only for security'.tr,
                       style: GoogleFonts.poppins(color: const Color(0xff292F45), fontWeight: FontWeight.w500, fontSize: 13),
                     ),
                   ),
@@ -122,7 +140,7 @@ class _SecurityDetailsScreenState extends State<SecurityDetailsScreen> {
                   if(_isValue == true){
                     Get.to(const PaymentMethodScreen());
                   }else{
-                    showToast('Please select security Details');
+                    showToast('Please select security details'.tr);
                   }
 
                 },

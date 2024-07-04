@@ -10,10 +10,13 @@ import 'package:flutter/widgets.dart';
 import 'package:get/get.dart';
 import 'package:google_fonts/google_fonts.dart';
 
+import '../controller/profile_controller.dart';
 import '../controller/vendor_controllers/add_product_controller.dart';
+import '../model/common_modal.dart';
 import '../model/product_details.dart';
 import '../model/reviewAndPublishModel.dart';
 import '../repository/repository.dart';
+import '../tellaboutself/ExtraInformation.dart';
 import '../widgets/common_button.dart';
 import '../widgets/common_colour.dart';
 import 'deliverySizeScreen.dart';
@@ -110,14 +113,30 @@ class _ReviewPublishScreenState extends State<ReviewPublishScreen> {
       setState(() {});
     });
   }
+  completeApi() {
+    Map<String, dynamic> map = {};
 
+    map['is_complete'] = true;
+    map['id'] = addProductController.idProduct.value.toString();
+    map['in_stock'] = '1';
+    FocusManager.instance.primaryFocus!.unfocus();
+    repositories.postApi(url: ApiUrls.giveawayProductAddress, context: context, mapData: map).then((value) {
+      ModelCommonResponse response = ModelCommonResponse.fromJson(jsonDecode(value));
+      print('API Response Status Code: ${response.status}');
+      showToast(response.message.toString());
+      if (response.status == true) {
+        Get.to(const RewardScreen());
+      }});}
   @override
   void initState() {
     // TODO: implement initState
     super.initState();
+    log('dadadad${addProductController.idProduct.value.toString()}');
     getVendorCategories(addProductController.idProduct.value.toString());
+
   }
 
+  final profileController = Get.put(ProfileController());
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -126,13 +145,25 @@ class _ReviewPublishScreenState extends State<ReviewPublishScreen> {
         surfaceTintColor: Colors.white,
         elevation: 0,
         leading: GestureDetector(
-          onTap: () {
+          onTap: (){
             Get.back();
           },
-          child: const Icon(
-            Icons.arrow_back_ios_new,
-            color: Color(0xff0D5877),
-            size: 16,
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.center,
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: [
+              profileController.selectedLAnguage.value != 'English' ?
+              Image.asset(
+                'assets/images/forward_icon.png',
+                height: 19,
+                width: 19,
+              ) :
+              Image.asset(
+                'assets/images/back_icon_new.png',
+                height: 19,
+                width: 19,
+              ),
+            ],
           ),
         ),
         titleSpacing: 0,
@@ -206,7 +237,8 @@ class _ReviewPublishScreenState extends State<ReviewPublishScreen> {
                                         },
                                         child: const Text('Edit',style: TextStyle(color: Colors.red,fontSize: 13),)))
                               ],
-                            )),
+                            )
+                        ),
                         const SizedBox(height: 20),
                         GestureDetector(
                           onTap: () {
@@ -335,7 +367,7 @@ class _ReviewPublishScreenState extends State<ReviewPublishScreen> {
                                 border: Border.all(color: Colors.grey.shade400, width: 1)),
                             child: const Row(
                               mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                              children: [Text('International Shipping Details'), Icon(Icons.arrow_drop_down_sharp)],
+                              children: [Text('Item Weight & Dimensions'), Icon(Icons.arrow_drop_down_sharp)],
                             ),
                           ),
                         ),
@@ -377,8 +409,8 @@ class _ReviewPublishScreenState extends State<ReviewPublishScreen> {
                                         onTap: (){
                                           Get.to(InternationalshippingdetailsScreen(
                                             id: productDetailsModel.value.productDetails!.product!.id,
-                                            WeightOftheItem: productDetailsModel.value.productDetails!.productDimentions!.units,
-                                            Unitofmeasure: productDetailsModel.value.productDetails!.productDimentions!.weight,
+                                            WeightOftheItem: productDetailsModel.value.productDetails!.productDimentions!.weightUnit,
+                                            Unitofmeasure: productDetailsModel.value.productDetails!.productDimentions!.weight!,
                                             SelectTypeOfPackaging: productDetailsModel.value.productDetails!.productDimentions!.typeOfPackages,
                                             SelectTypeMaterial:productDetailsModel.value.productDetails!.productDimentions!.material ,
                                             SelectNumberOfPackages:productDetailsModel.value.productDetails!.productDimentions!.numberOfPackage ,
@@ -386,7 +418,9 @@ class _ReviewPublishScreenState extends State<ReviewPublishScreen> {
                                             Width : "${productDetailsModel.value.productDetails!.productDimentions!.boxWidth ?? ""}X",
                                             Height : "${productDetailsModel.value.productDetails!.productDimentions!.boxHeight ?? ""}X",
                                           )
+                                              ,arguments: "txt"
                                           );
+
                                         },
                                         child: const Text('Edit',style: TextStyle(color: Colors.red,fontSize: 13),)))
 
@@ -457,18 +491,20 @@ class _ReviewPublishScreenState extends State<ReviewPublishScreen> {
                                         child: const Text('Edit',style: TextStyle(color: Colors.red,fontSize: 13),)))
 
                               ],
-                            )),
+                            )
+                        ),
                         const SizedBox(height: 20),
                         CustomOutlineButton(
                           title: 'Confirm',
                           borderRadius: 11,
                           onPressed: () {
-                            Get.to(const RewardScreen());
+                            completeApi();
+
                           },
                         ),
                       ],
                     )
-                  : Center(
+                  : const Center(
                       child: CircularProgressIndicator(
                       color: Colors.grey,
                     ));

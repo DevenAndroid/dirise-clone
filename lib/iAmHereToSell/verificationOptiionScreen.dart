@@ -8,8 +8,10 @@ import 'package:flutter/widgets.dart';
 import 'package:get/get.dart';
 import 'package:google_fonts/google_fonts.dart';
 
+import '../controller/profile_controller.dart';
 import '../language/app_strings.dart';
 import '../utils/api_constant.dart';
+import '../widgets/common_colour.dart';
 
 class VerificationOptionScreen extends StatefulWidget {
   const VerificationOptionScreen({super.key});
@@ -35,28 +37,37 @@ class _VerificationOptionScreenState extends State<VerificationOptionScreen> {
     else if (selectedRadio == 'skip') {
       Get.to(VendorAccountCreatedSuccessfullyScreen());
     }else{
-      showToast('Select type of product');
+      showToast('Select type of product'.tr);
     }
   }
+
+  final profileController = Get.put(ProfileController());
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
         backgroundColor: Colors.white,
         elevation: 0,
-        leading: GestureDetector(
-          onTap: () {
+        leading:GestureDetector(
+          onTap: (){
             Get.back();
           },
-          child: IconButton(
-            icon: const Icon(
-              Icons.arrow_back_ios_new,
-              color: Color(0xff0D5877),
-              size: 16,
-            ),
-            onPressed: () {
-              // Handle back button press
-            },
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.center,
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: [
+              profileController.selectedLAnguage.value != 'English' ?
+              Image.asset(
+                'assets/images/forward_icon.png',
+                height: 19,
+                width: 19,
+              ) :
+              Image.asset(
+                'assets/images/back_icon_new.png',
+                height: 19,
+                width: 19,
+              ),
+            ],
           ),
         ),
         titleSpacing: 0,
@@ -105,7 +116,7 @@ class _VerificationOptionScreenState extends State<VerificationOptionScreen> {
                             width: 10,
                           ),
                           Text(
-                            'Credit card',
+                            'Credit card'.tr,
                             style: GoogleFonts.poppins(fontWeight: FontWeight.w500, fontSize: 24, color: Colors.black),
                           )
                         ],
@@ -114,7 +125,7 @@ class _VerificationOptionScreenState extends State<VerificationOptionScreen> {
                         height: 10,
                       ),
                       Text(
-                        'We ask you for your credit card to make sure that you are not a robot, helps us reduce fraud and theft.  Any charges, will be refunded. No auto-charge after free trial ends',
+                        'We ask you for your credit card to make sure that you are not a robot, helps us reduce fraud and theft.  Any charges, will be refunded. No auto-charge after free trial ends'.tr,
                         style: GoogleFonts.poppins(fontWeight: FontWeight.w400, fontSize: 14, color: Colors.black),
                       )
                     ],
@@ -166,7 +177,7 @@ class _VerificationOptionScreenState extends State<VerificationOptionScreen> {
                             width: 10,
                           ),
                           Text(
-                            'Virtual Meeting',
+                            'Virtual Meeting'.tr,
                             style: GoogleFonts.poppins(fontWeight: FontWeight.w500, fontSize: 24, color: Colors.black),
                           )
                         ],
@@ -175,7 +186,7 @@ class _VerificationOptionScreenState extends State<VerificationOptionScreen> {
                         height: 10,
                       ),
                       Text(
-                        'Schedule a time for the verification',
+                        'Schedule a time for the verification'.tr,
                         style: GoogleFonts.poppins(fontWeight: FontWeight.w400, fontSize: 14, color: Colors.black),
                       )
                     ],
@@ -227,7 +238,7 @@ class _VerificationOptionScreenState extends State<VerificationOptionScreen> {
                             width: 10,
                           ),
                           Text(
-                            'Voice Call',
+                            'Voice Call'.tr,
                             style: GoogleFonts.poppins(fontWeight: FontWeight.w500, fontSize: 24, color: Colors.black),
                           )
                         ],
@@ -236,7 +247,7 @@ class _VerificationOptionScreenState extends State<VerificationOptionScreen> {
                         height: 10,
                       ),
                       Text(
-                        'Choose the best time to receive the verification call. ',
+                        'Choose the best time to receive the verification call.'.tr,
                         style: GoogleFonts.poppins(fontWeight: FontWeight.w400, fontSize: 14, color: Colors.black),
                       )
                     ],
@@ -285,7 +296,7 @@ class _VerificationOptionScreenState extends State<VerificationOptionScreen> {
                             width: 50,
                           ),
                           Text(
-                            'Skip verification',
+                            'Skip verification'.tr,
                             style: GoogleFonts.poppins(fontWeight: FontWeight.w500, fontSize: 24, color: Colors.black),
                           )
                         ],
@@ -294,7 +305,7 @@ class _VerificationOptionScreenState extends State<VerificationOptionScreen> {
                         height: 10,
                       ),
                       Text(
-                        'Earnings will be on hold until verification is done. ',
+                        'Earnings will be on hold until verification is done.'.tr,
                         style: GoogleFonts.poppins(fontWeight: FontWeight.w400, fontSize: 14, color: Colors.black),
                       )
                     ],
@@ -315,7 +326,7 @@ class _VerificationOptionScreenState extends State<VerificationOptionScreen> {
                 ),
               ],
             ),
-            SizedBox(
+            const SizedBox(
               height: 20,
             ),
             InkWell(
@@ -334,13 +345,13 @@ class _VerificationOptionScreenState extends State<VerificationOptionScreen> {
                   borderRadius: BorderRadius.circular(2), // Border radius
                 ),
                 padding: const EdgeInsets.all(10), // Padding inside the container
-                child: const Center(
+                child:   Center(
                   child: Text(
-                    'Next',
-                    style: TextStyle(
+                    'Next'.tr,
+                    style: const TextStyle(
                       fontSize: 16,
                       fontWeight: FontWeight.bold,
-                      color: Colors.black, // Text color
+                      color: AppTheme.buttonColor, // Text color
                     ),
                   ),
                 ),

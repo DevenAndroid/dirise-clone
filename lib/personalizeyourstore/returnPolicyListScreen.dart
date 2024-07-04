@@ -9,6 +9,7 @@ import 'package:flutter/widgets.dart';
 import 'package:get/get.dart';
 import 'package:google_fonts/google_fonts.dart';
 
+import '../controller/profile_controller.dart';
 import '../model/returnPolicyModel.dart';
 import '../repository/repository.dart';
 import '../utils/api_constant.dart';
@@ -40,6 +41,7 @@ class _ReturnPolicyListScreenState extends State<ReturnPolicyListScreen> {
     getReturnPolicyData();
   }
 
+  final profileController = Get.put(ProfileController());
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -48,13 +50,25 @@ class _ReturnPolicyListScreenState extends State<ReturnPolicyListScreen> {
         surfaceTintColor: Colors.white,
         elevation: 0,
         leading: GestureDetector(
-          onTap: () {
+          onTap: (){
             Get.back();
           },
-          child: const Icon(
-            Icons.arrow_back_ios_new,
-            color: Color(0xff0D5877),
-            size: 16,
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.center,
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: [
+              profileController.selectedLAnguage.value != 'English' ?
+              Image.asset(
+                'assets/images/forward_icon.png',
+                height: 19,
+                width: 19,
+              ) :
+              Image.asset(
+                'assets/images/back_icon_new.png',
+                height: 19,
+                width: 19,
+              ),
+            ],
           ),
         ),
         titleSpacing: 0,
@@ -77,11 +91,11 @@ class _ReturnPolicyListScreenState extends State<ReturnPolicyListScreen> {
                   onTap: () {
                     Get.to(ReturnPolicyScreens());
                   },
-                  child: const Padding(
-                    padding: EdgeInsets.only(right: 15),
+                  child:  Padding(
+                    padding: const EdgeInsets.only(right: 15),
                     child: Text(
-                      '+Add New',
-                      style: TextStyle(color: AppTheme.buttonColor),
+                      '+Add New'.tr,
+                      style: const TextStyle(color: AppTheme.buttonColor),
                     ),
                   ),
                 )),
@@ -123,7 +137,7 @@ class _ReturnPolicyListScreenState extends State<ReturnPolicyListScreen> {
                                         style: const TextStyle(
                                             color: Colors.black, fontWeight: FontWeight.w600, fontSize: 20),
                                       ),
-                                      SizedBox(height: 10,),
+                                      const SizedBox(height: 10,),
                                       Text(ReturnPolicy.policyDiscreption,maxLines: 3,),
                                     ],
                                   ),
@@ -138,7 +152,7 @@ class _ReturnPolicyListScreenState extends State<ReturnPolicyListScreen> {
                             )),
                       );
                     })
-                : const Center(child: Text('No Return policy Available'))
+                :  Center(child: Text('No Return policy Available'.tr))
           ],
         ),
       ),

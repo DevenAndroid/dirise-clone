@@ -9,6 +9,7 @@ import 'package:form_field_validator/form_field_validator.dart';
 import 'package:get/get.dart';
 import 'package:google_fonts/google_fonts.dart';
 
+import '../controller/profile_controller.dart';
 import '../controller/vendor_controllers/add_product_controller.dart';
 import '../model/common_modal.dart';
 import '../model/reviewAndPublishResponseodel.dart';
@@ -49,7 +50,7 @@ class _OptionalDiscrptionsScreenState extends State<OptionalDiscrptionsScreen> {
     Map<String, dynamic> map = {};
 
     map['meta_title'] = metaTitleController.text.trim();
-    map['item_type'] = 'giveaway';
+    map['item_type'] = 'product';
     map['meta_description'] = metaDescriptionController.text.trim();
     map['meta_tags'] = metaTagesController.text.trim();
     map['id'] = addProductController.idProduct.value.toString();
@@ -63,7 +64,7 @@ class _OptionalDiscrptionsScreenState extends State<OptionalDiscrptionsScreen> {
       if (response.status == true) {
 
         if(widget.id != null){
-          Get.to(ReviewandPublishScreen());
+          Get.to(ProductReviewPublicScreen());
         }else{
           Get.to(() => OptionalClassificationScreen());
         }
@@ -77,12 +78,13 @@ class _OptionalDiscrptionsScreenState extends State<OptionalDiscrptionsScreen> {
     // TODO: implement initState
     super.initState();
     if (widget.id != null) {
-      metaTitleController.text = widget.MetaTitle.toString();
-      metaDescriptionController.text = widget.MetaDescription.toString();
-      metaTagesController.text = widget.metaTags.toString();
+      metaTitleController.text = widget.MetaTitle ?? "";
+      metaDescriptionController.text = widget.MetaDescription ?? "";
+      metaTagesController.text = widget.metaTags ?? "";
     }
   }
 
+  final profileController = Get.put(ProfileController());
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -91,13 +93,25 @@ class _OptionalDiscrptionsScreenState extends State<OptionalDiscrptionsScreen> {
         surfaceTintColor: Colors.white,
         elevation: 0,
         leading: GestureDetector(
-          onTap: () {
+          onTap: (){
             Get.back();
           },
-          child: const Icon(
-            Icons.arrow_back_ios_new,
-            color: Color(0xff0D5877),
-            size: 16,
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.center,
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: [
+              profileController.selectedLAnguage.value != 'English' ?
+              Image.asset(
+                'assets/images/forward_icon.png',
+                height: 19,
+                width: 19,
+              ) :
+              Image.asset(
+                'assets/images/back_icon_new.png',
+                height: 19,
+                width: 19,
+              ),
+            ],
           ),
         ),
         titleSpacing: 0,
@@ -156,6 +170,7 @@ class _OptionalDiscrptionsScreenState extends State<OptionalDiscrptionsScreen> {
                     ),
                   ),
                 ),
+                const SizedBox(height: 10),
                 CommonTextField(
                   controller: metaTitleController,
                   obSecure: false,
@@ -167,6 +182,7 @@ class _OptionalDiscrptionsScreenState extends State<OptionalDiscrptionsScreen> {
                     return null; // Return null if validation passes
                   },
                 ),
+                const SizedBox(height: 10),
                 TextFormField(
                   maxLines: 2,
                   controller: metaDescriptionController,

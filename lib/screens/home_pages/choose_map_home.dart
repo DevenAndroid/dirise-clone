@@ -14,6 +14,7 @@ import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:geolocator/geolocator.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
+import '../../controller/google_map_controlleer.dart';
 import '../../controller/location_controller.dart';
 import '../../widgets/common_button.dart';
 import '../../widgets/common_colour.dart';
@@ -164,7 +165,7 @@ class _ChooseAddressHomeState extends State<ChooseAddressHome> {
     }
     setState(() {});
   }
-
+  final controllerMap = Get.put(ControllerMap());
   @override
   Widget build(BuildContext context) {
     log(appLanguage.toString());
@@ -283,37 +284,60 @@ class _ChooseAddressHomeState extends State<ChooseAddressHome> {
                               const SizedBox(
                                 height: 20,
                               ),
-                              Row(
-                                children: [
-                                  Icon(
-                                    Icons.location_on,
-                                    color: AppTheme.primaryColor,
-                                    size: AddSize.size25,
-                                  ),
-                                  SizedBox(
-                                    width: AddSize.size12,
-                                  ),
-                                  Expanded(
-                                    child: Text(
-                                      _address.toString(),
-                                      maxLines: 2,
-                                      style: Theme.of(context)
-                                          .textTheme
-                                          .headlineSmall!
-                                          .copyWith(fontWeight: FontWeight.w500, fontSize: AddSize.font16),
+                              Expanded(
+                                child: Row(
+                                  children: [
+                                    Icon(
+                                      Icons.location_on,
+                                      color: AppTheme.primaryColor,
+                                      size: AddSize.size25,
                                     ),
-                                  ),
-                                  SizedBox(
-                                    width: 10,
-                                  ),
-                                  Expanded(
-                                    child: Text(
-                                      'Save Location',
-                                      style: Theme.of(context).textTheme.headlineSmall!.copyWith(
-                                          fontWeight: FontWeight.w600, fontSize: AddSize.font16, color: Color(0xff014E70)),
+                                    SizedBox(
+                                      width: AddSize.size12,
                                     ),
-                                  )
-                                ],
+                                    Expanded(
+                                      child: Text(
+                                        _address.toString(),
+                                        maxLines: 2,
+                                        style: Theme.of(context)
+                                            .textTheme
+                                            .headlineSmall!
+                                            .copyWith(fontWeight: FontWeight.w500, fontSize: AddSize.font16),
+                                      ),
+                                    ),
+                                    SizedBox(
+                                      width: 10,
+                                    ),
+                                    InkWell(
+                                      onTap: (){
+                                        showDialog<String>(
+                                            context: context,
+                                            builder: (BuildContext context) => AlertDialog(
+                                              title: Text('Save Location'.tr),
+                                              content: Text('Do you want to save your location.'.tr),
+                                              actions: <Widget>[
+                                                TextButton(
+                                                  onPressed: () => Get.back(),
+                                                  child: Text('Cancel'.tr),
+                                                ),
+                                                TextButton(
+                                                  onPressed: () async {
+                                                    Get.back();
+                                                    controllerMap.sellingPickupAddressApi(context);
+                                                  },
+                                                  child: Text('OK'.tr),
+                                                ),
+                                              ],
+                                            ));
+                                      },
+                                      child: Text(
+                                        'Save Location',
+                                        style: Theme.of(context).textTheme.headlineSmall!.copyWith(
+                                            fontWeight: FontWeight.w600, fontSize: AddSize.font16, color: Color(0xff014E70)),
+                                      ),
+                                    )
+                                  ],
+                                ),
                               ),
                               const SizedBox(
                                 height: 20,

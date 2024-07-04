@@ -9,6 +9,7 @@ import 'package:flutter/material.dart';
 import 'package:form_field_validator/form_field_validator.dart';
 import 'package:get/get.dart';
 import 'package:google_fonts/google_fonts.dart';
+import '../controller/profile_controller.dart';
 import '../controller/vendor_controllers/vendor_profile_controller.dart';
 import '../model/common_modal.dart';
 import '../model/getSubCategoryModel.dart';
@@ -113,7 +114,7 @@ class _SingleProductItemDetailsScreensState extends State<SingleProductItemDetai
   List<SubProductData> subProductData = [];
 
   void fetchDataBasedOnId(int id) async {
-    String apiUrl = 'https://dirise.eoxyslive.com/api/product-category?id=$id';
+    String apiUrl = 'https://admin.diriseapp.com/api/product-category?id=$id';
     await repositories.getApi(url: apiUrl).then((value) {
       productCategoryModel.value = ModelCategoryList.fromJson(jsonDecode(value));
       // setState(() {
@@ -125,7 +126,7 @@ class _SingleProductItemDetailsScreensState extends State<SingleProductItemDetai
   SubCategoryModel subProductCategoryModel = SubCategoryModel();
 
   void fetchSubCategoryBasedOnId(int id1) async {
-    String apiUrl1 = 'https://dirise.eoxyslive.com/api/product-subcategory?category_id=$id1';
+    String apiUrl1 = 'https://admin.diriseapp.com/api/product-subcategory?category_id=$id1';
     await repositories.getApi(url: apiUrl1).then((value) {
       subProductCategoryModel = SubCategoryModel.fromJson(jsonDecode(value));
       setState(() {
@@ -152,6 +153,7 @@ class _SingleProductItemDetailsScreensState extends State<SingleProductItemDetai
     fetchSubCategoryBasedOnId(ProductID);
   }
 
+  final profileController = Get.put(ProfileController());
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -160,13 +162,25 @@ class _SingleProductItemDetailsScreensState extends State<SingleProductItemDetai
         surfaceTintColor: Colors.white,
         elevation: 0,
         leading: GestureDetector(
-          onTap: () {
+          onTap: (){
             Get.back();
           },
-          child: const Icon(
-            Icons.arrow_back_ios_new,
-            color: Color(0xff0D5877),
-            size: 16,
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.center,
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: [
+              profileController.selectedLAnguage.value != 'English' ?
+              Image.asset(
+                'assets/images/forward_icon.png',
+                height: 19,
+                width: 19,
+              ) :
+              Image.asset(
+                'assets/images/back_icon_new.png',
+                height: 19,
+                width: 19,
+              ),
+            ],
           ),
         ),
         titleSpacing: 0,

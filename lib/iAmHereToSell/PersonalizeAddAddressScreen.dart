@@ -9,6 +9,7 @@ import 'package:flutter/widgets.dart';
 import 'package:get/get.dart';
 import 'package:google_fonts/google_fonts.dart';
 
+import '../controller/profile_controller.dart';
 import '../language/app_strings.dart';
 import '../model/common_modal.dart';
 import '../newAddress/customeraccountcreatedsuccessfullyScreen.dart';
@@ -108,6 +109,8 @@ class _PersonalizeAddAddressScreenState extends State<PersonalizeAddAddressScree
     }
     log('ffffff'+widget.city.toString());
   }
+
+  final profileController = Get.put(ProfileController());
   @override
   Widget build(BuildContext context) {
     Size size = MediaQuery.of(context).size;
@@ -116,10 +119,27 @@ class _PersonalizeAddAddressScreenState extends State<PersonalizeAddAddressScree
         backgroundColor: Colors.white,
         surfaceTintColor: Colors.white,
         elevation: 0,
-        leading: const Icon(
-          Icons.arrow_back_ios_new,
-          color: Color(0xff0D5877),
-          size: 16,
+        leading: GestureDetector(
+          onTap: (){
+            Get.back();
+          },
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.center,
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: [
+              profileController.selectedLAnguage.value != 'English' ?
+              Image.asset(
+                'assets/images/forward_icon.png',
+                height: 19,
+                width: 19,
+              ) :
+              Image.asset(
+                'assets/images/back_icon_new.png',
+                height: 19,
+                width: 19,
+              ),
+            ],
+          ),
         ),
         titleSpacing: 0,
         title: Row(
@@ -253,7 +273,7 @@ class _PersonalizeAddAddressScreenState extends State<PersonalizeAddAddressScree
                 const SizedBox(height: 10,),
 
                 Text(
-                  "Special instruction*".tr,
+                  "Special instruction".tr,
                   style: GoogleFonts.poppins(color: const Color(0xff044484), fontWeight: FontWeight.w600, fontSize: 14),
                 ),
                 const SizedBox(height: 5,),

@@ -1,6 +1,8 @@
 import 'dart:convert';
 import 'dart:math';
+import 'package:dirise/controller/profile_controller.dart';
 import 'package:dirise/screens/Consultation%20Sessions/set_store_time.dart';
+import 'package:dirise/screens/tour_travel/review_publish_screen.dart';
 import 'package:dirise/screens/tour_travel/timing_screen.dart';
 import 'package:dirise/utils/helper.dart';
 import 'package:flutter/material.dart';
@@ -16,13 +18,31 @@ import '../../widgets/common_textfield.dart';
 import 'dateRangemodel.dart';
 
 class DateRangeScreenTour extends StatefulWidget {
-  const DateRangeScreenTour({super.key});
+  int? id;
+  String? from_date;
+  String? to_date;
+  String? fromLocation;
+  String? toLocation;
+  String? formExtraNotes;
+  String? toExtraNotes;
+
+  DateRangeScreenTour(
+      {super.key,
+      this.from_date,
+      this.to_date,
+      this.fromLocation,
+      this.toLocation,
+      this.id,
+      this.formExtraNotes,
+      this.toExtraNotes});
 
   @override
   State<DateRangeScreenTour> createState() => _DateRangeScreenTourState();
 }
 
 class _DateRangeScreenTourState extends State<DateRangeScreenTour> {
+  final profileController = Get.put(ProfileController());
+
   DateTime _startDate = DateTime.now();
   DateTime _endDate = DateTime.now();
   String? formattedStartDate;
@@ -84,14 +104,33 @@ class _DateRangeScreenTourState extends State<DateRangeScreenTour> {
       print('object${value.toString()}');
       DateRangeInTravelModel response = DateRangeInTravelModel.fromJson(jsonDecode(value));
       if (response.status == true) {
-        int? id = response.productDetails!.productAvailabilityId?.id;
+        profileController.productAvailabilityId = response.productDetails!.productAvailabilityId!.id!;
         showToast(response.message.toString());
-        Get.to(() => TimingScreenTour(id: id,));
+        if (widget.id != null) {
+          Get.to(() => ReviewandPublishTourScreenScreen());
+        } else {
+          Get.to(() => TimingScreenTour());
+        }
+
         print('value isssss${response.toJson()}');
       } else {
         showToast(response.message.toString());
       }
     });
+  }
+
+  @override
+  void initState() {
+    // TODO: implement initState
+    super.initState();
+    if (widget.id != null) {
+      addProductController.formattedStartDate = widget.from_date;
+      formattedStartDate1 = widget.to_date;
+      fromController.text = widget.fromLocation.toString();
+      toController.text = widget.toLocation.toString();
+      notesController.text = widget.formExtraNotes.toString();
+      extraController.text = widget.toExtraNotes.toString();
+    }
   }
 
   final formKey = GlobalKey<FormState>();
@@ -103,13 +142,25 @@ class _DateRangeScreenTourState extends State<DateRangeScreenTour> {
         surfaceTintColor: Colors.white,
         elevation: 0,
         leading: GestureDetector(
-          onTap: () {
+          onTap: (){
             Get.back();
           },
-          child: const Icon(
-            Icons.arrow_back_ios_new,
-            color: Color(0xff0D5877),
-            size: 16,
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.center,
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: [
+              profileController.selectedLAnguage.value != 'English' ?
+              Image.asset(
+                'assets/images/forward_icon.png',
+                height: 19,
+                width: 19,
+              ) :
+              Image.asset(
+                'assets/images/back_icon_new.png',
+                height: 19,
+                width: 19,
+              ),
+            ],
           ),
         ),
         titleSpacing: 0,
@@ -117,7 +168,7 @@ class _DateRangeScreenTourState extends State<DateRangeScreenTour> {
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: [
             Text(
-              'Date dddd'.tr,
+              'Date'.tr,
               style: GoogleFonts.poppins(color: const Color(0xff292F45), fontWeight: FontWeight.w600, fontSize: 20),
             ),
           ],
@@ -374,7 +425,7 @@ class _DateRangeScreenTourState extends State<DateRangeScreenTour> {
               InkWell(
                 onTap: () {
                   // updateProfile();
-                  Get.to(() =>  TimingScreenTour());
+                  Get.to(() => TimingScreenTour());
                 },
                 child: Container(
                   width: Get.width,

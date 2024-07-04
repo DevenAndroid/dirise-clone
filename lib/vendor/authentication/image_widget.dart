@@ -1,8 +1,11 @@
 import 'dart:io';
 import 'package:dirise/utils/api_constant.dart';
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:image_cropper/image_cropper.dart';
+import 'package:image_picker/image_picker.dart';
 import '../../utils/helper.dart';
 import '../../widgets/dimension_screen.dart';
 
@@ -54,10 +57,88 @@ class _ImageWidgetState extends State<ImageWidget> {
         showToast("Document must be smaller then 10 Mb".tr);
         return;
       }
+      if (widget.imageOnly == false && !value.path.endsWith('.mp4')) {
+        showToast("Please select a video file".tr);
+        return;
+      }
       widget.filePicked(value);
       file = value;
       setState(() {});
     });
+  }
+  Future<void> pickImagesNew() async {
+    showModalBottomSheet(
+      context: context,
+      builder: (BuildContext context) {
+        return SafeArea(
+          child: Column(
+            mainAxisSize: MainAxisSize.min,
+            children: <Widget>[
+
+              ListTile(
+                leading: const Icon(Icons.photo_library),
+                title: const Text('Files'),
+                onTap: () async {
+                  Get.back();
+                  if (widget.imageOnly == true) {
+                    NewHelper.showImagePickerSheet(
+                        context: context,
+                        gotImage: (File value) {
+                          widget.filePicked(value);
+                          file = value;
+                          setState(() {});
+                          return;
+                        });
+                    return;
+                  }
+                  NewHelper().addFilePicker().then((value) {
+                    if (value == null) return;
+
+                    int sizeInBytes = value.lengthSync();
+                    double sizeInMb = sizeInBytes / (1024 * 1024);
+                    if (sizeInMb > 10){
+                      showToast("Document must be smaller then 10 Mb".tr);
+                      return;
+                    }
+                    if (widget.imageOnly == false && !value.path.endsWith('.mp4')) {
+                      showToast("Please select a video file".tr);
+                      return;
+                    }
+                    widget.filePicked(value);
+                    file = value;
+                    setState(() {});
+                  });
+
+                },
+              ),
+              ListTile(
+                leading: Icon(Icons.camera_alt),
+                title: Text('Camera'),
+                onTap: () async {
+                  Get.back();
+                  final pickedFile = await ImagePicker().pickImage(
+                    source: ImageSource.camera,
+                    imageQuality: 80,
+                  );
+                  if (pickedFile != null) {
+                    setState(() {
+                      file = File(pickedFile.path);
+                    });
+                    widget.filePicked(file);
+                  }
+                },
+              ),
+              ListTile(
+                leading: Icon(Icons.cancel),
+                title: Text('Cancel'),
+                onTap: () {
+                  Get.back();                },
+              ),
+            ],
+          ),
+        );
+      },
+    );
   }
 
   @override
@@ -79,7 +160,8 @@ class _ImageWidgetState extends State<ImageWidget> {
         8.spaceY,
         GestureDetector(
           onTap: () {
-            pickImage();
+            // pickImage();
+            pickImagesNew();
           },
           child: Container(
             padding: EdgeInsets.symmetric(horizontal: AddSize.padding16, vertical: AddSize.padding16),
@@ -96,7 +178,7 @@ class _ImageWidgetState extends State<ImageWidget> {
                     mainAxisAlignment: MainAxisAlignment.center,
                     children: [
                       Text(
-                        "${'Select'} ${widget.title}",
+                        "${'Select'.tr} ${widget.title}",
                         style: GoogleFonts.poppins(
                             fontWeight: FontWeight.w500,
                             color: validation ? Theme.of(context).colorScheme.error : const Color(0xff463B57),
@@ -143,6 +225,11 @@ class _ImageWidgetState extends State<ImageWidget> {
     );
   }
 }
+
+
+
+
+
 class ImageWidget1 extends StatefulWidget {
   const ImageWidget1(
       {super.key,
@@ -174,8 +261,12 @@ class _ImageWidget1State extends State<ImageWidget1> {
     NewHelper().addFilePicker().then((value) {
       if (value == null) return;
 
-      // Check if the file is a CSV
-      if (value.path.endsWith('.csv')) {
+      // List of allowed file extensions
+      List<String> allowedExtensions = ['.csv', '.xlsx', '.xls'];
+
+      // Check if the file has an allowed extension
+      String fileExtension = value.path.split('.').last;
+      if (allowedExtensions.contains('.$fileExtension')) {
         int sizeInBytes = value.lengthSync();
         double sizeInMb = sizeInBytes / (1024 * 1024);
         if (sizeInMb > 10) {
@@ -186,10 +277,11 @@ class _ImageWidget1State extends State<ImageWidget1> {
         file = value;
         setState(() {});
       } else {
-        showToast("Please upload a CSV file.".tr);
+        showToast("Please upload a CSV, XLSX, or XLS file.".tr);
       }
     });
   }
+
 
   @override
   void initState() {

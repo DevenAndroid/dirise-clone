@@ -19,27 +19,47 @@ class CartBagCard extends StatefulWidget {
 
 class _CartBagCardState extends State<CartBagCard> {
   final cartController = Get.put(CartController());
+  String totalProducts = '0';
   @override
   Widget build(BuildContext context) {
     return Obx(() {
       if (cartController.refreshInt.value > 0) {}
+      if(cartController.apiLoaded == true) {
+       totalProducts = cartController.cartModel.totalProducts ?? '0';
+      }
       return GestureDetector(
         behavior: HitTestBehavior.translucent,
         onTap: () {
+          cartController.getCart();
           Get.toNamed(BagsScreen.route);
 
         },
         child: Padding(
           padding: const EdgeInsets.only(left: 20,right: 15,bottom: 10),
-          child:      Stack(children:[ SvgPicture.asset("assets/svgs/cart.svg",color: widget.isBlackTheme == true ? Colors.white : AppTheme.buttonColor,),cartController.apiLoaded
-              ? Positioned(
-            right: 4,
-            top: 5.8,
-            child: Text(
-              key: ValueKey(DateTime.now().millisecondsSinceEpoch),
-              cartController.cartModel.totalProducts.toString(),
-              style: GoogleFonts.poppins(color: widget.isBlackTheme == true ? Colors.white :Colors.white, fontSize: 13),
-            ).animate().scale(duration: 200.ms),
+          child:      Stack(children:[
+            totalProducts.length != 1 ?  SvgPicture.asset("assets/svgs/cart_new.svg",
+              width: 32,
+              height: 32,
+              // color: widget.isBlackTheme == true ? Colors.white : AppTheme.buttonColor,
+            ):
+            SvgPicture.asset("assets/svgs/bag_2digit.svg",
+              width: 32,
+              height: 32,
+              // color: widget.isBlackTheme == true ? Colors.white : AppTheme.buttonColor,
+            ),
+            cartController.apiLoaded
+              ? Positioned.fill(
+            top: 0,
+            left:  totalProducts.length != 1 ?  14 : 15,
+            bottom: totalProducts.length != 1 ? 0 : 8,
+            child: Center(
+              child: Text(
+                key: ValueKey(DateTime.now().millisecondsSinceEpoch),
+                cartController.cartModel.totalProducts.toString(),
+                textAlign: TextAlign.center,
+                style: GoogleFonts.poppins(color: widget.isBlackTheme == true ? Colors.white :Colors.white, fontSize: 8),
+              ).animate().scale(duration: 200.ms),
+            ),
           )
               : const SizedBox(),]),
         ),

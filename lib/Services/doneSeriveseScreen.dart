@@ -42,7 +42,7 @@ class _DoneServiceScreenState extends State<DoneServiceScreen> {
             children: [
 
               Image.asset(
-                'assets/images/newlogoo.png',
+                'assets/images/newlogoo1.png',
                 height: 200,
                 width: 200,
               ),

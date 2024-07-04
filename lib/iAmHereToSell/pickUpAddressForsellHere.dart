@@ -10,6 +10,7 @@ import 'package:form_field_validator/form_field_validator.dart';
 import 'package:get/get.dart';
 import 'package:google_fonts/google_fonts.dart';
 
+import '../controller/profile_controller.dart';
 import '../language/app_strings.dart';
 import '../model/common_modal.dart';
 import '../newAddress/customeraccountcreatedsuccessfullyScreen.dart';
@@ -66,15 +67,17 @@ class _SellingPickupAddressState extends State<SellingPickupAddress> {
         widget.country != null &&
         widget.zipcode != null &&
         widget.town != null) {
+      print('now true call');
       map['address_type'] = 'Both';
       map['city'] = widget.city;
       map['country'] = widget.country;
       map['state'] = widget.state;
-      map['zip_code'] = widget.zipcode;
+      map['zip_code'] = widget.zipcode!.isNotEmpty ? widget.zipcode :  zipcodeController.text.trim();
       map['town'] = widget.town;
       map['street'] = widget.street;
       map['special_instruction'] = specialInstructionController.text.trim();
     }else{
+      print('now else call');
       map['address_type'] = 'Both';
       map['city'] = cityController.text.trim();
       map['country'] = countryController.text.trim();
@@ -109,6 +112,7 @@ class _SellingPickupAddressState extends State<SellingPickupAddress> {
       townController.text = widget.town ?? '';
     }
   }
+  final profileController = Get.put(ProfileController());
   @override
   Widget build(BuildContext context) {
     Size size = MediaQuery.of(context).size;
@@ -117,10 +121,27 @@ class _SellingPickupAddressState extends State<SellingPickupAddress> {
         backgroundColor: Colors.white,
         surfaceTintColor: Colors.white,
         elevation: 0,
-        leading: const Icon(
-          Icons.arrow_back_ios_new,
-          color: Color(0xff0D5877),
-          size: 16,
+        leading: GestureDetector(
+          onTap: (){
+            Get.back();
+          },
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.center,
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: [
+              profileController.selectedLAnguage.value != 'English' ?
+              Image.asset(
+                'assets/images/forward_icon.png',
+                height: 19,
+                width: 19,
+              ) :
+              Image.asset(
+                'assets/images/back_icon_new.png',
+                height: 19,
+                width: 19,
+              ),
+            ],
+          ),
         ),
         titleSpacing: 0,
         title: Row(
@@ -219,7 +240,25 @@ class _SellingPickupAddressState extends State<SellingPickupAddress> {
                 ),
                 const SizedBox(height: 10,),
                 Text(
-                  "Zip Code".tr,
+                  "Country*".tr,
+                  style: GoogleFonts.poppins(color: const Color(0xff044484), fontWeight: FontWeight.w600, fontSize: 14),
+                ),
+                const SizedBox(height: 5,),
+                CommonTextField(
+                  controller: countryController,
+                  obSecure: false,
+                  hintText: 'Country'.tr,
+                  validator: (value) {
+                    if (value!.trim().isEmpty) {
+                      return 'Country is required';
+                    }
+                    return null; // Return null if validation passes
+                  },
+
+                ),
+                const SizedBox(height: 10,),
+                Text(
+                  "Zip Code*".tr,
                   style: GoogleFonts.poppins(color: const Color(0xff044484), fontWeight: FontWeight.w600, fontSize: 14),
                 ),
                 const SizedBox(height: 5,),
@@ -229,7 +268,7 @@ class _SellingPickupAddressState extends State<SellingPickupAddress> {
                     hintText: 'Zip Code'.tr,
                     validator: (value) {
                       if (value!.trim().isEmpty) {
-                        return 'Zip Code is required';
+                        return 'Zip Code is required'.tr;
                       }
                       return null; // Return null if validation passes
                     },
@@ -254,7 +293,7 @@ class _SellingPickupAddressState extends State<SellingPickupAddress> {
                 const SizedBox(height: 10,),
 
                 Text(
-                  "Special instruction*".tr,
+                  "Special instruction".tr,
                   style: GoogleFonts.poppins(color: const Color(0xff044484), fontWeight: FontWeight.w600, fontSize: 14),
                 ),
                 const SizedBox(height: 5,),

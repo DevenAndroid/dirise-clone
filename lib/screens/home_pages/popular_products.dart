@@ -5,6 +5,7 @@ import 'package:get/get.dart';
 import 'package:google_fonts/google_fonts.dart';
 
 import '../../controller/home_controller.dart';
+import '../../controller/profile_controller.dart';
 import '../../widgets/common_colour.dart';
 
 class PopularProducts extends StatefulWidget {
@@ -16,6 +17,7 @@ class PopularProducts extends StatefulWidget {
 
 class _PopularProductsState extends State<PopularProducts> {
   final homeController = Get.put(TrendingProductsController());
+  final profileController = Get.put(ProfileController());
 
   @override
   Widget build(BuildContext context) {
@@ -31,7 +33,7 @@ class _PopularProductsState extends State<PopularProducts> {
                     children: [
                       SizedBox(),
                       Text(
-                        "Popular Products".toUpperCase(),
+                        "Popular Products".tr.toUpperCase(),
                         style: GoogleFonts.poppins(fontSize: 20, fontWeight: FontWeight.w500),
                       ),
                     SizedBox()
@@ -40,7 +42,7 @@ class _PopularProductsState extends State<PopularProducts> {
                 ),
                 SizedBox(height: 20,),
                 Text(
-                  "All what you need for a fun and exciting day in",
+                  "All what you need for a fun and exciting day in".tr,
                   style: GoogleFonts.poppins(fontSize: 12, fontWeight: FontWeight.w400),
                 ),
                 SizedBox(height: 20,),
@@ -57,7 +59,9 @@ class _PopularProductsState extends State<PopularProducts> {
                           // });
                           // scrollToItem(index1);
                         },
-                        child:Image.asset("assets/svgs/forward.png")
+                        child:  profileController.selectedLAnguage.value != 'English' ?
+                        Image.asset("assets/images/arab_forward.png",width: 40,height: 40,) :
+                        Image.asset("assets/icons/new_arrow.png",width: 35,height: 35,)
                     ),
                     SizedBox(width: 20,)
                   ],
@@ -74,6 +78,7 @@ class _PopularProductsState extends State<PopularProducts> {
                         itemBuilder: (BuildContext context, int index) {
                           final item = homeController.popularProdModal.value.product!.product![index];
                           return ProductUI(
+                            isSingle: false,
                             productElement: item,
                             onLiked: (value) {
                               homeController.popularProdModal.value.product!.product![index].inWishlist = value;

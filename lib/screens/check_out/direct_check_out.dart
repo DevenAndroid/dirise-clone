@@ -5,6 +5,7 @@ import 'package:dirise/utils/helper.dart';
 import 'package:dirise/widgets/customsize.dart';
 import 'package:dotted_border/dotted_border.dart';
 import 'package:flutter/cupertino.dart';
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:get/get.dart';
@@ -31,6 +32,7 @@ import '../my_account_screens/editprofile_screen.dart';
 
 class DirectCheckOutScreen extends StatefulWidget {
   static String route = "/DirectCheckOutScreen";
+
   const DirectCheckOutScreen({super.key});
 
   @override
@@ -45,13 +47,17 @@ class _DirectCheckOutScreenState extends State<DirectCheckOutScreen> {
   final GlobalKey addressKey = GlobalKey();
   String shippingPrice = '0';
   double total = 0.0;
+  double fedxTotal = 0.0;
+  double fedxTotalShip = 0.0;
   ModelPaymentMethods? methods;
+
   getPaymentGateWays() {
     Repositories().getApi(url: ApiUrls.paymentMethodsUrl).then((value) {
       methods = ModelPaymentMethods.fromJson(jsonDecode(value));
       setState(() {});
     });
   }
+
   double sPrice1 = 0.0;
   dynamic sPrice = 0.0;
   final _formKey = GlobalKey<FormState>();
@@ -61,7 +67,7 @@ class _DirectCheckOutScreenState extends State<DirectCheckOutScreen> {
   RxString paymentOption = "".obs;
 
   bool get userLoggedIn => profileController.userLoggedIn;
-  ModelDirectOrderResponse directOrderResponse = ModelDirectOrderResponse();
+
   ModelStateList? modelStateList;
   CountryState? selectedState;
 
@@ -69,6 +75,7 @@ class _DirectCheckOutScreenState extends State<DirectCheckOutScreen> {
   City? selectedCity;
   final Repositories repositories = Repositories();
   RxInt stateRefresh = 2.obs;
+
   getCountryList() {
     if (modelCountryList != null) return;
     repositories.getApi(url: ApiUrls.allCountriesUrl).then((value) {
@@ -87,11 +94,16 @@ class _DirectCheckOutScreenState extends State<DirectCheckOutScreen> {
     final map = {'country_id': countryId};
     await repositories.postApi(url: ApiUrls.allStatesUrl, mapData: map).then((value) {
       modelStateList = ModelStateList.fromJson(jsonDecode(value));
-      stateRefresh.value = DateTime.now().millisecondsSinceEpoch;
+      stateRefresh.value = DateTime
+          .now()
+          .millisecondsSinceEpoch;
     }).catchError((e) {
-      stateRefresh.value = DateTime.now().millisecondsSinceEpoch;
+      stateRefresh.value = DateTime
+          .now()
+          .millisecondsSinceEpoch;
     });
   }
+
   defaultAddressApi() async {
     Map<String, dynamic> map = {};
     map['address_id'] = cartController.selectedAddress.id.toString();
@@ -100,14 +112,16 @@ class _DirectCheckOutScreenState extends State<DirectCheckOutScreen> {
       if (response.status == true) {
         showToast(response.message.toString());
         Get.back();
-      }else{
+      } else {
         showToast(response.message.toString());
       }
     });
   }
+
   ModelCountryList? modelCountryList;
   Country? selectedCountry;
   RxInt cityRefresh = 2.obs;
+
   Future getCityList({required String stateId, bool? reset}) async {
     if (reset == true) {
       modelCityList = null;
@@ -117,9 +131,13 @@ class _DirectCheckOutScreenState extends State<DirectCheckOutScreen> {
     final map = {'state_id': stateId};
     await repositories.postApi(url: ApiUrls.allCityUrl, mapData: map).then((value) {
       modelCityList = ModelCityList.fromJson(jsonDecode(value));
-      cityRefresh.value = DateTime.now().millisecondsSinceEpoch;
+      cityRefresh.value = DateTime
+          .now()
+          .millisecondsSinceEpoch;
     }).catchError((e) {
-      cityRefresh.value = DateTime.now().millisecondsSinceEpoch;
+      cityRefresh.value = DateTime
+          .now()
+          .millisecondsSinceEpoch;
     });
   }
 
@@ -127,6 +145,7 @@ class _DirectCheckOutScreenState extends State<DirectCheckOutScreen> {
   String stateIddd = '';
   RxString shipId = "".obs;
   RxString shipmentProvider = "".obs;
+
   @override
   void initState() {
     super.initState();
@@ -146,31 +165,54 @@ class _DirectCheckOutScreenState extends State<DirectCheckOutScreen> {
     cartController.addressDeliZipCode.text = '';
     cartController.countryName.value = '';
     getPaymentGateWays();
-    if (Get.arguments != null) {
-      directOrderResponse = Get.arguments;
-    }
+    // if (Get.arguments != null) {
+    //   cardirectOrderResponse = Get.arguments;
+    // }
     profileController.checkUserLoggedIn().then((value) {
       if (value == false) return;
     });
     cartController.getAddress();
     cartController.myDefaultAddressData();
   }
-RxString shippingType= "".obs;
+  RxString shippingType = "".obs;
+  @override
+  void dispose() {
+    // TODO: implement dispose
+    super.dispose();
+    cartController.directOrderResponse;
+  }
   @override
   Widget build(BuildContext context) {
-    Size size = MediaQuery.of(context).size;
+    Size size = MediaQuery
+        .of(context)
+        .size;
     return Scaffold(
       backgroundColor: const Color(0xffF5F5F5),
       appBar: AppBar(
         backgroundColor: Colors.white,
         surfaceTintColor: Colors.white,
         elevation: 0,
-        leading: IconButton(
-          icon: const Icon(Icons.arrow_back_ios, color: Color(0xff014E70), size: 20),
-          onPressed: () {
-            Get.back();
+        leading: GestureDetector(
+          onTap: () {
             Get.back();
           },
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.center,
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: [
+              profileController.selectedLAnguage.value != 'English' ?
+              Image.asset(
+                'assets/images/forward_icon.png',
+                height: 19,
+                width: 19,
+              ) :
+              Image.asset(
+                'assets/images/back_icon_new.png',
+                height: 19,
+                width: 19,
+              ),
+            ],
+          ),
         ),
         titleSpacing: 0,
         title: Row(
@@ -183,263 +225,177 @@ RxString shippingType= "".obs;
           ],
         ),
       ),
-      body: SingleChildScrollView(
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            addressPart(size),
-            const SizedBox(
-              height: 30,
-            ),
-            paymentMethod(size),
-            Column(
-              children: [
-                Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    Padding(
-                      padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 15).copyWith(top: 0),
-                      child: Column(
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        children: [
-                          Text(
-                            "${'Sold By'.tr} ${directOrderResponse.prodcutData!.slug.toString()}",
-                            style: titleStyle,
-                          ),
-                          addHeight(20),
-                          IntrinsicHeight(
-                            child: Row(
-                              crossAxisAlignment: CrossAxisAlignment.start,
-                              children: [
-                                Container(
-                                  width: 75,
-                                  height: 75,
-                                  decoration: BoxDecoration(
-                                    borderRadius: BorderRadius.circular(12),
-                                  ),
-                                  child: ClipRRect(
-                                    borderRadius: BorderRadius.circular(12),
-                                    child: Image.network(directOrderResponse.prodcutData!.featureImageApp.toString(),
-                                        fit: BoxFit.contain,
-                                        errorBuilder: (_, __, ___) => Image.asset('assets/images/new_logo.png')),
-                                  ),
-                                ),
-                                const SizedBox(
-                                  width: 16,
-                                ),
-                                Expanded(
-                                  child: Column(
-                                    crossAxisAlignment: CrossAxisAlignment.start,
-                                    // mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                                    children: [
-                                      Text(
-                                        directOrderResponse.prodcutData!.pname.toString(),
-                                        style: titleStyle.copyWith(fontWeight: FontWeight.w400),
-                                        textAlign: TextAlign.start,
-                                      ),
-                                      const SizedBox(
-                                        height: 6,
-                                      ),
-                                      Text(
-                                        'KWD ${directOrderResponse.prodcutData!.sPrice.toString()}',
-                                        style: GoogleFonts.poppins(fontSize: 15, fontWeight: FontWeight.w400),
-                                      ),
-                                      const SizedBox(
-                                        height: 4,
-                                      ),
-                                      // IntrinsicHeight(
-                                      //   child: Row(
-                                      //     children: [
-                                      //       IconButton(
-                                      //           onPressed: () {
-                                      //             if (directOrderResponse.returnData!.quantity.toNum > 1) {
-                                      //               cartController.updateCartQuantity(
-                                      //                   context: context,
-                                      //                   productId: directOrderResponse.prodcutData!.id.toString(),
-                                      //                   quantity: (directOrderResponse.returnData!.quantity.toNum - 1).toString());
-                                      //             } else {
-                                      //               cartController.removeItemFromCart(
-                                      //                   productId: directOrderResponse.prodcutData!.id.toString(), context: context);
-                                      //             }
-                                      //           },
-                                      //           style: IconButton.styleFrom(
-                                      //             shape: RoundedRectangleBorder(
-                                      //                 borderRadius: BorderRadius.circular(2)),
-                                      //             backgroundColor: AppTheme.buttonColor,
-                                      //           ),
-                                      //           constraints: const BoxConstraints(minHeight: 0),
-                                      //           padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 12),
-                                      //           visualDensity: VisualDensity.compact,
-                                      //           icon: const Icon(
-                                      //             Icons.remove,
-                                      //             color: Colors.white,
-                                      //             size: 20,
-                                      //           )),
-                                      //       5.spaceX,
-                                      //       Container(
-                                      //         decoration: BoxDecoration(
-                                      //             borderRadius: BorderRadius.circular(2),
-                                      //             // color: Colors.grey,
-                                      //             border: Border.all(color: Colors.grey.shade800)),
-                                      //         margin: const EdgeInsets.symmetric(vertical: 6),
-                                      //         padding: const EdgeInsets.symmetric(horizontal: 15),
-                                      //         alignment: Alignment.center,
-                                      //         child: Text(
-                                      //           directOrderResponse.returnData!.quantity.toString(),
-                                      //           style: normalStyle,
-                                      //         ),
-                                      //       ),
-                                      //       5.spaceX,
-                                      //       IconButton(
-                                      //           onPressed: () {
-                                      //             if (directOrderResponse.returnData!.quantity.toString().toNum <
-                                      //                 directOrderResponse.prodcutData!.inStock.toString().toNum) {
-                                      //               cartController.updateCartQuantity(
-                                      //                   context: context,
-                                      //                   productId:   directOrderResponse.prodcutData!.id.toString(),
-                                      //                   quantity: (directOrderResponse.returnData!.quantity.toString().toNum + 1).toString());
-                                      //             }else{
-                                      //               showToastCenter("Out Of Stock".tr);
-                                      //             }
-                                      //           },
-                                      //           style: IconButton.styleFrom(
-                                      //             shape: RoundedRectangleBorder(
-                                      //                 borderRadius: BorderRadius.circular(2)),
-                                      //             backgroundColor: AppTheme.buttonColor,
-                                      //           ),
-                                      //           constraints: const BoxConstraints(minHeight: 0),
-                                      //           padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 12),
-                                      //           visualDensity: VisualDensity.compact,
-                                      //           icon: const Icon(
-                                      //             Icons.add,
-                                      //             color: Colors.white,
-                                      //             size: 20,
-                                      //           )),
-                                      //     ],
-                                      //   ),
-                                      // )
-                                    ],
-                                  ),
-                                ),
-                                // IconButton(
-                                //     onPressed: () {
-                                //       cartController.removeItemFromCart(
-                                //           productId:   directOrderResponse.prodcutData!.id.toString(), context: context);
-                                //     },
-                                //     visualDensity: VisualDensity.compact,
-                                //     icon: SvgPicture.asset(
-                                //       "assets/svgs/delete.svg",
-                                //       height: 18,
-                                //       width: 18,
-                                //     ))
-                              ],
+      body: Obx(() {
+        return cartController.directOrderResponse.value.prodcutData != null ?
+          SingleChildScrollView(
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              addressPart(size),
+              const SizedBox(
+                height: 30,
+              ),
+              paymentMethod(size),
+              Column(
+                children: [
+                  Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      Padding(
+                        padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 15).copyWith(top: 0),
+                        child: Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
+                            Text(
+                              "${'Sold By'.tr} ${cartController.directOrderResponse.value.prodcutData!.slug.toString()}",
+                              style: titleStyle,
                             ),
-                          ),
-                        ],
-                      ),
-                    ),
-                    10.spaceY,
-                    if (
-                    // selectedAddress.id != null &&
-                        // directOrderResponse.prodcutData!.isShipping == true &&
-                        // directOrderResponse.vendorCountryId == '117' &&
-                        // cartController.countryName.value == 'Kuwait'
-                    directOrderResponse.localShipping == true
-                    )
-                      Column(
-                        children: [
-                          Container(
-                            color: Colors.white,
-                            child: Padding(
-                              padding: const EdgeInsets.symmetric(horizontal: 24, vertical: 16),
+                            addHeight(20),
+                            IntrinsicHeight(
                               child: Row(
-                                crossAxisAlignment: CrossAxisAlignment.center,
+                                crossAxisAlignment: CrossAxisAlignment.start,
                                 children: [
-                                  Image.asset('assets/images/shipping_icon.png', height: 32, width: 32),
-                                  20.spaceX,
-                                  Text("Shipping Method".tr,
-                                      style: GoogleFonts.poppins(fontWeight: FontWeight.w500, fontSize: 18)),
+                                  Container(
+                                    width: 75,
+                                    height: 75,
+                                    decoration: BoxDecoration(
+                                      borderRadius: BorderRadius.circular(12),
+                                    ),
+                                    child: ClipRRect(
+                                      borderRadius: BorderRadius.circular(12),
+                                      child: Image.network(
+                                          cartController.directOrderResponse.value.prodcutData!.featureImageApp.toString(),
+                                          fit: BoxFit.contain,
+                                          errorBuilder: (_, __, ___) => Image.asset('assets/images/new_logo.png')),
+                                    ),
+                                  ),
+                                  const SizedBox(
+                                    width: 16,
+                                  ),
+                                  Expanded(
+                                    child: Column(
+                                      crossAxisAlignment: CrossAxisAlignment.start,
+                                      // mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                                      children: [
+                                        Text(
+                                          cartController.directOrderResponse.value.prodcutData!.pname.toString(),
+                                          style: titleStyle.copyWith(fontWeight: FontWeight.w400),
+                                          textAlign: TextAlign.start,
+                                        ),
+                                        const SizedBox(
+                                          height: 6,
+                                        ),
+                                        Text(
+                                          cartController.directOrderResponse.value.prodcutData!.productType == 'variants'
+                                              ? 'KWD ${cartController.directOrderResponse.value.prodcutData!.variantPrice}'
+                                              : 'KWD ${cartController.directOrderResponse.value.prodcutData!.discountPrice}',
+                                          // 'KWD ${directOrderResponse.prodcutData!.sPrice.toString()}',
+                                          style: GoogleFonts.poppins(fontSize: 15, fontWeight: FontWeight.w400),
+                                        ),
+                                        const SizedBox(
+                                          height: 4,
+                                        ),
+                                        // IntrinsicHeight(
+                                        //   child: Row(
+                                        //     children: [
+                                        //       IconButton(
+                                        //           onPressed: () {
+                                        //             if (directOrderResponse.returnData!.quantity.toNum > 1) {
+                                        //               cartController.updateCartQuantity(
+                                        //                   context: context,
+                                        //                   productId: directOrderResponse.prodcutData!.id.toString(),
+                                        //                   quantity: (directOrderResponse.returnData!.quantity.toNum - 1).toString());
+                                        //             } else {
+                                        //               cartController.removeItemFromCart(
+                                        //                   productId: directOrderResponse.prodcutData!.id.toString(), context: context);
+                                        //             }
+                                        //           },
+                                        //           style: IconButton.styleFrom(
+                                        //             shape: RoundedRectangleBorder(
+                                        //                 borderRadius: BorderRadius.circular(2)),
+                                        //             backgroundColor: AppTheme.buttonColor,
+                                        //           ),
+                                        //           constraints: const BoxConstraints(minHeight: 0),
+                                        //           padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 12),
+                                        //           visualDensity: VisualDensity.compact,
+                                        //           icon: const Icon(
+                                        //             Icons.remove,
+                                        //             color: Colors.white,
+                                        //             size: 20,
+                                        //           )),
+                                        //       5.spaceX,
+                                        //       Container(
+                                        //         decoration: BoxDecoration(
+                                        //             borderRadius: BorderRadius.circular(2),
+                                        //             // color: Colors.grey,
+                                        //             border: Border.all(color: Colors.grey.shade800)),
+                                        //         margin: const EdgeInsets.symmetric(vertical: 6),
+                                        //         padding: const EdgeInsets.symmetric(horizontal: 15),
+                                        //         alignment: Alignment.center,
+                                        //         child: Text(
+                                        //           directOrderResponse.returnData!.quantity.toString(),
+                                        //           style: normalStyle,
+                                        //         ),
+                                        //       ),
+                                        //       5.spaceX,
+                                        //       IconButton(
+                                        //           onPressed: () {
+                                        //             if (directOrderResponse.returnData!.quantity.toString().toNum <
+                                        //                 directOrderResponse.prodcutData!.inStock.toString().toNum) {
+                                        //               cartController.updateCartQuantity(
+                                        //                   context: context,
+                                        //                   productId:   directOrderResponse.prodcutData!.id.toString(),
+                                        //                   quantity: (directOrderResponse.returnData!.quantity.toString().toNum + 1).toString());
+                                        //             }else{
+                                        //               showToastCenter("Out Of Stock".tr);
+                                        //             }
+                                        //           },
+                                        //           style: IconButton.styleFrom(
+                                        //             shape: RoundedRectangleBorder(
+                                        //                 borderRadius: BorderRadius.circular(2)),
+                                        //             backgroundColor: AppTheme.buttonColor,
+                                        //           ),
+                                        //           constraints: const BoxConstraints(minHeight: 0),
+                                        //           padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 12),
+                                        //           visualDensity: VisualDensity.compact,
+                                        //           icon: const Icon(
+                                        //             Icons.add,
+                                        //             color: Colors.white,
+                                        //             size: 20,
+                                        //           )),
+                                        //     ],
+                                        //   ),
+                                        // )
+                                      ],
+                                    ),
+                                  ),
+                                  // IconButton(
+                                  //     onPressed: () {
+                                  //       cartController.removeItemFromCart(
+                                  //           productId:   directOrderResponse.prodcutData!.id.toString(), context: context);
+                                  //     },
+                                  //     visualDensity: VisualDensity.compact,
+                                  //     icon: SvgPicture.asset(
+                                  //       "assets/svgs/delete.svg",
+                                  //       height: 18,
+                                  //       width: 18,
+                                  //     ))
                                 ],
                               ),
                             ),
-                          ),
-                          Container(
-                            color: Colors.white,
-                            child: ListView.builder(
-                              physics: const NeverScrollableScrollPhysics(),
-                              shrinkWrap: true,
-                              itemCount: directOrderResponse.shippingType!.icarryShipping!.length,
-                              padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 15).copyWith(top: 0),
-                              itemBuilder: (context, ii) {
-                                var product = directOrderResponse.shippingType!.icarryShipping![ii];
-
-                                return Obx(() {
-                                  return Column(
-                                    children: [
-                                      10.spaceY,
-                                      ii == 0
-                                          ? 0.spaceY
-                                          : const Divider(
-                                        color: Color(0xFFD9D9D9),
-                                        thickness: 0.8,
-                                      ),
-                                      Row(
-                                        children: [
-                                          Radio(
-                                            value: product.carrierModel!.id.toString(),
-                                            groupValue: directOrderResponse.shippingOption.value,
-                                            visualDensity: const VisualDensity(horizontal: -4.0),
-                                            onChanged: (value) {
-                                              setState(() {
-                                                directOrderResponse.shippingOption.value = value.toString();
-                                                cartController.shippingId = directOrderResponse.shippingOption.value;
-                                                // shippingPrice =directOrderResponse.shippingType!.localShipping!.map((e) {
-                                                //   return e.value.toString();
-                                                // });
-                                                double subtotal = double.parse(directOrderResponse.icarryCommision.toString());
-                                                double shipping = double.parse(product.rate.toString());
-                                                total = subtotal + shipping;
-                                                cartController.formattedTotal = total.toString();
-                                                print('total isss${cartController.formattedTotal.toString()}');
-                                                log(directOrderResponse.shippingOption.value);
-                                                log(cartController.shippingId);
-                                              });
-                                            },
-                                          ),
-                                          20.spaceX,
-                                          Column(
-                                            crossAxisAlignment: CrossAxisAlignment.start,
-                                            children: [
-                                              Text(product.name.toString().capitalize!.replaceAll('_', ' '),
-                                                  style:
-                                                  GoogleFonts.poppins(fontWeight: FontWeight.w500, fontSize: 16)),
-                                              3.spaceY,
-                                              // Text('kwd ${product.value.toString()}',
-                                              //     style: GoogleFonts.poppins(
-                                              //         fontWeight: FontWeight.w400,
-                                              //         fontSize: 16,
-                                              //         color: const Color(0xFF03a827))),
-                                            ],
-                                          ),
-                                          // Text(product.name.toString().capitalize!.replaceAll('_', ' '),
-                                          //     style: GoogleFonts.poppins(fontWeight: FontWeight.w400, fontSize: 16)),
-                                        ],
-                                      ),
-                                    ],
-                                  );
-                                });
-                                // : 0.spaceY,;
-                              },
-                            ),
-                          ),
-                        ],
+                          ],
+                        ),
                       ),
-
-                      // selectedAddress.id != null
-                      //     ?
-                 Column(
-                        children: [
-                          if(directOrderResponse.localShipping != true)
+                      10.spaceY,
+                      if (
+                      // selectedAddress.id != null &&
+                      // directOrderResponse.prodcutData!.isShipping == true &&
+                      // directOrderResponse.vendorCountryId == '117' &&
+                      // cartController.countryName.value == 'Kuwait'
+                      cartController.directOrderResponse.value.localShipping == true
+                      )
+                        Column(
+                          children: [
                             Container(
                               color: Colors.white,
                               child: Padding(
@@ -449,782 +405,997 @@ RxString shippingType= "".obs;
                                   children: [
                                     Image.asset('assets/images/shipping_icon.png', height: 32, width: 32),
                                     20.spaceX,
-                                    Text("Fedex Shipping Method".tr,
+                                    Text("Shipping Method".tr,
                                         style: GoogleFonts.poppins(fontWeight: FontWeight.w500, fontSize: 18)),
                                   ],
                                 ),
                               ),
                             ),
-
-                          if( directOrderResponse.localShipping != true && directOrderResponse.shippingType!.fedexShipping!.output == null)
-
-                            Padding(
-                              padding: const EdgeInsets.all(8.0),
-                              child: Text('FedEx service is not currently available to this origin / destination combination. Enter new information or contact FedEx Customer Service.'.tr,style: const TextStyle(
-                                  fontSize: 17
-                              ),),),
-
-    if(directOrderResponse.localShipping != true && directOrderResponse.shippingType!.fedexShipping!.output != null)
-    Container(
-    color: Colors.white,
-    child: ListView.builder(
-    physics: const NeverScrollableScrollPhysics(),
-    shrinkWrap: true,
-    itemCount:directOrderResponse.shippingType!.fedexShipping!.output!.rateReplyDetails!.length,
-    padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 15).copyWith(top: 0),
-    itemBuilder: (context, ii) {
-    return directOrderResponse.shippingType!.fedexShipping!.output!= null ?
-    ListView.builder(
-    shrinkWrap: true,
-    physics: const NeverScrollableScrollPhysics(),
-    itemCount: directOrderResponse.shippingType!.fedexShipping!.output!.rateReplyDetails![ii].ratedShipmentDetails!.length,
-    itemBuilder: (context, index) {
-      cartController.storeIdShipping = directOrderResponse.prodcutData!.vendorId.toString();
-    RateReplyDetails product = directOrderResponse.shippingType!.fedexShipping!.output!.rateReplyDetails![ii];
-    RatedShipmentDetails product1 = directOrderResponse.shippingType!.fedexShipping!.output!.rateReplyDetails![ii].ratedShipmentDetails![index];
-    double subtotal = double.parse(directOrderResponse.fedexCommision.toString());
-    double shipping = double.parse(product1.totalNetCharge.toString());
-    total = subtotal + shipping;
-    cartController.formattedTotal = total.toStringAsFixed(3);
-    print("icarryCommision"+directOrderResponse.fedexCommision.toString());
-    print("rate"+product1.totalNetCharge.toString());
-    print('total isss${cartController.formattedTotal.toString()}');
-    cartController.shippingPrices = cartController.formattedTotal.toString();
-    return Obx(() {
-    return Column(
-    children: [
-    10.spaceY,
-    index == 0
-    ? 0.spaceY
-        : const Divider(
-    color: Color(0xFFD9D9D9),
-    thickness: 0.8,
-    ),
-    Row(
-    children: [
-    Radio(
-    value: product.serviceType.toString(),
-    groupValue:  directOrderResponse.fedexShippingOption.value,
-    visualDensity: const VisualDensity(horizontal: -4.0),
-    fillColor:  directOrderResponse.fedexShippingOption.value.isEmpty
-    ? MaterialStateProperty.all(Colors.red)
-        : null,
-    onChanged: (value) {
-    log("which is selected + $value");
-    setState(() {
-    directOrderResponse.fedexShippingOption.value = value.toString();
-    shippingType.value = "fedex_shipping";
-    shipId.value ="";
-    shipmentProvider.value ="";
-    cartController.shippingDates=product.commit!.dateDetail!.dayFormat!.toString();
-    // e.value.shipping![ii].output!.rateReplyDetails![index].shippingDate = product.operationalDetail!.deliveryDate;
-    cartController.shippingTitle = product.serviceName.toString();
-    // cartController.shippingPrices = product.ratedShipmentDetails![index].totalNetCharge.toString();
-    directOrderResponse.shippingOption.value = value.toString();
-    print( directOrderResponse.fedexShippingOption.value.toString());
-    print(cartController.shippingTitle.toString());
-    print('select value${cartController.shippingPrices.toString()}');
-    print(cartController.shippingPrices.toString());
-    double subtotal = double.parse(directOrderResponse.fedexCommision.toString());
-    double shipping = double.parse(product1.totalNetCharge.toString());
-    total = subtotal + shipping;
-    cartController.formattedTotal2 = total.toStringAsFixed(3);
-    print("icarryCommision"+directOrderResponse.fedexCommision.toString());
-    print("rate"+product1.totalNetCharge.toString());
-    print('total isss${cartController.formattedTotal2.toString()}');
-    cartController.shippingPrices1 = cartController.formattedTotal2.toString();
-    // e.value.shippingId.value = product.id.toString();
-    // e.value.vendorId.value = e.value.shipping![ii].vendorId!;
-    // directOrderResponse.s.value = product.serviceName.toString();
-    // e.value.vendorPrice.value = product.ratedShipmentDetails![index].totalNetCharge.toString();
-
-    directOrderResponse.prodcutData!.sPrice = product.ratedShipmentDetails![index].totalNetCharge;
-
-    log("Initial sPrice:$sPrice1");
-    log("Initial sPrice"+ cartController.shippingTitle);
-    log( product.serviceType.toString());
-    sPrice1 = 0.0;
-
-    // sPrice1 = 0.0;
-    if (directOrderResponse.fedexShippingOption.value.isNotEmpty) {
-    log("kiska price hai + ${directOrderResponse.prodcutData!.sPrice }");
-    log("kiska price hai :::::::::::::::s+ ${shippingType.value.toString()}");
-    sPrice1 = sPrice1 + directOrderResponse.prodcutData!.sPrice ;
-    // sPrice.toStringAsFixed(fractionDigits)
-    // Update sPrice directly without reassigning
-    }
-    total = subtotal + sPrice1;
-    print('total isss${total.toString()}');
-    cartController.formattedTotal = total.toStringAsFixed(3);
-
-
-    });
-    },
-    ),
-    20.spaceX,
-    Expanded(
-    child: Column(
-    crossAxisAlignment: CrossAxisAlignment.start,
-    children: [
-    Text(product.serviceName.toString().capitalize!.replaceAll('_', ' '),
-    style: GoogleFonts.poppins(fontWeight: FontWeight.w500, fontSize: 16)),
-    3.spaceY,
-    Text('kwd ${  cartController.shippingPrices.toString()}',
-    style: GoogleFonts.poppins(fontWeight: FontWeight.w400,
-    fontSize: 16,
-    color: const Color(0xFF03a827))),
-    3.spaceY,
-    // Text('${product.operationalDetail!.deliveryDay ?? ''}  ${product.operationalDetail!.deliveryDate ?? ''}',
-    // style: GoogleFonts.poppins(fontWeight: FontWeight.w400,
-    // fontSize: 15,
-    // fontStyle: FontStyle.italic,
-    // color: const Color(0xFF000000))),
-    ],
-    ),
-    ),
-    ],
-    ),
-    ],
-    );
-    });
-    },
-    )
-        : const LoadingAnimation();
-    // : 0.spaceY,;
-    },
-    ),
-    //   )  : const LoadingAnimation() : const SizedBox(),
-    ),
-
-    if(directOrderResponse.shippingType!.icarryShipping!=null)
-    Container(
-    color: Colors.white,
-    child: Padding(
-    padding: const EdgeInsets.symmetric(horizontal: 24, vertical: 16),
-    child: Row(
-    crossAxisAlignment: CrossAxisAlignment.center,
-    children: [
-    Image.asset('assets/images/shipping_icon.png', height: 32, width: 32),
-    20.spaceX,
-    Text("Icarry Shipping Method".tr,
-    style: GoogleFonts.poppins(fontWeight: FontWeight.w500, fontSize: 18)),
-    ],
-    ),
-    ),
-    ),
-    if(directOrderResponse.shippingType!.icarryShipping!=null)
-    Container(
-    color: Colors.white,
-    child: ListView.builder(
-    physics: const NeverScrollableScrollPhysics(),
-    shrinkWrap: true,
-    itemCount: directOrderResponse.shippingType!.icarryShipping!.length,
-    padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 15).copyWith(top: 0),
-    itemBuilder: (context, ii) {
-      cartController.storeIdShipping = directOrderResponse.prodcutData!.vendorId.toString();
-    IcarryShipping product = directOrderResponse.shippingType!.icarryShipping![ii];
-    double subtotal = double.parse(directOrderResponse.icarryCommision.toString());
-    double shipping = double.parse(product.rate.toString());
-    total = subtotal + shipping;
-    cartController.formattedTotal = total.toStringAsFixed(3);
-    print("icarryCommision"+directOrderResponse.icarryCommision.toString());
-    print("rate"+product.rate.toString());
-    print('total isss${cartController.formattedTotal.toString()}');
-    cartController.shippingPrices = cartController.formattedTotal.toString();
-    return Obx(() {
-    return Column(
-    children: [
-    10.spaceY,
-    ii == 0
-    ? 0.spaceY
-        : const Divider(
-    color: Color(0xFFD9D9D9),
-    thickness: 0.8,
-    ),
-
-    Row(
-    children: [
-    Radio(
-    value: product.methodId.toString(),
-    groupValue: directOrderResponse.fedexShippingOption.value,
-    visualDensity: const VisualDensity(horizontal: -4.0),
-    fillColor: directOrderResponse.fedexShippingOption.value.isEmpty
-    ? MaterialStateProperty.all(Colors.red)
-        : null,
-    onChanged: (value) {
-    setState(() {
-      shippingType.value = "icarry_shipping";
-      shipId.value =product.methodId.toString();
-      shipmentProvider.value =product.carrierModel!.systemName.toString();
-    directOrderResponse.shippingOption.value = value.toString();
-    directOrderResponse.fedexShippingOption.value = value.toString();
-    cartController.shippingTitle =  product.name.toString();
-      cartController.shippingDates=product.methodName.toString();
-     //  double subtotal = double.parse(directOrderResponse.icarryCommision.toString());
-     //  double shipping = double.parse(product.rate.toString());
-     //  total = subtotal + shipping;
-     //  cartController.formattedTotal = total.toString();
-     //  print("icarryCommision"+directOrderResponse.icarryCommision.toString());
-     //  print("rate"+product.rate.toString());
-     //  print('total isss${cartController.formattedTotal.toString()}');
-     // cartController.shippingPrices = cartController.formattedTotal.toString();
-    print( directOrderResponse.fedexShippingOption.value.toString());
-    print(cartController.shippingTitle.toString());
-    print('select value${cartController.shippingPrices.toString()}');
-    print(cartController.shippingPrices.toString());
-
-      double subtotal = double.parse(directOrderResponse.icarryCommision.toString());
-      double shipping = double.parse(product.rate.toString());
-      total = subtotal + shipping;
-      cartController.formattedTotal2 = total.toStringAsFixed(3);
-      print("icarryCommision"+directOrderResponse.icarryCommision.toString());
-      print("rate"+product.rate.toString());
-      print('total isss${cartController.formattedTotal2.toString()}');
-      cartController.shippingPrices1 = cartController.formattedTotal2.toString();
-    // shippingPrice =   product.price.toString();
-    // double subtotal = double.parse(cartController.cartModel.subtotal.toString());
-    // double shipping = double.parse(shippingPrice.toString());
-    // total = subtotal + shipping;
-    // cartController.formattedTotal = total.toStringAsFixed(3);
-    // e.value.shippingId.value = product.id.toString();
-    // e.value.vendorId.value = e.value.shipping![ii].vendorId!;
-    // e.value.shippingVendorName.value = product.serviceName.toString();
-    // e.value.vendorPrice.value = product.ratedShipmentDetails![index].totalNetCharge.toString();
-
-    directOrderResponse.prodcutData!.sPrice = product.rate;
-
-    log("Initial sPrice:$sPrice1");
-    log("Initial sPrice::::::::"+shipId.value.toString());
-    log("Initial sPrice::::::fdsggsgggggggg::"+cartController.shippingDates.toString());
-      log("Initial sPrice:"+  cartController.shippingTitle.toString());
-    log("Initial sPrice::"+shipmentProvider.value.toString());
-    sPrice1 = 0.0;
-      log("kiska price hai :::::::::::::::s+ ${shippingType.value.toString()}");
-    // sPrice1 = 0.0;
-    if (directOrderResponse.fedexShippingOption.value.isNotEmpty) {
-    log("kiska price hai + ${directOrderResponse.prodcutData!.sPrice }");
-    sPrice1 = sPrice1 + directOrderResponse.prodcutData!.sPrice ;
-    // sPrice.toStringAsFixed(fractionDigits)
-    // Update sPrice directly without reassigning
-    }
-    total = subtotal + sPrice1;
-    print('total isss${total.toString()}');
-    cartController.formattedTotal = total.toStringAsFixed(3);
-
-
-    });
-    },
-    ),
-    20.spaceX,
-    Expanded(
-    child: Column(
-    crossAxisAlignment: CrossAxisAlignment.start,
-    children: [
-    Text(product.name
-        .toString()
-        .capitalize!
-        .replaceAll('_', ' '),
-    style: GoogleFonts.poppins(fontWeight: FontWeight.w500, fontSize: 16)),
-    3.spaceY,
-    Text( "KWD "+cartController.shippingPrices.toString(),
-    style: GoogleFonts.poppins(fontWeight: FontWeight.w400,
-    fontSize: 16,
-    color: const Color(0xFF03a827))),
-    3.spaceY,
-    Text(product.methodName.toString(),
-    style: GoogleFonts.poppins(fontWeight: FontWeight.w400,
-    fontSize: 16,
-    color: Colors.black)),
-    ],
-    ),
-    ),
-    ],
-    ),
-    ],
-    );
-    });
-    // : 0.spaceY,;
-    },
-    ),
-    ),
-
-
-                        ],
-                      )
-                          // : const SizedBox()
-                  ],
-                )
-              ],
-            ),
-            20.spaceY,
-            //   Column(
-            //   children: [
-            //     Form(
-            //       key: _formKey,
-            //       child: Container(
-            //         decoration: const BoxDecoration(color: Colors.white),
-            //         child: Padding(
-            //           padding: const EdgeInsets.symmetric(horizontal: 20),
-            //           child: Column(
-            //             crossAxisAlignment: CrossAxisAlignment.start,
-            //             children: [
-            //               const SizedBox(
-            //                 height: 15,
-            //               ),
-            //               Text(
-            //                 'Billing Address',
-            //                 style: GoogleFonts.poppins(fontWeight: FontWeight.w500, fontSize: 18, color: Colors.black),
-            //               ),
-            //               const SizedBox(
-            //                 height: 15,
-            //               ),
-            //               ...commonField(
-            //                   textController: cartController.billingFirstName,
-            //                   title: "First Name *",
-            //                   hintText: "Enter your first name",
-            //                   keyboardType: TextInputType.text,
-            //                   validator: (value) {
-            //                     if (value!.trim().isEmpty) {
-            //                       return "Please enter first name";
-            //                     }
-            //                     return null;
-            //                   }),
-            //               ...commonField(
-            //                   textController: cartController.billingLastName,
-            //                   title: "Last Name *",
-            //                   hintText: "Enter your last name",
-            //                   keyboardType: TextInputType.text,
-            //                   validator: (value) {
-            //                     if (value!.trim().isEmpty) {
-            //                       return "Please enter last name";
-            //                     }
-            //                     return null;
-            //                   }),
-            //               ...commonField(
-            //                 textController: cartController.billingEmail,
-            //                 title: "Email *",
-            //                 hintText: "Enter your Email",
-            //                 keyboardType: TextInputType.text,
-            //                 validator: (value) {
-            //                   if (value!.trim().isEmpty) {
-            //                     return "Please enter your email".tr;
-            //                   } else if (value.trim().contains('+') || value.trim().contains(' ')) {
-            //                     return "Email is invalid";
-            //                   } else if (RegExp(r"^[a-zA-Z0-9.a-zA-Z0-9.!#$%&'*+-/=?^_`{|}~]+@[a-zA-Z0-9]+\.[a-zA-Z]+")
-            //                       .hasMatch(value.trim())) {
-            //                     return null;
-            //                   } else {
-            //                     return 'Please type a valid email address'.tr;
-            //                   }
-            //                 },
-            //               ),
-            //               ...commonField(
-            //                   textController: cartController.billingPhone,
-            //                   title: "Phone Number *",
-            //                   hintText: "Enter your phone number",
-            //                   keyboardType: TextInputType.phone,
-            //                   validator: (value) {
-            //                     if (value!.trim().isEmpty) {
-            //                       return "Please enter phone number";
-            //                     }
-            //                     return null;
-            //                   }),
-            //               const SizedBox(
-            //                 height: 20,
-            //               ),
-            //             ],
-            //           ),
-            //         ),
-            //       ),
-            //     ),
-            //     const SizedBox(
-            //       height: 15,
-            //     ),
-            //   ],
-            // ),
-            Column(
-              children: [
-                Form(
-                  key: _formKey,
-                  child: Container(
-                    decoration: const BoxDecoration(color: Colors.white),
-                    child: Padding(
-                      padding: const EdgeInsets.symmetric(horizontal: 20),
-                      child: Column(
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        children: [
-                          const SizedBox(
-                            height: 15,
-                          ),
-                          Text(
-                            'Billing Address',
-                            style: GoogleFonts.poppins(fontWeight: FontWeight.w500, fontSize: 18, color: Colors.black),
-                          ),
-                          const SizedBox(
-                            height: 15,
-                          ),
-                          Row(
-                            crossAxisAlignment: CrossAxisAlignment.center,
-                            mainAxisAlignment: MainAxisAlignment.end,
-                            children: [
-                              Text(
-                                'Same As Shipping Address',
-                                style:
-                                GoogleFonts.poppins(fontWeight: FontWeight.w500, fontSize: 16, color: Colors.black),
+                            Container(
+                              color: Colors.white,
+                              child: ListView.builder(
+                                physics: const NeverScrollableScrollPhysics(),
+                                shrinkWrap: true,
+                                itemCount: cartController.directOrderResponse.value.shippingType!.localShipping!.length,
+                                padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 15).copyWith(top: 0),
+                                itemBuilder: (context, ii) {
+                                  var product = cartController.directOrderResponse.value.shippingType!.localShipping![ii];
+                                  cartController.storeIdShipping =
+                                      cartController.directOrderResponse.value.prodcutData!.vendorId.toString();
+                                  return Obx(() {
+                                    return Column(
+                                      children: [
+                                        10.spaceY,
+                                        ii == 0
+                                            ? 0.spaceY
+                                            : const Divider(
+                                          color: Color(0xFFD9D9D9),
+                                          thickness: 0.8,
+                                        ),
+                                        Row(
+                                          children: [
+                                            Radio(
+                                              value: product.id.toString(),
+                                              groupValue: cartController.directOrderResponse.value.shippingOption.value,
+                                              visualDensity: const VisualDensity(horizontal: -4.0),
+                                              onChanged: (value) {
+                                                setState(() {
+                                                  // directOrderResponse.fedexShippingOption.value = value.toString();
+                                                  cartController.directOrderResponse.value.shippingOption.value =
+                                                      value.toString();
+                                                  cartController.shippingId = cartController.directOrderResponse.value
+                                                      .shippingOption.value;
+                                                  // shippingPrice =directOrderResponse.shippingType!.localShipping!.map((e) {
+                                                  //   return e.value.toString();
+                                                  // });
+                                                  shippingType.value = "local_shipping";
+                                                  double subtotal = double.parse(
+                                                      cartController.directOrderResponse.value.subtotal.toString());
+                                                  double shipping = double.parse(product.value.toString());
+                                                  shippingPrice = product.value.toString();
+                                                  total = total + shipping;
+                                                  cartController.formattedTotal = total.toString();
+                                                  cartController.shippingTitle = product.name.toString();
+                                                  cartController.shippingPrices1 = product.value.toString();
+                                                  print('total isss${cartController.formattedTotal.toString()}');
+                                                  log(cartController.directOrderResponse.value.shippingOption.value);
+                                                  log(cartController.shippingId);
+                                                  cartController.directOrderResponse.value.sPrice = double.parse(product
+                                                      .value.toString());
+                                                  cartController.formattedTotal = total.toStringAsFixed(3);
+                                                  sPrice1 = 0.0;
+                                                  if (cartController.directOrderResponse.value.shippingOption.value
+                                                      .isNotEmpty) {
+                                                    log("kiska price hai + ${cartController.directOrderResponse.value
+                                                        .prodcutData!.discountPrice}");
+                                                    sPrice1 = sPrice1 + cartController.directOrderResponse.value.sPrice;
+                                                    print('vafd${sPrice1.toString()}');
+                                                    // sPrice.toStringAsFixed(fractionDigits)
+                                                    // Update sPrice directly without reassigning
+                                                  }
+                                                  print('value changeesss${cartController.shippingPrices.toString()}');
+                                                  total = subtotal + sPrice1;
+                                                  cartController.formattedTotal = total.toStringAsFixed(3);
+                                                  print('total isss${total.toString()}');
+                                                });
+                                              },
+                                            ),
+                                            20.spaceX,
+                                            Column(
+                                              crossAxisAlignment: CrossAxisAlignment.start,
+                                              children: [
+                                                Text(product.name
+                                                    .toString()
+                                                    .capitalize!
+                                                    .replaceAll('_', ' '),
+                                                    style:
+                                                    GoogleFonts.poppins(fontWeight: FontWeight.w500, fontSize: 16)),
+                                                3.spaceY,
+                                                Text('kwd ${product.value.toString()}',
+                                                    style: GoogleFonts.poppins(
+                                                        fontWeight: FontWeight.w400,
+                                                        fontSize: 16,
+                                                        color: const Color(0xFF03a827))),
+                                              ],
+                                            ),
+                                            // Text(product.name.toString().capitalize!.replaceAll('_', ' '),
+                                            //     style: GoogleFonts.poppins(fontWeight: FontWeight.w400, fontSize: 16)),
+                                          ],
+                                        ),
+                                      ],
+                                    );
+                                  });
+                                  // : 0.spaceY,;
+                                },
                               ),
-                              10.spaceX,
-                              Transform.translate(
-                                offset: const Offset(-6, 0),
-                                child: Checkbox(
-                                    visualDensity: const VisualDensity(horizontal: -1, vertical: -3),
-                                    materialTapTargetSize: MaterialTapTargetSize.shrinkWrap,
-                                    shape: RoundedRectangleBorder(
-                                      borderRadius: BorderRadius.circular(4),
-                                    ),
-                                    value: cartController.isDelivery.value,
-                                    // side: BorderSide(
-                                    //   color: showValidation.value == false ? AppTheme.buttonColor : Colors.red,
-                                    // ),
-                                    side: const BorderSide(
-                                      color: AppTheme.buttonColor,
-                                    ),
-                                    onChanged: (bool? value) {
-                                      setState(() {
-                                        cartController.isDelivery.value = value!;
-                                        if (cartController.isDelivery.value == true && selectedAddress.id != null) {
-                                          cartController.addressDeliFirstName.text = selectedAddress.getFirstName;
-                                          cartController.addressDeliLastName.text = selectedAddress.getLastName;
-                                          cartController.addressDeliEmail.text = selectedAddress.getEmail;
-                                          cartController.addressDeliPhone.text = selectedAddress.getPhone;
-                                          cartController.addressDeliAlternate.text = selectedAddress.getAlternate;
-                                          cartController.addressDeliAddress.text = selectedAddress.getAddress;
-                                          cartController.addressDeliZipCode.text = selectedAddress.getZipCode;
-                                          cartController.addressCountryController.text = selectedAddress.getCountry;
-                                          cartController.addressStateController.text = selectedAddress.getState;
-                                          cartController.addressCityController.text = selectedAddress.getCity;
-                                        } else if (cartController.isDelivery.value == true &&
-                                            cartController.countryId == "") {
-                                          showToast("Please Select Address".tr);
-                                          cartController.isDelivery.value = false;
-                                        } else {
-                                          cartController.addressDeliFirstName.text = '';
-                                          cartController.addressDeliLastName.text = '';
-                                          cartController.addressDeliEmail.text = '';
-                                          cartController.addressDeliPhone.text = '';
-                                          cartController.addressDeliAlternate.text = '';
-                                          cartController.addressDeliAddress.text = '';
-                                          cartController.addressDeliZipCode.text = '';
-                                          cartController.addressCountryController.text = '';
-                                          cartController.addressStateController.text = '';
-                                          cartController.addressCityController.text = '';
-                                        }
-                                      });
-                                    }),
+                            ),
+                          ],
+                        ),
+
+                      // selectedAddress.id != null
+                      //     ?
+                      if(cartController.directOrderResponse.value.shippingType!.fedexShipping != null)
+                        Column(
+                          children: [
+                            if(cartController.directOrderResponse.value.shippingType!.fedexShipping!.output != null)
+                              Container(
+                                color: Colors.white,
+                                child: Padding(
+                                  padding: const EdgeInsets.symmetric(horizontal: 24, vertical: 16),
+                                  child: Row(
+                                    crossAxisAlignment: CrossAxisAlignment.center,
+                                    children: [
+                                      Image.asset('assets/images/shipping_icon.png', height: 32, width: 32),
+                                      20.spaceX,
+                                      Text("Fedex Shipping Method".tr,
+                                          style: GoogleFonts.poppins(fontWeight: FontWeight.w500, fontSize: 18)),
+                                    ],
+                                  ),
+                                ),
                               ),
-                            ],
-                          ),
-                          const SizedBox(
-                            height: 15,
-                          ),
-                          ...commonField(
-                              textController: cartController.addressDeliFirstName,
-                              title: "First Name *",
-                              hintText: "Enter your first name",
+
+                            // if( directOrderResponse.localShipping != true &&
+                            //     directOrderResponse.shippingType!.fedexShipping!.output == null)
+                            //
+                            //   Padding(
+                            //     padding: const EdgeInsets.all(8.0),
+                            //     child: Text(
+                            //       'FedEx service is not currently available to this origin / destination combination. Enter new information or contact FedEx Customer Service.'
+                            //           .tr, style: const TextStyle(
+                            //         fontSize: 17
+                            //     ),),),
+
+                            if(cartController.directOrderResponse.value.shippingType!.fedexShipping!.output != null)
+                              Container(
+                                color: Colors.white,
+                                child: ListView.builder(
+                                  physics: const NeverScrollableScrollPhysics(),
+                                  shrinkWrap: true,
+                                  itemCount: cartController.directOrderResponse.value.shippingType!.fedexShipping!.output!
+                                      .rateReplyDetails!.length,
+                                  padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 15).copyWith(top: 0),
+                                  itemBuilder: (context, ii) {
+                                    return cartController.directOrderResponse.value.shippingType!.fedexShipping!.output !=
+                                        null ?
+                                    ListView.builder(
+                                      shrinkWrap: true,
+                                      physics: const NeverScrollableScrollPhysics(),
+                                      itemCount: cartController.directOrderResponse.value.shippingType!.fedexShipping!
+                                          .output!.rateReplyDetails![ii]
+                                          .ratedShipmentDetails!.length,
+                                      itemBuilder: (context, index) {
+                                        cartController.storeIdShipping =
+                                            cartController.directOrderResponse.value.prodcutData!.vendorId.toString();
+                                        RateReplyDetails product = cartController.directOrderResponse.value.shippingType!
+                                            .fedexShipping!.output!
+                                            .rateReplyDetails![ii];
+                                        RatedShipmentDetails product1 = cartController.directOrderResponse.value
+                                            .shippingType!.fedexShipping!.output!
+                                            .rateReplyDetails![ii].ratedShipmentDetails![index];
+                                        // double subtotal = double.parse(directOrderResponse.fedexCommision.toString());
+                                        // double shipping = double.parse(product1.totalNetCharge.toString());
+                                        // fedxTotal = subtotal + shipping;
+                                        // cartController.formattedTotal = fedxTotal.toStringAsFixed(3);
+                                        // print("icarryCommision" + directOrderResponse.fedexCommision.toString());
+                                        // print("rate" + product1.totalNetCharge.toString());
+                                        // print('total isss${cartController.formattedTotal.toString()}');
+                                        // cartController.shippingPrices = cartController.formattedTotal.toString();
+                                        return Obx(() {
+                                          return Column(
+                                            children: [
+                                              10.spaceY,
+                                              index == 0
+                                                  ? 0.spaceY
+                                                  : const Divider(
+                                                color: Color(0xFFD9D9D9),
+                                                thickness: 0.8,
+                                              ),
+                                              Row(
+                                                children: [
+                                                  Radio(
+                                                    value: product.serviceType.toString(),
+                                                    groupValue: cartController.directOrderResponse.value.fedexShippingOption
+                                                        .value,
+                                                    visualDensity: const VisualDensity(horizontal: -4.0),
+                                                    fillColor: cartController.directOrderResponse.value.fedexShippingOption
+                                                        .value.isEmpty
+                                                        ? MaterialStateProperty.all(Colors.red)
+                                                        : null,
+                                                    onChanged: (value) {
+                                                      log("which is selected + $value");
+                                                      setState(() {
+                                                        cartController.directOrderResponse.value.fedexShippingOption.value =
+                                                            value.toString();
+                                                        shippingType.value = "fedex_shipping";
+                                                        shipId.value = "";
+                                                        shipmentProvider.value = "";
+                                                        // cartController.shippingDates = product.commit!.dateDetail!.dayFormat!
+                                                        //     .toString();
+                                                        // e.value.shipping![ii].output!.rateReplyDetails![index].shippingDate = product.operationalDetail!.deliveryDate;
+                                                        cartController.shippingTitle = product.serviceName.toString();
+                                                        // cartController.shippingPrices = product.ratedShipmentDetails![index].totalNetCharge.toString();
+                                                        cartController.directOrderResponse.value.shippingOption.value =
+                                                            value.toString();
+                                                        print(cartController.directOrderResponse.value.fedexShippingOption
+                                                            .value.toString());
+                                                        print(cartController.shippingTitle.toString());
+                                                        print('select value${cartController.shippingPrices.toString()}');
+                                                        print(cartController.shippingPrices.toString());
+                                                        double subtotal = double.parse(
+                                                            cartController.directOrderResponse.value.subtotal.toString());
+                                                        double shipping = double.parse(product1.totalNetCharge.toString());
+                                                        total = subtotal + shipping;
+                                                        cartController.formattedTotal2 = total.toStringAsFixed(3);
+                                                        print("icarryCommision" +
+                                                            cartController.directOrderResponse.value.fedexCommision
+                                                                .toString());
+                                                        print("rate" + product1.totalNetCharge.toString());
+                                                        print('total isss${cartController.formattedTotal2.toString()}');
+                                                        cartController.shippingPrices1 = cartController.formattedTotal2
+                                                            .toString();
+                                                        // e.value.shippingId.value = product.id.toString();
+                                                        // e.value.vendorId.value = e.value.shipping![ii].vendorId!;
+                                                        // directOrderResponse.s.value = product.serviceName.toString();
+                                                        // e.value.vendorPrice.value = product.ratedShipmentDetails![index].totalNetCharge.toString();
+
+                                                        // directOrderResponse.prodcutData!.sPrice = product.ratedShipmentDetails![index].totalNetCharge;
+                                                        // shippingPrice = product.ratedShipmentDetails![index].totalNetCharge.toString() + directOrderResponse.fedexCommision.toString() ;
+                                                        double subtotalForShip = double.parse(
+                                                            cartController.directOrderResponse.value.fedexCommision
+                                                                .toString());
+                                                        double shippingForShip = double.parse(
+                                                            product1.totalNetCharge.toString());
+                                                        fedxTotalShip = subtotalForShip + shippingForShip;
+                                                        shippingPrice = fedxTotalShip.toStringAsFixed(3);
+                                                        log("Initial sPrice:$sPrice1");
+                                                        log("Initial sPrice" + cartController.shippingTitle);
+                                                        log(product.serviceType.toString());
+                                                        cartController.directOrderResponse.value.sPrice =
+                                                            double.parse(product1.totalNetCharge.toString());
+                                                        sPrice1 = 0.0;
+                                                        // cartController.withoutSelectPrice = double.parse(cartController.shippingPrices);
+                                                        print('value change:::${cartController.shippingPrices.toString()}');
+                                                        // sPrice1 = 0.0;
+                                                        if (cartController.directOrderResponse.value.shippingOption.value
+                                                            .isNotEmpty) {
+                                                          log("kiska price hai + ${cartController.directOrderResponse.value
+                                                              .prodcutData!.sPrice}");
+                                                          sPrice1 =
+                                                              sPrice1 + cartController.directOrderResponse.value.sPrice;
+                                                          print('vafd${sPrice1.toString()}');
+                                                          // sPrice.toStringAsFixed(fractionDigits)
+                                                          // Update sPrice directly without reassigning
+                                                        }
+                                                        print('subtotal ${subtotal.toString()}');
+                                                        total = subtotal + sPrice1;
+                                                        print('total is ${total}');
+                                                        cartController.formattedTotal = total.toStringAsFixed(3);
+                                                      });
+                                                    },
+                                                  ),
+                                                  20.spaceX,
+                                                  Expanded(
+                                                    child: Column(
+                                                      crossAxisAlignment: CrossAxisAlignment.start,
+                                                      children: [
+                                                        Text(product.serviceName
+                                                            .toString()
+                                                            .capitalize!
+                                                            .replaceAll('_', ' '),
+                                                            style: GoogleFonts.poppins(fontWeight: FontWeight.w500,
+                                                                fontSize: 16)),
+                                                        3.spaceY,
+                                                        Text('kwd ${ product1.totalNetCharge.toString()}',
+                                                            style: GoogleFonts.poppins(fontWeight: FontWeight.w400,
+                                                                fontSize: 16,
+                                                                color: const Color(0xFF03a827))),
+                                                        3.spaceY,
+                                                        // Text('${product.operationalDetail!.deliveryDay ?? ''}  ${product.operationalDetail!.deliveryDate ?? ''}',
+                                                        // style: GoogleFonts.poppins(fontWeight: FontWeight.w400,
+                                                        // fontSize: 15,
+                                                        // fontStyle: FontStyle.italic,
+                                                        // color: const Color(0xFF000000))),
+                                                      ],
+                                                    ),
+                                                  ),
+                                                ],
+                                              ),
+                                            ],
+                                          );
+                                        });
+                                      },
+                                    )
+                                        : const LoadingAnimation();
+                                    // : 0.spaceY,;
+                                  },
+                                ),
+                                //   )  : const LoadingAnimation() : const SizedBox(),
+                              ),
+
+                            if(cartController.directOrderResponse.value.shippingType!.icarryShipping!.isNotEmpty)
+                              Container(
+                                color: Colors.white,
+                                child: Padding(
+                                  padding: const EdgeInsets.symmetric(horizontal: 24, vertical: 16),
+                                  child: Row(
+                                    crossAxisAlignment: CrossAxisAlignment.center,
+                                    children: [
+                                      Image.asset('assets/images/shipping_icon.png', height: 32, width: 32),
+                                      20.spaceX,
+                                      Text("Icarry Shipping Method".tr,
+                                          style: GoogleFonts.poppins(fontWeight: FontWeight.w500, fontSize: 18)),
+                                    ],
+                                  ),
+                                ),
+                              ),
+                            if(cartController.directOrderResponse.value.shippingType!.icarryShipping!.isNotEmpty)
+                              Container(
+                                color: Colors.white,
+                                child: ListView.builder(
+                                  physics: const NeverScrollableScrollPhysics(),
+                                  shrinkWrap: true,
+                                  itemCount: cartController.directOrderResponse.value.shippingType!.icarryShipping!.length,
+                                  padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 15).copyWith(top: 0),
+                                  itemBuilder: (context, ii) {
+                                    cartController.storeIdShipping =
+                                        cartController.directOrderResponse.value.prodcutData!.vendorId.toString();
+                                    IcarryShipping product = cartController.directOrderResponse.value.shippingType!
+                                        .icarryShipping![ii];
+                                    // double subtotal = double.parse(directOrderResponse.icarryCommision.toString());
+                                    // double shipping = double.parse(product.rate.toString());
+                                    // fedxTotal = subtotal + shipping;
+                                    // cartController.formattedTotal = fedxTotal.toStringAsFixed(3);
+                                    // print("icarryCommision" + directOrderResponse.icarryCommision.toString());
+                                    // print("rate" + product.rate.toString());
+                                    // print('total isss${cartController.formattedTotal.toString()}');
+                                    // cartController.shippingPrices = cartController.formattedTotal.toString();
+                                    return Obx(() {
+                                      return Column(
+                                        children: [
+                                          10.spaceY,
+                                          ii == 0
+                                              ? 0.spaceY
+                                              : const Divider(
+                                            color: Color(0xFFD9D9D9),
+                                            thickness: 0.8,
+                                          ),
+
+                                          Row(
+                                            children: [
+                                              Radio(
+                                                value: product.methodId.toString(),
+                                                groupValue: cartController.directOrderResponse.value.fedexShippingOption
+                                                    .value,
+                                                visualDensity: const VisualDensity(horizontal: -4.0),
+                                                fillColor: cartController.directOrderResponse.value.fedexShippingOption.value
+                                                    .isEmpty
+                                                    ? MaterialStateProperty.all(Colors.red)
+                                                    : null,
+                                                onChanged: (value) {
+                                                  setState(() {
+                                                    shippingType.value = "icarry_shipping";
+                                                    shipId.value = product.methodId.toString();
+                                                    shipmentProvider.value = product.carrierModel!.systemName.toString();
+                                                    cartController.directOrderResponse.value.shippingOption.value = value
+                                                        .toString();
+                                                    cartController.directOrderResponse.value.fedexShippingOption.value =
+                                                        value.toString();
+                                                    cartController.shippingTitle = product.name.toString();
+                                                    cartController.shippingDates = product.methodName.toString();
+                                                    //  double subtotal = double.parse(directOrderResponse.icarryCommision.toString());
+                                                    //  double shipping = double.parse(product.rate.toString());
+                                                    //  total = subtotal + shipping;
+                                                    //  cartController.formattedTotal = total.toString();
+                                                    //  print("icarryCommision"+directOrderResponse.icarryCommision.toString());
+                                                    //  print("rate"+product.rate.toString());
+                                                    //  print('total isss${cartController.formattedTotal.toString()}');
+                                                    // cartController.shippingPrices = cartController.formattedTotal.toString();
+                                                    print(cartController.directOrderResponse.value.fedexShippingOption.value
+                                                        .toString());
+                                                    print(cartController.shippingTitle.toString());
+                                                    print('select value${cartController.shippingPrices.toString()}');
+                                                    print(cartController.shippingPrices.toString());
+
+                                                    double subtotal = double.parse(
+                                                        cartController.directOrderResponse.value.icarryCommision.toString());
+                                                    double shipping = double.parse(product.rate.toString());
+                                                    total = subtotal + shipping;
+                                                    cartController.formattedTotal2 = total.toStringAsFixed(3);
+                                                    print("icarryCommision" +
+                                                        cartController.directOrderResponse.value.icarryCommision.toString());
+                                                    print("rate" + product.rate.toString());
+                                                    print('total isss${cartController.formattedTotal2.toString()}');
+                                                    cartController.shippingPrices1 = cartController.formattedTotal2
+                                                        .toString();
+                                                    double subtotalForShip = double.parse(
+                                                        cartController.directOrderResponse.value.icarryCommision.toString());
+                                                    double shippingForShip = double.parse(product.rate.toString());
+                                                    fedxTotalShip = subtotalForShip + shippingForShip;
+                                                    shippingPrice = fedxTotalShip.toStringAsFixed(3);
+                                                    // shippingPrice =   product.price.toString();
+                                                    // double subtotal = double.parse(cartController.cartModel.subtotal.toString());
+                                                    // double shipping = double.parse(shippingPrice.toString());
+                                                    // total = subtotal + shipping;
+                                                    // cartController.formattedTotal = total.toStringAsFixed(3);
+                                                    // e.value.shippingId.value = product.id.toString();
+                                                    // e.value.vendorId.value = e.value.shipping![ii].vendorId!;
+                                                    // e.value.shippingVendorName.value = product.serviceName.toString();
+                                                    // e.value.vendorPrice.value = product.ratedShipmentDetails![index].totalNetCharge.toString();
+
+                                                    // directOrderResponse.prodcutData!.sPrice = product.rate;
+                                                    shippingPrice = product.rate.toString();
+                                                    log("Initial sPrice:$sPrice1");
+                                                    log("Initial sPrice::::::::" + shipId.value.toString());
+                                                    log("Initial sPrice::::::fdsggsgggggggg::" +
+                                                        cartController.shippingDates.toString());
+                                                    log("Initial sPrice:" + cartController.shippingTitle.toString());
+                                                    log("Initial sPrice::" + shipmentProvider.value.toString());
+                                                    cartController.directOrderResponse.value.prodcutData!.sPrice = double
+                                                        .parse(product.rate.toString());
+                                                    sPrice1 = 0.0;
+                                                    log("kiska price hai :::::::::::::::s+ ${shippingType.value
+                                                        .toString()}");
+                                                    // sPrice1 = 0.0;
+                                                    if (cartController.directOrderResponse.value.shippingOption.value
+                                                        .isNotEmpty) {
+                                                      log("kiska price hai + ${cartController.directOrderResponse.value
+                                                          .prodcutData!.sPrice }");
+                                                      sPrice1 = sPrice1 +
+                                                          cartController.directOrderResponse.value.prodcutData!.sPrice;
+                                                      // sPrice.toStringAsFixed(fractionDigits)
+                                                      // Update sPrice directly without reassigning
+                                                    }
+
+                                                    total = subtotal + sPrice1;
+                                                    print('total isss${total.toString()}');
+                                                    cartController.formattedTotal = total.toStringAsFixed(3);
+                                                  });
+                                                },
+                                              ),
+                                              20.spaceX,
+                                              Expanded(
+                                                child: Column(
+                                                  crossAxisAlignment: CrossAxisAlignment.start,
+                                                  children: [
+                                                    Text(product.name
+                                                        .toString()
+                                                        .capitalize!
+                                                        .replaceAll('_', ' '),
+                                                        style: GoogleFonts.poppins(fontWeight: FontWeight.w500,
+                                                            fontSize: 16)),
+                                                    3.spaceY,
+                                                    Text("KWD " + cartController.shippingPrices.toString(),
+                                                        style: GoogleFonts.poppins(fontWeight: FontWeight.w400,
+                                                            fontSize: 16,
+                                                            color: const Color(0xFF03a827))),
+                                                    3.spaceY,
+                                                    Text(product.methodName.toString(),
+                                                        style: GoogleFonts.poppins(fontWeight: FontWeight.w400,
+                                                            fontSize: 16,
+                                                            color: Colors.black)),
+                                                  ],
+                                                ),
+                                              ),
+                                            ],
+                                          ),
+                                        ],
+                                      );
+                                    });
+                                    // : 0.spaceY,;
+                                  },
+                                ),
+                              ),
+
+
+                          ],
+                        )
+                      // : const SizedBox()
+                    ],
+                  )
+                ],
+              ),
+              20.spaceY,
+              //   Column(
+              //   children: [
+              //     Form(
+              //       key: _formKey,
+              //       child: Container(
+              //         decoration: const BoxDecoration(color: Colors.white),
+              //         child: Padding(
+              //           padding: const EdgeInsets.symmetric(horizontal: 20),
+              //           child: Column(
+              //             crossAxisAlignment: CrossAxisAlignment.start,
+              //             children: [
+              //               const SizedBox(
+              //                 height: 15,
+              //               ),
+              //               Text(
+              //                 'Billing Address',
+              //                 style: GoogleFonts.poppins(fontWeight: FontWeight.w500, fontSize: 18, color: Colors.black),
+              //               ),
+              //               const SizedBox(
+              //                 height: 15,
+              //               ),
+              //               ...commonField(
+              //                   textController: cartController.billingFirstName,
+              //                   title: "First Name *",
+              //                   hintText: "Enter your first name",
+              //                   keyboardType: TextInputType.text,
+              //                   validator: (value) {
+              //                     if (value!.trim().isEmpty) {
+              //                       return "Please enter first name";
+              //                     }
+              //                     return null;
+              //                   }),
+              //               ...commonField(
+              //                   textController: cartController.billingLastName,
+              //                   title: "Last Name *",
+              //                   hintText: "Enter your last name",
+              //                   keyboardType: TextInputType.text,
+              //                   validator: (value) {
+              //                     if (value!.trim().isEmpty) {
+              //                       return "Please enter last name";
+              //                     }
+              //                     return null;
+              //                   }),
+              //               ...commonField(
+              //                 textController: cartController.billingEmail,
+              //                 title: "Email *",
+              //                 hintText: "Enter your Email",
+              //                 keyboardType: TextInputType.text,
+              //                 validator: (value) {
+              //                   if (value!.trim().isEmpty) {
+              //                     return "Please enter your email".tr;
+              //                   } else if (value.trim().contains('+') || value.trim().contains(' ')) {
+              //                     return "Email is invalid";
+              //                   } else if (RegExp(r"^[a-zA-Z0-9.a-zA-Z0-9.!#$%&'*+-/=?^_`{|}~]+@[a-zA-Z0-9]+\.[a-zA-Z]+")
+              //                       .hasMatch(value.trim())) {
+              //                     return null;
+              //                   } else {
+              //                     return 'Please type a valid email address'.tr;
+              //                   }
+              //                 },
+              //               ),
+              //               ...commonField(
+              //                   textController: cartController.billingPhone,
+              //                   title: "Phone Number *",
+              //                   hintText: "Enter your phone number",
+              //                   keyboardType: TextInputType.phone,
+              //                   validator: (value) {
+              //                     if (value!.trim().isEmpty) {
+              //                       return "Please enter phone number";
+              //                     }
+              //                     return null;
+              //                   }),
+              //               const SizedBox(
+              //                 height: 20,
+              //               ),
+              //             ],
+              //           ),
+              //         ),
+              //       ),
+              //     ),
+              //     const SizedBox(
+              //       height: 15,
+              //     ),
+              //   ],
+              // ),
+              Column(
+                children: [
+                  Form(
+                    key: _formKey,
+                    child: Container(
+                      decoration: const BoxDecoration(color: Colors.white),
+                      child: Padding(
+                        padding: const EdgeInsets.symmetric(horizontal: 20),
+                        child: Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
+                            const SizedBox(
+                              height: 15,
+                            ),
+                            Text(
+                              'Billing Address',
+                              style: GoogleFonts.poppins(fontWeight: FontWeight.w500, fontSize: 18, color: Colors.black),
+                            ),
+                            const SizedBox(
+                              height: 15,
+                            ),
+                            Row(
+                              crossAxisAlignment: CrossAxisAlignment.center,
+                              mainAxisAlignment: MainAxisAlignment.end,
+                              children: [
+                                Text(
+                                  'Same As Shipping Address',
+                                  style:
+                                  GoogleFonts.poppins(fontWeight: FontWeight.w500, fontSize: 16, color: Colors.black),
+                                ),
+                                10.spaceX,
+                                Transform.translate(
+                                  offset: const Offset(-6, 0),
+                                  child: Checkbox(
+                                      visualDensity: const VisualDensity(horizontal: -1, vertical: -3),
+                                      materialTapTargetSize: MaterialTapTargetSize.shrinkWrap,
+                                      shape: RoundedRectangleBorder(
+                                        borderRadius: BorderRadius.circular(4),
+                                      ),
+                                      value: cartController.isDelivery.value,
+                                      // side: BorderSide(
+                                      //   color: showValidation.value == false ? AppTheme.buttonColor : Colors.red,
+                                      // ),
+                                      side: const BorderSide(
+                                        color: AppTheme.buttonColor,
+                                      ),
+                                      onChanged: (bool? value) {
+                                        setState(() {
+                                          cartController.isDelivery.value = value!;
+                                          if (cartController.isDelivery.value == true &&
+                                              (cartController.selectedAddress.id != null ||
+                                                  cartController.myDefaultAddressModel.value.defaultAddress != null)) {
+                                            if (cartController.selectedAddress.id != null) {
+                                              cartController.addressDeliFirstName.text = cartController.selectedAddress.getFirstName;
+                                              cartController.addressDeliLastName.text = cartController.selectedAddress.getLastName;
+                                              cartController.addressDeliEmail.text = cartController.selectedAddress.getEmail;
+                                              cartController.addressDeliPhone.text = cartController.selectedAddress.getPhone;
+                                              cartController.addressDeliAlternate.text = cartController.selectedAddress.getAlternate;
+                                              cartController.addressDeliAddress.text = cartController.selectedAddress.getAddress;
+                                              cartController.addressCountryController.text = cartController.selectedAddress.getCountry;
+                                              cartController.addressStateController.text = cartController.selectedAddress.getState;
+                                              cartController.addressCityController.text = cartController.selectedAddress.getCity;
+                                              cartController.addressDeliZipCode.text = cartController.selectedAddress.getZipCode;
+                                            } else if (cartController.myDefaultAddressModel.value.defaultAddress != null) {
+                                              cartController.addressDeliFirstName.text =
+                                                  cartController.myDefaultAddressModel.value.defaultAddress!.getFirstName;
+                                              cartController.addressDeliLastName.text =
+                                                  cartController.myDefaultAddressModel.value.defaultAddress!.getLastName;
+                                              cartController.addressDeliEmail.text =
+                                                  cartController.myDefaultAddressModel.value.defaultAddress!.getEmail;
+                                              cartController.addressDeliPhone.text =
+                                                  cartController.myDefaultAddressModel.value.defaultAddress!.getPhone;
+                                              cartController.addressDeliAlternate.text =
+                                                  cartController.myDefaultAddressModel.value.defaultAddress!.getAlternate;
+                                              cartController.addressDeliAddress.text =
+                                                  cartController.myDefaultAddressModel.value.defaultAddress!.getAddress;
+                                              cartController.addressCountryController.text =
+                                                  cartController.myDefaultAddressModel.value.defaultAddress!.getCountry;
+                                              cartController.addressStateController.text =
+                                                  cartController.myDefaultAddressModel.value.defaultAddress!.getState;
+                                              cartController.addressCityController.text =
+                                                  cartController.myDefaultAddressModel.value.defaultAddress!.getCity;
+                                              cartController.addressDeliZipCode.text =
+                                                  cartController.myDefaultAddressModel.value.defaultAddress!.getZipCode;
+                                            }
+                                          } else if (cartController.isDelivery.value == true &&
+                                              cartController.selectedAddress.id == null &&
+                                              cartController.myDefaultAddressModel.value.defaultAddress == null) {
+                                            showToast("Please Select Address".tr);
+                                            cartController.isDelivery.value = false;
+                                          } else {
+                                            cartController.addressDeliFirstName.text = '';
+                                            cartController.addressDeliLastName.text = '';
+                                            cartController.addressDeliEmail.text = '';
+                                            cartController.addressDeliPhone.text = '';
+                                            cartController.addressDeliAlternate.text = '';
+                                            cartController.addressDeliAddress.text = '';
+                                            cartController.addressDeliZipCode.text = '';
+                                            cartController.addressCountryController.text = '';
+                                            cartController.addressStateController.text = '';
+                                            cartController.addressCityController.text = '';
+                                          }
+                                        });
+                                      }),
+                                ),
+                              ],
+                            ),
+                            const SizedBox(
+                              height: 15,
+                            ),
+                            ...commonField(
+                                textController: cartController.addressDeliFirstName,
+                                title: "First Name *",
+                                hintText: "Enter your first name",
+                                keyboardType: TextInputType.text,
+                                validator: (value) {
+                                  // if (value!.trim().isEmpty) {
+                                  //   return "Please enter first name";
+                                  // }
+                                  return null;
+                                }),
+                            ...commonField(
+                                textController: cartController.addressDeliLastName,
+                                title: "Last Name *",
+                                hintText: "Enter your last name",
+                                keyboardType: TextInputType.text,
+                                validator: (value) {
+                                  // if (value!.trim().isEmpty) {
+                                  //   return "Please enter last name";
+                                  // }
+                                  return null;
+                                }),
+                            ...commonField(
+                              textController: cartController.addressDeliEmail,
+                              title: "Email *",
+                              hintText: "Enter your Email",
                               keyboardType: TextInputType.text,
                               validator: (value) {
                                 // if (value!.trim().isEmpty) {
-                                //   return "Please enter first name";
+                                //   return "Please enter your email".tr;
+                                // }
+                                // else if (value.trim().contains('+') || value.trim().contains(' ')) {
+                                //   return "Email is invalid";
+                                // }
+                                // else if (RegExp(r"^[a-zA-Z0-9.a-zA-Z0-9.!#$%&'*+-/=?^_`{|}~]+@[a-zA-Z0-9]+\.[a-zA-Z]+")
+                                //     .hasMatch(value.trim())) {
+                                //   return null;
+                                // } else {
+                                //   return 'Please type a valid email address'.tr;
                                 // }
                                 return null;
-                              }),
-                          ...commonField(
-                              textController: cartController.addressDeliLastName,
-                              title: "Last Name *",
-                              hintText: "Enter your last name",
-                              keyboardType: TextInputType.text,
-                              validator: (value) {
-                                // if (value!.trim().isEmpty) {
-                                //   return "Please enter last name";
-                                // }
-                                return null;
-                              }),
-                          ...commonField(
-                            textController: cartController.addressDeliEmail,
-                            title: "Email *",
-                            hintText: "Enter your Email",
-                            keyboardType: TextInputType.text,
-                            validator: (value) {
-                              // if (value!.trim().isEmpty) {
-                              //   return "Please enter your email".tr;
-                              // }
-                              // else if (value.trim().contains('+') || value.trim().contains(' ')) {
-                              //   return "Email is invalid";
-                              // }
-                              // else if (RegExp(r"^[a-zA-Z0-9.a-zA-Z0-9.!#$%&'*+-/=?^_`{|}~]+@[a-zA-Z0-9]+\.[a-zA-Z]+")
-                              //     .hasMatch(value.trim())) {
-                              //   return null;
-                              // } else {
-                              //   return 'Please type a valid email address'.tr;
-                              // }
-                              return null;
-                            },
-                          ),
-                          ...commonField(
-                              textController: cartController.addressDeliPhone,
-                              title: "Phone Number *",
-                              hintText: "Enter your phone number",
-                              keyboardType: TextInputType.phone,
-                              validator: (value) {
-                                // if (value!.trim().isEmpty) {
-                                //   return "Please enter phone number";
-                                // }
-                                return null;
-                              }),
-                          ...commonField(
-                              textController: cartController.addressDeliAlternate,
-                              title: "Alternate Phone Number *",
-                              hintText: "Enter your alternate phone number",
-                              keyboardType: TextInputType.phone,
-                              validator: (value) {
-                                return null;
-                              }),
-                          ...fieldWithName(
-                            title: 'Country/Region',
-                            hintText: 'United States',
-                            readOnly: true,
-                            onTap: () {
-                              showAddressSelectorDialog(
-                                  addressList: modelCountryList!.country!
-                                      .map((e) => CommonAddressRelatedClass(
-                                      title: e.name.toString(),
-                                      addressId: e.id.toString(),
-                                      flagUrl: e.icon.toString()))
-                                      .toList(),
-                                  selectedAddressIdPicked: (String gg) {
-                                    String previous = ((selectedCountry ?? Country()).id ?? "").toString();
-                                    selectedCountry =
-                                        modelCountryList!.country!.firstWhere((element) => element.id.toString() == gg);
-                                    cartController.countryCode = gg.toString();
-                                    cartController.countryName.value = selectedCountry!.name.toString();
-                                    print('countrrtr ${cartController.countryName.toString()}');
-                                    print('countrrtr ${cartController.countryCode.toString()}');
-                                    if (previous != selectedCountry!.id.toString()) {
-                                      getStateList(countryId: gg, reset: true).then((value) {
+                              },
+                            ),
+                            ...commonField(
+                                textController: cartController.addressDeliPhone,
+                                title: "Phone Number *",
+                                hintText: "Enter your phone number",
+                                keyboardType: TextInputType.phone,
+                                validator: (value) {
+                                  // if (value!.trim().isEmpty) {
+                                  //   return "Please enter phone number";
+                                  // }
+                                  return null;
+                                }),
+                            ...commonField(
+                                textController: cartController.addressDeliAlternate,
+                                title: "Alternate Phone Number *",
+                                hintText: "Enter your alternate phone number",
+                                keyboardType: TextInputType.phone,
+                                validator: (value) {
+                                  return null;
+                                }),
+                            ...fieldWithName(
+                              title: 'Country/Region',
+                              hintText: 'United States',
+                              readOnly: true,
+                              onTap: () {
+                                showAddressSelectorDialog(
+                                    addressList: modelCountryList!.country!
+                                        .map((e) =>
+                                        CommonAddressRelatedClass(
+                                            title: e.name.toString(),
+                                            addressId: e.id.toString(),
+                                            flagUrl: e.icon.toString()))
+                                        .toList(),
+                                    selectedAddressIdPicked: (String gg) {
+                                      String previous = ((selectedCountry ?? Country()).id ?? "").toString();
+                                      selectedCountry =
+                                          modelCountryList!.country!.firstWhere((element) => element.id.toString() == gg);
+                                      cartController.countryCode = gg.toString();
+                                      cartController.countryName.value = selectedCountry!.name.toString();
+                                      print('countrrtr ${cartController.countryName.toString()}');
+                                      print('countrrtr ${cartController.countryCode.toString()}');
+                                      if (previous != selectedCountry!.id.toString()) {
+                                        getStateList(countryId: gg, reset: true).then((value) {
+                                          setState(() {});
+                                        });
                                         setState(() {});
-                                      });
-                                      setState(() {});
-                                    }
-                                  },
-                                  selectedAddressId: ((selectedCountry ?? Country()).id ?? "").toString());
-                            },
-                            controller: TextEditingController(
-                                text: (selectedCountry ?? Country()).name ??
-                                    cartController.addressCountryController.text),
-                            validator: (v) {
-                              if (v!.trim().isEmpty) {
-                                return "Please select country";
-                              }
-                              return null;
-                            },
-                          ),
-                          ...fieldWithName(
-                            title: 'State',
-                            hintText: 'Select State',
-                            controller: TextEditingController(
-                                text: (selectedState ?? CountryState()).stateName ??
-                                    cartController.addressStateController.text),
-                            readOnly: true,
-                            onTap: () {
-                              if (modelStateList == null && stateRefresh.value > 0) {
-                                showToast("Select Country First");
-                                return;
-                              }
-                              if (stateRefresh.value < 0) {
-                                return;
-                              }
-                              if (modelStateList!.state!.isEmpty) return;
-                              showAddressSelectorDialog(
-                                  addressList: profileController.selectedLAnguage.value == 'English'
-                                      ? modelStateList!.state!
-                                      .map((e) => CommonAddressRelatedClass(
-                                      title: e.stateName.toString(), addressId: e.stateId.toString()))
-                                      .toList()
-                                      : modelStateList!.state!
-                                      .map((e) => CommonAddressRelatedClass(
-                                      title: e.arabStateName.toString(), addressId: e.stateId.toString()))
-                                      .toList(),
-                                  selectedAddressIdPicked: (String gg) {
-                                    String previous = ((selectedState ?? CountryState()).stateId ?? "").toString();
-                                    selectedState = modelStateList!.state!
-                                        .firstWhere((element) => element.stateId.toString() == gg);
-                                    if (previous != selectedState!.stateId.toString()) {
-                                      getCityList(stateId: gg, reset: true).then((value) {
+                                      }
+                                    },
+                                    selectedAddressId: ((selectedCountry ?? Country()).id ?? "").toString());
+                              },
+                              controller: TextEditingController(
+                                  text: (selectedCountry ?? Country()).name ??
+                                      cartController.addressCountryController.text),
+                              validator: (v) {
+                                if (v!.trim().isEmpty) {
+                                  return "Please select country";
+                                }
+                                return null;
+                              },
+                            ),
+                            ...fieldWithName(
+                              title: 'State',
+                              hintText: 'Select State',
+                              controller: TextEditingController(
+                                  text: (selectedState ?? CountryState()).stateName ??
+                                      cartController.addressStateController.text),
+                              readOnly: true,
+                              onTap: () {
+                                if (modelStateList == null && stateRefresh.value > 0) {
+                                  showToast("Select Country First");
+                                  return;
+                                }
+                                if (stateRefresh.value < 0) {
+                                  return;
+                                }
+                                if (modelStateList!.state!.isEmpty) return;
+                                showAddressSelectorDialog(
+                                    addressList: profileController.selectedLAnguage.value == 'English'
+                                        ? modelStateList!.state!
+                                        .map((e) =>
+                                        CommonAddressRelatedClass(
+                                            title: e.stateName.toString(), addressId: e.stateId.toString()))
+                                        .toList()
+                                        : modelStateList!.state!
+                                        .map((e) =>
+                                        CommonAddressRelatedClass(
+                                            title: e.arabStateName.toString(), addressId: e.stateId.toString()))
+                                        .toList(),
+                                    selectedAddressIdPicked: (String gg) {
+                                      String previous = ((selectedState ?? CountryState()).stateId ?? "").toString();
+                                      selectedState = modelStateList!.state!
+                                          .firstWhere((element) => element.stateId.toString() == gg);
+                                      if (previous != selectedState!.stateId.toString()) {
+                                        getCityList(stateId: gg, reset: true).then((value) {
+                                          setState(() {});
+                                        });
                                         setState(() {});
-                                      });
+                                      }
+                                    },
+                                    selectedAddressId: ((selectedState ?? CountryState()).stateId ?? "").toString());
+                              },
+                              suffixIcon: Obx(() {
+                                if (stateRefresh.value > 0) {
+                                  return const Icon(Icons.keyboard_arrow_down_rounded);
+                                }
+                                return const CupertinoActivityIndicator();
+                              }),
+                              validator: (v) {
+                                if (v!.trim().isEmpty) {
+                                  return "Please select state";
+                                }
+                                return null;
+                              },
+                            ),
+                            // if (modelCityList != null && modelCityList!.city!.isNotEmpty)
+                            ...fieldWithName(
+                              readOnly: true,
+                              title: 'City',
+                              hintText: 'Select City',
+                              controller: TextEditingController(
+                                  text: (selectedCity ?? City()).cityName ?? cartController.addressCityController.text),
+                              onTap: () {
+                                if (modelCityList == null && cityRefresh.value > 0) {
+                                  showToast("Select State First");
+                                  return;
+                                }
+                                if (cityRefresh.value < 0) {
+                                  return;
+                                }
+                                if (modelCityList!.city!.isEmpty) return;
+                                showAddressSelectorDialog(
+                                    addressList: profileController.selectedLAnguage.value == 'English'
+                                        ? modelCityList!.city!
+                                        .map((e) =>
+                                        CommonAddressRelatedClass(
+                                            title: e.cityName.toString(), addressId: e.cityId.toString()))
+                                        .toList()
+                                        : modelCityList!.city!
+                                        .map((e) =>
+                                        CommonAddressRelatedClass(
+                                            title: e.arabCityName.toString(), addressId: e.cityId.toString()))
+                                        .toList(),
+                                    selectedAddressIdPicked: (String gg) {
+                                      selectedCity =
+                                          modelCityList!.city!.firstWhere((element) => element.cityId.toString() == gg);
+                                      cartController.cityCode = gg.toString();
+                                      cartController.cityName.value = selectedCity!.cityName.toString();
                                       setState(() {});
-                                    }
-                                  },
-                                  selectedAddressId: ((selectedState ?? CountryState()).stateId ?? "").toString());
-                            },
-                            suffixIcon: Obx(() {
-                              if (stateRefresh.value > 0) {
-                                return const Icon(Icons.keyboard_arrow_down_rounded);
-                              }
-                              return const CupertinoActivityIndicator();
-                            }),
-                            validator: (v) {
-                              if (v!.trim().isEmpty) {
-                                return "Please select state";
-                              }
-                              return null;
-                            },
-                          ),
-                          // if (modelCityList != null && modelCityList!.city!.isNotEmpty)
-                          ...fieldWithName(
-                            readOnly: true,
-                            title: 'City',
-                            hintText: 'Select City',
-                            controller: TextEditingController(
-                                text: (selectedCity ?? City()).cityName ?? cartController.addressCityController.text),
-                            onTap: () {
-                              if (modelCityList == null && cityRefresh.value > 0) {
-                                showToast("Select State First");
-                                return;
-                              }
-                              if (cityRefresh.value < 0) {
-                                return;
-                              }
-                              if (modelCityList!.city!.isEmpty) return;
-                              showAddressSelectorDialog(
-                                  addressList: profileController.selectedLAnguage.value == 'English'
-                                      ? modelCityList!.city!
-                                      .map((e) => CommonAddressRelatedClass(
-                                      title: e.cityName.toString(), addressId: e.cityId.toString()))
-                                      .toList()
-                                      : modelCityList!.city!
-                                      .map((e) => CommonAddressRelatedClass(
-                                      title: e.arabCityName.toString(), addressId: e.cityId.toString()))
-                                      .toList(),
-                                  selectedAddressIdPicked: (String gg) {
-                                    selectedCity =
-                                        modelCityList!.city!.firstWhere((element) => element.cityId.toString() == gg);
-                                    cartController.cityCode = gg.toString();
-                                    cartController.cityName.value = selectedCity!.cityName.toString();
-                                    setState(() {});
-                                  },
-                                  selectedAddressId: ((selectedCity ?? City()).cityId ?? "").toString());
-                            },
-                            suffixIcon: Obx(() {
-                              if (cityRefresh.value > 0) {
-                                return const Icon(Icons.keyboard_arrow_down_rounded);
-                              }
-                              return const CupertinoActivityIndicator();
-                            }),
-                            validator: (v) {
-                              if (v!.trim().isEmpty) {
-                                return "Please select state";
-                              }
-                              return null;
-                            },
-                          ),
-                          ...commonField(
-                              textController: cartController.addressDeliAddress,
-                              title: "Address *",
-                              hintText: "Enter your address",
-                              keyboardType: TextInputType.text,
-                              validator: (value) {
-                                // if (value!.trim().isEmpty) {
-                                //   return "Please enter your address";
-                                // }
-                                return null;
+                                    },
+                                    selectedAddressId: ((selectedCity ?? City()).cityId ?? "").toString());
+                              },
+                              suffixIcon: Obx(() {
+                                if (cityRefresh.value > 0) {
+                                  return const Icon(Icons.keyboard_arrow_down_rounded);
+                                }
+                                return const CupertinoActivityIndicator();
                               }),
-                          // ...commonField(
-                          //     textController: cartController.addressDeliOtherInstruction,
-                          //     title: "Other instruction *",
-                          //     hintText: "Enter other instruction",
-                          //     keyboardType: TextInputType.text,
-                          //     validator: (value) {
-                          //       return null;
-                          //     }
-                          // ),
-                          ...commonField(
-                              textController: cartController.addressDeliZipCode,
-                              title: "Zip Code *",
-                              hintText: "Enter location Zip-Code",
-                              keyboardType: TextInputType.phone,
-                              validator: (value) {
-                                // if (value!.trim().isEmpty) {
-                                //   return "Please enter phone number";
-                                // }
+                              validator: (v) {
+                                if (v!.trim().isEmpty) {
+                                  return "Please select state";
+                                }
                                 return null;
-                              }),
-                          const SizedBox(
-                            height: 20,
-                          ),
-                        ],
+                              },
+                            ),
+                            ...commonField(
+                                textController: cartController.addressDeliAddress,
+                                title: "Address *",
+                                hintText: "Enter your address",
+                                keyboardType: TextInputType.text,
+                                validator: (value) {
+                                  // if (value!.trim().isEmpty) {
+                                  //   return "Please enter your address";
+                                  // }
+                                  return null;
+                                }),
+                            // ...commonField(
+                            //     textController: cartController.addressDeliOtherInstruction,
+                            //     title: "Other instruction *",
+                            //     hintText: "Enter other instruction",
+                            //     keyboardType: TextInputType.text,
+                            //     validator: (value) {
+                            //       return null;
+                            //     }
+                            // ),
+                            ...commonField(
+                                textController: cartController.addressDeliZipCode,
+                                title: "Zip Code *",
+                                hintText: "Enter location Zip-Code",
+                                keyboardType: TextInputType.phone,
+                                validator: (value) {
+                                  // if (value!.trim().isEmpty) {
+                                  //   return "Please enter phone number";
+                                  // }
+                                  return null;
+                                }),
+                            const SizedBox(
+                              height: 20,
+                            ),
+                          ],
+                        ),
                       ),
                     ),
                   ),
-                ),
-                const SizedBox(
-                  height: 15,
-                ),
-              ],
-            ),
-            Container(
-              color: Colors.white,
-              padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 10),
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  Text("Your Order".tr, style: GoogleFonts.poppins(fontWeight: FontWeight.w500, fontSize: 18)),
                   const SizedBox(
-                    height: 10,
-                  ),
-                  Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                    children: [
-                      Text("${'Subtotal'.tr} (${directOrderResponse.prodcutData!.inStock} ${'items'.tr})",
-                          style: GoogleFonts.poppins(fontWeight: FontWeight.w400, color: const Color(0xff949495))),
-                      Text("KWD ${directOrderResponse.subtotal.toString()}",
-                          style: GoogleFonts.poppins(fontWeight: FontWeight.w400, color: const Color(0xff949495))),
-                    ],
-                  ),
-                  const SizedBox(
-                    height: 10,
-                  ),
-                  Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                    children: [
-                      Text("Shipping".tr,
-                          style: GoogleFonts.poppins(fontWeight: FontWeight.w400, color: const Color(0xff949495))),
-                      Text("KWD ${shippingPrice.toString()}",
-                          style: GoogleFonts.poppins(fontWeight: FontWeight.w400, color: const Color(0xff949495))),
-                    ],
-                  ),
-                  const SizedBox(
-                    height: 10,
-                  ),
-                  Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                    children: [
-                      Text("Total".tr, style: GoogleFonts.poppins(fontWeight: FontWeight.w500, fontSize: 18)),
-                      total == 0.0
-                          ? Text("KWD ${directOrderResponse.subtotal.toString()}",
-                          style: GoogleFonts.poppins(fontWeight: FontWeight.w500, fontSize: 18))
-                          : Text("KWD ${cartController.formattedTotal.toString()}",
-                          style: GoogleFonts.poppins(fontWeight: FontWeight.w500, fontSize: 18)),
-                    ],
+                    height: 15,
                   ),
                 ],
               ),
-            )
-          ],
-        ),
-      ),
+              Container(
+                color: Colors.white,
+                padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 10),
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    Text("Your Order".tr, style: GoogleFonts.poppins(fontWeight: FontWeight.w500, fontSize: 18)),
+                    const SizedBox(
+                      height: 10,
+                    ),
+                    Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      children: [
+                        Text("${'Subtotal'.tr} (${cartController.directOrderResponse.value.prodcutData!.inStock} ${'items'
+                            .tr})",
+                            style: GoogleFonts.poppins(fontWeight: FontWeight.w400, color: const Color(0xff949495))),
+                        Text("KWD ${cartController.directOrderResponse.value.subtotal.toString()}",
+                            style: GoogleFonts.poppins(fontWeight: FontWeight.w400, color: const Color(0xff949495))),
+                      ],
+                    ),
+                    const SizedBox(
+                      height: 10,
+                    ),
+                    Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      children: [
+                        Text("Shipping".tr,
+                            style: GoogleFonts.poppins(fontWeight: FontWeight.w400, color: const Color(0xff949495))),
+                        Text("KWD ${sPrice1.toString()}",
+                            style: GoogleFonts.poppins(fontWeight: FontWeight.w400, color: const Color(0xff949495))),
+                      ],
+                    ),
+                    const SizedBox(
+                      height: 10,
+                    ),
+                    Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      children: [
+                        Text("Total".tr, style: GoogleFonts.poppins(fontWeight: FontWeight.w500, fontSize: 18)),
+                        total == 0.0
+                            ? Text("KWD ${cartController.directOrderResponse.value.subtotal.toString()}",
+                            style: GoogleFonts.poppins(fontWeight: FontWeight.w500, fontSize: 18))
+                            : Text("KWD ${cartController.formattedTotal.toString()}",
+                            style: GoogleFonts.poppins(fontWeight: FontWeight.w500, fontSize: 18)),
+                      ],
+                    ),
+                  ],
+                ),
+              )
+            ],
+          ),
+        ) : const LoadingAnimation();
+      }),
       bottomNavigationBar: InkWell(
         onTap: () {
-          print("id::::::::::::::::::::::::::::"+cartController.countryId);
+          print("id::::::::::::::::::::::::::::" + cartController.countryId);
           if (cartController.countryId.isNotEmpty) {
             showValidation.value = true;
             if (cartController.deliveryOption1.value == 'delivery') {
@@ -1243,28 +1414,30 @@ RxString shippingType= "".obs;
               showToast("Select delivery address to complete order".tr);
               return;
             }
-            if (directOrderResponse.fedexShippingOption.isEmpty && cartController.countryName.value != 'Kuwait') {
+            if (cartController.directOrderResponse.value.fedexShippingOption.isEmpty &&
+                cartController.countryName.value != 'Kuwait') {
               showToast("Please select shipping Method".tr);
               return;
             }
             cartController.dialogOpened = false;
-            print("type"+shippingType.value);
+            print("type" + shippingType.value);
             cartController.placeOrder(
-                idd: cartController.shippingId,
-                context: context,
-                currencyCode: "kwd",
-                paymentMethod: paymentMethod1,
-                shippingId:  shipId.value.toString(),
-                shipmentProvider: shipmentProvider.value.toString(),
-                // deliveryOption: deliveryOption.value,
-                purchaseType: PurchaseType.buy,
-                deliveryOption: 'delivery',
-                productID: directOrderResponse.prodcutData!.id.toString(),
-                subTotalPrice: directOrderResponse.subtotal.toString(),
-                totalPrice: cartController.formattedTotal.toString(),
-                quantity: directOrderResponse.prodcutData!.inStock.toString(),
-                purchaseType1:shippingType.value.toString(),
-                address: selectedAddress.toJson(), );
+              idd: cartController.shippingId,
+              title: cartController.shippingTitle.toString(),
+              context: context,
+              currencyCode: "kwd",
+              paymentMethod: paymentMethod1,
+              shippingId: shipId.value.toString(),
+              shipmentProvider: shipmentProvider.value.toString(),
+              // deliveryOption: deliveryOption.value,
+              purchaseType: PurchaseType.buy,
+              deliveryOption: 'delivery',
+              productID: cartController.directOrderResponse.value.prodcutData!.id.toString(),
+              subTotalPrice: cartController.directOrderResponse.value.subtotal.toString(),
+              totalPrice: cartController.formattedTotal.toString(),
+              quantity: cartController.directOrderResponse.value.prodcutData!.inStock.toString(),
+              purchaseType1: shippingType.value.toString(),
+              address: selectedAddress.toJson(),);
           } else {
             showToast('Please Choose Address');
           }
@@ -1445,14 +1618,15 @@ RxString shippingType= "".obs;
                       ),
                       isExpanded: true,
                       items: methods!.data!
-                          .map((e) => DropdownMenuItem(
-                          value: e.paymentMethodId.toString(),
-                          child: Row(
-                            children: [
-                              Expanded(child: Text(e.paymentMethodEn.toString())),
-                              SizedBox(width: 35, height: 35, child: Image.network(e.imageUrl.toString()))
-                            ],
-                          )))
+                          .map((e) =>
+                          DropdownMenuItem(
+                              value: e.paymentMethodId.toString(),
+                              child: Row(
+                                children: [
+                                  Expanded(child: Text(e.paymentMethodEn.toString())),
+                                  SizedBox(width: 35, height: 35, child: Image.network(e.imageUrl.toString()))
+                                ],
+                              )))
                           .toList(),
                       onChanged: (value) {
                         if (value == null) return;
@@ -1485,7 +1659,7 @@ RxString shippingType= "".obs;
         padding: const EdgeInsets.symmetric(horizontal: 20),
         child: Obx(() {
           if (cartController.refreshInt.value > 0) {}
-          return  Column(
+          return Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               // Row(
@@ -1568,23 +1742,24 @@ RxString shippingType= "".obs;
                       } else {
                         showDialog<String>(
                             context: context,
-                            builder: (BuildContext context) => AlertDialog(
-                              title: Text('Change Address'.tr),
-                              content: Text('Do You Want To Changed Your Address.'.tr),
-                              actions: <Widget>[
-                                TextButton(
-                                  onPressed: () => Get.back(),
-                                  child: Text('Cancel'.tr),
-                                ),
-                                TextButton(
-                                  onPressed: () async {
-                                    Get.back();
-                                    bottomSheetChangeAddress();
-                                  },
-                                  child: Text('Yes'.tr),
-                                ),
-                              ],
-                            ));
+                            builder: (BuildContext context) =>
+                                AlertDialog(
+                                  title: Text('Change Address'.tr),
+                                  content: Text('Do you want to change your address.'.tr),
+                                  actions: <Widget>[
+                                    TextButton(
+                                      onPressed: () => Get.back(),
+                                      child: Text('Cancel'.tr),
+                                    ),
+                                    TextButton(
+                                      onPressed: () async {
+                                        Get.back();
+                                        bottomSheetChangeAddress();
+                                      },
+                                      child: Text('Yes'.tr),
+                                    ),
+                                  ],
+                                ));
                       }
                     } else {
                       addAddressWithoutLogin(addressData: selectedAddress);
@@ -1604,7 +1779,7 @@ RxString shippingType= "".obs;
                           ? Text(cartController.selectedAddress.getShortAddress,
                           style: GoogleFonts.poppins(fontWeight: FontWeight.w500, fontSize: 16))
                           : cartController.myDefaultAddressModel.value.defaultAddress?.isDefault == true
-          ? Text(cartController.myDefaultAddressModel.value.defaultAddress!.getShortAddress,
+                          ? Text(cartController.myDefaultAddressModel.value.defaultAddress!.getShortAddress,
                           style: GoogleFonts.poppins(fontWeight: FontWeight.w500, fontSize: 16))
                           : Text("Choose Address".tr,
                           style: GoogleFonts.poppins(fontWeight: FontWeight.w500, fontSize: 16)),
@@ -1653,14 +1828,15 @@ RxString shippingType= "".obs;
               ),
             ],
           );
-
         }),
       ),
     );
   }
 
   Future bottomSheet({required AddressData addressData}) {
-    Size size = MediaQuery.of(context).size;
+    Size size = MediaQuery
+        .of(context)
+        .size;
     final TextEditingController firstNameController = TextEditingController(text: addressData.firstName ?? "");
     final TextEditingController emailController = TextEditingController(text: addressData.email ?? "");
     final TextEditingController lastNameController = TextEditingController(text: addressData.lastName ?? "");
@@ -1736,7 +1912,9 @@ RxString shippingType= "".obs;
                             if (value!.trim().isEmpty) {
                               return "Please enter email address";
                             }
-                            if (value.trim().invalidEmail) {
+                            if (value
+                                .trim()
+                                .invalidEmail) {
                               return "Please enter valid email address";
                             }
                             return null;
@@ -1898,8 +2076,9 @@ RxString shippingType= "".obs;
                         onTap: () {
                           showAddressSelectorDialog(
                               addressList: modelCountryList!.country!
-                                  .map((e) => CommonAddressRelatedClass(
-                                  title: e.name.toString(), addressId: e.id.toString(), flagUrl: e.icon.toString()))
+                                  .map((e) =>
+                                  CommonAddressRelatedClass(
+                                      title: e.name.toString(), addressId: e.id.toString(), flagUrl: e.icon.toString()))
                                   .toList(),
                               selectedAddressIdPicked: (String gg) {
                                 String previous = ((selectedCountry ?? Country()).id ?? "").toString();
@@ -1944,8 +2123,9 @@ RxString shippingType= "".obs;
                           if (modelStateList!.state!.isEmpty) return;
                           showAddressSelectorDialog(
                               addressList: modelStateList!.state!
-                                  .map((e) => CommonAddressRelatedClass(
-                                  title: e.stateName.toString(), addressId: e.stateId.toString()))
+                                  .map((e) =>
+                                  CommonAddressRelatedClass(
+                                      title: e.stateName.toString(), addressId: e.stateId.toString()))
                                   .toList(),
                               selectedAddressIdPicked: (String gg) {
                                 String previous = ((selectedState ?? CountryState()).stateId ?? "").toString();
@@ -1995,8 +2175,9 @@ RxString shippingType= "".obs;
                           if (modelCityList!.city!.isEmpty) return;
                           showAddressSelectorDialog(
                               addressList: modelCityList!.city!
-                                  .map((e) => CommonAddressRelatedClass(
-                                  title: e.cityName.toString(), addressId: e.cityId.toString()))
+                                  .map((e) =>
+                                  CommonAddressRelatedClass(
+                                      title: e.cityName.toString(), addressId: e.cityId.toString()))
                                   .toList(),
                               selectedAddressIdPicked: (String gg) {
                                 selectedCity =
@@ -2086,7 +2267,10 @@ RxString shippingType= "".obs;
                                       fontWeight: FontWeight.w500, fontSize: 19, color: Colors.white))),
                         ),
                       ),
-                      SizedBox(height: MediaQuery.of(context).viewInsets.bottom),
+                      SizedBox(height: MediaQuery
+                          .of(context)
+                          .viewInsets
+                          .bottom),
                     ],
                   ),
                 ),
@@ -2096,14 +2280,13 @@ RxString shippingType= "".obs;
         });
   }
 
-  List<Widget> fieldWithName(
-      {required String title,
-        required String hintText,
-        required TextEditingController controller,
-        FormFieldValidator<String>? validator,
-        bool? readOnly,
-        VoidCallback? onTap,
-        Widget? suffixIcon}) {
+  List<Widget> fieldWithName({required String title,
+    required String hintText,
+    required TextEditingController controller,
+    FormFieldValidator<String>? validator,
+    bool? readOnly,
+    VoidCallback? onTap,
+    Widget? suffixIcon}) {
     return [
       Text(
         title,
@@ -2155,7 +2338,9 @@ RxString shippingType= "".obs;
   }
 
   Future bottomSheetChangeAddress() {
-    Size size = MediaQuery.of(context).size;
+    Size size = MediaQuery
+        .of(context)
+        .size;
     cartController.getAddress();
     return showModalBottomSheet(
         context: context,
@@ -2234,19 +2419,24 @@ RxString shippingType= "".obs;
                                     onTap: () {
                                       cartController.selectedAddress = address;
                                       cartController.countryId = address.countryId.toString();
+                                      countryIddd = address.countryId.toString();
                                       cartController.zipCode = address.zipCode.toString();
-                                      cartController.getCart();
+                                      directBuyProduct();
+                                      // cartController.getCart();
                                       cartController.countryName.value = address.country.toString();
                                       print('onTap is....${cartController.countryName.value}');
-                                      if(cartController.isDelivery.value == true){
-                                        cartController.addressDeliFirstName.text = cartController.selectedAddress.getFirstName;
+                                      if (cartController.isDelivery.value == true) {
+                                        cartController.addressDeliFirstName.text =
+                                            cartController.selectedAddress.getFirstName;
                                         cartController.addressDeliLastName.text = cartController.selectedAddress.getLastName;
                                         cartController.addressDeliEmail.text = cartController.selectedAddress.getEmail;
                                         cartController.addressDeliPhone.text = cartController.selectedAddress.getPhone;
-                                        cartController.addressDeliAlternate.text = cartController.selectedAddress.getAlternate;
+                                        cartController.addressDeliAlternate.text =
+                                            cartController.selectedAddress.getAlternate;
                                         cartController.addressDeliAddress.text = cartController.selectedAddress.getAddress;
                                         cartController.addressDeliZipCode.text = cartController.selectedAddress.getZipCode;
-                                        cartController.addressCountryController.text = cartController.selectedAddress.getCountry;
+                                        cartController.addressCountryController.text =
+                                            cartController.selectedAddress.getCountry;
                                         cartController.addressStateController.text = cartController.selectedAddress.getState;
                                         cartController.addressCityController.text = cartController.selectedAddress.getCity;
                                       }
@@ -2311,18 +2501,29 @@ RxString shippingType= "".obs;
                                                             cartController.countryId = address.getCountryId.toString();
                                                             cartController.zipCode = address.zipCode.toString();
                                                             print('onTap is....${cartController.selectedAddress}');
-                                                            print('onTap is....${cartController.selectedAddress.id.toString()}');
-                                                            if(cartController.isDelivery.value == true){
-                                                              cartController.addressDeliFirstName.text = cartController.selectedAddress.getFirstName;
-                                                              cartController.addressDeliLastName.text = cartController.selectedAddress.getLastName;
-                                                              cartController.addressDeliEmail.text = cartController.selectedAddress.getEmail;
-                                                              cartController.addressDeliPhone.text = cartController.selectedAddress.getPhone;
-                                                              cartController.addressDeliAlternate.text = cartController.selectedAddress.getAlternate;
-                                                              cartController.addressDeliAddress.text = cartController.selectedAddress.getAddress;
-                                                              cartController.addressDeliZipCode.text = cartController.selectedAddress.getZipCode;
-                                                              cartController.addressCountryController.text = cartController.selectedAddress.getCountry;
-                                                              cartController.addressStateController.text = cartController.selectedAddress.getState;
-                                                              cartController.addressCityController.text = cartController.selectedAddress.getCity;
+                                                            print('onTap is....${cartController.selectedAddress.id
+                                                                .toString()}');
+                                                            if (cartController.isDelivery.value == true) {
+                                                              cartController.addressDeliFirstName.text =
+                                                                  cartController.selectedAddress.getFirstName;
+                                                              cartController.addressDeliLastName.text =
+                                                                  cartController.selectedAddress.getLastName;
+                                                              cartController.addressDeliEmail.text =
+                                                                  cartController.selectedAddress.getEmail;
+                                                              cartController.addressDeliPhone.text =
+                                                                  cartController.selectedAddress.getPhone;
+                                                              cartController.addressDeliAlternate.text =
+                                                                  cartController.selectedAddress.getAlternate;
+                                                              cartController.addressDeliAddress.text =
+                                                                  cartController.selectedAddress.getAddress;
+                                                              cartController.addressDeliZipCode.text =
+                                                                  cartController.selectedAddress.getZipCode;
+                                                              cartController.addressCountryController.text =
+                                                                  cartController.selectedAddress.getCountry;
+                                                              cartController.addressStateController.text =
+                                                                  cartController.selectedAddress.getState;
+                                                              cartController.addressCityController.text =
+                                                                  cartController.selectedAddress.getCity;
                                                             }
 
 
@@ -2343,7 +2544,8 @@ RxString shippingType= "".obs;
                                                             )
                                                                 .then((value) {
                                                               if (value == true) {
-                                                                cartController.addressListModel.address!.shipping!.removeWhere(
+                                                                cartController.addressListModel.address!.shipping!
+                                                                    .removeWhere(
                                                                         (element) =>
                                                                     element.id.toString() == address.id.toString());
                                                                 cartController.updateUI();
@@ -2383,7 +2585,10 @@ RxString shippingType= "".obs;
                           ),
                           SliverToBoxAdapter(
                             child: SizedBox(
-                              height: MediaQuery.of(context).viewInsets.bottom,
+                              height: MediaQuery
+                                  .of(context)
+                                  .viewInsets
+                                  .bottom,
                             ),
                           ),
                         ],
@@ -2397,8 +2602,39 @@ RxString shippingType= "".obs;
         });
   }
 
+  directBuyProduct() {
+    Map<String, dynamic> map = {};
+    map["product_id"] = cartController.productElementId;
+    map["quantity"] = map["quantity"] = cartController.productQuantity.toString();
+    map["key"] = 'fedexRate';
+    map["country_id"] = countryIddd.toString();
+
+    if (cartController.isBookingProduct) {
+      map["start_date"] = cartController.selectedDate.toString();
+      map["time_sloat"] = cartController.selectedSlot.toString();
+      map["sloat_end_time"] = cartController.selectedSlot.toString();
+    }
+    if (cartController.isVariantType) {
+      map["variation"] = cartController.selectedVariant.toString();
+    }
+    repositories.postApi(url: ApiUrls.buyNowDetailsUrl, mapData: map, context: context).then((value) {
+      log("Value>>>>>>>$value");
+      print('singleee');
+      cartController.directOrderResponse.value = ModelDirectOrderResponse.fromJson(jsonDecode(value));
+      showToast(cartController.directOrderResponse.value.message.toString());
+      if (cartController.directOrderResponse.value.status == true) {
+        if (kDebugMode) {
+          print(cartController.directOrderResponse.value.prodcutData!.inStock);
+        }
+        // Get.toNamed(DirectCheckOutScreen.route, arguments: response);
+      }
+    });
+  }
+
   Future addAddressWithoutLogin({required AddressData addressData}) {
-    Size size = MediaQuery.of(context).size;
+    Size size = MediaQuery
+        .of(context)
+        .size;
     final TextEditingController firstNameController = TextEditingController(text: addressData.firstName ?? "");
     final TextEditingController emailController = TextEditingController(text: addressData.email ?? "");
     final TextEditingController lastNameController = TextEditingController(text: addressData.lastName ?? "");
@@ -2452,7 +2688,9 @@ RxString shippingType= "".obs;
                             if (value!.trim().isEmpty) {
                               return "Please enter email address".tr;
                             }
-                            if (value.trim().invalidEmail) {
+                            if (value
+                                .trim()
+                                .invalidEmail) {
                               return "Please enter valid email address".tr;
                             }
                             return null;
@@ -2479,20 +2717,20 @@ RxString shippingType= "".obs;
                             }
                             return null;
                           }),
-                      ...commonField(
-                          textController: emailController,
-                          title: "Email Address*",
-                          hintText: "Email Address",
-                          keyboardType: TextInputType.emailAddress,
-                          validator: (value) {
-                            if (value!.trim().isEmpty) {
-                              return "Please enter email address";
-                            }
-                            if (value.trim().invalidEmail) {
-                              return "Please enter valid email address";
-                            }
-                            return null;
-                          }),
+                      // ...commonField(
+                      //     textController: emailController,
+                      //     title: "Email Address*",
+                      //     hintText: "Email Address",
+                      //     keyboardType: TextInputType.emailAddress,
+                      //     validator: (value) {
+                      //       if (value!.trim().isEmpty) {
+                      //         return "Please enter email address";
+                      //       }
+                      //       if (value.trim().invalidEmail) {
+                      //         return "Please enter valid email address";
+                      //       }
+                      //       return null;
+                      //     }),
                       ...commonField(
                           textController: phoneController,
                           title: "${'Phone'.tr}*",
@@ -2502,10 +2740,14 @@ RxString shippingType= "".obs;
                             if (value!.trim().isEmpty) {
                               return "Please enter phone number".tr;
                             }
-                            if (value.trim().length > 15) {
+                            if (value
+                                .trim()
+                                .length > 15) {
                               return "Please enter valid phone number".tr;
                             }
-                            if (value.trim().length < 8) {
+                            if (value
+                                .trim()
+                                .length < 8) {
                               return "Please enter valid phone number".tr;
                             }
                             return null;
@@ -2556,8 +2798,9 @@ RxString shippingType= "".obs;
                         onTap: () {
                           showAddressSelectorDialog(
                               addressList: modelCountryList!.country!
-                                  .map((e) => CommonAddressRelatedClass(
-                                  title: e.name.toString(), addressId: e.id.toString(), flagUrl: e.icon.toString()))
+                                  .map((e) =>
+                                  CommonAddressRelatedClass(
+                                      title: e.name.toString(), addressId: e.id.toString(), flagUrl: e.icon.toString()))
                                   .toList(),
                               selectedAddressIdPicked: (String gg) {
                                 String previous = ((selectedCountry ?? Country()).id ?? "").toString();
@@ -2608,12 +2851,14 @@ RxString shippingType= "".obs;
                           showAddressSelectorDialog(
                               addressList: profileController.selectedLAnguage.value == 'English'
                                   ? modelStateList!.state!
-                                  .map((e) => CommonAddressRelatedClass(
-                                  title: e.stateName.toString(), addressId: e.stateId.toString()))
+                                  .map((e) =>
+                                  CommonAddressRelatedClass(
+                                      title: e.stateName.toString(), addressId: e.stateId.toString()))
                                   .toList()
                                   : modelStateList!.state!
-                                  .map((e) => CommonAddressRelatedClass(
-                                  title: e.arabStateName.toString(), addressId: e.stateId.toString()))
+                                  .map((e) =>
+                                  CommonAddressRelatedClass(
+                                      title: e.arabStateName.toString(), addressId: e.stateId.toString()))
                                   .toList(),
                               selectedAddressIdPicked: (String gg) {
                                 String previous = ((selectedState ?? CountryState()).stateId ?? "").toString();
@@ -2665,12 +2910,14 @@ RxString shippingType= "".obs;
                           showAddressSelectorDialog(
                               addressList: profileController.selectedLAnguage.value == 'English'
                                   ? modelCityList!.city!
-                                  .map((e) => CommonAddressRelatedClass(
-                                  title: e.cityName.toString(), addressId: e.cityId.toString()))
+                                  .map((e) =>
+                                  CommonAddressRelatedClass(
+                                      title: e.cityName.toString(), addressId: e.cityId.toString()))
                                   .toList()
                                   : modelCityList!.city!
-                                  .map((e) => CommonAddressRelatedClass(
-                                  title: e.arabCityName.toString(), addressId: e.cityId.toString()))
+                                  .map((e) =>
+                                  CommonAddressRelatedClass(
+                                      title: e.arabCityName.toString(), addressId: e.cityId.toString()))
                                   .toList(),
                               selectedAddressIdPicked: (String gg) {
                                 selectedCity =
@@ -2743,6 +2990,8 @@ RxString shippingType= "".obs;
                               zipCode: zipCodeController.text.trim(),
                               email: emailController.text.trim(),
                             );
+                            directBuyProduct();
+                            cartController.countryId = countryIddd.toString();
                             setState(() {});
                             Get.back();
                             // cartController.updateAddressApi(
@@ -2773,7 +3022,10 @@ RxString shippingType= "".obs;
                                       fontWeight: FontWeight.w500, fontSize: 19, color: Colors.white))),
                         ),
                       ),
-                      SizedBox(height: MediaQuery.of(context).viewInsets.bottom),
+                      SizedBox(height: MediaQuery
+                          .of(context)
+                          .viewInsets
+                          .bottom),
                     ],
                   ),
                 ),

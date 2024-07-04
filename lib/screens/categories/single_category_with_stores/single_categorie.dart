@@ -15,6 +15,7 @@ import 'package:flutter_svg/svg.dart';
 import 'package:get/get.dart';
 import 'package:google_fonts/google_fonts.dart';
 
+import '../../../controller/homepage_controller.dart';
 import '../../../controller/profile_controller.dart';
 import '../../../model/model_category_list.dart';
 import '../../../model/model_category_stores.dart';
@@ -25,9 +26,12 @@ import '../../../utils/api_constant.dart';
 import '../../../vendor/authentication/vendor_plans_screen.dart';
 import '../../../vendor/dashboard/dashboard_screen.dart';
 import '../../../widgets/cart_widget.dart';
+import '../../../widgets/common_colour.dart';
 import '../../app_bar/common_app_bar.dart';
 import '../../auth_screens/login_screen.dart';
+import '../../home_pages/coustom_drawer.dart';
 import '../../product_details/product_widget.dart';
+import '../../search_products.dart';
 import 'single_store_screen.dart';
 
 class SingleCategories extends StatefulWidget {
@@ -82,6 +86,7 @@ class _SingleCategoriesState extends State<SingleCategories> {
       setState(() {});
     });
   }
+
   final profileController = Get.put(ProfileController());
   showVendorDialog() {
     if (Platform.isAndroid) {
@@ -125,7 +130,7 @@ class _SingleCategoriesState extends State<SingleCategories> {
             return CupertinoAlertDialog(
               title: Text(
                 "${'To register as vendor partner need to '.tr}"
-                    "${'create an account first.'.tr}",
+                "${'create an account first.'.tr}",
                 textAlign: TextAlign.center,
                 style: GoogleFonts.poppins(fontWeight: FontWeight.w600, fontSize: 16),
               ),
@@ -144,29 +149,29 @@ class _SingleCategoriesState extends State<SingleCategories> {
       return;
     }
   }
+
   final RxBool _isValue = false.obs;
   List<Widget> vendorPartner() {
     return [
-
-      GestureDetector(
-        onTap: () {
-          if (profileController.model.user == null) {
-            showVendorDialog();
-            return;
-          }
-          if (profileController.model.user!.isVendor != true) {
-            Get.to(() => const VendorPlansScreen());
-            return;
-          }
-          if (profileController.model.user!.isVendor == true) {
-            Get.to(() => const VendorDashBoardScreen());
-            return;
-          }
-          _isValue.value = !_isValue.value;
-          setState(() {});
-        },
-        child:SvgPicture.asset("assets/svgs/heart.svg"),
-      ),
+      // GestureDetector(
+      //   onTap: () {
+      //     if (profileController.model.user == null) {
+      //       showVendorDialog();
+      //       return;
+      //     }
+      //     if (profileController.model.user!.isVendor != true) {
+      //       Get.to(() => const VendorPlansScreen());
+      //       return;
+      //     }
+      //     if (profileController.model.user!.isVendor == true) {
+      //       Get.to(() => const VendorDashBoardScreen());
+      //       return;
+      //     }
+      //     _isValue.value = !_isValue.value;
+      //     setState(() {});
+      //   },
+      //   child:SvgPicture.asset("assets/svgs/heart.svg"),
+      // ),
 
       // _isValue.value == true
       //     ? Obx(() {
@@ -240,13 +245,11 @@ class _SingleCategoriesState extends State<SingleCategories> {
     }
     paginationLoading = true;
     refreshInt.value = DateTime.now().millisecondsSinceEpoch;
-    if(modelCategoryList == null) {
+    if (modelCategoryList == null) {
       await repositories.getApi(url: "${ApiUrls.getCategoryStoresUrl}$url", showResponse: true).then((value) {
         modelCategoryStores ??= [];
         paginationLoading = false;
-        refreshInt.value = DateTime
-            .now()
-            .millisecondsSinceEpoch;
+        refreshInt.value = DateTime.now().millisecondsSinceEpoch;
         final response = ModelCategoryStores.fromJson(jsonDecode(value));
         if (response.user!.data!.isNotEmpty &&
             !modelCategoryStores!
@@ -263,25 +266,24 @@ class _SingleCategoriesState extends State<SingleCategories> {
       return;
     }
 
-    if(modelCategoryList!.selectedVendorSubCategory != null ||
+    if (modelCategoryList!.selectedVendorSubCategory != null ||
         modelCategoryList!.data!.map((e) => e.selectedCategory != null).toList().contains(true)) {
-      String kk =  modelCategoryList!.data!.where((element) => element.selectedCategory != null).map((e) => e.selectedCategory!.id.toString()).toList().join(",");
-      await repositories.postApi(url: ApiUrls.categoryFilterUrl,
-          showResponse: true,
-          mapData: {
-            'category_id': categoryID,
-            if(kk.isNotEmpty)
-            'child_id': kk,
-            if(modelCategoryList!.selectedVendorSubCategory != null)
-            'sub_category_id': modelCategoryList!.selectedVendorSubCategory!.id.toString(),
-            'pagination': '4',
-            'page': page.toString()
-          }).then((value) {
+      String kk = modelCategoryList!.data!
+          .where((element) => element.selectedCategory != null)
+          .map((e) => e.selectedCategory!.id.toString())
+          .toList()
+          .join(",");
+      await repositories.postApi(url: ApiUrls.categoryFilterUrl, showResponse: true, mapData: {
+        'category_id': categoryID,
+        if (kk.isNotEmpty) 'child_id': kk,
+        if (modelCategoryList!.selectedVendorSubCategory != null)
+          'sub_category_id': modelCategoryList!.selectedVendorSubCategory!.id.toString(),
+        'pagination': '4',
+        'page': page.toString()
+      }).then((value) {
         modelCategoryStores ??= [];
         paginationLoading = false;
-        refreshInt.value = DateTime
-            .now()
-            .millisecondsSinceEpoch;
+        refreshInt.value = DateTime.now().millisecondsSinceEpoch;
         final response = ModelCategoryStores.fromJson(jsonDecode(value));
         if (response.user!.data!.isNotEmpty &&
             !modelCategoryStores!
@@ -299,9 +301,7 @@ class _SingleCategoriesState extends State<SingleCategories> {
       await repositories.getApi(url: "${ApiUrls.getCategoryStoresUrl}$url", showResponse: true).then((value) {
         modelCategoryStores ??= [];
         paginationLoading = false;
-        refreshInt.value = DateTime
-            .now()
-            .millisecondsSinceEpoch;
+        refreshInt.value = DateTime.now().millisecondsSinceEpoch;
         final response = ModelCategoryStores.fromJson(jsonDecode(value));
         if (response.user!.data!.isNotEmpty &&
             !modelCategoryStores!
@@ -317,18 +317,19 @@ class _SingleCategoriesState extends State<SingleCategories> {
       });
     }
   }
-
+  final RxBool search = false.obs;
   final ScrollController _scrollController = ScrollController();
-
+  final bottomController = Get.put(BottomNavBarController());
   @override
   void dispose() {
     super.dispose();
     _scrollController.dispose();
   }
-
+  final scaffoldKey1 = GlobalKey<ScaffoldState>();
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      key: scaffoldKey1,
       backgroundColor: Colors.white,
       appBar: AppBar(
         toolbarHeight: kToolbarHeight + 10,
@@ -338,52 +339,121 @@ class _SingleCategoriesState extends State<SingleCategories> {
           padding: const EdgeInsets.only(left: 8.0),
           child: Row(
             children: [
-              SvgPicture.asset(
-
-                'assets/svgs/drawer.svg',
-                // color: Colors.white,
+              InkWell(
+                onTap: () {
+                  scaffoldKey1.currentState!.openDrawer();
+                  },
+                child: Image.asset(
+                  'assets/images/menu_new.png',
+                  width: 35,
+                  height: 35,
+                  // color: Colors.white,
+                ),
               ),
-              SizedBox(width: 13,),
-              SvgPicture.asset(
-
-                'assets/svgs/search.svg',
-                // color: Colors.white,
+              SizedBox(
+                width: 13,
+              ),
+              InkWell(
+                onTap: () {
+                  setState(() {
+                    search.value = !search.value;
+                  });
+                },
+                child: SvgPicture.asset(
+                  'assets/svgs/search_icon_new.svg',
+                  width: 35,
+                  height: 35,
+                  // color: Colors.white,
+                ),
               ),
             ],
           ),
         ),
-        leadingWidth: 120,
-        title:  Column(
-
-          children: [
-            ClipRRect(
-                borderRadius: BorderRadius.circular(10),
-                child: SizedBox(
-                    // width: double.maxFinite,
-                    height: context.getSize.width * .1,
-                    child: Hero(
-                      tag: mainCategory.bannerProfile.toString(),
-                      child: Material(
-                        color: Colors.transparent,
-                        surfaceTintColor: Colors.transparent,
-                        child: CachedNetworkImage(
-                            imageUrl: mainCategory.bannerProfile.toString(),
-                            errorWidget: (_, __, ___) =>
-                                Image.asset(
-                                    'assets/images/new_logo.png'
-                                )
+        leadingWidth: 100,
+        title: Expanded(
+          child: Column(
+            children: [
+              ClipRRect(
+                  borderRadius: BorderRadius.circular(10),
+                  child: SizedBox(
+                      // width: double.maxFinite,
+                      height: context.getSize.width * .1,
+                      child: Hero(
+                        tag: mainCategory.bannerProfile.toString(),
+                        child: Material(
+                          color: Colors.transparent,
+                          surfaceTintColor: Colors.transparent,
+                          child: CachedNetworkImage(
+                              imageUrl: mainCategory.bannerProfile.toString(),
+                              errorWidget: (_, __, ___) => Image.asset('assets/images/new_logo.png')),
                         ),
-                      ),
-                    ))),
-            Text(mainCategory.name.toString().tr),
-          ],
+                      ))),
+              Text(
+                profileController.selectedLAnguage.value == 'English' ?    mainCategory.name.toString() :
+                mainCategory.arabName.toString(),
+                style: const TextStyle(
+                fontSize: 13
+              ),
+                maxLines: 2,
+              ),
+            ],
+          ),
         ),
         centerTitle: true,
         actions: [
           ...vendorPartner(),
           const CartBagCard(),
         ],
+        bottom: PreferredSize(
+          preferredSize: search.value == true ? Size.fromHeight(50.0) : Size.fromHeight(0.0),
+          child: search.value == true
+              ? Hero(
+            tag: "search_tag",
+            child: Material(
+              color: Colors.transparent,
+              surfaceTintColor: Colors.transparent,
+              child: Padding(
+                padding: const EdgeInsets.symmetric(horizontal: 15),
+                child: TextField(
+                  maxLines: 1,
+                  style: GoogleFonts.poppins(fontSize: 16),
+                  textInputAction: TextInputAction.search,
+                  onSubmitted: (vb) {
+                    Get.to(() => SearchProductsScreen(
+                      searchText: vb,
+                    ));
+                  },
+                  decoration: InputDecoration(
+                      filled: true,
+                      prefixIcon: Padding(
+                        padding: const EdgeInsets.all(10),
+                        child: Image.asset(
+                          'assets/icons/search.png',
+                          height: 5,
+                        ),
+                      ),
+                      border: InputBorder.none,
+                      enabledBorder: const OutlineInputBorder(
+                          borderRadius: BorderRadius.all(Radius.circular(8)),
+                          borderSide: BorderSide(color: AppTheme.buttonColor)),
+                      disabledBorder: const OutlineInputBorder(
+                          borderRadius: BorderRadius.all(Radius.circular(8)),
+                          borderSide: BorderSide(color: AppTheme.buttonColor)),
+                      focusedBorder: const OutlineInputBorder(
+                          borderRadius: BorderRadius.all(Radius.circular(8)),
+                          borderSide: BorderSide(color: AppTheme.buttonColor)),
+                      fillColor: Colors.white,
+                      contentPadding: const EdgeInsets.all(15),
+                      hintText: AppStrings.searchFieldText.tr,
+                      hintStyle: GoogleFonts.poppins(color: AppTheme.buttonColor, fontWeight: FontWeight.w400)),
+                ),
+              ),
+            ),
+          )
+              : SizedBox.shrink(),
+        ),
       ),
+      drawer: const CustomDrawer(),
       body: RefreshIndicator(
         onRefresh: () async {
           // await getCategoryFilter();
@@ -393,7 +463,6 @@ class _SingleCategoriesState extends State<SingleCategories> {
           shrinkWrap: true,
           controller: _scrollController,
           slivers: [
-
             SliverAppBar(
               primary: false,
               pinned: true,
@@ -406,19 +475,16 @@ class _SingleCategoriesState extends State<SingleCategories> {
                 scrollDirection: Axis.horizontal,
                 child: modelCategoryList != null
                     ? Row(
-                      children: [
-                        if(modelCategoryList!.vendorSubCategory!.isNotEmpty)
-                        Padding(
-                          padding: const EdgeInsets.only(right: 10),
-                          child: StatefulBuilder(
-                              builder: (c, newState) {
+                        children: [
+                          if (modelCategoryList!.vendorSubCategory!.isNotEmpty)
+                            Padding(
+                              padding: const EdgeInsets.only(right: 10),
+                              child: StatefulBuilder(builder: (c, newState) {
                                 return PopupMenuButton(
                                   position: PopupMenuPosition.under,
                                   child: Container(
                                     height: 36,
-                                    constraints: BoxConstraints(
-                                        maxWidth: context.getSize.width*.75
-                                    ),
+                                    constraints: BoxConstraints(maxWidth: context.getSize.width * .75),
                                     padding: const EdgeInsets.fromLTRB(10, 0, 10, 0),
                                     decoration: BoxDecoration(
                                         border: Border.all(color: const Color(0xff014E70)),
@@ -431,11 +497,13 @@ class _SingleCategoriesState extends State<SingleCategories> {
                                           child: Padding(
                                             padding: const EdgeInsets.only(left: 8, right: 10),
                                             child: Text(
-                                              modelCategoryList!.selectedVendorSubCategory != null ?
-                                              modelCategoryList!.selectedVendorSubCategory!.name.toString() :
-                                              "Type",
+                                              modelCategoryList!.selectedVendorSubCategory != null
+                                                  ? modelCategoryList!.selectedVendorSubCategory!.name.toString()
+                                                  : "Type",
                                               style: GoogleFonts.poppins(
-                                                  fontSize: 14, fontWeight: FontWeight.w500, color: const Color(0xff014E70)),
+                                                  fontSize: 14,
+                                                  fontWeight: FontWeight.w500,
+                                                  color: const Color(0xff014E70)),
                                             ),
                                           ),
                                         ),
@@ -444,120 +512,121 @@ class _SingleCategoriesState extends State<SingleCategories> {
                                     ),
                                   ),
                                   itemBuilder: (c) {
-                                    return modelCategoryList!.vendorSubCategory!.map((ee) => PopupMenuItem(
-                                      child: Text(ee.name.toString()),
-                                      onTap: (){
-                                        modelCategoryList!.selectedVendorSubCategory = ee;
-                                        getCategoryStores(page: 1,resetAll: true);
-                                        isSelect = true;
-                                        newState((){});
-                                      },
-                                    ))
+                                    return modelCategoryList!.vendorSubCategory!
+                                        .map((ee) => PopupMenuItem(
+                                              child: Text(ee.name.toString()),
+                                              onTap: () {
+                                                modelCategoryList!.selectedVendorSubCategory = ee;
+                                                getCategoryStores(page: 1, resetAll: true);
+                                                isSelect = true;
+                                                newState(() {});
+                                              },
+                                            ))
                                         .toList();
                                   },
                                 );
-                              }
-                          ),
-                        ),
-                        Row(
+                              }),
+                            ),
+                          Row(
                             children: modelCategoryList!.data!
                                 .map((e) => Padding(
                                       padding: const EdgeInsets.only(right: 10),
-                                      child: StatefulBuilder(
-                                        builder: (c, newState) {
-                                          return PopupMenuButton(
-                                            position: PopupMenuPosition.under,
-                                            child: Container(
-                                              height: 36,
-                                              constraints: BoxConstraints(
-                                                maxWidth: context.getSize.width*.75
-                                              ),
-                                              padding: const EdgeInsets.fromLTRB(10, 0, 10, 0),
-                                              decoration: BoxDecoration(
-                                                  border: Border.all(color: const Color(0xff014E70)),
-                                                  color: const Color(0xffEBF1F4),
-                                                  borderRadius: BorderRadius.circular(22)),
-                                              child: Row(
-                                                mainAxisSize: MainAxisSize.min,
-                                                children: [
-                                                  Flexible(
-                                                    child: Padding(
-                                                      padding: const EdgeInsets.only(left: 8, right: 10),
-                                                      child: Text(
-                                                        e.selectedCategory != null ? e.selectedCategory!.title.toString() :e.title.toString(),
-                                                        style: GoogleFonts.poppins(
-                                                            fontSize: 14, fontWeight: FontWeight.w500, color: const Color(0xff014E70)),
-                                                      ),
+                                      child: StatefulBuilder(builder: (c, newState) {
+                                        return PopupMenuButton(
+                                          position: PopupMenuPosition.under,
+                                          child: Container(
+                                            height: 36,
+                                            constraints: BoxConstraints(maxWidth: context.getSize.width * .75),
+                                            padding: const EdgeInsets.fromLTRB(10, 0, 10, 0),
+                                            decoration: BoxDecoration(
+                                                border: Border.all(color: const Color(0xff014E70)),
+                                                color: const Color(0xffEBF1F4),
+                                                borderRadius: BorderRadius.circular(22)),
+                                            child: Row(
+                                              mainAxisSize: MainAxisSize.min,
+                                              children: [
+                                                Flexible(
+                                                  child: Padding(
+                                                    padding: const EdgeInsets.only(left: 8, right: 10),
+                                                    child: Text(
+                                                      e.selectedCategory != null
+                                                          ? e.selectedCategory!.title.toString()
+                                                          : e.title.toString(),
+                                                      style: GoogleFonts.poppins(
+                                                          fontSize: 14,
+                                                          fontWeight: FontWeight.w500,
+                                                          color: const Color(0xff014E70)),
                                                     ),
                                                   ),
-                                                  const Icon(Icons.keyboard_arrow_down_outlined, color: Color(0xff014E70))
-                                                ],
-                                              ),
+                                                ),
+                                                const Icon(Icons.keyboard_arrow_down_outlined, color: Color(0xff014E70))
+                                              ],
                                             ),
-                                            itemBuilder: (c) {
-                                              return e.childCategory!
-                                                  .map((ee) => PopupMenuItem(
-                                                  child: Text(ee.title.toString()),
-                                                onTap: (){
-                                                  e.selectedCategory = ee;
-                                                  getCategoryStores(page: 1,resetAll: true);
-                                                  isSelect = true;
-                                                  newState((){});
-                                                },
-                                              ))
-                                                  .toList();
-                                            },
-                                          );
-                                        }
-                                      ),
+                                          ),
+                                          itemBuilder: (c) {
+                                            return e.childCategory!
+                                                .map((ee) => PopupMenuItem(
+                                                      child: Text(ee.title.toString()),
+                                                      onTap: () {
+                                                        e.selectedCategory = ee;
+                                                        getCategoryStores(page: 1, resetAll: true);
+                                                        isSelect = true;
+                                                        newState(() {});
+                                                      },
+                                                    ))
+                                                .toList();
+                                          },
+                                        );
+                                      }),
                                     ))
                                 .toList(),
                           ),
-                      ],
-                    )
+                        ],
+                      )
                     : const SizedBox(),
               ),
             ),
-            modelCategoryList != null ?
-            SliverToBoxAdapter(
-              child:  Padding(
-                padding: const EdgeInsets.fromLTRB(15,10,0,20),
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  mainAxisAlignment: MainAxisAlignment.start,
-                  children: [
-                  if(isSelect == true)
-                    GestureDetector(
-                      onTap: (){
-                        modelCategoryList = null;
-                        getCategoryFilter();
-                        getCategoryStores(page: 1,resetAll: true);
-                        isSelect = false;
-                        setState(() {});
-                      },
-                      child: Container(
-                        height: 36,
-                        width: 120,
-                        padding: const EdgeInsets.fromLTRB(10, 0, 10, 0),
-                        decoration: BoxDecoration(
-                            border: Border.all(color: const Color(0xff014E70)),
-                            color: const Color(0xffEBF1F4),
-                            borderRadius: BorderRadius.circular(22)),
-                        child: Center(
-                          child: Text(
-                            "Clear",
-                            style: GoogleFonts.poppins(
-                                fontSize: 14, fontWeight: FontWeight.w500, color: const Color(0xff014E70)),
-                          ),
-                        ),
+            modelCategoryList != null
+                ? SliverToBoxAdapter(
+                    child: Padding(
+                      padding: const EdgeInsets.fromLTRB(15, 10, 0, 20),
+                      child: Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        mainAxisAlignment: MainAxisAlignment.start,
+                        children: [
+                          if (isSelect == true)
+                            GestureDetector(
+                              onTap: () {
+                                modelCategoryList = null;
+                                getCategoryFilter();
+                                getCategoryStores(page: 1, resetAll: true);
+                                isSelect = false;
+                                setState(() {});
+                              },
+                              child: Container(
+                                height: 36,
+                                width: 120,
+                                padding: const EdgeInsets.fromLTRB(10, 0, 10, 0),
+                                decoration: BoxDecoration(
+                                    border: Border.all(color: const Color(0xff014E70)),
+                                    color: const Color(0xffEBF1F4),
+                                    borderRadius: BorderRadius.circular(22)),
+                                child: Center(
+                                  child: Text(
+                                    "Clear",
+                                    style: GoogleFonts.poppins(
+                                        fontSize: 14, fontWeight: FontWeight.w500, color: const Color(0xff014E70)),
+                                  ),
+                                ),
+                              ),
+                            ),
+                        ],
                       ),
                     ),
-                  ],
-                ),
-              ),
-            ) : const SliverToBoxAdapter(
-              child: SizedBox(),
-            ),
+                  )
+                : const SliverToBoxAdapter(
+                    child: SizedBox(),
+                  ),
             if (modelCategoryStores != null)
               for (var i = 0; i < modelCategoryStores!.length; i++) ...list(i)
             else
@@ -571,7 +640,9 @@ class _SingleCategoriesState extends State<SingleCategories> {
             SliverToBoxAdapter(
               child: Obx(() {
                 if (refreshInt.value > 0) {}
-                return paginationLoading && modelCategoryStores != null ? const LoadingAnimation() : const SizedBox.shrink();
+                return paginationLoading && modelCategoryStores != null
+                    ? const LoadingAnimation()
+                    : const SizedBox.shrink();
               }),
             )
           ],
@@ -588,8 +659,8 @@ class _SingleCategoriesState extends State<SingleCategories> {
             padding: const EdgeInsets.all(16).copyWith(top: 10),
             child: GestureDetector(
               onTap: () {
-                final kk =
-                modelCategoryStores![i].promotionData![min(i % 3, modelCategoryStores![i].promotionData!.length - 1)];
+                final kk = modelCategoryStores![i]
+                    .promotionData![min(i % 3, modelCategoryStores![i].promotionData!.length - 1)];
                 if (kk.promotionType == "product") {
                   bottomSheet(
                       productDetails: ProductElement(
@@ -600,8 +671,8 @@ class _SingleCategoriesState extends State<SingleCategories> {
                 }
                 if (kk.promotionType == "store") {
                   Get.to(() => SingleStoreScreen(
-                    storeDetails: VendorStoreData(id: kk.productStoreId.toString()),
-                  ));
+                        storeDetails: VendorStoreData(id: kk.productStoreId.toString()),
+                      ));
                   return;
                 }
               },
@@ -633,9 +704,12 @@ class _SingleCategoriesState extends State<SingleCategories> {
               padding: const EdgeInsets.symmetric(horizontal: 16),
               child: InkWell(
                   onTap: () {
-                    Get.to(() => SingleStoreScreen(storeDetails: store,),arguments: mainCategory.name.toString().tr);
+                    Get.to(
+                        () => SingleStoreScreen(
+                              storeDetails: store,
+                            ),
+                        arguments: mainCategory.name.toString().tr);
                   },
-
                   child: Container(
                       margin: const EdgeInsets.only(
                         bottom: 10,
@@ -657,13 +731,9 @@ class _SingleCategoriesState extends State<SingleCategories> {
                                   color: Colors.transparent,
                                   surfaceTintColor: Colors.transparent,
                                   child: CachedNetworkImage(
-                                    imageUrl: store.storeLogoApp.toString(),
-                                    fit: BoxFit.cover,
-                                      errorWidget: (_, __, ___) =>
-                                          Image.asset(
-                                              'assets/images/new_logo.png'
-                                          )
-                                  ),
+                                      imageUrl: store.storeLogoApp.toString(),
+                                      fit: BoxFit.cover,
+                                      errorWidget: (_, __, ___) => Image.asset('assets/images/new_logo.png')),
                                 ),
                               ),
                             ),
@@ -677,8 +747,8 @@ class _SingleCategoriesState extends State<SingleCategories> {
                                 children: [
                                   Text(
                                     store.storeName.toString(),
-                                    style:
-                                        GoogleFonts.poppins(color: Colors.black, fontSize: 18, fontWeight: FontWeight.w500),
+                                    style: GoogleFonts.poppins(
+                                        color: Colors.black, fontSize: 18, fontWeight: FontWeight.w500),
                                   ),
                                   Padding(
                                     padding: const EdgeInsets.only(top: 5, bottom: 5),
@@ -686,12 +756,14 @@ class _SingleCategoriesState extends State<SingleCategories> {
                                       store.description.toString(),
                                       maxLines: 1,
                                       style: GoogleFonts.poppins(
-                                          color: Colors.grey.withOpacity(.7), fontSize: 12, fontWeight: FontWeight.w500),
+                                          color: Colors.grey.withOpacity(.7),
+                                          fontSize: 12,
+                                          fontWeight: FontWeight.w500),
                                     ),
                                   ),
                                   Text(
                                     // ("${modelCategoryStores![i].product.toString()} ${AppStrings.items.tr}"),
-                                      AppStrings.items.tr,
+                                    AppStrings.items.tr,
                                     style: GoogleFonts.poppins(
                                         color: const Color(0xff014E70), fontSize: 16, fontWeight: FontWeight.w600),
                                   )
@@ -703,7 +775,6 @@ class _SingleCategoriesState extends State<SingleCategories> {
                       ))),
             );
           }),
-
       if (modelCategoryStores![i].product!.isNotEmpty)
         SliverToBoxAdapter(
           child: Column(
@@ -730,6 +801,7 @@ class _SingleCategoriesState extends State<SingleCategories> {
                     itemBuilder: (BuildContext context, int index) {
                       final item = modelCategoryStores![i].product![index];
                       return ProductUI(
+                        isSingle: false,
                         productElement: item,
                         onLiked: (value) {
                           modelCategoryStores![i].product![index].inWishlist = value;

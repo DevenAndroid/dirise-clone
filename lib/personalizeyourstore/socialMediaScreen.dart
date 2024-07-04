@@ -9,6 +9,8 @@ import 'package:form_field_validator/form_field_validator.dart';
 import 'package:get/get.dart';
 import 'package:google_fonts/google_fonts.dart';
 
+import '../controller/profile_controller.dart';
+import '../controller/service_controller.dart';
 import '../model/common_modal.dart';
 import '../model/socialMediaModel.dart';
 import '../repository/repository.dart';
@@ -24,28 +26,20 @@ class SocialMediaStore extends StatefulWidget {
 }
 
 class _SocialMediaStoreState extends State<SocialMediaStore> {
-  TextEditingController instagramController  = TextEditingController();
-  TextEditingController youtubeController   = TextEditingController();
-  TextEditingController twitterController   = TextEditingController();
-  TextEditingController linkedinController  = TextEditingController();
-  TextEditingController facebookController   = TextEditingController();
-  TextEditingController snapchatController   = TextEditingController();
-  TextEditingController pinterestController   = TextEditingController();
-  TextEditingController tiktokController     = TextEditingController();
-  TextEditingController threadsController   = TextEditingController();
 
+  final controller = Get.put(ServiceController());
   final Repositories repositories = Repositories();
   socialMediaApi() {
     Map<String, dynamic> map = {};
-    map['instagram'] = instagramController.text.trim();
-    map['youtube'] = youtubeController.text.trim();
-    map['twitter'] = twitterController.text.trim();
-    map['linkedin'] = linkedinController.text.trim();
-    map['facebook'] = facebookController.text.trim();
-    map['snapchat'] = snapchatController.text.trim();
-    map['pinterest'] = pinterestController.text.trim();
-    map['tiktok'] = tiktokController.text.trim();
-    map['threads'] = threadsController.text.trim();
+    map['instagram'] = controller.instagramController.text.trim();
+    map['youtube'] =   controller.youtubeController.text.trim();
+    map['twitter'] =   controller.twitterController.text.trim();
+    map['linkedin'] =  controller.linkedinController.text.trim();
+    map['facebook'] =  controller.facebookController.text.trim();
+    map['snapchat'] =  controller.snapchatController.text.trim();
+    map['pinterest'] = controller.pinterestController.text.trim();
+    map['tiktok'] =    controller.tiktokController.text.trim();
+    map['threads'] =   controller.threadsController.text.trim();
 
     FocusManager.instance.primaryFocus!.unfocus();
     repositories.postApi(url: ApiUrls.socialMediaUrl, context: context, mapData: map).then((value) {
@@ -53,7 +47,7 @@ class _SocialMediaStoreState extends State<SocialMediaStore> {
       showToast(response.message.toString());
       if (response.status == true) {
         showToast(response.message.toString());
-        Get.to(PersonalizeyourstoreScreen());
+        Get.to(const PersonalizeyourstoreScreen());
       }
     });
   }
@@ -65,15 +59,15 @@ class _SocialMediaStoreState extends State<SocialMediaStore> {
       socialMediaModel = SocialMediaModel.fromJson(jsonDecode(value));
       log('ffffff ${socialMediaModel.socialMedia!.toJson()}');
       if(socialMediaModel.socialMedia != null){
-        instagramController.text = socialMediaModel.socialMedia!.instagram ?? "";
-        youtubeController.text = socialMediaModel.socialMedia!.youtube ?? "";
-        twitterController.text = socialMediaModel.socialMedia!.twitter ?? "";
-        linkedinController.text = socialMediaModel.socialMedia!.linkedin ?? "";
-        facebookController.text = socialMediaModel.socialMedia!.facebook ?? "";
-        snapchatController.text = socialMediaModel.socialMedia!.snapchat ?? "";
-        pinterestController.text  = socialMediaModel.socialMedia!.pinterest ?? "";
-        tiktokController.text = socialMediaModel.socialMedia!.tiktok ?? "";
-        threadsController.text = socialMediaModel.socialMedia!.threads ?? "";
+        controller.instagramController.text = socialMediaModel.socialMedia!.instagram ?? "";
+        controller.youtubeController.text = socialMediaModel.socialMedia!.youtube ?? "";
+        controller.twitterController.text = socialMediaModel.socialMedia!.twitter ?? "";
+        controller.linkedinController.text = socialMediaModel.socialMedia!.linkedin ?? "";
+        controller.facebookController.text = socialMediaModel.socialMedia!.facebook ?? "";
+        controller.snapchatController.text = socialMediaModel.socialMedia!.snapchat ?? "";
+        controller.pinterestController.text  = socialMediaModel.socialMedia!.pinterest ?? "";
+        controller.tiktokController.text = socialMediaModel.socialMedia!.tiktok ?? "";
+        controller.threadsController.text = socialMediaModel.socialMedia!.threads ?? "";
       }
       setState(() {});
     });
@@ -86,6 +80,7 @@ class _SocialMediaStoreState extends State<SocialMediaStore> {
 
   }
 
+  final profileController = Get.put(ProfileController());
   bool check = false;
   @override
   Widget build(BuildContext context) {
@@ -95,13 +90,25 @@ class _SocialMediaStoreState extends State<SocialMediaStore> {
         surfaceTintColor: Colors.white,
         elevation: 0,
         leading: GestureDetector(
-          onTap: () {
+          onTap: (){
             Get.back();
           },
-          child: const Icon(
-            Icons.arrow_back_ios_new,
-            color: Color(0xff0D5877),
-            size: 16,
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.center,
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: [
+              profileController.selectedLAnguage.value != 'English' ?
+              Image.asset(
+                'assets/images/forward_icon.png',
+                height: 19,
+                width: 19,
+              ) :
+              Image.asset(
+                'assets/images/back_icon_new.png',
+                height: 19,
+                width: 19,
+              ),
+            ],
           ),
         ),
         // actions: [
@@ -127,9 +134,21 @@ class _SocialMediaStoreState extends State<SocialMediaStore> {
           ],
         ),
       ),
+      bottomNavigationBar: Padding(
+        padding: const EdgeInsets.all(8.0),
+        child: SizedBox(
+          height: 50,
+          child: CustomOutlineButton(
+            title: 'Add Now'.tr,
+            onPressed: () {
+              socialMediaApi();
+            },
+          ),
+        ),
+      ),
       body: SingleChildScrollView(
         child: Container(
-          margin: EdgeInsets.only(left: 20, right: 20),
+          margin: const EdgeInsets.only(left: 20, right: 20),
           child: Column(
             children: [
               const SizedBox(
@@ -138,92 +157,124 @@ class _SocialMediaStoreState extends State<SocialMediaStore> {
               Column(
                       children: [
                         CommonTextField(
-                            controller: instagramController,
+                            controller: controller.instagramController,
                             obSecure: false,
-                            prefix: Image.asset('assets/images/instagram.png'),
+                            prefix: Padding(
+                              padding: const EdgeInsets.all(8.0),
+                              child: Image.asset('assets/images/instagram.png',width: 35,height: 35,),
+                            ),
                             // hintText: 'Name',
                             hintText: 'Enter Your Instagram Profile Link'.tr,
                             validator: MultiValidator([
                               RequiredValidator(errorText: 'Instagram Username is required'.tr),
+
                             ])),
+                        const SizedBox(height: 10,),
                         CommonTextField(
-                            controller: youtubeController,
+                            controller: controller.youtubeController,
                             obSecure: false,
-                            prefix: Image.network('https://img.icons8.com/color/48/youtube-play'),
+                            prefix: Padding(
+                              padding: const EdgeInsets.all(4.0),
+                              child: Image.asset('assets/images/youtube.png',width: 35,height: 35),
+                            ),
                             // hintText: 'Name',
                             hintText: 'Enter Your youtube Profile Link'.tr,
                             validator: MultiValidator([
                               RequiredValidator(errorText: 'youtube Username is required'.tr),
                             ])),
+                        const SizedBox(height: 10,),
                         CommonTextField(
-                            controller: twitterController,
+                            controller: controller.twitterController,
                             obSecure: false,
-                            prefix: Image.network('https://img.icons8.com/fluency/48/twitter.png'),
+                            prefix: Padding(
+                              padding: const EdgeInsets.all(8.0),
+                              child: Image.asset('assets/images/twiter-new.png',width: 25,height: 25),
+                            ),
                             // hintText: 'Name',
                             hintText: 'Enter Your twitter Profile Link'.tr,
                             validator: MultiValidator([
                               RequiredValidator(errorText: 'twitter Username is required'.tr),
                             ])),
+                        const SizedBox(height: 10,),
                         CommonTextField(
-                            controller: linkedinController,
+                            controller: controller.linkedinController,
                             obSecure: false,
-                            prefix: Image.network('https://img.icons8.com/fluency/48/linkedin.png'),
+                            prefix: Padding(
+                              padding: const EdgeInsets.all(8.0),
+                              child: Image.asset('assets/images/linkedin_new.png',width: 35,height: 35),
+                            ),
                             // hintText: 'Name',
                             hintText: 'Enter Your linkedin Profile Link'.tr,
                             validator: MultiValidator([
                               RequiredValidator(errorText: 'linkedin Username is required'.tr),
                             ])),
+                        const SizedBox(height: 10,),
                         CommonTextField(
-                            controller: facebookController,
+                            controller: controller.facebookController,
                             obSecure: false,
-                            prefix: Image.network('https://img.icons8.com/color/48/facebook-new.png'),
+                            prefix: Padding(
+                              padding: const EdgeInsets.all(8.0),
+                              child: Image.asset('assets/images/facebook_new.png',width: 35,height: 35,),
+                            ),
                             // hintText: 'Name',
                             hintText: 'Enter Your facebook Profile Link'.tr,
                             validator: MultiValidator([
                               RequiredValidator(errorText: 'facebook Username is required'.tr),
                             ])),
+                        const SizedBox(height: 10,),
                         CommonTextField(
-                            controller: snapchatController,
+                            controller: controller.snapchatController,
                             obSecure: false,
-                            prefix: Image.network('https://img.icons8.com/parakeet/48/snapchat.png'),
+                            prefix:  Padding(
+                              padding: const EdgeInsets.all(8.0),
+                              child: Image.asset('assets/images/snap_new.png',width: 35,height: 35,),
+                            ),
                             // hintText: 'Name',
                             hintText: 'Enter Your snapchat Profile Link'.tr,
                             validator: MultiValidator([
                               RequiredValidator(errorText: 'snapchat Username is required'.tr),
                             ])),
+                        const SizedBox(height: 10,),
                         CommonTextField(
-                            controller: pinterestController,
+                            controller: controller.pinterestController,
                             obSecure: false,
-                            prefix: Image.network('https://img.icons8.com/color/48/pinterest--v1.png'),
+                            prefix:  Padding(
+                              padding: const EdgeInsets.all(8.0),
+                              child: Image.asset('assets/images/pinterest.png',width: 35,height: 35,),
+                            ),
                             // hintText: 'Name',
                             hintText: 'Enter Your pinterest Profile Link'.tr,
                             validator: MultiValidator([
                               RequiredValidator(errorText: 'pinterest Username is required'.tr),
                             ])),
+                        const SizedBox(height: 10,),
                         CommonTextField(
-                            controller: tiktokController,
+                            controller: controller.tiktokController,
                             obSecure: false,
-                            prefix: Image.network('https://img.icons8.com/color-glass/48/tiktok.png'),
+                            prefix: Padding(
+                              padding: const EdgeInsets.all(8.0),
+                              child: Image.asset('assets/images/tiktok-new.png',width: 37,height: 37),
+                            ),
                             // hintText: 'Name',
                             hintText: 'Enter Your tiktok Profile Link'.tr,
                             validator: MultiValidator([
                               RequiredValidator(errorText: 'tiktok Username is required'.tr),
                             ])),
+                        const SizedBox(height: 10,),
                         CommonTextField(
-                            controller: threadsController,
+                            controller: controller.threadsController,
                             obSecure: false,
-                            prefix: Image.network('https://img.icons8.com/color/48/clew.png'),
+                            prefix:Padding(
+                              padding: const EdgeInsets.all(8.0),
+                              child: Image.asset('assets/images/threads-new.png',width: 30,height: 30),
+                            ),
                             // hintText: 'Name',
                             hintText: 'Enter Your threads Profile Link'.tr,
                             validator: MultiValidator([
                               RequiredValidator(errorText: 'threads Username is required'.tr),
                             ])),
-                        CustomOutlineButton(
-                          title: 'Add Now',
-                          onPressed: () {
-                            socialMediaApi();
-                          },
-                        ),
+                        const SizedBox(height: 20,),
+
                       ],
                     )
 

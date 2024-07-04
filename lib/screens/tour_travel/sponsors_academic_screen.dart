@@ -9,6 +9,7 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:google_fonts/google_fonts.dart';
 
+import '../../controller/profile_controller.dart';
 import '../../controller/vendor_controllers/add_product_controller.dart';
 import '../../model/common_modal.dart';
 import '../../model/sponsors_list_model.dart';
@@ -23,7 +24,11 @@ import 'eligible_customer_academic.dart';
 import 'optional_details_academic.dart';
 
 class SponsorsScreenTourAndTravel extends StatefulWidget {
-  const SponsorsScreenTourAndTravel({super.key});
+  int? id;
+  String? sponsorType;
+  String? sponsorName;
+
+  SponsorsScreenTourAndTravel({super.key, this.id, this.sponsorName, this.sponsorType});
 
   @override
   State<SponsorsScreenTourAndTravel> createState() => _SponsorsScreenTourAndTravelState();
@@ -55,7 +60,7 @@ class _SponsorsScreenTourAndTravelState extends State<SponsorsScreenTourAndTrave
     map['sponsor_type'] = sponsorTypeController.text.trim();
     map['sponsor_name'] = sponsorNameController.text.trim();
     images['sponsor_logo'] = idProof;
-    map["id"] = addProductController.idProduct.value.toString();
+    // map["id"] = addProductController.idProduct.value.toString();
 
     FocusManager.instance.primaryFocus!.unfocus();
     repositories
@@ -97,7 +102,7 @@ class _SponsorsScreenTourAndTravelState extends State<SponsorsScreenTourAndTrave
       if (response.status == true) {
         showToast(response.message.toString());
         if (formKey1.currentState!.validate()) {
-          Get.to(() => const EligibleCustomersTourAndTravel());
+          Get.to(() => EligibleCustomersTourAndTravel());
         }
       }
     });
@@ -109,8 +114,12 @@ class _SponsorsScreenTourAndTravelState extends State<SponsorsScreenTourAndTrave
     WidgetsBinding.instance.addPostFrameCallback((timeStamp) {
       getSponsors();
     });
+    if (widget.id != null) {
+      sponsorTypeController.text = widget.sponsorType.toString();
+      sponsorNameController.text = widget.sponsorName.toString();
+    }
   }
-
+  final profileController = Get.put(ProfileController());
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -118,14 +127,26 @@ class _SponsorsScreenTourAndTravelState extends State<SponsorsScreenTourAndTrave
           backgroundColor: Colors.white,
           surfaceTintColor: Colors.white,
           elevation: 0,
-          leading: GestureDetector(
-            onTap: () {
+          leading:GestureDetector(
+            onTap: (){
               Get.back();
             },
-            child: const Icon(
-              Icons.arrow_back_ios_new,
-              color: Color(0xff0D5877),
-              size: 16,
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.center,
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: [
+                profileController.selectedLAnguage.value != 'English' ?
+                Image.asset(
+                  'assets/images/forward_icon.png',
+                  height: 19,
+                  width: 19,
+                ) :
+                Image.asset(
+                  'assets/images/back_icon_new.png',
+                  height: 19,
+                  width: 19,
+                ),
+              ],
             ),
           ),
           titleSpacing: 0,
@@ -194,7 +215,6 @@ class _SponsorsScreenTourAndTravelState extends State<SponsorsScreenTourAndTrave
                                                   sponsorTypeController.text = e.sponsorType.toString();
                                                   sponsorNameController.text = e.sponsorName.toString();
                                                   sponsorImage = e.sponsorLogo.toString();
-                                                  // sponsorValueId = ;
                                                   setState(() {});
                                                 })
                                           ],
@@ -214,6 +234,9 @@ class _SponsorsScreenTourAndTravelState extends State<SponsorsScreenTourAndTrave
                             return null;
                           },
                         ),
+                        const SizedBox(
+                          height: 10,
+                        ),
                         CommonTextField(
                           controller: sponsorNameController,
                           obSecure: false,
@@ -227,7 +250,7 @@ class _SponsorsScreenTourAndTravelState extends State<SponsorsScreenTourAndTrave
                           },
                         ),
                         25.spaceY,
-                        if (sponsorImage != '')
+                        if (sponsorImage == '')
                           ImageWidget(
                             // key: paymentReceiptCertificateKey,
                             title: "Upload Sponsor logo".tr,
@@ -237,14 +260,14 @@ class _SponsorsScreenTourAndTravelState extends State<SponsorsScreenTourAndTrave
                               idProof = g;
                             },
                           ),
-                        if (sponsorImage == '')
+                        if (sponsorImage != '')
                           Text(
                             "Upload Sponsor logo".tr,
                             style: GoogleFonts.poppins(
                                 fontWeight: FontWeight.w500, color: const Color(0xff2F2F2F), fontSize: 16),
                           ),
-                        if (sponsorImage == '') 8.spaceY,
-                        if (sponsorImage == '')
+                        if (sponsorImage != '') 8.spaceY,
+                        if (sponsorImage != '')
                           Container(
                             padding: EdgeInsets.symmetric(horizontal: AddSize.padding16, vertical: AddSize.padding16),
                             width: AddSize.screenWidth,
@@ -305,7 +328,7 @@ class _SponsorsScreenTourAndTravelState extends State<SponsorsScreenTourAndTrave
                         const SizedBox(height: 20),
                         GestureDetector(
                           onTap: () {
-                            Get.to(() => const EligibleCustomersTourAndTravel());
+                            Get.to(() => EligibleCustomersTourAndTravel());
                           },
                           child: Container(
                             width: Get.width,

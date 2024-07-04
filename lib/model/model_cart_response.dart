@@ -150,17 +150,17 @@ class Shipping {
   Shipping.fromJson(Map<String, dynamic> json) {
     if (json['icarry_shipping'] != null) {
       icarryShipping = <IcarryShipping>[];
-      json['icarry_shipping'].forEach((v) { icarryShipping!.add(new IcarryShipping.fromJson(v)); });
+      json['icarry_shipping'].forEach((v) { icarryShipping!.add( IcarryShipping.fromJson(v)); });
     }
     if (json['local_shipping'] != null) {
       localShipping = <LocalShipping>[];
-      json['local_shipping'].forEach((v) { localShipping!.add(new LocalShipping.fromJson(v)); });
+      json['local_shipping'].forEach((v) { localShipping!.add( LocalShipping.fromJson(v)); });
     }
-    fedexShipping = json['fedex_shipping'] != null ? new FedexShipping.fromJson(json['fedex_shipping']) : null;
+    fedexShipping = json['fedex_shipping'] != null ?  FedexShipping.fromJson(json['fedex_shipping']) : null;
   }
 
   Map<String, dynamic> toJson() {
-    final Map<String, dynamic> data = new Map<String, dynamic>();
+    final Map<String, dynamic> data =  Map<String, dynamic>();
     if (icarryShipping != null) {
       data['icarry_shipping'] = icarryShipping!.map((v) => v.toJson()).toList();
     }
@@ -871,8 +871,8 @@ class Commit {
   }
 }
 class DateDetail {
-  String? dayOfWeek;
-  String? dayFormat;
+ dynamic dayOfWeek;
+ dynamic dayFormat;
 
   DateDetail({this.dayOfWeek, this.dayFormat});
 
@@ -1387,10 +1387,13 @@ class Products {
   dynamic inWishlist;
   dynamic currencySign;
   dynamic currencyCode;
+  dynamic variantPrice;
   List<dynamic>? variantsComb;
   List<dynamic>? attributes;
   List<dynamic>? variants;
   dynamic vendorCountryId;
+  dynamic discountPrice;
+  dynamic discountOff;
 
   Products(
       {this.id,
@@ -1406,6 +1409,7 @@ class Products {
         this.prodectSku,
         this.views,
         this.code,
+        this.variantPrice,
         this.bookingProductType,
         this.prodectPrice,
         this.prodectMinQty,
@@ -1473,6 +1477,8 @@ class Products {
         this.localShipping,
         this.attributes,
         this.vendorCountryId,
+        this.discountPrice,
+        this.discountOff,
         this.variants});
 
   Products.fromJson(Map<String, dynamic> json) {
@@ -1554,6 +1560,9 @@ class Products {
     currencyCode = json['currency_code'];
     localShipping = json['local_shipping'];
     vendorCountryId = json['vendor_country_id'];
+    discountPrice = json['discount_price'];
+    discountOff = json['discount_off'];
+    variantPrice = json['variant_price'];
     // if (json['variants_comb'] != null) {
     //   variantsComb = <Null>[];
     //   json['variants_comb'].forEach((v) {
@@ -1654,6 +1663,9 @@ class Products {
     data['currency_code'] = currencyCode;
     data['local_shipping'] = localShipping;
     data['vendor_country_id'] = vendorCountryId;
+    data['discount_price'] = discountPrice;
+    data['discount_off'] = discountOff;
+    data['variant_price'] = variantPrice;
     // if (this.variantsComb != null) {
     //   data['variants_comb'] =
     //       this.variantsComb!.map((v) => v.toJson()).toList();

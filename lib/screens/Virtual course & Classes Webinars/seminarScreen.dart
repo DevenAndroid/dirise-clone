@@ -1,6 +1,7 @@
 import 'dart:convert';
 import 'dart:developer';
 
+import 'package:dirise/controller/profile_controller.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
@@ -15,7 +16,10 @@ import 'optinal_detail_webinars.dart';
 
 class SeminarScreenScreen extends StatefulWidget {
   int? id;
-  SeminarScreenScreen({super.key, this.id});
+  String? startTime;
+  String? endTime;
+  String? extraNotes;
+  SeminarScreenScreen({super.key, this.id,this.startTime,this.endTime,this.extraNotes});
 
   @override
   State<SeminarScreenScreen> createState() => _SeminarScreenScreenState();
@@ -56,6 +60,7 @@ class _SeminarScreenScreenState extends State<SeminarScreenScreen> {
 
   final Repositories repositories = Repositories();
   final addProductController = Get.put(AddProductController());
+  final profileController = Get.put(ProfileController());
   TextEditingController extraNotesController = TextEditingController();
 
   webinarApi() {
@@ -65,7 +70,7 @@ class _SeminarScreenScreenState extends State<SeminarScreenScreen> {
     map['item_type'] = 'product';
     map['product_type'] = 'booking';
     map['booking_product_type'] = 'webinar';
-    map['product_availability_id'] = widget.id;
+    map['product_availability_id'] = profileController.productAvailabilityId;
     map['start_time'] = startTime?.format(context);
     map['end_time'] = endTime?.format(context);
     map['timing_extra_notes'] = extraNotesController.text.trim();
@@ -81,7 +86,7 @@ class _SeminarScreenScreenState extends State<SeminarScreenScreen> {
       showToast(response.message.toString());
       if (response.status == true) {
         log('sdgafahsfshdhhjgf');
-        Get.to(() => const OptionalDetailsWebiinarsScreen());
+        Get.to(() => OptionalDetailsWebiinarsScreen());
       }
     });
   }
@@ -112,13 +117,25 @@ class _SeminarScreenScreenState extends State<SeminarScreenScreen> {
         surfaceTintColor: Colors.white,
         elevation: 0,
         leading: GestureDetector(
-          onTap: () {
+          onTap: (){
             Get.back();
           },
-          child: const Icon(
-            Icons.arrow_back_ios_new,
-            color: Color(0xff0D5877),
-            size: 16,
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.center,
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: [
+              profileController.selectedLAnguage.value != 'English' ?
+              Image.asset(
+                'assets/images/forward_icon.png',
+                height: 19,
+                width: 19,
+              ) :
+              Image.asset(
+                'assets/images/back_icon_new.png',
+                height: 19,
+                width: 19,
+              ),
+            ],
           ),
         ),
         titleSpacing: 0,

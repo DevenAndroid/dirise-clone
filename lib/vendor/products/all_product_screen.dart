@@ -1,4 +1,6 @@
 import 'dart:async';
+import 'dart:developer';
+import 'package:dirise/addNewProduct/addProductStartScreen.dart';
 import 'package:dirise/repository/repository.dart';
 import 'package:dirise/utils/helper.dart';
 import 'package:dirise/utils/shimmer_extension.dart';
@@ -8,12 +10,19 @@ import 'package:flutter/scheduler.dart';
 import 'package:flutter_switch/flutter_switch.dart';
 import 'package:get/get.dart';
 import 'package:google_fonts/google_fonts.dart';
+import '../../Services/review_publish_service.dart';
 import '../../addNewProduct/addProductScreen.dart';
 import '../../addNewProduct/myItemIsScreen.dart';
+import '../../addNewProduct/reviewPublishScreen.dart';
+import '../../controller/profile_controller.dart';
 import '../../controller/vendor_controllers/add_product_controller.dart';
 import '../../controller/vendor_controllers/products_controller.dart';
+import '../../jobOffers/JobReviewandPublishScreen.dart';
+import '../../singleproductScreen/ReviewandPublishScreen.dart';
+import '../../virtualProduct/ReviewandPublishScreen.dart';
 import '../../widgets/common_colour.dart';
 import '../../widgets/dimension_screen.dart';
+import '../orders/remark_screen.dart';
 import 'add_product/add_product_screen.dart';
 
 class VendorProductScreen extends StatefulWidget {
@@ -55,7 +64,9 @@ class _VendorProductScreenState extends State<VendorProductScreen> {
       timer!.cancel();
     }
   }
-
+  String publish = '';
+  final addProductController = Get.put(AddProductController());
+  final profileController = Get.put(ProfileController());
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -67,17 +78,30 @@ class _VendorProductScreenState extends State<VendorProductScreen> {
                 fontWeight: FontWeight.w600,
                 color: const Color(0xff423E5E),
               )),
-          leading: GestureDetector(
-            onTap: () {
-              Get.back();
-            },
-            child: Padding(
-              padding: const EdgeInsets.all(15),
-              child: Image.asset(
-                'assets/icons/backicon.png',
-                height: 20,
+          leading: Column(
+            crossAxisAlignment: CrossAxisAlignment.center,
+            mainAxisAlignment : MainAxisAlignment.center,
+            children: [
+              GestureDetector(
+                onTap: () {
+                  Get.back();
+                },
+                child: Padding(
+                  padding: const EdgeInsets.all(15),
+                  child:     profileController.selectedLAnguage.value != 'English' ?
+                  Image.asset(
+                    'assets/images/forward_icon.png',
+                    height: 19,
+                    width: 19,
+                  ) :
+                  Image.asset(
+                    'assets/images/back_icon_new.png',
+                    height: 19,
+                    width: 19,
+                  ),
+                ),
               ),
-            ),
+            ],
           ),
         ),
         body: Padding(
@@ -131,7 +155,7 @@ class _VendorProductScreenState extends State<VendorProductScreen> {
                     ),
                     GestureDetector(
                       onTap: () {
-                        Get.to(()=> MyItemISScreen());
+                        Get.to(()=> const AddProductOptionScreen());
                       },
                       child: Container(
                         height: AddSize.size20 * 2.5,
@@ -163,21 +187,21 @@ class _VendorProductScreenState extends State<VendorProductScreen> {
                     if (productController.refreshInt.value > 0) {}
                     return ListView.builder(
                       itemCount: productController.apiLoaded
-                          ? productController.model.product!.isEmpty
+                          ? productController.model.pendingProduct!.isEmpty
                               ? 1
-                              : productController.model.product!.length
+                              : productController.model.pendingProduct!.length
                           : 5,
                       shrinkWrap: true,
                       itemBuilder: (BuildContext context, int index) {
                         if (!productController.apiLoaded) {
                           return shimmerLoader(index);
                         }
-                        if (productController.model.product!.isEmpty) {
+                        if (productController.model.pendingProduct!.isEmpty) {
                           return  Center(
                             child: Text("No Product Added".tr),
                           );
                         }
-                        final item = productController.model.product![index];
+                        final item = productController.model.pendingProduct![index];
                         return Column(
                           children: [
                             Container(
@@ -212,8 +236,33 @@ class _VendorProductScreenState extends State<VendorProductScreen> {
                                               ),
                                               GestureDetector(
                                                 onTap: () {
-                                                  Get.to(()=> AddProductScreen(productId: (item.id ?? "").toString(),));
+                                                  // log('dadad${item.itemType.toString()}');
+                                                  log(item.itemType);
+                                                  if (item.itemType == "giveaway") {
+                                                    addProductController.idProduct.value = item.id.toString();
+                                                    Get.to(ReviewPublishScreen());
+                                                  }
+                                                  if (item.itemType == "product") {
+                                                    addProductController.idProduct.value = item.id.toString();
+                                                    Get.to(ProductReviewPublicScreen());
+                                                  }
+                                                  if (item.itemType == "job") {
+                                                    addProductController.idProduct.value = item.id.toString();
+                                                    Get.to(JobReviewPublishScreen());
+                                                  }
+                                                  if (item.itemType == "service") {
+                                                    addProductController.idProduct.value = item.id.toString();
+                                                    Get.to(ReviewPublishServiceScreen());
+                                                  }
+                                                  if (item.itemType == "virtual_product") {
+                                                    addProductController.idProduct.value = item.id.toString();
+                                                    Get.to(VirtualReviewandPublishScreen());
+                                                  }
                                                 },
+                                                // onTap: () {
+                                                //
+                                                //   // Get.to(()=> AddProductScreen(productId: (item.id ?? "").toString(),));
+                                                // },
                                                 child: Container(
                                                     height: AddSize.size25,
                                                     width: AddSize.size25,
@@ -238,20 +287,26 @@ class _VendorProductScreenState extends State<VendorProductScreen> {
                                                           title: Text(
                                                             "Are you sure you want to delete this product?".tr,
                                                             style: titleStyle,
+                                                            textAlign: TextAlign.center,
                                                           ),
                                                           actions: [
-                                                            ElevatedButton(
-                                                                onPressed: () {
-                                                                  Get.back();
-                                                                },
-                                                                child:  Text("Cancel".tr)),
-                                                            ElevatedButton(
-                                                                onPressed: () {
-                                                                  controller.productId = item.id.toString();
-                                                                  controller.deleteProductForAll(context);
+                                                            Row(
+                                                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                                                              children: [
+                                                                ElevatedButton(
+                                                                    onPressed: () {
+                                                                      controller.productId = item.id.toString();
+                                                                      controller.deleteProductForAll(context);
 
-                                                                },
-                                                                child: Text("Delete".tr)),
+                                                                    },
+                                                                    child: Text("Delete".tr)),
+                                                                ElevatedButton(
+                                                                    onPressed: () {
+                                                                      Get.back();
+                                                                    },
+                                                                    child:  Text("Cancel".tr)),
+                                                              ],
+                                                            ),
                                                           ],
                                                         );
                                                       });
@@ -279,14 +334,16 @@ class _VendorProductScreenState extends State<VendorProductScreen> {
                                           const SizedBox(
                                             height: 3,
                                           ),
+                                          item.inStock == "-1"?SizedBox.shrink():
                                           Text(
+
                                             '${'QTY'}: ${item.inStock} ${'piece'}',
                                             style: normalStyle,
                                           ),
                                           Row(mainAxisAlignment: MainAxisAlignment.spaceBetween, children: [
                                             Expanded(
                                               child: Text(
-                                                "KWD ${item.sPrice ?? "0"}",
+                                                "KWD ${item.discountPrice ?? "0"}",
                                                 style: GoogleFonts.poppins(
                                                   color: AppTheme.buttonColor,
                                                   fontWeight: FontWeight.w500,
@@ -297,7 +354,7 @@ class _VendorProductScreenState extends State<VendorProductScreen> {
                                             FlutterSwitch(
                                               showOnOff: true,
                                               width: AddSize.size30 * 2.2,
-                                              height: AddSize.size20 * 1.4,
+                                              height: AddSize.size20 * 1.3,
                                               padding: 2,
                                               valueFontSize: AddSize.font12,
                                               activeTextFontWeight: FontWeight.w600,
@@ -312,24 +369,44 @@ class _VendorProductScreenState extends State<VendorProductScreen> {
                                                 productController.updateProductStatus(
                                                     changed: (bool value1) {
                                                       if (value1 == true) {
-                                                        productController.model.product![index].isPublish =
-                                                            !productController.model.product![index].isPublish!;
+                                                        productController.model.pendingProduct![index].isPublish = !productController.model.pendingProduct![index].isPublish!;
+                                                        publish = productController.model1.approveProduct![index].isPublish.toString();
                                                         setState(() {});
                                                       }
                                                     },
                                                     context: context,
-                                                    productID: item.id.toString());
+                                                    productID: item.id.toString(),
+                                                    IsPublish: publish,
+                                                );
                                               },
                                               value: item.isPublish!,
                                             )
                                           ]),
-                                          Text(
-                                            "${("${item.productType ?? ""}".capitalize!).toString().replaceAll("_product", "").replaceAll("Single", "Simple")} Product",
-                                            style: GoogleFonts.poppins(
-                                              color: AppTheme.buttonColor,
-                                              fontWeight: FontWeight.w500,
-                                              fontSize: 15,
-                                            ),
+                                          Row(
+                                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                                            children: [
+                                              Text(
+                                                "${("${item.productType ?? ""}".capitalize!).toString().replaceAll("_product", "").replaceAll("Single", "Simple")} Product",
+                                                style: GoogleFonts.poppins(
+                                                  color: AppTheme.buttonColor,
+                                                  fontWeight: FontWeight.w500,
+                                                  fontSize: 15,
+                                                ),
+                                              ),
+                                              InkWell(
+                                                onTap: (){
+                                                  Get.to(()=>RemarkScreen(),arguments: [  productController.model.pendingProduct![index].id.toString()]);
+                                                },
+                                                child: Text(
+                                                  "Remark",
+                                                  style: GoogleFonts.poppins(
+                                                    color: AppTheme.buttonColor,
+                                                    fontWeight: FontWeight.w500,
+                                                    fontSize: 15,
+                                                  ),
+                                                ),
+                                              ),
+                                            ],
                                           ),
                                         ],
                                       ),

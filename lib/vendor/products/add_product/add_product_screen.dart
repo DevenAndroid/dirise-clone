@@ -6,6 +6,7 @@ import 'package:dirise/widgets/common_colour.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:google_fonts/google_fonts.dart';
+import '../../../controller/profile_controller.dart';
 import '../../../controller/vendor_controllers/add_product_controller.dart';
 import '../../../utils/helper.dart';
 import '../../../widgets/dimension_screen.dart';
@@ -53,7 +54,7 @@ class _AddProductScreenState extends State<AddProductScreen> {
   }
 
 
-
+final profileController = Get.put(ProfileController());
   @override
   Widget build(BuildContext context) {
     return WillPopScope(
@@ -71,9 +72,16 @@ class _AddProductScreenState extends State<AddProductScreen> {
               },
               child: Padding(
                 padding: const EdgeInsets.all(15),
-                child: Image.asset(
-                  'assets/icons/backicon.png',
-                  // height: 21,
+                child: profileController.selectedLAnguage.value != 'English' ?
+                Image.asset(
+                  'assets/images/forward_icon.png',
+                  height: 19,
+                  width: 19,
+                ) :
+                Image.asset(
+                  'assets/images/back_icon_new.png',
+                  height: 19,
+                  width: 19,
                 ),
               ),
             ),
@@ -86,43 +94,36 @@ class _AddProductScreenState extends State<AddProductScreen> {
           body: Obx(() {
             if (controller.refreshInt.value > 0) {}
             return controller.apiLoaded
-                ? RefreshIndicator(
-                    onRefresh: () async {
-                      await controller.getProductsCategoryList();
-                      await controller.getTaxData();
-                      await controller.getProductAttributes();
-                    },
-                    child: SingleChildScrollView(
-                        child: Form(
-                      key: controller.formKey,
-                      child: Padding(
-                          padding: const EdgeInsets.all(8.0),
-                          child: Column(children: [
-                            // const AddProductDescriptionScreen(),
-                            // 16.spaceY,
-                            const ProductVarient(),
-                            16.spaceY,
-                            16.spaceY,
-                            ElevatedButton(
-                                onPressed: () {
-                                  controller.addProduct(context: context);
-                                },
-                                style: ElevatedButton.styleFrom(
-                                    minimumSize: const Size(double.maxFinite, 60),
-                                    backgroundColor: AppTheme.buttonColor,
-                                    elevation: 0,
-                                    shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(AddSize.size10)),
-                                    textStyle:
-                                        GoogleFonts.poppins(fontSize: AddSize.font20, fontWeight: FontWeight.w600)),
-                                child: Text(
-                                  controller.productId.isEmpty ? "Create".tr : "Update".tr,
-                                  style: Theme.of(context).textTheme.headlineSmall!.copyWith(
-                                      color: Colors.white, fontWeight: FontWeight.w500, fontSize: AddSize.font18),
-                                )),
-                            10.spaceY,
-                          ])),
-                    )),
-                  )
+                ? SingleChildScrollView(
+                    child: Form(
+                  key: controller.formKey,
+                  child: Padding(
+                      padding: const EdgeInsets.all(8.0),
+                      child: Column(children: [
+                        // const AddProductDescriptionScreen(),
+                        // 16.spaceY,
+                        const ProductVarient(),
+                        16.spaceY,
+                        16.spaceY,
+                        ElevatedButton(
+                            onPressed: () {
+                              controller.addProduct(context: context);
+                            },
+                            style: ElevatedButton.styleFrom(
+                                minimumSize: const Size(double.maxFinite, 60),
+                                backgroundColor: AppTheme.buttonColor,
+                                elevation: 0,
+                                shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(AddSize.size10)),
+                                textStyle:
+                                    GoogleFonts.poppins(fontSize: AddSize.font20, fontWeight: FontWeight.w600)),
+                            child: Text(
+                              controller.productId.isEmpty ? "Create".tr : "Update".tr,
+                              style: Theme.of(context).textTheme.headlineSmall!.copyWith(
+                                  color: Colors.white, fontWeight: FontWeight.w500, fontSize: AddSize.font18),
+                            )),
+                        10.spaceY,
+                      ])),
+                ))
                 : const LoadingAnimation();
           })),
     );

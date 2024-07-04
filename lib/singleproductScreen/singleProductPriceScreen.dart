@@ -1,4 +1,5 @@
 import 'dart:convert';
+import 'dart:developer';
 import 'dart:io';
 
 import 'package:dirise/singleproductScreen/singleProductDiscriptionScreen.dart';
@@ -9,8 +10,10 @@ import 'package:form_field_validator/form_field_validator.dart';
 import 'package:get/get.dart';
 import 'package:google_fonts/google_fonts.dart';
 
+import '../controller/profile_controller.dart';
 import '../controller/vendor_controllers/add_product_controller.dart';
 import '../language/app_strings.dart';
+import '../model/product_details.dart';
 import '../model/vendor_models/add_product_model.dart';
 import '../repository/repository.dart';
 import '../utils/api_constant.dart';
@@ -20,14 +23,13 @@ import '../widgets/common_textfield.dart';
 import 'ReviewandPublishScreen.dart';
 
 class SingleProductPriceScreen extends StatefulWidget {
-  double? price;
-  int? fixDiscount;
-  double? percentage;
+  dynamic price;
+  dynamic fixDiscount;
+  dynamic percentage;
   int? id;
-  File? fetaureImage;
-  String? name;
+
   SingleProductPriceScreen(
-      {super.key, this.fetaureImage, this.name, this.price, this.fixDiscount, this.percentage, this.id});
+      {super.key,  this.price, this.fixDiscount, this.percentage, this.id});
 
   @override
   State<SingleProductPriceScreen> createState() => _SingleProductPriceScreenState();
@@ -38,15 +40,21 @@ class _SingleProductPriceScreenState extends State<SingleProductPriceScreen> {
   TextEditingController discountPrecrnt = TextEditingController();
   TextEditingController fixedDiscount = TextEditingController();
   final addProductController = Get.put(AddProductController());
+  final profileController = Get.put(ProfileController());
 
   RxBool isShow = false.obs;
   String realPrice = "";
   String discounted = "";
   String sale = "";
   String productName = "";
-  String discountedPrice = "";
+  String discountedPrice = "0.0";
   bool isPercentageDiscount = true;
   RxBool isDelivery = false.obs;
+  double discountAmount12 =0.0;
+  double afterCalculation = 0.0;
+  double realPrice1 = 0.0;
+  double discountedPriceValue = 0.0;
+  double discountAmount = 0.0;
   void calculateDiscount() {
     double realPrice = double.tryParse(priceController.text) ?? 0.0;
     double sale = double.tryParse(discountPrecrnt.text) ?? 0.0;
@@ -54,15 +62,31 @@ class _SingleProductPriceScreenState extends State<SingleProductPriceScreen> {
 
     // Check the current discount type and calculate discounted price accordingly
     if (isPercentageDiscount && realPrice > 0 && sale > 0) {
-      double discountAmount = (realPrice * sale) / 100;
-      double discountedPriceValue = realPrice - discountAmount;
+      log('this is call....');
+      discountAmount = (realPrice * sale) / 100;
+      log('discount isss${discountAmount.toString()}');
+      discountedPriceValue = realPrice - discountAmount;
+      log('dirise fees${diriseFeesAsDouble.toString()}');
+      log('dirise fees${discountedPriceValue.toString()}');
+      double additionalDiscountAmount = (realPrice * diriseFeesAsDouble) / 100;
+      double fees = (discountedPriceValue * diriseFeesAsDouble) / 100 ;
+      log('dirise fees neww ${fees.toString()}');
+      // double finalPrice = realPrice - additionalDiscountAmount;
+      double finalPrice1 = discountedPriceValue + fees;
       setState(() {
-        discountedPrice = discountedPriceValue.toStringAsFixed(2);
+        discountedPrice = finalPrice1.toStringAsFixed(2);
       });
     } else if (!isPercentageDiscount && realPrice > 0 && fixedPrice > 0) {
+      log('this is call....2');
       double discountedPriceValue = realPrice - fixedPrice;
+      log('discount price ${discountedPriceValue.toString()}');
+      double fees = (discountedPriceValue * diriseFeesAsDouble) / 100 ;
+      log('discount fees ${fees.toString()}');
+      // double discountedPriceValue1 = discountedPriceValue + diriseFeesAsDouble;
+      // double discountedPriceValue1 = afterCalculation - discountDouble;
+       double discountedPriceValue1 = discountedPriceValue + fees;
       setState(() {
-        discountedPrice = discountedPriceValue.toStringAsFixed(2);
+        discountedPrice = discountedPriceValue1.toStringAsFixed(2);
       });
     } else {
       setState(() {
@@ -89,11 +113,20 @@ class _SingleProductPriceScreenState extends State<SingleProductPriceScreen> {
         // addProductController.idProduct.value = response.productDetails!.product!.id.toString();
         print(addProductController.idProduct.value.toString());
         if (widget.id != null) {
-          Get.to(const ReviewandPublishScreen());
+          Get.to( ProductReviewPublicScreen());
         } else {
           Get.to( SingleProductDiscriptionScreen());
         }
       }
+    });
+  }
+  final Repositories repositories = Repositories();
+  Rx<ModelProductDetails> productDetailsModel = ModelProductDetails().obs;
+
+  getVendorCategories(id) {
+    repositories.getApi(url: ApiUrls.getProductDetailsUrl + id).then((value) {
+      productDetailsModel.value = ModelProductDetails.fromJson(jsonDecode(value));
+      setState(() {});
     });
   }
 
@@ -106,8 +139,12 @@ class _SingleProductPriceScreenState extends State<SingleProductPriceScreen> {
       discountPrecrnt.text = widget.percentage.toString();
       fixedDiscount.text = widget.fixDiscount.toString();
     }
+    getVendorCategories(addProductController.idProduct.value.toString());
   }
-
+  String diriseFeesAsString = '' ;
+  double diriseFeesAsDouble = 0.0 ;
+  String discount = '0.0';
+  double discountDouble = 0.0;
   final formKey1 = GlobalKey<FormState>();
   @override
   Widget build(BuildContext context) {
@@ -117,13 +154,25 @@ class _SingleProductPriceScreenState extends State<SingleProductPriceScreen> {
         surfaceTintColor: Colors.white,
         elevation: 0,
         leading: GestureDetector(
-          onTap: () {
+          onTap: (){
             Get.back();
           },
-          child: const Icon(
-            Icons.arrow_back_ios_new,
-            color: Color(0xff0D5877),
-            size: 16,
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.center,
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: [
+              profileController.selectedLAnguage.value != 'English' ?
+              Image.asset(
+                'assets/images/forward_icon.png',
+                height: 19,
+                width: 19,
+              ) :
+              Image.asset(
+                'assets/images/back_icon_new.png',
+                height: 19,
+                width: 19,
+              ),
+            ],
           ),
         ),
         titleSpacing: 0,
@@ -155,14 +204,42 @@ class _SingleProductPriceScreenState extends State<SingleProductPriceScreen> {
                   obSecure: false,
                   keyboardType: TextInputType.number,
                   hintText: 'Price'.tr,
-                  suffixIcon: const Text(
-                    'KWD',
+                  suffixIcon: Padding(
+                    padding: const EdgeInsets.only(top: 15),
+                    child: const Text(
+                      'KWD',
+                    ),
                   ),
                   onChanged: (value) {
                     isPercentageDiscount = true;
                     calculateDiscount();
+                    fixedDiscount.text = '';
                     realPrice = value;
-                    setState(() {});
+                    realPrice1 = double.tryParse(value) ?? 0.0;
+                    diriseFeesAsString = productDetailsModel.value.productDetails!.diriseFess;
+                    diriseFeesAsDouble = double.parse(productDetailsModel.value.productDetails!.diriseFess.toString());
+                    if(fixedDiscount.text.isEmpty || discountPrecrnt.text.isEmpty){
+                      double additionalDiscountAmount = (realPrice1 * diriseFeesAsDouble) / 100;
+                      double withoutDiscount = realPrice1 + additionalDiscountAmount;
+
+                      discountedPrice = withoutDiscount.toString();
+                    }
+                    if(priceController.text.isEmpty){
+                      discountedPrice = '';
+                      discount = '';
+                      fixedDiscount.text = "";
+                      discountPrecrnt.text = '';
+                      sale = '0.0';
+                      discountAmount =0.0;
+                    }
+                    double fees = diriseFeesAsString != null ? double.parse(diriseFeesAsString) : 0.0;
+
+                    discountAmount12 = (realPrice1 * fees) / 100;
+                    afterCalculation = realPrice1 + discountAmount12;
+                    log('value${realPrice1.toString()}');
+                    setState(() {
+
+                    });
                   },
                   validator: (value) {
                     if (value!.trim().isEmpty) {
@@ -171,6 +248,21 @@ class _SingleProductPriceScreenState extends State<SingleProductPriceScreen> {
                     return null; // Return null if validation passes
                   },
                 ),
+                // Text(
+                //   'Dirise Fee'.tr,
+                //   style: GoogleFonts.inter(color: const Color(0xff292F45), fontWeight: FontWeight.w500, fontSize: 14),
+                // ),
+                // Container(
+                //   height: 50,
+                //   width: Get.width,
+                //   padding: const EdgeInsets.symmetric(vertical: 12, horizontal: 12),
+                //   decoration: BoxDecoration(
+                //       color: Colors.white,
+                //       borderRadius: BorderRadius.circular(8),
+                //       border: Border.all(color: AppTheme.secondaryColor)),
+                //   child: Text(discountAmount12.toString()),
+                // ),
+                const SizedBox(height: 10,),
                 Row(
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
@@ -193,6 +285,19 @@ class _SingleProductPriceScreenState extends State<SingleProductPriceScreen> {
                           onChanged: (bool? value) {
                             setState(() {
                               isDelivery.value = value!;
+                              fixedDiscount.text = "";
+                              discountPrecrnt.text = '';
+                              discount = '0.0';
+                              sale = '0.0';
+                              discountAmount = 0.0;
+                              if(fixedDiscount.text.isEmpty || discountPrecrnt.text.isEmpty){
+                                double additionalDiscountAmount = (realPrice1 * diriseFeesAsDouble) / 100;
+                                double withoutDiscount = realPrice1 + additionalDiscountAmount;
+                                discountedPrice = withoutDiscount.toString();
+                              }
+                              if (widget.id != null){
+                                priceController.text = '';
+                              }
                             });
                           }),
                     ),
@@ -205,7 +310,7 @@ class _SingleProductPriceScreenState extends State<SingleProductPriceScreen> {
                         height: 10,
                       ),
                       Text(
-                        'Fixed Discounted Price'.tr,
+                        'Discount amount'.tr,
                         style: GoogleFonts.poppins(
                             color: const Color(0xff292F45), fontWeight: FontWeight.w400, fontSize: 14),
                       ),
@@ -214,10 +319,19 @@ class _SingleProductPriceScreenState extends State<SingleProductPriceScreen> {
                         obSecure: false,
                         keyboardType: TextInputType.number,
                         onChanged: (value) {
+                          discount = value;
+                          discountDouble = double.tryParse(value) ?? 0.0;
                           discountPrecrnt.text = "";
                           isPercentageDiscount = false;
+                          if(discountPrecrnt.text.isEmpty){
+                            discountedPriceValue = 0.0;
+                          }
                           calculateDiscount();
                           sale = value;
+                          if(fixedDiscount.text.isEmpty){
+                            discountedPrice = '';
+                            discount = '';
+                          }
                           setState(() {});
                         },
                         validator: (value) {
@@ -277,7 +391,7 @@ class _SingleProductPriceScreenState extends State<SingleProductPriceScreen> {
                               }
                             }
                           }
-                          return null; // Return null if validation passes
+                          return null;
                         },
                       ),
                       const SizedBox(
@@ -304,80 +418,99 @@ class _SingleProductPriceScreenState extends State<SingleProductPriceScreen> {
                   decoration: BoxDecoration(borderRadius: BorderRadius.circular(11), color: Colors.grey.shade200),
                   child: Row(
                     children: [
-                      Column(
-                        mainAxisAlignment: MainAxisAlignment.start,
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        children: [
-                          Row(
-                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                            children: [
-                              Text(
-                                'Real Price'.tr,
-                                style: GoogleFonts.poppins(
-                                    color: const Color(0xff014E70), fontWeight: FontWeight.w600, fontSize: 12),
-                              ),
-                              const SizedBox(
-                                width: 20,
-                              ),
-                              Text(
-                                "${realPrice} KWD".tr,
-                                style: GoogleFonts.poppins(
-                                    color: const Color(0xff014E70), fontWeight: FontWeight.w400, fontSize: 10),
-                              ),
-                            ],
-                          ),
-                          const SizedBox(
-                            height: 20,
-                          ),
-                          Row(
-                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                            children: [
-                              Text(
-                                'Discounted'.tr,
-                                style: GoogleFonts.poppins(
-                                    color: const Color(0xff014E70), fontWeight: FontWeight.w600, fontSize: 12),
-                              ),
-                              const SizedBox(
-                                width: 10,
-                              ),
-                              Text(
-                                ' ${discountedPrice}KWD '.tr,
-                                style: GoogleFonts.poppins(
-                                    color: const Color(0xff014E70), fontWeight: FontWeight.w400, fontSize: 10),
-                              ),
-                            ],
-                          ),
-                          const SizedBox(
-                            height: 20,
-                          ),
-                          Row(
-                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                            children: [
-                              Text(
-                                'Sale'.tr,
-                                style: GoogleFonts.poppins(
-                                    color: const Color(0xff014E70), fontWeight: FontWeight.w600, fontSize: 12),
-                              ),
-                              const SizedBox(
-                                width: 20,
-                              ),
-                              discountPrecrnt.text.isNotEmpty
-                                  ? Text(
-                                      "${sale} %".tr,
-                                      style: GoogleFonts.poppins(
-                                          color: const Color(0xff014E70), fontWeight: FontWeight.w400, fontSize: 10),
-                                    )
-                                  : Text(
-                                      "${sale} KWD".tr,
-                                      style: GoogleFonts.poppins(
-                                          color: const Color(0xff014E70), fontWeight: FontWeight.w400, fontSize: 10),
-                                    )
-                            ],
-                          ),
-                          const SizedBox(
-                            height: 20,
-                          ),
-                        ],
+                      Expanded(
+                        child: Column(
+                          mainAxisAlignment: MainAxisAlignment.start,
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
+                            Row(
+                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                              crossAxisAlignment: CrossAxisAlignment.start,
+                              children: [
+                                Text(
+                                  'Price'.tr,
+                                  style: GoogleFonts.poppins(
+                                      color: const Color(0xff014E70), fontWeight: FontWeight.w600, fontSize: 10),
+                                ),
+                                const SizedBox(
+                                  width: 20,
+                                ),
+                                // Text(
+                                //   "${realPrice} KWD".tr,
+                                //   style: GoogleFonts.poppins(
+                                //       color: const Color(0xff014E70), fontWeight: FontWeight.w400, fontSize: 10),
+                                // ),
+                                Expanded(
+                                  child: Text(
+                                    "${realPrice} KWD".tr,
+                                    style: GoogleFonts.poppins(
+                                        color: const Color(0xff014E70), fontWeight: FontWeight.w400, fontSize: 8),
+                                  ),
+                                ),
+                              ],
+                            ),
+                            const SizedBox(
+                              height: 20,
+                            ),
+                            Row(
+                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                              crossAxisAlignment: CrossAxisAlignment.start,
+                              children: [
+                                Text(
+                                  'Discount amount'.tr,
+                                  style: GoogleFonts.poppins(
+                                      color: const Color(0xff014E70), fontWeight: FontWeight.w600, fontSize: 10),
+                                ),
+                                const SizedBox(
+                                  width: 10,
+                                ),
+                                discountedPriceValue == 0.0 ?
+                                Expanded(
+                                  flex: 2,
+                                  child: Text(
+                                    ' $discount KWD '.tr,
+                                    style: GoogleFonts.poppins(
+                                        color: const Color(0xff014E70), fontWeight: FontWeight.w400, fontSize: 8),
+                                  ),
+                                ): Expanded(
+                                  flex: 2,
+                                  child: Text(
+                                    ' $discountAmount KWD '.tr,
+                                    style: GoogleFonts.poppins(
+                                        color: const Color(0xff014E70), fontWeight: FontWeight.w400, fontSize: 8),
+                                  ),
+                                ),
+                              ],
+                            ),
+                            const SizedBox(
+                              height: 20,
+                            ),
+                            Row(
+                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                              crossAxisAlignment: CrossAxisAlignment.start,
+                              children: [
+                                Text(
+                                  'Final price'.tr,
+                                  style: GoogleFonts.poppins(
+                                      color: const Color(0xff014E70), fontWeight: FontWeight.w600, fontSize: 10),
+                                ),
+                                const SizedBox(
+                                  width: 20,
+                                ),
+                                Expanded(
+                                  child: Text(
+                                    "${discountedPrice} KWD".tr,
+                                    style: GoogleFonts.poppins(
+                                        color: const Color(0xff014E70), fontWeight: FontWeight.w400, fontSize: 8),
+                                  ),
+                                )
+                              ],
+                            ),
+                            const SizedBox(
+                              height: 20,
+                            ),
+                          ],
+                        ),
                       ),
                       const SizedBox(
                         width: 10,
@@ -392,7 +525,7 @@ class _SingleProductPriceScreenState extends State<SingleProductPriceScreen> {
                                 height: 150,
                                 width: 130,
                                 decoration: BoxDecoration(borderRadius: BorderRadius.circular(11), color: Colors.white),
-                                child: Image.file(widget.fetaureImage!),
+                                child: Image.file(profileController.productImage),
                               ),
                               // const Positioned(
                               //     right: 20,
@@ -403,11 +536,11 @@ class _SingleProductPriceScreenState extends State<SingleProductPriceScreen> {
                               //     ))
                             ],
                           ),
-                          Text(
-                            widget.name.toString().tr,
-                            style: GoogleFonts.inter(
-                                color: const Color(0xff014E70), fontWeight: FontWeight.w600, fontSize: 12),
-                          ),
+                          // Text(
+                          //   widget.name.toString().tr,
+                          //   style: GoogleFonts.inter(
+                          //       color: const Color(0xff014E70), fontWeight: FontWeight.w600, fontSize: 12),
+                          // ),
                         ],
                       )
                     ],

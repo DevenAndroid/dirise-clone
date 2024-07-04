@@ -35,11 +35,14 @@ class LocationController extends GetxController {
   RxString city = ''.obs;
   String state = '';
   String countryName = '';
+  String address = '';
   // RxString zipcode = ''.obs;
   RxString zipcode = ''.obs;
   String town = '';
+  String countryId = '';
   RxString cityHome = ''.obs;
   checkGps(context) async {
+    log('firstttttt callllllll.....');
     servicestatus.value = await Geolocator.isLocationServiceEnabled();
     if (servicestatus.value) {
       permission = await Geolocator.checkPermission();
@@ -100,6 +103,7 @@ class LocationController extends GetxController {
           ));
     }
   }
+
   final cartController = Get.put(CartController());
   final Repositories repositories = Repositories();
   Rx<AddCurrentAddressModel> addCurrentAddress = AddCurrentAddressModel().obs;
@@ -143,7 +147,7 @@ class LocationController extends GetxController {
   }
   final Completer<GoogleMapController> googleMapController = Completer();
   GoogleMapController? mapController;
-  Future<void> _getCurrentPosition() async {
+  Future<void> getCurrentPosition() async {
     final hasPermission = await _handleLocationPermission();
 
     if (!hasPermission) return;
@@ -173,8 +177,10 @@ class LocationController extends GetxController {
         state = placemark.administrativeArea ?? '';
         countryName = placemark.country ?? '';
         zipcode.value = placemark.postalCode ?? '';
+cartController.zipCode1 = placemark.postalCode ?? '';
         town = placemark.subAdministrativeArea ?? '';
     print('object ${street.toString()}');
+    print('object ${cartController.zipCode1}');
       // });
     }
     await placemarkFromCoordinates(_currentPosition!.latitude, _currentPosition!.longitude)
@@ -237,6 +243,6 @@ class LocationController extends GetxController {
   void onInit() {
     // TODO: implement onInit
     super.onInit();
-    checkGps(Get.context);
+    // checkGps(Get.context);
   }
 }

@@ -1,6 +1,7 @@
 import 'dart:convert';
 import 'dart:io';
 import 'package:dirise/language/app_strings.dart';
+import 'package:dirise/personalizeyourstore/addSocialMediaScreen.dart';
 import 'package:dirise/screens/auth_screens/login_screen.dart';
 import 'package:dirise/utils/helper.dart';
 import 'package:dirise/widgets/loading_animation.dart';
@@ -15,6 +16,7 @@ import 'package:get/get.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:intl_phone_field/intl_phone_field.dart';
 import 'package:shared_preferences/shared_preferences.dart';
+import 'package:url_launcher/url_launcher.dart';
 import '../../addNewProduct/addProductScreen.dart';
 import '../../addNewProduct/addProductStartScreen.dart';
 import '../../addNewProduct/myItemIsScreen.dart';
@@ -22,12 +24,16 @@ import '../../controller/cart_controller.dart';
 import '../../controller/home_controller.dart';
 import '../../controller/profile_controller.dart';
 import '../../freshchat.dart';
+import '../../iAmHereToSell/whichplantypedescribeyouScreen.dart';
+import '../../model/common_modal.dart';
 import '../../model/customer_profile/model_city_list.dart';
 import '../../model/customer_profile/model_country_list.dart';
 import '../../model/customer_profile/model_state_list.dart';
 import '../../model/model_address_list.dart';
 import '../../model/model_user_delete.dart';
+import '../../newAddress/map_find_my_location.dart';
 import '../../personalizeyourstore/operatinghourScreen.dart';
+import '../../personalizeyourstore/socialMediaScreen.dart';
 import '../../posts/posts_ui.dart';
 import '../../repository/repository.dart';
 import '../../singleproductScreen/itemdetailsScreen.dart';
@@ -40,12 +46,14 @@ import '../../vendor/orders/vendor_order_list_screen.dart';
 import '../../vendor/payment_info/bank_account_screen.dart';
 import '../../vendor/payment_info/withdrawal_screen.dart';
 import '../../vendor/products/all_product_screen.dart';
+import '../../vendor/products/approve_product.dart';
 import '../../widgets/common_colour.dart';
 import '../../widgets/common_textfield.dart';
 import '../calender.dart';
 import '../check_out/address/address_screen.dart';
 import '../check_out/address/edit_address.dart';
 import '../check_out/check_out_screen.dart';
+import '../home_pages/get_job_screen.dart';
 import '../order_screens/my_orders_screen.dart';
 import '../virtual_assets/virtual_assets_screen.dart';
 import 'about_us_screen.dart';
@@ -67,11 +75,50 @@ class MyAccountScreen extends StatefulWidget {
 enum SingingCharacter { lafayette, jefferson }
 
 class _MyAccountScreenState extends State<MyAccountScreen> {
+
+  whatsapp() async {
+    String contact = "+96565556490";
+    String text = '';
+    String androidUrl = "whatsapp://send?phone=$contact&text=$text";
+    String iosUrl = "https://wa.me/$contact?text=${Uri.parse(text)}";
+
+    String webUrl = 'https://api.whatsapp.com/send/?phone=$contact&text=hi';
+
+    try {
+      if (Platform.isIOS) {
+        if (await canLaunchUrl(Uri.parse(iosUrl))) {
+          await launchUrl(Uri.parse(iosUrl));
+        }
+      } else {
+        if (await canLaunchUrl(Uri.parse(androidUrl))) {
+          await launchUrl(Uri.parse(androidUrl));
+        }
+      }
+    } catch(e) {
+      print('object');
+      await launchUrl(Uri.parse(webUrl), mode: LaunchMode.externalApplication);
+    }
+  }
   updateLanguage(String gg) async {
     SharedPreferences sharedPreferences = await SharedPreferences.getInstance();
     sharedPreferences.setString("app_language", gg);
   }
 
+  bool isLoggedIn = false;
+  bool get userLoggedIn => profileController.userLoggedIn;
+  checkUser() async {
+    SharedPreferences preferences = await SharedPreferences.getInstance();
+    if (preferences.getString('login_user') != null) {
+      isLoggedIn = true;
+    } else {
+      isLoggedIn = false;
+    }
+    if(mounted){
+      setState(() {
+
+      });
+    }
+  }
   Rx<UserDeleteModel> deleteModal = UserDeleteModel().obs;
   checkLanguage() async {
     SharedPreferences sharedPreferences = await SharedPreferences.getInstance();
@@ -87,32 +134,43 @@ class _MyAccountScreenState extends State<MyAccountScreen> {
 
   RxString language = "".obs;
   final RxBool _isValue = false.obs;
-  var vendor = ['Dashboard', 'Order', 'Products', 'Store open time', 'Bank Details', 'Earnings'];
+
+  var vendor = ['Dashboard', 'Order', 'Pending Products', 'Approved Products','Operating Hours','Social Media','Bank Details', 'Earnings'];
+  var vendor1 = ['Become a vendor', 'Pending Products', 'Approved Products'];
+
   var vendorRoutes = [
     VendorDashBoardScreen.route,
     VendorOrderList.route,
     VendorProductScreen.route,
+    ApproveProductScreen.route,
     SetTimeScreen.route,
     BankDetailsScreen.route,
     WithdrawMoney.route,
   ];
+  var vendorRoutes1 = [
+    LoginScreen.route,
+    VendorProductScreen.route,
+    ApproveProductScreen.route,
 
-  bool get userLoggedIn => profileController.userLoggedIn;
+  ];
+  defaultAddressApi() async {
+    Map<String, dynamic> map = {};
+    map['address_id'] = cartController.selectedAddress.id.toString();
+    repositories.postApi(url: ApiUrls.defaultAddressStatus, context: context, mapData: map).then((value) async {
+      ModelCommonResponse response = ModelCommonResponse.fromJson(jsonDecode(value));
+      if (response.status == true) {
+        showToast(response.message.toString());
+        Get.back();
+      }else{
+        showToast(response.message.toString());
+      }
+    });
+  }
+
   final profileController = Get.put(ProfileController());
   final cartController = Get.put(CartController());
   final homeController = Get.put(TrendingProductsController());
-  bool isLoggedIn = false;
-  checkUser() async {
-    SharedPreferences preferences = await SharedPreferences.getInstance();
-    if (preferences.getString('login_user') != null) {
-      isLoggedIn = true;
-    } else {
-      isLoggedIn = false;
-    }
-    if (mounted) {
-      setState(() {});
-    }
-  }
+
 
   showVendorDialog() {
     if (Platform.isAndroid) {
@@ -314,6 +372,8 @@ class _MyAccountScreenState extends State<MyAccountScreen> {
   }
 
 
+
+
   @override
   Widget build(BuildContext context) {
     Size size = MediaQuery.of(context).size;
@@ -321,7 +381,7 @@ class _MyAccountScreenState extends State<MyAccountScreen> {
       decoration: const BoxDecoration(
         gradient: LinearGradient(
             colors: [
-              AppTheme.buttonColor,
+              Color(0xFFEBF1F4),
               Colors.white,
               Colors.white,
             ],
@@ -341,7 +401,7 @@ class _MyAccountScreenState extends State<MyAccountScreen> {
               children: [
                 Container(
                   width: MediaQuery.sizeOf(context).width,
-                  color: AppTheme.buttonColor,
+                  color: const Color(0xFFEBF1F4),
                   child: Obx(() {
                     if (profileController.refreshInt.value > 0) {}
                     return Column(
@@ -354,7 +414,7 @@ class _MyAccountScreenState extends State<MyAccountScreen> {
                                   ? profileController.model.user!.name ?? ""
                                   : ""
                               : AppStrings.guestUser.tr,
-                          style: GoogleFonts.poppins(color: Colors.white, fontSize: 24, fontWeight: FontWeight.w600),
+                          style: GoogleFonts.poppins(color: AppTheme.buttonColor, fontSize: 24, fontWeight: FontWeight.w600),
                         ),
                         4.spaceY,
                         ClipRRect(
@@ -370,17 +430,45 @@ class _MyAccountScreenState extends State<MyAccountScreen> {
                                     fit: BoxFit.cover,
                                     height: 65,
                                     width: 65,
-                                    errorBuilder: (_, __, ___) => Image.asset(
-                                      'assets/images/myaccount.png',
-                                      height: 65,
-                                      width: 65,
-                                    ),
+                                    // errorBuilder: (_, __, ___) => Image.asset(
+                                    //   'assets/images/myaccount.png',
+                                    //   height: 65,
+                                    //   width: 65,
+                                    // ),
+                                   errorBuilder: (_,__,___) => Container(
+                                     decoration: BoxDecoration(
+                                         shape: BoxShape.circle,
+                                         color: Colors.white,
+                                         border: Border.all(color: Colors.white)),
+                                     child: const SizedBox(
+                                         height: 65,
+                                         width: 65,
+                                         child: Icon(
+                                           Icons.person,
+                                           color: AppTheme.buttonColor,
+                                           size: 45,
+                                         )),
+                                   ),
                                   )
-                                : Image.asset(
-                                    'assets/images/myaccount.png',
-                                    height: 65,
-                                    width: 65,
-                                  ),
+                                // : Image.asset(
+                                //     'assets/images/myaccount.png',
+                                //     height: 65,
+                                //     width: 65,
+                                //   ),
+                        :  Container(
+                              decoration: BoxDecoration(
+                                  shape: BoxShape.circle,
+                                  color: Colors.white,
+                                  border: Border.all(color: Colors.white)),
+                              child: const SizedBox(
+                                  height: 65,
+                                  width: 65,
+                                  child: Icon(
+                                    Icons.person,
+                                    color: AppTheme.buttonColor,
+                                    size: 45,
+                                  )),
+                            ),
                           ),
                         ),
                         5.spaceY,
@@ -390,9 +478,9 @@ class _MyAccountScreenState extends State<MyAccountScreen> {
                                   ? profileController.model.user!.email ?? ""
                                   : ""
                               : "",
-                          style: GoogleFonts.poppins(color: Colors.white, fontSize: 16, fontWeight: FontWeight.w400),
+                          style: GoogleFonts.poppins(color: AppTheme.buttonColor, fontSize: 16, fontWeight: FontWeight.w400),
                         ),
-                        5.spaceY,
+                        15.spaceY,
                       ],
                     );
                   }),
@@ -429,22 +517,27 @@ class _MyAccountScreenState extends State<MyAccountScreen> {
                                           color: const Color(0xFF2A3032), fontSize: 16, fontWeight: FontWeight.w500),
                                     ),
                                   ),
-                                  const Icon(
-                                    Icons.arrow_forward_ios,
-                                    size: 15,
+                                  profileController.selectedLAnguage.value == 'English' ?
+                                  Image.asset(
+                                    'assets/images/forward_icon.png',
+                                    height: 17,
+                                    width: 17,
+                                  ) :
+                                  Image.asset(
+                                    'assets/images/back_icon_new.png',
+                                    height: 17,
+                                    width: 17,
                                   ),
                                 ],
                               ),
                             )
                           : const SizedBox.shrink(),
-                      profileController.userLoggedIn
-                          ? const Divider(
+                        profileController.userLoggedIn ? const Divider(
                               thickness: 1,
                               color: Color(0x1A000000),
                             )
                           : const SizedBox.shrink(),
-                      profileController.userLoggedIn
-                          ? const SizedBox(
+                      profileController.userLoggedIn ? const SizedBox(
                               height: 5,
                             )
                           : const SizedBox.shrink(),
@@ -469,9 +562,60 @@ class _MyAccountScreenState extends State<MyAccountScreen> {
                                   color: const Color(0xFF2A3032), fontSize: 16, fontWeight: FontWeight.w500),
                             ),
                             const Spacer(),
-                            const Icon(
-                              Icons.arrow_forward_ios,
-                              size: 15,
+                            profileController.selectedLAnguage.value == 'English' ?
+                            Image.asset(
+                              'assets/images/forward_icon.png',
+                              height: 17,
+                              width: 17,
+                            ) :
+                            Image.asset(
+                              'assets/images/back_icon_new.png',
+                              height: 17,
+                              width: 17,
+                            ),
+                          ],
+                        ),
+                      ),
+                      const SizedBox(
+                        height: 5,
+                      ),
+                      const Divider(
+                        thickness: 1,
+                        color: Color(0x1A000000),
+                      ),
+                      const SizedBox(
+                        height: 5,
+                      ),
+                      InkWell(
+                        onTap: () {
+                          if (profileController.userLoggedIn) {
+                            whatsapp();
+                          } else {
+                            whatsapp();
+                          }
+                        },
+                        child: Row(
+                          children: [
+                            Image.asset(height: 25, 'assets/images/whatsapp_icon.png'),
+                            const SizedBox(
+                              width: 20,
+                            ),
+                            Text(
+                              "WhatsApp Support".tr,
+                              style: GoogleFonts.poppins(
+                                  color: const Color(0xFF2A3032), fontSize: 16, fontWeight: FontWeight.w500),
+                            ),
+                            const Spacer(),
+                            profileController.selectedLAnguage.value == 'English' ?
+                            Image.asset(
+                              'assets/images/forward_icon.png',
+                              height: 17,
+                              width: 17,
+                            ) :
+                            Image.asset(
+                              'assets/images/back_icon_new.png',
+                              height: 17,
+                              width: 17,
                             ),
                           ],
                         ),
@@ -506,9 +650,16 @@ class _MyAccountScreenState extends State<MyAccountScreen> {
                                   color: const Color(0xFF2A3032), fontSize: 16, fontWeight: FontWeight.w500),
                             ),
                             const Spacer(),
-                            const Icon(
-                              Icons.arrow_forward_ios,
-                              size: 15,
+                            profileController.selectedLAnguage.value == 'English' ?
+                            Image.asset(
+                              'assets/images/forward_icon.png',
+                              height: 17,
+                              width: 17,
+                            ) :
+                            Image.asset(
+                              'assets/images/back_icon_new.png',
+                              height: 17,
+                              width: 17,
                             ),
                           ],
                         ),
@@ -575,9 +726,16 @@ class _MyAccountScreenState extends State<MyAccountScreen> {
                                   color: const Color(0xFF2A3032), fontSize: 16, fontWeight: FontWeight.w500),
                             ),
                             const Spacer(),
-                            const Icon(
-                              Icons.arrow_forward_ios,
-                              size: 15,
+                            profileController.selectedLAnguage.value == 'English' ?
+                            Image.asset(
+                              'assets/images/forward_icon.png',
+                              height: 17,
+                              width: 17,
+                            ) :
+                            Image.asset(
+                              'assets/images/back_icon_new.png',
+                              height: 17,
+                              width: 17,
                             ),
                           ],
                         ),
@@ -613,9 +771,57 @@ class _MyAccountScreenState extends State<MyAccountScreen> {
                                   color: const Color(0xFF2A3032), fontSize: 16, fontWeight: FontWeight.w500),
                             ),
                             const Spacer(),
-                            const Icon(
-                              Icons.arrow_forward_ios,
-                              size: 15,
+                            profileController.selectedLAnguage.value == 'English' ?
+                            Image.asset(
+                              'assets/images/forward_icon.png',
+                              height: 17,
+                              width: 17,
+                            ) :
+                            Image.asset(
+                              'assets/images/back_icon_new.png',
+                              height: 17,
+                              width: 17,
+                            ),
+                          ],
+                        ),
+                      ),
+                      const SizedBox(
+                        height: 5,
+                      ),
+                      const Divider(
+                        thickness: 1,
+                        color: Color(0x1A000000),
+                      ),
+                      const SizedBox(
+                        height: 5,
+                      ),
+                      GestureDetector(
+                        behavior: HitTestBehavior.translucent,
+                        onTap: () {
+                          Get.to(()=>const GetJobTypeScreen());
+                        },
+                        child: Row(
+                          children: [
+                            Image.asset(height: 24, 'assets/images/job_icon.png'),
+                            const SizedBox(
+                              width: 20,
+                            ),
+                            Text(
+                              'Jobs'.tr,
+                              style: GoogleFonts.poppins(
+                                  color: const Color(0xFF2A3032), fontSize: 16, fontWeight: FontWeight.w500),
+                            ),
+                            const Spacer(),
+                            profileController.selectedLAnguage.value == 'English' ?
+                            Image.asset(
+                              'assets/images/forward_icon.png',
+                              height: 17,
+                              width: 17,
+                            ) :
+                            Image.asset(
+                              'assets/images/back_icon_new.png',
+                              height: 17,
+                              width: 17,
                             ),
                           ],
                         ),
@@ -647,9 +853,16 @@ class _MyAccountScreenState extends State<MyAccountScreen> {
                                   color: const Color(0xFF2A3032), fontSize: 16, fontWeight: FontWeight.w500),
                             ),
                             const Spacer(),
-                            const Icon(
-                              Icons.arrow_forward_ios,
-                              size: 15,
+                            profileController.selectedLAnguage.value == 'English' ?
+                            Image.asset(
+                              'assets/images/forward_icon.png',
+                              height: 17,
+                              width: 17,
+                            ) :
+                            Image.asset(
+                              'assets/images/back_icon_new.png',
+                              height: 17,
+                              width: 17,
                             ),
                           ],
                         ),
@@ -731,9 +944,16 @@ class _MyAccountScreenState extends State<MyAccountScreen> {
                                   color: const Color(0xFF2A3032), fontSize: 16, fontWeight: FontWeight.w500),
                             ),
                             const Spacer(),
-                            const Icon(
-                              Icons.arrow_forward_ios,
-                              size: 15,
+                            profileController.selectedLAnguage.value == 'English' ?
+                            Image.asset(
+                              'assets/images/forward_icon.png',
+                              height: 17,
+                              width: 17,
+                            ) :
+                            Image.asset(
+                              'assets/images/back_icon_new.png',
+                              height: 17,
+                              width: 17,
                             ),
                           ],
                         ),
@@ -874,9 +1094,16 @@ class _MyAccountScreenState extends State<MyAccountScreen> {
                                   color: const Color(0xFF2A3032), fontSize: 16, fontWeight: FontWeight.w500),
                             ),
                             const Spacer(),
-                            const Icon(
-                              Icons.arrow_forward_ios,
-                              size: 15,
+                            profileController.selectedLAnguage.value == 'English' ?
+                            Image.asset(
+                              'assets/images/forward_icon.png',
+                              height: 17,
+                              width: 17,
+                            ) :
+                            Image.asset(
+                              'assets/images/back_icon_new.png',
+                              height: 17,
+                              width: 17,
                             ),
                           ],
                         ),
@@ -908,9 +1135,16 @@ class _MyAccountScreenState extends State<MyAccountScreen> {
                                   color: const Color(0xFF2A3032), fontSize: 16, fontWeight: FontWeight.w500),
                             ),
                             const Spacer(),
-                            const Icon(
-                              Icons.arrow_forward_ios,
-                              size: 15,
+                            profileController.selectedLAnguage.value == 'English' ?
+                            Image.asset(
+                              'assets/images/forward_icon.png',
+                              height: 17,
+                              width: 17,
+                            ) :
+                            Image.asset(
+                              'assets/images/back_icon_new.png',
+                              height: 17,
+                              width: 17,
                             ),
                           ],
                         ),
@@ -948,9 +1182,16 @@ class _MyAccountScreenState extends State<MyAccountScreen> {
                                   color: const Color(0xFF2A3032), fontSize: 16, fontWeight: FontWeight.w500),
                             ),
                             const Spacer(),
-                            const Icon(
-                              Icons.arrow_forward_ios,
-                              size: 15,
+                            profileController.selectedLAnguage.value == 'English' ?
+                            Image.asset(
+                              'assets/images/forward_icon.png',
+                              height: 17,
+                              width: 17,
+                            ) :
+                            Image.asset(
+                              'assets/images/back_icon_new.png',
+                              height: 17,
+                              width: 17,
                             ),
                           ],
                         ),
@@ -982,9 +1223,16 @@ class _MyAccountScreenState extends State<MyAccountScreen> {
                                   color: const Color(0xFF2A3032), fontSize: 16, fontWeight: FontWeight.w500),
                             ),
                             const Spacer(),
-                            const Icon(
-                              Icons.arrow_forward_ios,
-                              size: 15,
+                            profileController.selectedLAnguage.value == 'English' ?
+                            Image.asset(
+                              'assets/images/forward_icon.png',
+                              height: 17,
+                              width: 17,
+                            ) :
+                            Image.asset(
+                              'assets/images/back_icon_new.png',
+                              height: 17,
+                              width: 17,
                             ),
                           ],
                         ),
@@ -1016,9 +1264,16 @@ class _MyAccountScreenState extends State<MyAccountScreen> {
                                   color: const Color(0xFF2A3032), fontSize: 16, fontWeight: FontWeight.w500),
                             ),
                             const Spacer(),
-                            const Icon(
-                              Icons.arrow_forward_ios,
-                              size: 15,
+                            profileController.selectedLAnguage.value == 'English' ?
+                            Image.asset(
+                              'assets/images/forward_icon.png',
+                              height: 17,
+                              width: 17,
+                            ) :
+                            Image.asset(
+                              'assets/images/back_icon_new.png',
+                              height: 17,
+                              width: 17,
                             ),
                           ],
                         ),
@@ -1037,7 +1292,7 @@ class _MyAccountScreenState extends State<MyAccountScreen> {
                                   context: context,
                                   builder: (BuildContext context) => AlertDialog(
                                     title: Text('Delete Account'.tr),
-                                    content: Text('Do You Want To Delete Your Account'.tr),
+                                    content: Text('Do you want to delete your account'.tr),
                                     actions: <Widget>[
                                       TextButton(
                                         onPressed: () => Get.back(),
@@ -1092,9 +1347,16 @@ class _MyAccountScreenState extends State<MyAccountScreen> {
                                           color: const Color(0xFF2A3032), fontSize: 16, fontWeight: FontWeight.w500),
                                     ),
                                   ),
-                                  const Icon(
-                                    Icons.arrow_forward_ios,
-                                    size: 15,
+                                  profileController.selectedLAnguage.value == 'English' ?
+                                  Image.asset(
+                                    'assets/images/forward_icon.png',
+                                    height: 17,
+                                    width: 17,
+                                  ) :
+                                  Image.asset(
+                                    'assets/images/back_icon_new.png',
+                                    height: 17,
+                                    width: 17,
                                   ),
                                 ],
                               ),
@@ -1122,7 +1384,7 @@ class _MyAccountScreenState extends State<MyAccountScreen> {
                               context: context,
                               builder: (BuildContext context) => AlertDialog(
                                 title: Text('Logout Account'.tr),
-                                content: Text('Do You Want To Logout Your Account'.tr),
+                                content: Text('Do you want to logout your account'.tr),
                                 actions: <Widget>[
                                   TextButton(
                                     onPressed: () => Get.back(),
@@ -1167,9 +1429,16 @@ class _MyAccountScreenState extends State<MyAccountScreen> {
                                   color: const Color(0xFF2A3032), fontSize: 16, fontWeight: FontWeight.w500),
                             ),
                             const Spacer(),
-                            const Icon(
-                              Icons.arrow_forward_ios,
-                              size: 15,
+                            profileController.selectedLAnguage.value == 'English' ?
+                            Image.asset(
+                              'assets/images/forward_icon.png',
+                              height: 17,
+                              width: 17,
+                            ) :
+                            Image.asset(
+                              'assets/images/back_icon_new.png',
+                              height: 17,
+                              width: 17,
                             ),
                           ],
                         ),
@@ -1238,7 +1507,7 @@ class _MyAccountScreenState extends State<MyAccountScreen> {
                                 children: [
                                   Expanded(
                                     child: Text(
-                                      "Shipping Address",
+                                      "Shipping Address".tr,
                                       style: GoogleFonts.poppins(fontWeight: FontWeight.w500, fontSize: 16),
                                     ),
                                   ),
@@ -1252,7 +1521,29 @@ class _MyAccountScreenState extends State<MyAccountScreen> {
                                         size: 20,
                                       ),
                                       label: Text(
-                                        "Add New",
+                                        "Add New".tr,
+                                        style: GoogleFonts.poppins(fontSize: 15),
+                                      ))
+                                ],
+                              ),
+                            ),
+                            SliverToBoxAdapter(
+                              child: Row(
+                                children: [
+                                  const Expanded(
+                                    child:SizedBox(),
+                                  ),
+                                  TextButton.icon(
+                                      onPressed: () {
+                                        Get.to(()=> FindMyLocationAddress());
+                                      },
+                                      style: TextButton.styleFrom(padding: EdgeInsets.zero),
+                                      icon: const Icon(
+                                        Icons.add,
+                                        size: 20,
+                                      ),
+                                      label: Text(
+                                        "Find my location".tr,
                                         style: GoogleFonts.poppins(fontSize: 15),
                                       ))
                                 ],
@@ -1298,45 +1589,140 @@ class _MyAccountScreenState extends State<MyAccountScreen> {
                                                 ),
                                                 Column(
                                                   children: [
-                                                    Flexible(
-                                                      child: IconButton(
-                                                          onPressed: () {
-                                                            cartController
-                                                                .deleteAddress(
-                                                              context: context,
-                                                              id: address.id.toString(),
+                                                    PopupMenuButton(
+                                                        color: Colors.white,
+                                                        iconSize: 20,
+                                                        icon: const Icon(
+                                                          Icons.more_vert,
+                                                          color: Colors.black,
+                                                        ),
+                                                        padding: EdgeInsets.zero,
+                                                        onSelected: (value) {
+                                                          setState(() {});
+                                                          Navigator.pushNamed(context, value.toString());
+                                                        },
+                                                        itemBuilder: (ac) {
+                                                          return [
+                                                            PopupMenuItem(
+                                                              onTap: () {
+                                                                bottomSheet(addressData: address);
+                                                              },
+                                                              // value: '/Edit',
+                                                              child: Text("Edit".tr),
+                                                            ),
+                                                            PopupMenuItem(
+                                                              onTap: () {
+                                                                cartController.selectedAddress = address;
+                                                                cartController.countryName.value =
+                                                                    address.country.toString();
+                                                                cartController.countryId = address.getCountryId.toString();
+                                                                cartController.getCart();
+                                                                print('onTap is....${cartController.countryName.value}');
+                                                                print(
+                                                                    'onTap is....${cartController.selectedAddress.id.toString()}');
+                                                                if (cartController.isDelivery.value == true) {
+                                                                  cartController.addressDeliFirstName.text =
+                                                                      cartController.selectedAddress.getFirstName;
+                                                                  cartController.addressDeliLastName.text =
+                                                                      cartController.selectedAddress.getLastName;
+                                                                  cartController.addressDeliEmail.text =
+                                                                      cartController.selectedAddress.getEmail;
+                                                                  cartController.addressDeliPhone.text =
+                                                                      cartController.selectedAddress.getPhone;
+                                                                  cartController.addressDeliAlternate.text =
+                                                                      cartController.selectedAddress.getAlternate;
+                                                                  cartController.addressDeliAddress.text =
+                                                                      cartController.selectedAddress.getAddress;
+                                                                  cartController.addressDeliZipCode.text =
+                                                                      cartController.selectedAddress.getZipCode;
+                                                                  cartController.addressCountryController.text =
+                                                                      cartController.selectedAddress.getCountry;
+                                                                  cartController.addressStateController.text =
+                                                                      cartController.selectedAddress.getState;
+                                                                  cartController.addressCityController.text =
+                                                                      cartController.selectedAddress.getCity;
+                                                                }
+
+                                                                defaultAddressApi();
+                                                                setState(() {});
+                                                              },
+                                                              // value: '/slotViewScreen',
+                                                              child: Text("Default Address".tr),
+                                                            ),
+                                                            PopupMenuItem(
+                                                              onTap: () {
+                                                                cartController
+                                                                    .deleteAddress(
+                                                                  context: context,
+                                                                  id: address.id.toString(),
+                                                                )
+                                                                    .then((value) {
+                                                                  if (value == true) {
+                                                                    cartController.addressListModel.address!.shipping!
+                                                                        .removeWhere((element) =>
+                                                                    element.id.toString() ==
+                                                                        address.id.toString());
+                                                                    cartController.updateUI();
+                                                                  }
+                                                                });
+                                                              },
+                                                              // value: '/deactivate',
+                                                              child: Text("Delete".tr),
                                                             )
-                                                                .then((value) {
-                                                              if (value == true) {
-                                                                cartController.addressListModel.address!.shipping!
-                                                                    .removeWhere((element) =>
-                                                                        element.id.toString() == address.id.toString());
-                                                                cartController.updateUI();
-                                                              }
-                                                            });
-                                                          },
-                                                          icon: const Icon(Icons.delete)),
-                                                    ),
-                                                    InkWell(
-                                                      onTap: () {
-                                                        bottomSheet(addressData: address);
-                                                      },
-                                                      child: Text(
-                                                        'Edit',
-                                                        style: GoogleFonts.poppins(
-                                                            shadows: [
-                                                              const Shadow(
-                                                                  color: Color(0xff014E70), offset: Offset(0, -4))
-                                                            ],
-                                                            color: Colors.transparent,
-                                                            fontSize: 16,
-                                                            fontWeight: FontWeight.w500,
-                                                            decoration: TextDecoration.underline,
-                                                            decorationColor: const Color(0xff014E70)),
-                                                      ),
-                                                    ),
+                                                          ];
+                                                        }),
+                                                    address.isDefault == true
+                                                        ? Text(
+                                                      "Default",
+                                                      style: GoogleFonts.poppins(
+                                                          fontWeight: FontWeight.w500,
+                                                          fontSize: 15,
+                                                          color: const Color(0xff585858)),
+                                                    )
+                                                        : SizedBox(),
                                                   ],
-                                                )
+                                                ),
+                                                // Column(
+                                                //   children: [
+                                                //     Flexible(
+                                                //       child: IconButton(
+                                                //           onPressed: () {
+                                                //             cartController
+                                                //                 .deleteAddress(
+                                                //               context: context,
+                                                //               id: address.id.toString(),
+                                                //             )
+                                                //                 .then((value) {
+                                                //               if (value == true) {
+                                                //                 cartController.addressListModel.address!.shipping!
+                                                //                     .removeWhere((element) =>
+                                                //                         element.id.toString() == address.id.toString());
+                                                //                 cartController.updateUI();
+                                                //               }
+                                                //             });
+                                                //           },
+                                                //           icon: const Icon(Icons.delete)),
+                                                //     ),
+                                                //     InkWell(
+                                                //       onTap: () {
+                                                //         bottomSheet(addressData: address);
+                                                //       },
+                                                //       child: Text(
+                                                //         'Edit',
+                                                //         style: GoogleFonts.poppins(
+                                                //             shadows: [
+                                                //               const Shadow(
+                                                //                   color: Color(0xff014E70), offset: Offset(0, -4))
+                                                //             ],
+                                                //             color: Colors.transparent,
+                                                //             fontSize: 16,
+                                                //             fontWeight: FontWeight.w500,
+                                                //             decoration: TextDecoration.underline,
+                                                //             decorationColor: const Color(0xff014E70)),
+                                                //       ),
+                                                //     ),
+                                                //   ],
+                                                // )
                                               ],
                                             ),
                                           ),
@@ -1482,7 +1868,7 @@ class _MyAccountScreenState extends State<MyAccountScreen> {
                         textInputAction: TextInputAction.next,
                         dropdownTextStyle: const TextStyle(color: Colors.black),
                         style: const TextStyle(color: AppTheme.textColor),
-                        controller: alternatePhoneController,
+                        controller: phoneController,
                         decoration: const InputDecoration(
                             contentPadding: EdgeInsets.zero,
                             hintStyle: TextStyle(color: AppTheme.textColor),
@@ -1937,8 +2323,13 @@ class _MyAccountScreenState extends State<MyAccountScreen> {
         iconColor: AppTheme.primaryColor,
         minLeadingWidth: 0,
         onTap: () {
-          _isValue.value = !_isValue.value;
-          setState(() {});
+          if(userLoggedIn){
+            _isValue.value = !_isValue.value;
+            setState(() {});
+          }else{
+            Get.to(const LoginScreen());
+          }
+
         },
         title: Row(
           children: [
@@ -1953,18 +2344,38 @@ class _MyAccountScreenState extends State<MyAccountScreen> {
             ),
             Expanded(
               child: Text(
-                AppStrings.vendorPartner.tr,
+                'Sell Better Dashboard'.tr,
                 style: GoogleFonts.poppins(color: const Color(0xFF2A3032), fontSize: 16, fontWeight: FontWeight.w500),
               ),
             ),
-            Icon(
-              !_isValue.value == true ? Icons.arrow_forward_ios : Icons.keyboard_arrow_down,
-              color: Colors.black,
-              size: 15,
+            if( profileController.selectedLAnguage.value == 'English')
+            !_isValue.value == true ?   Image.asset(
+              'assets/images/forward_icon.png',
+              height: 17,
+              width: 17,
+            ) :
+            Image.asset(
+              'assets/images/drop_icon.png',
+              height: 17,
+              width: 17,
+            ),
+            if( profileController.selectedLAnguage.value != 'English')
+              !_isValue.value == true ?
+              Image.asset(
+                'assets/images/back_icon_new.png',
+                height: 17,
+                width: 17,
+              ) :
+            Image.asset(
+              'assets/images/drop_icon.png',
+              height: 17,
+              width: 17,
             ),
           ],
         ),
       ),
+
+
       _isValue.value == true
           ? Obx(() {
               if (profileController.refreshInt.value > 0) {}
@@ -1983,23 +2394,33 @@ class _MyAccountScreenState extends State<MyAccountScreen> {
                                       Expanded(
                                         child: TextButton(
                                           onPressed: () {
+
+
+
+
                                            if (vendor[index] == 'Dashboard') {
                                                Get.toNamed( VendorDashBoardScreen.route);
                                             }
                                            else if(vendor[index] == 'Order'){
                                              Get.to(const VendorOrderList());
                                            }
-                                           else if(vendor[index] == 'Products'){
-                                             Get.to(const AddProductOptionScreen());
+                                           else if(vendor[index] == 'Pending Products'){
+                                             Get.to(const VendorProductScreen());
                                            }
-                                           else if(vendor[index] == 'Store open time'){
-                                             Get.to(const OperatingHourScreen());
+                                           else if(vendor[index] == 'Approved Products'){
+                                             Get.to(const ApproveProductScreen());
+                                           }
+                                           else if(vendor[index] == 'Operating Hours'){
+                                             Get.to(const SetTimeScreen());
                                            }
                                            else if(vendor[index] == 'Bank Details'){
                                              Get.to(const BankDetailsScreen());
                                            }
                                            else if(vendor[index] == 'Earnings'){
                                              Get.to(const WithdrawMoney());
+                                           }
+                                           else if(vendor[index] == 'Social Media'){
+                                             Get.to(const SocialMediaStore());
                                            }
                                            else {
                                               showToast('Your payment is not successfull'.tr);
@@ -2019,21 +2440,84 @@ class _MyAccountScreenState extends State<MyAccountScreen> {
                                                       color: Colors.grey.shade500),
                                                 ),
                                               ),
-                                              const Icon(
-                                                Icons.arrow_forward_ios_rounded,
-                                                size: 14,
-                                              )
+                                              profileController.selectedLAnguage.value == 'English' ?
+                                              Image.asset(
+                                                'assets/images/forward_icon.png',
+                                                height: 14,
+                                                width: 14,
+                                              ) :
+                                              Image.asset(
+                                                'assets/images/back_icon_new.png',
+                                                height: 14,
+                                                width: 14,
+                                              ),
                                             ],
                                           ),
                                         ),
                                       ),
                                     ],
                                   ))
-                          : [],
+                          : List.generate(
+                          vendor1.length,
+                              (index) => Row(
+                            children: [
+                              const SizedBox(
+                                width: 30,
+                              ),
+                              Expanded(
+                                child: TextButton(
+                                  onPressed: () {
+                                    if (vendor1[index] == 'Become a vendor') {
+                                      Get.to(()=> const WhichplantypedescribeyouScreen());
+                                    }
+                                    else if(vendor1[index] == 'Pending Products'){
+                                      Get.to(const VendorProductScreen());
+                                    }
+                                    else if(vendor1[index] == 'Approved Products'){
+                                      Get.to(const ApproveProductScreen());
+                                    }
+                                    else {
+                                      showToast('Your payment is not successfull'.tr);
+                                    }
+                                  },
+                                  style: TextButton.styleFrom(
+                                      visualDensity: const VisualDensity(vertical: -3, horizontal: -3),
+
+                                 padding: EdgeInsets.zero.copyWith(left: 16)),
+                                  child: Row(
+                                    children: [
+                                      Expanded(
+                                        child: Text(
+                                          vendor1[index],
+                                          style: GoogleFonts.poppins(
+                                              fontSize: 16,
+                                              fontWeight: FontWeight.w400,
+                                              color: Colors.grey.shade500),
+                                        ),
+                                      ),
+                                      profileController.selectedLAnguage.value == 'English' ?
+                                      Image.asset(
+                                        'assets/images/forward_icon.png',
+                                        height: 14,
+                                        width: 14,
+                                      ) :
+                                      Image.asset(
+                                        'assets/images/back_icon_new.png',
+                                        height: 14,
+                                        width: 14,
+                                      ),
+                                    ],
+                                  ),
+                                ),
+                              ),
+                            ],
+                          )),
                     )
                   : const SizedBox();
             })
-          : const SizedBox(),
+          : SizedBox.shrink()
+
+
     ];
   }
 }

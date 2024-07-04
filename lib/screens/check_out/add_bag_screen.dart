@@ -8,6 +8,7 @@ import 'package:flutter_svg/flutter_svg.dart';
 import 'package:get/get.dart';
 import 'package:google_fonts/google_fonts.dart';
 import '../../controller/cart_controller.dart';
+import '../../controller/profile_controller.dart';
 import '../../model/model_cart_response.dart';
 import '../../model/product_model/model_product_element.dart';
 import '../../utils/api_constant.dart';
@@ -25,10 +26,11 @@ class BagsScreen extends StatefulWidget {
 
 class _BagsScreenState extends State<BagsScreen> {
   final cartController = Get.put(CartController());
-
+  final profileController = Get.put(ProfileController());
   @override
   void initState() {
     super.initState();
+    cartController.getCart();
     SchedulerBinding.instance.addPostFrameCallback((timeStamp) {
       cartController.getCart();
     });
@@ -38,14 +40,14 @@ class _BagsScreenState extends State<BagsScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
         backgroundColor: Colors.grey.shade50,
-        appBar: customAppBar(title: "Bag".tr),
+        appBar: customAppBar(title: "Cart".tr),
         body: RefreshIndicator(
           onRefresh: () async {
             await cartController.getCart();
           },
           child: Obx(() {
             if (cartController.refreshInt.value > 0) {}
-            return cartController.apiLoaded
+            return cartController.cartModel.cart!= null
                 ? cartController.cartModel.cart!.carsShowroom!.isNotEmpty
                     ? CustomScrollView(
                         shrinkWrap: true,
@@ -115,10 +117,14 @@ class _BagsScreenState extends State<BagsScreen> {
                                                     const SizedBox(
                                                       height: 6,
                                                     ),
-                                                    Text(
-                                                      'KWD ${product.sPrice}',
+                                                     Text(
+                                                     product.productType == 'variants' ? 'KWD ${product.variantPrice}' :  'KWD ${product.discountPrice}',
                                                       style: GoogleFonts.poppins(fontSize: 15, fontWeight: FontWeight.w400),
                                                     ),
+                                                    // Text(
+                                                    //   'KWD ${product.discountPrice}',
+                                                    //   style: GoogleFonts.poppins(fontSize: 15, fontWeight: FontWeight.w400),
+                                                    // ),
                                                     const SizedBox(
                                                       height: 4,
                                                     ),
@@ -216,8 +222,8 @@ class _BagsScreenState extends State<BagsScreen> {
                                                     showDialog<String>(
                                                         context: context,
                                                         builder: (BuildContext context) => AlertDialog(
-                                                      title: const Text('Remove Cart'),
-                                                      content: const Text('Do You Want To Remove From Your Cart.'),
+                                                      title: const Text('Remove cart'),
+                                                      content: const Text('Do you want to remove from your cart.'),
                                                       actions: <Widget>[
                                                         TextButton(
                                                           onPressed: () => Get.back(),
@@ -421,7 +427,7 @@ class _BagsScreenState extends State<BagsScreen> {
                           Center(
                             child: Text(
                               "${'Your cart is currently empty'.tr}\n"
-                              "Checkout products to added them in bag".tr,
+                              "${'Checkout products to added them in cart'.tr}",
                               textAlign: TextAlign.center,
                             ),
                           ),
@@ -438,7 +444,7 @@ class _BagsScreenState extends State<BagsScreen> {
                                 onPressed: () {
                                   Get.back();
                                 },
-                                child:  Text("Return To Shop".tr,style: const TextStyle(
+                                child:  Text("Continue shopping".tr,style: const TextStyle(
                                   color: Colors.white
                                 ),)),
                           ),
@@ -449,7 +455,7 @@ class _BagsScreenState extends State<BagsScreen> {
         ),
         bottomNavigationBar: Obx(() {
           if (cartController.refreshInt.value > 0) {}
-          return cartController.apiLoaded
+          return cartController.cartModel.cart!= null
               ? cartController.cartModel.cart!.carsShowroom!.isNotEmpty
                   ? GestureDetector(
                       onTap: () {
@@ -464,22 +470,28 @@ class _BagsScreenState extends State<BagsScreen> {
                           child: Row(
                             mainAxisAlignment: MainAxisAlignment.spaceBetween,
                             children: [
-                              Row(
-                                children: [
-                                  Container(
-                                      decoration: BoxDecoration(borderRadius: BorderRadius.circular(8), color: Colors.white),
-                                      padding: const EdgeInsets.fromLTRB(20, 7, 20, 7),
-                                      child: Text(
-                                        cartController.cartModel.totalProducts.toString(),
-                                        style: GoogleFonts.poppins(fontWeight: FontWeight.w700, fontSize: 18),
-                                      )),
-                                  const SizedBox(
-                                    width: 10,
-                                  ),
-                                  Text("KWD ${cartController.cartModel.subtotal}",
-                                      style: GoogleFonts.poppins(
-                                          fontWeight: FontWeight.w500, fontSize: 18, color: Colors.white)),
-                                ],
+                              Expanded(
+                                child: Row(
+                                  children: [
+                                    Container(
+                                        decoration: BoxDecoration(borderRadius: BorderRadius.circular(8), color: Colors.white),
+                                        padding: const EdgeInsets.fromLTRB(20, 7, 20, 7),
+                                        child: Text(
+                                          cartController.cartModel.totalProducts.toString(),
+                                          style: GoogleFonts.poppins(fontWeight: FontWeight.w700, fontSize: 18),
+                                        )),
+                                    const SizedBox(
+                                      width: 10,
+                                    ),
+                                    Expanded(
+                                      child: Text("KWD ${cartController.cartModel.subtotal}",
+                                          maxLines: 1,
+                                          overflow: TextOverflow.ellipsis,
+                                          style: GoogleFonts.poppins(
+                                              fontWeight: FontWeight.w500, fontSize: 18, color: Colors.white)),
+                                    ),
+                                  ],
+                                ),
                               ),
                               Row(
                                 children: [
@@ -513,13 +525,27 @@ class _BagsScreenState extends State<BagsScreen> {
       backgroundColor: Colors.white,
       surfaceTintColor: Colors.white,
       elevation: 0,
-      leading: IconButton(
-          icon: Image.asset(
-        'assets/icons/backicon.png',
-        height: 25,
-        width: 25,
-      ),
-        onPressed: () => Get.back(),
+      leading:GestureDetector(
+        onTap: (){
+          Get.back();
+        },
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.center,
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: [
+            profileController.selectedLAnguage.value != 'English' ?
+            Image.asset(
+              'assets/images/forward_icon.png',
+              height: 19,
+              width: 19,
+            ) :
+            Image.asset(
+              'assets/images/back_icon_new.png',
+              height: 19,
+              width: 19,
+            ),
+          ],
+        ),
       ),
       titleSpacing: 0,
       title: Row(

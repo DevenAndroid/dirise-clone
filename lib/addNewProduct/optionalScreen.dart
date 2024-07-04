@@ -9,6 +9,7 @@ import 'package:form_field_validator/form_field_validator.dart';
 import 'package:get/get.dart';
 import 'package:google_fonts/google_fonts.dart';
 
+import '../controller/profile_controller.dart';
 import '../controller/vendor_controllers/add_product_controller.dart';
 import '../model/common_modal.dart';
 import '../model/reviewAndPublishResponseodel.dart';
@@ -25,50 +26,31 @@ class OptionalScreen extends StatefulWidget {
   String? MetaDescription;
   String? SerialNumber;
   String? Productnumber;
-  OptionalScreen({super.key,this.id,this.LongDescription,this.Productnumber,this.SerialNumber,this.MetaDescription,this.MetaTitle});
+  OptionalScreen(
+      {super.key,
+      this.id,
+      this.LongDescription,
+      this.Productnumber,
+      this.SerialNumber,
+      this.MetaDescription,
+      this.MetaTitle});
 
   @override
   State<OptionalScreen> createState() => _OptionalScreenState();
 }
 
 class _OptionalScreenState extends State<OptionalScreen> {
-  final TextEditingController metaTitleController       = TextEditingController();
+  final TextEditingController metaTitleController = TextEditingController();
   final TextEditingController metaDescriptionController = TextEditingController();
   final TextEditingController longDescriptionController = TextEditingController();
-  final TextEditingController serialNumberController    = TextEditingController();
-  final TextEditingController productNumberController   = TextEditingController();
+  final TextEditingController serialNumberController = TextEditingController();
+  final TextEditingController productNumberController = TextEditingController();
   RxBool hide = true.obs;
   RxBool hide1 = true.obs;
   bool showValidation = false;
   final Repositories repositories = Repositories();
   final formKey1 = GlobalKey<FormState>();
   String code = "+91";
-  String? productID;
-  String? productName;
-  String? productPrice;
-  String? productType;
-  String? shortDes;
-
-  String? town;
-  String? city;
-  String? state;
-  String? address;
-  String? zip_code;
-
-  String? deliverySize;
-
-  String? Unitofmeasure;
-  String? WeightOftheItem;
-  String? SelectNumberOfPackages;
-  String? SelectTypeMaterial;
-  String? LengthWidthHeight;
-  String? SelectTypeOfPackaging;
-
-        String? LongDescription;
-        String? MetaTitle;
-        String? MetaDescription;
-        String? SerialNumber;
-        String? Productnumber;
 
   final addProductController = Get.put(AddProductController());
 
@@ -78,51 +60,22 @@ class _OptionalScreenState extends State<OptionalScreen> {
     map['meta_title'] = metaTitleController.text.trim();
     map['item_type'] = 'giveaway';
     map['meta_description'] = metaDescriptionController.text.trim();
-   map['long_description'] = longDescriptionController.text.trim();
+    map['long_description'] = longDescriptionController.text.trim();
     map['serial_number'] = serialNumberController.text.trim();
     map['product_number'] = productNumberController.text.trim();
     map['id'] = addProductController.idProduct.value.toString();
 
+
+
     FocusManager.instance.primaryFocus!.unfocus();
-    repositories.postApi(url: ApiUrls.giveawayProductAddress, context: context, mapData: map,showResponse: true).then((value) {
+    repositories
+        .postApi(url: ApiUrls.giveawayProductAddress, context: context, mapData: map, showResponse: true)
+        .then((value) {
       ReviewAndPublishResponseModel response = ReviewAndPublishResponseModel.fromJson(jsonDecode(value));
       print('API Response Status Code: ${response.status}');
       if (response.status == true) {
-        Get.to(()=>ReviewPublishScreen());
+        Get.to(() => ReviewPublishScreen());
       }
-
-      // if (response.status == true) {
-      //   // productName = response.productDetails!.product!.pname.toString();
-      //   // productID = response.productDetails!.product!.id.toString();
-      //   // productPrice = response.productDetails!.product!.pPrice.toString();
-      //   // productType = response.productDetails!.product!.productType.toString();
-      //   // shortDes = response.productDetails!.product!.shortDescription.toString();
-      //   //
-      //   // // town =     response.productDetails!.address!.town.toString();
-      //   // // city =     response.productDetails!.address!.city.toString();
-      //   // state =    response.productDetails!.address!.state.toString();
-      //   // address =  response.productDetails!.address!.address.toString();
-      //   // zip_code = response.productDetails!.address!.zipCode.toString();
-      //   //
-      //   // Unitofmeasure = response.productDetails!.internaionalShipping!.units.toString();
-      //   // WeightOftheItem = response.productDetails!.internaionalShipping!.weight.toString();
-      //   // SelectNumberOfPackages = response.productDetails!.internaionalShipping!.numberOfPackage.toString();
-      //   // SelectTypeMaterial = response.productDetails!.internaionalShipping!.material.toString();
-      //   // LengthWidthHeight = response.productDetails!.internaionalShipping!.boxDimension.toString();
-      //   // SelectTypeOfPackaging = response.productDetails!.internaionalShipping!.typeOfPackages.toString();
-      //   //
-      //   // LongDescription =response.productDetails!.product!.longDescription.toString();
-      //   // MetaTitle = response.productDetails!.product!.metaTitle.toString();
-      //   // MetaDescription = response.productDetails!.product!.metaDescription.toString();
-      //   // SerialNumber = response.productDetails!.product!.serialNumber.toString();
-      //   // Productnumber = response.productDetails!.product!.productNumber.toString();
-      //   //
-      //   // deliverySize = response.productDetails!.product!.deliverySize.toString();
-      //   // log('ddddddd' + response.productDetails!.product!.vendorId.toString());
-      //   // if (formKey1.currentState!.validate()) {
-      //   //
-      //   // }
-      // }
     });
   }
 
@@ -130,15 +83,16 @@ class _OptionalScreenState extends State<OptionalScreen> {
   void initState() {
     // TODO: implement initState
     super.initState();
-    if(widget.id != null){
-      metaTitleController.text = widget.MetaTitle.toString();
-      metaDescriptionController.text = widget.MetaDescription.toString();
-      longDescriptionController.text = widget.LongDescription.toString();
-      serialNumberController.text = widget.SerialNumber.toString();
-      productNumberController.text = widget.Productnumber.toString();
+    if (widget.id != null) {
+      metaTitleController.text = widget.MetaTitle ?? "";
+      metaDescriptionController.text = widget.MetaDescription ?? "";
+      longDescriptionController.text = widget.LongDescription ?? "";
+      serialNumberController.text = widget.SerialNumber ?? "";
+      productNumberController.text = widget.Productnumber ?? "";
     }
-
   }
+
+  final profileController = Get.put(ProfileController());
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -147,13 +101,25 @@ class _OptionalScreenState extends State<OptionalScreen> {
         surfaceTintColor: Colors.white,
         elevation: 0,
         leading: GestureDetector(
-          onTap: () {
+          onTap: (){
             Get.back();
           },
-          child: const Icon(
-            Icons.arrow_back_ios_new,
-            color: Color(0xff0D5877),
-            size: 16,
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.center,
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: [
+              profileController.selectedLAnguage.value != 'English' ?
+              Image.asset(
+                'assets/images/forward_icon.png',
+                height: 19,
+                width: 19,
+              ) :
+              Image.asset(
+                'assets/images/back_icon_new.png',
+                height: 19,
+                width: 19,
+              ),
+            ],
           ),
         ),
         titleSpacing: 0,
@@ -213,16 +179,16 @@ class _OptionalScreenState extends State<OptionalScreen> {
                   ),
                 ),
                 CommonTextField(
-                    controller: metaTitleController,
-                    obSecure: false,
-                    hintText: 'Meta Title'.tr,
-                    validator: (value) {
-                      if (value!.trim().isEmpty) {
-                        return 'Meta Title is required'.tr;
-                      }
-                      return null; // Return null if validation passes
-                    },
-                    ),
+                  controller: metaTitleController,
+                  obSecure: false,
+                  hintText: 'Meta Title'.tr,
+                  validator: (value) {
+                    if (value!.trim().isEmpty) {
+                      return 'Meta Title is required'.tr;
+                    }
+                    return null; // Return null if validation passes
+                  },
+                ),
                 TextFormField(
                   maxLines: 2,
                   controller: metaDescriptionController,
@@ -268,16 +234,16 @@ class _OptionalScreenState extends State<OptionalScreen> {
                   ),
                 ),
                 CommonTextField(
-                 controller: serialNumberController,
-                    obSecure: false,
-                    hintText: 'Serial Number'.tr,
-                    validator: (value) {
-                      if (value!.trim().isEmpty) {
-                        return 'Serial Number is required'.tr;
-                      }
-                      return null; // Return null if validation passes
-                    },
-                    ),
+                  controller: serialNumberController,
+                  obSecure: false,
+                  hintText: 'Serial Number'.tr,
+                  validator: (value) {
+                    if (value!.trim().isEmpty) {
+                      return 'Serial Number is required'.tr;
+                    }
+                    return null; // Return null if validation passes
+                  },
+                ),
                 // CommonTextField(
                 //  controller: longDescriptionController,
                 //     obSecure: false,
@@ -290,31 +256,29 @@ class _OptionalScreenState extends State<OptionalScreen> {
                 //     },
                 //     ),
                 CommonTextField(
-                 controller: productNumberController,
-                    obSecure: false,
-                    hintText: 'Product number'.tr,
-                    validator: (value) {
-                      if (value!.trim().isEmpty) {
-                        return 'Product number is required'.tr;
-                      }
-                      return null; // Return null if validation passes
-                    },
-                    ),
+                  controller: productNumberController,
+                  obSecure: false,
+                  hintText: 'Product number'.tr,
+                  validator: (value) {
+                    if (value!.trim().isEmpty) {
+                      return 'Product number is required'.tr;
+                    }
+                    return null; // Return null if validation passes
+                  },
+                ),
                 const SizedBox(height: 20),
                 CustomOutlineButton(
                   title: 'Next',
                   borderRadius: 11,
                   onPressed: () {
-                    if(formKey1.currentState!.validate()){
+                    if (formKey1.currentState!.validate()) {
                       optionalApi();
                     }
-
                   },
                 ),
                 const SizedBox(height: 20),
                 GestureDetector(
                   onTap: () {
-
                     Get.to(ReviewPublishScreen());
                   },
                   child: Container(

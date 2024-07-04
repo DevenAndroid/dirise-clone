@@ -9,6 +9,7 @@ import 'package:form_field_validator/form_field_validator.dart';
 import 'package:get/get.dart';
 import 'package:google_fonts/google_fonts.dart';
 
+import '../controller/profile_controller.dart';
 import '../controller/vendor_controllers/add_product_controller.dart';
 import '../model/vendor_models/add_product_model.dart';
 import '../repository/repository.dart';
@@ -41,12 +42,17 @@ class _SingleProductDiscriptionScreenState extends State<SingleProductDiscriptio
   RxBool isDelivery = false.obs;
   deliverySizeApi() {
     Map<String, dynamic> map = {};
-    map['in_stock'] = inStockController.text.toString();
-    map['short_description'] = shortController.text.toString();
-    map['stock_alert'] = alertDiscount.text.toString().trim();
-    map['seo_tags'] = tagDiscount.text.toString();
+    map['short_description'] = shortController.text.trim();
     map['item_type'] = 'product';
+    map['seo_tags'] = tagDiscount.text.trim();
     map['id'] = addProductController.idProduct.value.toString();
+    map['no_need_stock'] = 'true';
+
+    if (!isDelivery.value) {
+      map['in_stock'] = inStockController.text.trim();
+      map['stock_alert'] = alertDiscount.text.trim();
+      map['no_need_stock'] = 'false';
+    }
 
     final Repositories repositories = Repositories();
     FocusManager.instance.primaryFocus!.unfocus();
@@ -58,9 +64,9 @@ class _SingleProductDiscriptionScreenState extends State<SingleProductDiscriptio
         // addProductController.idProduct.value = response.productDetails!.product!.id.toString();
         print(addProductController.idProduct.value.toString());
         if(widget.id != null){
-          Get.to(const ReviewandPublishScreen());
+          Get.to( ProductReviewPublicScreen());
         }
-        Get.to(const SingleProductReturnPolicy());
+        Get.to( SingleProductReturnPolicy());
       }
     });
   }
@@ -76,6 +82,8 @@ class _SingleProductDiscriptionScreenState extends State<SingleProductDiscriptio
       tagDiscount.text=widget.sEOTags.toString();
     }
   }
+
+  final profileController = Get.put(ProfileController());
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -83,10 +91,27 @@ class _SingleProductDiscriptionScreenState extends State<SingleProductDiscriptio
         backgroundColor: Colors.white,
         surfaceTintColor: Colors.white,
         elevation: 0,
-        leading: const Icon(
-          Icons.arrow_back_ios_new,
-          color: Color(0xff0D5877),
-          size: 16,
+        leading: GestureDetector(
+          onTap: (){
+            Get.back();
+          },
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.center,
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: [
+              profileController.selectedLAnguage.value != 'English' ?
+              Image.asset(
+                'assets/images/forward_icon.png',
+                height: 19,
+                width: 19,
+              ) :
+              Image.asset(
+                'assets/images/back_icon_new.png',
+                height: 19,
+                width: 19,
+              ),
+            ],
+          ),
         ),
         titleSpacing: 0,
         title: Row(
@@ -109,28 +134,32 @@ class _SingleProductDiscriptionScreenState extends State<SingleProductDiscriptio
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 Text(
-                  'Long Description'.tr,
+                  'short description '.tr,
                   style: GoogleFonts.poppins(color: Colors.black, fontWeight: FontWeight.w600, fontSize: 18),
                 ),
                 const SizedBox(
                   height: 5,
                 ),
                 TextFormField(
+                  validator: (value) {
+                    if (value!.trim().isEmpty) {
+                      return 'short description is required'.tr;
+                    }
+                    return null;
+                  },
                   controller: shortController,
                   maxLines: 2,
                   minLines: 2,
                   decoration: InputDecoration(
-
                     counterStyle: GoogleFonts.poppins(
                       color: AppTheme.primaryColor,
                       fontSize: 25,
                     ),
                     counter: const Offstage(),
-
                     errorMaxLines: 2,
                     contentPadding: const EdgeInsets.all(15),
                     fillColor: Colors.grey.shade100,
-                    hintText: 'Long Description(optional)',
+                    hintText: 'short description',
                     hintStyle: GoogleFonts.poppins(
                       color: AppTheme.primaryColor,
                       fontSize: 15,
@@ -164,7 +193,7 @@ class _SingleProductDiscriptionScreenState extends State<SingleProductDiscriptio
                   width: Get.width,
                   decoration: BoxDecoration(borderRadius: BorderRadius.circular(11), color: Colors.grey.shade200),
                   child: Align(
-                    alignment: Alignment.bottomCenter,
+                    alignment: Alignment.center,
                     child:  Row(
                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
                       children: [
@@ -193,7 +222,7 @@ class _SingleProductDiscriptionScreenState extends State<SingleProductDiscriptio
                                 });
                               }),
                         ),
-                        SizedBox(width: 5,),
+                        const SizedBox(width: 5,),
                       ],
                     ),
                   ),

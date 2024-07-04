@@ -4,6 +4,7 @@ import 'package:get/get.dart';
 import 'package:google_fonts/google_fonts.dart';
 
 import '../../bottomavbar.dart';
+import '../../controller/profile_controller.dart';
 import '../../widgets/common_button.dart';
 
 class ConsulationThankYouScreen extends StatefulWidget {
@@ -14,6 +15,7 @@ class ConsulationThankYouScreen extends StatefulWidget {
 }
 
 class _ConsulationThankYouScreenState extends State<ConsulationThankYouScreen> {
+  final profileController = Get.put(ProfileController());
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -22,13 +24,25 @@ class _ConsulationThankYouScreenState extends State<ConsulationThankYouScreen> {
         surfaceTintColor: Colors.white,
         elevation: 0,
         leading: GestureDetector(
-          onTap: () {
+          onTap: (){
             Get.back();
           },
-          child: const Icon(
-            Icons.arrow_back_ios_new,
-            color: Color(0xff0D5877),
-            size: 16,
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.center,
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: [
+              profileController.selectedLAnguage.value != 'English' ?
+              Image.asset(
+                'assets/images/forward_icon.png',
+                height: 19,
+                width: 19,
+              ) :
+              Image.asset(
+                'assets/images/back_icon_new.png',
+                height: 19,
+                width: 19,
+              ),
+            ],
           ),
         ),
         titleSpacing: 0,
@@ -50,7 +64,7 @@ class _ConsulationThankYouScreenState extends State<ConsulationThankYouScreen> {
             crossAxisAlignment: CrossAxisAlignment.center,
             children: [
               Image.asset(
-                'assets/images/newlogoo.png',
+                'assets/images/newlogoo1.png',
                 height: 200,
                 width: 200,
               ),

@@ -120,12 +120,15 @@ class Items {
   dynamic inOffer;
   dynamic forAuction;
   dynamic returnPolicyDesc;
-
+  dynamic discountOff;
+  dynamic discountPrice;
+  dynamic itemType;
   Items(
       {this.id,
         this.vendorId,
         this.catId,
         this.catId2,
+        this.itemType,
         this.catId3,
         this.brandSlug,
         this.discountPercentage,
@@ -188,6 +191,8 @@ class Items {
         this.isPublish,
         this.inOffer,
         this.forAuction,
+        this.discountOff,
+        this.discountPrice,
         this.returnPolicyDesc});
 
   Items.fromJson(Map<String, dynamic> json) {
@@ -204,6 +209,7 @@ class Items {
     prodectSku = json['prodect_sku'];
     views = json['views'];
     code = json['code'];
+    itemType = json['item_type'];
     discountPercentage = json['discount_percentage'];
     bookingProductType = json['booking_product_type'];
     prodectPrice = json['prodect_price'];
@@ -258,6 +264,8 @@ class Items {
     inOffer = json['in_offer'];
     forAuction = json['for_auction'];
     returnPolicyDesc = json['return_policy_desc'];
+    discountOff = json['discount_off'];
+    discountPrice = json['discount_price'];
   }
 
   Map<String, dynamic> toJson() {
@@ -298,6 +306,7 @@ class Items {
     data['long_description'] = longDescription;
     data['arab_long_description'] = arabLongDescription;
     data['featured_image'] = featuredImage;
+    data['item_type'] = itemType;
     data['gallery_image'] = galleryImage;
     data['virtual_product_file'] = virtualProductFile;
     data['virtual_product_file_type'] = virtualProductFileType;
@@ -329,6 +338,8 @@ class Items {
     data['in_offer'] = inOffer;
     data['for_auction'] = forAuction;
     data['return_policy_desc'] = returnPolicyDesc;
+    data['discount_off'] = discountOff;
+    data['discount_price'] = discountPrice;
     return data;
   }
 }

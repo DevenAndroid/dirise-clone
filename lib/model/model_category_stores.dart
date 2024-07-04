@@ -67,6 +67,7 @@ class User {
   dynamic day;
   dynamic start;
   dynamic end;
+  dynamic storeBannerDesccription;
   dynamic status;
   List<VendorStoreData>? data = [];
   List<Links>? links;
@@ -85,6 +86,7 @@ class User {
     currentPage = json['current_page'];
     day = json['day'] ?? "";
     start = json['start'] ?? "";
+    storeBannerDesccription = json['store_banner_desccription'] ?? "";
     end = json['end'] ?? "";
     status = json['status'] ?? '';
     if (json['data'] != null) {
@@ -116,6 +118,7 @@ class User {
     data['start'] = start;
     data['end'] = end;
     data['status'] = status;
+    data['store_banner_desccription'] = storeBannerDesccription;
     if (this.data != null) {
       data['data'] = this.data!.map((v) => v.toJson()).toList();
     }
@@ -189,8 +192,11 @@ class VendorStoreData {
   dynamic start;
   dynamic status;
   dynamic end;
+  dynamic startBreakTime;
+  dynamic endBreakTime;
 
-  VendorStoreData({this.id, this.storeLogo, this.storeImage,this.status, this.storeName, this.email, this.storePhone, this.description,this.day,this.start,this.end,this.storeLogoApp});
+  VendorStoreData({this.id, this.storeLogo, this.storeImage,this.status, this.storeName, this.email, this.storePhone, this.description,this.day,this.start,this.end,this.storeLogoApp,
+  this.endBreakTime,this.startBreakTime});
 
   VendorStoreData.fromJson(Map<String, dynamic> json) {
     id = json['id'];
@@ -201,6 +207,8 @@ class VendorStoreData {
     storePhone = json['store_phone'] ?? "";
     description = json['description'] ?? "";
     day = json['day'] ?? "";
+    startBreakTime = json['start_break_time'] ?? "";
+    endBreakTime = json['end_break_time'] ?? "";
     start = json['start'] ?? "";
     end = json['end'] ?? "";
     storeLogoApp = json['store_logo_app'] ?? "";
@@ -214,6 +222,8 @@ class VendorStoreData {
     data['store_image'] = storeImage;
     data['store_name'] = storeName;
     data['email'] = email;
+    data['start_break_time'] = startBreakTime;
+    data['end_break_time'] = endBreakTime;
     data['store_phone'] = storePhone;
     data['description'] = description;
     data['day'] = day;

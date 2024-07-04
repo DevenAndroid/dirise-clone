@@ -1,17 +1,17 @@
 class GetPublishPostModel {
-  bool? status;
- dynamic message;
-  List<Data>? data;
+  dynamic status;
+  dynamic message;
+  List<AllNews>? allNews;
 
-  GetPublishPostModel({this.status, this.message, this.data});
+  GetPublishPostModel({this.status, this.message, this.allNews});
 
   GetPublishPostModel.fromJson(Map<String, dynamic> json) {
     status = json['status'];
     message = json['message'];
-    if (json['data'] != null) {
-      data = <Data>[];
-      json['data'].forEach((v) {
-        data!.add(new Data.fromJson(v));
+    if (json['all_news'] != null) {
+      allNews = <AllNews>[];
+      json['all_news'].forEach((v) {
+        allNews!.add(new AllNews.fromJson(v));
       });
     }
   }
@@ -20,32 +20,32 @@ class GetPublishPostModel {
     final Map<String, dynamic> data = new Map<String, dynamic>();
     data['status'] = this.status;
     data['message'] = this.message;
-    if (this.data != null) {
-      data['data'] = this.data!.map((v) => v.toJson()).toList();
+    if (this.allNews != null) {
+      data['all_news'] = this.allNews!.map((v) => v.toJson()).toList();
     }
     return data;
   }
 }
 
-class Data {
+class AllNews {
   dynamic id;
-  dynamic userIds;
- dynamic title;
- dynamic discription;
- dynamic file;
- dynamic fileType;
- dynamic thumbnail;
- dynamic createdAt;
- dynamic updatedAt;
-  UserId? userId;
+  dynamic userId;
+  dynamic title;
+  dynamic discription;
+  dynamic file;
+  dynamic fileType;
+  dynamic thumbnail;
+  dynamic createdAt;
+  dynamic updatedAt;
+  UserDetails? userDetails;
   dynamic likeCount;
-  bool? isLike;
+  dynamic isLike;
+  dynamic myAccount;
   bool isOpen = false;
-  bool? myAccount;
 
-  Data(
+  AllNews(
       {this.id,
-        this.userIds,
+        this.userId,
         this.title,
         this.discription,
         this.file,
@@ -53,14 +53,14 @@ class Data {
         this.thumbnail,
         this.createdAt,
         this.updatedAt,
-        this.userId,
-        this.myAccount,
+        this.userDetails,
         this.likeCount,
-        this.isLike});
+        this.isLike,
+        this.myAccount});
 
-  Data.fromJson(Map<String, dynamic> json) {
+  AllNews.fromJson(Map<String, dynamic> json) {
     id = json['id'];
-    userIds = json['user_id'];
+    userId = json['user_id'];
     title = json['title'];
     discription = json['discription'];
     file = json['file'];
@@ -68,7 +68,9 @@ class Data {
     thumbnail = json['thumbnail'];
     createdAt = json['created_at'];
     updatedAt = json['updated_at'];
-    userId = json['userId'] != null ? new UserId.fromJson(json['userId']) : null;
+    userDetails = json['user_details'] != null
+        ? new UserDetails.fromJson(json['user_details'])
+        : null;
     likeCount = json['like_count'];
     isLike = json['is_like'];
     myAccount = json['my_account'];
@@ -85,8 +87,8 @@ class Data {
     data['thumbnail'] = this.thumbnail;
     data['created_at'] = this.createdAt;
     data['updated_at'] = this.updatedAt;
-    if (this.userId != null) {
-      data['userId'] = this.userId!.toJson();
+    if (this.userDetails != null) {
+      data['user_details'] = this.userDetails!.toJson();
     }
     data['like_count'] = this.likeCount;
     data['is_like'] = this.isLike;
@@ -95,24 +97,24 @@ class Data {
   }
 }
 
-class UserId {
-  dynamic name;
+class UserDetails {
   dynamic profileImage;
   dynamic email;
+  dynamic name;
 
-  UserId({this.name, this.profileImage, this.email});
+  UserDetails({this.profileImage, this.email, this.name});
 
-  UserId.fromJson(Map<String, dynamic> json) {
-    name = json['name'];
+  UserDetails.fromJson(Map<String, dynamic> json) {
     profileImage = json['profile_image'];
     email = json['email'];
+    name = json['name'];
   }
 
   Map<String, dynamic> toJson() {
     final Map<String, dynamic> data = new Map<String, dynamic>();
-    data['name'] = this.name;
     data['profile_image'] = this.profileImage;
     data['email'] = this.email;
+    data['name'] = this.name;
     return data;
   }
 }

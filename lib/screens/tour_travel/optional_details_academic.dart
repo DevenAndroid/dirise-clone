@@ -10,6 +10,7 @@ import 'package:flutter/widgets.dart';
 import 'package:get/get.dart';
 import 'package:google_fonts/google_fonts.dart';
 
+import '../../controller/profile_controller.dart';
 import '../../controller/vendor_controllers/add_product_controller.dart';
 import '../../model/common_modal.dart';
 import '../../repository/repository.dart';
@@ -20,7 +21,20 @@ import '../../widgets/common_textfield.dart';
 import 'eligible_customer_academic.dart';
 
 class OptionalDetailsTourAndTravel extends StatefulWidget {
-  const OptionalDetailsTourAndTravel({super.key});
+  int? id;
+  String? locationController;
+  String? hostNameController;
+  String? programNameController;
+  String? programGoalController;
+  String? programDescription;
+  OptionalDetailsTourAndTravel(
+      {super.key,
+        this.id,
+        this.locationController,
+        this.programDescription,
+        this.hostNameController,
+        this.programGoalController,
+        this.programNameController});
 
   @override
   State<OptionalDetailsTourAndTravel> createState() => _OptionalDetailsTourAndTravelState();
@@ -58,12 +72,24 @@ class _OptionalDetailsTourAndTravelState extends State<OptionalDetailsTourAndTra
         showToast(response.message.toString());
 
         if (formKey1.currentState!.validate()) {
-          Get.to(() => const SponsorsScreenTourAndTravel());
+          Get.to(() =>  SponsorsScreenTourAndTravel());
         }
       }
     });
   }
-
+  @override
+  void initState() {
+    // TODO: implement initState
+    super.initState();
+    if(widget.id != null){
+      locationController.text = widget.locationController.toString();
+      hostNameController.text  =  widget.hostNameController.toString();
+      programNameController.text =  widget.programNameController.toString();
+      programGoalController.text = widget.programGoalController.toString();
+      programDescription.text = widget.programDescription.toString();
+    }
+  }
+  final profileController = Get.put(ProfileController());
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -72,13 +98,25 @@ class _OptionalDetailsTourAndTravelState extends State<OptionalDetailsTourAndTra
         surfaceTintColor: Colors.white,
         elevation: 0,
         leading: GestureDetector(
-          onTap: () {
+          onTap: (){
             Get.back();
           },
-          child: const Icon(
-            Icons.arrow_back_ios_new,
-            color: Color(0xff0D5877),
-            size: 16,
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.center,
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: [
+              profileController.selectedLAnguage.value != 'English' ?
+              Image.asset(
+                'assets/images/forward_icon.png',
+                height: 19,
+                width: 19,
+              ) :
+              Image.asset(
+                'assets/images/back_icon_new.png',
+                height: 19,
+                width: 19,
+              ),
+            ],
           ),
         ),
         titleSpacing: 0,
@@ -226,7 +264,7 @@ class _OptionalDetailsTourAndTravelState extends State<OptionalDetailsTourAndTra
                 const SizedBox(height: 20),
                 GestureDetector(
                   onTap: () {
-                    Get.to(() => const SponsorsScreenTourAndTravel());
+                    Get.to(() =>  SponsorsScreenTourAndTravel());
                   },
                   child: Container(
                     width: Get.width,
