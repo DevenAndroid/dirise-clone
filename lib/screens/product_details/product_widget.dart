@@ -60,7 +60,7 @@ class _ProductUIState extends State<ProductUI> {
       showToast(response.message);
       if (response.status == true) {
         wishListController.getYourWishList();
-        wishListController.favoriteItems.add(  widget.productElement.id.toString());
+        wishListController.favoriteItems.add(widget.productElement.id.toString());
         wishListController.updateFav;
       }
     });

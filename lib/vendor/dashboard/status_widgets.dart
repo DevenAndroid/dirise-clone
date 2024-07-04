@@ -55,10 +55,7 @@ class _StatusWidgetState extends State<StatusWidget> {
                                     ),
                                   )
                                 : Text(
-                                    vendorProfileController.model.user!.vendorPublishStatus
-                                        .toString()
-                                        .capitalizeFirst
-                                        .toString(),
+                                    vendorProfileController.model.user!.vendorPublishStatus.toString().capitalizeFirst.toString(),
                                     style: titleStyle.copyWith(
                                         fontWeight: FontWeight.w500,
                                         color: Colors.red

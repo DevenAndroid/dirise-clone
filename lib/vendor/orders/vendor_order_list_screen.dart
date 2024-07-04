@@ -160,9 +160,9 @@ class _VendorOrderListState extends State<VendorOrderList> {
                           ),
                           Container(
                               decoration: BoxDecoration(
-                                color: AppTheme.buttonColor,
+                                color: AppTheme.newPrimaryColor,
                                 borderRadius: BorderRadius.circular(6),
-                                border: Border.all(color: Colors.white24),
+                                border: Border.all(color: AppTheme.buttonColor),
                               ),
                               margin: const EdgeInsets.symmetric(horizontal: 16),
                               child: Padding(
@@ -180,10 +180,10 @@ class _VendorOrderListState extends State<VendorOrderList> {
                                       
                                             return Text(
                                               vendorProfileController.model.user != null
-                                                  ? "kwd${vendorProfileController.model.user!.earnedBalance.toString()}"
+                                                  ? "kwd${vendorProfileController.model.user!.earnedBalance ?? ' 0'}"
                                                   : "",
                                               style: Theme.of(context).textTheme.headlineSmall!.copyWith(
-                                                  fontWeight: FontWeight.w600, fontSize: 28, color: Colors.white),
+                                                  fontWeight: FontWeight.w600, fontSize: 28, color: Colors.black),
                                             );
                                           }),
                                           SizedBox(
@@ -196,7 +196,7 @@ class _VendorOrderListState extends State<VendorOrderList> {
                                             style: Theme.of(context).textTheme.headlineSmall!.copyWith(
                                                 fontWeight: FontWeight.w400,
                                                 fontSize: AddSize.font14,
-                                                color: Colors.white),
+                                                color: Colors.black),
                                           ),
 
                                         ],

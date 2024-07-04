@@ -343,8 +343,8 @@ class _PublishPostScreenState extends State<PublishPostScreen> {
                                                   showActionSheet(context);
                                                 },
                                                 child: Image.asset(
-                                                  'assets/images/gallery.png',
-                                                  width: 25,
+                                                  'assets/images/gallery-news.png',
+                                                  width: 26,
                                                 )),
                                             const SizedBox(
                                               width: 12,
@@ -360,7 +360,7 @@ class _PublishPostScreenState extends State<PublishPostScreen> {
                                                 },
                                                 child: Image.asset(
                                                   'assets/images/play-cricle.png',
-                                                  width: 27,
+                                                  width: 28,
                                                 )),
                                           ],
                                         ),
@@ -664,7 +664,7 @@ class _PublishPostScreenState extends State<PublishPostScreen> {
                                                           context: context,
                                                           builder: (BuildContext context) => AlertDialog(
                                                             title: const Text('Delete Post'),
-                                                            content: const Text('Do You Want To Delete Your Post'),
+                                                            content: const Text('Do you want to delete your post'),
                                                             actions: <Widget>[
                                                               TextButton(
                                                                 onPressed: () => Get.back(),
