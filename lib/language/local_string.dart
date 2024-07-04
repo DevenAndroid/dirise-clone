@@ -708,11 +708,13 @@ class LocaleString extends Translations {
           'Please enter your name' : 'Please enter your name',
           'Please enter phone number' : 'Please enter phone number',
           'Verify Otp' : 'Verify Otp',
+          'Vendor Profile' : 'Vendor Profile',
        },
 
 
 
      'ar_AR': {
+       'Vendor Profile' : 'ملف تعريف البائع',
        'Verify Otp' : 'التحقق من Otp',
          'Please type a valid email address' : 'الرجاء كتابة عنوان بريد إلكتروني صالح',
         'Please enter phone number':'الرجاء إدخال رقم الهاتف',
