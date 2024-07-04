@@ -405,7 +405,7 @@ class _TellUsScreenState extends State<TellUsScreen> {
                         style: TextStyle(
                           fontSize: 16,
                           fontWeight: FontWeight.bold,
-                          color: Colors.black, // Text color
+                          color: AppTheme.buttonColor, // Text color
                         ),
                       ),
                     ),

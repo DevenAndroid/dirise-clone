@@ -133,7 +133,7 @@ class _ServiceOptionalScreenState extends State<ServiceOptionalScreen> {
         child: Form(
           key: formKey1,
           child: Container(
-            margin: EdgeInsets.only(left: 15, right: 15),
+            margin: const EdgeInsets.only(left: 15, right: 15),
             child: Column(
               children: [
                 TextFormField(
@@ -175,6 +175,7 @@ class _ServiceOptionalScreenState extends State<ServiceOptionalScreen> {
                     ),
                   ),
                 ),
+                const SizedBox(height: 10,),
                 CommonTextField(
                     controller: metaTitleController,
                     obSecure: false,
@@ -187,13 +188,17 @@ class _ServiceOptionalScreenState extends State<ServiceOptionalScreen> {
                     },
 
                 ),
+                const SizedBox(height: 10,),
                 TextFormField(
                   maxLines: 2,
                   controller: metaDescriptionController,
                   minLines: 2,
                   validator: (value) {
                     if (value!.trim().isEmpty) {
-                      return "Meta Description is required".tr;
+                      return 'Meta description is required'.tr;
+                    }
+                    if (value.trim().length < 15) {
+                      return 'Meta description must be at least 15 characters long'.tr;
                     }
                     return null;
                   },
@@ -231,6 +236,7 @@ class _ServiceOptionalScreenState extends State<ServiceOptionalScreen> {
                     ),
                   ),
                 ),
+                const SizedBox(height: 10,),
                 CommonTextField(
                     controller: metaTagsController,
                     obSecure: false,
@@ -242,6 +248,7 @@ class _ServiceOptionalScreenState extends State<ServiceOptionalScreen> {
                       return null;
                     },
                     ),
+                const SizedBox(height: 10,),
                 CommonTextField(
                     controller: taxController,
                     obSecure: false,
@@ -255,6 +262,7 @@ class _ServiceOptionalScreenState extends State<ServiceOptionalScreen> {
                     },
 
                 ),
+                const SizedBox(height: 10,),
                 const SizedBox(height: 20),
                 CustomOutlineButton(
                   title: 'Next',

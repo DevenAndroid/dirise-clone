@@ -64,7 +64,7 @@ class _CreateAccountNewScreenState extends State<CreateAccountNewScreen> {
     map['password'] = _passwordController.text.trim();
     map['confirm_password'] = _confirmPasswordController.text.trim();
     map['phone'] = phoneNumberController.text.trim();
-    map['phone_country_code'] = code;
+    map['phone_country_code'] = profileController.code;
     FocusManager.instance.primaryFocus!.unfocus();
     repositories.postApi(url: ApiUrls.newRegisterUrl, context: context, mapData: map).then((value) {
       ModelCommonResponse response = ModelCommonResponse.fromJson(jsonDecode(value));
@@ -226,7 +226,7 @@ class _CreateAccountNewScreenState extends State<CreateAccountNewScreen> {
                       return 'Please enter your first name'.tr;
                     }
                     if (value.trim().length < 3) {
-                      return 'Please enter at least 3 latter\'s'.tr;
+                      return 'Please enter at least 3 letter\'s'.tr;
                     }
                     return null;
                   },
@@ -244,7 +244,7 @@ class _CreateAccountNewScreenState extends State<CreateAccountNewScreen> {
                       return 'Last Name is required'.tr;
                     }
                     if (value.trim().length < 3) {
-                      return 'Please enter at least 3 latter\'s'.tr;
+                      return 'Please enter at least 3 letter\'s'.tr;
                     }
                     return null;
                   },
@@ -295,7 +295,7 @@ class _CreateAccountNewScreenState extends State<CreateAccountNewScreen> {
                       enabledBorder: const OutlineInputBorder(borderSide: BorderSide(color: AppTheme.shadowColor)),
                       focusedBorder: const OutlineInputBorder(borderSide: BorderSide(color: AppTheme.shadowColor))),
                   initialCountryCode: profileController.code.toString(),
-                  languageCode: '+91',
+                  languageCode:  profileController.code,
                   onCountryChanged: (phone) {
                     profileController.code = phone.code;
                     print(phone.code);

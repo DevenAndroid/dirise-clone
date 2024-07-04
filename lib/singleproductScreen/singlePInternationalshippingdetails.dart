@@ -55,21 +55,16 @@ class _SinglePInternationalshippingdetailsScreenState extends State<SinglePInter
   TextEditingController weightController = TextEditingController();
   TextEditingController numberOfPackagesController = TextEditingController();
 
-  List<String> itemList = [
-    'Item 1',
-    'Item 2',
-    'Item 3',
-    'Item 4',
-    'Item 5',
-  ];
 
   final serviceController = Get.put(ServiceController());
-  String unitOfMeasure = 'cm/kg';
+  String unitOfMeasure = 'Cm/Kg';
+  Map<String, String> unitOfMeasureMap = {
+    'Cm/Kg': 'cm/kg',
+    'Lb/Inch': 'inch/lb'
+  };
   List<String> unitOfMeasureList = [
-    'cm/kg',
-    'lb/inch',
-    'Kilogram (kg)'
-        'Pound (lb)'
+    'Cm/Kg',
+    'Lb/Inch',
   ];
 
   String selectNumberOfPackages = '1';
@@ -100,14 +95,14 @@ class _SinglePInternationalshippingdetailsScreenState extends State<SinglePInter
     'Plywood',
   ];
 
-  String selectTypeOfPackaging = 'fedex 10kg box';
+  String selectTypeOfPackaging = 'your packaging';
+  Map<String, String> selectTypeOfPackagingMap = {
+    'your packaging': 'your_packaging',
+    'custom packaging': 'custom_packaging'
+  };
   List<String> selectTypeOfPackagingList = [
-    'fedex 10kg box',
-    'fedex 25kg box',
-    'fedex box',
-    'fedex Envelop',
-    'fedex pak',
-    'fedex Tube',
+    'your packaging',
+    'custom packaging',
   ];
   final formKey = GlobalKey<FormState>();
   RxBool hide = true.obs;
@@ -119,7 +114,7 @@ class _SinglePInternationalshippingdetailsScreenState extends State<SinglePInter
   final addProductController = Get.put(AddProductController());
   shippingDetailsApi() {
     Map<String, dynamic> map = {};
-    map['weight_unit'] = unitOfMeasure;
+    map['weight_unit'] = unitOfMeasureMap[unitOfMeasure];
     map['item_type'] = 'product';
     map['weight'] = weightController.text.trim();
     map['number_of_package'] = numberOfPackagesController.text.trim();
@@ -127,8 +122,7 @@ class _SinglePInternationalshippingdetailsScreenState extends State<SinglePInter
     map['box_length'] = dimensionController.text.trim();
     map['box_width'] = dimensionWidthController.text.trim();
     map['box_height'] = dimensionHeightController.text.trim();
-    map['type_of_packages'] = selectTypeOfPackaging;
-    map['number_of_package'] = selectedItem;
+    map['type_of_packages'] = selectTypeOfPackagingMap[selectTypeOfPackaging];
     map['id'] = addProductController.idProduct.value.toString();
 
     FocusManager.instance.primaryFocus!.unfocus();

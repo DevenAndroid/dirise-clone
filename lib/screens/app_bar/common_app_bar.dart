@@ -28,7 +28,6 @@ class CommonAppBar extends StatelessWidget implements PreferredSizeWidget {
           'assets/images/back_icon_new.png',
           height: 19,
           width: 19,
-          color: Colors.white,
         ),
       )
           : Padding(

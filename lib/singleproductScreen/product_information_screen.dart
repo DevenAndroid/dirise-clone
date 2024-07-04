@@ -359,6 +359,14 @@ class _ProductInformationScreensState extends State<ProductInformationScreens> {
               const SizedBox(
                 height: 10,
               ),
+              productCategoryModel.value.data != null ?
+              Text(
+                'Filters(Optional)'.tr,
+                style: GoogleFonts.poppins(color: Colors.black, fontWeight: FontWeight.w600, fontSize: 16),
+              ) : SizedBox(),
+              const SizedBox(
+                height: 15,
+              ),
               Obx(() {
                 return
                   productCategoryModel.value.data != null ?
@@ -369,13 +377,7 @@ class _ProductInformationScreensState extends State<ProductInformationScreens> {
                         Column(
                           crossAxisAlignment: CrossAxisAlignment.start,
                           children: [
-                            Text(
-                              'Filters(Optional)'.tr,
-                              style: GoogleFonts.poppins(color: Colors.black, fontWeight: FontWeight.w600, fontSize: 16),
-                            ),
-                            const SizedBox(
-                              height: 15,
-                            ),
+
                             Text(
                               e.title.toString(),
                               style: normalStyle,

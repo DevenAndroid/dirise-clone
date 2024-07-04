@@ -197,7 +197,10 @@ class _OptionalScreenState extends State<OptionalScreen> {
                     if (value!.trim().isEmpty) {
                       return 'Meta description is required'.tr;
                     }
-                    return null; // Return null if validation passes
+                    if (value.trim().length < 15) {
+                      return 'Meta description must be at least 15 characters long'.tr;
+                    }
+                    return null;
                   },
                   decoration: InputDecoration(
                     counterStyle: GoogleFonts.poppins(

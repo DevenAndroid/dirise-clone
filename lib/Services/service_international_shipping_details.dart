@@ -53,12 +53,14 @@ class _ServiceInternationalShippingServiceState extends State<ServiceInternation
   // Default selected item\
 
 
-  String unitOfMeasure = 'cm/kg';
+  String unitOfMeasure = 'Cm/Kg';
+  Map<String, String> unitOfMeasureMap = {
+    'Cm/Kg': 'cm/kg',
+    'Lb/Inch': 'inch/lb'
+  };
   List<String> unitOfMeasureList = [
-    'cm/kg',
-    'lb/inch',
-    'Kilogram (kg)'
-    'Pound (lb)'
+    'Cm/Kg',
+    'Lb/Inch',
   ];
 
   String selectNumberOfPackages  = '1';
@@ -89,14 +91,14 @@ class _ServiceInternationalShippingServiceState extends State<ServiceInternation
     'Plywood',
   ];
 
-  String selectTypeOfPackaging   = 'fedex 10kg box';
+  String selectTypeOfPackaging = 'your packaging';
+  Map<String, String> selectTypeOfPackagingMap = {
+    'your packaging': 'your_packaging',
+    'custom packaging': 'custom_packaging'
+  };
   List<String> selectTypeOfPackagingList = [
-    'fedex 10kg box',
-    'fedex 25kg box',
-    'fedex box',
-    'fedex Envelop',
-    'fedex pak',
-    'fedex Tube',
+    'your packaging',
+    'custom packaging',
   ];
 
   TextEditingController dimensionController = TextEditingController();
@@ -281,6 +283,7 @@ class _ServiceInternationalShippingServiceState extends State<ServiceInternation
                     validator: MultiValidator([
                       RequiredValidator(errorText: 'Product Name is required'.tr),
                     ])),
+                SizedBox(height: 10,),
                 DropdownButtonFormField<String>(
                   value: selectTypeMaterial,
                   onChanged: (String? newValue) {

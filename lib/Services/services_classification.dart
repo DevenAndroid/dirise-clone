@@ -118,6 +118,7 @@ class _ServiceClassificationScreenState extends State<ServiceClassificationScree
                     validator: MultiValidator([
                       RequiredValidator(errorText: 'Serial Number is required'),
                     ])),
+                const SizedBox(height: 10,),
                 CommonTextField(
                     controller: serviceController.productNumber1Controller,
                     obSecure: false,
@@ -125,6 +126,7 @@ class _ServiceClassificationScreenState extends State<ServiceClassificationScree
                     validator: MultiValidator([
                       RequiredValidator(errorText: 'Product number is required'),
                     ])),
+                const SizedBox(height: 10,),
                 CommonTextField(
                     controller: serviceController.productCode1Controller,
                     obSecure: false,
@@ -133,6 +135,7 @@ class _ServiceClassificationScreenState extends State<ServiceClassificationScree
                     validator: MultiValidator([
                       RequiredValidator(errorText: 'Product Code is required'),
                     ])),
+                const SizedBox(height: 10,),
                 CommonTextField(
                     controller: serviceController.promotionCode1Controller,
                     obSecure: false,
@@ -141,6 +144,7 @@ class _ServiceClassificationScreenState extends State<ServiceClassificationScree
                     validator: MultiValidator([
                       RequiredValidator(errorText: 'Promotion Code is required'),
                     ])),
+                const SizedBox(height: 10,),
                 TextFormField(
                   controller: serviceController.packageDetails1Controller,
                   maxLines: 2,

@@ -1,3 +1,6 @@
+import 'dart:convert';
+import 'dart:developer';
+
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:dirise/language/app_strings.dart';
 import 'package:dirise/screens/product_details/product_widget.dart';
@@ -9,7 +12,12 @@ import 'package:google_fonts/google_fonts.dart';
 
 import '../../controller/home_controller.dart';
 import '../../controller/profile_controller.dart';
+import '../../controller/wish_list_controller.dart';
+import '../../model/common_modal.dart';
+import '../../repository/repository.dart';
+import '../../utils/api_constant.dart';
 import '../../widgets/common_colour.dart';
+import '../../widgets/like_button.dart';
 
 class ShowCaseProducts extends StatefulWidget {
   const ShowCaseProducts({super.key});
@@ -21,6 +29,12 @@ class ShowCaseProducts extends StatefulWidget {
 class _ShowCaseProductsState extends State<ShowCaseProducts> {
   final homeController = Get.put(TrendingProductsController());
   final profileController = Get.put(ProfileController());
+  final Repositories repositories = Repositories();
+
+
+
+  final wishListController = Get.put(WishListController());
+
   @override
   Widget build(BuildContext context) {
     var size = MediaQuery.of(context).size;
@@ -140,12 +154,60 @@ SizedBox(width: 20,),
                                             Text("Kuwait City", style: GoogleFonts.poppins(fontSize: 14, fontWeight: FontWeight.w400,color: Color(0xFF19313C)),
                                             ),
                                             SizedBox(width: 5,),
-                                            Icon(
-                                            Icons.favorite_border_rounded,
-                                              // color: widget.isLiked ? Colors.red : Colors.grey.shade700,
-                                              color:  Colors.red,
-                                              size: 20,
-                                            )
+                                            Obx(() {
+                                              if (wishListController.refreshFav.value > 0) {}
+                                              return Padding(
+                                                padding: const EdgeInsets.only(top: 8.0),
+                                                child: LikeButtonCat(
+                                                  onPressed: () {
+                                                    setState(() {
+
+                                                    });
+                                                    log('wishlist id iss${item.id.toString()}');
+                                                    if (wishListController.favoriteItems.contains(item.id.toString())) {
+                                                      setState(() {
+
+                                                      });
+                                                      repositories
+                                                          .postApi(
+                                                          url: ApiUrls.removeFromWishListUrl,
+                                                          mapData: {
+                                                            "product_id": item.id.toString(),
+                                                          },
+                                                          context: context)
+                                                          .then((value) {
+                                                        ModelCommonResponse response = ModelCommonResponse.fromJson(jsonDecode(value));
+                                                        showToast(response.message);
+                                                        if (response.status == true) {
+                                                          wishListController.getYourWishList();
+                                                          wishListController.updateFav;
+                                                        }
+                                                      });
+                                                    } else {
+                                                      setState(() {
+
+                                                      });
+                                                      repositories
+                                                          .postApi(
+                                                          url: ApiUrls.addToWishListUrl,
+                                                          mapData: {
+                                                            "product_id": item.id.toString(),
+                                                          },
+                                                          context: context)
+                                                          .then((value) {
+                                                        ModelCommonResponse response = ModelCommonResponse.fromJson(jsonDecode(value));
+                                                        showToast(response.message);
+                                                        if (response.status == true) {
+                                                          wishListController.getYourWishList();
+                                                          wishListController.updateFav;
+                                                        }
+                                                      });
+                                                    }
+                                                  },
+                                                  isLiked: wishListController.favoriteItems.contains(item.id.toString()),
+                                                ),
+                                              );
+                                            }),
                                           ],
                                         ),
                                         SizedBox(height: 10,),

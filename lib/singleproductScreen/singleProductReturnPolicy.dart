@@ -94,14 +94,14 @@ class _SingleProductReturnPolicyState extends State<SingleProductReturnPolicy> {
     map['policy_description'] = descController.text.trim();
     map['return_shipping_fees'] = radioButtonValue.toString();
     map['no_return'] = noReturnSelected;
-    map['id'] = addProductController.idProduct.value.toString();
 
     FocusManager.instance.primaryFocus!.unfocus();
     repositories.postApi(url: ApiUrls.returnPolicyUrl, context: context, mapData: map).then((value) {
       ModelCommonResponse response = ModelCommonResponse.fromJson(jsonDecode(value));
       showToast(response.message.toString());
       if (response.status == true) {
-        Get.to(() =>  SingleProductDeliverySize());
+        // Refresh the return policy dropdown
+        getReturnPolicyData();
         showToast(response.message.toString());
       }
     });
@@ -111,6 +111,7 @@ class _SingleProductReturnPolicyState extends State<SingleProductReturnPolicy> {
     Map<String, dynamic> map = {};
     map['return_policy_desc'] = selectedReturnPolicy!.id.toString();
     map['item_type'] = 'product';
+    map['id'] = addProductController.idProduct.value.toString();
 
     FocusManager.instance.primaryFocus!.unfocus();
     repositories.postApi(url: ApiUrls.giveawayProductAddress, context: context, mapData: map).then((value) {
@@ -527,9 +528,10 @@ class _SingleProductReturnPolicyState extends State<SingleProductReturnPolicy> {
                     onPressed: () {
                       if (noReturnSelected == false) {
                         if (formKey1.currentState!.validate()) {
+
                           if (radioButtonValue != '') {
                             if (returnSelectId.isEmpty) {
-                              returnPolicyApi();
+                            returnPolicyApi();
                             } else {
                               nextPageApi();
                             }

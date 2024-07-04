@@ -638,7 +638,7 @@ class _WhatdoyousellScreenState extends State<WhatdoyousellScreen> {
                           decoration: BoxDecoration(
                             border: Border.all(
                               color: const Color(0xff0D5877), // Border color
-                              width: 1.0, // Border width
+                              width: 2.0, // Border width
                             ),
                             borderRadius: BorderRadius.circular(2), // Border radius
                           ),
@@ -650,7 +650,7 @@ class _WhatdoyousellScreenState extends State<WhatdoyousellScreen> {
                               style: const TextStyle(
                                 fontSize: 16,
                                 fontWeight: FontWeight.bold,
-                                color: Colors.black, // Text color
+                                color: AppTheme.buttonColor, // Text color
                               ),
                             ),
                           ),
