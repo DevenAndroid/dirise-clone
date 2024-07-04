@@ -374,6 +374,7 @@ class _MyHomePageState extends State<MyHomePage> {
       home: Scaffold(
         key: _scaffoldKey,
         appBar: AppBar(
+          backgroundColor: AppTheme.newPrimaryColor,
           title: const Text('Freshchat Flutter Demo'),
         ),
         body: Builder(
