@@ -455,91 +455,91 @@ class _VirtualReviewandPublishScreenState extends State<VirtualReviewandPublishS
                       const SizedBox(
                         height: 20,
                       ),
-                      GestureDetector(
-                        onTap: () {
-                          setState(() {
-                            optionalClassification.toggle();
-                          });
-                        },
-                        child: Container(
-                          padding: const EdgeInsets.symmetric(vertical: 12, horizontal: 12),
-                          decoration: BoxDecoration(
-                              color: Colors.white,
-                              borderRadius: BorderRadius.circular(8),
-                              border: Border.all(color: AppTheme.secondaryColor)),
-                          child: Row(
-                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                            children: [
-                              Text(
-                                'Optional Classification',
-                                style: GoogleFonts.poppins(
-                                  color: AppTheme.primaryColor,
-                                  fontSize: 15,
-                                ),
-                              ),
-                              GestureDetector(
-                                child: optionalClassification.value == true
-                                    ? const Icon(Icons.keyboard_arrow_up_rounded)
-                                    : const Icon(Icons.keyboard_arrow_down_outlined),
-                                onTap: () {
-                                  setState(() {
-                                    optionalClassification.toggle();
-                                  });
-                                },
-                              ),
-                            ],
-                          ),
-                        ),
-                      ),
-                      if (optionalClassification.value == true)
-                        Stack(
-                          children: [
-                            Container(
-                              margin: EdgeInsets.only(top: 10),
-                              width: Get.width,
-                              padding: EdgeInsets.all(10),
-                              decoration:
-                                  BoxDecoration(color: Colors.grey.shade200, borderRadius: BorderRadius.circular(11)),
-                              child: Column(
-                                mainAxisAlignment: MainAxisAlignment.start,
-                                crossAxisAlignment: CrossAxisAlignment.start,
-                                children: [
-                                  Text(
-                                      'Serial Number: ${productDetailsModel.value.productDetails!.product!.serialNumber ?? ""}'),
-                                  Text(
-                                      'Product Number: ${productDetailsModel.value.productDetails!.product!.productNumber ?? ""}'),
-                                  Text(
-                                      'Product Code: ${productDetailsModel.value.productDetails!.product!.productCode ?? ""}'),
-                                  Text(
-                                      'Promotion Code: ${productDetailsModel.value.productDetails!.product!.promotionCode ?? ""}'),
-                                  Text(
-                                      'Package details: ${productDetailsModel.value.productDetails!.product!.packageDetail ?? ""}'),
-                                ],
-                              ),
-                            ),
-                            Positioned(
-                                right: 10,
-                                top: 20,
-                                child: GestureDetector(
-                                    onTap: () {
-                                      Get.to(VirtualOptionalClassificationScreen(
-                                        id: productDetailsModel.value.productDetails!.product!.id,
-                                        packageDetail: productDetailsModel.value.productDetails!.product!.packageDetail,
-                                        productCode: productDetailsModel.value.productDetails!.product!.productCode,
-                                        productNumber: productDetailsModel.value.productDetails!.product!.productNumber,
-                                        promotionCode: productDetailsModel.value.productDetails!.product!.promotionCode,
-                                        serialNumber: productDetailsModel.value.productDetails!.product!.serialNumber,
-                                      ));
-                                    },
-                                    child: const Text(
-                                      'Edit',
-                                      style: TextStyle(color: Colors.red, fontSize: 13),
-                                    )))
-                          ],
-                        ),
-                      const SizedBox(
-                        height: 20,
-                      ),
+                      // GestureDetector(
+                      //   onTap: () {
+                      //     setState(() {
+                      //       optionalClassification.toggle();
+                      //     });
+                      //   },
+                      //   child: Container(
+                      //     padding: const EdgeInsets.symmetric(vertical: 12, horizontal: 12),
+                      //     decoration: BoxDecoration(
+                      //         color: Colors.white,
+                      //         borderRadius: BorderRadius.circular(8),
+                      //         border: Border.all(color: AppTheme.secondaryColor)),
+                      //     child: Row(
+                      //       mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      //       children: [
+                      //         Text(
+                      //           'Optional Classification',
+                      //           style: GoogleFonts.poppins(
+                      //             color: AppTheme.primaryColor,
+                      //             fontSize: 15,
+                      //           ),
+                      //         ),
+                      //         GestureDetector(
+                      //           child: optionalClassification.value == true
+                      //               ? const Icon(Icons.keyboard_arrow_up_rounded)
+                      //               : const Icon(Icons.keyboard_arrow_down_outlined),
+                      //           onTap: () {
+                      //             setState(() {
+                      //               optionalClassification.toggle();
+                      //             });
+                      //           },
+                      //         ),
+                      //       ],
+                      //     ),
+                      //   ),
+                      // ),
+                      // if (optionalClassification.value == true)
+                      //   Stack(
+                      //     children: [
+                      //       Container(
+                      //         margin: EdgeInsets.only(top: 10),
+                      //         width: Get.width,
+                      //         padding: EdgeInsets.all(10),
+                      //         decoration:
+                      //             BoxDecoration(color: Colors.grey.shade200, borderRadius: BorderRadius.circular(11)),
+                      //         child: Column(
+                      //           mainAxisAlignment: MainAxisAlignment.start,
+                      //           crossAxisAlignment: CrossAxisAlignment.start,
+                      //           children: [
+                      //             Text(
+                      //                 'Serial Number: ${productDetailsModel.value.productDetails!.product!.serialNumber ?? ""}'),
+                      //             Text(
+                      //                 'Product Number: ${productDetailsModel.value.productDetails!.product!.productNumber ?? ""}'),
+                      //             Text(
+                      //                 'Product Code: ${productDetailsModel.value.productDetails!.product!.productCode ?? ""}'),
+                      //             Text(
+                      //                 'Promotion Code: ${productDetailsModel.value.productDetails!.product!.promotionCode ?? ""}'),
+                      //             Text(
+                      //                 'Package details: ${productDetailsModel.value.productDetails!.product!.packageDetail ?? ""}'),
+                      //           ],
+                      //         ),
+                      //       ),
+                      //       Positioned(
+                      //           right: 10,
+                      //           top: 20,
+                      //           child: GestureDetector(
+                      //               onTap: () {
+                      //                 Get.to(VirtualOptionalClassificationScreen(
+                      //                   id: productDetailsModel.value.productDetails!.product!.id,
+                      //                   packageDetail: productDetailsModel.value.productDetails!.product!.packageDetail,
+                      //                   productCode: productDetailsModel.value.productDetails!.product!.productCode,
+                      //                   productNumber: productDetailsModel.value.productDetails!.product!.productNumber,
+                      //                   promotionCode: productDetailsModel.value.productDetails!.product!.promotionCode,
+                      //                   serialNumber: productDetailsModel.value.productDetails!.product!.serialNumber,
+                      //                 ));
+                      //               },
+                      //               child: const Text(
+                      //                 'Edit',
+                      //                 style: TextStyle(color: Colors.red, fontSize: 13),
+                      //               )))
+                      //     ],
+                      //   ),
+                      // const SizedBox(
+                      //   height: 20,
+                      // ),
 
                       CustomOutlineButton(
                         title: 'Confirm',

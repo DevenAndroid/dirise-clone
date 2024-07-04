@@ -147,6 +147,7 @@ class _OptionalColloectionScreenState extends State<OptionalColloectionScreen> {
                     return null;
                   },
                 ),
+                const SizedBox(height: 10,),
                 CommonTextField(
                   controller: productNumberController,
                   obSecure: false,
@@ -158,6 +159,7 @@ class _OptionalColloectionScreenState extends State<OptionalColloectionScreen> {
                     return null;
                   },
                 ),
+                const SizedBox(height: 10,),
                 CommonTextField(
                   controller: productCodeController,
                   obSecure: false,
@@ -169,6 +171,7 @@ class _OptionalColloectionScreenState extends State<OptionalColloectionScreen> {
                     return null;
                   },
                 ),
+                const SizedBox(height: 10,),
                 CommonTextField(
                   controller: promotionCodeController,
                   obSecure: false,
@@ -180,6 +183,7 @@ class _OptionalColloectionScreenState extends State<OptionalColloectionScreen> {
                     return null;
                   },
                 ),
+                const SizedBox(height: 10,),
                 TextFormField(
                   controller: packageDetailsController,
                   maxLines: 5,

@@ -490,6 +490,7 @@ class _ItemDetailsScreensState extends State<ItemDetailsScreens> {
                         .toList(),
                   ) : const SizedBox();
               }),
+
               const SizedBox(
                 height: 20,
               ),

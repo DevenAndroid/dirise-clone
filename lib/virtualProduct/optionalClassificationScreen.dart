@@ -67,9 +67,9 @@ class _VirtualOptionalClassificationScreenState extends State<VirtualOptionalCla
       showToast(response.message.toString());
       if (response.status == true) {
         if(widget.id != null){
-          Get.to(VirtualReviewandPublishScreen());
+          Get.to(const VirtualReviewandPublishScreen());
         }else{
-          Get.to(VirtualReviewandPublishScreen());
+          Get.to(const VirtualReviewandPublishScreen());
         }
 
       }
@@ -148,6 +148,7 @@ class _VirtualOptionalClassificationScreenState extends State<VirtualOptionalCla
                     return null;
                   },
                 ),
+                const SizedBox(height: 10,),
                 CommonTextField(
                   controller: productNumberController,
                   obSecure: false,
@@ -159,6 +160,7 @@ class _VirtualOptionalClassificationScreenState extends State<VirtualOptionalCla
                     return null;
                   },
                 ),
+                const SizedBox(height: 10,),
                 CommonTextField(
                   controller: productCodeController,
                   obSecure: false,
@@ -170,6 +172,7 @@ class _VirtualOptionalClassificationScreenState extends State<VirtualOptionalCla
                     return null;
                   },
                 ),
+                const SizedBox(height: 10,),
                 CommonTextField(
                   controller: promotionCodeController,
                   obSecure: false,
@@ -181,6 +184,7 @@ class _VirtualOptionalClassificationScreenState extends State<VirtualOptionalCla
                     return null;
                   },
                 ),
+                const SizedBox(height: 10,),
                 TextFormField(
                   controller: packageDetailsController,
                   maxLines: 5,

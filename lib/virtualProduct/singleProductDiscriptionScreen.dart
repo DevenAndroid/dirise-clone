@@ -121,6 +121,15 @@ class _VirtualDiscriptionScreenState extends State<VirtualDiscriptionScreen> {
                   controller: shortController,
                   maxLines: 2,
                   minLines: 2,
+                  validator: (value) {
+                    if (value!.trim().isEmpty) {
+                      return 'description is required'.tr;
+                    }
+                    if (value.trim().length < 15) {
+                      return 'description must be at least 15 characters long'.tr;
+                    }
+                    return null;
+                  },
                   decoration: InputDecoration(
 
                     counterStyle: GoogleFonts.poppins(
