@@ -135,7 +135,7 @@ class _HomePageState extends State<HomePage> {
         locationController.state = placemark.administrativeArea ?? '';
         locationController.countryName = placemark.country ?? '';
         locationController.town = placemark.subAdministrativeArea ?? '';
-        showToast(locationController.countryName.toString());
+        // showToast(locationController.countryName.toString());
         errorApi();
       });
 
