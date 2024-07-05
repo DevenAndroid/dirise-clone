@@ -178,25 +178,23 @@ class _BottomNavbarState extends State<BottomNavbar> {
                 }
               },
               child: Container(
-                height: 55,
-                width: 55,
+                padding: const EdgeInsets.all(5.0),
                 decoration: BoxDecoration(
-                  boxShadow: [
-                    BoxShadow(
-                      blurStyle: BlurStyle.solid,
-                      offset: const Offset(1, 0),
-                      color: Colors.grey.withOpacity(.2),
-                      blurRadius: 3,
-                      spreadRadius: 4,
-                    )
-                  ],
-                  color: Colors.white,
-                  borderRadius: BorderRadius.circular(30),
+                  color: Colors.grey.withOpacity(.2),
+                  borderRadius: BorderRadius.circular(100)
                 ),
-                child: Center(
-                  child: SvgPicture.asset(
-                    'assets/svgs/D-Sell-Icon.svg',
-                    height: 30,
+                child: Container(
+                  height: 55,
+                  width: 55,
+                  decoration: BoxDecoration(
+                    color: Colors.white,
+                    borderRadius: BorderRadius.circular(30),
+                  ),
+                  child: Center(
+                    child: SvgPicture.asset(
+                      'assets/svgs/D-Sell-Icon.svg',
+                      height: 30,
+                    ),
                   ),
                 ),
               ),

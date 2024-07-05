@@ -391,6 +391,7 @@ class _SingleCategoriesState extends State<SingleCategories> {
               Text(
                 profileController.selectedLAnguage.value == 'English' ?    mainCategory.name.toString() :
                 mainCategory.arabName.toString(),
+                textAlign: TextAlign.center,
                 style: const TextStyle(
                 fontSize: 13
               ),

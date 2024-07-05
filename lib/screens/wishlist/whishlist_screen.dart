@@ -170,10 +170,12 @@ class _WishListScreenState extends State<WishListScreen> {
                                           const SizedBox(
                                             height: 5,
                                           ),
+                                          if(_wishListController.model.value.wishlist![index].inStock != '-1')
                                           Text(
                                             _wishListController.model.value.wishlist![index].inStock.toString(),
                                             style: GoogleFonts.poppins(color: const Color(0xff858484), fontSize: 16),
                                           ),
+                                          if(_wishListController.model.value.wishlist![index].inStock != '-1')
                                           const SizedBox(
                                             height: 5,
                                           ),
@@ -184,7 +186,7 @@ class _WishListScreenState extends State<WishListScreen> {
                                                 fontWeight: FontWeight.w500,
                                                 color: const Color(0xff014E70)),
                                           ),
-
+                                         if(_wishListController.model.value.wishlist![index].discountPrice.toString() != _wishListController.model.value.wishlist![index].pPrice.toString())
                                           Expanded(
                                             child: Text(
                                               'KWD ${_wishListController.model.value.wishlist![index].pPrice.toString()}',

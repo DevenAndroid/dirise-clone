@@ -55,7 +55,7 @@ class _CartBagCardState extends State<CartBagCard> {
             child: Center(
               child: Text(
                 key: ValueKey(DateTime.now().millisecondsSinceEpoch),
-                cartController.cartModel.totalProducts.toString(),
+                  cartController.cartModel.totalProducts == null ? '0' :   cartController.cartModel.totalProducts.toString(),
                 textAlign: TextAlign.center,
                 style: GoogleFonts.poppins(color: widget.isBlackTheme == true ? Colors.white :Colors.white, fontSize: 8),
               ).animate().scale(duration: 200.ms),

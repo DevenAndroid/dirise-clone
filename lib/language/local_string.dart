@@ -476,7 +476,7 @@ class LocaleString extends Translations {
           'This app collects location data to show your current city and zip code, and also for shipping information, even when the app is closed or not in use.' : 'This app collects location data to show your current city and zip code, and also for shipping information, even when the app is closed or not in use.',
           'Register' : 'Register',
           'Please enter your first name' : 'Please enter your first name',
-          'Please enter at least 3 latter\'s' : 'Please enter at least 3 latter\'s',
+          'Please enter at least 3 letter\'s' : 'Please enter at least 3 letter\'s',
           'Last Name is required' : 'Last Name is required',
           'Password is required' : 'Password is required',
           'Password must be at least 8 characters long' : 'Password must be at least 8 characters long',
@@ -709,11 +709,13 @@ class LocaleString extends Translations {
           'Please enter phone number' : 'Please enter phone number',
           'Verify Otp' : 'Verify Otp',
           'Vendor Profile' : 'Vendor Profile',
+          'Status:' : 'Status:',
        },
 
 
 
      'ar_AR': {
+       'Status:' : 'حالة:',
        'Vendor Profile' : 'ملف تعريف البائع',
        'Verify Otp' : 'التحقق من Otp',
          'Please type a valid email address' : 'الرجاء كتابة عنوان بريد إلكتروني صالح',
@@ -948,7 +950,7 @@ class LocaleString extends Translations {
           'Password must be at least 8 characters long' : 'يجب أن تتكون كلمة المرور من 8 أحرف على الأقل',
           'Password is required' : 'كلمة المرور مطلوبة',
           'Last Name is required' : 'إسم العائلة مطلوب',
-          'Please enter at least 3 latter\'s' : 'الرجاء إدخال 3 الأخيرين على الأقل',
+          'Please enter at least 3 letter\'s' : 'الرجاء إدخال 3 الأخيرين على الأقل',
           'Please enter your first name' : 'يرجى ادخال الاسم الاول',
           'Register' : 'يسجل',
           'This app collects location data to show your current city and zip code, and also for shipping information, even when the app is closed or not in use.' : 'يجمع هذا التطبيق بيانات الموقع لإظهار مدينتك الحالية والرمز البريدي، وكذلك معلومات الشحن، حتى عندما يكون التطبيق مغلقًا أو غير مستخدم.',

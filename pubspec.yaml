@@ -83,6 +83,7 @@ dependencies:
   flutter_exit_app: ^1.1.2
   pdf:
   multiple_images_picker:
+  auto_size_text: ^3.0.0
 
 dev_dependencies:
   flutter_test:

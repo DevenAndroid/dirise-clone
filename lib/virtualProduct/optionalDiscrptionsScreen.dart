@@ -174,6 +174,7 @@ class _VirtualOptionalDiscrptionsScreenState extends State<VirtualOptionalDiscrp
                     ),
                   ),
                 ),
+                SizedBox(height: 10,),
                 CommonTextField(
                   controller: metaTitleController,
                   obSecure: false,
@@ -185,6 +186,7 @@ class _VirtualOptionalDiscrptionsScreenState extends State<VirtualOptionalDiscrp
                     return null; // Return null if validation passes
                   },
                 ),
+                SizedBox(height: 10,),
                 TextFormField(
                   maxLines: 2,
                   controller: metaDescriptionController,
@@ -193,7 +195,10 @@ class _VirtualOptionalDiscrptionsScreenState extends State<VirtualOptionalDiscrp
                     if (value!.trim().isEmpty) {
                       return 'Meta description is required'.tr;
                     }
-                    return null; // Return null if validation passes
+                    if (value.trim().length < 15) {
+                      return 'Meta description must be at least 15 characters long'.tr;
+                    }
+                    return null;
                   },
                   decoration: InputDecoration(
                     counterStyle: GoogleFonts.poppins(
@@ -242,7 +247,7 @@ class _VirtualOptionalDiscrptionsScreenState extends State<VirtualOptionalDiscrp
                 const SizedBox(height: 20),
                 GestureDetector(
                   onTap: () {
-                    Get.to(ReviewPublishScreen());
+                    Get.to(VirtualReviewandPublishScreen());
                   },
                   child: Container(
                     width: Get.width,

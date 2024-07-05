@@ -1,4 +1,5 @@
 import 'dart:convert';
+import 'dart:developer';
 
 import 'package:dirise/singleproductScreen/singleProductReturnPolicy.dart';
 import 'package:dirise/singleproductScreen/virtualProductScreen.dart';
@@ -61,6 +62,7 @@ class _SingleProductDiscriptionScreenState extends State<SingleProductDiscriptio
       print('API Response Status Code: ${response.status}');
       showToast(response.message.toString());
       if (response.status == true) {
+        log("sssssss${response.toJson()}");
         // addProductController.idProduct.value = response.productDetails!.product!.id.toString();
         print(addProductController.idProduct.value.toString());
         if(widget.id != null){
@@ -143,7 +145,10 @@ class _SingleProductDiscriptionScreenState extends State<SingleProductDiscriptio
                 TextFormField(
                   validator: (value) {
                     if (value!.trim().isEmpty) {
-                      return 'short description is required'.tr;
+                      return 'Short description is required'.tr;
+                    }
+                    if (value.trim().length < 15) {
+                      return 'Description must be at least 15 characters long'.tr;
                     }
                     return null;
                   },
@@ -219,6 +224,7 @@ class _SingleProductDiscriptionScreenState extends State<SingleProductDiscriptio
                               onChanged: (bool? value) {
                                 setState(() {
                                   isDelivery.value = value!;
+                                  log("ffffffff${isDelivery.value.toString()}");
                                 });
                               }),
                         ),
@@ -337,19 +343,19 @@ class _SingleProductDiscriptionScreenState extends State<SingleProductDiscriptio
                     height: 55,
                     decoration: BoxDecoration(
                       border: Border.all(
-                        color: Colors.black, // Border color
-                        width: 1.0, // Border width
+                        color: AppTheme.buttonColor,
+                        width: 2.0,
                       ),
-                      borderRadius: BorderRadius.circular(10), // Border radius
+                      borderRadius: BorderRadius.circular(10),
                     ),
-                    padding: const EdgeInsets.all(10), // Padding inside the container
+                    padding: const EdgeInsets.all(10),
                     child: const Center(
                       child: Text(
                         'Continue',
                         style: TextStyle(
                           fontSize: 16,
                           fontWeight: FontWeight.bold,
-                          color: Colors.black, // Text color
+                          color: AppTheme.buttonColor, // Text color
                         ),
                       ),
                     ),

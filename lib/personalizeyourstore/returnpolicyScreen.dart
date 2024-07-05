@@ -435,6 +435,12 @@ class _ReturnPolicyScreensState extends State<ReturnPolicyScreens> {
                             maxLines: 4,
                             minLines: 4,
                             controller: descController,
+                            validator: (value) {
+                              if (value == null || value.isEmpty) {
+                                return 'Please write return policy description';
+                              }
+                              return null;
+                            },
                             decoration: InputDecoration(
                               counterStyle: GoogleFonts.poppins(
                                 color: AppTheme.primaryColor,

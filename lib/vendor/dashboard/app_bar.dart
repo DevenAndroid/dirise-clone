@@ -127,7 +127,7 @@ class _AppBarScreenState extends State<AppBarScreen> {
             ),
             const SizedBox(height: 4,),
             if(vendorProfileController.model.user!.vendorPublishStatus.toString() != "approved")
-              Text("Status: ${vendorProfileController.model.user!.vendorPublishStatus}".capitalize!,style: normalStyle,)
+              Text("${'Status:'.tr} ${vendorProfileController.model.user!.vendorPublishStatus}".capitalize!,style: normalStyle,)
           ],
         )
             : const SizedBox();

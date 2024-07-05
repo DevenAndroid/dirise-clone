@@ -430,7 +430,9 @@ class _FindMyLocationAddressState extends State<FindMyLocationAddress> {
                                   serviceController.addressController.text = controllerMap.street.value.toString();
                                   serviceController.address2Controller.text = controllerMap.town.value.toString();
                                   serviceController.zipCodeController.text = controllerMap.zipcode.value.toString();
+                                  Get.back();
                                   bottomSheet(addressData: AddressData());
+
                                 },
                               ),
                             ],

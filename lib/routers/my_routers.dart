@@ -51,6 +51,7 @@ import '../screens/tell_us_about_yourself.dart';
 import '../screens/vendorinformation_screen.dart';
 import '../screens/virtual_assets/virtual_assets_screen.dart';
 import '../single_product_new.dart';
+import '../single_products/give_away_single.dart';
 import '../tellaboutself/ExtraInformation.dart';
 import '../vendor/authentication/verify_vendor_otp.dart';
 import '../vendor/dashboard/dashboard_screen.dart';
