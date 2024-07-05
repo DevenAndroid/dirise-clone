@@ -18,7 +18,9 @@ import '../widgets/multiImagePicker.dart';
 import 'myItemIsScreen.dart';
 
 class AddProductFirstImageScreen extends StatefulWidget {
-  const AddProductFirstImageScreen({super.key});
+  int? id;
+  File? image;
+  AddProductFirstImageScreen({super.key,this.id,this.image});
 
   @override
   State<AddProductFirstImageScreen> createState() => _AddProductFirstImageScreenState();
@@ -35,6 +37,16 @@ class _AddProductFirstImageScreenState extends State<AddProductFirstImageScreen>
     } else {
       return false;
     }
+  }
+
+  @override
+  void initState() {
+    // TODO: implement initState
+    super.initState();
+    if(widget.id != null){
+      featuredImage = widget.image!;
+    }
+
   }
   int productID = 0;
   final addProductController = Get.put(AddProductController());

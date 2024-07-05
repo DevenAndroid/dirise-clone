@@ -1,5 +1,6 @@
 import 'dart:convert';
 import 'dart:developer';
+import 'dart:io';
 
 import 'package:dirise/addNewProduct/pickUpAddressScreen.dart';
 import 'package:dirise/addNewProduct/rewardScreen.dart';
@@ -19,6 +20,7 @@ import '../repository/repository.dart';
 import '../tellaboutself/ExtraInformation.dart';
 import '../widgets/common_button.dart';
 import '../widgets/common_colour.dart';
+import 'addProductFirstImageScreen.dart';
 import 'deliverySizeScreen.dart';
 import 'internationalshippingdetailsScreem.dart';
 import 'itemdetailsScreen.dart';
@@ -96,6 +98,7 @@ class _ReviewPublishScreenState extends State<ReviewPublishScreen> {
   bool isItemDetailsVisible2 = false;
   bool isItemDetailsVisible3 = false;
   bool isItemDetailsVisible4 = false;
+  RxBool isImageProvide = false.obs;
   final Repositories repositories = Repositories();
 
   final addProductController = Get.put(AddProductController());
@@ -184,6 +187,82 @@ class _ReviewPublishScreenState extends State<ReviewPublishScreen> {
               return productDetailsModel.value.productDetails != null
                   ? Column(
                       children: [
+                        const SizedBox(height: 20),
+
+                        GestureDetector(
+                          onTap: () {
+                            setState(() {
+                              isImageProvide.toggle();
+                            });
+                          },
+                          child: Container(
+                            padding: const EdgeInsets.symmetric(vertical: 12, horizontal: 12),
+                            decoration: BoxDecoration(
+                                color: Colors.white,
+                                borderRadius: BorderRadius.circular(8),
+                                border: Border.all(color: AppTheme.secondaryColor)),
+                            child: Row(
+                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                              children: [
+                                Text(
+                                  'Features Image',
+                                  style: GoogleFonts.poppins(
+                                    color: AppTheme.primaryColor,
+                                    fontSize: 15,
+                                  ),
+                                ),
+                                GestureDetector(
+                                  child: isImageProvide.value == true
+                                      ? const Icon(Icons.keyboard_arrow_up_rounded)
+                                      : const Icon(Icons.keyboard_arrow_down_outlined),
+                                  onTap: () {
+                                    setState(() {
+                                      isImageProvide.toggle();
+                                    });
+                                  },
+                                ),
+                              ],
+                            ),
+                          ),
+                        ),
+
+                        if (isImageProvide.value == true)
+                          Stack(
+                            children: [
+                              Container(
+                                margin: EdgeInsets.only(top: 10),
+                                width: Get.width,
+                                padding: EdgeInsets.all(10),
+                                decoration:
+                                BoxDecoration(color: Colors.grey.shade200, borderRadius: BorderRadius.circular(11)),
+                                child: Column(
+                                  mainAxisAlignment: MainAxisAlignment.start,
+                                  crossAxisAlignment: CrossAxisAlignment.start,
+                                  children: [
+                                    Image.network(productDetailsModel.value.productDetails!.product!.featuredImage,height: 200,)
+                                  ],
+                                ),
+                              ),
+                              Positioned(
+                                  right: 10,
+                                  top: 20,
+                                  child: GestureDetector(
+                                      onTap: () {
+                                        File imageFile = File(productDetailsModel.value.productDetails!.product!.featuredImage);
+
+                                        Get.to(AddProductFirstImageScreen(
+                                          id: productDetailsModel.value.productDetails!.product!.id,
+                                          image: imageFile,
+
+                                        ));
+                                      },
+                                      child: const Text(
+                                        'Edit',
+                                        style: TextStyle(color: Colors.red, fontSize: 13),
+                                      )))
+                            ],
+                          ),
+
                         const SizedBox(height: 20),
                         GestureDetector(
                           onTap: () {

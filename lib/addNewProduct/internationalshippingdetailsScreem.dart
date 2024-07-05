@@ -469,7 +469,7 @@ class _InternationalshippingdetailsScreenState extends State<Internationalshippi
                   ),
                   validator: (value) {
                     if (value == null || value.isEmpty) {
-                      return 'Please select an item';
+                      return 'Please select an Package type';
                     }
                     return null;
                   },

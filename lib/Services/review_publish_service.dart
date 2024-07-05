@@ -1,4 +1,5 @@
 import 'dart:convert';
+import 'dart:io';
 import 'package:dirise/Services/pick_up_address_service.dart';
 import 'package:dirise/Services/service_discrptions_screen.dart';
 import 'package:dirise/Services/service_international_shipping_details.dart';
@@ -11,6 +12,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:google_fonts/google_fonts.dart';
+import '../addNewProduct/addProductFirstImageScreen.dart';
 import '../controller/profile_controller.dart';
 import '../controller/service_controller.dart';
 import '../controller/vendor_controllers/add_product_controller.dart';
@@ -42,6 +44,7 @@ class _ReviewPublishServiceScreenState extends State<ReviewPublishServiceScreen>
   RxBool isInternationalPolicy = false.obs;
   RxBool optionalDescription = false.obs;
   RxBool optionalClassification = false.obs;
+  RxBool isImageProvide = false.obs;
 
   final Repositories repositories = Repositories();
   RxInt returnPolicyLoaded = 0.obs;
@@ -154,6 +157,83 @@ class _ReviewPublishServiceScreenState extends State<ReviewPublishServiceScreen>
                 ? Column(
                     children: [
                       const SizedBox(height: 20),
+
+                      GestureDetector(
+                        onTap: () {
+                          setState(() {
+                            isImageProvide.toggle();
+                          });
+                        },
+                        child: Container(
+                          padding: const EdgeInsets.symmetric(vertical: 12, horizontal: 12),
+                          decoration: BoxDecoration(
+                              color: Colors.white,
+                              borderRadius: BorderRadius.circular(8),
+                              border: Border.all(color: AppTheme.secondaryColor)),
+                          child: Row(
+                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                            children: [
+                              Text(
+                                'Features Image',
+                                style: GoogleFonts.poppins(
+                                  color: AppTheme.primaryColor,
+                                  fontSize: 15,
+                                ),
+                              ),
+                              GestureDetector(
+                                child: isImageProvide.value == true
+                                    ? const Icon(Icons.keyboard_arrow_up_rounded)
+                                    : const Icon(Icons.keyboard_arrow_down_outlined),
+                                onTap: () {
+                                  setState(() {
+                                    isImageProvide.toggle();
+                                  });
+                                },
+                              ),
+                            ],
+                          ),
+                        ),
+                      ),
+
+                      if (isImageProvide.value == true)
+                        Stack(
+                          children: [
+                            Container(
+                              margin: EdgeInsets.only(top: 10),
+                              width: Get.width,
+                              padding: EdgeInsets.all(10),
+                              decoration:
+                              BoxDecoration(color: Colors.grey.shade200, borderRadius: BorderRadius.circular(11)),
+                              child: Column(
+                                mainAxisAlignment: MainAxisAlignment.start,
+                                crossAxisAlignment: CrossAxisAlignment.start,
+                                children: [
+                                   Image.network(productDetailsModel.value.productDetails!.product!.featuredImage,height: 200,)
+                                ],
+                              ),
+                            ),
+                            Positioned(
+                                right: 10,
+                                top: 20,
+                                child: GestureDetector(
+                                    onTap: () {
+                                      File imageFile = File(productDetailsModel.value.productDetails!.product!.featuredImage);
+
+                                      Get.to(AddProductFirstImageScreen(
+                                        id: productDetailsModel.value.productDetails!.product!.id,
+                                        image: imageFile,
+
+                                      ));
+                                    },
+                                    child: const Text(
+                                      'Edit',
+                                      style: TextStyle(color: Colors.red, fontSize: 13),
+                                    )))
+                          ],
+                        ),
+
+                      const SizedBox(height: 20),
+
                       GestureDetector(
                         onTap: () {
                           setState(() {
@@ -476,9 +556,9 @@ class _ReviewPublishServiceScreenState extends State<ReviewPublishServiceScreen>
                         Stack(
                           children: [
                             Container(
-                              margin: EdgeInsets.only(top: 10),
+                              margin: const EdgeInsets.only(top: 10),
                               width: Get.width,
-                              padding: EdgeInsets.all(10),
+                              padding: const EdgeInsets.all(10),
                               decoration:
                                   BoxDecoration(color: Colors.grey.shade200, borderRadius: BorderRadius.circular(11)),
                               child: Column(

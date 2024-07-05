@@ -83,7 +83,7 @@ class _AddProductOptionScreenState extends State<AddProductOptionScreen> {
             // ),
             GestureDetector(
               onTap: (){
-                Get.to(const AddProductFirstImageScreen());
+                Get.to(AddProductFirstImageScreen());
               },
               child: Image.asset('assets/images/single.png'),
             ),
