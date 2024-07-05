@@ -18,7 +18,13 @@ import '../widgets/common_colour.dart';
 import '../widgets/common_textfield.dart';
 
 class VirtualDiscriptionScreen extends StatefulWidget {
-  const VirtualDiscriptionScreen({super.key});
+  String? description;
+  String? stockquantity;
+  String? setstock;
+  String? sEOTags;
+  int? id;
+
+  VirtualDiscriptionScreen({super.key,this.description,this.sEOTags,this.setstock,this.stockquantity,this.id});
 
   @override
   State<VirtualDiscriptionScreen> createState() => _VirtualDiscriptionScreenState();

@@ -178,6 +178,7 @@ class _OptionalScreenState extends State<OptionalScreen> {
                     ),
                   ),
                 ),
+                const SizedBox(height: 10),
                 CommonTextField(
                   controller: metaTitleController,
                   obSecure: false,
@@ -189,6 +190,7 @@ class _OptionalScreenState extends State<OptionalScreen> {
                     return null; // Return null if validation passes
                   },
                 ),
+                const SizedBox(height: 10),
                 TextFormField(
                   maxLines: 2,
                   controller: metaDescriptionController,
@@ -236,6 +238,7 @@ class _OptionalScreenState extends State<OptionalScreen> {
                     ),
                   ),
                 ),
+                const SizedBox(height: 10),
                 CommonTextField(
                   controller: serialNumberController,
                   obSecure: false,
@@ -247,17 +250,7 @@ class _OptionalScreenState extends State<OptionalScreen> {
                     return null; // Return null if validation passes
                   },
                 ),
-                // CommonTextField(
-                //  controller: longDescriptionController,
-                //     obSecure: false,
-                //     hintText: 'Short discription'.tr,
-                //     validator: (value) {
-                //       if (value!.trim().isEmpty) {
-                //         return 'Short discription is required'.tr;
-                //       }
-                //       return null; // Return null if validation passes
-                //     },
-                //     ),
+                const SizedBox(height: 10),
                 CommonTextField(
                   controller: productNumberController,
                   obSecure: false,

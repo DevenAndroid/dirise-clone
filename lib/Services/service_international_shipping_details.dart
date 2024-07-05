@@ -123,7 +123,7 @@ class _ServiceInternationalShippingServiceState extends State<ServiceInternation
     map['box_length'] = dimensionController.text.trim();
     map['box_width'] = dimensionWidthController.text.trim();
     map['box_height'] = dimensionHeightController.text.trim();
-    map['type_of_packages'] = selectTypeOfPackaging;
+    map['type_of_packages'] = selectTypeOfPackagingMap[selectTypeOfPackaging];
     map['id'] = addProductController.idProduct.value.toString();
 
     FocusManager.instance.primaryFocus!.unfocus();

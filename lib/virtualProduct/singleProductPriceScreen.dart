@@ -115,7 +115,7 @@ class _VirtualPriceScreenState extends State<VirtualPriceScreen> {
       if (response.status == true) {
         // addProductController.idProduct.value = response.productDetails!.product!.id.toString();
         print(addProductController.idProduct.value.toString());
-        Get.to(const VirtualDiscriptionScreen());
+        Get.to( VirtualDiscriptionScreen());
       }
     });
   }

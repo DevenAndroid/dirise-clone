@@ -55,7 +55,7 @@ class _InternationalshippingdetailsScreenState extends State<Internationalshippi
   TextEditingController dimensionController = TextEditingController();
   TextEditingController dimensionWidthController = TextEditingController();
   TextEditingController dimensionHeightController = TextEditingController();
-  String unitOfMeasure = 'cm/kg';
+  String unitOfMeasure = 'Cm/Kg';
   List<String> unitOfMeasureList = [
     'Cm/Kg',
     'Lb/Inch',

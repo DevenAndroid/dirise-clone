@@ -926,6 +926,7 @@ class _JobDetailsScreenState extends State<JobDetailsScreen> {
                     return null; // Return null if validation passes
                   },
                 ),
+                SizedBox(height: 10,),
                 Row(
                   children: [
                     Expanded(

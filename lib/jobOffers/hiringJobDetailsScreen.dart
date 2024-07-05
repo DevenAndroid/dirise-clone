@@ -1082,7 +1082,7 @@ class _HiringJobDetailsScreenState extends State<HiringJobDetailsScreen> {
 
                     ],
                   ),
-                  SizedBox(width: 10,),
+                  SizedBox(height: 10,),
                   TextFormField(
                     maxLines: 2,
                     minLines: 2,

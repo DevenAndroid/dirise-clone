@@ -94,12 +94,14 @@ class _SingleProductShippingPolicyScreenState extends State<SingleProductShippin
       print('API Response Status Code: ${response.status}');
       showToast(response.message.toString());
       if (response.status == true) {
+        Get.to( SinglePInternationalshippingdetailsScreen());
 
       } else {
         showToast(response.message.toString());
       }
     });
   }
+
   @override
   void initState() {
     super.initState();
@@ -127,23 +129,6 @@ class _SingleProductShippingPolicyScreenState extends State<SingleProductShippin
   shippingPolicyApi() {
     Map<String, dynamic> map = {};
 
-    if (widget.id != null) {
-      map['title'] = titleController.text.trim();
-      map['description'] = policyDescController.text.trim();
-      map['price_limit'] = policyPriceController.text.trim();
-      map['range1_percent'] = iPayController.text.trim();
-      map['range2_percent'] = thenController.text.trim();
-      map['range1_min'] = from1KWDController.text.trim();
-      map['range1_max'] = upTo20Controller.text.trim();
-      map['range2_min'] = from2KWDController.text.trim();
-      map['range2_max'] = upTo40Controller.text.trim();
-      map['shipping_type'] = selectedRadio;
-      map['shipping_zone'] = selectZone;
-      map['id'] = widget.id;
-    }
-    if(selectedReturnPolicy!=null) {
-      map['title'] = selectedReturnPolicy!.title.toString();
-    }
     map['title'] = titleController.text.trim();
     map['description'] = policyDescController.text.trim();
     map['price_limit'] = policyPriceController.text.trim();
@@ -155,19 +140,20 @@ class _SingleProductShippingPolicyScreenState extends State<SingleProductShippin
     map['range2_max'] = upTo40Controller.text.trim();
     map['shipping_type'] = selectedRadio;
     map['shipping_zone'] = selectZone;
-    log("API Request Map: ${map.toString()}");
-    log('ghfkhjsdgsd${selectZone}');
+    map['id'] = widget.id;
+
     FocusManager.instance.primaryFocus!.unfocus();
     repositories.postApi(url: ApiUrls.vendorShippingPolicy, context: context, mapData: map).then((value) {
-      log('ffffffff${jsonDecode(value)}');
       ModelCommonResponse response = ModelCommonResponse.fromJson(jsonDecode(value));
       showToast(response.message.toString());
       if (response.status == true) {
-        log('ghfkhjsdgsd${selectZone}');
-        Get.to( SinglePInternationalshippingdetailsScreen());
+        // Refresh the return policy dropdown
+        getShippingPolicyData();
+        showToast(response.message.toString());
       }
     });
   }
+
   ShippingPolicy? selectedReturnPolicy;
 
   Rx<GetShippingModel> modelShippingPolicy = GetShippingModel().obs;
@@ -246,7 +232,7 @@ class _SingleProductShippingPolicyScreenState extends State<SingleProductShippin
               if (modelShippingPolicy.value.shippingPolicy != null)
                 DropdownButtonFormField<ShippingPolicy>(
                   value: selectedReturnPolicy,
-                  hint: const Text("Select a Return Policy"),
+                  hint: const Text("Select a Shipping Policy"),
                   decoration: InputDecoration(
                     border: InputBorder.none,
                     filled: true,
