@@ -95,8 +95,8 @@ class _AddMultipleProductScreenState extends State<AddMultipleProductScreen> {
           margin: const EdgeInsets.only(left: 30,right: 30,top: 30),
           child: Column(
             children: [
-              Text("Kindly download the following templates to conveniently upload all your products at once\nCopy and paste your products accordingl Upload it in the next step."),
-          SizedBox(height: 10,),
+              const Text("Kindly download the following templates to conveniently upload all your products at once\nCopy and paste your products accordingly Upload it in the next step."),
+              const SizedBox(height: 10,),
               ImageWidget1(
                 // key: paymentReceiptCertificateKey,
                 title: "Upload Multiple Product".tr,

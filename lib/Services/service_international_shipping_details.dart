@@ -380,33 +380,44 @@ class _ServiceInternationalShippingServiceState extends State<ServiceInternation
 
                 Row(
                   children: [
-                    Expanded(child: CommonTextField(
-                        controller: dimensionController,
-                        obSecure: false,
-                        keyboardType: TextInputType.number,
-                        hintText: 'Length X ',
-                        validator: MultiValidator([
-                          RequiredValidator(errorText: 'Product length is required'.tr),
-                        ]))
+                    Expanded(
+                        child: SizedBox(
+                          height: 100,
+                          child: CommonTextField(
+                          controller: dimensionController,
+                          obSecure: false,
+                          keyboardType: TextInputType.number,
+                          hintText: 'Length X ',
+                          validator: MultiValidator([
+                            RequiredValidator(errorText: 'Product length is required'.tr),
+                          ])),
+                        )
                     ),
                     10.spaceX,
-                    Expanded(child:   CommonTextField(
-                        controller: dimensionWidthController,
-                        obSecure: false,
-                        hintText: 'Width X',
-                        keyboardType: TextInputType.number,
-                        validator: MultiValidator([
-                          RequiredValidator(errorText: 'Product Width is required'.tr),
-                        ]))),
+                    Expanded(child:
+                    SizedBox(
+                      height: 100,
+                      child: CommonTextField(
+                          controller: dimensionWidthController,
+                          obSecure: false,
+                          hintText: 'Width X',
+                          keyboardType: TextInputType.number,
+                          validator: MultiValidator([
+                            RequiredValidator(errorText: 'Product Width is required'.tr),
+                          ])),
+                    )),
                     10.spaceX,
-                    Expanded(child:   CommonTextField(
-                        controller: dimensionHeightController,
-                        obSecure: false,
-                        hintText: 'Height X',
-                        keyboardType: TextInputType.number,
-                        validator: MultiValidator([
-                          RequiredValidator(errorText: 'Product Height is required'.tr),
-                        ]))),
+                    Expanded(child:   SizedBox(
+                      height: 100,
+                      child: CommonTextField(
+                          controller: dimensionHeightController,
+                          obSecure: false,
+                          hintText: 'Height X',
+                          keyboardType: TextInputType.number,
+                          validator: MultiValidator([
+                            RequiredValidator(errorText: 'Product Height is required'.tr),
+                          ])),
+                    )),
                   ],
                 ),
                 const SizedBox(height: 15),
