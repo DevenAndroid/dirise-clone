@@ -710,11 +710,19 @@ class LocaleString extends Translations {
           'Verify Otp' : 'Verify Otp',
           'Vendor Profile' : 'Vendor Profile',
           'Status:' : 'Status:',
+          'Audio Book' : 'Audio Book',
+          'You don\'t have any audio book in your collection' : 'You don\'t have any audio book in your collection',
+          'Search' : 'Search',
+          '+ Add Address'  : '+ Add Address',
        },
 
 
 
      'ar_AR': {
+       '+ Add Address'  : '+ إضافة عنوان',
+       'Search' : 'يبحث',
+       'You don\'t have any audio book in your collection' : 'ليس لديك أي كتاب صوتي في مجموعتك',
+       'Audio Book' : 'كتاب صوتي',
        'Status:' : 'حالة:',
        'Vendor Profile' : 'ملف تعريف البائع',
        'Verify Otp' : 'التحقق من Otp',

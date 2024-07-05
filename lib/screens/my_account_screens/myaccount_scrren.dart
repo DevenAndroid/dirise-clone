@@ -1493,7 +1493,7 @@ class _MyAccountScreenState extends State<MyAccountScreen> {
                         // bottomSheet();
                       },
                       obSecure: false,
-                      hintText: '+ Add Address',
+                      hintText: '+ Add Address' .tr,
                     ),
                     Expanded(
                       child: Obx(() {
