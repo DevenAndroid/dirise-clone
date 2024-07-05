@@ -49,12 +49,11 @@ class _PersonalizeyourstoreScreenState extends State<PersonalizeyourstoreScreen>
   Rx<List<File>> images = Rx<List<File>>([]);
   Rx<File> categoryFile = File("").obs;
   String? categoryValue;
-  File image = File("");
   void showActionSheet(BuildContext context) async {
     File? selectedImage = await Helpers.addImagePicker();
     if (selectedImage != null) {
       setState(() {
-        image = selectedImage;
+        controller.image = selectedImage;
       });
     }
   }
@@ -81,7 +80,7 @@ class _PersonalizeyourstoreScreenState extends State<PersonalizeyourstoreScreen>
   Map<String, File> picture = {};
   void updateProfile() {
     Map<String, String> map = {};
-    picture["banner_profile"] = image;
+    picture["banner_profile"] = controller.image;
 
     repositories
         .multiPartApi(
@@ -181,10 +180,10 @@ class _PersonalizeyourstoreScreenState extends State<PersonalizeyourstoreScreen>
                     child: SizedBox(
                       height: 110,
                       width: 110,
-                      child: image.path.isNotEmpty
+                      child: controller.image.path.isNotEmpty
                           ? ClipOval(
                               child: Image.file(
-                                image,
+                                controller.image,
                                 width: 120,
                                 height: 120,
                                 fit: BoxFit.cover,
@@ -196,9 +195,9 @@ class _PersonalizeyourstoreScreenState extends State<PersonalizeyourstoreScreen>
                                 color: AppTheme.primaryColor,
                               ),
                               child: ClipOval(
-                                child: image.path.isNotEmpty
+                                child: controller.image.path.isNotEmpty
                                     ? Image.file(
-                                  image,
+                                  controller.image,
                                   width: 120,
                                   height: 120,
                                   fit: BoxFit.cover,
@@ -207,7 +206,7 @@ class _PersonalizeyourstoreScreenState extends State<PersonalizeyourstoreScreen>
                                   width: 120,
                                   height: 120,
                                   fit: BoxFit.cover,
-                                  imageUrl: image.toString(),
+                                  imageUrl: controller.image.toString(),
                                   placeholder: (context, url) => const SizedBox(),
                                   errorWidget: (context, url, error) => const SizedBox(),
                                 ),

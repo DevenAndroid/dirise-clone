@@ -359,8 +359,12 @@ class _ProductReviewPublicScreenState extends State<ProductReviewPublicScreen> {
                                 children: [
                                   Text(
                                       'Short Description: ${productDetailsModel.value.productDetails!.product!.shortDescription ?? ""}'),
-                                  Text(
-                                      'Stock/spot quantity : ${productDetailsModel.value.productDetails!.product!.inStock ?? ""}'),
+                                  if(productDetailsModel.value.productDetails!.product!.inStock == '-1')
+                                  const Text(
+                                      'Stock/spot quantity : ${'No need'}'),
+                                  if(productDetailsModel.value.productDetails!.product!.inStock != '-1')
+                                     Text(
+                                        'Stock/spot quantity : ${productDetailsModel.value.productDetails!.product!.inStock ?? ''}'),
                                   Text(
                                       'Set stock/spot alert: ${productDetailsModel.value.productDetails!.product!.stockAlert ?? ''}'),
                                   Text('SEO Tags: ${productDetailsModel.value.productDetails!.product!.seoTags ?? ''}'),

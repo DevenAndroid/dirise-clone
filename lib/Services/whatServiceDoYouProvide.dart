@@ -58,12 +58,14 @@ class _whatServiceDoYouProvideState extends State<whatServiceDoYouProvide> {
     // Check the current discount type and calculate discounted price accordingly
     if (isPercentageDiscount && realPrice > 0 && sale > 0) {
       log('this is call....');
-       discountAmount = (realPrice * sale) / 100;
+      discountAmount = (realPrice * sale) / 100;
+      log('discount isss${discountAmount.toString()}');
       discountedPriceValue = realPrice - discountAmount;
       log('dirise fees${diriseFeesAsDouble.toString()}');
       log('dirise fees${discountedPriceValue.toString()}');
       double additionalDiscountAmount = (realPrice * diriseFeesAsDouble) / 100;
       double fees = (discountedPriceValue * diriseFeesAsDouble) / 100 ;
+      log('dirise fees neww ${fees.toString()}');
       // double finalPrice = realPrice - additionalDiscountAmount;
       double finalPrice1 = discountedPriceValue + fees;
       setState(() {
@@ -72,16 +74,18 @@ class _whatServiceDoYouProvideState extends State<whatServiceDoYouProvide> {
     } else if (!isPercentageDiscount && realPrice > 0 && fixedPrice > 0) {
       log('this is call....2');
       double discountedPriceValue = realPrice - fixedPrice;
+      log('discount price ${discountedPriceValue.toString()}');
       double fees = (discountedPriceValue * diriseFeesAsDouble) / 100 ;
       log('discount fees ${fees.toString()}');
       // double discountedPriceValue1 = discountedPriceValue + diriseFeesAsDouble;
-      double discountedPriceValue1 = afterCalculation + fees;
+      // double discountedPriceValue1 = afterCalculation - discountDouble;
+      double discountedPriceValue1 = discountedPriceValue + fees;
       setState(() {
         discountedPrice = discountedPriceValue1.toStringAsFixed(2);
       });
     } else {
       setState(() {
-        discountedPrice = "0.0";
+        discountedPrice = "";
       });
     }
   }
@@ -273,6 +277,10 @@ class _whatServiceDoYouProvideState extends State<whatServiceDoYouProvide> {
                     if (value!.trim().isEmpty) {
                       return 'Price is required'.tr;
                     }
+                    double? price = double.tryParse(value);
+                    if (price == null || price < 0) {
+                      return 'Price must be a non-negative number'.tr;
+                    }
                     return null; // Return null if validation passes
                   },
                 ),
@@ -353,6 +361,10 @@ class _whatServiceDoYouProvideState extends State<whatServiceDoYouProvide> {
                             if (value!.trim().isEmpty) {
                               return 'Discount Price is required'.tr;
                             }
+                            double? price = double.tryParse(value);
+                            if (price == null || price < 0) {
+                              return 'Price must be a non-negative number'.tr;
+                            }
                             double? discountValue = double.tryParse(value);
                             double? priceValue = double.tryParse(priceController.text);
                             if (discountValue != null && priceValue != null && discountValue > priceValue) {
@@ -399,7 +411,12 @@ class _whatServiceDoYouProvideState extends State<whatServiceDoYouProvide> {
                           if (fixedDiscount.text.isEmpty) {
                             if (value == null || value.trim().isEmpty) {
                               return 'Percentage is required'.tr;
-                            } else {
+                            }
+                            double? price = double.tryParse(value);
+                            if (price == null || price < 0) {
+                              return 'Price must be a non-negative number'.tr;
+                            }
+                            else {
                               double? percentage = double.tryParse(value);
                               if (percentage == null || percentage > 100) {
                                 return 'Percentage must be between 0 and 100'.tr;

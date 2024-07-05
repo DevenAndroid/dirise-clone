@@ -120,7 +120,7 @@ class _SingleProductDiscriptionScreenState extends State<SingleProductDiscriptio
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: [
             Text(
-              'Discription'.tr,
+              'Description'.tr,
               style: GoogleFonts.poppins(color: Colors.black, fontWeight: FontWeight.w600, fontSize: 20),
             ),
           ],
