@@ -295,6 +295,10 @@ class _ReviewPublishServiceScreenState extends State<ReviewPublishServiceScreen>
                                 children: [
                                   Text(
                                       'Short Description: ${productDetailsModel.value.productDetails!.product!.shortDescription ?? ""}'),
+                                  if(productDetailsModel.value.productDetails!.product!.inStock == '-1' )
+                                  const Text(
+                                      'Stock quantity : ${'No need'}'),
+                                  if(productDetailsModel.value.productDetails!.product!.inStock != '-1' )
                                   Text(
                                       'Stock quantity : ${productDetailsModel.value.productDetails!.product!.inStock ?? ""}'),
                                   Text(

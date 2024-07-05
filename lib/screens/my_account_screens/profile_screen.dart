@@ -116,8 +116,34 @@ class _ProfileScreenState extends State<ProfileScreen> {
                                           height: 120,
                                           fit: BoxFit.cover,
                                           imageUrl: profileController.model.user!.profileImage.toString(),
-                                          placeholder: (context, url) => const SizedBox(),
-                                          errorWidget: (context, url, error) => const SizedBox(),
+                                          placeholder: (context, url) => Container(
+                                            decoration: BoxDecoration(
+                                                shape: BoxShape.circle,
+                                                color: AppTheme.buttonColor,
+                                                border: Border.all(color:  AppTheme.buttonColor)),
+                                            child: const SizedBox(
+                                                height: 65,
+                                                width: 65,
+                                                child: Icon(
+                                                  Icons.person,
+                                                  color: Colors.white,
+                                                  size: 45,
+                                                )),
+                                          ),
+                                          errorWidget: (context, url, error) => Container(
+                                            decoration: BoxDecoration(
+                                                shape: BoxShape.circle,
+                                                color: AppTheme.buttonColor,
+                                                border: Border.all(color:  AppTheme.buttonColor)),
+                                            child: const SizedBox(
+                                                height: 65,
+                                                width: 65,
+                                                child: Icon(
+                                                  Icons.person,
+                                                  color: Colors.white,
+                                                  size: 45,
+                                                )),
+                                          ),
                                         ),
                                       ),
                                     ),

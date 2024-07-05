@@ -1353,8 +1353,9 @@ class _DirectCheckOutScreenState extends State<DirectCheckOutScreen> {
                     Row(
                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
                       children: [
-                        Text("${'Subtotal'.tr} (${cartController.directOrderResponse.value.prodcutData!.inStock} ${'items'
-                            .tr})",
+                        Text('Subtotal'.tr,
+                          // Text("${'Subtotal'.tr} (${cartController.directOrderResponse.value.prodcutData!.inStock} ${'items'
+                          //   .tr})",
                             style: GoogleFonts.poppins(fontWeight: FontWeight.w400, color: const Color(0xff949495))),
                         Text("KWD ${cartController.directOrderResponse.value.subtotal.toString()}",
                             style: GoogleFonts.poppins(fontWeight: FontWeight.w400, color: const Color(0xff949495))),
