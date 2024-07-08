@@ -204,9 +204,9 @@ class _SingleProductPriceScreenState extends State<SingleProductPriceScreen> {
                   obSecure: false,
                   keyboardType: TextInputType.number,
                   hintText: 'Price'.tr,
-                  suffixIcon: Padding(
-                    padding: const EdgeInsets.only(top: 15),
-                    child: const Text(
+                  suffixIcon: const Padding(
+                    padding: EdgeInsets.only(top: 15),
+                    child: Text(
                       'KWD',
                     ),
                   ),
@@ -245,7 +245,11 @@ class _SingleProductPriceScreenState extends State<SingleProductPriceScreen> {
                     if (value!.trim().isEmpty) {
                       return 'Price is required'.tr;
                     }
-                    return null; // Return null if validation passes
+                    double? price = double.tryParse(value);
+                    if (price == null || price < 0) {
+                      return 'Price must be a non-negative number'.tr;
+                    }
+                    return null;
                   },
                 ),
                 // Text(
@@ -339,6 +343,10 @@ class _SingleProductPriceScreenState extends State<SingleProductPriceScreen> {
                             if (value!.trim().isEmpty) {
                               return 'Discount Price is required'.tr;
                             }
+                            double? price = double.tryParse(value);
+                            if (price == null || price < 0) {
+                              return 'Price must be a non-negative number'.tr;
+                            }
                             double? discountValue = double.tryParse(value);
                             double? priceValue = double.tryParse(priceController.text);
                             if (discountValue != null && priceValue != null && discountValue > priceValue) {
@@ -384,7 +392,12 @@ class _SingleProductPriceScreenState extends State<SingleProductPriceScreen> {
                           if (fixedDiscount.text.isEmpty) {
                             if (value == null || value.trim().isEmpty) {
                               return 'Percentage is required'.tr;
-                            } else {
+                            }
+                            double? price = double.tryParse(value);
+                            if (price == null || price < 0) {
+                              return 'Price must be a non-negative number'.tr;
+                            }
+                            else {
                               double? percentage = double.tryParse(value);
                               if (percentage == null || percentage > 100) {
                                 return 'Percentage must be between 0 and 100'.tr;

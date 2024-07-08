@@ -115,7 +115,7 @@ class _VirtualPriceScreenState extends State<VirtualPriceScreen> {
       if (response.status == true) {
         // addProductController.idProduct.value = response.productDetails!.product!.id.toString();
         print(addProductController.idProduct.value.toString());
-        Get.to(const VirtualDiscriptionScreen());
+        Get.to( VirtualDiscriptionScreen());
       }
     });
   }
@@ -237,6 +237,10 @@ class _VirtualPriceScreenState extends State<VirtualPriceScreen> {
                     if (value!.trim().isEmpty) {
                       return 'Price is required'.tr;
                     }
+                    double? price = double.tryParse(value);
+                    if (price == null || price < 0) {
+                      return 'Price must be a non-negative number'.tr;
+                    }
                     return null; // Return null if validation passes
                   },
                 ),
@@ -327,6 +331,10 @@ class _VirtualPriceScreenState extends State<VirtualPriceScreen> {
                           if (value!.trim().isEmpty) {
                             return 'Discount Price is required'.tr;
                           }
+                          double? price = double.tryParse(value);
+                          if (price == null || price < 0) {
+                            return 'Price must be a non-negative number'.tr;
+                          }
                           double? discountValue = double.tryParse(value);
                           double? priceValue = double.tryParse(priceController.text);
                           if (discountValue != null && priceValue != null && discountValue > priceValue) {
@@ -367,7 +375,12 @@ class _VirtualPriceScreenState extends State<VirtualPriceScreen> {
                         if (fixedDiscount.text.isEmpty) {
                           if (value == null || value.trim().isEmpty) {
                             return 'Percentage is required'.tr;
-                          } else {
+                          }
+                          double? price = double.tryParse(value);
+                          if (price == null || price < 0) {
+                            return 'Price must be a non-negative number'.tr;
+                          }
+                          else {
                             double? percentage = double.tryParse(value);
                             if (percentage == null || percentage > 100) {
                               return 'Percentage must be between 0 and 100'.tr;

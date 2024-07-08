@@ -57,8 +57,8 @@ class _ImageWidgetState extends State<ImageWidget> {
         showToast("Document must be smaller then 10 Mb".tr);
         return;
       }
-      if (widget.imageOnly == false && !value.path.endsWith('.mp4')) {
-        showToast("Please select a video file".tr);
+      if (widget.imageOnly == false && !value.path.endsWith('.mp4') && !value.path.endsWith('.pdf') && !value.path.endsWith('.xlsx')) {
+        showToast("Please select a correct type of file".tr);
         return;
       }
       widget.filePicked(value);
@@ -100,8 +100,8 @@ class _ImageWidgetState extends State<ImageWidget> {
                       showToast("Document must be smaller then 10 Mb".tr);
                       return;
                     }
-                    if (widget.imageOnly == false && !value.path.endsWith('.mp4')) {
-                      showToast("Please select a video file".tr);
+                    if (widget.imageOnly == false && !value.path.endsWith('.mp4') && !value.path.endsWith('.pdf') && !value.path.endsWith('.xlsx')) {
+                      showToast("Please select a correct type of file".tr);
                       return;
                     }
                     widget.filePicked(value);

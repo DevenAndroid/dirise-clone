@@ -55,7 +55,7 @@ class _InternationalshippingdetailsScreenState extends State<Internationalshippi
   TextEditingController dimensionController = TextEditingController();
   TextEditingController dimensionWidthController = TextEditingController();
   TextEditingController dimensionHeightController = TextEditingController();
-  String unitOfMeasure = 'cm/kg';
+  String unitOfMeasure = 'Cm/Kg';
   List<String> unitOfMeasureList = [
     'Cm/Kg',
     'Lb/Inch',
@@ -469,7 +469,7 @@ class _InternationalshippingdetailsScreenState extends State<Internationalshippi
                   ),
                   validator: (value) {
                     if (value == null || value.isEmpty) {
-                      return 'Please select an item';
+                      return 'Please select an Package type';
                     }
                     return null;
                   },

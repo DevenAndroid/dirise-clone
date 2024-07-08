@@ -174,7 +174,7 @@ class _HomePageState extends State<HomePage> {
       cartController.zipCode = prefs.getString('zipcode') ?? '';
       cartController.city.value = prefs.getString('city') ?? '';
       cartController.address.value = prefs.getString('town') ?? '';
-      showToast(locationController.countryName.toString());
+      // showToast(locationController.countryName.toString());
       errorApi();
     });
 
@@ -315,7 +315,7 @@ class _HomePageState extends State<HomePage> {
     // _getCurrentPosition();
     locationController.getCurrentPosition();
     _loadSavedAddress();
-    showToast(locationController.countryName.toString());
+    // showToast(locationController.countryName.toString());
      WidgetsBinding.instance.addPostFrameCallback((timeStamp) {
       if (!hasShownDialog) {
         log('valueee trueee///${hasShownDialog.toString()}');

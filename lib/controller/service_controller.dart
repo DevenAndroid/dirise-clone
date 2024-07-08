@@ -1,5 +1,6 @@
 import 'dart:async';
 import 'dart:developer';
+import 'dart:io';
 
 import 'package:flutter/cupertino.dart';
 import 'package:geocoding/geocoding.dart';
@@ -88,4 +89,6 @@ class ServiceController extends GetxController {
   TextEditingController threadsController   = TextEditingController();
 
    TextEditingController detailsController = TextEditingController();
+
+  File image = File("");
 }

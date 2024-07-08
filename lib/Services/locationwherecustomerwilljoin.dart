@@ -82,7 +82,7 @@ class _LocationwherecustomerwilljoinState extends State<Locationwherecustomerwil
     Map<String, dynamic> map = {};
 
     map['address_id'] = id.toString();
-
+    map['id'] = addProductController.idProduct.value.toString();
     FocusManager.instance.primaryFocus!.unfocus();
     repositories.postApi(url: ApiUrls.giveawayProductAddress, context: context, mapData: map).then((value) {
       ModelCommonResponse response = ModelCommonResponse.fromJson(jsonDecode(value));
@@ -335,7 +335,6 @@ class _LocationwherecustomerwilljoinState extends State<Locationwherecustomerwil
                       'country': country,
                       'street': street,
                       'town': town,
-                      // Add other necessary fields here
                     };
                     if (selectedAddress.id != null) {
                       addressData['address_id'] = selectedAddress.id!;

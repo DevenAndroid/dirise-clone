@@ -1,15 +1,18 @@
 import 'dart:convert';
+import 'dart:io';
 
 import 'package:dirise/addNewProduct/rewardScreen.dart';
 import 'package:dirise/controller/vendor_controllers/add_product_controller.dart';
 import 'package:dirise/tellaboutself/ExtraInformation.dart';
 import 'package:dirise/virtualProduct/product_information_screen.dart';
+import 'package:dirise/virtualProduct/singleProductDiscriptionScreen.dart';
 import 'package:dirise/virtualProduct/singleProductPriceScreen.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:google_fonts/google_fonts.dart';
 
+import '../addNewProduct/addProductFirstImageScreen.dart';
 import '../controller/profile_controller.dart';
 import '../controller/service_controller.dart';
 import '../model/common_modal.dart';
@@ -39,7 +42,8 @@ class _VirtualReviewandPublishScreenState extends State<VirtualReviewandPublishS
   RxBool isReturnPolicy = false.obs;
   RxBool optionalDescription = false.obs;
   RxBool optionalClassification = false.obs;
-
+  RxBool isDiscrptionPolicy = false.obs;
+  RxBool isImageProvide = false.obs;
   final Repositories repositories = Repositories();
   RxInt returnPolicyLoaded = 0.obs;
   final addProductController = Get.put(AddProductController());
@@ -154,6 +158,81 @@ class _VirtualReviewandPublishScreenState extends State<VirtualReviewandPublishS
             return productDetailsModel.value.productDetails != null
                 ? Column(
                     children: [
+                      const SizedBox(height: 20),
+
+                      GestureDetector(
+                        onTap: () {
+                          setState(() {
+                            isImageProvide.toggle();
+                          });
+                        },
+                        child: Container(
+                          padding: const EdgeInsets.symmetric(vertical: 12, horizontal: 12),
+                          decoration: BoxDecoration(
+                              color: Colors.white,
+                              borderRadius: BorderRadius.circular(8),
+                              border: Border.all(color: AppTheme.secondaryColor)),
+                          child: Row(
+                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                            children: [
+                              Text(
+                                'Features Image',
+                                style: GoogleFonts.poppins(
+                                  color: AppTheme.primaryColor,
+                                  fontSize: 15,
+                                ),
+                              ),
+                              GestureDetector(
+                                child: isImageProvide.value == true
+                                    ? const Icon(Icons.keyboard_arrow_up_rounded)
+                                    : const Icon(Icons.keyboard_arrow_down_outlined),
+                                onTap: () {
+                                  setState(() {
+                                    isImageProvide.toggle();
+                                  });
+                                },
+                              ),
+                            ],
+                          ),
+                        ),
+                      ),
+
+                      if (isImageProvide.value == true)
+                        Stack(
+                          children: [
+                            Container(
+                              margin: EdgeInsets.only(top: 10),
+                              width: Get.width,
+                              padding: EdgeInsets.all(10),
+                              decoration:
+                              BoxDecoration(color: Colors.grey.shade200, borderRadius: BorderRadius.circular(11)),
+                              child: Column(
+                                mainAxisAlignment: MainAxisAlignment.start,
+                                crossAxisAlignment: CrossAxisAlignment.start,
+                                children: [
+                                  Image.network(productDetailsModel.value.productDetails!.product!.featuredImage,height: 200,)
+                                ],
+                              ),
+                            ),
+                            Positioned(
+                                right: 10,
+                                top: 20,
+                                child: GestureDetector(
+                                    onTap: () {
+                                      File imageFile = File(productDetailsModel.value.productDetails!.product!.featuredImage);
+
+                                      Get.to(AddProductFirstImageScreen(
+                                        id: productDetailsModel.value.productDetails!.product!.id,
+                                        image: imageFile,
+
+                                      ));
+                                    },
+                                    child: const Text(
+                                      'Edit',
+                                      style: TextStyle(color: Colors.red, fontSize: 13),
+                                    )))
+                          ],
+                        ),
                       const SizedBox(height: 20),
                       GestureDetector(
                         onTap: () {
@@ -374,7 +453,88 @@ class _VirtualReviewandPublishScreenState extends State<VirtualReviewandPublishS
                       //             );
                       //           })
                       //       : const CircularProgressIndicator(),
-
+                      GestureDetector(
+                        onTap: () {
+                          setState(() {
+                            isDiscrptionPolicy.toggle();
+                          });
+                        },
+                        child: Container(
+                          padding: const EdgeInsets.symmetric(vertical: 12, horizontal: 12),
+                          decoration: BoxDecoration(
+                              color: Colors.white,
+                              borderRadius: BorderRadius.circular(8),
+                              border: Border.all(color: AppTheme.secondaryColor)),
+                          child: Row(
+                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                            children: [
+                              Text(
+                                'Description',
+                                style: GoogleFonts.poppins(
+                                  color: AppTheme.primaryColor,
+                                  fontSize: 15,
+                                ),
+                              ),
+                              GestureDetector(
+                                child: isDiscrptionPolicy.value == true
+                                    ? const Icon(Icons.keyboard_arrow_up_rounded)
+                                    : const Icon(Icons.keyboard_arrow_down_outlined),
+                                onTap: () {
+                                  setState(() {
+                                    isDiscrptionPolicy.toggle();
+                                  });
+                                },
+                              ),
+                            ],
+                          ),
+                        ),
+                      ),
+                      const SizedBox(height: 20),
+                      if (isDiscrptionPolicy.value == true)
+                        Stack(
+                          children: [
+                            Container(
+                              width: Get.width,
+                              padding: EdgeInsets.all(10),
+                              decoration: BoxDecoration(color: Colors.grey.shade200),
+                              child: Column(
+                                mainAxisAlignment: MainAxisAlignment.start,
+                                crossAxisAlignment: CrossAxisAlignment.start,
+                                children: [
+                                  Text(
+                                      'Short Description: ${productDetailsModel.value.productDetails!.product!.shortDescription ?? ""}'),
+                                  if(productDetailsModel.value.productDetails!.product!.inStock == '-1' )
+                                    const Text(
+                                        'Stock quantity : ${'No need'}'),
+                                  if(productDetailsModel.value.productDetails!.product!.inStock != '-1' )
+                                    Text(
+                                        'Stock quantity : ${productDetailsModel.value.productDetails!.product!.inStock ?? ""}'),
+                                  Text(
+                                      'Set stock/spot alert: ${productDetailsModel.value.productDetails!.product!.stockAlert ?? ''}'),
+                                  Text('SEO Tags: ${productDetailsModel.value.productDetails!.product!.seoTags ?? ''}'),
+                                ],
+                              ),
+                            ),
+                            Positioned(
+                                right: 10,
+                                top: 20,
+                                child: GestureDetector(
+                                    onTap: () {
+                                      Get.to(VirtualDiscriptionScreen(
+                                        id: productDetailsModel.value.productDetails!.product!.id,
+                                        description:
+                                        productDetailsModel.value.productDetails!.product!.shortDescription,
+                                        stockquantity: productDetailsModel.value.productDetails!.product!.inStock,
+                                        setstock: productDetailsModel.value.productDetails!.product!.stockAlert,
+                                        sEOTags: productDetailsModel.value.productDetails!.product!.seoTags,
+                                      ));
+                                    },
+                                    child: const Text(
+                                      'Edit',
+                                      style: TextStyle(color: Colors.red, fontSize: 13),
+                                    )))
+                          ],
+                        ),
                       GestureDetector(
                         onTap: () {
                           setState(() {
@@ -452,9 +612,98 @@ class _VirtualReviewandPublishScreenState extends State<VirtualReviewandPublishS
                                     )))
                           ],
                         ),
+                      SizedBox(
+                        height: 20,
+                      ),
+                      GestureDetector(
+                        onTap: () {
+                          setState(() {
+                            optionalClassification.toggle();
+                          });
+                        },
+                        child: Container(
+                          padding: const EdgeInsets.symmetric(vertical: 12, horizontal: 12),
+                          decoration: BoxDecoration(
+                              color: Colors.white,
+                              borderRadius: BorderRadius.circular(8),
+                              border: Border.all(color: AppTheme.secondaryColor)),
+                          child: Row(
+                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                            children: [
+                              Text(
+                                'Optional Classification',
+                                style: GoogleFonts.poppins(
+                                  color: AppTheme.primaryColor,
+                                  fontSize: 15,
+                                ),
+                              ),
+                              GestureDetector(
+                                child: optionalClassification.value == true
+                                    ? const Icon(Icons.keyboard_arrow_up_rounded)
+                                    : const Icon(Icons.keyboard_arrow_down_outlined),
+                                onTap: () {
+                                  setState(() {
+                                    optionalClassification.toggle();
+                                  });
+                                },
+                              ),
+                            ],
+                          ),
+                        ),
+                      ),
+                      if (optionalClassification.value == true)
+                        Stack(
+                          children: [
+                            Container(
+                              width: Get.width,
+                              padding: EdgeInsets.all(10),
+                              decoration: BoxDecoration(color: Colors.grey.shade200),
+                              child: Column(
+                                mainAxisAlignment: MainAxisAlignment.start,
+                                crossAxisAlignment: CrossAxisAlignment.start,
+                                children: [
+                                  Text(
+                                      'Product Code: ${productDetailsModel.value.productDetails!.product!.productCode ?? ""}'),
+                                  Text(
+                                      'Promotion Code: ${productDetailsModel.value.productDetails!.product!.promotionCode ?? ""}'),
+                                  Text(
+                                      'Package details: ${productDetailsModel.value.productDetails!.product!.packageDetail ?? ""}'),
+                                  Text(
+                                      'Serial Number: ${productDetailsModel.value.productDetails!.product!.serialNumber ?? ""}'),
+                                  Text(
+                                      'Product number: ${productDetailsModel.value.productDetails!.product!.productNumber ?? ""}'),
+                                ],
+                              ),
+                            ),
+                            Positioned(
+                                right: 10,
+                                top: 10,
+                                child: GestureDetector(
+                                    onTap: () {
+                                      Get.to(VirtualOptionalClassificationScreen(
+                                        id: productDetailsModel.value.productDetails!.product!.id ?? "",
+                                        productNumber:
+                                        productDetailsModel.value.productDetails!.product!.productNumber ?? "",
+                                        productCode:
+                                        productDetailsModel.value.productDetails!.product!.productCode ?? "",
+                                        promotionCode:
+                                        productDetailsModel.value.productDetails!.product!.promotionCode ?? "",
+                                        serialNumber:
+                                        productDetailsModel.value.productDetails!.product!.serialNumber ?? "",
+                                        packageDetail:
+                                        productDetailsModel.value.productDetails!.product!.packageDetail ?? "",
+                                      ));
+                                    },
+                                    child: const Text(
+                                      'Edit',
+                                      style: TextStyle(color: Colors.red, fontSize: 13),
+                                    )))
+                          ],
+                        ),
                       const SizedBox(
                         height: 20,
                       ),
+
                       // GestureDetector(
                       //   onTap: () {
                       //     setState(() {
