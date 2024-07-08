@@ -5,7 +5,8 @@ publish_to: 'none'
 
 
 
-version: 1.0.20+46
+version: 1.0.21+47
+
 
 
 environment:
@@ -61,7 +62,6 @@ dependencies:
   flutter_html:
   flutter_animate: ^4.2.0+1
   syncfusion_flutter_pdfviewer: ^26.1.40
-
   audioplayers: ^5.2.0
   audio_video_progress_bar: ^2.0.1
   flutter_local_notifications: ^15.1.1
