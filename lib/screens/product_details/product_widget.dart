@@ -1,4 +1,5 @@
 import 'dart:convert';
+import 'dart:developer';
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:dirise/model/common_modal.dart';
 import 'package:dirise/repository/repository.dart';
@@ -185,6 +186,7 @@ class _ProductUIState extends State<ProductUI> {
       showToast(response.message.toString());
       if (response.status == true) {
         response.prodcutData!.inStock = productQuantity.value;
+        log('daadadda${response.toJson()}');
         if (kDebugMode) {
           print(response.prodcutData!.inStock);
         }

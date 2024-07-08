@@ -21,6 +21,7 @@ import '../../model/model_address_list.dart';
 
 import '../../model/order_models/model_direct_order_details.dart';
 import '../../model/vendor_models/model_payment_method.dart';
+import '../../newAddress/map_find_my_location.dart';
 import '../../repository/repository.dart';
 import '../../utils/api_constant.dart';
 import '../../utils/styles.dart';
@@ -165,9 +166,9 @@ class _DirectCheckOutScreenState extends State<DirectCheckOutScreen> {
     cartController.addressDeliZipCode.text = '';
     cartController.countryName.value = '';
     getPaymentGateWays();
-    // if (Get.arguments != null) {
-    //   cardirectOrderResponse = Get.arguments;
-    // }
+    if (Get.arguments != null) {
+      cartController.directOrderResponse.value = Get.arguments;
+    }
     profileController.checkUserLoggedIn().then((value) {
       if (value == false) return;
     });
@@ -2403,6 +2404,28 @@ class _DirectCheckOutScreenState extends State<DirectCheckOutScreen> {
                                     ),
                                     label: Text(
                                       "Add New",
+                                      style: GoogleFonts.poppins(fontSize: 15),
+                                    ))
+                              ],
+                            ),
+                          ),
+                          SliverToBoxAdapter(
+                            child: Row(
+                              children: [
+                                const Expanded(
+                                  child:SizedBox(),
+                                ),
+                                TextButton.icon(
+                                    onPressed: () {
+                                      Get.to(()=> FindMyLocationAddress());
+                                    },
+                                    style: TextButton.styleFrom(padding: EdgeInsets.zero),
+                                    icon: const Icon(
+                                      Icons.add,
+                                      size: 20,
+                                    ),
+                                    label: Text(
+                                      "Find my location",
                                       style: GoogleFonts.poppins(fontSize: 15),
                                     ))
                               ],

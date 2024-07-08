@@ -656,14 +656,28 @@ class _HomePageState extends State<HomePage> {
                   const SizedBox(
                     height: 10,
                   ),
-                  Row(
-                    children: [
-                      profileController.selectedLAnguage.value == 'English'
-                          ? Center(child: Text("   Deliver to ${locationController.city.toString()},${locationController.zipcode ?? ''}",)):
-                      Center(child: Text("   يسلم إلى ${locationController.city.toString()},${locationController.zipcode ?? ''}",))
-                    ],
-                  ),
-                  // if (locationController.zipcode.isNotEmpty)
+                      GestureDetector(
+                        onTap: () {
+                          Get.to(
+                            () => profileController.userLoggedIn ? const HomeAddEditAddressLogin() : HomeAddEditAddress(),
+                            arguments: 'home',
+                          );
+                        },
+                        child: Row(
+                          children: [
+                            profileController.selectedLAnguage.value == 'English'
+                                ? Center(
+                                    child: Text(
+                                    "   Deliver to ${locationController.city.toString()},${locationController.zipcode ?? ''}",
+                                  ))
+                                : Center(
+                                    child: Text(
+                                    "   يسلم إلى ${locationController.city.toString()},${locationController.zipcode ?? ''}",
+                                  ))
+                          ],
+                        ),
+                      ),
+                      // if (locationController.zipcode.isNotEmpty)
                   //   Padding(
                   //     padding: const EdgeInsets.symmetric(horizontal: 15),
                   //     child: Column(

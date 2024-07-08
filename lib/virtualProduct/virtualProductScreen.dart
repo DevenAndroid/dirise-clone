@@ -46,10 +46,10 @@ class _VirtualProductScreenState extends State<VirtualProductScreen> {
     'Image',
     'Others',
   ];
-  String languageItem = 'Hindi'; // Default selected item
+  String languageItem = 'Arabic'; // Default selected item
 
   List<String> languageItemList = [
-    'Hindi',
+    'Arabic',
     'English',
   ];
   final Repositories repositories = Repositories();
