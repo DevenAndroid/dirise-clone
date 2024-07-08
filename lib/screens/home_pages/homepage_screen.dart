@@ -313,7 +313,7 @@ class _HomePageState extends State<HomePage> {
     profileController.aboutUsData();
     // locationController.checkGps(context);
     // _getCurrentPosition();
-    locationController.getCurrentPosition();
+    // locationController.getCurrentPosition();
     _loadSavedAddress();
     // showToast(locationController.countryName.toString());
      WidgetsBinding.instance.addPostFrameCallback((timeStamp) {
@@ -370,10 +370,11 @@ class _HomePageState extends State<HomePage> {
                         SystemNavigator.pop();
                       }
                       if (Platform.isIOS) {
-                        FlutterExitApp.exitApp(iosForceExit: true);
+                        Get.back();
+                        // FlutterExitApp.exitApp(iosForceExit: true);
                       }
                     },
-                    child:  Text("Exit App".tr),
+                    child: Platform.isAndroid ? Text("Exit App".tr) : Text("Not now".tr)
                   ),
                   TextButton(
                     onPressed: () async {

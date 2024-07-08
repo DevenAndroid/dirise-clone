@@ -1,4 +1,5 @@
 import 'dart:convert';
+import 'dart:io';
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:dirise/model/common_modal.dart';
 import 'package:dirise/repository/repository.dart';
@@ -8,11 +9,18 @@ import 'package:easy_image_viewer/easy_image_viewer.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_rating_bar/flutter_rating_bar.dart';
+import 'package:geocoding/geocoding.dart';
+import 'package:geolocator/geolocator.dart';
 import 'package:get/get.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:google_maps_flutter/google_maps_flutter.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 import '../../controller/cart_controller.dart';
+import '../../controller/home_controller.dart';
+import '../../controller/location_controller.dart';
 import '../../controller/profile_controller.dart';
 import '../../controller/wish_list_controller.dart';
+import '../../model/add_current_address.dart';
 import '../../model/model_single_product.dart';
 import '../../model/order_models/model_direct_order_details.dart';
 import '../../model/product_model/model_product_element.dart';
@@ -37,7 +45,7 @@ class ProductUI extends StatefulWidget {
 class _ProductUIState extends State<ProductUI> {
   final cartController = Get.put(CartController());
   final wishListController = Get.put(WishListController());
-
+  GoogleMapController? mapController;
   Size size = Size.zero;
   final Repositories repositories = Repositories();
 
@@ -46,7 +54,121 @@ class _ProductUIState extends State<ProductUI> {
     super.didChangeDependencies();
     size = MediaQuery.of(context).size;
   }
+  final locationController = Get.put(LocationController());
+  addCurrentAddress() {
+    Map<String, dynamic> map = {};
+    map['zip_code'] = locationController.zipcode.value.toString();
+    print('current location${map.toString()}');
+    FocusManager.instance.primaryFocus!.unfocus();
+    repositories.postApi(url: ApiUrls.addCurrentAddress, context: context, mapData: map).then((value) {
+      AddCorrentAddressModel response = AddCorrentAddressModel.fromJson(jsonDecode(value));
+      cartController.countryId = response.data!.countryId.toString();
+      // showToast(response.message.toString());
+      // getAllAsync();
+      homeController.trendingData();
+      homeController.popularProductsData();
+    });
+  }
+  final homeController = Get.put(TrendingProductsController());
+  Future getAllAsync() async {
+    if (!mounted) return;
+    homeController.homeData();
+    if (!mounted) return;
+    profileController.getDataProfile();
+    if (!mounted) return;
+    homeController.getVendorCategories();
+    if (!mounted) return;
+    homeController.authorData();
+    if (!mounted) return;
+    cartController.myDefaultAddressData();
+    if (!mounted) return;
+    homeController.featuredStores();
+    if (!mounted) return;
+    homeController.showCaseProductsData();
+    if (!mounted) return;
+    homeController.trendingData();
+    if (!mounted) return;
+    homeController.popularProductsData();
+    if (!mounted) return;
+  }
+  Position? _currentPosition;
+  String? _address = "";
+  Future<void> _getCurrentPosition() async {
+    final hasPermission = await _handleLocationPermission();
+    if (!hasPermission) return;
+    await Geolocator.getCurrentPosition(desiredAccuracy: LocationAccuracy.high).then((Position position) {
+      setState(() => _currentPosition = position);
+      _getAddressFromLatLng(_currentPosition!);
+      mapController!.animateCamera(CameraUpdate.newCameraPosition(
+          CameraPosition(target: LatLng(_currentPosition!.latitude, _currentPosition!.longitude), zoom: 15)));
+      // _onAddMarkerButtonPressed(LatLng(_currentPosition!.latitude, _currentPosition!.longitude), "current location");
+      setState(() {});
+      // location = _currentAddress!;
+    }).catchError((e) {
+      debugPrint(e.toString());
+    });
+  }
 
+  Future<void> _getAddressFromLatLng(Position position) async {
+    List<Placemark> placemarks = await placemarkFromCoordinates(position.latitude, position.longitude);
+
+    if (placemarks != null && placemarks.isNotEmpty) {
+      Placemark placemark = placemarks[0];
+
+      setState(() {
+        locationController.zipcode.value = placemark.postalCode ?? '';
+        locationController.street = placemark.street ?? '';
+        locationController.city.value = placemark.locality ?? '';
+        locationController.state = placemark.administrativeArea ?? '';
+        locationController.countryName = placemark.country ?? '';
+        locationController.town = placemark.subAdministrativeArea ?? '';
+        // showToast(locationController.countryName.toString());
+      });
+
+      SharedPreferences prefs = await SharedPreferences.getInstance();
+      await prefs.setString('street', placemark.street ?? '');
+      await prefs.setString('city', placemark.locality ?? '');
+      await prefs.setString('state', placemark.administrativeArea ?? '');
+      await prefs.setString('country', placemark.country ?? '');
+      await prefs.setString('zipcode', placemark.postalCode ?? '');
+      await prefs.setString('town', placemark.subAdministrativeArea ?? '');
+    }
+    // errorApi();
+    await placemarkFromCoordinates(_currentPosition!.latitude, _currentPosition!.longitude)
+        .then((List<Placemark> placemarks) {
+      Placemark place = placemarks[0];
+      setState(() {
+        _address = '${place.subLocality}, ${place.subAdministrativeArea}, ${place.postalCode}';
+      });
+    }).catchError((e) {
+      debugPrint(e.toString());
+    });
+  }
+  Future<bool> _handleLocationPermission() async {
+    bool serviceEnabled;
+    LocationPermission permission;
+
+    serviceEnabled = await Geolocator.isLocationServiceEnabled();
+    if (!serviceEnabled) {
+      ScaffoldMessenger.of(context)
+          .showSnackBar(const SnackBar(content: Text('Location services are disabled. Please enable the services')));
+      return false;
+    }
+    permission = await Geolocator.checkPermission();
+    if (permission == LocationPermission.denied) {
+      permission = await Geolocator.requestPermission();
+      if (permission == LocationPermission.denied) {
+        ScaffoldMessenger.of(context).showSnackBar(const SnackBar(content: Text('Location permissions are denied')));
+        return false;
+      }
+    }
+    if (permission == LocationPermission.deniedForever) {
+      ScaffoldMessenger.of(context).showSnackBar(
+          const SnackBar(content: Text('Location permissions are permanently denied, we cannot request permissions.')));
+      return false;
+    }
+    return true;
+  }
   addToWishList() {
     repositories
         .postApi(
@@ -66,7 +188,7 @@ class _ProductUIState extends State<ProductUI> {
       }
     });
   }
-
+  bool hasShownDialog = false;
   removeFromWishList() {
     repositories
         .postApi(
@@ -433,6 +555,7 @@ class _ProductUIState extends State<ProductUI> {
                         const SizedBox(
                           height: 7,
                         ),
+                        if(Platform.isAndroid)
                         widget.productElement.shippingDate != "No Internation Shipping Available"
                             ? Column(
                                 crossAxisAlignment: CrossAxisAlignment.start,
@@ -481,11 +604,106 @@ class _ProductUIState extends State<ProductUI> {
                                                 fontWeight: FontWeight.w500)),
                                       ]),
                                 ),
-                              )
+                              ),
                         // Text("vendor doesn't ship internationally, contact us for the soloution",  style: GoogleFonts.poppins(
                         //     color: const Color(0xff858484),
                         //     fontSize: 13,
                         //     fontWeight: FontWeight.w500),),
+                        if(Platform.isIOS)
+                          widget.productElement.shippingDate != "No Internation Shipping Available"
+                              ?  Expanded(
+                            child: Text.rich(
+                              TextSpan(
+                                text: 'Shipping: ',
+                                style: const TextStyle(
+                                  fontSize: 14,
+                                  fontWeight: FontWeight.w600,
+                                  color: Color(0xFF19313B),
+                                ),
+                                children: [
+                                  if (widget.productElement.lowestDeliveryPrice != null)
+                                    WidgetSpan(
+                                      alignment: PlaceholderAlignment.middle,
+                                      child:  Text(
+                                        widget.productElement.lowestDeliveryPrice.toString(),
+                                        style:  GoogleFonts.poppins(
+                                          fontSize: 14,
+                                          fontWeight: FontWeight.w500,
+                                          color: Colors.black,
+                                        ),
+                                      ),
+                                    ),
+                                  WidgetSpan(
+                                    alignment: PlaceholderAlignment.middle,
+                                    child: Text(
+                                      ' KWD ',
+                                      style:  GoogleFonts.poppins(
+                                        fontSize: 14,
+                                        fontWeight: FontWeight.w500,
+                                        color: Colors.black,
+                                      ),
+                                    ),
+                                  ),
+                                  const WidgetSpan(
+                                    alignment: PlaceholderAlignment.middle,
+                                    child: Text(
+                                      ' & Estimated arrival by ',
+                                      style: TextStyle(
+                                        fontSize: 9,
+                                        fontWeight: FontWeight.w500,
+                                        color: Color(0xFF19313B),
+                                      ),
+                                    ),
+                                  ),
+                                  WidgetSpan(
+                                    alignment: PlaceholderAlignment.middle,
+                                    child:  Text(
+                                      widget.productElement.shippingDate ?? '',
+                                      style:  GoogleFonts.poppins(
+                                        fontSize: 14,
+                                        letterSpacing: 0.5,
+                                        height: 2,
+                                        fontWeight: FontWeight.w500,
+                                        color: Colors.black,
+                                      ),
+                                    ),
+                                  ),
+                                ],
+                              ),
+                            ),
+                          ) :
+                          GestureDetector(
+                            onTap: () async {
+
+                              SharedPreferences preferences = await SharedPreferences.getInstance();
+                              hasShownDialog = preferences.getBool('hasShownDialog') ?? false;
+                              // Get.to(() => const ContactUsScreen());
+                              await preferences.setBool('hasShownDialog', true);
+                              _getCurrentPosition();
+                              addCurrentAddress();
+                            },
+                            child: RichText(
+                              text: TextSpan(
+                                  text: 'international shipping not available',
+                                  style: GoogleFonts.poppins(
+                                      color: const Color(0xff858484), fontSize: 13, fontWeight: FontWeight.w500),
+                                  children: [
+                                    TextSpan(
+                                        text: ' allow location',
+                                        style: GoogleFonts.poppins(
+                                            decoration: TextDecoration.underline,
+                                            color: AppTheme.buttonColor,
+                                            fontSize: 13,
+                                            fontWeight: FontWeight.w500)),
+                                    TextSpan(
+                                        text: ' for the soloution',
+                                        style: GoogleFonts.poppins(
+                                            color: const Color(0xff858484),
+                                            fontSize: 13,
+                                            fontWeight: FontWeight.w500)),
+                                  ]),
+                            ),
+                          ),
                       ],
                     ),
                   ),
@@ -788,7 +1006,8 @@ class _ProductUIState extends State<ProductUI> {
                       ],
                     ),
                     15.spaceY,
-                    widget.productElement.shippingDate != "No Internation Shipping Available"
+                   if(  Platform.isAndroid)
+                   widget.productElement.shippingDate != "No Internation Shipping Available"
                         ?  Expanded(
                       child: Text.rich(
                         TextSpan(
@@ -876,6 +1095,98 @@ class _ProductUIState extends State<ProductUI> {
                             ]),
                       ),
                     ),
+                    if(  Platform.isIOS)
+                     widget.productElement.shippingDate != "No Internation Shipping Available"
+                      ?  Expanded(
+                    child: Text.rich(
+                      TextSpan(
+                        text: 'Shipping: ',
+                        style: const TextStyle(
+                          fontSize: 14,
+                          fontWeight: FontWeight.w600,
+                          color: Color(0xFF19313B),
+                        ),
+                        children: [
+                          if (widget.productElement.lowestDeliveryPrice != null)
+                            WidgetSpan(
+                              alignment: PlaceholderAlignment.middle,
+                              child:  Text(
+                                widget.productElement.lowestDeliveryPrice.toString(),
+                                style:  GoogleFonts.poppins(
+                                  fontSize: 14,
+                                  fontWeight: FontWeight.w500,
+                                  color: Colors.black,
+                                ),
+                              ),
+                            ),
+                          WidgetSpan(
+                            alignment: PlaceholderAlignment.middle,
+                            child: Text(
+                              ' KWD ',
+                              style:  GoogleFonts.poppins(
+                                fontSize: 14,
+                                fontWeight: FontWeight.w500,
+                                color: Colors.black,
+                              ),
+                            ),
+                          ),
+                          const WidgetSpan(
+                            alignment: PlaceholderAlignment.middle,
+                            child: Text(
+                              ' & Estimated arrival by ',
+                              style: TextStyle(
+                                fontSize: 9,
+                                fontWeight: FontWeight.w500,
+                                color: Color(0xFF19313B),
+                              ),
+                            ),
+                          ),
+                          WidgetSpan(
+                            alignment: PlaceholderAlignment.middle,
+                            child:  Text(
+                              widget.productElement.shippingDate ?? '',
+                              style:  GoogleFonts.poppins(
+                                fontSize: 14,
+                                letterSpacing: 0.5,
+                                height: 2,
+                                fontWeight: FontWeight.w500,
+                                color: Colors.black,
+                              ),
+                            ),
+                          ),
+                        ],
+                      ),
+                    ),
+                  ) :
+                  GestureDetector(
+                    onTap: () {
+                      // Get.to(() => const ContactUsScreen());
+                      // Navigator.of(context).pop();
+                      _getCurrentPosition();
+                      addCurrentAddress();
+                    },
+                    child: RichText(
+                      text: TextSpan(
+                          text: 'international shipping not available',
+                          style: GoogleFonts.poppins(
+                              color: const Color(0xff858484), fontSize: 13, fontWeight: FontWeight.w500),
+                          children: [
+                            TextSpan(
+                                text: ' allow location',
+                                style: GoogleFonts.poppins(
+                                    decoration: TextDecoration.underline,
+                                    color: AppTheme.buttonColor,
+                                    fontSize: 13,
+                                    fontWeight: FontWeight.w500)),
+                            TextSpan(
+                                text: ' for the soloution',
+                                style: GoogleFonts.poppins(
+                                    color: const Color(0xff858484),
+                                    fontSize: 13,
+                                    fontWeight: FontWeight.w500)),
+                          ]),
+                    ),
+                  ),
                   ],
                 ),
               ),
