@@ -1475,7 +1475,7 @@ Row(
     children: [
 
       Text(
-        'Store rating',
+        'Store rating ',
         style: GoogleFonts.poppins(
 
             color:  Colors.grey,
