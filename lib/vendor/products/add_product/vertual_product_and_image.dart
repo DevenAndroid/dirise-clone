@@ -308,13 +308,13 @@ class _AddProductImageAndVirtualFileState extends State<AddProductImageAndVirtua
               Helpers.addImagePicker(imageSource: ImageSource.camera, imageQuality: 50).then((value) async {
                 CroppedFile? croppedFile = await ImageCropper().cropImage(
                   sourcePath: value.path,
-                  aspectRatioPresets: [
-                    // CropAspectRatioPreset.square,
-                    // CropAspectRatioPreset.ratio3x2,
-                    // CropAspectRatioPreset.original,
-                    CropAspectRatioPreset.ratio4x3,
-                    // CropAspectRatioPreset.ratio16x9
-                  ],
+                  // aspectRatioPresets: [
+                  //   // CropAspectRatioPreset.square,
+                  //   // CropAspectRatioPreset.ratio3x2,
+                  //   // CropAspectRatioPreset.original,
+                  //   CropAspectRatioPreset.ratio4x3,
+                  //   // CropAspectRatioPreset.ratio16x9
+                  // ],
                   uiSettings: [
                     AndroidUiSettings(
                         toolbarTitle: 'Cropper',
@@ -346,13 +346,13 @@ class _AddProductImageAndVirtualFileState extends State<AddProductImageAndVirtua
               Helpers.addImagePicker(imageSource: ImageSource.gallery, imageQuality: 75).then((value) async {
                 CroppedFile? croppedFile = await ImageCropper().cropImage(
                   sourcePath: value.path,
-                  aspectRatioPresets: [
-                    // CropAspectRatioPreset.square,
-                    // CropAspectRatioPreset.ratio3x2,
-                    // CropAspectRatioPreset.original,
-                    CropAspectRatioPreset.ratio4x3,
-                    // CropAspectRatioPreset.ratio16x9
-                  ],
+                  // aspectRatioPresets: [
+                  //   // CropAspectRatioPreset.square,
+                  //   // CropAspectRatioPreset.ratio3x2,
+                  //   // CropAspectRatioPreset.original,
+                  //   CropAspectRatioPreset.ratio4x3,
+                  //   // CropAspectRatioPreset.ratio16x9
+                  // ],
 
                   uiSettings: [
                     AndroidUiSettings(

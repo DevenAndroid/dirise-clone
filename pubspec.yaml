@@ -48,7 +48,7 @@ dependencies:
   shimmer: ^3.0.0
   intl:
   card_swiper: ^3.0.0
-  file_picker:
+  file_picker: ^8.0.6
   image_picker: ^1.0.4
   internet_connection_checker: ^1.0.0+1
   cached_network_image: ^3.3.0
@@ -60,7 +60,8 @@ dependencies:
   firebase_messaging: ^14.7.0
   flutter_html:
   flutter_animate: ^4.2.0+1
-  syncfusion_flutter_pdfviewer:
+  syncfusion_flutter_pdfviewer: ^26.1.40
+
   audioplayers: ^5.2.0
   audio_video_progress_bar: ^2.0.1
   flutter_local_notifications: ^15.1.1
@@ -72,7 +73,7 @@ dependencies:
   chewie: ^1.7.0
   video_player: ^2.8.2
   full_screen_image: ^2.0.0
-  image_cropper:
+  image_cropper: ^7.1.0
   hive:
   hive_flutter: ^1.1.0
   firebase_crashlytics: ^3.3.0

@@ -148,13 +148,13 @@ class NewHelper {
 
                 CroppedFile? croppedFile = await ImageCropper().cropImage(
                   sourcePath: v!.path,
-                  aspectRatioPresets: [
-                    // CropAspectRatioPreset.square,
-                    // CropAspectRatioPreset.ratio3x2,
-                    // CropAspectRatioPreset.original,
-                    CropAspectRatioPreset.ratio4x3,
-                    // CropAspectRatioPreset.ratio16x9
-                  ],
+                  // aspectRatioPresets: [
+                  //   // CropAspectRatioPreset.square,
+                  //   // CropAspectRatioPreset.ratio3x2,
+                  //   // CropAspectRatioPreset.original,
+                  //   CropAspectRatioPreset.ratio4x3,
+                  //   // CropAspectRatioPreset.ratio16x9
+                  // ],
                   uiSettings: [
                     AndroidUiSettings(
                         toolbarTitle: 'Cropper',
@@ -189,13 +189,13 @@ class NewHelper {
               final item =await FlutterExifRotation.rotateImage(path: v.path);
               CroppedFile? croppedFile = await ImageCropper().cropImage(
                 sourcePath: item.path,
-                aspectRatioPresets: [
-                  // CropAspectRatioPreset.square,
-                  // CropAspectRatioPreset.ratio3x2,
-                  // CropAspectRatioPreset.original,
-                  CropAspectRatioPreset.ratio4x3,
-                  // CropAspectRatioPreset.ratio16x9
-                ],
+                // aspectRatioPresets: [
+                //   // CropAspectRatioPreset.square,
+                //   // CropAspectRatioPreset.ratio3x2,
+                //   // CropAspectRatioPreset.original,
+                //   CropAspectRatioPreset.ratio4x3,
+                //   // CropAspectRatioPreset.ratio16x9
+                // ],
                 uiSettings: [
                   AndroidUiSettings(
                       toolbarTitle: 'Cropper',

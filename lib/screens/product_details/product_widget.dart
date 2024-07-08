@@ -2,6 +2,7 @@ import 'dart:convert';
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:dirise/model/common_modal.dart';
 import 'package:dirise/repository/repository.dart';
+import 'package:dirise/single_products/give_away_single.dart';
 import 'package:dirise/utils/helper.dart';
 import 'package:easy_image_viewer/easy_image_viewer.dart';
 import 'package:flutter/foundation.dart';
@@ -222,7 +223,8 @@ class _ProductUIState extends State<ProductUI> {
   Widget build(BuildContext context) {
     return InkWell(
       onTap: () {
-        bottomSheet(productDetails: widget.productElement, context: context);
+        Get.to(()=>GiveAwayProduct(productDetails: widget.productElement,));
+       // bottomSheet(productDetails: widget.productElement, context: context);
       },
       child:  widget.productElement.itemType != 'giveaway'
           ? Padding(
