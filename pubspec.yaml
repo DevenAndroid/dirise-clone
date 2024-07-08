@@ -5,7 +5,7 @@ publish_to: 'none'
 
 
 
-version: 1.0.20+45
+version: 1.0.20+46
 
 
 environment:
@@ -73,7 +73,7 @@ dependencies:
   chewie: ^1.7.0
   video_player: ^2.8.2
   full_screen_image: ^2.0.0
-  image_cropper: ^7.1.0
+  image_cropper: ^5.0.1
   hive:
   hive_flutter: ^1.1.0
   firebase_crashlytics: ^3.3.0
