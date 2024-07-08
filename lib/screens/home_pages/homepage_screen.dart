@@ -366,16 +366,17 @@ class _HomePageState extends State<HomePage> {
                     "This app collects location data to show your current city and zip code, and also for shipping information, even when the app is closed or not in use.".tr),
                 actions: [
                   TextButton(
-                      onPressed: () {
-                        if (Platform.isAndroid) {
-                          SystemNavigator.pop();
-                        }
-                        if (Platform.isIOS) {
-                          Get.back();
-                          // FlutterExitApp.exitApp(iosForceExit: true);
-                        }
-                      },
-                      child: Platform.isAndroid ? Text("Exit App".tr) : Text("Not now".tr)
+
+                    onPressed: () {
+                      if (Platform.isAndroid) {
+                        SystemNavigator.pop();
+                      }
+                      if (Platform.isIOS) {
+                        Get.back();
+                        // FlutterExitApp.exitApp(iosForceExit: true);
+                      }
+                    },
+                    child: Platform.isAndroid ? Text("Exit App".tr) : Text("Not now".tr)
                   ),
                   TextButton(
                     onPressed: () async {
