@@ -140,7 +140,8 @@ class _SingleProductDetailsState extends State<SingleProductDetails> {
     // updateValues();
   }
 
-  Map<String, dynamic> get getMap {
+  Map<String, dynamic> get getMap
+  {
     Map<String, dynamic> map = {};
     map["product_id"] = productElement.id.toString();
     map["quantity"] = map["quantity"] = int.tryParse(productQuantity.value.toString());

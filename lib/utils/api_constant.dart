@@ -76,6 +76,7 @@ class ApiUrls {
   static const String getCategoryStoresUrl = "${baseUrl}get-vendor-details?";
   static const String vendorProductListUrl = "${baseUrl}vendor-product-list?";
   static const String singleProductUrl = "${baseUrl}product";
+  static const String singleGiveAwayUrl = "${baseUrl}single-giveaway-product";
   static const String getEventsUrl = "${baseUrl}get-events";
   static const String addEventUrl = "${baseUrl}event";
   static const String deleteEventUrl = "${baseUrl}delete-event";
@@ -136,6 +137,7 @@ class ApiUrls {
   static const String sponsorList = "${baseUrl}sponsor-list";
   static const String featuredStore = "${baseUrl}get-featured-store";
   static const String getJobList = "${baseUrl}job-product-list";
+  static const String releatedProduct = "${baseUrl}related-product";
 
 
 
