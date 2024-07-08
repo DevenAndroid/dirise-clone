@@ -224,8 +224,8 @@ class _ProductUIState extends State<ProductUI> {
     return InkWell(
       onTap: () {
         print( widget.productElement.id);
-        Get.to(()=>GiveAwayProduct(),arguments: widget.productElement.id.toString());
-  // bottomSheet(productDetails: widget.productElement, context: context);
+        // Get.to(()=>GiveAwayProduct(),arguments: widget.productElement.id.toString());
+ bottomSheet(productDetails: widget.productElement, context: context);
       },
       child:  widget.productElement.itemType != 'giveaway'
           ? Padding(
