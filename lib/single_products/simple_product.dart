@@ -21,7 +21,6 @@ import '../controller/location_controller.dart';
 import '../controller/profile_controller.dart';
 import '../controller/wish_list_controller.dart';
 import '../model/add_review_model.dart';
-import '../model/bookable_product_model.dart';
 import '../model/common_modal.dart';
 
 // import '../model/filter_by_price_model.dart';
@@ -41,15 +40,15 @@ import '../widgets/cart_widget.dart';
 import '../widgets/common_colour.dart';
 import '../widgets/like_button.dart';
 
-class BookableProductScreen extends StatefulWidget {
-  const BookableProductScreen({super.key});
+class SimpleProductScreen extends StatefulWidget {
+  const SimpleProductScreen({super.key});
 
   // final SingleGiveawayProduct productDetails;
   @override
-  State<BookableProductScreen> createState() => _BookableProductScreenState();
+  State<SimpleProductScreen> createState() => _SimpleProductScreenState();
 }
 
-class _BookableProductScreenState extends State<BookableProductScreen> {
+class _SimpleProductScreenState extends State<SimpleProductScreen> {
   final Repositories repositories = Repositories();
 
   // SingleGiveawayProduct productElement = SingleGiveawayProduct();
@@ -57,7 +56,7 @@ class _BookableProductScreenState extends State<BookableProductScreen> {
   final profileController = Get.put(ProfileController());
 
   // ProductElement get productDetails => productElement;
-  Rx<BookableProductModel> modelSingleProduct = BookableProductModel().obs;
+  Rx<SimpleProductModel> modelSingleProduct = SimpleProductModel().obs;
   ModelAddReview modelAddReview = ModelAddReview();
   final locationController = Get.put(LocationController());
 
@@ -179,13 +178,13 @@ class _BookableProductScreenState extends State<BookableProductScreen> {
   getProductDetails() {
     statusSingle = RxStatus.loading();
     repositories
-        .postApi(url: ApiUrls.bookableProductUrl, mapData: {"product_id": id.toString(), "key": 'fedexRate'}).then((value) {
-      modelSingleProduct.value = BookableProductModel.fromJson(jsonDecode(value));
-      if (modelSingleProduct.value.bookingProduct != null) {
-        log("modelSingleProduct.product!.toJson().....${modelSingleProduct.value.bookingProduct!.toJson()}");
-        imagesList.addAll(modelSingleProduct.value.bookingProduct!.galleryImage ?? []);
+        .postApi(url: ApiUrls.simpleProductUrl, mapData: {"product_id": id.toString(), "key": 'fedexRate'}).then((value) {
+      modelSingleProduct.value = SimpleProductModel.fromJson(jsonDecode(value));
+      if (modelSingleProduct.value.simpleProduct != null) {
+        log("modelSingleProduct.product!.toJson().....${modelSingleProduct.value.simpleProduct!.toJson()}");
+        imagesList.addAll(modelSingleProduct.value.simpleProduct!.galleryImage ?? []);
         imagesList = imagesList.toSet().toList();
-        releatedId = modelSingleProduct.value.bookingProduct!.catId!.last.id.toString();
+        releatedId = modelSingleProduct.value.simpleProduct!.catId!.last.id.toString();
         print("releatedId" + releatedId);
         similarProduct();
         statusSingle = RxStatus.success();
@@ -239,7 +238,7 @@ class _BookableProductScreenState extends State<BookableProductScreen> {
         },
         context: context)
         .then((value) {
-      modelSingleProduct.value.bookingProduct!.inWishlist == true;
+      modelSingleProduct.value.simpleProduct!.inWishlist == true;
       ModelCommonResponse response = ModelCommonResponse.fromJson(jsonDecode(value));
       showToast(response.message);
       if (response.status == true) {
@@ -259,7 +258,7 @@ class _BookableProductScreenState extends State<BookableProductScreen> {
         },
         context: context)
         .then((value) {
-      modelSingleProduct.value.bookingProduct!.inWishlist == true;
+      modelSingleProduct.value.simpleProduct!.inWishlist == true;
       ModelCommonResponse response = ModelCommonResponse.fromJson(jsonDecode(value));
       showToast(response.message);
       if (response.status == true) {
@@ -461,7 +460,7 @@ class _BookableProductScreenState extends State<BookableProductScreen> {
         titleSpacing: 0,
       ),
       body: Obx(() {
-        return modelSingleProduct.value.bookingProduct != null
+        return modelSingleProduct.value.simpleProduct != null
             ? SingleChildScrollView(
           child: Padding(
               padding: const EdgeInsets.all(12.0),
@@ -471,7 +470,7 @@ class _BookableProductScreenState extends State<BookableProductScreen> {
                 children: [
                   Row(
                     children: [
-                      if (modelSingleProduct.value.bookingProduct!.discountOff != '0.00')
+                      if (modelSingleProduct.value.simpleProduct!.discountOff != '0.00')
                         Container(
                           padding: const EdgeInsets.all(4),
                           decoration: BoxDecoration(
@@ -486,7 +485,7 @@ class _BookableProductScreenState extends State<BookableProductScreen> {
                                     color: const Color(0xFFFFDF33)),
                               ),
                               Text(
-                                " ${modelSingleProduct.value.bookingProduct!.discountOff}${'%'}  ",
+                                " ${modelSingleProduct.value.simpleProduct!.discountOff}${'%'}  ",
                                 style: GoogleFonts.poppins(
                                     fontSize: 12, fontWeight: FontWeight.w700, color: Colors.white),
                               ),
@@ -612,14 +611,14 @@ class _BookableProductScreenState extends State<BookableProductScreen> {
                     height: 20,
                   ),
                   Text(
-                    modelSingleProduct.value.bookingProduct!
+                    modelSingleProduct.value.simpleProduct!
                         .pname
                         .toString()
                         .capitalize!,
                     style: GoogleFonts.poppins(fontWeight: FontWeight.w500, fontSize: 18, color: Color(0xFF19313C)),
                   ),
                   Text(
-                    modelSingleProduct.value.bookingProduct!
+                    modelSingleProduct.value.simpleProduct!
                         .shortDescription
                         .toString()
                         .capitalize!,
@@ -703,10 +702,10 @@ class _BookableProductScreenState extends State<BookableProductScreen> {
 
                   Row(
                     children: [
-                      if (modelSingleProduct.value.bookingProduct!.discountOff != '0.00')
+                      if (modelSingleProduct.value.simpleProduct!.discountOff != '0.00')
                         Expanded(
                           child: Text(
-                            'KWD ${modelSingleProduct.value.bookingProduct!.pPrice.toString()}',
+                            'KWD ${modelSingleProduct.value.simpleProduct!.pPrice.toString()}',
                             style: GoogleFonts.poppins(
                                 decorationColor: Colors.red,
                                 decorationThickness: 2,
@@ -720,7 +719,7 @@ class _BookableProductScreenState extends State<BookableProductScreen> {
                       Expanded(
                         child: Text.rich(
                           TextSpan(
-                            text: '${modelSingleProduct.value.bookingProduct!.discountPrice.toString().split('.')[0]}.',
+                            text: '${modelSingleProduct.value.simpleProduct!.discountPrice.toString().split('.')[0]}.',
                             style: const TextStyle(
                                 fontSize: 24, fontWeight: FontWeight.w600, color: Color(0xFF19313B)),
                             children: [
@@ -738,10 +737,10 @@ class _BookableProductScreenState extends State<BookableProductScreen> {
                                     ),
                                     InkWell(
                                       onTap: () {
-                                        print("date:::::::::::" + modelSingleProduct.value.bookingProduct!.shippingDate.toString());
+                                        print("date:::::::::::" + modelSingleProduct.value.simpleProduct!.shippingDate.toString());
                                       },
                                       child: Text(
-                                        '${modelSingleProduct.value.bookingProduct!.discountPrice.toString().split('.')[1]}',
+                                        '${modelSingleProduct.value.simpleProduct!.discountPrice.toString().split('.')[1]}',
                                         style: const TextStyle(
                                             fontSize: 8,
                                             fontWeight: FontWeight.w600,
@@ -757,37 +756,37 @@ class _BookableProductScreenState extends State<BookableProductScreen> {
                       ),
                     ],
                   ),
-                  Row(
-                    mainAxisAlignment: MainAxisAlignment.end,
-                    children: [
-                      RatingBar.builder(
-                        initialRating: double.parse(modelSingleProduct.value.bookingProduct!.rating.toString()),
-                        minRating: 1,
-                        direction: Axis.horizontal,
-                        updateOnDrag: true,
-                        tapOnlyMode: false,
-                        ignoreGestures: true,
-                        allowHalfRating: true,
-                        itemSize: 20,
-                        itemCount: 5,
-                        itemBuilder: (context, _) => const Icon(
-                          Icons.star,
-                          size: 8,
-                          color: Colors.amber,
-                        ),
-                        onRatingUpdate: (rating) {
-                          print(rating);
-                        },
-                      ),
-                      SizedBox(width: 10,),
-                      Image.asset("assets/svgs/rils.png"),
-                    ],
-                  ),
+                 Row(
+                   mainAxisAlignment: MainAxisAlignment.end,
+                   children: [
+                     RatingBar.builder(
+                       initialRating: double.parse(modelSingleProduct.value.simpleProduct!.rating.toString()),
+                       minRating: 1,
+                       direction: Axis.horizontal,
+                       updateOnDrag: true,
+                       tapOnlyMode: false,
+                       ignoreGestures: true,
+                       allowHalfRating: true,
+                       itemSize: 20,
+                       itemCount: 5,
+                       itemBuilder: (context, _) => const Icon(
+                         Icons.star,
+                         size: 8,
+                         color: Colors.amber,
+                       ),
+                       onRatingUpdate: (rating) {
+                         print(rating);
+                       },
+                     ),
+                     SizedBox(width: 10,),
+                     Image.asset("assets/svgs/rils.png"),
+                   ],
+                 ),
                   SizedBox(height: 20,),
                   SizedBox(
                     height: 28,
                     child: ListView.builder(
-                      itemCount: modelSingleProduct.value.bookingProduct!.catId!.length,
+                      itemCount: modelSingleProduct.value.simpleProduct!.catId!.length,
                       shrinkWrap: true,
                       scrollDirection: Axis.horizontal,
                       physics: AlwaysScrollableScrollPhysics(),
@@ -801,7 +800,7 @@ class _BookableProductScreenState extends State<BookableProductScreen> {
                                 borderRadius: BorderRadius.circular(20),
                               ),
                               child: Text(
-                                modelSingleProduct.value.bookingProduct!.catId![index].title.toString(),
+                                modelSingleProduct.value.simpleProduct!.catId![index].title.toString(),
                                 style: GoogleFonts.poppins(
                                     color: Color(0xFF014E70), fontSize: 10, fontWeight: FontWeight.w400),
                               ),
@@ -813,93 +812,93 @@ class _BookableProductScreenState extends State<BookableProductScreen> {
                     ),
                   ),
                   SizedBox(height: 20,),
-                  Text(
-                    "Dirise Welcome deal  ",
-                    style: GoogleFonts.poppins(fontWeight: FontWeight.w500, fontSize: 18, color:Color(0xFF014E70)),
+      Text(
+        "Dirise Welcome deal  ",
+        style: GoogleFonts.poppins(fontWeight: FontWeight.w500, fontSize: 18, color:Color(0xFF014E70)),
 
-                  ),
-                  SizedBox(height: 10,),
-                  Row(
-                    children: [
-                      Icon(Icons.circle,color: Colors.grey,size: 10,),
-                      const SizedBox(
-                        width: 7,
-                      ),
-                      Text(
-                        'Up to 70% off. Free shipping on 1st order',
-                        style: GoogleFonts.poppins(
+      ),
+      SizedBox(height: 10,),
+      Row(
+        children: [
+          Icon(Icons.circle,color: Colors.grey,size: 10,),
+          const SizedBox(
+            width: 7,
+          ),
+          Text(
+            'Up to 70% off. Free shipping on 1st order',
+            style: GoogleFonts.poppins(
 
-                            color:  Colors.grey,
-                            fontSize: 14,
-                            fontWeight: FontWeight.w500),
-                      ),
-
-
-
-                    ],
-                  ),
-                  SizedBox(height: 10,),
-                  Row(
-                    children: [
-                      Icon(Icons.circle,color: Colors.grey,size: 10,),
-                      const SizedBox(
-                        width: 7,
-                      ),
-                      Text(
-                        'Fedex Fast delivery by ',
-                        style: GoogleFonts.poppins(
-
-                            color:  Colors.grey,
-                            fontSize: 14,
-                            fontWeight: FontWeight.w500),
-                      ),
-                      Text(
-                        modelSingleProduct.value.bookingProduct!.shippingDate.toString(),
-                        style: GoogleFonts.poppins(
-
-                            color:  Color(0xFf014E70),
-                            fontSize: 14,
-                            fontWeight: FontWeight.w600),
-                      ),
+                color:  Colors.grey,
+                fontSize: 14,
+                fontWeight: FontWeight.w500),
+          ),
 
 
 
-                    ],
-                  ),
+        ],
+      ),
+      SizedBox(height: 10,),
+      Row(
+        children: [
+          Icon(Icons.circle,color: Colors.grey,size: 10,),
+          const SizedBox(
+            width: 7,
+          ),
+          Text(
+            'Fedex Fast delivery by ',
+            style: GoogleFonts.poppins(
+
+                color:  Colors.grey,
+                fontSize: 14,
+                fontWeight: FontWeight.w500),
+          ),
+          Text(
+        modelSingleProduct.value.simpleProduct!.shippingDate.toString(),
+            style: GoogleFonts.poppins(
+
+                color:  Color(0xFf014E70),
+                fontSize: 14,
+                fontWeight: FontWeight.w600),
+          ),
+
+
+
+        ],
+      ),
                   SizedBox(height: 20,),
-                  Row(
-                    children: [
+      Row(
+        children: [
 
-                      Text(
-                        'Quantity : ',
-                        style: GoogleFonts.poppins(
+          Text(
+            'Quantity : ',
+            style: GoogleFonts.poppins(
 
-                            color:  Colors.black,
-                            fontSize: 20,
-                            fontWeight: FontWeight.w500),
-                      ),
-                      Spacer(),
+                color:  Colors.black,
+                fontSize: 20,
+                fontWeight: FontWeight.w500),
+          ),
+          Spacer(),
 
 
-                      IconButton(
-                        icon: Icon(Icons.remove,color: Color(0xFF014E70),),
-                        onPressed: decrementCounter,
-                      ),
-                      Text(
-                        '$_counter',
-                        style: GoogleFonts.poppins(
+          IconButton(
+            icon: Icon(Icons.remove,color: Color(0xFF014E70),),
+            onPressed: decrementCounter,
+          ),
+          Text(
+            '$_counter',
+            style: GoogleFonts.poppins(
 
-                            color:  Color(0xFF014E70),
-                            fontSize: 26,
-                            fontWeight: FontWeight.w500),
-                      ),
-                      IconButton(
-                        icon: Icon(Icons.add,color: Color(0xFF014E70),),
-                        onPressed: incrementCounter,
-                      ),
+                color:  Color(0xFF014E70),
+                fontSize: 26,
+                fontWeight: FontWeight.w500),
+          ),
+          IconButton(
+            icon: Icon(Icons.add,color: Color(0xFF014E70),),
+            onPressed: incrementCounter,
+          ),
 
-                    ],
-                  ),
+        ],
+      ),
                   SizedBox(
                     height: 20,
                   ),
@@ -948,101 +947,101 @@ class _BookableProductScreenState extends State<BookableProductScreen> {
                     ],
                   ),
 
-                  SizedBox(height: 10,),
-                  Text(
-                    'Specifications',
-                    style: GoogleFonts.poppins(
+                   SizedBox(height: 10,),
+                   Text(
+                     'Specifications',
+                     style: GoogleFonts.poppins(
 
-                        color: Colors.black,
-                        fontSize: 20,
-                        fontWeight: FontWeight.w500),
-                  ),
-                  SizedBox(height: 16,),
+                         color: Colors.black,
+                         fontSize: 20,
+                         fontWeight: FontWeight.w500),
+                   ),
+                   SizedBox(height: 16,),
 
-                  Row(
-                    children: [
-                      Text(
-                        'SKU :',
-                        style: GoogleFonts.poppins(
+                   Row(
+                     children: [
+                       Text(
+                         'SKU :',
+                         style: GoogleFonts.poppins(
 
-                            color: Colors.black,
-                            fontSize: 16,
-                            fontWeight: FontWeight.w500),
-                      ),
+                             color: Colors.black,
+                             fontSize: 16,
+                             fontWeight: FontWeight.w500),
+                       ),
 
-                      const SizedBox(
-                        width: 20,
-                      ),
-                      Icon(Icons.circle, color: Colors.grey, size: 6,),
-                      const SizedBox(
-                        width: 7,
-                      ),
-                      Text(
-                        modelSingleProduct.value.bookingProduct!.serialNumber.toString(),
-                        style: GoogleFonts.poppins(
+                       const SizedBox(
+                         width: 20,
+                       ),
+                       Icon(Icons.circle, color: Colors.grey, size: 6,),
+                       const SizedBox(
+                         width: 7,
+                       ),
+                       Text(
+        modelSingleProduct.value.simpleProduct!.serialNumber.toString(),
+                         style: GoogleFonts.poppins(
 
-                            color: Colors.grey,
-                            fontSize: 14,
-                            fontWeight: FontWeight.w500),
-                      ),
+                             color: Colors.grey,
+                             fontSize: 14,
+                             fontWeight: FontWeight.w500),
+                       ),
 
 
-                    ],
-                  ),
-                  // SizedBox(height: 10,),
-                  // Row(
-                  //   // mainAxisAlignment: MainAxisAlignment.start,
-                  //   crossAxisAlignment: CrossAxisAlignment.start,
-                  //   children: [
-                  //     Text(
-                  //       'Brand :',
-                  //       style: GoogleFonts.poppins(
-                  //
-                  //           color: Colors.black,
-                  //           fontSize: 16,
-                  //           fontWeight: FontWeight.w500),
-                  //     ),
-                  //
-                  //     const SizedBox(
-                  //       width: 20,
-                  //     ),
-                  //     Expanded(
-                  //       child: Column(
-                  //         children: [
-                  //           Row(
-                  //             mainAxisAlignment: MainAxisAlignment.start,
-                  //             // crossAxisAlignment: CrossAxisAlignment.start,
-                  //             children: [
-                  //               Icon(Icons.circle, color: Colors.grey, size: 6,),
-                  //               const SizedBox(
-                  //                 width: 7,
-                  //               ),
-                  //               Expanded(
-                  //                 child: Text(
-                  //                   '(7 days free & easy return) Seller Policy',
-                  //                   style: GoogleFonts.poppins(
-                  //
-                  //                       color: Colors.grey,
-                  //                       fontSize: 14,
-                  //                       fontWeight: FontWeight.w500),
-                  //                 ),
-                  //               ),
-                  //             ],
-                  //           ),
-                  //           SizedBox(height: 10,),
-                  //
-                  //
-                  //         ],
-                  //       ),
-                  //     )
-                  //
-                  //   ],
-                  // ),
-                  SizedBox(height: 10,),
-                  Divider(
-                    color: Colors.grey.withOpacity(.5),
-                    thickness: 1,
-                  ),
+                     ],
+                   ),
+                   // SizedBox(height: 10,),
+                   // Row(
+                   //   // mainAxisAlignment: MainAxisAlignment.start,
+                   //   crossAxisAlignment: CrossAxisAlignment.start,
+                   //   children: [
+                   //     Text(
+                   //       'Brand :',
+                   //       style: GoogleFonts.poppins(
+                   //
+                   //           color: Colors.black,
+                   //           fontSize: 16,
+                   //           fontWeight: FontWeight.w500),
+                   //     ),
+                   //
+                   //     const SizedBox(
+                   //       width: 20,
+                   //     ),
+                   //     Expanded(
+                   //       child: Column(
+                   //         children: [
+                   //           Row(
+                   //             mainAxisAlignment: MainAxisAlignment.start,
+                   //             // crossAxisAlignment: CrossAxisAlignment.start,
+                   //             children: [
+                   //               Icon(Icons.circle, color: Colors.grey, size: 6,),
+                   //               const SizedBox(
+                   //                 width: 7,
+                   //               ),
+                   //               Expanded(
+                   //                 child: Text(
+                   //                   '(7 days free & easy return) Seller Policy',
+                   //                   style: GoogleFonts.poppins(
+                   //
+                   //                       color: Colors.grey,
+                   //                       fontSize: 14,
+                   //                       fontWeight: FontWeight.w500),
+                   //                 ),
+                   //               ),
+                   //             ],
+                   //           ),
+                   //           SizedBox(height: 10,),
+                   //
+                   //
+                   //         ],
+                   //       ),
+                   //     )
+                   //
+                   //   ],
+                   // ),
+                   SizedBox(height: 10,),
+                   Divider(
+                     color: Colors.grey.withOpacity(.5),
+                     thickness: 1,
+                   ),
 
                   SizedBox(
                     height: 20,
@@ -1101,7 +1100,7 @@ class _BookableProductScreenState extends State<BookableProductScreen> {
                       ),
                       Expanded(
                         child: Text(
-                          modelSingleProduct.value.bookingProduct!.shippingDate.toString(),
+                          modelSingleProduct.value.simpleProduct!.shippingDate.toString(),
                           style:
                           GoogleFonts.poppins(color: Color(0xFF014E70), fontSize: 14, fontWeight: FontWeight.w500),
                         ),
@@ -1132,9 +1131,9 @@ class _BookableProductScreenState extends State<BookableProductScreen> {
                       ),
                       Expanded(
                         child: Text(
-                          modelSingleProduct.value.bookingProduct!.lowestDeliveryPrice == ""
+                          modelSingleProduct.value.simpleProduct!.lowestDeliveryPrice == ""
                               ? "0"
-                              : modelSingleProduct.value.bookingProduct!.lowestDeliveryPrice.toString(),
+                              : modelSingleProduct.value.simpleProduct!.lowestDeliveryPrice.toString(),
                           style:
                           GoogleFonts.poppins(color: Color(0xFF014E70), fontSize: 14, fontWeight: FontWeight.w500),
                         ),
@@ -1155,7 +1154,7 @@ class _BookableProductScreenState extends State<BookableProductScreen> {
                   Row(
                     children: [
                       Text(
-                        modelSingleProduct.value.bookingProduct!.storemeta!.storeName.toString(),
+                        modelSingleProduct.value.simpleProduct!.storemeta!.storeName.toString(),
                         style: GoogleFonts.poppins(color: Colors.black, fontSize: 20, fontWeight: FontWeight.w500),
                       ),
                       SizedBox(
@@ -1181,7 +1180,7 @@ class _BookableProductScreenState extends State<BookableProductScreen> {
                       ),
                       Expanded(
                         child: Text(
-                          modelSingleProduct.value.bookingProduct!.storemeta!.storeId.toString(),
+                          modelSingleProduct.value.simpleProduct!.storemeta!.storeId.toString(),
                           style:
                           GoogleFonts.poppins(color: Color(0xFF014E70), fontSize: 14, fontWeight: FontWeight.w500),
                         ),
@@ -1197,14 +1196,14 @@ class _BookableProductScreenState extends State<BookableProductScreen> {
                       // Image.asset("assets/svgs/pak.png"),
 
                       Text(
-                        modelSingleProduct.value.bookingProduct!.storemeta!.storeLocation.toString(),
+                        modelSingleProduct.value.simpleProduct!.storemeta!.storeLocation.toString(),
                         style: GoogleFonts.poppins(color: Colors.grey, fontSize: 14, fontWeight: FontWeight.w600),
                       ),
                       SizedBox(
                         width: 30,
                       ),
                       Text(
-                        modelSingleProduct.value.bookingProduct!.storemeta!.storeCategory.toString(),
+                        modelSingleProduct.value.simpleProduct!.storemeta!.storeCategory.toString(),
                         style: GoogleFonts.poppins(color: Colors.grey, fontSize: 14, fontWeight: FontWeight.w500),
                       ),
                     ],
@@ -1255,7 +1254,7 @@ class _BookableProductScreenState extends State<BookableProductScreen> {
                   Center(
                     child: CachedNetworkImage(
                         imageUrl:
-                        modelSingleProduct.value.bookingProduct!.storemeta!.commercialLicense.toString(),
+                        modelSingleProduct.value.simpleProduct!.storemeta!.commercialLicense.toString(),
                         height: 180,
                         fit: BoxFit.cover,
                         errorWidget: (_, __, ___) => Image.asset('assets/images/new_logo.png')),
@@ -1323,15 +1322,15 @@ class _BookableProductScreenState extends State<BookableProductScreen> {
                     height: 30,
                   ),
                   modelRelated.value.relatedProduct != null?
-                  Text(
-                    'Similar products',
-                    style: GoogleFonts.poppins(color: Colors.black, fontSize: 20, fontWeight: FontWeight.w600),
-                  ):SizedBox(),
+                 Text(
+                   'Similar products',
+                   style: GoogleFonts.poppins(color: Colors.black, fontSize: 20, fontWeight: FontWeight.w600),
+                 ):SizedBox(),
 
                   Obx(() {
                     return modelRelated.value.relatedProduct != null?
 
-                    SizedBox(
+                      SizedBox(
                       height: MediaQuery
                           .of(context)
                           .size
@@ -1673,10 +1672,10 @@ class _BookableProductScreenState extends State<BookableProductScreen> {
                         },
                       ),
                     ):  Center(
-                      child: Text(
-                        'No Similar products',
-                        style: GoogleFonts.poppins(color: Colors.black, fontSize: 20, fontWeight: FontWeight.w600),
-                      ),
+                    child: Text(
+                    'No Similar products',
+                    style: GoogleFonts.poppins(color: Colors.black, fontSize: 20, fontWeight: FontWeight.w600),
+                    ),
                     );
                   })
 
