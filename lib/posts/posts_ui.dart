@@ -137,6 +137,7 @@ class _PublishPostScreenState extends State<PublishPostScreen> {
               Helpers.addImagePicker(imageSource: ImageSource.camera, imageQuality: 75).then((value) async {
                 CroppedFile? croppedFile = await ImageCropper().cropImage(
                   sourcePath: value.path,
+
                   // aspectRatioPresets: [
                   //   // CropAspectRatioPreset.square,
                   //   // CropAspectRatioPreset.ratio3x2,
