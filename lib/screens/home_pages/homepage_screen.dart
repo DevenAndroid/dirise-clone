@@ -72,7 +72,7 @@ class _HomePageState extends State<HomePage> {
           "street": locationController.street.toString(),
           "city": locationController.city.value,
           "state": locationController.state.toString(),
-        "country": locationController.countryName.toString(),
+          "country": locationController.countryName.toString(),
           // "country": "Pakistan",
           "zipcode": locationController.zipcode.value.toString(),
           "town":  locationController.town.toString(),
@@ -95,10 +95,10 @@ class _HomePageState extends State<HomePage> {
   final bottomController = Get.put(BottomNavBarController());
   String? _address = "";
   Position? _currentPosition;
-
+  LocationPermission? permission;
   Future<bool> _handleLocationPermission() async {
     bool serviceEnabled;
-    LocationPermission permission;
+
 
     serviceEnabled = await Geolocator.isLocationServiceEnabled();
     if (!serviceEnabled) {
@@ -106,6 +106,7 @@ class _HomePageState extends State<HomePage> {
           .showSnackBar(const SnackBar(content: Text('Location services are disabled. Please enable the services')));
       return false;
     }
+
     permission = await Geolocator.checkPermission();
     if (permission == LocationPermission.denied) {
       permission = await Geolocator.requestPermission();
@@ -272,7 +273,7 @@ class _HomePageState extends State<HomePage> {
             return CupertinoAlertDialog(
               title: Text(
                 "${'To register as vendor partner need to '.tr}"
-                "${'create an account first.'.tr}",
+                    "${'create an account first.'.tr}",
                 textAlign: TextAlign.center,
                 style: GoogleFonts.poppins(fontWeight: FontWeight.w600, fontSize: 16),
               ),
@@ -313,10 +314,10 @@ class _HomePageState extends State<HomePage> {
     profileController.aboutUsData();
     // locationController.checkGps(context);
     // _getCurrentPosition();
-    locationController.getCurrentPosition();
+    // locationController.getCurrentPosition();
     _loadSavedAddress();
     // showToast(locationController.countryName.toString());
-     WidgetsBinding.instance.addPostFrameCallback((timeStamp) {
+    WidgetsBinding.instance.addPostFrameCallback((timeStamp) {
       if (!hasShownDialog) {
         log('valueee trueee///${hasShownDialog.toString()}');
         _showWelcomeDialog();
@@ -365,15 +366,17 @@ class _HomePageState extends State<HomePage> {
                     "This app collects location data to show your current city and zip code, and also for shipping information, even when the app is closed or not in use.".tr),
                 actions: [
                   TextButton(
+
                     onPressed: () {
                       if (Platform.isAndroid) {
                         SystemNavigator.pop();
                       }
                       if (Platform.isIOS) {
-                        FlutterExitApp.exitApp(iosForceExit: true);
+                        Get.back();
+                        // FlutterExitApp.exitApp(iosForceExit: true);
                       }
                     },
-                    child:  Text("Exit App".tr),
+                    child: Platform.isAndroid ? Text("Exit App".tr) : Text("Not now".tr)
                   ),
                   TextButton(
                     onPressed: () async {
@@ -381,6 +384,8 @@ class _HomePageState extends State<HomePage> {
                       Navigator.of(context).pop();
                       _getCurrentPosition();
                       addCurrentAddress();
+                      homeController.trendingData();
+                      homeController.popularProductsData();
                       log('valueee clickk...${hasShownDialog.toString()}');
                     },
                     child:  Text("Allow".tr),
@@ -548,48 +553,48 @@ class _HomePageState extends State<HomePage> {
             preferredSize: search.value == true ? Size.fromHeight(50.0) : Size.fromHeight(0.0),
             child: search.value == true
                 ? Hero(
-                    tag: "search_tag",
-                    child: Material(
-                      color: Colors.transparent,
-                      surfaceTintColor: Colors.transparent,
-                      child: Padding(
-                        padding: const EdgeInsets.symmetric(horizontal: 15),
-                        child: TextField(
-                          maxLines: 1,
-                          style: GoogleFonts.poppins(fontSize: 16),
-                          textInputAction: TextInputAction.search,
-                          onSubmitted: (vb) {
-                            Get.to(() => SearchProductsScreen(
-                                  searchText: vb,
-                                ));
-                          },
-                          decoration: InputDecoration(
-                              filled: true,
-                              prefixIcon: Padding(
-                                padding: const EdgeInsets.all(10),
-                                child: Image.asset(
-                                  'assets/icons/search.png',
-                                  height: 5,
-                                ),
-                              ),
-                              border: InputBorder.none,
-                              enabledBorder: const OutlineInputBorder(
-                                  borderRadius: BorderRadius.all(Radius.circular(8)),
-                                  borderSide: BorderSide(color: AppTheme.buttonColor)),
-                              disabledBorder: const OutlineInputBorder(
-                                  borderRadius: BorderRadius.all(Radius.circular(8)),
-                                  borderSide: BorderSide(color: AppTheme.buttonColor)),
-                              focusedBorder: const OutlineInputBorder(
-                                  borderRadius: BorderRadius.all(Radius.circular(8)),
-                                  borderSide: BorderSide(color: AppTheme.buttonColor)),
-                              fillColor: Colors.white,
-                              contentPadding: const EdgeInsets.all(15),
-                              hintText: AppStrings.searchFieldText.tr,
-                              hintStyle: GoogleFonts.poppins(color: AppTheme.buttonColor, fontWeight: FontWeight.w400)),
+              tag: "search_tag",
+              child: Material(
+                color: Colors.transparent,
+                surfaceTintColor: Colors.transparent,
+                child: Padding(
+                  padding: const EdgeInsets.symmetric(horizontal: 15),
+                  child: TextField(
+                    maxLines: 1,
+                    style: GoogleFonts.poppins(fontSize: 16),
+                    textInputAction: TextInputAction.search,
+                    onSubmitted: (vb) {
+                      Get.to(() => SearchProductsScreen(
+                        searchText: vb,
+                      ));
+                    },
+                    decoration: InputDecoration(
+                        filled: true,
+                        prefixIcon: Padding(
+                          padding: const EdgeInsets.all(10),
+                          child: Image.asset(
+                            'assets/icons/search.png',
+                            height: 5,
+                          ),
                         ),
-                      ),
-                    ),
-                  )
+                        border: InputBorder.none,
+                        enabledBorder: const OutlineInputBorder(
+                            borderRadius: BorderRadius.all(Radius.circular(8)),
+                            borderSide: BorderSide(color: AppTheme.buttonColor)),
+                        disabledBorder: const OutlineInputBorder(
+                            borderRadius: BorderRadius.all(Radius.circular(8)),
+                            borderSide: BorderSide(color: AppTheme.buttonColor)),
+                        focusedBorder: const OutlineInputBorder(
+                            borderRadius: BorderRadius.all(Radius.circular(8)),
+                            borderSide: BorderSide(color: AppTheme.buttonColor)),
+                        fillColor: Colors.white,
+                        contentPadding: const EdgeInsets.all(15),
+                        hintText: AppStrings.searchFieldText.tr,
+                        hintStyle: GoogleFonts.poppins(color: AppTheme.buttonColor, fontWeight: FontWeight.w400)),
+                  ),
+                ),
+              ),
+            )
                 : SizedBox.shrink(),
           ),
           // bottom: PreferredSize(
@@ -737,11 +742,11 @@ class _HomePageState extends State<HomePage> {
                   //   const SizedBox.shrink(),
 
 
-                ],
-              ),
-            ),
+                    ],
+                  ),
+                ),
 
-            // Flexible(
+                // Flexible(
                 //     child:
                 //     Obx(() {return Text(
                 //       // "Deliver to  ${"Pakistan"} , ${"57170"}",
@@ -759,29 +764,29 @@ class _HomePageState extends State<HomePage> {
                     color: Color(0xFFF2F2F2).withOpacity(0.6),
                     child: const SingleChildScrollView(
                         child: Column(children: [
-                      SliderWidget(),
-                      CategoryItems(),
-                      // Row(
-                      //   mainAxisAlignment: MainAxisAlignment.end,
-                      //   children: [
-                      //     Text(
-                      //       "Edit categories order",
-                      //       style: GoogleFonts.poppins(fontWeight: FontWeight.w600, fontSize: 16, color: AppTheme.buttonColor),
-                      //
-                      //     ),
-                      //     SizedBox(width: 18,)
-                      //   ],
-                      // ),
-                      TrendingProducts(),
-                      AdBannerUI(),
-                      PopularProducts(),
-                      StarOfMonthScreen(),
-                      ShowCaseProducts(),
-                      AuthorScreen(),
-                      SizedBox(
-                        height: 30,
-                      ),
-                    ])),
+                          SliderWidget(),
+                          CategoryItems(),
+                          // Row(
+                          //   mainAxisAlignment: MainAxisAlignment.end,
+                          //   children: [
+                          //     Text(
+                          //       "Edit categories order",
+                          //       style: GoogleFonts.poppins(fontWeight: FontWeight.w600, fontSize: 16, color: AppTheme.buttonColor),
+                          //
+                          //     ),
+                          //     SizedBox(width: 18,)
+                          //   ],
+                          // ),
+                          TrendingProducts(),
+                          AdBannerUI(),
+                          PopularProducts(),
+                          StarOfMonthScreen(),
+                          ShowCaseProducts(),
+                          AuthorScreen(),
+                          SizedBox(
+                            height: 30,
+                          ),
+                        ])),
                   ),
                 ),
               ],
