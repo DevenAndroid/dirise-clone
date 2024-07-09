@@ -82,11 +82,10 @@ class _CustomDrawerState extends State<CustomDrawer> {
   ModelCountryList? modelCountryList;
   Country? selectedCountry;
   whatsapp() async {
-    String contact = "+96598762557";
+    String contact = "+96565556490";
     String text = '';
     String androidUrl = "whatsapp://send?phone=$contact&text=$text";
     String iosUrl = "https://wa.me/$contact?text=${Uri.parse(text)}";
-
     String webUrl = 'https://api.whatsapp.com/send/?phone=$contact&text=hi';
 
     try {

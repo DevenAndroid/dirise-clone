@@ -21,6 +21,7 @@ import '../../model/model_address_list.dart';
 
 import '../../model/order_models/model_direct_order_details.dart';
 import '../../model/vendor_models/model_payment_method.dart';
+import '../../newAddress/map_find_my_location.dart';
 import '../../repository/repository.dart';
 import '../../utils/api_constant.dart';
 import '../../utils/styles.dart';
@@ -166,7 +167,7 @@ class _DirectCheckOutScreenState extends State<DirectCheckOutScreen> {
     cartController.countryName.value = '';
     getPaymentGateWays();
     // if (Get.arguments != null) {
-    //   cardirectOrderResponse = Get.arguments;
+    //   cartController.directOrderResponse.value = Get.arguments;
     // }
     profileController.checkUserLoggedIn().then((value) {
       if (value == false) return;
@@ -1970,48 +1971,48 @@ class _DirectCheckOutScreenState extends State<DirectCheckOutScreen> {
                       const SizedBox(
                         height: 5,
                       ),
-                      Text(
-                        'Alternate Phone *'.tr,
-                        style: GoogleFonts.poppins(
-                            fontWeight: FontWeight.w500, fontSize: 16, color: const Color(0xff585858)),
-                      ),
-                      const SizedBox(
-                        height: 8,
-                      ),
-                      IntlPhoneField(
-                        // key: ValueKey(code),
-                        flagsButtonPadding: const EdgeInsets.all(8),
-                        dropdownIconPosition: IconPosition.trailing,
-                        showDropdownIcon: true,
-                        cursorColor: Colors.black,
-                        textInputAction: TextInputAction.next,
-                        dropdownTextStyle: const TextStyle(color: Colors.black),
-                        style: const TextStyle(color: AppTheme.textColor),
-
-                        controller: alternatePhoneController,
-                        decoration: const InputDecoration(
-                            contentPadding: EdgeInsets.zero,
-                            hintStyle: TextStyle(color: AppTheme.textColor),
-                            hintText: 'Enter your phone number',
-                            labelStyle: TextStyle(color: AppTheme.textColor),
-                            border: OutlineInputBorder(
-                              borderSide: BorderSide(),
-                            ),
-                            enabledBorder: OutlineInputBorder(borderSide: BorderSide(color: AppTheme.shadowColor)),
-                            focusedBorder: OutlineInputBorder(borderSide: BorderSide(color: AppTheme.shadowColor))),
-                        initialCountryCode: code.toString(),
-                        languageCode: '+91',
-                        onCountryChanged: (phone) {
-                          code = phone.code;
-                          print(phone.code);
-                          print(code.toString());
-                        },
-                        onChanged: (phone) {
-                          code = phone.countryISOCode.toString();
-                          print(phone.countryCode);
-                          print(code.toString());
-                        },
-                      ),
+                      // Text(
+                      //   'Alternate Phone *'.tr,
+                      //   style: GoogleFonts.poppins(
+                      //       fontWeight: FontWeight.w500, fontSize: 16, color: const Color(0xff585858)),
+                      // ),
+                      // const SizedBox(
+                      //   height: 8,
+                      // ),
+                      // IntlPhoneField(
+                      //   // key: ValueKey(code),
+                      //   flagsButtonPadding: const EdgeInsets.all(8),
+                      //   dropdownIconPosition: IconPosition.trailing,
+                      //   showDropdownIcon: true,
+                      //   cursorColor: Colors.black,
+                      //   textInputAction: TextInputAction.next,
+                      //   dropdownTextStyle: const TextStyle(color: Colors.black),
+                      //   style: const TextStyle(color: AppTheme.textColor),
+                      //
+                      //   controller: alternatePhoneController,
+                      //   decoration: const InputDecoration(
+                      //       contentPadding: EdgeInsets.zero,
+                      //       hintStyle: TextStyle(color: AppTheme.textColor),
+                      //       hintText: 'Enter your phone number',
+                      //       labelStyle: TextStyle(color: AppTheme.textColor),
+                      //       border: OutlineInputBorder(
+                      //         borderSide: BorderSide(),
+                      //       ),
+                      //       enabledBorder: OutlineInputBorder(borderSide: BorderSide(color: AppTheme.shadowColor)),
+                      //       focusedBorder: OutlineInputBorder(borderSide: BorderSide(color: AppTheme.shadowColor))),
+                      //   initialCountryCode: code.toString(),
+                      //   languageCode: '+91',
+                      //   onCountryChanged: (phone) {
+                      //     code = phone.code;
+                      //     print(phone.code);
+                      //     print(code.toString());
+                      //   },
+                      //   onChanged: (phone) {
+                      //     code = phone.countryISOCode.toString();
+                      //     print(phone.countryCode);
+                      //     print(code.toString());
+                      //   },
+                      // ),
 
                       // ...commonField(
                       //     textController: phoneController,
@@ -2030,23 +2031,23 @@ class _DirectCheckOutScreenState extends State<DirectCheckOutScreen> {
                       //       }
                       //       return null;
                       //     }),
-                      // ...commonField(
-                      //     textController: alternatePhoneController,
-                      //     title: "${'Alternate Phone'.tr}*",
-                      //     hintText: "Enter your alternate phone number".tr,
-                      //     keyboardType: TextInputType.number,
-                      //     validator: (value) {
-                      //       // if(value!.trim().isEmpty){
-                      //       //   return "Please enter phone number";
-                      //       // }
-                      //       // if(value.trim().length > 15){
-                      //       //   return "Please enter valid phone number";
-                      //       // }
-                      //       // if(value.trim().length < 8){
-                      //       //   return "Please enter valid phone number";
-                      //       // }
-                      //       return null;
-                      //     }),
+                      ...commonField(
+                          textController: alternatePhoneController,
+                          title: "${'Alternate Phone'.tr}*",
+                          hintText: "Enter your alternate phone number".tr,
+                          keyboardType: TextInputType.number,
+                          validator: (value) {
+                            // if(value!.trim().isEmpty){
+                            //   return "Please enter phone number";
+                            // }
+                            // if(value.trim().length > 15){
+                            //   return "Please enter valid phone number";
+                            // }
+                            // if(value.trim().length < 8){
+                            //   return "Please enter valid phone number";
+                            // }
+                            return null;
+                          }),
                       ...commonField(
                           textController: addressController,
                           title: "${'Address'.tr}*",
@@ -2408,6 +2409,28 @@ class _DirectCheckOutScreenState extends State<DirectCheckOutScreen> {
                               ],
                             ),
                           ),
+                          SliverToBoxAdapter(
+                            child: Row(
+                              children: [
+                                const Expanded(
+                                  child:SizedBox(),
+                                ),
+                                TextButton.icon(
+                                    onPressed: () {
+                                      Get.to(()=> FindMyLocationAddress());
+                                    },
+                                    style: TextButton.styleFrom(padding: EdgeInsets.zero),
+                                    icon: const Icon(
+                                      Icons.add,
+                                      size: 20,
+                                    ),
+                                    label: Text(
+                                      "Find my location",
+                                      style: GoogleFonts.poppins(fontSize: 15),
+                                    ))
+                              ],
+                            ),
+                          ),
                           const SliverPadding(padding: EdgeInsets.only(top: 4)),
                           shippingAddress.isNotEmpty
                               ? SliverList(
@@ -2421,6 +2444,7 @@ class _DirectCheckOutScreenState extends State<DirectCheckOutScreen> {
                                       cartController.selectedAddress = address;
                                       cartController.countryId = address.countryId.toString();
                                       countryIddd = address.countryId.toString();
+                                      log('fdfd${countryIddd.toString()}');
                                       cartController.zipCode = address.zipCode.toString();
                                       directBuyProduct();
                                       // cartController.getCart();
@@ -2602,11 +2626,14 @@ class _DirectCheckOutScreenState extends State<DirectCheckOutScreen> {
           );
         });
   }
-
+   String productId =  '';
+   String quantity = '';
   directBuyProduct() {
     Map<String, dynamic> map = {};
-    map["product_id"] = cartController.productElementId;
-    map["quantity"] = map["quantity"] = cartController.productQuantity.toString();
+    productId = cartController.productElementId.toString();
+    quantity = cartController.productQuantity.toString();
+    map["product_id"] = productId.toString();
+    map["quantity"] = quantity.toString();
     map["key"] = 'fedexRate';
     map["country_id"] = countryIddd.toString();
 

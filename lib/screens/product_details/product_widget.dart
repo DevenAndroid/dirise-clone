@@ -1,4 +1,5 @@
 import 'dart:convert';
+import 'dart:developer';
 import 'dart:io';
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:dirise/model/common_modal.dart';
@@ -304,15 +305,17 @@ class _ProductUIState extends State<ProductUI> {
     }
     repositories.postApi(url: ApiUrls.buyNowDetailsUrl, mapData: map, context: context).then((value) {
       print('product...');
-      ModelDirectOrderResponse response = ModelDirectOrderResponse.fromJson(jsonDecode(value));
+      cartController.directOrderResponse.value  = ModelDirectOrderResponse.fromJson(jsonDecode(value));
 
-      showToast(response.message.toString());
-      if (response.status == true) {
-        response.prodcutData!.inStock = productQuantity.value;
+      showToast(cartController.directOrderResponse.value.message.toString());
+      if (cartController.directOrderResponse.value.status == true) {
+        cartController.directOrderResponse.value.prodcutData!.inStock = productQuantity.value;
+        log('daadadda${cartController.directOrderResponse.value.toJson()}');
         if (kDebugMode) {
-          print(response.prodcutData!.inStock);
+          print(cartController.directOrderResponse.value.prodcutData!.inStock);
         }
-        Get.toNamed(DirectCheckOutScreen.route, arguments: response);
+        // Get.toNamed(DirectCheckOutScreen.route, arguments: response);
+        Get.toNamed(DirectCheckOutScreen.route);
       }
     });
   }
@@ -719,6 +722,8 @@ class _ProductUIState extends State<ProductUI> {
                             if(widget.productElement.productType == 'variants'){
                               bottomSheet(productDetails: widget.productElement, context: context);
                             }else {
+                              cartController.productElementId =  widget.productElement.id.toString();
+                              cartController.productQuantity = productQuantity.value.toString();
                               directBuyProduct();
                             }
                           },
@@ -897,6 +902,8 @@ class _ProductUIState extends State<ProductUI> {
                               ),
                               Text(
                                 widget.productElement.pName.toString(),
+                                maxLines: 2,
+                                overflow: TextOverflow.ellipsis,
                                 style: GoogleFonts.poppins(
                                     fontSize: 16, fontWeight: FontWeight.w400, color: const Color(0xFF19313C)),
                               ),
@@ -905,6 +912,8 @@ class _ProductUIState extends State<ProductUI> {
                               ),
                               Text(
                                 widget.productElement.shortDescription ?? '',
+                                maxLines: 5,
+                                overflow: TextOverflow.ellipsis,
                                 style: GoogleFonts.poppins(
                                     fontSize: 16, fontWeight: FontWeight.w400, color: const Color(0xFF19313C)),
                               ),

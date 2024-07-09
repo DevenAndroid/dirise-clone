@@ -654,93 +654,92 @@ class _HomePageState extends State<HomePage> {
             },
             child: Column(
               children: [
-                Container(
-                  color: Colors.white,
-                  child: Column(
-                    children: [
-                      const SizedBox(
-                        height: 10,
-                      ),
-                      Row(
-                        children: [
-                          profileController.selectedLAnguage.value == 'English'
-                              ? Center(child: locationController.city.isNotEmpty ?
-                          Text("   Deliver to ${locationController.city.toString()},${locationController.zipcode ?? ''}",):
-                          TextButton(
-                            onPressed: () async {
-                              SharedPreferences preferences = await SharedPreferences.getInstance();
-                              hasShownDialog = preferences.getBool('hasShownDialog') ?? false;
-                              await preferences.setBool('hasShownDialog', true);
-                              _getCurrentPosition();
-                              addCurrentAddress();
-                              homeController.trendingData();
-                              homeController.popularProductsData();
-                              log('valueee clickk...${hasShownDialog.toString()}');
-                            },
-                            child:  Text("Allow".tr),
-                          ),
-                          ):
-                          Center(child: Text("   يسلم إلى ${locationController.city.toString()},${locationController.zipcode ?? ''}",))
-                        ],
+              Container(
+              color: Colors.white,
+              child: Column(
+                children: [
+                  const SizedBox(
+                    height: 10,
+                  ),
+                      GestureDetector(
+                        onTap: () {
+                          Get.to(
+                            () => profileController.userLoggedIn ? const HomeAddEditAddressLogin() : HomeAddEditAddress(),
+                            arguments: 'home',
+                          );
+                        },
+                        child: Row(
+                          children: [
+                            profileController.selectedLAnguage.value == 'English'
+                                ? Center(
+                                    child: Text(
+                                    "   Deliver to ${locationController.city.toString()},${locationController.zipcode ?? ''}",
+                                  ))
+                                : Center(
+                                    child: Text(
+                                    "   يسلم إلى ${locationController.city.toString()},${locationController.zipcode ?? ''}",
+                                  ))
+                          ],
+                        ),
                       ),
                       // if (locationController.zipcode.isNotEmpty)
-                      //   Padding(
-                      //     padding: const EdgeInsets.symmetric(horizontal: 15),
-                      //     child: Column(
-                      //       crossAxisAlignment: CrossAxisAlignment.start,
-                      //       children: [
-                      //         if (!profileController.userLoggedIn)
-                      //           Text(
-                      //             'Address ',
-                      //             style: GoogleFonts.poppins(
-                      //               color: Colors.black,
-                      //               fontSize: 18,
-                      //               fontWeight: FontWeight.w500,
-                      //             ),
-                      //           ),
-                      //         4.spaceY,
-                      //         GestureDetector(
-                      //           onTap: () {
-                      //             Get.to(() => profileController.userLoggedIn
-                      //                 ? const HomeAddEditAddressLogin()
-                      //                 : HomeAddEditAddress(),
-                      //               arguments: 'home',
-                      //             );
-                      //           },
-                      //           child: Row(
-                      //             children: [
-                      //               SvgPicture.asset(
-                      //                 'assets/images/location.svg',
-                      //                 height: 20,
-                      //                 color: Colors.black,
-                      //               ),
-                      //               5.spaceX,
-                      //               Flexible(
-                      //                 child: Obx(() {
-                      //                   return Text(
-                      //                     "Deliver to  ${locationController.city.toString()} , ${locationController.zipcode ?? ''}",
-                      //                     style: GoogleFonts.poppins(
-                      //                       color: Colors.black,
-                      //                       fontSize: 14,
-                      //                       fontWeight: FontWeight.w400,
-                      //                     ),
-                      //                   );
-                      //                 }),
-                      //               ),
-                      //               5.spaceX,
-                      //               SvgPicture.asset(
-                      //                 'assets/images/pencilImg.svg',
-                      //                 height: 18,
-                      //                 color: Colors.white,
-                      //               ),
-                      //             ],
-                      //           ),
-                      //         ),
-                      //       ],
-                      //     ),
-                      //   )
-                      // else
-                      //   const SizedBox.shrink(),
+                  //   Padding(
+                  //     padding: const EdgeInsets.symmetric(horizontal: 15),
+                  //     child: Column(
+                  //       crossAxisAlignment: CrossAxisAlignment.start,
+                  //       children: [
+                  //         if (!profileController.userLoggedIn)
+                  //           Text(
+                  //             'Address ',
+                  //             style: GoogleFonts.poppins(
+                  //               color: Colors.black,
+                  //               fontSize: 18,
+                  //               fontWeight: FontWeight.w500,
+                  //             ),
+                  //           ),
+                  //         4.spaceY,
+                  //         GestureDetector(
+                  //           onTap: () {
+                  //             Get.to(() => profileController.userLoggedIn
+                  //                 ? const HomeAddEditAddressLogin()
+                  //                 : HomeAddEditAddress(),
+                  //               arguments: 'home',
+                  //             );
+                  //           },
+                  //           child: Row(
+                  //             children: [
+                  //               SvgPicture.asset(
+                  //                 'assets/images/location.svg',
+                  //                 height: 20,
+                  //                 color: Colors.black,
+                  //               ),
+                  //               5.spaceX,
+                  //               Flexible(
+                  //                 child: Obx(() {
+                  //                   return Text(
+                  //                     "Deliver to  ${locationController.city.toString()} , ${locationController.zipcode ?? ''}",
+                  //                     style: GoogleFonts.poppins(
+                  //                       color: Colors.black,
+                  //                       fontSize: 14,
+                  //                       fontWeight: FontWeight.w400,
+                  //                     ),
+                  //                   );
+                  //                 }),
+                  //               ),
+                  //               5.spaceX,
+                  //               SvgPicture.asset(
+                  //                 'assets/images/pencilImg.svg',
+                  //                 height: 18,
+                  //                 color: Colors.white,
+                  //               ),
+                  //             ],
+                  //           ),
+                  //         ),
+                  //       ],
+                  //     ),
+                  //   )
+                  // else
+                  //   const SizedBox.shrink(),
 
 
                     ],
