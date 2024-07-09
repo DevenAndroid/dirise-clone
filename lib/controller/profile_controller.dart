@@ -25,6 +25,7 @@ class ProfileController extends GetxController {
   bool userLoggedIn = false;
   RxString selectedLAnguage = "English".obs;
   String code = 'KW';
+  String code1 = 'KW';
   ModelCountryList? modelCountryList;
   Country? selectedCountry;
   Rx<AboutUsmodel> aboutusModal = AboutUsmodel().obs;

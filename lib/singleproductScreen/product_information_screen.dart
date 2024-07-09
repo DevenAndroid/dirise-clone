@@ -54,7 +54,7 @@ class _ProductInformationScreensState extends State<ProductInformationScreens> {
   final profileController = Get.put(ProfileController());
   deliverySizeApi() {
     Map<String, dynamic> map = {};
-    map['category_id'] = idForChild.toString();
+    map['category_id'] = idForChild.join(',').toString();
     map['product_name'] = ProductNameController.text.toString();
     map['item_type'] = 'product';
     map['id'] = addProductController.idProduct.value.toString();
