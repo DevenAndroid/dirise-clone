@@ -16,6 +16,11 @@ import '../../controller/wish_list_controller.dart';
 import '../../model/model_single_product.dart';
 import '../../model/order_models/model_direct_order_details.dart';
 import '../../model/product_model/model_product_element.dart';
+import '../../model/simple_product_model.dart';
+import '../../single_products/advirtising_single.dart';
+import '../../single_products/bookable_single.dart';
+import '../../single_products/simple_product.dart';
+import '../../single_products/variable_single.dart';
 import '../../utils/api_constant.dart';
 import '../../utils/styles.dart';
 import '../../widgets/common_colour.dart';
@@ -222,11 +227,22 @@ class _ProductUIState extends State<ProductUI> {
   @override
   Widget build(BuildContext context) {
     return InkWell(
-      onTap: () {
-        print( widget.productElement.id);
-        // Get.to(()=>GiveAwayProduct(),arguments: widget.productElement.id.toString());
- bottomSheet(productDetails: widget.productElement, context: context);
-      },
+        onTap: () {
+          print(widget.productElement.id);
+
+          if (widget.productElement.itemType == 'giveaway') {
+            Get.to(() => GiveAwayProduct(), arguments: widget.productElement.id.toString());
+          }
+          else if (widget.productElement.productType == 'variants'&& widget.productElement.itemType == 'product') {
+            Get.to(() => VarientsProductScreen(), arguments: widget.productElement.id.toString());
+          }
+          else if (widget.productElement.productType == 'booking'&& widget.productElement.itemType == 'product') {
+            Get.to(() => BookableProductScreen(), arguments: widget.productElement.id.toString());
+          }
+          else if (widget.productElement.itemType == 'product') {
+            Get.to(() => SimpleProductScreen(), arguments: widget.productElement.id.toString());
+          }
+        },
       child:  widget.productElement.itemType != 'giveaway'
           ? Padding(
         padding: const EdgeInsets.all(5.0),

@@ -16,6 +16,7 @@ import '../../controller/profile_controller.dart';
 import '../../controller/wish_list_controller.dart';
 import '../../model/common_modal.dart';
 import '../../repository/repository.dart';
+import '../../single_products/advirtising_single.dart';
 import '../../utils/api_constant.dart';
 import '../../widgets/common_colour.dart';
 import '../../widgets/like_button.dart';
@@ -103,276 +104,281 @@ class _ShowCaseProductsState extends State<ShowCaseProducts> {
                 shrinkWrap: true,
                 itemBuilder: (BuildContext context, int index) {
                   final item = homeController.getShowModal.value.showcaseProduct![index];
-                  return Padding(
-                    padding: const EdgeInsets.all(12.0),
-                    child: Stack(
-                      children: [
-                        Container(
-                          width: size.width * .92,
-                          padding: const EdgeInsets.all(8),
-                          decoration: BoxDecoration(
-                              color: Colors.white,
-                              borderRadius: BorderRadius.circular(8),
-                              boxShadow: [
-                                BoxShadow(
-
-                                  blurStyle: BlurStyle.outer,
-                                  offset: Offset(1, 1),
-                                  color: Colors.black12,
-                                  blurRadius: 3,
-
-                                )
-                              ]
-                          ),
-                          // constraints: BoxConstraints(
-                          //   // maxHeight: 100,
-                          //   minWidth: 0,
-                          //   maxWidth: size.width,
-                          // ),
-                          // color: Colors.red,
-                          // margin: const EdgeInsets.only(right: 9,left: 10),
-                          child: Column(
-                            crossAxisAlignment: CrossAxisAlignment.start,
-
-                            children: [
-                              SizedBox(height: 20,),
-                              Row(
-                                crossAxisAlignment: CrossAxisAlignment.start,
-                                mainAxisAlignment: MainAxisAlignment.start,
-                                children: [
-                                  CachedNetworkImage(
-                                      imageUrl: item.featuredImage.toString(),
-                                      height: 150,
-                                      width: 150,
-                                      fit: BoxFit.contain,
-                                      errorWidget: (_, __, ___) => Image.asset('assets/images/new_logo.png')),
-
-                                  SizedBox(width: 20,),
-                                  Column(
-                                    children: [
-                                      SizedBox(height: 15,),
-                                      Row(
-                                        children: [
-                                          Image.asset('assets/svgs/flagk.png'),
-                                          SizedBox(width: 5,),
-                                          Text("Kuwait City", style: GoogleFonts.poppins(
-                                              fontSize: 14, fontWeight: FontWeight.w400, color: Color(0xFF19313C)),
-                                          ),
-                                          SizedBox(width: 5,),
-                                          Obx(() {
-                                            if (wishListController.refreshFav.value > 0) {}
-                                            return LikeButtonCat(
-                                              onPressed: () {
-                                                if (wishListController.favoriteItems.contains(item.id.toString())) {
-                                                  repositories
-                                                      .postApi(
-                                                      url: ApiUrls.removeFromWishListUrl,
-                                                      mapData: {
-                                                        "product_id": item.id.toString(),
-                                                      },
-                                                      context: context)
-                                                      .then((value) {
-                                                    ModelCommonResponse response = ModelCommonResponse.fromJson(
-                                                        jsonDecode(value));
-                                                    log('api response is${response.toJson()}');
-                                                    showToast(response.message);
-                                                    wishListController.getYourWishList();
-                                                    wishListController.favoriteItems.remove(item.id.toString());
-                                                    wishListController.updateFav;
-                                                    setState(() {
-
-                                                    });
-                                                  });
-                                                } else {
-                                                  repositories
-                                                      .postApi(
-                                                      url: ApiUrls.addToWishListUrl,
-                                                      mapData: {
-                                                        "product_id": item.id.toString(),
-                                                      },
-                                                      context: context)
-                                                      .then((value) {
-                                                    ModelCommonResponse response = ModelCommonResponse.fromJson(
-                                                        jsonDecode(value));
-                                                    showToast(response.message);
-                                                    if (response.status == true) {
-                                                      wishListController.getYourWishList();
-                                                      wishListController.favoriteItems.add(item.id.toString());
-                                                      wishListController.updateFav;
-                                                    }
-                                                  });
-                                                }
-                                              },
-                                              isLiked: wishListController.favoriteItems.contains(item.id.toString()),
-                                            );
-                                          }),
-                                        ],
-                                      ),
-                                      SizedBox(height: 10,),
-                                      Text(item.pname.toString(), style: GoogleFonts.poppins(
-                                          fontSize: 16, fontWeight: FontWeight.w400, color: Color(0xFF19313C)),
-                                      ),
-                                      SizedBox(height: 15,),
-                                      Row(
-                                        children: [
-                                          Text("yokun", style: GoogleFonts.poppins(
-                                              fontSize: 10, fontWeight: FontWeight.w400, color: Color(0xFF19313C)),
-                                          ),
-                                          SizedBox(width: 6,),
-                                          Text("gmc", style: GoogleFonts.poppins(
-                                              fontSize: 10, fontWeight: FontWeight.w400, color: Color(0xFF19313C)),
-                                          ),
-                                          SizedBox(width: 6,),
-                                          Text("used", style: GoogleFonts.poppins(
-                                              fontSize: 10, fontWeight: FontWeight.w400, color: Color(0xFF19313C)),
-                                          ),
-                                          SizedBox(width: 6,),
-                                          Text("2024", style: GoogleFonts.poppins(
-                                              fontSize: 10, fontWeight: FontWeight.w400, color: Color(0xFF19313C)),
-                                          ),
-                                        ],
-                                      ),
-                                      SizedBox(height: 15,),
-                                      Text.rich(
-                                        TextSpan(
-                                          text: '${item.discountPrice.toString().split('.')[0]}.',
-
-                                          style: const TextStyle(
-                                            fontSize: 32,
-                                            fontWeight: FontWeight.w600,
-                                            color: Color(0xFF19313B),
-                                          ),
-                                          children: [
-                                            WidgetSpan(
-                                              alignment: PlaceholderAlignment.middle,
-                                              child: Column(
-                                                mainAxisAlignment: MainAxisAlignment.start,
-                                                children: [
-                                                  const Text(
-                                                    'KWD',
-                                                    style: TextStyle(
-                                                      fontSize: 8,
-                                                      fontWeight: FontWeight.w500,
-                                                      color: Color(0xFF19313B),
-                                                    ),
-                                                  ),
-                                                  InkWell(
-                                                    onTap: () {
-                                                      // print("date:::::::::::" + widget.productElement.shippingDate);
-                                                    },
-                                                    child: Text(
-                                                      '${item.discountPrice.toString().split('.')[1]}',
-                                                      style: const TextStyle(
-                                                        fontSize: 8,
-                                                        fontWeight: FontWeight.w600,
-                                                        color: Color(0xFF19313B),
-                                                      ),
-                                                    ),
-                                                  ),
-                                                ],
-                                              ),
-                                            ),
-                                          ],
-                                        ),
-                                      ),
-
-                                    ],
-                                  )
-                                ],
-                              ),
-                              Row(
-                                children: [
-                                  Expanded(
-                                    child: Text(item.shortDescription.toString(), style: GoogleFonts.poppins(
-                                        fontSize: 11, fontWeight: FontWeight.w400, color: Color(0xFF19313C)),
-                                    ),
-                                  ),
-
-                                  GestureDetector(
-                                    onTap: () {
-                                      launchURLl('tel:${item.vendorDetails!.phoneNumber.toString()}');
-                                    },
-                                    child: SvgPicture.asset('assets/svgs/phonee.svg',
-                                      width: 20,
-                                      height: 20,),
-                                  ),
-                                  SizedBox(width: 10,),
-                                  GestureDetector(
-                                    onTap: () {
-                                      launchURLl('mailto:${item.vendorDetails!.email.toString()}');
-                                    },
-                                    child: SvgPicture.asset('assets/svgs/chat-dots.svg',
-                                      width: 20,
-                                      height: 20,),
-                                  ),
-                                ],
-                              ),
-
-
-                              // SizedBox(height: 10,),
-                              // Align(
-                              //   alignment: Alignment.center,
-                              //   child: Center(
-                              //     child: CachedNetworkImage(
-                              //         imageUrl: item.featuredImage.toString(),
-                              //         height: 150,
-                              //         fit: BoxFit.fill,
-                              //         errorWidget: (_, __, ___) => Image.asset('assets/images/new_logo.png')
-                              //     ),
-                              //   ),
-                              // ),
-                              // const SizedBox(
-                              //   height: 10,
-                              // ),
-                              //
-                              // const SizedBox(
-                              //   height: 3,
-                              // ),
-                              // Text(
-                              //   item.pname.toString(),
-                              //   maxLines: 2,
-                              //   style: GoogleFonts.poppins(fontSize: 12, fontWeight: FontWeight.w500,color: Color(0xFF19313C)),
-                              // ),
-                              // const SizedBox(
-                              //   height: 3,
-                              // ),
-                              // Text(
-                              //   item.shortDescription.toString(),
-                              //   maxLines: 2,
-                              //   style: GoogleFonts.poppins(fontSize: 12, fontWeight: FontWeight.w500,color: Color(0xFF19313C)),
-                              // ),
-                              // const SizedBox(
-                              //   height: 3,
-                              // ),
-
-
-                            ],
-                          ),
-                        ),
-                        Positioned(
-                          right: 0,
-                          top: 0,
-                          child: Container(
+                  return InkWell(
+                    onTap: (){
+                      Get.to(()=>AdvirtismentProductScreen(),arguments:item.id.toString());
+                    },
+                    child: Padding(
+                      padding: const EdgeInsets.all(12.0),
+                      child: Stack(
+                        children: [
+                          Container(
+                            width: size.width * .92,
+                            padding: const EdgeInsets.all(8),
                             decoration: BoxDecoration(
+                                color: Colors.white,
+                                borderRadius: BorderRadius.circular(8),
                                 boxShadow: [
                                   BoxShadow(
 
-                                    // blurStyle: BlurStyle.outer,
-                                    offset: Offset(2, 3),
-                                    color: Colors.black26,
+                                    blurStyle: BlurStyle.outer,
+                                    offset: Offset(1, 1),
+                                    color: Colors.black12,
                                     blurRadius: 3,
 
                                   )
-                                ],
-                                borderRadius: BorderRadius.only(topRight: Radius.circular(8)),
-                                color: Color(0xFF27D6FF).withOpacity(0.6)
+                                ]
                             ),
-                            child: Text(" Showcase ".tr,
-                              style: GoogleFonts.poppins(fontSize: 20, fontWeight: FontWeight.w400, color: Colors.white),
+                            // constraints: BoxConstraints(
+                            //   // maxHeight: 100,
+                            //   minWidth: 0,
+                            //   maxWidth: size.width,
+                            // ),
+                            // color: Colors.red,
+                            // margin: const EdgeInsets.only(right: 9,left: 10),
+                            child: Column(
+                              crossAxisAlignment: CrossAxisAlignment.start,
+
+                              children: [
+                                SizedBox(height: 20,),
+                                Row(
+                                  crossAxisAlignment: CrossAxisAlignment.start,
+                                  mainAxisAlignment: MainAxisAlignment.start,
+                                  children: [
+                                    CachedNetworkImage(
+                                        imageUrl: item.featuredImage.toString(),
+                                        height: 150,
+                                        width: 150,
+                                        fit: BoxFit.contain,
+                                        errorWidget: (_, __, ___) => Image.asset('assets/images/new_logo.png')),
+
+                                    SizedBox(width: 20,),
+                                    Column(
+                                      children: [
+                                        SizedBox(height: 15,),
+                                        Row(
+                                          children: [
+                                            Image.asset('assets/svgs/flagk.png'),
+                                            SizedBox(width: 5,),
+                                            Text("Kuwait City", style: GoogleFonts.poppins(
+                                                fontSize: 14, fontWeight: FontWeight.w400, color: Color(0xFF19313C)),
+                                            ),
+                                            SizedBox(width: 5,),
+                                            Obx(() {
+                                              if (wishListController.refreshFav.value > 0) {}
+                                              return LikeButtonCat(
+                                                onPressed: () {
+                                                  if (wishListController.favoriteItems.contains(item.id.toString())) {
+                                                    repositories
+                                                        .postApi(
+                                                        url: ApiUrls.removeFromWishListUrl,
+                                                        mapData: {
+                                                          "product_id": item.id.toString(),
+                                                        },
+                                                        context: context)
+                                                        .then((value) {
+                                                      ModelCommonResponse response = ModelCommonResponse.fromJson(
+                                                          jsonDecode(value));
+                                                      log('api response is${response.toJson()}');
+                                                      showToast(response.message);
+                                                      wishListController.getYourWishList();
+                                                      wishListController.favoriteItems.remove(item.id.toString());
+                                                      wishListController.updateFav;
+                                                      setState(() {
+
+                                                      });
+                                                    });
+                                                  } else {
+                                                    repositories
+                                                        .postApi(
+                                                        url: ApiUrls.addToWishListUrl,
+                                                        mapData: {
+                                                          "product_id": item.id.toString(),
+                                                        },
+                                                        context: context)
+                                                        .then((value) {
+                                                      ModelCommonResponse response = ModelCommonResponse.fromJson(
+                                                          jsonDecode(value));
+                                                      showToast(response.message);
+                                                      if (response.status == true) {
+                                                        wishListController.getYourWishList();
+                                                        wishListController.favoriteItems.add(item.id.toString());
+                                                        wishListController.updateFav;
+                                                      }
+                                                    });
+                                                  }
+                                                },
+                                                isLiked: wishListController.favoriteItems.contains(item.id.toString()),
+                                              );
+                                            }),
+                                          ],
+                                        ),
+                                        SizedBox(height: 10,),
+                                        Text(item.pname.toString(), style: GoogleFonts.poppins(
+                                            fontSize: 16, fontWeight: FontWeight.w400, color: Color(0xFF19313C)),
+                                        ),
+                                        SizedBox(height: 15,),
+                                        Row(
+                                          children: [
+                                            Text("yokun", style: GoogleFonts.poppins(
+                                                fontSize: 10, fontWeight: FontWeight.w400, color: Color(0xFF19313C)),
+                                            ),
+                                            SizedBox(width: 6,),
+                                            Text("gmc", style: GoogleFonts.poppins(
+                                                fontSize: 10, fontWeight: FontWeight.w400, color: Color(0xFF19313C)),
+                                            ),
+                                            SizedBox(width: 6,),
+                                            Text("used", style: GoogleFonts.poppins(
+                                                fontSize: 10, fontWeight: FontWeight.w400, color: Color(0xFF19313C)),
+                                            ),
+                                            SizedBox(width: 6,),
+                                            Text("2024", style: GoogleFonts.poppins(
+                                                fontSize: 10, fontWeight: FontWeight.w400, color: Color(0xFF19313C)),
+                                            ),
+                                          ],
+                                        ),
+                                        SizedBox(height: 15,),
+                                        Text.rich(
+                                          TextSpan(
+                                            text: '${item.discountPrice.toString().split('.')[0]}.',
+
+                                            style: const TextStyle(
+                                              fontSize: 32,
+                                              fontWeight: FontWeight.w600,
+                                              color: Color(0xFF19313B),
+                                            ),
+                                            children: [
+                                              WidgetSpan(
+                                                alignment: PlaceholderAlignment.middle,
+                                                child: Column(
+                                                  mainAxisAlignment: MainAxisAlignment.start,
+                                                  children: [
+                                                    const Text(
+                                                      'KWD',
+                                                      style: TextStyle(
+                                                        fontSize: 8,
+                                                        fontWeight: FontWeight.w500,
+                                                        color: Color(0xFF19313B),
+                                                      ),
+                                                    ),
+                                                    InkWell(
+                                                      onTap: () {
+                                                        // print("date:::::::::::" + widget.productElement.shippingDate);
+                                                      },
+                                                      child: Text(
+                                                        '${item.discountPrice.toString().split('.')[1]}',
+                                                        style: const TextStyle(
+                                                          fontSize: 8,
+                                                          fontWeight: FontWeight.w600,
+                                                          color: Color(0xFF19313B),
+                                                        ),
+                                                      ),
+                                                    ),
+                                                  ],
+                                                ),
+                                              ),
+                                            ],
+                                          ),
+                                        ),
+
+                                      ],
+                                    )
+                                  ],
+                                ),
+                                Row(
+                                  children: [
+                                    Expanded(
+                                      child: Text(item.shortDescription.toString(), style: GoogleFonts.poppins(
+                                          fontSize: 11, fontWeight: FontWeight.w400, color: Color(0xFF19313C)),
+                                      ),
+                                    ),
+
+                                    GestureDetector(
+                                      onTap: () {
+                                        launchURLl('tel:${item.vendorDetails!.phoneNumber.toString()}');
+                                      },
+                                      child: SvgPicture.asset('assets/svgs/phonee.svg',
+                                        width: 20,
+                                        height: 20,),
+                                    ),
+                                    SizedBox(width: 10,),
+                                    GestureDetector(
+                                      onTap: () {
+                                        launchURLl('mailto:${item.vendorDetails!.email.toString()}');
+                                      },
+                                      child: SvgPicture.asset('assets/svgs/chat-dots.svg',
+                                        width: 20,
+                                        height: 20,),
+                                    ),
+                                  ],
+                                ),
+
+
+                                // SizedBox(height: 10,),
+                                // Align(
+                                //   alignment: Alignment.center,
+                                //   child: Center(
+                                //     child: CachedNetworkImage(
+                                //         imageUrl: item.featuredImage.toString(),
+                                //         height: 150,
+                                //         fit: BoxFit.fill,
+                                //         errorWidget: (_, __, ___) => Image.asset('assets/images/new_logo.png')
+                                //     ),
+                                //   ),
+                                // ),
+                                // const SizedBox(
+                                //   height: 10,
+                                // ),
+                                //
+                                // const SizedBox(
+                                //   height: 3,
+                                // ),
+                                // Text(
+                                //   item.pname.toString(),
+                                //   maxLines: 2,
+                                //   style: GoogleFonts.poppins(fontSize: 12, fontWeight: FontWeight.w500,color: Color(0xFF19313C)),
+                                // ),
+                                // const SizedBox(
+                                //   height: 3,
+                                // ),
+                                // Text(
+                                //   item.shortDescription.toString(),
+                                //   maxLines: 2,
+                                //   style: GoogleFonts.poppins(fontSize: 12, fontWeight: FontWeight.w500,color: Color(0xFF19313C)),
+                                // ),
+                                // const SizedBox(
+                                //   height: 3,
+                                // ),
+
+
+                              ],
                             ),
                           ),
-                        )
-                      ],
+                          Positioned(
+                            right: 0,
+                            top: 0,
+                            child: Container(
+                              decoration: BoxDecoration(
+                                  boxShadow: [
+                                    BoxShadow(
+
+                                      // blurStyle: BlurStyle.outer,
+                                      offset: Offset(2, 3),
+                                      color: Colors.black26,
+                                      blurRadius: 3,
+
+                                    )
+                                  ],
+                                  borderRadius: BorderRadius.only(topRight: Radius.circular(8)),
+                                  color: Color(0xFF27D6FF).withOpacity(0.6)
+                              ),
+                              child: Text(" Showcase ".tr,
+                                style: GoogleFonts.poppins(fontSize: 20, fontWeight: FontWeight.w400, color: Colors.white),
+                              ),
+                            ),
+                          )
+                        ],
+                      ),
                     ),
                   );
                 }): const SizedBox.shrink();

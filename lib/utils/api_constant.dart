@@ -77,6 +77,10 @@ class ApiUrls {
   static const String vendorProductListUrl = "${baseUrl}vendor-product-list?";
   static const String singleProductUrl = "${baseUrl}product";
   static const String singleGiveAwayUrl = "${baseUrl}single-giveaway-product";
+  static const String simpleProductUrl = "${baseUrl}simple-product";
+  static const String bookableProductUrl = "${baseUrl}single-bookable-product";
+  static const String advertisingUrl = "${baseUrl}single-advertising-product";
+  static const String varientsUrl = "${baseUrl}variable-product";
   static const String getEventsUrl = "${baseUrl}get-events";
   static const String addEventUrl = "${baseUrl}event";
   static const String deleteEventUrl = "${baseUrl}delete-event";
