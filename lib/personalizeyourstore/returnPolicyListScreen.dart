@@ -10,6 +10,7 @@ import 'package:get/get.dart';
 import 'package:google_fonts/google_fonts.dart';
 
 import '../controller/profile_controller.dart';
+import '../model/common_modal.dart';
 import '../model/returnPolicyModel.dart';
 import '../repository/repository.dart';
 import '../utils/api_constant.dart';
@@ -29,7 +30,6 @@ class _ReturnPolicyListScreenState extends State<ReturnPolicyListScreen> {
     repositories.getApi(url: ApiUrls.returnPolicyUrl).then((value) {
       setState(() {
         modelReturnPolicy.value = ReturnPolicyModel.fromJson(jsonDecode(value));
-        log("Return Policy Data: ${modelReturnPolicy.value.returnPolicy![0].id.toString()}");
       });
     });
   }
@@ -143,10 +143,54 @@ class _ReturnPolicyListScreenState extends State<ReturnPolicyListScreen> {
                                   ),
                                 ),
                                 // const Spacer(),
-                                Text(
-                                  'Edit'.tr,
-                                  style: GoogleFonts.poppins(
-                                      color: const Color(0xff292F45), fontWeight: FontWeight.w500, fontSize: 16),
+                                Column(
+                                  children: [
+                                    Text(
+                                      'Edit'.tr,
+                                      style: GoogleFonts.poppins(
+                                          color: const Color(0xff292F45), fontWeight: FontWeight.w500, fontSize: 16),
+                                    ),
+                                    const SizedBox(height: 10,),
+                                    GestureDetector(
+                                      onTap: (){
+                                        showDialog<String>(
+                                          context: context,
+                                          builder: (BuildContext context) => AlertDialog(
+                                            title:  Text('Are you sure!'.tr),
+                                            content: Text('Do you want to delete your return policy'.tr),
+                                            actions: <Widget>[
+                                              TextButton(
+                                                onPressed: () => Get.back(),
+                                                child:  Text('Cancel'.tr),
+                                              ),
+                                              TextButton(
+                                                onPressed: ()  {
+                                                  repositories.postApi(url: ApiUrls.deleteReturnPolicy, context: context, mapData: {
+                                                    'id': ReturnPolicy.id,
+                                                  }).then((value) {
+                                                    ModelCommonResponse modelCommonResponse = ModelCommonResponse.fromJson(jsonDecode(value));
+                                                    showToast(modelCommonResponse.message.toString());
+                                                    if (modelCommonResponse.status == true) {
+                                                      setState(() {
+                                                        Get.back();
+                                                        getReturnPolicyData();
+                                                      });
+                                                    }
+                                                  });
+                                                },
+                                                child:  Text('OK'.tr),
+                                              ),
+                                            ],
+                                          ),
+                                        );
+                                      },
+                                      child: Text(
+                                        'Delete'.tr,
+                                        style: GoogleFonts.poppins(
+                                            color:Colors.red, fontWeight: FontWeight.w500, fontSize: 16),
+                                      ),
+                                    ),
+                                  ],
                                 ),
                               ],
                             )),

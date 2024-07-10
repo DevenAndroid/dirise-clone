@@ -2255,6 +2255,7 @@ class _DirectCheckOutScreenState extends State<DirectCheckOutScreen> {
                                 phone: phoneController.text.trim(),
                                 zipCode: zipCodeController.text.trim(),
                                 phoneCountryCode: profileController.code.toString(),
+                                type: 'checkout',
                                 id: addressData.id);
                           }
                         },

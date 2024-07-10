@@ -306,8 +306,17 @@ class _ChooseAddressState extends State<ChooseAddress> {
                                             ),
                                             TextButton(
                                               onPressed: () async {
-                                                Get.back();
-                                                controllerMap.sellingPickupAddressApi(context);
+                                                controllerMap.sellingPickupAddressApi1(context);
+                                                Get.to( PickUpAddressScreen(
+                                                  street:  controllerMap.street.value,
+                                                  city: controllerMap.city.value,
+                                                  state:controllerMap. state.value,
+                                                  country: controllerMap.country.value,
+                                                  town: controllerMap.town.value,
+                                                  zipcode:controllerMap. zipcode.value,
+                                                ));
+                                                // Get.back();
+                                                // controllerMap.sellingPickupAddressApi(context);
                                               },
                                               child: Text('OK'.tr),
                                             ),

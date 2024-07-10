@@ -3,6 +3,7 @@ import 'dart:developer';
 
 import 'package:dirise/personalizeyourstore/pickupPolicyListScreen.dart';
 import 'package:dirise/personalizeyourstore/shippingPolicyListScreen.dart';
+import 'package:dirise/utils/helper.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
@@ -65,7 +66,8 @@ class _PickUpPolicyPolicyScreenState extends State<PickUpPolicyPolicyScreen> {
       selectedRadio = widget.pick_option;
     }
   }
-
+  final List<String> timeUnits = ["Minutes", "Hours", "Days", "Weeks", "Months"];
+  String selectedTimeUnit = 'Minutes';
   @override
   void dispose() {
     super.dispose();
@@ -126,20 +128,21 @@ class _PickUpPolicyPolicyScreenState extends State<PickUpPolicyPolicyScreen> {
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
                     // Radio(value: 1, groupValue: 1, onChanged: (value) {}),
                     Text("Item Is Not eligible for shipping",
-                        style: GoogleFonts.poppins(fontSize: 10, fontWeight: FontWeight.w600)),
+                        style: GoogleFonts.poppins(fontSize: 13, fontWeight: FontWeight.w500)),
                     const SizedBox(
                       width: 20,
                     ),
                     Text("Add New Policy+",
                         style: GoogleFonts.poppins(
-                            fontSize: 10, fontWeight: FontWeight.w600, color: const Color(0xff292F45))),
+                            fontSize: 13, fontWeight: FontWeight.w500, color: const Color(0xff292F45))),
                   ],
                 ),
                 Padding(
-                  padding: const EdgeInsets.symmetric(horizontal: 16),
+                  padding: const EdgeInsets.symmetric(horizontal: 16,vertical: 10),
                   child: Text("Policy Name", style: GoogleFonts.poppins(fontSize: 18, fontWeight: FontWeight.w600)),
                 ),
                 const SizedBox(
@@ -289,15 +292,70 @@ class _PickUpPolicyPolicyScreenState extends State<PickUpPolicyPolicyScreen> {
                 const SizedBox(
                   height: 10,
                 ),
-                CommonTextField(
-                    contentPadding: const EdgeInsets.symmetric(horizontal: 15),
-                    controller: handlingDaysController,
-                    keyboardType: TextInputType.number,
-                    obSecure: false,
-                    hintText: 'Select Your handling time',
-                    validator: MultiValidator([
-                      RequiredValidator(errorText: 'handling time must be required'.tr),
-                    ])),
+                Row(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    Expanded(
+                      child: DropdownButtonFormField<String>(
+                        value: selectedTimeUnit,
+                        onChanged: (String? newValue) {
+                          setState(() {
+                            selectedTimeUnit = newValue!;
+                          });
+                        },
+                        items: timeUnits.map<DropdownMenuItem<String>>((String value) {
+                          return DropdownMenuItem<String>(
+                            value: value,
+                            child: Text(value),
+                          );
+                        }).toList(),
+                        decoration: InputDecoration(
+                          border: InputBorder.none,
+                          filled: true,
+                          fillColor: const Color(0xffE2E2E2).withOpacity(.35),
+                          contentPadding:
+                          const EdgeInsets.symmetric(horizontal: 15, vertical: 15).copyWith(right: 8),
+                          focusedErrorBorder: const OutlineInputBorder(
+                              borderRadius: BorderRadius.all(Radius.circular(8)),
+                              borderSide: BorderSide(color: AppTheme.secondaryColor)),
+                          errorBorder: const OutlineInputBorder(
+                              borderRadius: BorderRadius.all(Radius.circular(8)),
+                              borderSide: BorderSide(color: Color(0xffE2E2E2))),
+                          focusedBorder: const OutlineInputBorder(
+                              borderRadius: BorderRadius.all(Radius.circular(8)),
+                              borderSide: BorderSide(color: AppTheme.secondaryColor)),
+                          disabledBorder: const OutlineInputBorder(
+                            borderRadius: BorderRadius.all(Radius.circular(8)),
+                            borderSide: BorderSide(color: AppTheme.secondaryColor),
+                          ),
+                          enabledBorder: const OutlineInputBorder(
+                            borderRadius: BorderRadius.all(Radius.circular(8)),
+                            borderSide: BorderSide(color: AppTheme.secondaryColor),
+                          ),
+                        ),
+                        validator: (value) {
+                          if (value == null || value.isEmpty) {
+                            return 'Please select an item';
+                          }
+                          return null;
+                        },
+                      ),
+                    ),
+                    10.spaceX,
+                    Expanded(
+                      child: CommonTextField(
+                          contentPadding: const EdgeInsets.symmetric(horizontal: 15,),
+                          controller: handlingDaysController,
+                          keyboardType: TextInputType.number,
+                          obSecure: false,
+                          hintText: 'Select Your handling time',
+                          validator: MultiValidator([
+                            RequiredValidator(errorText: 'handling time must be required'.tr),
+                          ])),
+                    ),
+                  ],
+                ),
                 const SizedBox(
                   height: 20,
                 ),

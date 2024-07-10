@@ -120,17 +120,7 @@ class _MyAccountScreenState extends State<MyAccountScreen> {
     }
   }
   Rx<UserDeleteModel> deleteModal = UserDeleteModel().obs;
-  checkLanguage() async {
-    SharedPreferences sharedPreferences = await SharedPreferences.getInstance();
-    if (sharedPreferences.getString("app_language") == null ||
-        sharedPreferences.getString("app_language") == "English") {
-      Get.updateLocale(const Locale('en', 'US'));
-      profileController.selectedLAnguage.value = "English";
-    } else {
-      Get.updateLocale(const Locale('ar', 'Ar'));
-      profileController.selectedLAnguage.value = 'عربي';
-    }
-  }
+
 
   RxString language = "".obs;
   final RxBool _isValue = false.obs;
@@ -312,7 +302,7 @@ class _MyAccountScreenState extends State<MyAccountScreen> {
       DOMAIN = "msdk.freshchat.com";
   void initState() {
     super.initState();
-    checkLanguage();
+    profileController.checkLanguage();
     getCountryList();
     checkUser();
     getStateList(countryId: countryIddd.toString());

@@ -136,7 +136,8 @@ class _ShippingPolicyScreenState extends State<ShippingPolicyScreen> {
       showToast(response.message.toString());
       if (response.status == true) {
         log('ghfkhjsdgsd${selectZone}');
-        Get.to(const PersonalizeyourstoreScreen());
+        // Get.to(const PersonalizeyourstoreScreen());
+        Get.back();
       }
     });
   }
@@ -159,6 +160,7 @@ class _ShippingPolicyScreenState extends State<ShippingPolicyScreen> {
         backgroundColor: Colors.white,
       ),
       body: SingleChildScrollView(
+        padding: const EdgeInsets.all(10),
         child: Form(
           key: formKey1,
           child: Column(
@@ -197,9 +199,9 @@ class _ShippingPolicyScreenState extends State<ShippingPolicyScreen> {
                 isMulti: true,
                 obSecure: false,
                 hintText: '',
-                  validator: MultiValidator([
-                    RequiredValidator(errorText: 'Policy Description must be required'.tr),
-                  ])
+                  // validator: MultiValidator([
+                  //   RequiredValidator(errorText: 'Policy Description must be required'.tr),
+                  // ])
               ),
               const SizedBox(
                 height: 5,

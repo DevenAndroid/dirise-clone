@@ -35,7 +35,12 @@ class _ShowCaseProductsState extends State<ShowCaseProducts> {
 
   void launchURLl(String url) async {
     if (await canLaunch(url)) {
-      await launch(url);
+      try {
+        await launch(url);
+      } catch (e) {
+        print('Error launching URL: $url');
+        print('Exception: $e');
+      }
     } else {
       print('Could not launch $url');
     }
@@ -298,8 +303,8 @@ class _ShowCaseProductsState extends State<ShowCaseProducts> {
                                         launchURLl('tel:${item.vendorDetails!.phoneNumber.toString()}');
                                       },
                                       child: SvgPicture.asset('assets/svgs/phonee.svg',
-                                        width: 20,
-                                        height: 20,),
+                                        width: 25,
+                                        height: 25,),
                                     ),
                                     SizedBox(width: 10,),
                                     GestureDetector(
@@ -307,8 +312,8 @@ class _ShowCaseProductsState extends State<ShowCaseProducts> {
                                         launchURLl('mailto:${item.vendorDetails!.email.toString()}');
                                       },
                                       child: SvgPicture.asset('assets/svgs/chat-dots.svg',
-                                        width: 20,
-                                        height: 20,),
+                                        width: 25,
+                                        height: 25,),
                                     ),
                                   ],
                                 ),

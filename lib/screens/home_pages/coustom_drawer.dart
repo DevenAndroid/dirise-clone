@@ -273,25 +273,73 @@ class _CustomDrawerState extends State<CustomDrawer> {
                                       width: 65,
                                       child: profileController.userLoggedIn
                                           ? ClipRRect(
-                                            borderRadius: BorderRadius.circular(1000),
-                                            child: Image.network(
-                                                profileController.apiLoaded && profileController.model.user != null
-                                                    ? profileController.model.user!.profileImage.toString()
-                                                    : "",
-                                                fit: BoxFit.cover,
+                                              borderRadius: BorderRadius.circular(1000),
+                                              child: SizedBox(
                                                 height: 65,
                                                 width: 65,
-                                                errorBuilder: (_, __, ___) => const Icon(
-                                                      Icons.person,
-                                                      color: AppTheme.buttonColor,
-                                                      size: 45,
-                                                    )),
-                                          )
-                                          : const Icon(
+                                                child: profileController.userLoggedIn
+                                                    ? Image.network(
+                                                        profileController.apiLoaded && profileController.model.user != null
+                                                            ? profileController.model.user!.profileImage.toString()
+                                                            : "",
+                                                        fit: BoxFit.cover,
+                                                        height: 65,
+                                                        width: 65,
+                                                        // errorBuilder: (_, __, ___) => Image.asset(
+                                                        //   'assets/images/myaccount.png',
+                                                        //   height: 65,
+                                                        //   width: 65,
+                                                        // ),
+                                                        errorBuilder: (_, __, ___) => Container(
+                                                          decoration: BoxDecoration(
+                                                              shape: BoxShape.circle,
+                                                              color: AppTheme.buttonColor,
+                                                              border: Border.all(color: AppTheme.buttonColor)),
+                                                          child: const SizedBox(
+                                                              height: 65,
+                                                              width: 65,
+                                                              child: Icon(
+                                                                Icons.person,
+                                                                color: Colors.white,
+                                                                size: 45,
+                                                              )),
+                                                        ),
+                                                      )
+                                                    // : Image.asset(
+                                                    //     'assets/images/myaccount.png',
+                                                    //     height: 65,
+                                                    //     width: 65,
+                                                    //   ),
+                                                    : Container(
+                                                        decoration: BoxDecoration(
+                                                            shape: BoxShape.circle,
+                                                            color: Colors.white,
+                                                            border: Border.all(color: Colors.white)),
+                                                        child: const SizedBox(
+                                                            height: 65,
+                                                            width: 65,
+                                                            child: Icon(
+                                                              Icons.person,
+                                                              color: AppTheme.buttonColor,
+                                                              size: 45,
+                                                            )),
+                                                      ),
+                                              ),
+                                            )
+                                          :  Container(
+                                        decoration: const BoxDecoration(
+                                            shape: BoxShape.circle,
+                                            color: Colors.white,
+                                          ),
+                                        child: const SizedBox(
+                                            height: 65,
+                                            width: 65,
+                                            child: Icon(
                                               Icons.person,
                                               color: AppTheme.buttonColor,
                                               size: 45,
                                             )),
+                                      ),),
                                 ),
                                 5.spaceY,
                                 Text(

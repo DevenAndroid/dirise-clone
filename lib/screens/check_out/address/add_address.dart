@@ -249,7 +249,7 @@ class _AddAddressScreenState extends State<AddAddressScreen> {
                                             town: addressList.town,
                                           ));
                                         },
-                                        child: Text("Edit".tr,
+                                        child: Text("Edit ".tr,
                                             style: GoogleFonts.poppins(
                                                 fontSize: 18,
                                                 fontWeight: FontWeight.w300,
@@ -260,7 +260,7 @@ class _AddAddressScreenState extends State<AddAddressScreen> {
                                         onTap:(){
                                           deleteAddress(context: context, id: addressList.id.toString());
                                         },
-                                        child: Text("|Remove".tr,
+                                        child: Text("| Remove ".tr,
                                             style: GoogleFonts.poppins(
                                                 fontSize: 18,
                                                 fontWeight: FontWeight.w300,
@@ -270,7 +270,7 @@ class _AddAddressScreenState extends State<AddAddressScreen> {
                                         onTap:(){
                                           defaultAddressApi(addressList.id.toString());
                                         },
-                                        child: Text("|Set as default".tr,
+                                        child: Text("| Set as default".tr,
                                             style: GoogleFonts.poppins(
                                                 fontSize: 18,
                                                 fontWeight: FontWeight.w300,

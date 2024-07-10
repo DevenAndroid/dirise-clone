@@ -652,6 +652,7 @@ class _EditAddressSheetState extends State<EditAddressSheet> {
                           cityId: cartController.cityCode.toString(),
                           stateId: cartController.stateCode.toString(),
                           phoneCountryCode: profileController.code.toString(),
+                          type : 'checkout',
                           id: addressData.id);
                     }
                     cartController.getCart();
