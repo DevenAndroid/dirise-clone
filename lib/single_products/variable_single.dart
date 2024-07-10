@@ -233,7 +233,16 @@ class _VarientsProductScreenState extends State<VarientsProductScreen> {
   }
 
   //
-
+  // Color? getColorFromName(String colorName) {
+  //   try {
+  //     // Convert color name to Color object using the color package
+  //     final color = Color(name(colorName).toHexColor()).toColor();
+  //     return color;
+  //   } catch (e) {
+  //     // Handle the case where the color name is not recognized
+  //     return null;
+  //   }
+  // }
   addToWishList() {
     repositories
         .postApi(
@@ -817,72 +826,97 @@ class _VarientsProductScreenState extends State<VarientsProductScreen> {
                       },
                     ),
                   ),
-                  // SizedBox(
-                  //   height: 28,
-                  //   child: ListView.builder(
-                  //     itemCount: modelSingleProduct.value.variantProduct!.attributes!.length,
-                  //     shrinkWrap: true,
-                  //     scrollDirection: Axis.horizontal,
-                  //     physics: AlwaysScrollableScrollPhysics(),
-                  //     itemBuilder: (BuildContext context, int index) {
-                  //       var item =  modelSingleProduct.value.variantProduct!.attributes![index];
-                  //       return Column(
-                  //         children: [
-                  //          if(item.name == "size")
-                  //       SizedBox(
-                  //         height: 30,
-                  //         child: ListView.builder(
-                  //         itemCount: item.values!.length,
-                  //         shrinkWrap: true,
-                  //         scrollDirection: Axis.horizontal,
-                  //         physics: AlwaysScrollableScrollPhysics(),
-                  //         itemBuilder: (BuildContext context, int index) {
-                  //         return  Container(
-                  //
-                  //             decoration: BoxDecoration(
-                  //                 border: Border.all(color: Colors.black),
-                  //
-                  //                 shape: BoxShape.circle
-                  //             ),
-                  //             child:  Text(item.values![index]),
-                  //           );
-                  //
-                  //         }),
-                  //       ),
-                  //           if(item.name == "colour")
-                  //             SizedBox(
-                  //               height: 30,
-                  //               child: ListView.builder(
-                  //                   itemCount: item.values!.length,
-                  //                   shrinkWrap: true,
-                  //                   scrollDirection: Axis.horizontal,
-                  //                   physics: AlwaysScrollableScrollPhysics(),
-                  //                   itemBuilder: (BuildContext context, int index) {
-                  //                     return  Container(
-                  //
-                  //                       decoration: BoxDecoration(
-                  //                           border: Border.all(color: Colors.black),
-                  //
-                  //                           shape: BoxShape.circle
-                  //                       ),
-                  //                       child:  Text(item.values![index]),
-                  //                     );
-                  //
-                  //                   }),
-                  //             ),
-                  //
-                  //
-                  //           SizedBox(width: 10,)
-                  //         ],
-                  //       );
-                  //     },
-                  //   ),
-                  // ),
+        // SizedBox(
+        // height: 200, // Adjust the height as needed
+        // child: ListView.builder(
+        // itemCount: modelSingleProduct.value.variantProduct!.attributes!.length,
+        // shrinkWrap: true,
+        // scrollDirection: Axis.horizontal,
+        // physics: AlwaysScrollableScrollPhysics(),
+        // itemBuilder: (BuildContext context, int index) {
+        // var item = modelSingleProduct.value.variantProduct!.attributes![index];
+        // return Column(
+        // crossAxisAlignment: CrossAxisAlignment.start,
+        // children: [
+        // if (item.name == "colour")
+        // Column(
+        // crossAxisAlignment: CrossAxisAlignment.start,
+        // children: [
+        // Text('Colour:', style: TextStyle(fontWeight: FontWeight.bold)),
+        // SizedBox(
+        // height: 50, // Adjusted height for colour items
+        // width: 150,
+        // child: ListView.builder(
+        // itemCount: item.values!.length,
+        // shrinkWrap: true,
+        // scrollDirection: Axis.horizontal,
+        // physics: AlwaysScrollableScrollPhysics(),
+        // itemBuilder: (BuildContext context, int index) {
+        //   // final List<String> colorValues = item.values![index].toString();
+        // return Padding(
+        // padding: const EdgeInsets.symmetric(horizontal: 8.0),
+        // child: Container(
+        //   color: Colors.item.values! ,
+        // padding: EdgeInsets.all(8),
+        // decoration: BoxDecoration(
+        // border: Border.all(color: Colors.black),
+        // shape: BoxShape.circle,
+        // ),
+        // child: Center(
+        // child: Text(item.values![index]),
+        // ),
+        // ),
+        // );
+        // },
+        // ),
+        // ),
+        // ],
+        // ),
+        // SizedBox(height: 10), // Space between colour and size
+        // if (item.name == "size")
+        // Column(
+        // crossAxisAlignment: CrossAxisAlignment.start,
+        // children: [
+        // Text('Size:', style: TextStyle(fontWeight: FontWeight.bold)),
+        // SizedBox(
+        // height: 50, // Adjusted height for size items
+        // width: 150,
+        // child: ListView.builder(
+        // itemCount: item.values!.length,
+        // shrinkWrap: true,
+        // scrollDirection: Axis.horizontal,
+        // physics: AlwaysScrollableScrollPhysics(),
+        // itemBuilder: (BuildContext context, int index) {
+        // return Padding(
+        // padding: const EdgeInsets.symmetric(horizontal: 8.0),
+        // child: Container(
+        // padding: EdgeInsets.all(8),
+        // decoration: BoxDecoration(
+        // border: Border.all(color: Colors.black),
+        // shape: BoxShape.circle,
+        // ),
+        // child: Center(
+        // child: Text(item.values![index]),
+        // ),
+        // ),
+        // );
+        // },
+        // ),
+        // ),
+        // ],
+        // ),
+        // ],
+        // );
+        // },
+        // ),
+        // ),
 
 
 
-                    Text(
-                      'Variants',
+
+
+        Text(
+           'Variants',
                       style: normalStyle,
                     ),
                     if (modelSingleProduct.value.variantProduct != null)
