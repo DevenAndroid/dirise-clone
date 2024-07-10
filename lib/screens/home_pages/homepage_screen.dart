@@ -312,9 +312,9 @@ class _HomePageState extends State<HomePage> {
   void initState() {
     super.initState();
     profileController.aboutUsData();
-    // locationController.checkGps(context);
-    // _getCurrentPosition();
-    // locationController.getCurrentPosition();
+    locationController.checkGps(context);
+  _getCurrentPosition();
+   locationController.getCurrentPosition();
     _loadSavedAddress();
     // showToast(locationController.countryName.toString());
     WidgetsBinding.instance.addPostFrameCallback((timeStamp) {

@@ -1343,346 +1343,702 @@ class _GiveAwayProductState extends State<GiveAwayProduct> {
                         SizedBox(
                           height: 30,
                         ),
-
+                        modelRelated.value.relatedProduct != null?
                         Text(
                           'Similar products',
                           style: GoogleFonts.poppins(color: Colors.black, fontSize: 20, fontWeight: FontWeight.w600),
-                        ),
-                        SizedBox(
-                          height: MediaQuery.of(context).size.height,
-                          child: ListView.builder(
-                            shrinkWrap: true,
-                            physics: NeverScrollableScrollPhysics(),
-                            itemCount: modelRelated.value.relatedProduct!.product!.length,
-                            itemBuilder: (BuildContext context, int index) {
-                              var item = modelRelated.value.relatedProduct!.product![index];
-                              return Padding(
-                                padding: const EdgeInsets.all(5.0),
-                                child: Container(
-                                  padding: const EdgeInsets.all(8),
-                                  decoration: const BoxDecoration(color: Colors.white, boxShadow: [
-                                    BoxShadow(
-                                      blurStyle: BlurStyle.outer,
-                                      offset: Offset(1, 1),
-                                      color: Colors.black12,
-                                      blurRadius: 3,
-                                    )
-                                  ]),
-                                  constraints: BoxConstraints(
-                                    minWidth: 0,
-                                    maxWidth: MediaQuery.of(context).size.width * .8,
-                                  ),
-                                  margin: const EdgeInsets.only(right: 9),
-                                  child: Column(
-                                    crossAxisAlignment: CrossAxisAlignment.start,
-                                    children: [
-                                      Row(
-                                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                                        children: [
-                                          if (item.discountOff != '0.00')
-                                            Container(
-                                              padding: const EdgeInsets.all(4),
-                                              decoration: BoxDecoration(
-                                                  color: const Color(0xFFFF6868), borderRadius: BorderRadius.circular(10)),
-                                              child: Row(
-                                                children: [
-                                                  Text(
-                                                    " SALE".tr,
-                                                    style: GoogleFonts.poppins(
-                                                        fontSize: 12,
-                                                        fontWeight: FontWeight.w700,
-                                                        color: const Color(0xFFFFDF33)),
-                                                  ),
-                                                  Text(
-                                                    " ${item.discountOff}${'%'}  ",
-                                                    style: GoogleFonts.poppins(
-                                                        fontSize: 12, fontWeight: FontWeight.w700, color: Colors.white),
-                                                  ),
-                                                ],
-                                              ),
-                                            ),
-                                          Obx(() {
-                                            if (wishListController.refreshFav.value > 0) {}
-                                            return LikeButtonCat(
-                                              onPressed: () {
-                                                if (wishListController.favoriteItems.contains(item.id.toString())) {
-                                                  removeFromWishList();
-                                                } else {
-                                                  addToWishList();
-                                                }
-                                              },
-                                              isLiked: wishListController.favoriteItems.contains(item.id.toString()),
-                                            );
-                                          }),
-                                        ],
-                                      ),
-                                      const SizedBox(height: 10),
-                                      Row(
-                                        children: [
-                                          Expanded(
-                                            child: Center(
-                                              child: CachedNetworkImage(
-                                                imageUrl: item.featuredImage.toString(),
-                                                height: 150,
-                                                fit: BoxFit.fill,
-                                                errorWidget: (_, __, ___) => Image.asset('assets/images/new_logo.png'),
-                                              ),
-                                            ),
-                                          ),
-                                        ],
-                                      ),
-                                      const SizedBox(height: 10),
-                                      Text(
-                                        item.pname.toString(),
-                                        maxLines: 2,
-                                        style: GoogleFonts.poppins(
-                                            fontSize: 12, fontWeight: FontWeight.w500, color: const Color(0xFF19313C)),
-                                      ),
-                                      const SizedBox(height: 3),
-                                      if (item.itemType != 'giveaway')
+                        ):SizedBox(),
+
+                        Obx(() {
+                          return modelRelated.value.relatedProduct != null?
+
+                          SizedBox(
+                            height: MediaQuery
+                                .of(context)
+                                .size
+                                .height,
+                            child: ListView.builder(
+                              shrinkWrap: true,
+                              physics: NeverScrollableScrollPhysics(),
+                              itemCount: modelRelated.value.relatedProduct!.product!.length,
+                              itemBuilder: (BuildContext context, int index) {
+                                var item = modelRelated.value.relatedProduct!.product![index];
+                                return Padding(
+                                  padding: const EdgeInsets.all(5.0),
+                                  child: Container(
+                                    padding: const EdgeInsets.all(8),
+                                    decoration: const BoxDecoration(color: Colors.white, boxShadow: [
+                                      BoxShadow(
+                                        blurStyle: BlurStyle.outer,
+                                        offset: Offset(1, 1),
+                                        color: Colors.black12,
+                                        blurRadius: 3,
+                                      )
+                                    ]),
+                                    constraints: BoxConstraints(
+                                      minWidth: 0,
+                                      maxWidth: MediaQuery
+                                          .of(context)
+                                          .size
+                                          .width * .8,
+                                    ),
+                                    margin: const EdgeInsets.only(right: 9),
+                                    child: Column(
+                                      crossAxisAlignment: CrossAxisAlignment.start,
+                                      children: [
                                         Row(
+                                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
                                           children: [
                                             if (item.discountOff != '0.00')
-                                              Expanded(
-                                                child: Text(
-                                                  'KWD ${item.pPrice.toString()}',
-                                                  style: GoogleFonts.poppins(
-                                                      decorationColor: Colors.red,
-                                                      decorationThickness: 2,
-                                                      decoration: TextDecoration.lineThrough,
-                                                      color: const Color(0xff19313B),
-                                                      fontSize: 16,
-                                                      fontWeight: FontWeight.w600),
-                                                ),
-                                              ),
-                                            const SizedBox(width: 7),
-                                            Expanded(
-                                              child: Text.rich(
-                                                TextSpan(
-                                                  text: '${item.discountPrice.toString().split('.')[0]}.',
-                                                  style: const TextStyle(
-                                                      fontSize: 24, fontWeight: FontWeight.w600, color: Color(0xFF19313B)),
+                                              Container(
+                                                padding: const EdgeInsets.all(4),
+                                                decoration: BoxDecoration(
+                                                    color: const Color(0xFFFF6868), borderRadius: BorderRadius.circular(10)),
+                                                child: Row(
                                                   children: [
-                                                    WidgetSpan(
-                                                      alignment: PlaceholderAlignment.middle,
-                                                      child: Column(
-                                                        mainAxisAlignment: MainAxisAlignment.start,
-                                                        children: [
-                                                          const Text(
-                                                            'KWD',
-                                                            style: TextStyle(
-                                                                fontSize: 8,
-                                                                fontWeight: FontWeight.w500,
-                                                                color: Color(0xFF19313B)),
-                                                          ),
-                                                          InkWell(
-                                                            onTap: () {
-                                                              print("date:::::::::::" + item.shippingDate.toString());
-                                                            },
-                                                            child: Text(
-                                                              '${item.discountPrice.toString().split('.')[1]}',
-                                                              style: const TextStyle(
-                                                                  fontSize: 8,
-                                                                  fontWeight: FontWeight.w600,
-                                                                  color: Color(0xFF19313B)),
-                                                            ),
-                                                          ),
-                                                        ],
-                                                      ),
+                                                    Text(
+                                                      " SALE".tr,
+                                                      style: GoogleFonts.poppins(
+                                                          fontSize: 12,
+                                                          fontWeight: FontWeight.w700,
+                                                          color: const Color(0xFFFFDF33)),
+                                                    ),
+                                                    Text(
+                                                      " ${item.discountOff}${'%'}  ",
+                                                      style: GoogleFonts.poppins(
+                                                          fontSize: 12, fontWeight: FontWeight.w700, color: Colors.white),
                                                     ),
                                                   ],
+                                                ),
+                                              ),
+                                            Obx(() {
+                                              if (wishListController.refreshFav.value > 0) {}
+                                              return LikeButtonCat(
+                                                onPressed: () {
+                                                  if (wishListController.favoriteItems.contains(item.id.toString())) {
+                                                    removeFromWishList();
+                                                  } else {
+                                                    addToWishList();
+                                                  }
+                                                },
+                                                isLiked: wishListController.favoriteItems.contains(item.id.toString()),
+                                              );
+                                            }),
+                                          ],
+                                        ),
+                                        const SizedBox(height: 10),
+                                        Row(
+                                          children: [
+                                            Expanded(
+                                              child: Center(
+                                                child: CachedNetworkImage(
+                                                  imageUrl: item.featuredImage.toString(),
+                                                  height: 150,
+                                                  fit: BoxFit.fill,
+                                                  errorWidget: (_, __, ___) => Image.asset('assets/images/new_logo.png'),
                                                 ),
                                               ),
                                             ),
                                           ],
                                         ),
-                                      const SizedBox(height: 8),
-                                      if (item.inStock != "-1")
+                                        const SizedBox(height: 10),
                                         Text(
-                                          '${'QTY'}: ${item.inStock} ${'piece'}',
-                                          style: normalStyle,
+                                          item.pname.toString(),
+                                          maxLines: 2,
+                                          style: GoogleFonts.poppins(
+                                              fontSize: 12, fontWeight: FontWeight.w500, color: const Color(0xFF19313C)),
                                         ),
-                                      Row(
-                                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                                        crossAxisAlignment: CrossAxisAlignment.start,
-                                        children: [
-                                          Expanded(
-                                            child: Column(
-                                              mainAxisAlignment: MainAxisAlignment.start,
-                                              crossAxisAlignment: CrossAxisAlignment.start,
-                                              children: [
-                                                RatingBar.builder(
-                                                  initialRating: double.parse(item.rating.toString()),
-                                                  minRating: 1,
-                                                  direction: Axis.horizontal,
-                                                  updateOnDrag: true,
-                                                  tapOnlyMode: false,
-                                                  ignoreGestures: true,
-                                                  allowHalfRating: true,
-                                                  itemSize: 20,
-                                                  itemCount: 5,
-                                                  itemBuilder: (context, _) => const Icon(
-                                                    Icons.star,
-                                                    size: 8,
-                                                    color: Colors.amber,
+                                        const SizedBox(height: 3),
+                                        if (item.itemType != 'giveaway')
+                                          Row(
+                                            children: [
+                                              if (item.discountOff != '0.00')
+                                                Expanded(
+                                                  child: Text(
+                                                    'KWD ${item.pPrice.toString()}',
+                                                    style: GoogleFonts.poppins(
+                                                        decorationColor: Colors.red,
+                                                        decorationThickness: 2,
+                                                        decoration: TextDecoration.lineThrough,
+                                                        color: const Color(0xff19313B),
+                                                        fontSize: 16,
+                                                        fontWeight: FontWeight.w600),
                                                   ),
-                                                  onRatingUpdate: (rating) {
-                                                    print(rating);
-                                                  },
                                                 ),
-                                                const SizedBox(height: 7),
-                                                if (item.shippingDate != "No International Shipping Available")
-                                                  Column(
-                                                    crossAxisAlignment: CrossAxisAlignment.start,
+                                              const SizedBox(width: 7),
+                                              Expanded(
+                                                child: Text.rich(
+                                                  TextSpan(
+                                                    text: '${item.discountPrice.toString().split('.')[0]}.',
+                                                    style: const TextStyle(
+                                                        fontSize: 24, fontWeight: FontWeight.w600, color: Color(0xFF19313B)),
                                                     children: [
-                                                      Text(
-                                                        'shipping',
-                                                        style: GoogleFonts.poppins(
-                                                            color: const Color(0xff858484),
-                                                            fontSize: 13,
-                                                            fontWeight: FontWeight.w500),
-                                                      ),
-                                                      if (item.lowestDeliveryPrice != null)
-                                                        Text(
-                                                          'KWD${item.lowestDeliveryPrice.toString()}',
-                                                          style: GoogleFonts.poppins(
-                                                              color: const Color(0xff858484),
-                                                              fontSize: 13,
-                                                              fontWeight: FontWeight.w500),
-                                                        ),
-                                                      if (item.shippingDate != null)
-                                                        Text(
-                                                          item.shippingDate.toString(),
-                                                          style: GoogleFonts.poppins(
-                                                              color: const Color(0xff858484),
-                                                              fontSize: 13,
-                                                              fontWeight: FontWeight.w500),
-                                                        ),
-                                                    ],
-                                                  )
-                                                else
-                                                  GestureDetector(
-                                                    onTap: () {
-                                                      Get.to(() => const ContactUsScreen());
-                                                    },
-                                                    child: RichText(
-                                                      text: TextSpan(
-                                                          text: 'international shipping not available',
-                                                          style: GoogleFonts.poppins(
-                                                              color: const Color(0xff858484),
-                                                              fontSize: 13,
-                                                              fontWeight: FontWeight.w500),
+                                                      WidgetSpan(
+                                                        alignment: PlaceholderAlignment.middle,
+                                                        child: Column(
+                                                          mainAxisAlignment: MainAxisAlignment.start,
                                                           children: [
-                                                            TextSpan(
-                                                                text: ' contact us',
-                                                                style: GoogleFonts.poppins(
-                                                                    decoration: TextDecoration.underline,
-                                                                    color: AppTheme.buttonColor,
-                                                                    fontSize: 13,
-                                                                    fontWeight: FontWeight.w500)),
-                                                            TextSpan(
-                                                                text: ' for the solution',
-                                                                style: GoogleFonts.poppins(
-                                                                    color: const Color(0xff858484),
-                                                                    fontSize: 13,
-                                                                    fontWeight: FontWeight.w500)),
-                                                          ]),
-                                                    ),
-                                                  ),
-                                              ],
-                                            ),
-                                          ),
-                                          Expanded(
-                                            child: Column(
-                                              children: [
-                                                ElevatedButton(
-                                                  onPressed: () {
-                                                    directBuyProduct();
-                                                  },
-                                                  style: ElevatedButton.styleFrom(
-                                                    backgroundColor: Colors.red,
-                                                    surfaceTintColor: Colors.red,
-                                                  ),
-                                                  child: FittedBox(
-                                                    child: Text(
-                                                      "  Buy Now  ".tr,
-                                                      style: GoogleFonts.poppins(
-                                                          fontSize: 16, fontWeight: FontWeight.w500, color: Colors.white),
-                                                    ),
+                                                            const Text(
+                                                              'KWD',
+                                                              style: TextStyle(
+                                                                  fontSize: 8,
+                                                                  fontWeight: FontWeight.w500,
+                                                                  color: Color(0xFF19313B)),
+                                                            ),
+                                                            InkWell(
+                                                              onTap: () {
+                                                                print("date:::::::::::" + item.shippingDate.toString());
+                                                              },
+                                                              child: Text(
+                                                                '${item.discountPrice.toString().split('.')[1]}',
+                                                                style: const TextStyle(
+                                                                    fontSize: 8,
+                                                                    fontWeight: FontWeight.w600,
+                                                                    color: Color(0xFF19313B)),
+                                                              ),
+                                                            ),
+                                                          ],
+                                                        ),
+                                                      ),
+                                                    ],
                                                   ),
                                                 ),
-                                                ElevatedButton(
-                                                  onPressed: () {
-                                                    addToCartProduct();
-                                                  },
-                                                  style: ElevatedButton.styleFrom(
-                                                    backgroundColor: AppTheme.buttonColor,
-                                                    surfaceTintColor: AppTheme.buttonColor,
+                                              ),
+                                            ],
+                                          ),
+                                        const SizedBox(height: 8),
+                                        if (item.inStock != "-1")
+                                          Text(
+                                            '${'QTY'}: ${item.inStock} ${'piece'}',
+                                            style: normalStyle,
+                                          ),
+                                        Row(
+                                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                                          crossAxisAlignment: CrossAxisAlignment.start,
+                                          children: [
+                                            Expanded(
+                                              child: Column(
+                                                mainAxisAlignment: MainAxisAlignment.start,
+                                                crossAxisAlignment: CrossAxisAlignment.start,
+                                                children: [
+                                                  RatingBar.builder(
+                                                    initialRating: double.parse(item.rating.toString()),
+                                                    minRating: 1,
+                                                    direction: Axis.horizontal,
+                                                    updateOnDrag: true,
+                                                    tapOnlyMode: false,
+                                                    ignoreGestures: true,
+                                                    allowHalfRating: true,
+                                                    itemSize: 20,
+                                                    itemCount: 5,
+                                                    itemBuilder: (context, _) =>
+                                                    const Icon(
+                                                      Icons.star,
+                                                      size: 8,
+                                                      color: Colors.amber,
+                                                    ),
+                                                    onRatingUpdate: (rating) {
+                                                      print(rating);
+                                                    },
                                                   ),
-                                                  child: FittedBox(
-                                                    child: Text(
-                                                      "Add to Cart".tr,
-                                                      style: GoogleFonts.poppins(
-                                                          fontSize: 16, fontWeight: FontWeight.w500, color: Colors.white),
+                                                  const SizedBox(height: 7),
+                                                  if (item.shippingDate != "No International Shipping Available")
+                                                    Column(
+                                                      crossAxisAlignment: CrossAxisAlignment.start,
+                                                      children: [
+                                                        Text(
+                                                          'shipping',
+                                                          style: GoogleFonts.poppins(
+                                                              color: const Color(0xff858484),
+                                                              fontSize: 13,
+                                                              fontWeight: FontWeight.w500),
+                                                        ),
+                                                        if (item.lowestDeliveryPrice != null)
+                                                          Text(
+                                                            'KWD${item.lowestDeliveryPrice.toString()}',
+                                                            style: GoogleFonts.poppins(
+                                                                color: const Color(0xff858484),
+                                                                fontSize: 13,
+                                                                fontWeight: FontWeight.w500),
+                                                          ),
+                                                        if (item.shippingDate != null)
+                                                          Text(
+                                                            item.shippingDate.toString(),
+                                                            style: GoogleFonts.poppins(
+                                                                color: const Color(0xff858484),
+                                                                fontSize: 13,
+                                                                fontWeight: FontWeight.w500),
+                                                          ),
+                                                      ],
+                                                    )
+                                                  else
+                                                    GestureDetector(
+                                                      onTap: () {
+                                                        Get.to(() => const ContactUsScreen());
+                                                      },
+                                                      child: RichText(
+                                                        text: TextSpan(
+                                                            text: 'international shipping not available',
+                                                            style: GoogleFonts.poppins(
+                                                                color: const Color(0xff858484),
+                                                                fontSize: 13,
+                                                                fontWeight: FontWeight.w500),
+                                                            children: [
+                                                              TextSpan(
+                                                                  text: ' contact us',
+                                                                  style: GoogleFonts.poppins(
+                                                                      decoration: TextDecoration.underline,
+                                                                      color: AppTheme.buttonColor,
+                                                                      fontSize: 13,
+                                                                      fontWeight: FontWeight.w500)),
+                                                              TextSpan(
+                                                                  text: ' for the solution',
+                                                                  style: GoogleFonts.poppins(
+                                                                      color: const Color(0xff858484),
+                                                                      fontSize: 13,
+                                                                      fontWeight: FontWeight.w500)),
+                                                            ]),
+                                                      ),
+                                                    ),
+                                                ],
+                                              ),
+                                            ),
+                                            Expanded(
+                                              child: Column(
+                                                children: [
+                                                  ElevatedButton(
+                                                    onPressed: () {
+                                                      directBuyProduct();
+                                                    },
+                                                    style: ElevatedButton.styleFrom(
+                                                      backgroundColor: Colors.red,
+                                                      surfaceTintColor: Colors.red,
+                                                    ),
+                                                    child: FittedBox(
+                                                      child: Text(
+                                                        "  Buy Now  ".tr,
+                                                        style: GoogleFonts.poppins(
+                                                            fontSize: 16, fontWeight: FontWeight.w500, color: Colors.white),
+                                                      ),
                                                     ),
                                                   ),
-                                                ),
-                                                // if (item.itemType != 'giveaway')
-                                                //   Row(
-                                                //     mainAxisAlignment: MainAxisAlignment.center,
-                                                //     crossAxisAlignment: CrossAxisAlignment.center,
-                                                //     children: [
-                                                //       GestureDetector(
-                                                //         onTap: () {
-                                                //           // Get.to(() => ProductDescription(
-                                                //           // product: item,
-                                                //           // modelRelated: modelRelated
-                                                //           // ));
-                                                //         },
-                                                //         child: Text(
-                                                //           "Show Details".tr,
-                                                //           style: GoogleFonts.poppins(
-                                                //               color: Colors.black,
-                                                //               fontSize: 16,
-                                                //               fontWeight: FontWeight.w500),
-                                                //         ),
-                                                //       ),
-                                                //     ],
-                                                //   )
-                                                // else
-                                                //   Container(
-                                                //     color: AppTheme.buttonColor,
-                                                //     padding: const EdgeInsets.symmetric(vertical: 8.0),
-                                                //     child: Center(
-                                                //       child: GestureDetector(
-                                                //         onTap: () {
-                                                //           // Get.to(() => ProductDescription(
-                                                //           // product: item,
-                                                //           // modelRelated: modelRelated
-                                                //           // ));
-                                                //         },
-                                                //         child: Text(
-                                                //           "Enter to Giveaway".tr,
-                                                //           style: GoogleFonts.poppins(
-                                                //               color: Colors.white,
-                                                //               fontSize: 16,
-                                                //               fontWeight: FontWeight.w500),
-                                                //         ),
-                                                //       ),
-                                                //     ),
-                                                //   ),
-                                              ],
+                                                  ElevatedButton(
+                                                    onPressed: () {
+                                                      addToCartProduct();
+                                                    },
+                                                    style: ElevatedButton.styleFrom(
+                                                      backgroundColor: AppTheme.buttonColor,
+                                                      surfaceTintColor: AppTheme.buttonColor,
+                                                    ),
+                                                    child: FittedBox(
+                                                      child: Text(
+                                                        "Add to Cart".tr,
+                                                        style: GoogleFonts.poppins(
+                                                            fontSize: 16, fontWeight: FontWeight.w500, color: Colors.white),
+                                                      ),
+                                                    ),
+                                                  ),
+                                                  // if (item.itemType != 'giveaway')
+                                                  //   Row(
+                                                  //     mainAxisAlignment: MainAxisAlignment.center,
+                                                  //     crossAxisAlignment: CrossAxisAlignment.center,
+                                                  //     children: [
+                                                  //       GestureDetector(
+                                                  //         onTap: () {
+                                                  //           // Get.to(() => ProductDescription(
+                                                  //           // product: item,
+                                                  //           // modelRelated: modelRelated
+                                                  //           // ));
+                                                  //         },
+                                                  //         child: Text(
+                                                  //           "Show Details".tr,
+                                                  //           style: GoogleFonts.poppins(
+                                                  //               color: Colors.black,
+                                                  //               fontSize: 16,
+                                                  //               fontWeight: FontWeight.w500),
+                                                  //         ),
+                                                  //       ),
+                                                  //     ],
+                                                  //   )
+                                                  // else
+                                                  //   Container(
+                                                  //     color: AppTheme.buttonColor,
+                                                  //     padding: const EdgeInsets.symmetric(vertical: 8.0),
+                                                  //     child: Center(
+                                                  //       child: GestureDetector(
+                                                  //         onTap: () {
+                                                  //           // Get.to(() => ProductDescription(
+                                                  //           // product: item,
+                                                  //           // modelRelated: modelRelated
+                                                  //           // ));
+                                                  //         },
+                                                  //         child: Text(
+                                                  //           "Enter to Giveaway".tr,
+                                                  //           style: GoogleFonts.poppins(
+                                                  //               color: Colors.white,
+                                                  //               fontSize: 16,
+                                                  //               fontWeight: FontWeight.w500),
+                                                  //         ),
+                                                  //       ),
+                                                  //     ),
+                                                  //   ),
+                                                ],
+                                              ),
                                             ),
-                                          ),
-                                        ],
-                                      ),
-                                    ],
+                                          ],
+                                        ),
+                                      ],
+                                    ),
                                   ),
-                                ),
-                              );
-                            },
-                          ),
-                        ),
+                                );
+                              },
+                            ),
+                          ):  Center(
+                            child: Text(
+                              'No Similar products',
+                              style: GoogleFonts.poppins(color: Colors.black, fontSize: 20, fontWeight: FontWeight.w600),
+                            ),
+                          );
+                        })
+                        // Text(
+                        //   'Similar products',
+                        //   style: GoogleFonts.poppins(color: Colors.black, fontSize: 20, fontWeight: FontWeight.w600),
+                        // ),
+                        // SizedBox(
+                        //   height: MediaQuery.of(context).size.height,
+                        //   child: ListView.builder(
+                        //     shrinkWrap: true,
+                        //     physics: NeverScrollableScrollPhysics(),
+                        //     itemCount: modelRelated.value.relatedProduct!.product!.length,
+                        //     itemBuilder: (BuildContext context, int index) {
+                        //       var item = modelRelated.value.relatedProduct!.product![index];
+                        //       return Padding(
+                        //         padding: const EdgeInsets.all(5.0),
+                        //         child: Container(
+                        //           padding: const EdgeInsets.all(8),
+                        //           decoration: const BoxDecoration(color: Colors.white, boxShadow: [
+                        //             BoxShadow(
+                        //               blurStyle: BlurStyle.outer,
+                        //               offset: Offset(1, 1),
+                        //               color: Colors.black12,
+                        //               blurRadius: 3,
+                        //             )
+                        //           ]),
+                        //           constraints: BoxConstraints(
+                        //             minWidth: 0,
+                        //             maxWidth: MediaQuery.of(context).size.width * .8,
+                        //           ),
+                        //           margin: const EdgeInsets.only(right: 9),
+                        //           child: Column(
+                        //             crossAxisAlignment: CrossAxisAlignment.start,
+                        //             children: [
+                        //               Row(
+                        //                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                        //                 children: [
+                        //                   if (item.discountOff != '0.00')
+                        //                     Container(
+                        //                       padding: const EdgeInsets.all(4),
+                        //                       decoration: BoxDecoration(
+                        //                           color: const Color(0xFFFF6868), borderRadius: BorderRadius.circular(10)),
+                        //                       child: Row(
+                        //                         children: [
+                        //                           Text(
+                        //                             " SALE".tr,
+                        //                             style: GoogleFonts.poppins(
+                        //                                 fontSize: 12,
+                        //                                 fontWeight: FontWeight.w700,
+                        //                                 color: const Color(0xFFFFDF33)),
+                        //                           ),
+                        //                           Text(
+                        //                             " ${item.discountOff}${'%'}  ",
+                        //                             style: GoogleFonts.poppins(
+                        //                                 fontSize: 12, fontWeight: FontWeight.w700, color: Colors.white),
+                        //                           ),
+                        //                         ],
+                        //                       ),
+                        //                     ),
+                        //                   Obx(() {
+                        //                     if (wishListController.refreshFav.value > 0) {}
+                        //                     return LikeButtonCat(
+                        //                       onPressed: () {
+                        //                         if (wishListController.favoriteItems.contains(item.id.toString())) {
+                        //                           removeFromWishList();
+                        //                         } else {
+                        //                           addToWishList();
+                        //                         }
+                        //                       },
+                        //                       isLiked: wishListController.favoriteItems.contains(item.id.toString()),
+                        //                     );
+                        //                   }),
+                        //                 ],
+                        //               ),
+                        //               const SizedBox(height: 10),
+                        //               Row(
+                        //                 children: [
+                        //                   Expanded(
+                        //                     child: Center(
+                        //                       child: CachedNetworkImage(
+                        //                         imageUrl: item.featuredImage.toString(),
+                        //                         height: 150,
+                        //                         fit: BoxFit.fill,
+                        //                         errorWidget: (_, __, ___) => Image.asset('assets/images/new_logo.png'),
+                        //                       ),
+                        //                     ),
+                        //                   ),
+                        //                 ],
+                        //               ),
+                        //               const SizedBox(height: 10),
+                        //               Text(
+                        //                 item.pname.toString(),
+                        //                 maxLines: 2,
+                        //                 style: GoogleFonts.poppins(
+                        //                     fontSize: 12, fontWeight: FontWeight.w500, color: const Color(0xFF19313C)),
+                        //               ),
+                        //               const SizedBox(height: 3),
+                        //               if (item.itemType != 'giveaway')
+                        //                 Row(
+                        //                   children: [
+                        //                     if (item.discountOff != '0.00')
+                        //                       Expanded(
+                        //                         child: Text(
+                        //                           'KWD ${item.pPrice.toString()}',
+                        //                           style: GoogleFonts.poppins(
+                        //                               decorationColor: Colors.red,
+                        //                               decorationThickness: 2,
+                        //                               decoration: TextDecoration.lineThrough,
+                        //                               color: const Color(0xff19313B),
+                        //                               fontSize: 16,
+                        //                               fontWeight: FontWeight.w600),
+                        //                         ),
+                        //                       ),
+                        //                     const SizedBox(width: 7),
+                        //                     Expanded(
+                        //                       child: Text.rich(
+                        //                         TextSpan(
+                        //                           text: '${item.discountPrice.toString().split('.')[0]}.',
+                        //                           style: const TextStyle(
+                        //                               fontSize: 24, fontWeight: FontWeight.w600, color: Color(0xFF19313B)),
+                        //                           children: [
+                        //                             WidgetSpan(
+                        //                               alignment: PlaceholderAlignment.middle,
+                        //                               child: Column(
+                        //                                 mainAxisAlignment: MainAxisAlignment.start,
+                        //                                 children: [
+                        //                                   const Text(
+                        //                                     'KWD',
+                        //                                     style: TextStyle(
+                        //                                         fontSize: 8,
+                        //                                         fontWeight: FontWeight.w500,
+                        //                                         color: Color(0xFF19313B)),
+                        //                                   ),
+                        //                                   InkWell(
+                        //                                     onTap: () {
+                        //                                       print("date:::::::::::" + item.shippingDate.toString());
+                        //                                     },
+                        //                                     child: Text(
+                        //                                       '${item.discountPrice.toString().split('.')[1]}',
+                        //                                       style: const TextStyle(
+                        //                                           fontSize: 8,
+                        //                                           fontWeight: FontWeight.w600,
+                        //                                           color: Color(0xFF19313B)),
+                        //                                     ),
+                        //                                   ),
+                        //                                 ],
+                        //                               ),
+                        //                             ),
+                        //                           ],
+                        //                         ),
+                        //                       ),
+                        //                     ),
+                        //                   ],
+                        //                 ),
+                        //               const SizedBox(height: 8),
+                        //               if (item.inStock != "-1")
+                        //                 Text(
+                        //                   '${'QTY'}: ${item.inStock} ${'piece'}',
+                        //                   style: normalStyle,
+                        //                 ),
+                        //               Row(
+                        //                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                        //                 crossAxisAlignment: CrossAxisAlignment.start,
+                        //                 children: [
+                        //                   Expanded(
+                        //                     child: Column(
+                        //                       mainAxisAlignment: MainAxisAlignment.start,
+                        //                       crossAxisAlignment: CrossAxisAlignment.start,
+                        //                       children: [
+                        //                         RatingBar.builder(
+                        //                           initialRating: double.parse(item.rating.toString()),
+                        //                           minRating: 1,
+                        //                           direction: Axis.horizontal,
+                        //                           updateOnDrag: true,
+                        //                           tapOnlyMode: false,
+                        //                           ignoreGestures: true,
+                        //                           allowHalfRating: true,
+                        //                           itemSize: 20,
+                        //                           itemCount: 5,
+                        //                           itemBuilder: (context, _) => const Icon(
+                        //                             Icons.star,
+                        //                             size: 8,
+                        //                             color: Colors.amber,
+                        //                           ),
+                        //                           onRatingUpdate: (rating) {
+                        //                             print(rating);
+                        //                           },
+                        //                         ),
+                        //                         const SizedBox(height: 7),
+                        //                         if (item.shippingDate != "No International Shipping Available")
+                        //                           Column(
+                        //                             crossAxisAlignment: CrossAxisAlignment.start,
+                        //                             children: [
+                        //                               Text(
+                        //                                 'shipping',
+                        //                                 style: GoogleFonts.poppins(
+                        //                                     color: const Color(0xff858484),
+                        //                                     fontSize: 13,
+                        //                                     fontWeight: FontWeight.w500),
+                        //                               ),
+                        //                               if (item.lowestDeliveryPrice != null)
+                        //                                 Text(
+                        //                                   'KWD${item.lowestDeliveryPrice.toString()}',
+                        //                                   style: GoogleFonts.poppins(
+                        //                                       color: const Color(0xff858484),
+                        //                                       fontSize: 13,
+                        //                                       fontWeight: FontWeight.w500),
+                        //                                 ),
+                        //                               if (item.shippingDate != null)
+                        //                                 Text(
+                        //                                   item.shippingDate.toString(),
+                        //                                   style: GoogleFonts.poppins(
+                        //                                       color: const Color(0xff858484),
+                        //                                       fontSize: 13,
+                        //                                       fontWeight: FontWeight.w500),
+                        //                                 ),
+                        //                             ],
+                        //                           )
+                        //                         else
+                        //                           GestureDetector(
+                        //                             onTap: () {
+                        //                               Get.to(() => const ContactUsScreen());
+                        //                             },
+                        //                             child: RichText(
+                        //                               text: TextSpan(
+                        //                                   text: 'international shipping not available',
+                        //                                   style: GoogleFonts.poppins(
+                        //                                       color: const Color(0xff858484),
+                        //                                       fontSize: 13,
+                        //                                       fontWeight: FontWeight.w500),
+                        //                                   children: [
+                        //                                     TextSpan(
+                        //                                         text: ' contact us',
+                        //                                         style: GoogleFonts.poppins(
+                        //                                             decoration: TextDecoration.underline,
+                        //                                             color: AppTheme.buttonColor,
+                        //                                             fontSize: 13,
+                        //                                             fontWeight: FontWeight.w500)),
+                        //                                     TextSpan(
+                        //                                         text: ' for the solution',
+                        //                                         style: GoogleFonts.poppins(
+                        //                                             color: const Color(0xff858484),
+                        //                                             fontSize: 13,
+                        //                                             fontWeight: FontWeight.w500)),
+                        //                                   ]),
+                        //                             ),
+                        //                           ),
+                        //                       ],
+                        //                     ),
+                        //                   ),
+                        //                   Expanded(
+                        //                     child: Column(
+                        //                       children: [
+                        //                         ElevatedButton(
+                        //                           onPressed: () {
+                        //                             directBuyProduct();
+                        //                           },
+                        //                           style: ElevatedButton.styleFrom(
+                        //                             backgroundColor: Colors.red,
+                        //                             surfaceTintColor: Colors.red,
+                        //                           ),
+                        //                           child: FittedBox(
+                        //                             child: Text(
+                        //                               "  Buy Now  ".tr,
+                        //                               style: GoogleFonts.poppins(
+                        //                                   fontSize: 16, fontWeight: FontWeight.w500, color: Colors.white),
+                        //                             ),
+                        //                           ),
+                        //                         ),
+                        //                         ElevatedButton(
+                        //                           onPressed: () {
+                        //                             addToCartProduct();
+                        //                           },
+                        //                           style: ElevatedButton.styleFrom(
+                        //                             backgroundColor: AppTheme.buttonColor,
+                        //                             surfaceTintColor: AppTheme.buttonColor,
+                        //                           ),
+                        //                           child: FittedBox(
+                        //                             child: Text(
+                        //                               "Add to Cart".tr,
+                        //                               style: GoogleFonts.poppins(
+                        //                                   fontSize: 16, fontWeight: FontWeight.w500, color: Colors.white),
+                        //                             ),
+                        //                           ),
+                        //                         ),
+                        //                         // if (item.itemType != 'giveaway')
+                        //                         //   Row(
+                        //                         //     mainAxisAlignment: MainAxisAlignment.center,
+                        //                         //     crossAxisAlignment: CrossAxisAlignment.center,
+                        //                         //     children: [
+                        //                         //       GestureDetector(
+                        //                         //         onTap: () {
+                        //                         //           // Get.to(() => ProductDescription(
+                        //                         //           // product: item,
+                        //                         //           // modelRelated: modelRelated
+                        //                         //           // ));
+                        //                         //         },
+                        //                         //         child: Text(
+                        //                         //           "Show Details".tr,
+                        //                         //           style: GoogleFonts.poppins(
+                        //                         //               color: Colors.black,
+                        //                         //               fontSize: 16,
+                        //                         //               fontWeight: FontWeight.w500),
+                        //                         //         ),
+                        //                         //       ),
+                        //                         //     ],
+                        //                         //   )
+                        //                         // else
+                        //                         //   Container(
+                        //                         //     color: AppTheme.buttonColor,
+                        //                         //     padding: const EdgeInsets.symmetric(vertical: 8.0),
+                        //                         //     child: Center(
+                        //                         //       child: GestureDetector(
+                        //                         //         onTap: () {
+                        //                         //           // Get.to(() => ProductDescription(
+                        //                         //           // product: item,
+                        //                         //           // modelRelated: modelRelated
+                        //                         //           // ));
+                        //                         //         },
+                        //                         //         child: Text(
+                        //                         //           "Enter to Giveaway".tr,
+                        //                         //           style: GoogleFonts.poppins(
+                        //                         //               color: Colors.white,
+                        //                         //               fontSize: 16,
+                        //                         //               fontWeight: FontWeight.w500),
+                        //                         //         ),
+                        //                         //       ),
+                        //                         //     ),
+                        //                         //   ),
+                        //                       ],
+                        //                     ),
+                        //                   ),
+                        //                 ],
+                        //               ),
+                        //             ],
+                        //           ),
+                        //         ),
+                        //       );
+                        //     },
+                        //   ),
+                        // ),
 
                         // Container(
                         //   padding: const EdgeInsets.all(8),
