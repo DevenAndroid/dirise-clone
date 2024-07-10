@@ -945,6 +945,8 @@ class _ProductUIState extends State<ProductUI> {
                         Expanded(
                           child: ElevatedButton(
                             onPressed: () {
+                              cartController.productElementId =  widget.productElement.id.toString();
+                              cartController.productQuantity = productQuantity.value.toString();
                               directBuyProduct();
                             },
                             style: ElevatedButton.styleFrom(

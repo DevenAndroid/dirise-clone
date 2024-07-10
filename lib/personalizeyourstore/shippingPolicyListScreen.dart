@@ -8,6 +8,7 @@ import 'package:get/get.dart';
 import 'package:google_fonts/google_fonts.dart';
 
 import '../controller/profile_controller.dart';
+import '../model/common_modal.dart';
 import '../model/getShippingModel.dart';
 import '../repository/repository.dart';
 import '../utils/api_constant.dart';
@@ -28,7 +29,6 @@ class _ShippingPolicyListScreenState extends State<ShippingPolicyListScreen> {
     repositories.getApi(url: ApiUrls.getShippingPolicy).then((value) {
       setState(() {
         modelShippingPolicy.value = GetShippingModel.fromJson(jsonDecode(value));
-        log("Return Policy Data: ${modelShippingPolicy.value.shippingPolicy![0].id.toString()}");
       });
     });
   }
@@ -146,10 +146,54 @@ class _ShippingPolicyListScreenState extends State<ShippingPolicyListScreen> {
                               ),
                             ),
                             // const Spacer(),
-                            Text(
-                              'Edit'.tr,
-                              style: GoogleFonts.poppins(
-                                  color: const Color(0xff292F45), fontWeight: FontWeight.w500, fontSize: 16),
+                            Column(
+                              children: [
+                                Text(
+                                  'Edit'.tr,
+                                  style: GoogleFonts.poppins(
+                                      color: const Color(0xff292F45), fontWeight: FontWeight.w500, fontSize: 16),
+                                ),
+                                const SizedBox(height: 10,),
+                                GestureDetector(
+                                  onTap: (){
+                                    showDialog<String>(
+                                      context: context,
+                                      builder: (BuildContext context) => AlertDialog(
+                                        title:  Text('Are you sure!'.tr),
+                                        content: Text('Do you want to delete your shipping policy'.tr),
+                                        actions: <Widget>[
+                                          TextButton(
+                                            onPressed: () => Get.back(),
+                                            child:  Text('Cancel'.tr),
+                                          ),
+                                          TextButton(
+                                            onPressed: ()  {
+                                              repositories.postApi(url: ApiUrls.deleteShippingPolicy, context: context, mapData: {
+                                                'id': shippingPolicy.id,
+                                              }).then((value) {
+                                                ModelCommonResponse modelCommonResponse = ModelCommonResponse.fromJson(jsonDecode(value));
+                                                showToast(modelCommonResponse.message.toString());
+                                                if (modelCommonResponse.status == true) {
+                                                  setState(() {
+                                                    Get.back();
+                                                    getShippingPolicyData();
+                                                  });
+                                                }
+                                              });
+                                            },
+                                            child:  Text('OK'.tr),
+                                          ),
+                                        ],
+                                      ),
+                                    );
+                                  },
+                                  child: Text(
+                                    'Delete'.tr,
+                                    style: GoogleFonts.poppins(
+                                        color:Colors.red, fontWeight: FontWeight.w500, fontSize: 16),
+                                  ),
+                                ),
+                              ],
                             ),
                           ],
                         )),

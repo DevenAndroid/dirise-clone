@@ -9,6 +9,7 @@ import 'package:get/get.dart';
 import 'package:google_fonts/google_fonts.dart';
 
 import '../controller/profile_controller.dart';
+import '../model/common_modal.dart';
 import '../model/getShippingModel.dart';
 import '../model/pickUpModel.dart';
 import '../repository/repository.dart';
@@ -30,7 +31,7 @@ class _PickUpPolicyListScreenState extends State<PickUpPolicyListScreen> {
     repositories.getApi(url: ApiUrls.getPickUpPolicy).then((value) {
       setState(() {
         modelPickUpPolicy.value = PickUpPolicyModel.fromJson(jsonDecode(value));
-        log("Return Policy Data: ${modelPickUpPolicy.value.pickupPolicy![0].id.toString()}");
+
       });
     });
   }
@@ -151,10 +152,54 @@ class _PickUpPolicyListScreenState extends State<PickUpPolicyListScreen> {
                                   ),
                                 ),
                                 // const Spacer(),
-                                Text(
-                                  'Edit'.tr,
-                                  style: GoogleFonts.poppins(
-                                      color: const Color(0xff292F45), fontWeight: FontWeight.w500, fontSize: 16),
+                                Column(
+                                  children: [
+                                    Text(
+                                      'Edit'.tr,
+                                      style: GoogleFonts.poppins(
+                                          color: const Color(0xff292F45), fontWeight: FontWeight.w500, fontSize: 16),
+                                    ),
+                                    const SizedBox(height: 10,),
+                                    GestureDetector(
+                                      onTap: (){
+                                        showDialog<String>(
+                                          context: context,
+                                          builder: (BuildContext context) => AlertDialog(
+                                            title:  Text('Are you sure!'.tr),
+                                            content: Text('Do you want to delete your pickup policy'.tr),
+                                            actions: <Widget>[
+                                              TextButton(
+                                                onPressed: () => Get.back(),
+                                                child:  Text('Cancel'.tr),
+                                              ),
+                                              TextButton(
+                                                onPressed: ()  {
+                                                  repositories.postApi(url: ApiUrls.deletePickupPolicy, context: context, mapData: {
+                                                    'id': pickUpPolicyPolicy.id,
+                                                  }).then((value) {
+                                                    ModelCommonResponse modelCommonResponse = ModelCommonResponse.fromJson(jsonDecode(value));
+                                                    showToast(modelCommonResponse.message.toString());
+                                                    if (modelCommonResponse.status == true) {
+                                                      setState(() {
+                                                        Get.back();
+                                                        getShippingPolicyData();
+                                                      });
+                                                    }
+                                                  });
+                                                },
+                                                child:  Text('OK'.tr),
+                                              ),
+                                            ],
+                                          ),
+                                        );
+                                      },
+                                      child: Text(
+                                        'Delete'.tr,
+                                        style: GoogleFonts.poppins(
+                                            color:Colors.red, fontWeight: FontWeight.w500, fontSize: 16),
+                                      ),
+                                    ),
+                                  ],
                                 ),
                               ],
                             )),

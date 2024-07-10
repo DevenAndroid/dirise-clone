@@ -165,10 +165,23 @@ class _SocialMediaStoreState extends State<SocialMediaStore> {
                             ),
                             // hintText: 'Name',
                             hintText: 'Enter Your Instagram Profile Link'.tr,
-                            validator: MultiValidator([
-                              RequiredValidator(errorText: 'Instagram Username is required'.tr),
+                          validator: (value) {
+                            if (value == null || value.isEmpty) {
+                              return 'Instagram link is required';
+                            }
 
-                            ])),
+                            final regex = RegExp(
+                              r'^(https?:\/\/)?(www\.)?(([\w-]+\.)*(facebook|twitter|instagram|linkedin)\.com)(\/[\w-]*)*\/?$',
+                              caseSensitive: false,
+                            );
+
+                            if (!regex.hasMatch(value)) {
+                              return 'Please enter a valid instagram link';
+                            }
+
+                            return null;
+                          }
+                          ,),
                         const SizedBox(height: 10,),
                         CommonTextField(
                             controller: controller.youtubeController,
@@ -179,9 +192,22 @@ class _SocialMediaStoreState extends State<SocialMediaStore> {
                             ),
                             // hintText: 'Name',
                             hintText: 'Enter Your youtube Profile Link'.tr,
-                            validator: MultiValidator([
-                              RequiredValidator(errorText: 'youtube Username is required'.tr),
-                            ])),
+                            validator: (value) {
+                              if (value == null || value.isEmpty) {
+                                return 'Youtube link is required';
+                              }
+
+                              final regex = RegExp(
+                                r'^(https?:\/\/)?(www\.)?(([\w-]+\.)*(facebook|twitter|instagram|linkedin|youtube)\.com)(\/[\w-]*)*\/?$',
+                                caseSensitive: false,
+                              );
+
+                              if (!regex.hasMatch(value)) {
+                                return 'Please enter a valid youtube link';
+                              }
+
+                              return null;
+                            }),
                         const SizedBox(height: 10,),
                         CommonTextField(
                             controller: controller.twitterController,
@@ -192,9 +218,23 @@ class _SocialMediaStoreState extends State<SocialMediaStore> {
                             ),
                             // hintText: 'Name',
                             hintText: 'Enter Your twitter Profile Link'.tr,
-                            validator: MultiValidator([
-                              RequiredValidator(errorText: 'twitter Username is required'.tr),
-                            ])),
+                            validator: (value) {
+                              if (value == null || value.isEmpty) {
+                                return 'Twitter link is required';
+                              }
+
+                              final regex = RegExp(
+                                r'^(https?:\/\/)?(www\.)?(([\w-]+\.)*(facebook|twitter|instagram|linkedin|snapchat|pinterest|tiktok|threads)\.com)(\/[\w-]*)*\/?$',
+                                caseSensitive: false,
+                              );
+
+                              if (!regex.hasMatch(value)) {
+                                return 'Please enter a valid twitter link';
+                              }
+
+                              return null;
+                            }
+                        ),
                         const SizedBox(height: 10,),
                         CommonTextField(
                             controller: controller.linkedinController,
@@ -205,9 +245,23 @@ class _SocialMediaStoreState extends State<SocialMediaStore> {
                             ),
                             // hintText: 'Name',
                             hintText: 'Enter Your linkedin Profile Link'.tr,
-                            validator: MultiValidator([
-                              RequiredValidator(errorText: 'linkedin Username is required'.tr),
-                            ])),
+                            validator: (value) {
+                              if (value == null || value.isEmpty) {
+                                return 'Linkedin link is required';
+                              }
+
+                              final regex = RegExp(
+                                r'^(https?:\/\/)?(www\.)?(([\w-]+\.)*(facebook|twitter|instagram|linkedin|snapchat|pinterest|tiktok|threads)\.com)(\/[\w-]*)*\/?$',
+                                caseSensitive: false,
+                              );
+
+                              if (!regex.hasMatch(value)) {
+                                return 'Please enter a valid linkedin link';
+                              }
+
+                              return null;
+                            }
+                        ),
                         const SizedBox(height: 10,),
                         CommonTextField(
                             controller: controller.facebookController,
@@ -218,9 +272,23 @@ class _SocialMediaStoreState extends State<SocialMediaStore> {
                             ),
                             // hintText: 'Name',
                             hintText: 'Enter Your facebook Profile Link'.tr,
-                            validator: MultiValidator([
-                              RequiredValidator(errorText: 'facebook Username is required'.tr),
-                            ])),
+                            validator: (value) {
+                              if (value == null || value.isEmpty) {
+                                return 'Facebook link is required';
+                              }
+
+                              final regex = RegExp(
+                                r'^(https?:\/\/)?(www\.)?(([\w-]+\.)*(facebook|twitter|instagram|linkedin|snapchat|pinterest|tiktok|threads)\.com)(\/[\w-]*)*\/?$',
+                                caseSensitive: false,
+                              );
+
+                              if (!regex.hasMatch(value)) {
+                                return 'Please enter a valid facebook link';
+                              }
+
+                              return null;
+                            }
+                        ),
                         const SizedBox(height: 10,),
                         CommonTextField(
                             controller: controller.snapchatController,
@@ -231,9 +299,23 @@ class _SocialMediaStoreState extends State<SocialMediaStore> {
                             ),
                             // hintText: 'Name',
                             hintText: 'Enter Your snapchat Profile Link'.tr,
-                            validator: MultiValidator([
-                              RequiredValidator(errorText: 'snapchat Username is required'.tr),
-                            ])),
+                            validator: (value) {
+                              if (value == null || value.isEmpty) {
+                                return 'Snapchat link is required';
+                              }
+
+                              final regex = RegExp(
+                                r'^(https?:\/\/)?(www\.)?(([\w-]+\.)*(facebook|twitter|instagram|linkedin|snapchat|pinterest|tiktok|threads)\.com)(\/[\w-]*)*\/?$',
+                                caseSensitive: false,
+                              );
+
+                              if (!regex.hasMatch(value)) {
+                                return 'Please enter a valid snapchat link';
+                              }
+
+                              return null;
+                            }
+                        ),
                         const SizedBox(height: 10,),
                         CommonTextField(
                             controller: controller.pinterestController,
@@ -244,9 +326,23 @@ class _SocialMediaStoreState extends State<SocialMediaStore> {
                             ),
                             // hintText: 'Name',
                             hintText: 'Enter Your pinterest Profile Link'.tr,
-                            validator: MultiValidator([
-                              RequiredValidator(errorText: 'pinterest Username is required'.tr),
-                            ])),
+                            validator: (value) {
+                              if (value == null || value.isEmpty) {
+                                return 'Pinterest link is required';
+                              }
+
+                              final regex = RegExp(
+                                r'^(https?:\/\/)?(www\.)?(([\w-]+\.)*(facebook|twitter|instagram|linkedin|snapchat|pinterest|tiktok|threads)\.com)(\/[\w-]*)*\/?$',
+                                caseSensitive: false,
+                              );
+
+                              if (!regex.hasMatch(value)) {
+                                return 'Please enter a valid pinterest link';
+                              }
+
+                              return null;
+                            }
+                        ),
                         const SizedBox(height: 10,),
                         CommonTextField(
                             controller: controller.tiktokController,
@@ -257,9 +353,23 @@ class _SocialMediaStoreState extends State<SocialMediaStore> {
                             ),
                             // hintText: 'Name',
                             hintText: 'Enter Your tiktok Profile Link'.tr,
-                            validator: MultiValidator([
-                              RequiredValidator(errorText: 'tiktok Username is required'.tr),
-                            ])),
+                            validator: (value) {
+                              if (value == null || value.isEmpty) {
+                                return 'Tiktok link is required';
+                              }
+
+                              final regex = RegExp(
+                                r'^(https?:\/\/)?(www\.)?(([\w-]+\.)*(facebook|twitter|instagram|linkedin|snapchat|pinterest|tiktok|threads)\.com)(\/[\w-]*)*\/?$',
+                                caseSensitive: false,
+                              );
+
+                              if (!regex.hasMatch(value)) {
+                                return 'Please enter a valid tiktok link';
+                              }
+
+                              return null;
+                            }
+                        ),
                         const SizedBox(height: 10,),
                         CommonTextField(
                             controller: controller.threadsController,
@@ -270,9 +380,23 @@ class _SocialMediaStoreState extends State<SocialMediaStore> {
                             ),
                             // hintText: 'Name',
                             hintText: 'Enter Your threads Profile Link'.tr,
-                            validator: MultiValidator([
-                              RequiredValidator(errorText: 'threads Username is required'.tr),
-                            ])),
+                            validator: (value) {
+                              if (value == null || value.isEmpty) {
+                                return 'Threads link is required';
+                              }
+
+                              final regex = RegExp(
+                                r'^(https?:\/\/)?(www\.)?(([\w-]+\.)*(facebook|twitter|instagram|linkedin|snapchat|pinterest|tiktok|threads)\.com)(\/[\w-]*)*\/?$',
+                                caseSensitive: false,
+                              );
+
+                              if (!regex.hasMatch(value)) {
+                                return 'Please enter a valid threads link';
+                              }
+
+                              return null;
+                            }
+                        ),
                         const SizedBox(height: 20,),
 
                       ],

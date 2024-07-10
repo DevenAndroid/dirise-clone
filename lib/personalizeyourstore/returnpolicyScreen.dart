@@ -48,7 +48,6 @@ class _ReturnPolicyScreensState extends State<ReturnPolicyScreens> {
     repositories.getApi(url: ApiUrls.returnPolicyUrl).then((value) {
       setState(() {
         modelReturnPolicy.value = ReturnPolicyModel.fromJson(jsonDecode(value));
-        log("Return Policy Data: ${modelReturnPolicy.value.returnPolicy![0].id.toString()}");
       });
       // Print the fetched data
       returnPolicyLoaded.value = DateTime.now().millisecondsSinceEpoch;
