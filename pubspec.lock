@@ -717,14 +717,6 @@ packages:
       url: "https://pub.dev"
     source: hosted
     version: "1.1.0"
-  freshchat_sdk:
-    dependency: "direct main"
-    description:
-      name: freshchat_sdk
-      sha256: a0398c1a39eb423d8ae59e65a89e0989ca38c7e530678ee8a11eceacc41700dd
-      url: "https://pub.dev"
-    source: hosted
-    version: "0.10.17"
   full_screen_image:
     dependency: "direct main"
     description:

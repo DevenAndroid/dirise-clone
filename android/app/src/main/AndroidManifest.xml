@@ -44,16 +44,6 @@
             android:value="2" />
         <meta-data android:name="com.google.android.geo.API_KEY"
             android:value="AIzaSyAP9njE_z7lH2tii68WLoQGju0DF8KryXA"/>
-
-        <provider
-            android:name="androidx.core.content.FileProvider"
-            android:authorities="com.dirise.dirisee"
-            android:exported="false"
-            android:grantUriPermissions="true">
-            <meta-data
-                android:name="android.support.FILE_PROVIDER_PATHS"
-                android:resource="@xml/freshchat_file_provider_paths" />
-        </provider>
     </application>
     <uses-permission android:name="android.permission.QUERY_ALL_PACKAGES" />
     <queries>

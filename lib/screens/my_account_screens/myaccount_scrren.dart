@@ -1,29 +1,20 @@
 import 'dart:convert';
 import 'dart:io';
 import 'package:dirise/language/app_strings.dart';
-import 'package:dirise/personalizeyourstore/addSocialMediaScreen.dart';
 import 'package:dirise/screens/auth_screens/login_screen.dart';
 import 'package:dirise/utils/helper.dart';
-import 'package:dirise/widgets/loading_animation.dart';
-import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_svg/flutter_svg.dart';
-import 'package:freshchat_sdk/freshchat_sdk.dart';
-import 'package:freshchat_sdk/freshchat_user.dart';
 import 'package:get/get.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:intl_phone_field/intl_phone_field.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:url_launcher/url_launcher.dart';
-import '../../addNewProduct/addProductScreen.dart';
-import '../../addNewProduct/addProductStartScreen.dart';
-import '../../addNewProduct/myItemIsScreen.dart';
 import '../../controller/cart_controller.dart';
 import '../../controller/home_controller.dart';
 import '../../controller/profile_controller.dart';
-import '../../freshchat.dart';
 import '../../iAmHereToSell/whichplantypedescribeyouScreen.dart';
 import '../../model/common_modal.dart';
 import '../../model/customer_profile/model_city_list.dart';
@@ -32,14 +23,10 @@ import '../../model/customer_profile/model_state_list.dart';
 import '../../model/model_address_list.dart';
 import '../../model/model_user_delete.dart';
 import '../../newAddress/map_find_my_location.dart';
-import '../../personalizeyourstore/operatinghourScreen.dart';
 import '../../personalizeyourstore/socialMediaScreen.dart';
 import '../../posts/posts_ui.dart';
 import '../../repository/repository.dart';
-import '../../singleproductScreen/itemdetailsScreen.dart';
-import '../../tellaboutself/ExtraInformation.dart';
 import '../../utils/api_constant.dart';
-import '../../vendor/authentication/vendor_plans_screen.dart';
 import '../../vendor/dashboard/dashboard_screen.dart';
 import '../../vendor/dashboard/store_open_time_screen.dart';
 import '../../vendor/orders/vendor_order_list_screen.dart';
@@ -49,7 +36,6 @@ import '../../vendor/products/all_product_screen.dart';
 import '../../vendor/products/approve_product.dart';
 import '../../widgets/common_colour.dart';
 import '../../widgets/common_textfield.dart';
-import '../calender.dart';
 import '../check_out/address/address_screen.dart';
 import '../check_out/address/edit_address.dart';
 import '../check_out/check_out_screen.dart';
@@ -224,14 +210,6 @@ class _MyAccountScreenState extends State<MyAccountScreen> {
     }
   }
 
-  void notifyRestoreId(var event) async {
-    FreshchatUser user = await Freshchat.getUser;
-    String? restoreId = user.getRestoreId();
-    if (restoreId != null) {
-      Clipboard.setData(new ClipboardData(text: restoreId));
-      // showToast("Restore ID copied: $restoreId");
-    }
-  }
 
   ModelCountryList? modelCountryList;
   Country? selectedCountry;
@@ -288,18 +266,7 @@ class _MyAccountScreenState extends State<MyAccountScreen> {
 
   String countryIddd = '';
 
-  void registerFcmToken() async {
-    if (Platform.isAndroid) {
-      String? token = await FirebaseMessaging.instance.getToken();
-      String? token1 = await FirebaseMessaging.instance.getToken();
-      print("FCM Token is generated $token");
-      Freshchat.setPushRegistrationToken(token!);
-    }
-  }
 
-  String APP_ID = "83a33165-1124-4e35-90f5-947c57f0ada6",
-      APP_KEY = "f09bf7f2-bd19-4a81-a5e5-b2cc1f1a621a",
-      DOMAIN = "msdk.freshchat.com";
   void initState() {
     super.initState();
     profileController.checkLanguage();
@@ -307,58 +274,6 @@ class _MyAccountScreenState extends State<MyAccountScreen> {
     checkUser();
     getStateList(countryId: countryIddd.toString());
     getCityList(stateId: stateIddd.toString());
-    Freshchat.init(
-      APP_ID,
-      APP_KEY,
-      DOMAIN,
-      teamMemberInfoVisible: true,
-      cameraCaptureEnabled: true,
-      gallerySelectionEnabled: true,
-      responseExpectationEnabled: true,
-      showNotificationBanneriOS: true,
-    );
-    /**
-     * This is the Firebase push notification server key for this sample app.
-     * Please save this in your Freshchat account to test push notifications in Sample app.
-     *
-     * Server key: Please refer support documentation for the server key of this sample app.
-     *
-     * Note: This is the push notification server key for sample app. You need to use your own server key for testing in your application
-     */
-    var restoreStream = Freshchat.onRestoreIdGenerated;
-    var restoreStreamSubsctiption = restoreStream.listen((event) {
-      print("Restore ID Generated: $event");
-      notifyRestoreId(event);
-    });
-
-    var unreadCountStream = Freshchat.onMessageCountUpdate;
-    unreadCountStream.listen((event) {
-      print("Have unread messages: $event");
-    });
-
-    var userInteractionStream = Freshchat.onUserInteraction;
-    userInteractionStream.listen((event) {
-      print("User interaction for Freshchat SDK");
-    });
-
-    if (Platform.isAndroid) {
-      registerFcmToken();
-      FirebaseMessaging.instance.onTokenRefresh.listen(Freshchat.setPushRegistrationToken);
-
-      Freshchat.setNotificationConfig(notificationInterceptionEnabled: true);
-      var notificationInterceptStream = Freshchat.onNotificationIntercept;
-      notificationInterceptStream.listen((event) {
-        print("Freshchat Notification Intercept detected");
-        Freshchat.openFreshchatDeeplink(event["url"]);
-      });
-
-      FirebaseMessaging.onMessage.listen((RemoteMessage message) {
-        var data = message.data;
-        handleFreshchatNotification(data);
-        print("Notification Content: $data");
-      });
-      FirebaseMessaging.onBackgroundMessage(myBackgroundMessageHandler);
-    }
   }
 
 
@@ -654,86 +569,6 @@ class _MyAccountScreenState extends State<MyAccountScreen> {
                           ],
                         ),
                       ),
-                      const SizedBox(
-                        height: 5,
-                      ),
-                      const Divider(
-                        thickness: 1,
-                        color: Color(0x1A000000),
-                      ),
-                      const SizedBox(
-                        height: 5,
-                      ),
-                      // GestureDetector(
-                      //   behavior: HitTestBehavior.translucent,
-                      //   onTap: () {
-                      //     Get.toNamed(EventCalendarScreen.route);
-                      //   },
-                      //   child: Row(
-                      //     children: [
-                      //       Image.asset(height: 25, 'assets/icons/calendar.png'),
-                      //       const SizedBox(
-                      //         width: 20,
-                      //       ),
-                      //       Text(
-                      //         AppStrings.calendar.tr,
-                      //         style: GoogleFonts.poppins(
-                      //             color: const Color(0xFF2A3032), fontSize: 16, fontWeight: FontWeight.w500),
-                      //       ),
-                      //       const Spacer(),
-                      //       const Icon(
-                      //         Icons.arrow_forward_ios,
-                      //         size: 15,
-                      //       ),
-                      //     ],
-                      //   ),
-                      // ),
-                      // const SizedBox(
-                      //   height: 5,
-                      // ),
-                      // const Divider(
-                      //   thickness: 1,
-                      //   color: Color(0x1A000000),
-                      // ),
-                      const SizedBox(
-                        height: 5,
-                      ),
-                      GestureDetector(
-                        behavior: HitTestBehavior.translucent,
-                        onTap: () {
-                          setState(() {});
-                          Freshchat.showConversations();
-                        },
-                        child: Row(
-                          children: [
-                            Image.asset(height: 25, 'assets/icons/chat.png'),
-                            const SizedBox(
-                              width: 20,
-                            ),
-                            Text(
-                              'Chat'.tr,
-                              style: GoogleFonts.poppins(
-                                  color: const Color(0xFF2A3032), fontSize: 16, fontWeight: FontWeight.w500),
-                            ),
-                            const Spacer(),
-                            profileController.selectedLAnguage.value == 'English' ?
-                            Image.asset(
-                              'assets/images/forward_icon.png',
-                              height: 17,
-                              width: 17,
-                            ) :
-                            Image.asset(
-                              'assets/images/back_icon_new.png',
-                              height: 17,
-                              width: 17,
-                            ),
-                          ],
-                        ),
-                      ),
-                      const SizedBox(
-                        height: 5,
-                      ),
-
                       const SizedBox(
                         height: 5,
                       ),

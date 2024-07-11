@@ -1,6 +1,7 @@
 import 'package:dirise/utils/helper.dart';
 
 class ProductElement {
+  dynamic userId;
   dynamic id;
   dynamic vendorId;
   dynamic catId;
@@ -78,6 +79,7 @@ class ProductElement {
   dynamic itemType;
   ProductElement({
     this.id,
+    this.userId,
     this.vendorId,
     this.catId,
     this.alreadyReview,
@@ -159,6 +161,7 @@ class ProductElement {
     vendorId = json["vendor_id"];
     catId = json["cat_id"];
     catId2 = json["cat_id_2"];
+    userId = json['user_id'];
     catId3 = json["cat_id_3"];
     brandSlug = json["brand_slug"];
     slug = json["slug"];
@@ -285,6 +288,7 @@ class ProductElement {
    'already_review': alreadyReview,
     "best_saller": bestSaller,
     "featured": featured,
+    'user_id' : userId,
     "tax_apply": taxApply,
     "tax_type": taxType,
     "discount_price": discountPrice,
