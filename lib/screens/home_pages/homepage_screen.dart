@@ -528,9 +528,14 @@ class _HomePageState extends State<HomePage> {
           leadingWidth: 120,
           title: Column(
             children: [
+              // Image.asset(
+              //   'assets/images/dirise_home_logo.PNG',
+              //   width: 75,
+              //   // color: Colors.white,
+              // ),
               Image.asset(
-                'assets/images/dirise_home_logo.PNG',
-                width: 75,
+                'assets/images/new_logo.png',
+                width: 55,
                 // color: Colors.white,
               ),
               // 5.spaceY,

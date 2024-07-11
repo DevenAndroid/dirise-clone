@@ -394,8 +394,6 @@ class _ProductUIState extends State<ProductUI> {
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              widget.isSingle == true ? Text('User id is ${widget.productElement.userId}') : const SizedBox.shrink(),
-              widget.isSingle == true ? Text('Vendor id is ${widget.productElement.vendorId}') : const SizedBox.shrink(),
               Row(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
