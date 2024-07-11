@@ -2,6 +2,7 @@ import 'dart:convert';
 import 'dart:developer';
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:dirise/language/app_strings.dart';
+import 'package:dirise/model/common_modal.dart';
 import 'package:dirise/utils/helper.dart';
 import 'package:dirise/utils/styles.dart';
 import 'package:dirise/widgets/common_colour.dart';
@@ -93,9 +94,18 @@ class _SingleStoreScreenState extends State<SingleStoreScreen> {
       }
     });
   }
+  testData() {
+    String url = "vendor_id=$vendorId";
+    print('test callll......');
+    repositories.getApi(url: "${ApiUrls.vendorProductListUrl}$url&country_id=${profileController.model.user!= null && cartController.countryId.isEmpty ? profileController.model.user!.country_id : cartController.countryId.toString()}&key=fedexRate&zip_code=${locationController.zipcode.value.toString()}").then((value) {
+      print('objectttrtrtrt${value.toString()}');
+
+    });
+  }
   final profileController = Get.put(ProfileController());
   final locationController = Get.put(LocationController());
   final cartController = Get.put(CartController());
+  ModelCommonResponse response1 = ModelCommonResponse();
   Future getCategoryStores({required int page, String? search, bool? resetAll}) async {
     if (resetAll == true) {
       allLoaded = false;
@@ -113,6 +123,7 @@ class _SingleStoreScreenState extends State<SingleStoreScreen> {
       paginationLoading = false;
 
       modelProductsList.data ??= [];
+       response1 = ModelCommonResponse.fromJson(jsonDecode(value));
       final response = ModelStoreProducts.fromJson(jsonDecode(value));
       print('mapmapmap${response.toJson()}');
       if (response.data != null && response.data!.isNotEmpty) {
@@ -223,6 +234,7 @@ class _SingleStoreScreenState extends State<SingleStoreScreen> {
     getVendorInfo();
     getVendorInfoSocial();
     getCategoryStores(page: paginationPage);
+
     SchedulerBinding.instance.addPostFrameCallback((timeStamp) {
       scrollController.addListener(() {});
     });
@@ -824,7 +836,8 @@ class _SingleStoreScreenState extends State<SingleStoreScreen> {
                     final item = filterModel.value.product![index];
                     return Padding(
                       padding: const EdgeInsets.symmetric(horizontal: 12),
-                      child: ProductUI(
+                      child:
+                      ProductUI(
                         productElement:item,
                         isSingle: true,
                         onLiked: (value) {
@@ -858,27 +871,54 @@ class _SingleStoreScreenState extends State<SingleStoreScreen> {
                     final item = modelProductsList.data![index];
                     return Padding(
                       padding: const EdgeInsets.symmetric(horizontal: 12),
-                      child: ProductUI(
-                        isSingle: true,
-                        productElement: item,
-                        onLiked: (value) {
-                         modelProductsList.data![index].inWishlist = value;
-                        },
+                      // child: ProductUI(
+                      //   isSingle: true,
+                      //   productElement: item,
+                      //   onLiked: (value) {
+                      //    modelProductsList.data![index].inWishlist = value;
+                      //   },
+                      // ),
+                      child: Column(
+                        children: [
+                          Text('User id is ${item.userId}'),
+                           Text('Vendor id is ${item.vendorId}'),
+                          Text('payload is"${ApiUrls.vendorProductListUrl}${"vendor_id=$vendorId"}&country_id=${profileController.model.user!= null && cartController.countryId.isEmpty ? profileController.model.user!.country_id : cartController.countryId.toString()}&key=fedexRate&zip_code=${locationController.zipcode.value.toString()}"'),
+                          const SizedBox(
+                            height: 5,
+                          ),
+                          Text('Response is${modelProductsList.toJson()}'),
+                        ],
                       ),
                     );
                   },
                 )
 
+                //     : SliverToBoxAdapter(
+                //     child: Column(
+                //       children: [
+                //         Center(
+                //           child: Text(AppStrings.storeDontHaveAnyProduct.tr),
+                //         ),
+                //         Text('User id is ${ getCategoryStoresModel.value.user!.loginUserId.toString()}'),
+                //         Text('Vendor id is ${vendorId.toString()}'),
+                //       ],
+                //     ),
+                //
+                // )
                     : SliverToBoxAdapter(
-                    child: Column(
+                    child:  Column(
                       children: [
-                        Center(
-                          child: Text(AppStrings.storeDontHaveAnyProduct.tr),
-                        ),
                         Text('User id is ${ getCategoryStoresModel.value.user!.loginUserId.toString()}'),
                         Text('Vendor id is ${vendorId.toString()}'),
+                        Text('payload is"${ApiUrls.vendorProductListUrl}${"vendor_id=$vendorId"}&country_id=${profileController.model.user!= null && cartController.countryId.isEmpty ? profileController.model.user!.country_id : cartController.countryId.toString()}&key=fedexRate&zip_code=${locationController.zipcode.value.toString()}"'),
+                        const SizedBox(
+                          height: 5,
+                        ),
+                        Text('Response is${response1.toJson()}'),
                       ],
-                    ))
+                    ),
+
+                )
               else
                 SliverToBoxAdapter(child: controller.isFilter.value == false ? const LoadingAnimation() : const SizedBox()),
               const SliverToBoxAdapter(

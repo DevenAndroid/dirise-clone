@@ -16,7 +16,7 @@ class ControllerMap extends GetxController {
   final Completer<GoogleMapController> googleMapController = Completer();
   GoogleMapController? mapController;
 
-  var lastMapPosition = LatLng(37.7749, -122.4194).obs; // Example initial position
+  var lastMapPosition = LatLng(0, -0).obs; // Example initial position
   RxString address = ''.obs;
   RxString street = ''.obs;
   RxString city = ''.obs;
