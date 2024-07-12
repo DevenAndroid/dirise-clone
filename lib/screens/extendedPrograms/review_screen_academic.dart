@@ -3,7 +3,7 @@ import 'dart:developer';
 
 import 'package:dirise/addNewProduct/rewardScreen.dart';
 import 'package:dirise/screens/extendedPrograms/set_store_time.dart';
-import 'package:dirise/screens/extendedPrograms/sponsors_academic_screen.dart';
+import 'package:dirise/screens/extendedPrograms/sponsors_extended_screen.dart';
 import 'package:dirise/widgets/loading_animation.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';

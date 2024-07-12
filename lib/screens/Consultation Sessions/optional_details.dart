@@ -145,6 +145,12 @@ class _OptionalDetailsScreenState extends State<OptionalDetailsScreen> {
                   controller: locationController,
                   maxLines: 2,
                   minLines: 2,
+                  validator: (value) {
+                    if (value!.trim().isEmpty) {
+                      return "Location is required".tr;
+                    }
+                    return null;
+                  },
                   decoration: InputDecoration(
                     counterStyle: GoogleFonts.poppins(
                       color: AppTheme.primaryColor,
@@ -179,6 +185,7 @@ class _OptionalDetailsScreenState extends State<OptionalDetailsScreen> {
                     ),
                   ),
                 ),
+                const SizedBox(height: 10,),
                 CommonTextField(
                   controller: hostNameController,
                   obSecure: false,
@@ -190,6 +197,7 @@ class _OptionalDetailsScreenState extends State<OptionalDetailsScreen> {
                     return null;
                   },
                 ),
+                const SizedBox(height: 10,),
                 CommonTextField(
                   controller: programNameController,
                   obSecure: false,
@@ -202,6 +210,7 @@ class _OptionalDetailsScreenState extends State<OptionalDetailsScreen> {
                     return null;
                   },
                 ),
+                const SizedBox(height: 10,),
                 CommonTextField(
                   controller: programGoalController,
                   obSecure: false,
@@ -213,6 +222,7 @@ class _OptionalDetailsScreenState extends State<OptionalDetailsScreen> {
                     return null;
                   },
                 ),
+                const SizedBox(height: 10,),
                 TextFormField(
                   maxLines: 2,
                   controller: programDescription,

@@ -53,6 +53,8 @@ class _DateRangeScreenTourState extends State<DateRangeScreenTour> {
   TextEditingController toController = TextEditingController();
   RxBool isServiceProvide = false.obs;
   String selectedItemDay = 'Location';
+  String? dateRangeError;
+  final formKey = GlobalKey<FormState>();
   Future<void> _selectStartDate(BuildContext context) async {
     final DateTime? picked = await showDatePicker(
       context: context,
@@ -64,6 +66,7 @@ class _DateRangeScreenTourState extends State<DateRangeScreenTour> {
       setState(() {
         _startDate = picked;
         addProductController.formattedStartDate = DateFormat('yyyy/MM/dd').format(_startDate);
+        dateRangeError = null;
         print('Now Select........${addProductController.formattedStartDate.toString()}');
       });
     }
@@ -80,6 +83,7 @@ class _DateRangeScreenTourState extends State<DateRangeScreenTour> {
       setState(() {
         _endDate = picked;
         formattedStartDate1 = DateFormat('yyyy/MM/dd').format(_endDate);
+        dateRangeError = null;
         print('Now Select........${formattedStartDate1.toString()}');
       });
     }
@@ -89,6 +93,13 @@ class _DateRangeScreenTourState extends State<DateRangeScreenTour> {
   final addProductController = Get.put(AddProductController());
   final Repositories repositories = Repositories();
   void updateProfile() {
+
+    if (addProductController.formattedStartDate == null || formattedStartDate1 == null) {
+      setState(() {
+        dateRangeError = 'Please select both start and end dates.';
+      });
+      return;
+    }
     Map<String, dynamic> map = {};
 
     map["product_type"] = "booking";
@@ -133,7 +144,6 @@ class _DateRangeScreenTourState extends State<DateRangeScreenTour> {
     }
   }
 
-  final formKey = GlobalKey<FormState>();
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -196,7 +206,7 @@ class _DateRangeScreenTourState extends State<DateRangeScreenTour> {
                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
                       children: [
                         Text(
-                          'Start Date: ${formattedStartDate ?? ''}',
+                          'Start Date: ${addProductController.formattedStartDate ?? ''}',
                           style: const TextStyle(fontSize: 17, fontWeight: FontWeight.w500),
                         ),
                         10.spaceY,
@@ -237,6 +247,14 @@ class _DateRangeScreenTourState extends State<DateRangeScreenTour> {
                   )
                 ],
               ),
+              if (dateRangeError != null) // Display error message
+                Padding(
+                  padding: const EdgeInsets.only(top: 8.0),
+                  child: Text(
+                    dateRangeError!,
+                    style: TextStyle(color: Colors.red, fontSize: 12),
+                  ),
+                ),
               const SizedBox(height: 40),
               const Text(
                 'Places',
@@ -276,6 +294,7 @@ class _DateRangeScreenTourState extends State<DateRangeScreenTour> {
                   ),
                 ],
               ),
+
               20.spaceY,
               const Text(
                 'Extra Notes',
