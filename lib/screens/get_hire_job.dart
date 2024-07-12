@@ -19,20 +19,21 @@ import '../../repository/repository.dart';
 import '../../single_products/job_details_single.dart';
 import '../../utils/api_constant.dart';
 import '../../widgets/like_button.dart';
+import '../model/job_hiring_modl.dart';
 
-class GetLookJob extends StatefulWidget {
-  const GetLookJob({super.key});
+class GetHireJob extends StatefulWidget {
+  const GetHireJob({super.key});
 
   @override
-  State<GetLookJob> createState() => _GetLookJobState();
+  State<GetHireJob> createState() => _GetHireJobState();
 }
 
-class _GetLookJobState extends State<GetLookJob> {
-  Rx<GetJobModel> getJobModel = GetJobModel().obs;
+class _GetHireJobState extends State<GetHireJob> {
+  Rx<JobHiringModel> getJobModel = JobHiringModel().obs;
   final Repositories repositories = Repositories();
   jobTypeApi() {
-    repositories.getApi(url: ApiUrls.getJobList, context: context).then((value) {
-      getJobModel.value = GetJobModel.fromJson(jsonDecode(value));
+    repositories.getApi(url: ApiUrls.getJobHiringList, context: context).then((value) {
+      getJobModel.value = JobHiringModel.fromJson(jsonDecode(value));
       log('dada${getJobModel.value.toJson()}');
     });
   }
@@ -121,7 +122,7 @@ class _GetLookJobState extends State<GetLookJob> {
       ),
       body: Obx(() {
         return  getJobModel.value.jobProduct!= null ?
-          ListView.builder(
+        ListView.builder(
           itemCount: getJobModel.value.jobProduct!.length,
           shrinkWrap: true,
           itemBuilder: (context, index) {
@@ -147,9 +148,9 @@ class _GetLookJobState extends State<GetLookJob> {
             ):Column(
               children: [
                 InkWell(
-onTap:(){
-  Get.to(()=>JobDetailsSingleScreen(),arguments:       item.id.toString(),);
-            },
+                  onTap:(){
+                    Get.to(()=>JobDetailsSingleScreen(),arguments:       item.id.toString(),);
+                  },
                   child: Padding(
                     padding: const EdgeInsets.all(12.0),
                     child: Stack(
@@ -256,13 +257,13 @@ onTap:(){
                                         const Icon(Icons.location_on_outlined),
                                         10.spaceY,
                                         Text(
-                                         item.jobCountryId.toString(),
+                                          item.jobCountryId.toString(),
                                           style: GoogleFonts.poppins(
                                               fontSize: 14, fontWeight: FontWeight.w400, color: const Color(0xFF19313C)),
                                         ),
                                         2.spaceY,
                                         Text(
-                                         item.jobStateId.toString(),
+                                          item.jobStateId.toString(),
                                           textAlign: TextAlign.center,
                                           style: GoogleFonts.poppins(
                                               fontSize: 14, fontWeight: FontWeight.w400, color: const Color(0xFF19313C)),
@@ -274,7 +275,7 @@ onTap:(){
                                           crossAxisAlignment: CrossAxisAlignment.center,
                                           mainAxisAlignment: MainAxisAlignment.center,
                                           children: [
-                                    
+
                                             // SvgPicture.asset(
                                             //   'assets/svgs/phonee.svg',
                                             //   width: 20,
@@ -326,7 +327,7 @@ onTap:(){
                                           style: GoogleFonts.poppins(
                                               fontSize: 13, fontWeight: FontWeight.w500, color: const Color(0xFF14DC10)),
                                         ),
-                                    
+
                                       ],
                                     ),
                                   ),
@@ -397,7 +398,7 @@ onTap:(){
               ],
             );
           },):
-          const SizedBox.shrink();
+        const SizedBox.shrink();
       }),
     );
   }

@@ -145,6 +145,7 @@ class ApiUrls {
   static const String sponsorList = "${baseUrl}sponsor-list";
   static const String featuredStore = "${baseUrl}get-featured-store";
   static const String getJobList = "${baseUrl}job-product-list";
+  static const String getJobHiringList = "${baseUrl}job-hiring-list";
   static const String singleJobList = "${baseUrl}single-job-product?product_id=";
   static const String releatedProduct = "${baseUrl}related-product";
 
