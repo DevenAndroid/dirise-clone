@@ -62,6 +62,7 @@ class ProductElement {
   dynamic stepPrice;
   dynamic currentBid;
   dynamic featureImageApp;
+  dynamic isShowcase;
   dynamic beforePurchase;
   dynamic alreadyReview;
   bool? isShipping;
@@ -144,6 +145,7 @@ class ProductElement {
     this.stepPrice,
     this.currentBid,
     this.discountPrice,
+    this.isShowcase,
     this.itemType,
     // this.attributes,
     this.serviceTimeSloat,
@@ -230,6 +232,7 @@ class ProductElement {
     stepPrice = json["step_price"];
     rating = json["rating"];
     currentBid = json["current_bid"];
+isShowcase = json['is_showcase'];
     lowestDeliveryPrice = json['lowestDeliveryPrice'];
     shippingDate = json['shipping_date'];
     itemType = json['item_type'];
@@ -270,6 +273,7 @@ class ProductElement {
     "brand_slug": brandSlug,
     "slug": slug,
     "pname": pName,
+  "is_showcase": isShowcase,
     'is_shipping' : isShipping,
     'feature_image_app' : featureImageApp,
     if (serviceTimeSloat != null) 'serviceTimeSloat': serviceTimeSloat!.map((v) => v.toJson()).toList(),
