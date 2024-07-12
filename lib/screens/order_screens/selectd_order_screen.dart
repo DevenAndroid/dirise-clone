@@ -12,6 +12,7 @@ import '../../model/product_model/model_product_element.dart';
 import '../../repository/repository.dart';
 import '../../utils/api_constant.dart';
 import '../../utils/styles.dart';
+import '../../widgets/common_button.dart';
 import '../../widgets/common_colour.dart';
 import '../product_details/single_product.dart';
 import '../virtual_assets/virtual_assets_screen.dart';
@@ -180,6 +181,7 @@ class _SelectedOrderScreenState extends State<SelectedOrderScreen> {
                                               fontWeight: FontWeight.w500,
                                               color: const Color(0xff014E70)),
                                         ),
+
                                       ],
                                       const SizedBox(
                                         height: 4,
@@ -187,6 +189,27 @@ class _SelectedOrderScreenState extends State<SelectedOrderScreen> {
                                       Text(
                                         '${item.quantity.toString()} ${'piece'.tr}',
                                         style: GoogleFonts.poppins(color: const Color(0xff858484)),
+                                      ),
+                                      const SizedBox(
+                                        height: 14,
+                                      ),
+                                      item.isReturnExpire == true ?
+                                      InkWell(
+                                        onTap: () {},
+                                        child: Container(
+                                          decoration: BoxDecoration(
+                                              color: AppTheme.newPrimaryColor,
+                                              borderRadius: BorderRadius.circular(22)),
+                                          padding: const EdgeInsets.fromLTRB(15, 5, 15, 5),
+                                          child: Text(
+                                            'Return',
+                                            style: GoogleFonts.poppins(
+                                                fontSize: 16, fontWeight: FontWeight.w500, color: const Color(0xff014E70)),
+                                          ),
+                                        ),
+                                      ) : const SizedBox.shrink(),
+                                      const SizedBox(
+                                        height: 4,
                                       ),
                                       if (item.isVirtualProduct)
                                         Row(
@@ -271,6 +294,7 @@ class _SelectedOrderScreenState extends State<SelectedOrderScreen> {
                                                       )),
                                                     ],
                                                   ),
+
                                                 ],
                                               )
                                             : const SizedBox.shrink();
@@ -488,6 +512,7 @@ class _SelectedOrderScreenState extends State<SelectedOrderScreen> {
                               ),
                             ),
                           ),
+
                           50.spaceY,
                         ],
                       ),
