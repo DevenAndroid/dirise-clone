@@ -70,16 +70,10 @@ class _NewPasswordScreenState extends State<NewPasswordScreen> {
             child: Padding(
                 padding: const EdgeInsets.only(left: 13, right: 13),
                 child: Column(children: [
-                  const SizedBox(
-                    height: 35,
-                  ),
-                  const Padding(
-                    padding: EdgeInsets.only(top: 50),
-                    child: Image(height: 80, image: AssetImage('assets/images/diriselogo.png')),
-                  ),
-                  SizedBox(
-                    height: size.height * .08,
-                  ),
+                  20.spaceY,
+                  Image.asset('assets/images/new_logo.png',
+                    height: 180,),
+                  20.spaceY,
                   Obx(() {
                     return CommonTextField(
                       controller: passwordController,

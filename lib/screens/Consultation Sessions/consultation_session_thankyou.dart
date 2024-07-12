@@ -64,7 +64,7 @@ class _ConsulationThankYouScreenState extends State<ConsulationThankYouScreen> {
             crossAxisAlignment: CrossAxisAlignment.center,
             children: [
               Image.asset(
-                'assets/images/newlogoo1.png',
+                'assets/images/new_logo.png',
                 height: 200,
                 width: 200,
               ),

@@ -62,6 +62,7 @@ class CartController extends GetxController {
   String shippingTitle = '';
   String shippingPrices = '';
   String shippingPrices1 = '';
+  String shipping_new_api = '';
   String shippingPrices2 = '';
   double withoutSelectPrice = 0.0;
   String shippingPrices3 = '';
@@ -152,7 +153,7 @@ class CartController extends GetxController {
 
           "type":purchaseType1,
           "shipment_provider": shipmentProvider,
-          "store_id":  storeIdShipping.toString(), "store_name": storeNameShipping.toString(),"ship_price": shippingPrices1.toString() , "shipping_type_id": shippingId,
+          "store_id":  storeIdShipping.toString(), "store_name": storeNameShipping.toString(),"ship_price": shipping_new_api.toString() , "shipping_type_id": shippingId,
         'shipping_date' :  shippingDates.toString()}
       ],
       "cart_id": ["2"],

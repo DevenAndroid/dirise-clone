@@ -199,7 +199,14 @@ class _ShippingPolicyListScreenState extends State<ShippingPolicyListScreen> {
                         )),
                   );
                 })
-                : const Center(child: Text('No Shipping policy Available'))
+                :  Center(child: Text('No Shipping policy Available'.tr)),
+            modelShippingPolicy.value.shippingPolicy != null ?
+            Column(
+              children: [
+                if(   modelShippingPolicy.value.shippingPolicy!.isEmpty)
+                   Center(child: Text('No Shipping policy Available'.tr)),
+              ],
+            )  : const SizedBox.shrink(),
           ],
         ),
       ),

@@ -146,7 +146,9 @@ class _SelectedOrderScreenState extends State<SelectedOrderScreen> {
                                   height: size.height * .12,
                                   width: size.height * .12,
                                   item.featuredImage.toString(),
-                                  errorBuilder: (_, __, ___) => const SizedBox.shrink(),
+                                  errorBuilder: (_, __, ___) =>  Image.asset("assets/images/new_logo.png",
+                                        height: size.height * .12,
+                                    width: size.height * .12),
                                 ),
                                 const SizedBox(
                                   width: 10,

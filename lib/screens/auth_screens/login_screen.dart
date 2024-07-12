@@ -4,6 +4,7 @@ import 'dart:developer';
 import 'dart:io';
 import 'package:device_info_plus/device_info_plus.dart';
 import 'package:dirise/language/app_strings.dart';
+import 'package:dirise/utils/helper.dart';
 import 'package:dirise/utils/styles.dart';
 import 'package:dirise/widgets/common_colour.dart';
 import 'package:dirise/widgets/common_textfield.dart';
@@ -199,18 +200,10 @@ class _LoginScreenState extends State<LoginScreen> {
               padding: const EdgeInsets.only(left: 15, right: 15),
               child: Column(
                 children: [
-                  const SizedBox(height: 50,),
-                  const Padding(
-                    padding: EdgeInsets.only(top: 50),
-                    child: Image(
-                        height: 70,
-                        image: AssetImage(
-                          'assets/images/diriselogo.png',
-                        )),
-                  ),
-                  SizedBox(
-                    height: size.height * .1,
-                  ),
+                  20.spaceY,
+                   Image.asset('assets/images/new_logo.png',
+                   height: 250,),
+                  20.spaceY,
                   CommonTextField(
                     controller: emailController,
                     obSecure: false,

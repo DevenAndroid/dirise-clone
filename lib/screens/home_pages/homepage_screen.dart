@@ -312,9 +312,9 @@ class _HomePageState extends State<HomePage> {
   void initState() {
     super.initState();
     profileController.aboutUsData();
-    locationController.checkGps(context);
-  _getCurrentPosition();
-   locationController.getCurrentPosition();
+    // locationController.checkGps(context);
+    // _getCurrentPosition();
+    // locationController.getCurrentPosition();
     _loadSavedAddress();
     // showToast(locationController.countryName.toString());
     WidgetsBinding.instance.addPostFrameCallback((timeStamp) {
@@ -367,16 +367,16 @@ class _HomePageState extends State<HomePage> {
                 actions: [
                   TextButton(
 
-                    onPressed: () {
-                      if (Platform.isAndroid) {
-                        SystemNavigator.pop();
-                      }
-                      if (Platform.isIOS) {
-                        Get.back();
-                        // FlutterExitApp.exitApp(iosForceExit: true);
-                      }
-                    },
-                    child: Platform.isAndroid ? Text("Exit App".tr) : Text("Not now".tr)
+                      onPressed: () {
+                        if (Platform.isAndroid) {
+                          SystemNavigator.pop();
+                        }
+                        if (Platform.isIOS) {
+                          Get.back();
+                          // FlutterExitApp.exitApp(iosForceExit: true);
+                        }
+                      },
+                      child: Platform.isAndroid ? Text("Exit App".tr) : Text("Not now".tr)
                   ),
                   TextButton(
                     onPressed: () async {
@@ -528,14 +528,9 @@ class _HomePageState extends State<HomePage> {
           leadingWidth: 120,
           title: Column(
             children: [
-              // Image.asset(
-              //   'assets/images/dirise_home_logo.PNG',
-              //   width: 75,
-              //   // color: Colors.white,
-              // ),
               Image.asset(
-                'assets/images/new_logo.png',
-                width: 55,
+                'assets/images/dirise_home_logo.PNG',
+                width: 75,
                 // color: Colors.white,
               ),
               // 5.spaceY,
@@ -659,17 +654,17 @@ class _HomePageState extends State<HomePage> {
             },
             child: Column(
               children: [
-              Container(
-              color: Colors.white,
-              child: Column(
-                children: [
-                  const SizedBox(
-                    height: 10,
-                  ),
+                Container(
+                  color: Colors.white,
+                  child: Column(
+                    children: [
+                      const SizedBox(
+                        height: 10,
+                      ),
                       GestureDetector(
                         onTap: () {
                           Get.to(
-                            () => profileController.userLoggedIn ? const HomeAddEditAddressLogin() : HomeAddEditAddress(),
+                                () => profileController.userLoggedIn ? const HomeAddEditAddressLogin() : HomeAddEditAddress(),
                             arguments: 'home',
                           );
                         },
@@ -677,74 +672,74 @@ class _HomePageState extends State<HomePage> {
                           children: [
                             profileController.selectedLAnguage.value == 'English'
                                 ? Center(
-                                    child: Text(
-                                    "   Deliver to ${locationController.city.toString()},${locationController.zipcode ?? ''}",
-                                  ))
+                                child: Text(
+                                  "   Deliver to ${locationController.city.toString()},${locationController.zipcode ?? ''}",
+                                ))
                                 : Center(
-                                    child: Text(
-                                    "   يسلم إلى ${locationController.city.toString()},${locationController.zipcode ?? ''}",
-                                  ))
+                                child: Text(
+                                  "   يسلم إلى ${locationController.city.toString()},${locationController.zipcode ?? ''}",
+                                ))
                           ],
                         ),
                       ),
                       // if (locationController.zipcode.isNotEmpty)
-                  //   Padding(
-                  //     padding: const EdgeInsets.symmetric(horizontal: 15),
-                  //     child: Column(
-                  //       crossAxisAlignment: CrossAxisAlignment.start,
-                  //       children: [
-                  //         if (!profileController.userLoggedIn)
-                  //           Text(
-                  //             'Address ',
-                  //             style: GoogleFonts.poppins(
-                  //               color: Colors.black,
-                  //               fontSize: 18,
-                  //               fontWeight: FontWeight.w500,
-                  //             ),
-                  //           ),
-                  //         4.spaceY,
-                  //         GestureDetector(
-                  //           onTap: () {
-                  //             Get.to(() => profileController.userLoggedIn
-                  //                 ? const HomeAddEditAddressLogin()
-                  //                 : HomeAddEditAddress(),
-                  //               arguments: 'home',
-                  //             );
-                  //           },
-                  //           child: Row(
-                  //             children: [
-                  //               SvgPicture.asset(
-                  //                 'assets/images/location.svg',
-                  //                 height: 20,
-                  //                 color: Colors.black,
-                  //               ),
-                  //               5.spaceX,
-                  //               Flexible(
-                  //                 child: Obx(() {
-                  //                   return Text(
-                  //                     "Deliver to  ${locationController.city.toString()} , ${locationController.zipcode ?? ''}",
-                  //                     style: GoogleFonts.poppins(
-                  //                       color: Colors.black,
-                  //                       fontSize: 14,
-                  //                       fontWeight: FontWeight.w400,
-                  //                     ),
-                  //                   );
-                  //                 }),
-                  //               ),
-                  //               5.spaceX,
-                  //               SvgPicture.asset(
-                  //                 'assets/images/pencilImg.svg',
-                  //                 height: 18,
-                  //                 color: Colors.white,
-                  //               ),
-                  //             ],
-                  //           ),
-                  //         ),
-                  //       ],
-                  //     ),
-                  //   )
-                  // else
-                  //   const SizedBox.shrink(),
+                      //   Padding(
+                      //     padding: const EdgeInsets.symmetric(horizontal: 15),
+                      //     child: Column(
+                      //       crossAxisAlignment: CrossAxisAlignment.start,
+                      //       children: [
+                      //         if (!profileController.userLoggedIn)
+                      //           Text(
+                      //             'Address ',
+                      //             style: GoogleFonts.poppins(
+                      //               color: Colors.black,
+                      //               fontSize: 18,
+                      //               fontWeight: FontWeight.w500,
+                      //             ),
+                      //           ),
+                      //         4.spaceY,
+                      //         GestureDetector(
+                      //           onTap: () {
+                      //             Get.to(() => profileController.userLoggedIn
+                      //                 ? const HomeAddEditAddressLogin()
+                      //                 : HomeAddEditAddress(),
+                      //               arguments: 'home',
+                      //             );
+                      //           },
+                      //           child: Row(
+                      //             children: [
+                      //               SvgPicture.asset(
+                      //                 'assets/images/location.svg',
+                      //                 height: 20,
+                      //                 color: Colors.black,
+                      //               ),
+                      //               5.spaceX,
+                      //               Flexible(
+                      //                 child: Obx(() {
+                      //                   return Text(
+                      //                     "Deliver to  ${locationController.city.toString()} , ${locationController.zipcode ?? ''}",
+                      //                     style: GoogleFonts.poppins(
+                      //                       color: Colors.black,
+                      //                       fontSize: 14,
+                      //                       fontWeight: FontWeight.w400,
+                      //                     ),
+                      //                   );
+                      //                 }),
+                      //               ),
+                      //               5.spaceX,
+                      //               SvgPicture.asset(
+                      //                 'assets/images/pencilImg.svg',
+                      //                 height: 18,
+                      //                 color: Colors.white,
+                      //               ),
+                      //             ],
+                      //           ),
+                      //         ),
+                      //       ],
+                      //     ),
+                      //   )
+                      // else
+                      //   const SizedBox.shrink(),
 
 
                     ],

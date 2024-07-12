@@ -53,7 +53,7 @@ class _ProductAccountCreatedSuccessfullyScreenState extends State<ProductAccount
                   child: Image(
                     height: AddSize.size200,
                     width: double.maxFinite,
-                    image: const AssetImage('assets/images/newlogoo.png'),
+                    image: const AssetImage('assets/images/new_logo.png'),
                     fit: BoxFit.contain,
                     opacity: const AlwaysStoppedAnimation(.80),
                   ),
