@@ -10,7 +10,7 @@ import '../../model/common_modal.dart';
 import '../../repository/repository.dart';
 import '../../utils/api_constant.dart';
 import '../../widgets/common_colour.dart';
-import 'optional_details_academic.dart';
+import 'optional_details_tourandtravel.dart';
 class TimingScreenTour extends StatefulWidget {
   int? id;
   String? startLocation;

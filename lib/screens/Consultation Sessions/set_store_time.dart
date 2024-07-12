@@ -32,7 +32,7 @@ class _SetTimeScreenConsultationState extends State<SetTimeScreenConsultation> {
   final controller = Get.put(VendorStoreTimingController());
 
   Timer? debounce;
-
+  List<String> weekDay = [];
   makeDelay({required Function(bool gg) nowPerform}) {
     if (debounce != null) {
       debounce!.cancel();
@@ -56,9 +56,11 @@ class _SetTimeScreenConsultationState extends State<SetTimeScreenConsultation> {
       end.add(value.endTime.toString().normalTime);
       start_break_time.add(value.startBreakTime.toString().normalTime);
       end_break_time.add(value.endBreakTime.toString().normalTime);
+      weekDay.add(value.weekDay.toString().normalTime);
       status.add(value.status == true ? "1" : "0");
     });
     map["start_time"] = start;
+    map["week_day"] = weekDay;
     map["product_id"] =  addProductController.idProduct.value.toString();
     map["end_time"] = end;
     map["start_break_time"] = start_break_time;

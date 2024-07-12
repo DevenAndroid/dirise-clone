@@ -3,7 +3,7 @@ import 'dart:developer';
 
 import 'package:dirise/addNewProduct/rewardScreen.dart';
 import 'package:dirise/screens/Seminars%20&%20%20Attendable%20Course/seminars_date_screen.dart';
-import 'package:dirise/screens/Seminars%20&%20%20Attendable%20Course/sponsors_academic_screen.dart';
+import 'package:dirise/screens/Seminars%20&%20%20Attendable%20Course/sponsors_seminars_screen.dart';
 import 'package:dirise/screens/Seminars%20&%20%20Attendable%20Course/webinarScreen.dart';
 import 'package:dirise/widgets/loading_animation.dart';
 import 'package:flutter/cupertino.dart';

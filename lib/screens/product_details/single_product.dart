@@ -1,7 +1,7 @@
 import 'dart:convert';
 import 'dart:developer';
 import 'package:cached_network_image/cached_network_image.dart';
-import 'package:carousel_slider/carousel_slider.dart';
+
 import 'package:dirise/utils/helper.dart';
 import 'package:dirise/widgets/common_textfield.dart';
 import 'package:easy_image_viewer/easy_image_viewer.dart';
@@ -28,7 +28,7 @@ import '../../widgets/common_colour.dart';
 import '../../widgets/loading_animation.dart';
 import '../check_out/direct_check_out.dart';
 import '../my_account_screens/contact_us_screen.dart';
-
+// import 'package:carousel_slider/carousel_controller.dart' as carousel;
 class SingleProductDetails extends StatefulWidget {
   const SingleProductDetails({super.key, required this.productDetails});
 
@@ -263,7 +263,7 @@ class _SingleProductDetailsState extends State<SingleProductDetails> {
 
   bool get checkLoaded => productElement.pName != null && productElement.sPrice != null;
 
-  CarouselController carouselController = CarouselController();
+
   Rx<ModelGetReview> modelGetReview = ModelGetReview().obs;
 
   Future getPublishPostData() async {
@@ -273,7 +273,7 @@ class _SingleProductDetailsState extends State<SingleProductDetails> {
   }
 
   RxBool alreadyReview = false.obs;
-
+  // CarouselController carouselController = CarouselController();
   @override
   Widget build(BuildContext context) {
     Size size = MediaQuery.of(context).size;
@@ -306,35 +306,35 @@ class _SingleProductDetailsState extends State<SingleProductDetails> {
                         child: Column(
                           crossAxisAlignment: CrossAxisAlignment.start,
                           children: [
-                            CarouselSlider(
-                              options: CarouselOptions(
-                                  height: 180.0,
-                                  viewportFraction: .8,
-                                  onPageChanged: (daf, sda) {
-                                    currentIndex.value = daf;
-                                  }),
-                              carouselController: carouselController,
-                              items: imagesList.map((i) {
-                                return Builder(
-                                  builder: (BuildContext context) {
-                                    return GestureDetector(
-                                      onTap: () {
-                                        showImageViewer(context, Image.network(i).image,
-                                            doubleTapZoomable: true,
-                                            backgroundColor: AppTheme.buttonColor,
-                                            useSafeArea: true,
-                                            swipeDismissible: false);
-                                      },
-                                      child: CachedNetworkImage(
-                                          imageUrl: i,
-                                          height: 180,
-                                          fit: BoxFit.cover,
-                                          errorWidget: (_, __, ___) => Image.asset('assets/images/new_logo.png')),
-                                    );
-                                  },
-                                );
-                              }).toList(),
-                            ),
+                            // CarouselSlider(
+                            //   options: CarouselOptions(
+                            //       height: 180.0,
+                            //       viewportFraction: .8,
+                            //       onPageChanged: (daf, sda) {
+                            //         currentIndex.value = daf;
+                            //       }),
+                            //   // carouselController: carouselController,
+                            //   items: imagesList.map((i) {
+                            //     return Builder(
+                            //       builder: (BuildContext context) {
+                            //         return GestureDetector(
+                            //           onTap: () {
+                            //             showImageViewer(context, Image.network(i).image,
+                            //                 doubleTapZoomable: true,
+                            //                 backgroundColor: AppTheme.buttonColor,
+                            //                 useSafeArea: true,
+                            //                 swipeDismissible: false);
+                            //           },
+                            //           child: CachedNetworkImage(
+                            //               imageUrl: i,
+                            //               height: 180,
+                            //               fit: BoxFit.cover,
+                            //               errorWidget: (_, __, ___) => Image.asset('assets/images/new_logo.png')),
+                            //         );
+                            //       },
+                            //     );
+                            //   }).toList(),
+                            // ),
                             const SizedBox(
                               height: 6,
                             ),
@@ -505,8 +505,8 @@ class _SingleProductDetailsState extends State<SingleProductDetails> {
                                   onChanged: (newValue) {
                                     if (newValue == null) return;
                                     selectedVariant = newValue;
-                                    carouselController.animateToPage(imagesList
-                                        .indexWhere((element) => element.toString() == selectedVariant!.image.toString()));
+                                    // carouselController.animateToPage(imagesList
+                                    //     .indexWhere((element) => element.toString() == selectedVariant!.image.toString()));
                                     setState(() {});
                                   },
                                 ),

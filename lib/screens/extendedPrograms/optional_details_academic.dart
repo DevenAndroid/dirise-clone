@@ -2,7 +2,7 @@ import 'dart:convert';
 import 'package:dirise/Services/services_classification.dart';
 import 'package:dirise/controller/service_controller.dart';
 import 'package:dirise/screens/Consultation%20Sessions/sponsors_screen.dart';
-import 'package:dirise/screens/extendedPrograms/sponsors_academic_screen.dart';
+import 'package:dirise/screens/extendedPrograms/sponsors_extended_screen.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
@@ -141,6 +141,12 @@ class _OptionalDetailsExtendedProgramsState extends State<OptionalDetailsExtende
                   controller: locationController,
                   maxLines: 2,
                   minLines: 2,
+                  validator: (value) {
+                    if (value!.trim().isEmpty) {
+                      return "Program Description is required".tr;
+                    }
+                    return null;
+                  },
                   decoration: InputDecoration(
                     counterStyle: GoogleFonts.poppins(
                       color: AppTheme.primaryColor,
@@ -175,6 +181,7 @@ class _OptionalDetailsExtendedProgramsState extends State<OptionalDetailsExtende
                     ),
                   ),
                 ),
+                const SizedBox(height: 10,),
                 CommonTextField(
                   controller: hostNameController,
                   obSecure: false,
@@ -186,6 +193,7 @@ class _OptionalDetailsExtendedProgramsState extends State<OptionalDetailsExtende
                     return null;
                   },
                 ),
+                const SizedBox(height: 10,),
                 CommonTextField(
                   controller: programNameController,
                   obSecure: false,
@@ -198,6 +206,7 @@ class _OptionalDetailsExtendedProgramsState extends State<OptionalDetailsExtende
                     return null;
                   },
                 ),
+                const SizedBox(height: 10,),
                 CommonTextField(
                   controller: programGoalController,
                   obSecure: false,
@@ -209,6 +218,7 @@ class _OptionalDetailsExtendedProgramsState extends State<OptionalDetailsExtende
                     return null;
                   },
                 ),
+                const SizedBox(height: 10,),
                 TextFormField(
                   maxLines: 2,
                   controller: programDescription,
