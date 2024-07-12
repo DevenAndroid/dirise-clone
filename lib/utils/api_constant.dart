@@ -7,7 +7,9 @@ import '../model/login_model.dart';
 import '../widgets/common_colour.dart';
 
 class ApiUrls {
-  static const String baseUrl = 'https://admin.diriseapp.com/api/';
+
+  // static const String baseUrl = 'https://admin.diriseapp.com/api/';
+  static const String baseUrl = 'https://dirise.virtualdemo.tech/api/';
   // static const String baseUrl = 'https://backend.diriseapp.com/api/';
   //
   // static const String baseUrl = 'https://beta-dirise.eoxyslive.com/api/';
@@ -76,6 +78,11 @@ class ApiUrls {
   static const String getCategoryStoresUrl = "${baseUrl}get-vendor-details?";
   static const String vendorProductListUrl = "${baseUrl}vendor-product-list?";
   static const String singleProductUrl = "${baseUrl}product";
+  static const String singleGiveAwayUrl = "${baseUrl}single-giveaway-product";
+  static const String simpleProductUrl = "${baseUrl}simple-product";
+  static const String bookableProductUrl = "${baseUrl}single-bookable-product";
+  static const String advertisingUrl = "${baseUrl}single-advertising-product";
+  static const String varientsUrl = "${baseUrl}variable-product";
   static const String getEventsUrl = "${baseUrl}get-events";
   static const String addEventUrl = "${baseUrl}event";
   static const String deleteEventUrl = "${baseUrl}delete-event";
@@ -102,6 +109,8 @@ class ApiUrls {
   static const String withdrawalRequestUrl= "${baseUrl}withdraw-request";
   static const String deleteProductUrl= "${baseUrl}delete-product";
   static const String deleteReturnPolicy= "${baseUrl}remove-return-policy";
+  static const String deleteShippingPolicy= "${baseUrl}remove-shipping-policy";
+  static const String deletePickupPolicy= "${baseUrl}remove-pickup-policy";
   static const String returnPolicyUrl= "${baseUrl}return-policy";
   static const String singleReturnPolicyUrl= "${baseUrl}single-return-policy?id=";
   static const String singleShippingPolicyUrl= "${baseUrl}single-shipping-policy?id=";
@@ -136,6 +145,8 @@ class ApiUrls {
   static const String sponsorList = "${baseUrl}sponsor-list";
   static const String featuredStore = "${baseUrl}get-featured-store";
   static const String getJobList = "${baseUrl}job-product-list";
+  static const String singleJobList = "${baseUrl}single-job-product?product_id=";
+  static const String releatedProduct = "${baseUrl}related-product";
 
 
 

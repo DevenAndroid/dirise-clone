@@ -1,19 +1,13 @@
 import 'dart:convert';
 import 'dart:io';
-
-import 'package:cached_network_image/cached_network_image.dart';
 import 'package:dirise/controller/profile_controller.dart';
-import 'package:dirise/personalizeyourstore/addSocialMediaScreen.dart';
 import 'package:dirise/utils/helper.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
-import 'package:freshchat_sdk/freshchat_sdk.dart';
-
 import 'package:get/get.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:intl_phone_field/intl_phone_field.dart';
-
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:url_launcher/url_launcher.dart';
 import '../../Services/pick_up_address_service.dart';
@@ -27,11 +21,9 @@ import '../../model/customer_profile/model_country_list.dart';
 import '../../model/customer_profile/model_state_list.dart';
 import '../../model/model_address_list.dart';
 import '../../model/model_user_delete.dart';
-import '../../personalizeyourstore/operatinghourScreen.dart';
 import '../../personalizeyourstore/socialMediaScreen.dart';
 import '../../posts/posts_ui.dart';
 import '../../repository/repository.dart';
-import '../../routers/my_routers.dart';
 import '../../utils/api_constant.dart';
 import '../../vendor/dashboard/dashboard_screen.dart';
 import '../../vendor/dashboard/store_open_time_screen.dart';
@@ -82,11 +74,10 @@ class _CustomDrawerState extends State<CustomDrawer> {
   ModelCountryList? modelCountryList;
   Country? selectedCountry;
   whatsapp() async {
-    String contact = "+96598762557";
+    String contact = "+96565556490";
     String text = '';
     String androidUrl = "whatsapp://send?phone=$contact&text=$text";
     String iosUrl = "https://wa.me/$contact?text=${Uri.parse(text)}";
-
     String webUrl = 'https://api.whatsapp.com/send/?phone=$contact&text=hi';
 
     try {
@@ -274,25 +265,73 @@ class _CustomDrawerState extends State<CustomDrawer> {
                                       width: 65,
                                       child: profileController.userLoggedIn
                                           ? ClipRRect(
-                                            borderRadius: BorderRadius.circular(1000),
-                                            child: Image.network(
-                                                profileController.apiLoaded && profileController.model.user != null
-                                                    ? profileController.model.user!.profileImage.toString()
-                                                    : "",
-                                                fit: BoxFit.cover,
+                                              borderRadius: BorderRadius.circular(1000),
+                                              child: SizedBox(
                                                 height: 65,
                                                 width: 65,
-                                                errorBuilder: (_, __, ___) => const Icon(
-                                                      Icons.person,
-                                                      color: AppTheme.buttonColor,
-                                                      size: 45,
-                                                    )),
-                                          )
-                                          : const Icon(
+                                                child: profileController.userLoggedIn
+                                                    ? Image.network(
+                                                        profileController.apiLoaded && profileController.model.user != null
+                                                            ? profileController.model.user!.profileImage.toString()
+                                                            : "",
+                                                        fit: BoxFit.cover,
+                                                        height: 65,
+                                                        width: 65,
+                                                        // errorBuilder: (_, __, ___) => Image.asset(
+                                                        //   'assets/images/myaccount.png',
+                                                        //   height: 65,
+                                                        //   width: 65,
+                                                        // ),
+                                                        errorBuilder: (_, __, ___) => Container(
+                                                          decoration: BoxDecoration(
+                                                              shape: BoxShape.circle,
+                                                              color: AppTheme.buttonColor,
+                                                              border: Border.all(color: AppTheme.buttonColor)),
+                                                          child: const SizedBox(
+                                                              height: 65,
+                                                              width: 65,
+                                                              child: Icon(
+                                                                Icons.person,
+                                                                color: Colors.white,
+                                                                size: 45,
+                                                              )),
+                                                        ),
+                                                      )
+                                                    // : Image.asset(
+                                                    //     'assets/images/myaccount.png',
+                                                    //     height: 65,
+                                                    //     width: 65,
+                                                    //   ),
+                                                    : Container(
+                                                        decoration: BoxDecoration(
+                                                            shape: BoxShape.circle,
+                                                            color: Colors.white,
+                                                            border: Border.all(color: Colors.white)),
+                                                        child: const SizedBox(
+                                                            height: 65,
+                                                            width: 65,
+                                                            child: Icon(
+                                                              Icons.person,
+                                                              color: AppTheme.buttonColor,
+                                                              size: 45,
+                                                            )),
+                                                      ),
+                                              ),
+                                            )
+                                          :  Container(
+                                        decoration: const BoxDecoration(
+                                            shape: BoxShape.circle,
+                                            color: Colors.white,
+                                          ),
+                                        child: const SizedBox(
+                                            height: 65,
+                                            width: 65,
+                                            child: Icon(
                                               Icons.person,
                                               color: AppTheme.buttonColor,
                                               size: 45,
                                             )),
+                                      ),),
                                 ),
                                 5.spaceY,
                                 Text(
@@ -465,82 +504,7 @@ class _CustomDrawerState extends State<CustomDrawer> {
                   thickness: 1,
                   color: Color(0x1A000000),
                 ),
-                const SizedBox(
-                  height: 5,
-                ),
-                // GestureDetector(
-                //   behavior: HitTestBehavior.translucent,
-                //   onTap: () {
-                //     Get.toNamed(EventCalendarScreen.route);
-                //   },
-                //   child: Row(
-                //     children: [
-                //       Image.asset(height: 25, 'assets/icons/calendar.png'),
-                //       const SizedBox(
-                //         width: 20,
-                //       ),
-                //       Text(
-                //         AppStrings.calendar.tr,
-                //         style: GoogleFonts.poppins(
-                //             color: const Color(0xFF2A3032), fontSize: 16, fontWeight: FontWeight.w500),
-                //       ),
-                //       const Spacer(),
-                //       const Icon(
-                //         Icons.arrow_forward_ios,
-                //         size: 15,
-                //       ),
-                //     ],
-                //   ),
-                // ),
-                // const SizedBox(
-                //   height: 5,
-                // ),
-                // const Divider(
-                //   thickness: 1,
-                //   color: Color(0x1A000000),
-                // ),
-                const SizedBox(
-                  height: 5,
-                ),
-                GestureDetector(
-                  behavior: HitTestBehavior.translucent,
-                  onTap: () {
-                    setState(() {});
-                    Freshchat.showConversations();
-                  },
-                  child: Row(
-                    children: [
-                      Image.asset(height: 25, 'assets/icons/chat.png'),
-                      const SizedBox(
-                        width: 20,
-                      ),
-                      Text(
-                        'Chat'.tr,
-                        style: GoogleFonts.poppins(
-                            color: const Color(0xFF2A3032), fontSize: 16, fontWeight: FontWeight.w500),
-                      ),
-                      const Spacer(),
-                      profileController.selectedLAnguage.value == 'English' ?
-                      Image.asset(
-                        'assets/images/forward_icon.png',
-                        height: 17,
-                        width: 17,
-                      ) :
-                      Image.asset(
-                        'assets/images/back_icon_new.png',
-                        height: 17,
-                        width: 17,
-                      ),
-                    ],
-                  ),
-                ),
-                const SizedBox(
-                  height: 5,
-                ),
-                const Divider(
-                  thickness: 1,
-                  color: Color(0x1A000000),
-                ),
+
                 const SizedBox(
                   height: 5,
                 ),

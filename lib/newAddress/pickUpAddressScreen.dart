@@ -91,7 +91,7 @@ class _PickUpAddressScreenState extends State<PickUpAddressScreen> {
       ModelCommonResponse response = ModelCommonResponse.fromJson(jsonDecode(value));
       showToast(response.message.toString());
       if (response.status == true) {
-        Get.to(const CustomerAccountCreatedSuccessfullyScreen());
+        Get.toNamed(CustomerAccountCreatedSuccessfullyScreen.route);
       }
     });
   }

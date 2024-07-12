@@ -5,6 +5,7 @@ publish_to: 'none'
 
 
 
+
 version: 1.0.21+47
 
 
@@ -68,7 +69,6 @@ dependencies:
   flutter_exif_rotation: ^0.5.1
   webview_flutter: ^4.2.4
   url_launcher: ^6.1.15
-  freshchat_sdk: ^0.10.14
   better_player_plus:
   chewie: ^1.7.0
   video_player: ^2.8.2
@@ -79,6 +79,7 @@ dependencies:
   firebase_crashlytics: ^3.3.0
   firebase_analytics: ^10.0.0
   intl_phone_field: ^3.2.0
+  color:
   easy_image_viewer: ^1.4.2
   flutter_exit_app: ^1.1.2
   pdf:

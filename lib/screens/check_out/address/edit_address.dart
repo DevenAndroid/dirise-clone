@@ -200,7 +200,7 @@ class _EditAddressSheetState extends State<EditAddressSheet> {
     phoneController = TextEditingController(text: addressData.phone ?? "");
     emailController = TextEditingController(text: addressData.email ?? "");
     alternatePhoneController = TextEditingController(text: addressData.alternatePhone ?? "");
-   addressController = TextEditingController(text: addressData.address ?? "");
+    addressController = TextEditingController(text: addressData.address ?? "");
     address2Controller = TextEditingController(text: addressData.address2 ?? "");
     zipCodeController = TextEditingController(text: addressData.zipCode ?? "");
     landmarkController = TextEditingController(text: addressData.landmark ?? "");
@@ -319,7 +319,7 @@ class _EditAddressSheetState extends State<EditAddressSheet> {
                       enabledBorder: OutlineInputBorder(borderSide: BorderSide(color: AppTheme.shadowColor)),
                       focusedBorder: OutlineInputBorder(borderSide: BorderSide(color: AppTheme.shadowColor))),
                   initialCountryCode: profileController.code.toString(),
-                  languageCode: '+91',
+                  languageCode: profileController.code,
                   onCountryChanged: (phone) {
                     profileController.code = phone.code;
                     print(phone.code);
@@ -335,49 +335,49 @@ class _EditAddressSheetState extends State<EditAddressSheet> {
                 const SizedBox(
                   height: 5,
                 ),
-                Text(
-                  'Alternate Phone *'.tr,
-                  style: GoogleFonts.poppins(fontWeight: FontWeight.w500, fontSize: 16, color: const Color(0xff585858)),
-                ),
-                const SizedBox(
-                  height: 8,
-                ),
-                IntlPhoneField(
-                  // key: ValueKey(code),
-                  flagsButtonPadding: const EdgeInsets.all(8),
-                  dropdownIconPosition: IconPosition.trailing,
-                  showDropdownIcon: true,
-                  cursorColor: Colors.black,
-                  textInputAction: TextInputAction.next,
-                  dropdownTextStyle: const TextStyle(color: Colors.black),
-                  style: const TextStyle(
-                      color: AppTheme.textColor
-                  ),
-
-                  controller: alternatePhoneController,
-                  decoration: const InputDecoration(
-                      contentPadding: EdgeInsets.zero,
-                      hintStyle: TextStyle(color: AppTheme.textColor),
-                      hintText: 'Enter your phone number',
-                      labelStyle: TextStyle(color: AppTheme.textColor),
-                      border: OutlineInputBorder(
-                        borderSide: BorderSide(),
-                      ),
-                      enabledBorder: OutlineInputBorder(borderSide: BorderSide(color: AppTheme.shadowColor)),
-                      focusedBorder: OutlineInputBorder(borderSide: BorderSide(color: AppTheme.shadowColor))),
-                  initialCountryCode: code.toString(),
-                  languageCode: '+91',
-                  onCountryChanged: (phone) {
-                    code = phone.code;
-                    print(phone.code);
-                    print(code.toString());
-                  },
-                  onChanged: (phone) {
-                    code = phone.countryISOCode.toString();
-                    print(phone.countryCode);
-                    print(code.toString());
-                  },
-                ),
+                // Text(
+                //   'Alternate Phone *'.tr,
+                //   style: GoogleFonts.poppins(fontWeight: FontWeight.w500, fontSize: 16, color: const Color(0xff585858)),
+                // ),
+                // const SizedBox(
+                //   height: 8,
+                // ),
+                // IntlPhoneField(
+                //   // key: ValueKey(code),
+                //   flagsButtonPadding: const EdgeInsets.all(8),
+                //   dropdownIconPosition: IconPosition.trailing,
+                //   showDropdownIcon: true,
+                //   cursorColor: Colors.black,
+                //   textInputAction: TextInputAction.next,
+                //   dropdownTextStyle: const TextStyle(color: Colors.black),
+                //   style: const TextStyle(
+                //       color: AppTheme.textColor
+                //   ),
+                //
+                //   controller: alternatePhoneController,
+                //   decoration: const InputDecoration(
+                //       contentPadding: EdgeInsets.zero,
+                //       hintStyle: TextStyle(color: AppTheme.textColor),
+                //       hintText: 'Enter your phone number',
+                //       labelStyle: TextStyle(color: AppTheme.textColor),
+                //       border: OutlineInputBorder(
+                //         borderSide: BorderSide(),
+                //       ),
+                //       enabledBorder: OutlineInputBorder(borderSide: BorderSide(color: AppTheme.shadowColor)),
+                //       focusedBorder: OutlineInputBorder(borderSide: BorderSide(color: AppTheme.shadowColor))),
+                //   initialCountryCode: code.toString(),
+                //   languageCode: '+91',
+                //   onCountryChanged: (phone) {
+                //     code = phone.code;
+                //     print(phone.code);
+                //     print(code.toString());
+                //   },
+                //   onChanged: (phone) {
+                //     code = phone.countryISOCode.toString();
+                //     print(phone.countryCode);
+                //     print(code.toString());
+                //   },
+                // ),
                 // ...commonField(
                 //     textController: phoneController,
                 //     title: "Phone *",
@@ -396,23 +396,23 @@ class _EditAddressSheetState extends State<EditAddressSheet> {
                 //       return null;
                 //     }),
 
-                // ...commonField(
-                //     textController: alternatePhoneController,
-                //     title: "Alternate Phone *",
-                //     hintText: "Enter your alternate phone number",
-                //     keyboardType: TextInputType.number,
-                //     validator: (value) {
-                //       // if(value!.trim().isEmpty){
-                //       //   return "Please enter phone number";
-                //       // }
-                //       // if(value.trim().length > 15){
-                //       //   return "Please enter valid phone number";
-                //       // }
-                //       // if(value.trim().length < 8){
-                //       //   return "Please enter valid phone number";
-                //       // }
-                //       return null;
-                //     }),
+                ...commonField(
+                    textController: alternatePhoneController,
+                    title: "Alternate Phone *",
+                    hintText: "Enter your alternate phone number",
+                    keyboardType: TextInputType.number,
+                    validator: (value) {
+                      // if(value!.trim().isEmpty){
+                      //   return "Please enter phone number";
+                      // }
+                      // if(value.trim().length > 15){
+                      //   return "Please enter valid phone number";
+                      // }
+                      // if(value.trim().length < 8){
+                      //   return "Please enter valid phone number";
+                      // }
+                      return null;
+                    }),
                 ...commonField(
                     textController: addressController,
                     title: "Address*",
@@ -652,9 +652,13 @@ class _EditAddressSheetState extends State<EditAddressSheet> {
                           cityId: cartController.cityCode.toString(),
                           stateId: cartController.stateCode.toString(),
                           phoneCountryCode: profileController.code.toString(),
+                          type : 'checkout',
                           id: addressData.id);
                     }
-                    cartController.getCart();
+                      if(addressData.id != null){
+                        Get.back();
+                      }
+                      cartController.getCart();
                   },
                   child: Container(
                     decoration: const BoxDecoration(color: Color(0xff014E70)),

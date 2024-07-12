@@ -45,11 +45,11 @@ class _SliderWidgetState extends State<SliderWidget> {
   Rx<ModelNewsTrends> getNewsTrendModel = ModelNewsTrends().obs;
   Rx<ModelSingleCategoryList> modelSingleCategoryList = ModelSingleCategoryList().obs;
 
-  Future getNewsTrendData() async {
-    repositories.getApi(url: ApiUrls.getNewsTrendsUrl).then((value) {
-      getNewsTrendModel.value = ModelNewsTrends.fromJson(jsonDecode(value));
-    });
-  }
+  // Future getNewsTrendData() async {
+  //   repositories.getApi(url: ApiUrls.getNewsTrendsUrl).then((value) {
+  //     getNewsTrendModel.value = ModelNewsTrends.fromJson(jsonDecode(value));
+  //   });
+  // }
 
 
   final Repositories repositories = Repositories();
@@ -57,7 +57,7 @@ class _SliderWidgetState extends State<SliderWidget> {
   @override
   void initState() {
     super.initState();
-    getNewsTrendData();
+    // getNewsTrendData();
   }
 
   @override

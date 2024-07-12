@@ -191,7 +191,7 @@ class _SingleStoreScreenState extends State<SingleStoreScreen> {
     repositories.getApi(url: ApiUrls.getVendorInfoUrl + vendorId).then((value) {
       ModelSingleVendor response = ModelSingleVendor.fromJson(jsonDecode(value));
       productCount = response.productCount.toString();
-       description = response.user!.storeBannerDesccription.toString();
+       description = response.user!.storeBannerDesccription ?? 'store description not found';
       bannerString = response.user!.bannerProfileApp.toString();
       storeLogo = response.user!.storeLogo.toString();
       gg = VendorStoreData.fromJson(response.user!.toJson());
@@ -475,7 +475,7 @@ class _SingleStoreScreenState extends State<SingleStoreScreen> {
                               height: 10,
                             ),
                             Text(
-                              description.toString(),
+                              description.isNotEmpty ? description : 'store description not found'.tr,
                               style: GoogleFonts.poppins(
                                   color: const Color(0xFF014E70), fontSize: 14, fontWeight: FontWeight.w500),
                             ),
@@ -824,7 +824,8 @@ class _SingleStoreScreenState extends State<SingleStoreScreen> {
                     final item = filterModel.value.product![index];
                     return Padding(
                       padding: const EdgeInsets.symmetric(horizontal: 12),
-                      child: ProductUI(
+                      child:
+                      ProductUI(
                         productElement:item,
                         isSingle: true,
                         onLiked: (value) {
@@ -835,8 +836,14 @@ class _SingleStoreScreenState extends State<SingleStoreScreen> {
                   },
                 )
                     : SliverToBoxAdapter(
-                    child: Center(
-                      child: Text(AppStrings.storeDontHaveAnyProduct),
+                    child:Column(
+                      children: [
+                        Center(
+                          child: Text(AppStrings.storeDontHaveAnyProduct.tr),
+                        ),
+                        Text('User id is ${ getCategoryStoresModel.value.user!.loginUserId.toString()}'),
+                        Text('Vendor id is ${vendorId.toString()}'),
+                      ],
                     )),
               if (modelProductsList.data != null && controller.isFilter.value == false )
                 modelProductsList.data!.isNotEmpty
@@ -864,9 +871,9 @@ class _SingleStoreScreenState extends State<SingleStoreScreen> {
                 )
 
                     : SliverToBoxAdapter(
-                    child: Center(
+                    child:  Center(
                       child: Text(AppStrings.storeDontHaveAnyProduct.tr),
-                    ))
+                    ),)
               else
                 SliverToBoxAdapter(child: controller.isFilter.value == false ? const LoadingAnimation() : const SizedBox()),
               const SliverToBoxAdapter(

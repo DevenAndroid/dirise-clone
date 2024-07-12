@@ -7,28 +7,12 @@ import 'package:dirise/screens/my_account_screens/profile_screen.dart';
 import 'package:dirise/screens/my_account_screens/return_policy_screen.dart';
 import 'package:dirise/screens/my_account_screens/termsconditions_screen.dart';
 import 'package:get/get.dart';
-
 import '../Services/choose_map_service.dart';
-import '../Services/locationwherecustomerwilljoin.dart';
 import '../Services/pick_up_address_service.dart';
-import '../Services/service_international_shipping_details.dart';
-import '../Services/servicesReturnPolicyScreen.dart';
-import '../Services/tellUsscreen.dart';
-import '../Services/whatServiceDoYouProvide.dart';
-
-import '../addNewProduct/giveawaylocation.dart';
-import '../addNewProduct/pickUpAddressScreen.dart';
-import '../iAmHereToSell/personalizeyourstoreScreen.dart';
-import '../iAmHereToSell/requiredDocumentsScreen.dart';
-import '../iAmHereToSell/verificationOptiionScreen.dart';
-import '../model/model_cart_response.dart';
-import '../model/vendor_models/model_return_policy.dart';
+import '../newAddress/customeraccountcreatedsuccessfullyScreen.dart';
 import '../newAuthScreens/newOtpScreen.dart';
 import '../newAuthScreens/signupScreen.dart';
-import '../personalizeyourstore/returnpolicyScreen.dart';
 import '../posts/posts_ui.dart';
-import '../screens/Consultation Sessions/date_range_screen.dart';
-import '../screens/auth_screens/createacc_screen.dart';
 import '../screens/auth_screens/otp_screen.dart';
 import '../screens/calender.dart';
 import '../screens/categories/categories_screen.dart';
@@ -44,22 +28,15 @@ import '../screens/order_screens/my_orders_screen.dart';
 import '../screens/my_account_screens/privacy_policy_screen.dart';
 import '../screens/public_speaker_screen/publicspeaker_screen.dart';
 import '../screens/public_speaker_screen/single_public_speaker_screen.dart';
-import '../screens/return_policy.dart';
 import '../screens/school_nursery_category.dart';
-import '../screens/order_screens/selectd_order_screen.dart';
-import '../screens/tell_us_about_yourself.dart';
 import '../screens/vendorinformation_screen.dart';
 import '../screens/virtual_assets/virtual_assets_screen.dart';
-import '../single_product_new.dart';
-import '../single_products/give_away_single.dart';
-import '../tellaboutself/ExtraInformation.dart';
 import '../vendor/authentication/verify_vendor_otp.dart';
 import '../vendor/dashboard/dashboard_screen.dart';
 import '../vendor/dashboard/store_open_time_screen.dart';
 import '../vendor/orders/vendor_order_list_screen.dart';
 import '../vendor/payment_info/bank_account_screen.dart';
 import '../vendor/payment_info/withdrawal_screen.dart';
-import '../vendor/products/add_product/add_product_screen.dart';
 import '../vendor/products/all_product_screen.dart';
 import '../vendor/profile/vendor_profile_screen.dart';
 import '../vendor/shipping_policy.dart';
@@ -111,6 +88,7 @@ class MyRouters {
     GetPage(name: VendorInformation.route, page: () => const VendorInformation()),
     GetPage(name: ChooseAddressService.route, page: () =>  ChooseAddressService()),
     GetPage(name: PickUpAddressService.route, page: () =>  PickUpAddressService()),
+    GetPage(name: CustomerAccountCreatedSuccessfullyScreen.route, page: () =>  const CustomerAccountCreatedSuccessfullyScreen()),
 
   ];
 }
