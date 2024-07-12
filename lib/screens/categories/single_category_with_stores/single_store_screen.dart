@@ -182,7 +182,7 @@ class _SingleStoreScreenState extends State<SingleStoreScreen> {
       throw 'Could not launch $url';
     }
   }
-
+  String storeUrl = '';
   Rx<ModelCategoryStores> getCategoryStoresModel = ModelCategoryStores().obs;
   Rx<VendorAvailability> vendorAvailabilityModel = VendorAvailability().obs;
 
@@ -194,8 +194,10 @@ class _SingleStoreScreenState extends State<SingleStoreScreen> {
        description = response.user!.storeBannerDesccription ?? 'store description not found';
       bannerString = response.user!.bannerProfileApp.toString();
       storeLogo = response.user!.storeLogo.toString();
+      storeUrl = response.user!.storeUrl.toString();
       gg = VendorStoreData.fromJson(response.user!.toJson());
       log('vendorrrrrr${gg.toJson()}');
+      log('vendorrrrr ulr${storeUrl.toString()}');
       ee = SocialLinks.fromJson(response.toJson());
       ss = ModelCategoryStores.fromJson(response.user!.toJson());
       setState(() {});
@@ -490,6 +492,80 @@ class _SingleStoreScreenState extends State<SingleStoreScreen> {
                               const SizedBox(
                                 height: 12,
                               ),
+                              Row(
+                                children: [
+                                  if (storeUrl.toString()
+                                      .isNotEmpty)
+                                    Expanded(
+                                      child: MaterialButton(
+                                        onPressed: () async {
+
+                                        },
+                                        shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(8)),
+                                        child: Row(
+                                          //  crossAxisAlignment: CrossAxisAlignment.start,
+                                          children: [
+                                            const Text(
+                                              "Store-Url",
+                                              style: TextStyle(fontSize: 15, fontWeight: FontWeight.bold),
+                                            ),
+                                            const SizedBox(
+                                              width: 5,
+                                            ),
+                                            Expanded(
+                                              child: Text(
+                                                "${storeUrl.toString()}",
+                                                style: normalStyle.copyWith(
+                                                  color: const Color(0xFF7D7D7D),
+                                                ),
+                                              ),
+                                            ),
+                                          ],
+                                        ),
+                                      ),
+                                    ),
+                                  if (storeInfo.storePhone
+                                      .toString()
+                                      .trim()
+                                      .isNotEmpty)
+                                    Expanded(
+                                      child: MaterialButton(
+                                        onPressed: () async {
+                                          await Clipboard.setData(
+                                              ClipboardData(text: storeInfo.storePhone.toString().trim()));
+                                          final snackBar = SnackBar(
+                                            content: Text(
+                                              "Phone no. copied".tr,
+                                              style: normalStyle,
+                                            ),
+                                            action: SnackBarAction(
+                                                label: "Make Call".tr,
+                                                onPressed: () {
+                                                  Helpers.makeCall(phoneNumber: storeInfo.storePhone.toString().trim());
+                                                }),
+                                            backgroundColor: AppTheme.buttonColor,
+                                          );
+                                          if (!mounted) return;
+                                          ScaffoldMessenger.of(context).showSnackBar(snackBar);
+                                        },
+                                        shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(8)),
+                                        child: Row(
+                                          crossAxisAlignment: CrossAxisAlignment.start,
+                                          children: [
+                                            SvgPicture.asset("assets/svgs/phone_call.svg"),
+                                            Text(
+                                              "+${storeInfo.storePhone}",
+                                              style: normalStyle.copyWith(
+                                                color: const Color(0xFF7D7D7D),
+                                              ),
+                                            ),
+                                          ],
+                                        ),
+                                      ),
+                                    ),
+                                ],
+                              ),
+                              const SizedBox(height: 10,),
                               Row(
                                 children: [
                                   if (storeInfo.email

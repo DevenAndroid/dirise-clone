@@ -458,7 +458,7 @@ class _GiveAwayProductState extends State<GiveAwayProduct> {
         titleSpacing: 0,
       ),
       body: Obx(() {
-        return modelSingleProduct.value.singleGiveawayProduct != null && modelRelated.value.status == true
+        return modelSingleProduct.value.singleGiveawayProduct != null
             ? SingleChildScrollView(
                 child: Padding(
                     padding: const EdgeInsets.all(12.0),
