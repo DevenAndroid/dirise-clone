@@ -341,11 +341,11 @@ class _ItemDetailsScreensState extends State<ItemDetailsScreens> {
               const SizedBox(
                 height: 15,
               ),
-              id.value.isNotEmpty?
+              productCategoryModel.value.data != null ?
               Text(
                 'Filters(Optional)'.tr,
                 style: GoogleFonts.poppins(color: Colors.black, fontWeight: FontWeight.w600, fontSize: 16),
-              ):const SizedBox(),
+              ): const SizedBox(),
               const SizedBox(
                 height: 5,
               ),

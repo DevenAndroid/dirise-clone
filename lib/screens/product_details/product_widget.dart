@@ -1268,19 +1268,18 @@ class _ProductUIState extends State<ProductUI> {
         ),
       ):
       Padding(
-        padding: const EdgeInsets.all(12.0),
+        padding: const EdgeInsets.all(0.0),
         child: Stack(
           children: [
             Container(
-              height: 250,
-              width: size.width * .92,
+              height: 350,
+              width: Get.width,
               padding: const EdgeInsets.all(8),
               decoration: BoxDecoration(
                   color: Colors.white,
                   borderRadius: BorderRadius.circular(8),
-                  boxShadow: [
-                    const BoxShadow(
-
+                  boxShadow: const [
+                    BoxShadow(
                       blurStyle: BlurStyle.outer,
                       offset: Offset(1, 1),
                       color: Colors.black12,
@@ -1305,151 +1304,174 @@ class _ProductUIState extends State<ProductUI> {
                     crossAxisAlignment: CrossAxisAlignment.start,
                     mainAxisAlignment: MainAxisAlignment.start,
                     children: [
-                      CachedNetworkImage(
-                          imageUrl:  widget.productElement.featuredImage.toString(),
-                          height: 150,
-                          width: 150,
-                          fit: BoxFit.contain,
-                          errorWidget: (_, __, ___) => Image.asset('assets/images/new_logo.png')),
+                      Expanded(
+                        flex: 1,
+                        child: CachedNetworkImage(
+                            imageUrl:  widget.productElement.featuredImage.toString(),
+                            height: 150,
+                            width: 150,
+                            fit: BoxFit.contain,
+                            errorWidget: (_, __, ___) => Image.asset('assets/images/new_logo.png')),
+                      ),
 
                       const SizedBox(width: 20,),
-                      Column(
-                        children: [
-                          const SizedBox(height: 15,),
-                          Row(
-                            children: [
-                              Image.asset('assets/svgs/flagk.png'),
-                              const SizedBox(width: 5,),
-                              Text("Kuwait City", style: GoogleFonts.poppins(
-                                  fontSize: 14, fontWeight: FontWeight.w400, color: const Color(0xFF19313C)),
-                              ),
-                              const SizedBox(width: 5,),
-                              Obx(() {
-                                if (wishListController.refreshFav.value > 0) {}
-                                return LikeButtonCat(
-                                  onPressed: () {
-                                    if (wishListController.favoriteItems.contains( widget.productElement.id.toString())) {
-                                      repositories
-                                          .postApi(
-                                          url: ApiUrls.removeFromWishListUrl,
-                                          mapData: {
-                                            "product_id":  widget.productElement.id.toString(),
-                                          },
-                                          context: context)
-                                          .then((value) {
-                                        ModelCommonResponse response = ModelCommonResponse.fromJson(
-                                            jsonDecode(value));
-                                        log('api response is${response.toJson()}');
-                                        showToast(response.message);
-                                        wishListController.getYourWishList();
-                                        wishListController.favoriteItems.remove( widget.productElement.id.toString());
-                                        wishListController.updateFav;
-                                        setState(() {
-
-                                        });
-                                      });
-                                    } else {
-                                      repositories
-                                          .postApi(
-                                          url: ApiUrls.addToWishListUrl,
-                                          mapData: {
-                                            "product_id":  widget.productElement.id.toString(),
-                                          },
-                                          context: context)
-                                          .then((value) {
-                                        ModelCommonResponse response = ModelCommonResponse.fromJson(
-                                            jsonDecode(value));
-                                        showToast(response.message);
-                                        if (response.status == true) {
-                                          wishListController.getYourWishList();
-                                          wishListController.favoriteItems.add( widget.productElement.id.toString());
-                                          wishListController.updateFav;
-                                        }
-                                      });
-                                    }
-                                  },
-                                  isLiked: wishListController.favoriteItems.contains( widget.productElement.id.toString()),
-                                );
-                              }),
-                            ],
-                          ),
-                          const SizedBox(height: 10,),
-                          Text(widget.productElement.pName.toString(), style: GoogleFonts.poppins(
-                              fontSize: 16, fontWeight: FontWeight.w400, color: const Color(0xFF19313C)),
-                          ),
-                          const SizedBox(height: 15,),
-                          Row(
-                            children: [
-                              Text("yokun", style: GoogleFonts.poppins(
-                                  fontSize: 10, fontWeight: FontWeight.w400, color: const Color(0xFF19313C)),
-                              ),
-                              const SizedBox(width: 6,),
-                              Text("gmc", style: GoogleFonts.poppins(
-                                  fontSize: 10, fontWeight: FontWeight.w400, color: const Color(0xFF19313C)),
-                              ),
-                              const SizedBox(width: 6,),
-                              Text("used", style: GoogleFonts.poppins(
-                                  fontSize: 10, fontWeight: FontWeight.w400, color: const Color(0xFF19313C)),
-                              ),
-                              const SizedBox(width: 6,),
-                              Text("2024", style: GoogleFonts.poppins(
-                                  fontSize: 10, fontWeight: FontWeight.w400, color: const Color(0xFF19313C)),
-                              ),
-                            ],
-                          ),
-                          const SizedBox(height: 15,),
-                          Text.rich(
-                            TextSpan(
-                              text: '${widget.productElement.discountPrice.toString().split('.')[0]}.',
-
-                              style: const TextStyle(
-                                fontSize: 32,
-                                fontWeight: FontWeight.w600,
-                                color: Color(0xFF19313B),
-                              ),
+                      Expanded(
+                        child: Column(
+                          children: [
+                            const SizedBox(height: 15,),
+                            Row(
                               children: [
-                                WidgetSpan(
-                                  alignment: PlaceholderAlignment.middle,
-                                  child: Column(
-                                    mainAxisAlignment: MainAxisAlignment.start,
-                                    children: [
-                                      const Text(
-                                        'KWD',
-                                        style: TextStyle(
-                                          fontSize: 8,
-                                          fontWeight: FontWeight.w500,
-                                          color: Color(0xFF19313B),
-                                        ),
-                                      ),
-                                      InkWell(
-                                        onTap: () {
-                                          // print("date:::::::::::" + widget.productElement.shippingDate);
-                                        },
-                                        child: Text(
-                                          '${widget.productElement.discountPrice.toString().split('.')[1]}',
-                                          style: const TextStyle(
-                                            fontSize: 8,
-                                            fontWeight: FontWeight.w600,
-                                            color: Color(0xFF19313B),
-                                          ),
-                                        ),
-                                      ),
-                                    ],
+                                Image.asset('assets/svgs/flagk.png'),
+                                const SizedBox(width: 5,),
+                                Expanded(
+                                  child: Text("Kuwait City",
+                                    maxLines: 2,
+                                    style: GoogleFonts.poppins(
+                                      fontSize: 14, fontWeight: FontWeight.w400, color: const Color(0xFF19313C)),
+                                  ),
+                                ),
+                                const SizedBox(width: 5,),
+                                Obx(() {
+                                  if (wishListController.refreshFav.value > 0) {}
+                                  return LikeButtonCat(
+                                    onPressed: () {
+                                      if (wishListController.favoriteItems.contains( widget.productElement.id.toString())) {
+                                        repositories
+                                            .postApi(
+                                            url: ApiUrls.removeFromWishListUrl,
+                                            mapData: {
+                                              "product_id":  widget.productElement.id.toString(),
+                                            },
+                                            context: context)
+                                            .then((value) {
+                                          ModelCommonResponse response = ModelCommonResponse.fromJson(
+                                              jsonDecode(value));
+                                          log('api response is${response.toJson()}');
+                                          showToast(response.message);
+                                          wishListController.getYourWishList();
+                                          wishListController.favoriteItems.remove( widget.productElement.id.toString());
+                                          wishListController.updateFav;
+                                          setState(() {
+                        
+                                          });
+                                        });
+                                      } else {
+                                        repositories
+                                            .postApi(
+                                            url: ApiUrls.addToWishListUrl,
+                                            mapData: {
+                                              "product_id":  widget.productElement.id.toString(),
+                                            },
+                                            context: context)
+                                            .then((value) {
+                                          ModelCommonResponse response = ModelCommonResponse.fromJson(
+                                              jsonDecode(value));
+                                          showToast(response.message);
+                                          if (response.status == true) {
+                                            wishListController.getYourWishList();
+                                            wishListController.favoriteItems.add( widget.productElement.id.toString());
+                                            wishListController.updateFav;
+                                          }
+                                        });
+                                      }
+                                    },
+                                    isLiked: wishListController.favoriteItems.contains( widget.productElement.id.toString()),
+                                  );
+                                }),
+                              ],
+                            ),
+                            const SizedBox(height: 25,),
+                            Text(widget.productElement.pName.toString(), style: GoogleFonts.poppins(
+                                fontSize: 16, fontWeight: FontWeight.w400, color: const Color(0xFF19313C)),
+                            ),
+                            const SizedBox(height: 25,),
+                            Row(
+                              children: [
+                                Expanded(
+                                  child: Text("yokun", style: GoogleFonts.poppins(
+                                      fontSize: 10, fontWeight: FontWeight.w400, color: const Color(0xFF19313C)),
+                                    maxLines: 1,
+                                  ),
+                                ),
+                                const SizedBox(width: 6,),
+                                Expanded(
+                                  child: Text("gmc", style: GoogleFonts.poppins(
+                                      fontSize: 10, fontWeight: FontWeight.w400, color: const Color(0xFF19313C)),
+                                    maxLines: 1,
+                                  ),
+                                ),
+                                const SizedBox(width: 6,),
+                                Expanded(
+                                  child: Text("used", style: GoogleFonts.poppins(
+                                      fontSize: 10, fontWeight: FontWeight.w400, color: const Color(0xFF19313C)),
+                                    maxLines: 1,
+                                  ),
+                                ),
+                                const SizedBox(width: 6,),
+                                Expanded(
+                                  child: Text("2024", style: GoogleFonts.poppins(
+                                      fontSize: 10, fontWeight: FontWeight.w400, color: const Color(0xFF19313C)),
+                                    maxLines: 1,
                                   ),
                                 ),
                               ],
                             ),
-                          ),
-
-                        ],
+                            const SizedBox(height: 35,),
+                            Text.rich(
+                              TextSpan(
+                                text: '${widget.productElement.discountPrice.toString().split('.')[0]}.',
+                        
+                                style: const TextStyle(
+                                  fontSize: 32,
+                                  fontWeight: FontWeight.w600,
+                                  color: Color(0xFF19313B),
+                                ),
+                                children: [
+                                  WidgetSpan(
+                                    alignment: PlaceholderAlignment.middle,
+                                    child: Column(
+                                      mainAxisAlignment: MainAxisAlignment.start,
+                                      children: [
+                                        const Text(
+                                          'KWD',
+                                          style: TextStyle(
+                                            fontSize: 8,
+                                            fontWeight: FontWeight.w500,
+                                            color: Color(0xFF19313B),
+                                          ),
+                                        ),
+                                        InkWell(
+                                          onTap: () {
+                                            // print("date:::::::::::" + widget.productElement.shippingDate);
+                                          },
+                                          child: Text(
+                                            '${widget.productElement.discountPrice.toString().split('.')[1]}',
+                                            style: const TextStyle(
+                                              fontSize: 8,
+                                              fontWeight: FontWeight.w600,
+                                              color: Color(0xFF19313B),
+                                            ),
+                                          ),
+                                        ),
+                                      ],
+                                    ),
+                                  ),
+                                ],
+                              ),
+                            ),
+                        
+                          ],
+                        ),
                       )
                     ],
                   ),
+                  25.spaceY,
                   Row(
                     children: [
                       Expanded(
-                        child: Text( widget.productElement.shortDescription.toString(), style: GoogleFonts.poppins(
+                        child: Text(widget.productElement.shortDescription.toString(), style: GoogleFonts.poppins(
                             fontSize: 11, fontWeight: FontWeight.w400, color: const Color(0xFF19313C)),
+                          maxLines: 3,
                         ),
                       ),
 

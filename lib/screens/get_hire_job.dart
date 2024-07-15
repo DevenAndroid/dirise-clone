@@ -208,12 +208,48 @@ class _GetHireJobState extends State<GetHireJob> {
                                           padding: const EdgeInsets.only(top: 8.0),
                                           child: LikeButtonCat(
                                             onPressed: () {
-                                              item.id = id.toString();
+                                              id =  item.id.toString();
                                               if (wishListController.favoriteItems.contains(item.id.toString())) {
-                                                removeFromWishList();
-                                              } else {
-                                                addToWishList();
+                                                repositories
+                                                    .postApi(
+                                                    url: ApiUrls.removeFromWishListUrl,
+                                                    mapData: {
+                                                      "product_id": id.toString(),
+                                                    },
+                                                    context: context)
+                                                    .then((value) {
+                                                  ModelCommonResponse response = ModelCommonResponse.fromJson(jsonDecode(value));
+                                                  showToast(response.message);
+                                                  if (response.status == true) {
+                                                    wishListController.getYourWishList();
+                                                    wishListController.favoriteItems.removeWhere((element) => element == item.id.toString());
+                                                    wishListController.updateFav;
+                                                  }
+                                                });
                                               }
+                                              else {
+                                                repositories
+                                                    .postApi(
+                                                    url: ApiUrls.addToWishListUrl,
+                                                    mapData: {
+                                                      "product_id":   item.id,
+                                                    },
+                                                    context: context)
+                                                    .then((value) {
+                                                  ModelCommonResponse response = ModelCommonResponse.fromJson(jsonDecode(value));
+                                                  showToast(response.message);
+                                                  setState(() {
+
+                                                  });
+                                                  wishListController.getYourWishList();
+                                                  wishListController.favoriteItems.add(item.id.toString());
+                                                  wishListController.updateFav;
+
+                                                });
+                                              }
+                                              setState(() {
+
+                                              });
                                             },
                                             isLiked: wishListController.favoriteItems.contains(item.id.toString()),
                                           ),
@@ -336,6 +372,8 @@ class _GetHireJobState extends State<GetHireJob> {
                                       children: [
                                         Text(
                                           'Asking Salary'.tr,
+                                          maxLines: 1,
+                                          overflow: TextOverflow.ellipsis,
                                           style: GoogleFonts.poppins(
                                               fontSize: 15, fontWeight: FontWeight.w500, color: const Color(0xFF19313C)),
                                         ),
@@ -353,6 +391,8 @@ class _GetHireJobState extends State<GetHireJob> {
                                       children: [
                                         Text(
                                           'Experience'.tr,
+                                          maxLines: 1,
+                                          overflow: TextOverflow.ellipsis,
                                           style: GoogleFonts.poppins(
                                               fontSize: 15, fontWeight: FontWeight.w500, color: const Color(0xFF19313C)),
                                         ),

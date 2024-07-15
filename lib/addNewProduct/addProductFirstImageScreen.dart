@@ -11,6 +11,7 @@ import '../controller/vendor_controllers/add_product_controller.dart';
 import '../model/common_modal.dart';
 import '../model/jobResponceModel.dart';
 import '../repository/repository.dart';
+import '../singleproductScreen/ReviewandPublishScreen.dart';
 import '../utils/api_constant.dart';
 import '../vendor/authentication/image_widget.dart';
 import '../widgets/common_button.dart';
@@ -20,16 +21,16 @@ import 'myItemIsScreen.dart';
 class AddProductFirstImageScreen extends StatefulWidget {
   int? id;
   File? image;
-  AddProductFirstImageScreen({super.key,this.id,this.image});
+  File? galleryImg;
+  AddProductFirstImageScreen({super.key,this.id,this.image,this.galleryImg});
 
   @override
   State<AddProductFirstImageScreen> createState() => _AddProductFirstImageScreenState();
 }
 
 class _AddProductFirstImageScreenState extends State<AddProductFirstImageScreen> {
-  File featuredImage = File("");
+
   RxBool showValidation = false.obs;
-  List<File> selectedFiles = [];
   final profileController = Get.put(ProfileController());
   bool checkValidation(bool bool1, bool2) {
     if (bool1 == true && bool2 == true) {
@@ -44,7 +45,10 @@ class _AddProductFirstImageScreenState extends State<AddProductFirstImageScreen>
     // TODO: implement initState
     super.initState();
     if(widget.id != null){
-      featuredImage = widget.image!;
+      profileController.featuredImage = widget.image!;
+      if (!profileController.selectedFiles.contains(widget.galleryImg!)) {
+        profileController.selectedFiles.add(widget.galleryImg!);
+      }
     }
 
   }
@@ -53,9 +57,9 @@ class _AddProductFirstImageScreenState extends State<AddProductFirstImageScreen>
   Map<String, File> images = {};
   void addProduct() {
     Map<String, String> map = {};
-    images["featured_image"] = featuredImage;
-    for (int i = 0; i < selectedFiles.length; i++) {
-      images["gallery_image[$i]"] = selectedFiles[i];
+    images["featured_image"] = profileController.featuredImage;
+    for (int i = 0; i < profileController.selectedFiles.length; i++) {
+      images["gallery_image[$i]"] = profileController.selectedFiles[i];
     }
 
     final Repositories repositories = Repositories();
@@ -71,13 +75,18 @@ class _AddProductFirstImageScreenState extends State<AddProductFirstImageScreen>
         .then((value) {
       JobResponceModel response = JobResponceModel.fromJson(jsonDecode(value));
       log('response${response.toJson()}');
-       profileController.productImage = featuredImage;
+       profileController.productImage = profileController.featuredImage;
       if(response.status == false){
         showToastCenter(response.message.toString());
       }
       addProductController.idProduct.value = response.productDetails!.product!.id.toString();
-
-       Get.to(MyItemISScreen());
+      if(widget.id != null){
+        profileController.getVendorCategories(addProductController.idProduct.value.toString());
+        Get.back();
+      }
+      else {
+        Get.to(MyItemISScreen());
+      }
       showToast('Add Product Image successfully');
     });
   }
@@ -120,21 +129,21 @@ class _AddProductFirstImageScreenState extends State<AddProductFirstImageScreen>
               ImageWidget(
                 // key: paymentReceiptCertificateKey,
                 title: "Upload cover photo".tr,
-                file: featuredImage,
-                validation: checkValidation(showValidation.value, featuredImage.path.isEmpty),
+                file: profileController.featuredImage,
+                validation: checkValidation(showValidation.value, profileController.featuredImage.path.isEmpty),
                 filePicked: (File g) {
-                  featuredImage = g;
+                  profileController.featuredImage = g;
                 },
               ),
               const SizedBox(height: 20,),
               MultiImageWidget(
-                files: selectedFiles,
+                files: profileController.selectedFiles,
                 title: 'Upload extra photos',
                 validation: true,
                 imageOnly: true,
                 filesPicked: (List<File> pickedFiles) {
                   setState(() {
-                    selectedFiles = pickedFiles;
+                    profileController.selectedFiles = pickedFiles;
                   });
                 },
               ),
@@ -144,7 +153,7 @@ class _AddProductFirstImageScreenState extends State<AddProductFirstImageScreen>
               CustomOutlineButton(
                 title: 'Next',
                 onPressed: () {
-                  if(featuredImage.path.isNotEmpty && selectedFiles.isNotEmpty){
+                  if(profileController.featuredImage.path.isNotEmpty && profileController.selectedFiles.isNotEmpty){
                     productController.getProductsCategoryList();
                     addProduct();
                   }

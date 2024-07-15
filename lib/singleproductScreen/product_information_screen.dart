@@ -359,11 +359,11 @@ class _ProductInformationScreensState extends State<ProductInformationScreens> {
               const SizedBox(
                 height: 10,
               ),
-
+              productCategoryModel.value.data != null ?
               Text(
                 'Filters(Optional)'.tr,
                 style: GoogleFonts.poppins(color: Colors.black, fontWeight: FontWeight.w600, fontSize: 16),
-              ) ,
+              ) : const SizedBox.shrink() ,
               const SizedBox(
                 height: 15,
               ),
