@@ -9,6 +9,7 @@ import 'package:google_fonts/google_fonts.dart';
 import '../../addNewProduct/addProductStartScreen.dart';
 import '../../controller/profile_controller.dart';
 import '../auth_screens/login_screen.dart';
+import '../get_hire_job.dart';
 import 'get_look_job.dart';
 
 
@@ -99,7 +100,7 @@ class _GetJobTypeScreenState extends State<GetJobTypeScreen> {
               GestureDetector(
                   onTap: (){
                     if (  profileController.userLoggedIn == true) {
-                      Get.to(const AddProductOptionScreen());
+                      Get.to(const GetHireJob());
                     } else {
                       Get.to(const LoginScreen());
                     }
