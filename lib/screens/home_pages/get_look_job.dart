@@ -16,6 +16,7 @@ import '../../language/app_strings.dart';
 import '../../model/common_modal.dart';
 import '../../model/get_job_model.dart';
 import '../../repository/repository.dart';
+import '../../single_products/job_details_single.dart';
 import '../../utils/api_constant.dart';
 import '../../widgets/like_button.dart';
 
@@ -146,9 +147,9 @@ class _GetLookJobState extends State<GetLookJob> {
             ):Column(
               children: [
                 InkWell(
-                  onTap: () {
-                    // bottomSheet(productDetails: widget.productElement, context: context);
-                  },
+onTap:(){
+  Get.to(()=>JobDetailsSingleScreen(),arguments:       item.id.toString(),);
+            },
                   child: Padding(
                     padding: const EdgeInsets.all(12.0),
                     child: Stack(

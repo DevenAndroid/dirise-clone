@@ -2,9 +2,9 @@ import 'dart:convert';
 import 'package:dirise/Services/services_classification.dart';
 import 'package:dirise/controller/service_controller.dart';
 import 'package:dirise/screens/Consultation%20Sessions/sponsors_screen.dart';
-import 'package:dirise/screens/Seminars%20&%20%20Attendable%20Course/sponsors_academic_screen.dart';
+import 'package:dirise/screens/Seminars%20&%20%20Attendable%20Course/sponsors_seminars_screen.dart';
 import 'package:dirise/screens/Virtual%20course%20&%20Classes%20Webinars/webinars_sponsors_screen.dart';
-import 'package:dirise/screens/extendedPrograms/sponsors_academic_screen.dart';
+import 'package:dirise/screens/extendedPrograms/sponsors_extended_screen.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
@@ -152,6 +152,7 @@ class _OptionalDetailsWebiinarsScreenState extends State<OptionalDetailsWebiinar
                     return null;
                   },
                 ),
+                const SizedBox(height: 10,),
                 CommonTextField(
                   controller: programNameController,
                   obSecure: false,
@@ -164,6 +165,7 @@ class _OptionalDetailsWebiinarsScreenState extends State<OptionalDetailsWebiinar
                     return null;
                   },
                 ),
+                const SizedBox(height: 10,),
                 CommonTextField(
                   controller: programGoalController,
                   obSecure: false,
@@ -175,6 +177,7 @@ class _OptionalDetailsWebiinarsScreenState extends State<OptionalDetailsWebiinar
                     return null;
                   },
                 ),
+                const SizedBox(height: 10,),
                 TextFormField(
                   maxLines: 2,
                   controller: programDescription,

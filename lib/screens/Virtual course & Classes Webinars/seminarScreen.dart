@@ -27,6 +27,7 @@ class SeminarScreenScreen extends StatefulWidget {
 
 class _SeminarScreenScreenState extends State<SeminarScreenScreen> {
   String meetingWillBe1 = 'zoom';
+  final formKey = GlobalKey<FormState>();
   List<String> meetingWillBe1List = [
     'zoom',
     'Google Meet',
@@ -152,363 +153,371 @@ class _SeminarScreenScreenState extends State<SeminarScreenScreen> {
       body: SingleChildScrollView(
         child: Container(
           margin: const EdgeInsets.only(left: 15, right: 15),
-          child: Column(
-            mainAxisAlignment: MainAxisAlignment.start,
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              const Text(
-                'Meeting will be at',
-                style: TextStyle(fontSize: 15, fontWeight: FontWeight.w600, color: Colors.black),
-              ),
-              const SizedBox(height: 10),
-              DropdownButtonFormField<String>(
-                value: meetingWillBe1,
-                onChanged: (String? newValue) {
-                  setState(() {
-                    meetingWillBe1 = newValue!;
-                  });
-                },
-                items: meetingWillBe1List.map<DropdownMenuItem<String>>((String value) {
-                  return DropdownMenuItem<String>(
-                    value: value,
-                    child: Text(value),
-                  );
-                }).toList(),
-                decoration: InputDecoration(
-                  border: InputBorder.none,
-                  filled: true,
-                  fillColor: const Color(0xffE2E2E2).withOpacity(.35),
-                  contentPadding: const EdgeInsets.symmetric(horizontal: 15, vertical: 10).copyWith(right: 8),
-                  focusedErrorBorder: const OutlineInputBorder(
-                      borderRadius: BorderRadius.all(Radius.circular(8)),
-                      borderSide: BorderSide(color: AppTheme.secondaryColor)),
-                  errorBorder: const OutlineInputBorder(
-                      borderRadius: BorderRadius.all(Radius.circular(8)),
-                      borderSide: BorderSide(color: Color(0xffE2E2E2))),
-                  focusedBorder: const OutlineInputBorder(
-                      borderRadius: BorderRadius.all(Radius.circular(8)),
-                      borderSide: BorderSide(color: AppTheme.secondaryColor)),
-                  disabledBorder: const OutlineInputBorder(
-                    borderRadius: BorderRadius.all(Radius.circular(8)),
-                    borderSide: BorderSide(color: AppTheme.secondaryColor),
-                  ),
-                  enabledBorder: const OutlineInputBorder(
-                    borderRadius: BorderRadius.all(Radius.circular(8)),
-                    borderSide: BorderSide(color: AppTheme.secondaryColor),
-                  ),
+          child: Form(
+            key: formKey,
+            child: Column(
+              mainAxisAlignment: MainAxisAlignment.start,
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                const Text(
+                  'Meeting will be at',
+                  style: TextStyle(fontSize: 15, fontWeight: FontWeight.w600, color: Colors.black),
                 ),
-                validator: (value) {
-                  if (value == null || value.isEmpty) {
-                    return 'Please select an item';
-                  }
-                  return null;
-                },
-              ),
-              const SizedBox(height: 5),
-              const Text(
-                '+ Add other Platform',
-                style: TextStyle(fontSize: 10, fontWeight: FontWeight.w500, color: Colors.black),
-              ),
-              const SizedBox(height: 10),
-              Row(
-                children: [
-                  Radio(value: 1, groupValue: 1, onChanged: (value){
+                const SizedBox(height: 10),
+                DropdownButtonFormField<String>(
+                  value: meetingWillBe1,
+                  onChanged: (String? newValue) {
+                    setState(() {
+                      meetingWillBe1 = newValue!;
+                    });
+                  },
+                  items: meetingWillBe1List.map<DropdownMenuItem<String>>((String value) {
+                    return DropdownMenuItem<String>(
+                      value: value,
+                      child: Text(value),
+                    );
+                  }).toList(),
+                  decoration: InputDecoration(
+                    border: InputBorder.none,
+                    filled: true,
+                    fillColor: const Color(0xffE2E2E2).withOpacity(.35),
+                    contentPadding: const EdgeInsets.symmetric(horizontal: 15, vertical: 10).copyWith(right: 8),
+                    focusedErrorBorder: const OutlineInputBorder(
+                        borderRadius: BorderRadius.all(Radius.circular(8)),
+                        borderSide: BorderSide(color: AppTheme.secondaryColor)),
+                    errorBorder: const OutlineInputBorder(
+                        borderRadius: BorderRadius.all(Radius.circular(8)),
+                        borderSide: BorderSide(color: Color(0xffE2E2E2))),
+                    focusedBorder: const OutlineInputBorder(
+                        borderRadius: BorderRadius.all(Radius.circular(8)),
+                        borderSide: BorderSide(color: AppTheme.secondaryColor)),
+                    disabledBorder: const OutlineInputBorder(
+                      borderRadius: BorderRadius.all(Radius.circular(8)),
+                      borderSide: BorderSide(color: AppTheme.secondaryColor),
+                    ),
+                    enabledBorder: const OutlineInputBorder(
+                      borderRadius: BorderRadius.all(Radius.circular(8)),
+                      borderSide: BorderSide(color: AppTheme.secondaryColor),
+                    ),
+                  ),
+                  validator: (value) {
+                    if (value == null || value.isEmpty) {
+                      return 'Please select an item';
+                    }
+                    return null;
+                  },
+                ),
+                const SizedBox(height: 5),
+                const Text(
+                  '+ Add other Platform',
+                  style: TextStyle(fontSize: 10, fontWeight: FontWeight.w500, color: Colors.black),
+                ),
+                const SizedBox(height: 10),
+                Row(
+                  children: [
+                    Radio(value: 1, groupValue: 1, onChanged: (value){
 
-                  }),
-                  Expanded(
-                    child: Text(
-                      'I will set it the location later. I agree to that a full refund will be mandatory in case if the customer request a refund because of the missing information.  ',
-                      style: TextStyle(fontSize: 10, fontWeight: FontWeight.w500, color: Colors.red),
-                    ),
-                  ),
-                ],
-              ),
-              const SizedBox(height: 10),
-              Row(
-                children: [
-                  const Text(
-                    'Start Time',
-                    style: TextStyle(fontSize: 15, fontWeight: FontWeight.w600, color: Colors.black),
-                  ),
-                  const SizedBox(width: 10),
-                  Expanded(
-                    child: GestureDetector(
-                      onTap: () => _selectTime(context, true),
+                    }),
+                    Expanded(
                       child: Text(
-                        startTime?.format(context) ?? 'Select Start Time',
-                        style: const TextStyle(fontSize: 15, fontWeight: FontWeight.w600, color: Colors.black),
+                        'I will set it the location later. I agree to that a full refund will be mandatory in case if the customer request a refund because of the missing information.  ',
+                        style: TextStyle(fontSize: 10, fontWeight: FontWeight.w500, color: Colors.red),
                       ),
                     ),
-                  ),
-                  const Text(
-                    'End Time',
-                    style: TextStyle(fontSize: 15, fontWeight: FontWeight.w600, color: Colors.black),
-                  ),
-                  const SizedBox(width: 10),
-                  Expanded(
-                    child: GestureDetector(
-                      onTap: () => _selectTime(context, false),
-                      child: Text(
-                        endTime?.format(context) ?? 'Select End Time',
-                        style: const TextStyle(fontSize: 15, fontWeight: FontWeight.w600, color: Colors.black),
+                  ],
+                ),
+                const SizedBox(height: 10),
+                Row(
+                  children: [
+                    const Text(
+                      'Start Time',
+                      style: TextStyle(fontSize: 15, fontWeight: FontWeight.w600, color: Colors.black),
+                    ),
+                    const SizedBox(width: 10),
+                    Expanded(
+                      child: GestureDetector(
+                        onTap: () => _selectTime(context, true),
+                        child: Text(
+                          startTime?.format(context) ?? 'Select Start Time',
+                          style: const TextStyle(fontSize: 15, fontWeight: FontWeight.w600, color: Colors.black),
+                        ),
                       ),
                     ),
-                  ),
-                ],
-              ),
-              const SizedBox(
-                height: 20,
-              ),
-              const Text(
-                'Extra Notes',
-                style: TextStyle(fontSize: 15, fontWeight: FontWeight.w600, color: Colors.black),
-              ),
-              const SizedBox(
-                height: 5,
-              ),
-              CommonTextField(
-                obSecure: false,
-                hintText: 'Notes',
-                controller: extraNotesController,
-                keyboardType: TextInputType.text,
-                validator: (value) {
-                  if (value!.trim().isEmpty) {
-                    return 'Product Notes is required'.tr;
-                  }
-                  return null; // Return null if validation passes
-                },
-              ),
-              const SizedBox(
-                height: 20,
-              ),
+                    const Text(
+                      'End Time',
+                      style: TextStyle(fontSize: 15, fontWeight: FontWeight.w600, color: Colors.black),
+                    ),
+                    const SizedBox(width: 10),
+                    Expanded(
+                      child: GestureDetector(
+                        onTap: () => _selectTime(context, false),
+                        child: Text(
+                          endTime?.format(context) ?? 'Select End Time',
+                          style: const TextStyle(fontSize: 15, fontWeight: FontWeight.w600, color: Colors.black),
+                        ),
+                      ),
+                    ),
+                  ],
+                ),
+                const SizedBox(
+                  height: 20,
+                ),
+                const Text(
+                  'Extra Notes',
+                  style: TextStyle(fontSize: 15, fontWeight: FontWeight.w600, color: Colors.black),
+                ),
+                const SizedBox(
+                  height: 5,
+                ),
+                CommonTextField(
+                  obSecure: false,
+                  hintText: 'Notes',
+                  controller: extraNotesController,
+                  keyboardType: TextInputType.text,
+                  validator: (value) {
+                    if (value!.trim().isEmpty) {
+                      return 'Product Notes is required'.tr;
+                    }
+                    return null; // Return null if validation passes
+                  },
+                ),
+                const SizedBox(
+                  height: 20,
+                ),
 
-              const SizedBox(
-                height: 20,
-              ),
-              const Text(
-                'Add different timings for specific days.',
-                style: TextStyle(fontSize: 15, fontWeight: FontWeight.w600, color: Colors.black),
-              ),
-              const Text(
-                'Enter a code have a unique timing and use comma (,) then enter to create the dialogue ',
-                style: TextStyle(fontSize: 10, fontWeight: FontWeight.w400, color: Colors.black),
-              ),
-              const Text(
-                'Write in this format dd/mm/yy example 13/06/25',
-                style: TextStyle(fontSize: 10, fontWeight: FontWeight.w400, color: Colors.black),
-              ),
-              const SizedBox(
-                height: 10,
-              ),
-              CommonTextField(
-                obSecure: false,
-                hintText: 'dd/mm/yy, dd/mm/yy',
-                keyboardType: TextInputType.text,
-                validator: (value) {
-                  if (value!.trim().isEmpty) {
-                    return 'Product Notes is required'.tr;
-                  }
-                  return null; // Return null if validation passes
-                },
-              ),
-              const SizedBox(
-                height: 10,
-              ),
-              Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  const Text(
-                    'Date',
-                    style: TextStyle(fontSize: 15, fontWeight: FontWeight.w400, color: Colors.black),
-                  ),
-                  const SizedBox(
-                    height: 5,
-                  ),
-                  for (DateTime date in selectedDates)
-                    GestureDetector(
-                      onTap: () => _selectDate(context),
-                      child: Text(
-                        formatDate(date),
-                        style: const TextStyle(fontSize: 15, fontWeight: FontWeight.w400, color: Colors.black),
-                      ),
-                    ),
-                ],
-              ),
-              const Text(
-                'Meeting will be at',
-                style: TextStyle(fontSize: 15, fontWeight: FontWeight.w600, color: Colors.black),
-              ),
-              const SizedBox(height: 10),
-              DropdownButtonFormField<String>(
-                value: meetingWillBe2,
-                onChanged: (String? newValue) {
-                  setState(() {
-                    meetingWillBe2 = newValue!;
-                  });
-                },
-                items: meetingWillBe2List.map<DropdownMenuItem<String>>((String value) {
-                  return DropdownMenuItem<String>(
-                    value: value,
-                    child: Text(value),
-                  );
-                }).toList(),
-                decoration: InputDecoration(
-                  border: InputBorder.none,
-                  filled: true,
-                  fillColor: const Color(0xffE2E2E2).withOpacity(.35),
-                  contentPadding: const EdgeInsets.symmetric(horizontal: 15, vertical: 10).copyWith(right: 8),
-                  focusedErrorBorder: const OutlineInputBorder(
-                      borderRadius: BorderRadius.all(Radius.circular(8)),
-                      borderSide: BorderSide(color: AppTheme.secondaryColor)),
-                  errorBorder: const OutlineInputBorder(
-                      borderRadius: BorderRadius.all(Radius.circular(8)),
-                      borderSide: BorderSide(color: Color(0xffE2E2E2))),
-                  focusedBorder: const OutlineInputBorder(
-                      borderRadius: BorderRadius.all(Radius.circular(8)),
-                      borderSide: BorderSide(color: AppTheme.secondaryColor)),
-                  disabledBorder: const OutlineInputBorder(
-                    borderRadius: BorderRadius.all(Radius.circular(8)),
-                    borderSide: BorderSide(color: AppTheme.secondaryColor),
-                  ),
-                  enabledBorder: const OutlineInputBorder(
-                    borderRadius: BorderRadius.all(Radius.circular(8)),
-                    borderSide: BorderSide(color: AppTheme.secondaryColor),
-                  ),
+                const SizedBox(
+                  height: 20,
                 ),
-                validator: (value) {
-                  if (value == null || value.isEmpty) {
-                    return 'Please select an item';
-                  }
-                  return null;
-                },
-              ),
-              const SizedBox(height: 5),
-              const Text(
-                '+ Add other Platform',
-                style: TextStyle(fontSize: 10, fontWeight: FontWeight.w500, color: Colors.black),
-              ),
-              const SizedBox(height: 10),
-              Row(
-                children: [
-                  const Text(
-                    'Start Time',
-                    style: TextStyle(fontSize: 15, fontWeight: FontWeight.w600, color: Colors.black),
-                  ),
-                  const SizedBox(width: 10),
-                  Expanded(
-                    child: GestureDetector(
-                      onTap: () => _selectTime(context, true),
-                      child: Text(
-                        startTime?.format(context) ?? 'Select Start Time',
-                        style: const TextStyle(fontSize: 15, fontWeight: FontWeight.w600, color: Colors.black),
-                      ),
-                    ),
-                  ),
-                  const Text(
-                    'End Time',
-                    style: TextStyle(fontSize: 15, fontWeight: FontWeight.w600, color: Colors.black),
-                  ),
-                  const SizedBox(width: 10),
-                  Expanded(
-                    child: GestureDetector(
-                      onTap: () => _selectTime(context, false),
-                      child: Text(
-                        endTime?.format(context) ?? 'Select End Time',
-                        style: const TextStyle(fontSize: 15, fontWeight: FontWeight.w600, color: Colors.black),
-                      ),
-                    ),
-                  ),
-                ],
-              ),
-              const SizedBox(
-                height: 20,
-              ),
-              const Text(
-                'Extra Notes',
-                style: TextStyle(fontSize: 15, fontWeight: FontWeight.w600, color: Colors.black),
-              ),
-              const SizedBox(
-                height: 5,
-              ),
-              CommonTextField(
-                obSecure: false,
-                hintText: 'Notes',
-                keyboardType: TextInputType.text,
-                validator: (value) {
-                  if (value!.trim().isEmpty) {
-                    return 'Product Notes is required'.tr;
-                  }
-                  return null; // Return null if validation passes
-                },
-              ),
-              const SizedBox(
-                height: 20,
-              ),
-              InkWell(
-                onTap: () {
-                  webinarApi();
-                },
-                child: Container(
-                  width: Get.width,
-                  height: 50,
-                  decoration: BoxDecoration(
-                    color: const Color(0xffF5F2F2),
-                    borderRadius: BorderRadius.circular(2), // Border radius
-                  ),
-                  padding: const EdgeInsets.all(10), // Padding inside the container
-                  child: const Center(
-                    child: Text(
-                      'Save',
-                      style: TextStyle(
-                        fontSize: 16,
-                        fontWeight: FontWeight.bold,
-                        color: Color(0xff514949), // Text color
-                      ),
-                    ),
-                  ),
+                const Text(
+                  'Add different timings for specific days.',
+                  style: TextStyle(fontSize: 15, fontWeight: FontWeight.w600, color: Colors.black),
                 ),
-              ),
-              const SizedBox(
-                height: 20,
-              ),
-              InkWell(
-                onTap: () {},
-                child: Container(
-                  width: Get.width,
-                  height: 70,
-                  decoration: BoxDecoration(
-                    color: AppTheme.buttonColor,
-                    borderRadius: BorderRadius.circular(2), // Border radius
+                const Text(
+                  'Enter a code have a unique timing and use comma (,) then enter to create the dialogue ',
+                  style: TextStyle(fontSize: 10, fontWeight: FontWeight.w400, color: Colors.black),
+                ),
+                const Text(
+                  'Write in this format dd/mm/yy example 13/06/25',
+                  style: TextStyle(fontSize: 10, fontWeight: FontWeight.w400, color: Colors.black),
+                ),
+                const SizedBox(
+                  height: 10,
+                ),
+                CommonTextField(
+                  obSecure: false,
+                  hintText: 'dd/mm/yy, dd/mm/yy',
+                  keyboardType: TextInputType.text,
+                  validator: (value) {
+                    if (value!.trim().isEmpty) {
+                      return 'Product Notes is required'.tr;
+                    }
+                    return null; // Return null if validation passes
+                  },
+                ),
+                const SizedBox(
+                  height: 10,
+                ),
+                Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    const Text(
+                      'Date',
+                      style: TextStyle(fontSize: 15, fontWeight: FontWeight.w400, color: Colors.black),
+                    ),
+                    const SizedBox(
+                      height: 5,
+                    ),
+                    for (DateTime date in selectedDates)
+                      GestureDetector(
+                        onTap: () => _selectDate(context),
+                        child: Text(
+                          formatDate(date),
+                          style: const TextStyle(fontSize: 15, fontWeight: FontWeight.w400, color: Colors.black),
+                        ),
+                      ),
+                  ],
+                ),
+                const Text(
+                  'Meeting will be at',
+                  style: TextStyle(fontSize: 15, fontWeight: FontWeight.w600, color: Colors.black),
+                ),
+                const SizedBox(height: 10),
+                DropdownButtonFormField<String>(
+                  value: meetingWillBe2,
+                  onChanged: (String? newValue) {
+                    setState(() {
+                      meetingWillBe2 = newValue!;
+                    });
+                  },
+                  items: meetingWillBe2List.map<DropdownMenuItem<String>>((String value) {
+                    return DropdownMenuItem<String>(
+                      value: value,
+                      child: Text(value),
+                    );
+                  }).toList(),
+                  decoration: InputDecoration(
+                    border: InputBorder.none,
+                    filled: true,
+                    fillColor: const Color(0xffE2E2E2).withOpacity(.35),
+                    contentPadding: const EdgeInsets.symmetric(horizontal: 15, vertical: 10).copyWith(right: 8),
+                    focusedErrorBorder: const OutlineInputBorder(
+                        borderRadius: BorderRadius.all(Radius.circular(8)),
+                        borderSide: BorderSide(color: AppTheme.secondaryColor)),
+                    errorBorder: const OutlineInputBorder(
+                        borderRadius: BorderRadius.all(Radius.circular(8)),
+                        borderSide: BorderSide(color: Color(0xffE2E2E2))),
+                    focusedBorder: const OutlineInputBorder(
+                        borderRadius: BorderRadius.all(Radius.circular(8)),
+                        borderSide: BorderSide(color: AppTheme.secondaryColor)),
+                    disabledBorder: const OutlineInputBorder(
+                      borderRadius: BorderRadius.all(Radius.circular(8)),
+                      borderSide: BorderSide(color: AppTheme.secondaryColor),
+                    ),
+                    enabledBorder: const OutlineInputBorder(
+                      borderRadius: BorderRadius.all(Radius.circular(8)),
+                      borderSide: BorderSide(color: AppTheme.secondaryColor),
+                    ),
                   ),
-                  padding: const EdgeInsets.all(10), // Padding inside the container
-                  child: const Column(
-                    crossAxisAlignment: CrossAxisAlignment.center,
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    children: [
-                      Text(
-                        'Skip',
+                  validator: (value) {
+                    if (value == null || value.isEmpty) {
+                      return 'Please select an item';
+                    }
+                    return null;
+                  },
+                ),
+                const SizedBox(height: 5),
+                const Text(
+                  '+ Add other Platform',
+                  style: TextStyle(fontSize: 10, fontWeight: FontWeight.w500, color: Colors.black),
+                ),
+                const SizedBox(height: 10),
+                Row(
+                  children: [
+                    const Text(
+                      'Start Time',
+                      style: TextStyle(fontSize: 15, fontWeight: FontWeight.w600, color: Colors.black),
+                    ),
+                    const SizedBox(width: 10),
+                    Expanded(
+                      child: GestureDetector(
+                        onTap: () => _selectTime(context, true),
+                        child: Text(
+                          startTime?.format(context) ?? 'Select Start Time',
+                          style: const TextStyle(fontSize: 15, fontWeight: FontWeight.w600, color: Colors.black),
+                        ),
+                      ),
+                    ),
+                    const Text(
+                      'End Time',
+                      style: TextStyle(fontSize: 15, fontWeight: FontWeight.w600, color: Colors.black),
+                    ),
+                    const SizedBox(width: 10),
+                    Expanded(
+                      child: GestureDetector(
+                        onTap: () => _selectTime(context, false),
+                        child: Text(
+                          endTime?.format(context) ?? 'Select End Time',
+                          style: const TextStyle(fontSize: 15, fontWeight: FontWeight.w600, color: Colors.black),
+                        ),
+                      ),
+                    ),
+                  ],
+                ),
+                const SizedBox(
+                  height: 20,
+                ),
+                const Text(
+                  'Extra Notes',
+                  style: TextStyle(fontSize: 15, fontWeight: FontWeight.w600, color: Colors.black),
+                ),
+                const SizedBox(
+                  height: 5,
+                ),
+                CommonTextField(
+                  obSecure: false,
+                  hintText: 'Notes',
+                  keyboardType: TextInputType.text,
+                  validator: (value) {
+                    if (value!.trim().isEmpty) {
+                      return 'Product Notes is required'.tr;
+                    }
+                    return null; // Return null if validation passes
+                  },
+                ),
+                const SizedBox(
+                  height: 20,
+                ),
+                InkWell(
+                  onTap: () {
+                    if(formKey.currentState!.validate()){
+                      webinarApi();
+                    }
+
+                  },
+                  child: Container(
+                    width: Get.width,
+                    height: 50,
+                    decoration: BoxDecoration(
+                      color: const Color(0xffF5F2F2),
+                      borderRadius: BorderRadius.circular(2), // Border radius
+                    ),
+                    padding: const EdgeInsets.all(10), // Padding inside the container
+                    child: const Center(
+                      child: Text(
+                        'Save',
                         style: TextStyle(
                           fontSize: 16,
                           fontWeight: FontWeight.bold,
-                          color: Colors.white, // Text color
+                          color: Color(0xff514949), // Text color
                         ),
                       ),
-                      Text(
-                        'Product will show call for availability',
-                        style: TextStyle(
-                          fontSize: 11,
-                          fontWeight: FontWeight.w400,
-                          color: Colors.white, // Text color
-                        ),
-                      ),
-                    ],
+                    ),
                   ),
                 ),
-              ),
-              const SizedBox(
-                height: 40,
-              ),
-            ],
+                const SizedBox(
+                  height: 20,
+                ),
+                InkWell(
+                  onTap: () {
+                    Get.to(() => OptionalDetailsWebiinarsScreen());
+                  },
+                  child: Container(
+                    width: Get.width,
+                    height: 70,
+                    decoration: BoxDecoration(
+                      color: AppTheme.buttonColor,
+                      borderRadius: BorderRadius.circular(2), // Border radius
+                    ),
+                    padding: const EdgeInsets.all(10), // Padding inside the container
+                    child: const Column(
+                      crossAxisAlignment: CrossAxisAlignment.center,
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: [
+                        Text(
+                          'Skip',
+                          style: TextStyle(
+                            fontSize: 16,
+                            fontWeight: FontWeight.bold,
+                            color: Colors.white, // Text color
+                          ),
+                        ),
+                        Text(
+                          'Product will show call for availability',
+                          style: TextStyle(
+                            fontSize: 11,
+                            fontWeight: FontWeight.w400,
+                            color: Colors.white, // Text color
+                          ),
+                        ),
+                      ],
+                    ),
+                  ),
+                ),
+                const SizedBox(
+                  height: 40,
+                ),
+              ],
+            ),
           ),
         ),
       ),

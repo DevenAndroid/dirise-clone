@@ -65,7 +65,7 @@ class _ItemDetailsScreensState extends State<ItemDetailsScreens> {
   final addProductController = Get.put(AddProductController());
   deliverySizeApi() {
     Map<String, dynamic> map = {};
-    map['category_id'] = idForChild.toString();
+    map['category_id'] = idForChild.join(',').toString();
     map['product_name'] = ProductNameController.text.toString();
     map['item_type'] = 'giveaway';
     map['id'] = addProductController.idProduct.value.toString();
@@ -128,7 +128,7 @@ class _ItemDetailsScreensState extends State<ItemDetailsScreens> {
   List<SubProductData> subProductData = [];
 
   void fetchDataBasedOnId(int id) async {
-    String apiUrl = 'https://admin.diriseapp.com/api/product-category?id=$id';
+    String apiUrl = 'https://dirise.virtualdemo.tech/api/product-category?id=$id';
     await repositories.getApi(url: apiUrl).then((value) {
       productCategoryModel.value = ModelCategoryList.fromJson(jsonDecode(value));
       // setState(() {
@@ -140,7 +140,7 @@ class _ItemDetailsScreensState extends State<ItemDetailsScreens> {
   SubCategoryModel subProductCategoryModel = SubCategoryModel();
 
   void fetchSubCategoryBasedOnId(int id1) async {
-    String apiUrl1 = 'https://admin.diriseapp.com/api/product-subcategory?category_id=$id1';
+    String apiUrl1 = 'https://dirise.virtualdemo.tech/api/product-subcategory?category_id=$id1';
     await repositories.getApi(url: apiUrl1).then((value) {
       subProductCategoryModel = SubCategoryModel.fromJson(jsonDecode(value));
       setState(() {

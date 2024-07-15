@@ -47,11 +47,11 @@ class _JobTellusaboutyourselfScreenState extends State<JobTellusaboutyourselfScr
 
     final Repositories repositories = Repositories();
     FocusManager.instance.primaryFocus!.unfocus();
-    repositories.postApi(url: ApiUrls.giveawayProductAddress, context: context, mapData: map).then((value) {
+    repositories.postApi(url: ApiUrls.giveawayProductAddress, context: context, mapData: map,showResponse: true).then((value) {
       ModelCommonResponse response = ModelCommonResponse.fromJson(jsonDecode(value));
 
       if (response.status == true) {
-        navigateNext();
+        // navigateNext();
       }
     });
   }
@@ -105,7 +105,8 @@ class _JobTellusaboutyourselfScreenState extends State<JobTellusaboutyourselfScr
               30.spaceY,
               GestureDetector(
                   onTap: (){
-                    Get.to( JobDetailsScreen());
+                    jobTypeApi("job_seeking");
+                Get.to( JobDetailsScreen());
                     setState(() {
 
                     });
@@ -114,6 +115,7 @@ class _JobTellusaboutyourselfScreenState extends State<JobTellusaboutyourselfScr
               20.spaceY,
               GestureDetector(
                   onTap: (){
+                    jobTypeApi("job_hiring");
                     Get.to(  HiringJobDetailsScreen());
                     setState(() {
 

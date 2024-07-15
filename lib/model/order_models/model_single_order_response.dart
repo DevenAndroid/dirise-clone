@@ -149,14 +149,14 @@ class SingleOrderData {
 }
 
 class OrderShipping {
-  int? id;
-  int? orderId;
-  int? vendorId;
-  String? shippingType;
-  String? shipmentProvider;
-  String? shippingTitle;
-  double? shippingPrice;
-  String? shippingDate;
+  dynamic  id;
+  dynamic  orderId;
+  dynamic vendorId;
+  dynamic shippingType;
+  dynamic shipmentProvider;
+  dynamic shippingTitle;
+  dynamic shippingPrice;
+  dynamic shippingDate;
 
   OrderShipping(
       {this.id,

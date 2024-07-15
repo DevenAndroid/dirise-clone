@@ -119,7 +119,7 @@ class _VendorLocationState extends State<VendorLocation> {
       showToast(response.message.toString());
       if (response.status == true) {
         showToast(response.message.toString());
-        Get.back();
+        // Get.back();
       }
     });
   }
@@ -418,8 +418,16 @@ class _VendorLocationState extends State<VendorLocation> {
                                                 ),
                                                 TextButton(
                                                   onPressed: () async {
-                                                    Get.back();
+                                                    Get.to( SellingPickupAddress(
+                                                      street: street,
+                                                      city: city,
+                                                      state: state,
+                                                      country: country,
+                                                      town: town,
+                                                      zipcode: zipcode,
+                                                    ));
                                                   sellingPickupAddressApi();
+
                                                   },
                                                   child: Text('OK'.tr),
                                                 ),

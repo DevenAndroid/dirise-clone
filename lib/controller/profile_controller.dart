@@ -17,6 +17,21 @@ import '../repository/repository.dart';
 import '../utils/api_constant.dart';
 
 class ProfileController extends GetxController {
+
+  checkLanguage() async {
+    SharedPreferences sharedPreferences = await SharedPreferences.getInstance();
+    if (sharedPreferences.getString("app_language") == null ||
+        sharedPreferences.getString("app_language") == "English") {
+      Get.updateLocale(const Locale('en', 'US'));
+     selectedLAnguage.value = "English";
+    } else {
+      Get.updateLocale(const Locale('ar', 'Ar'));
+      selectedLAnguage.value = 'عربي';
+    }
+  }
+
+
+
   ProfileModel model = ProfileModel();
   final Repositories repositories = Repositories();
   bool apiLoaded = false;
@@ -25,6 +40,7 @@ class ProfileController extends GetxController {
   bool userLoggedIn = false;
   RxString selectedLAnguage = "English".obs;
   String code = 'KW';
+  String code1 = 'KW';
   ModelCountryList? modelCountryList;
   Country? selectedCountry;
   Rx<AboutUsmodel> aboutusModal = AboutUsmodel().obs;
@@ -62,20 +78,6 @@ class ProfileController extends GetxController {
       modelCountryList = ModelCountryList.fromString(value);
     });
   }
-
-  checkLanguage() async {
-    SharedPreferences sharedPreferences = await SharedPreferences.getInstance();
-    if (sharedPreferences.getString("app_language") == null ||
-        sharedPreferences.getString("app_language") == "English") {
-      Get.updateLocale(const Locale('en', 'US'));
-      selectedLAnguage.value = "English";
-    } else{
-      Get.updateLocale(const Locale('ar', 'Ar'));
-      selectedLAnguage.value = 'عربي';
-    }
-  }
-
-
 
   RxInt stateRefresh = 2.obs;
   Future getStateList({required String countryId,bool? reset}) async {

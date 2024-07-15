@@ -2,7 +2,7 @@ import 'dart:convert';
 import 'dart:developer';
 
 import 'package:dirise/addNewProduct/rewardScreen.dart';
-import 'package:dirise/screens/tour_travel/sponsors_academic_screen.dart';
+import 'package:dirise/screens/tour_travel/sponsors_tourandtravel_screen.dart';
 import 'package:dirise/screens/tour_travel/timing_screen.dart';
 import 'package:dirise/widgets/loading_animation.dart';
 import 'package:flutter/cupertino.dart';
@@ -25,7 +25,7 @@ import '../../widgets/common_textfield.dart';
 import '../Consultation Sessions/consultation_session_thankyou.dart';
 import 'date_range_screen_tour.dart';
 import 'eligible_customer_academic.dart';
-import 'optional_details_academic.dart';
+import 'optional_details_tourandtravel.dart';
 
 class ReviewandPublishTourScreenScreen extends StatefulWidget {
   const ReviewandPublishTourScreenScreen({super.key});

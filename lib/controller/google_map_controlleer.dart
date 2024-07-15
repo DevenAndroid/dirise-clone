@@ -16,7 +16,7 @@ class ControllerMap extends GetxController {
   final Completer<GoogleMapController> googleMapController = Completer();
   GoogleMapController? mapController;
 
-  var lastMapPosition = LatLng(37.7749, -122.4194).obs; // Example initial position
+  var lastMapPosition = LatLng(0, -0).obs; // Example initial position
   RxString address = ''.obs;
   RxString street = ''.obs;
   RxString city = ''.obs;
@@ -50,6 +50,29 @@ class ControllerMap extends GetxController {
       if (response.status == true) {
         showToast(response.message.toString());
         Get.back();
+      }
+    });
+  }
+  sellingPickupAddressApi1(context) {
+    Map<String, dynamic> map = {};
+
+    map['address_type'] = 'shipping';
+    map['city'] =city.toString();
+    map['country'] = country.toString();
+    map['state'] = state.toString();
+    map['zip_code'] = zipcode.toString();
+    map['town'] = town.toString();
+    map['street'] = street.toString();
+
+
+
+    FocusManager.instance.primaryFocus!.unfocus();
+    repositories.postApi(url: ApiUrls.editAddressUrl, context: context, mapData: map).then((value) {
+      ModelCommonResponse response = ModelCommonResponse.fromJson(jsonDecode(value));
+      showToast(response.message.toString());
+      if (response.status == true) {
+        showToast(response.message.toString());
+        // Get.back();
       }
     });
   }
