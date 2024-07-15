@@ -17,6 +17,7 @@ import '../../model/common_modal.dart';
 import '../../model/get_job_model.dart';
 import '../../repository/repository.dart';
 import '../../single_products/job_details_single.dart';
+import '../../single_products/job_offer_details.dart';
 import '../../utils/api_constant.dart';
 import '../../widgets/like_button.dart';
 
@@ -148,7 +149,7 @@ class _GetLookJobState extends State<GetLookJob> {
               children: [
                 InkWell(
 onTap:(){
-  Get.to(()=>JobDetailsSingleScreen(),arguments:       item.id.toString(),);
+  Get.to(()=>JobOfferDetailsSingleScreen(),arguments:       item.id.toString(),);
             },
                   child: Padding(
                     padding: const EdgeInsets.all(12.0),
@@ -383,9 +384,9 @@ onTap:(){
                                   )
                                 ],
                                 borderRadius: BorderRadius.only(topRight: Radius.circular(8)),
-                                color: Color(0xFF27D6FF)),
+                                color: Color(0xFF255459)),
                             child: Text(
-                              " Job Offer ".tr,
+                              " Looking for a job ".tr,
                               style: GoogleFonts.poppins(fontSize: 20, fontWeight: FontWeight.w400, color: Colors.white),
                             ),
                           ),
