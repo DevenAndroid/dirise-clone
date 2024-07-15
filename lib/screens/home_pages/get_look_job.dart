@@ -17,6 +17,7 @@ import '../../model/common_modal.dart';
 import '../../model/get_job_model.dart';
 import '../../repository/repository.dart';
 import '../../single_products/job_details_single.dart';
+import '../../single_products/job_offer_details.dart';
 import '../../utils/api_constant.dart';
 import '../../widgets/like_button.dart';
 
@@ -147,13 +148,10 @@ class _GetLookJobState extends State<GetLookJob> {
             ):Column(
               children: [
                 InkWell(
-                  onTap: () {
-                                Get.to(
-                                  () => JobDetailsSingleScreen(),
-                                  arguments: item.id.toString(),
-                                );
-                              },
-                    child: Padding(
+onTap:(){
+  Get.to(()=>JobOfferDetailsSingleScreen(),arguments:       item.id.toString(),);
+            },
+                  child: Padding(
                     padding: const EdgeInsets.all(12.0),
                     child: Stack(
                       children: [
@@ -273,7 +271,7 @@ class _GetLookJobState extends State<GetLookJob> {
                                         const SizedBox(
                                           height: 15,
                                         ),
-                                        item.linkdinUrl != null ?  Row(
+                                        Row(
                                           crossAxisAlignment: CrossAxisAlignment.center,
                                           mainAxisAlignment: MainAxisAlignment.center,
                                           children: [
@@ -293,7 +291,7 @@ class _GetLookJobState extends State<GetLookJob> {
                                             // ),
                                             GestureDetector(
                                               onTap : (){
-                                                launchUrlString('https:${item.linkdinUrl.toString()}');
+                                                launchUrlString(item.linkdinUrl.toString());
                                               },
                                               child: Image.asset(
                                                 'assets/images/linkdin_new.png',
@@ -302,7 +300,7 @@ class _GetLookJobState extends State<GetLookJob> {
                                               ),
                                             ),
                                           ],
-                                        ) : const SizedBox.shrink(),
+                                        ),
                                       ],
                                     ),
                                   )
@@ -386,9 +384,9 @@ class _GetLookJobState extends State<GetLookJob> {
                                   )
                                 ],
                                 borderRadius: BorderRadius.only(topRight: Radius.circular(8)),
-                                color: Color(0xFF27D6FF)),
+                                color: Color(0xFF255459)),
                             child: Text(
-                              " Job Offer ".tr,
+                              " Looking for a job ".tr,
                               style: GoogleFonts.poppins(fontSize: 20, fontWeight: FontWeight.w400, color: Colors.white),
                             ),
                           ),
