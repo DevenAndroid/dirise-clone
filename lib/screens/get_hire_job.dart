@@ -291,7 +291,7 @@ class _GetHireJobState extends State<GetHireJob> {
                                             // ),
                                             GestureDetector(
                                               onTap : (){
-                                                launchUrlString(item.linkdinUrl.toString());
+                                                launchUrlString('https:${item.linkdinUrl.toString()}');
                                               },
                                               child: Image.asset(
                                                 'assets/images/linkdin_new.png',

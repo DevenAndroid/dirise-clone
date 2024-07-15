@@ -338,6 +338,7 @@ class _MyAccountScreenState extends State<MyAccountScreen> {
                                     width: 65,
                                     loadingBuilder: (context, child, loadingProgress) => Image.asset('assets/images/profile-icon.png',  fit: BoxFit.cover,
                     height: 65,
+                                      color: AppTheme.buttonColor,
                     width: 65,),
                                     // errorBuilder: (_, __, ___) => Image.asset(
                                     //   'assets/images/myaccount.png',
@@ -345,6 +346,7 @@ class _MyAccountScreenState extends State<MyAccountScreen> {
                                     //   width: 65,
                                     // ),
                                    errorBuilder: (_,__,___) => Image.asset('assets/images/profile-icon.png',  fit: BoxFit.cover,
+                                     color: AppTheme.buttonColor,
                                      height: 65,
                                      width: 65,),
                                   )
@@ -355,6 +357,7 @@ class _MyAccountScreenState extends State<MyAccountScreen> {
                                 //   ),
                         :  Image.asset('assets/images/profile-icon.png',  fit: BoxFit.cover,
                               height: 65,
+                              color: AppTheme.buttonColor,
                               width: 65,),
                           ),
                         ),

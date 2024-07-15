@@ -10,6 +10,7 @@ import 'package:get/get.dart';
 import 'package:google_fonts/google_fonts.dart';
 
 import '../Services/service_international_shipping_details.dart';
+import '../controller/profile_controller.dart';
 import '../controller/vendor_controllers/add_product_controller.dart';
 import '../language/app_strings.dart';
 import '../model/common_modal.dart';
@@ -198,6 +199,8 @@ class _SingleProductShippingPolicyScreenState extends State<SingleProductShippin
       isButtonEnabled = selectedRadio != null || noReturnSelected;
     });
   }
+
+  final profileController = Get.put(ProfileController());
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -206,11 +209,27 @@ class _SingleProductShippingPolicyScreenState extends State<SingleProductShippin
           "Shipping Policy",
           style: GoogleFonts.poppins(fontSize: 20, fontWeight: FontWeight.w600),
         ),
-        leading: GestureDetector(
-            onTap: () {
-              Navigator.pop(context);
-            },
-            child: Icon(Icons.arrow_back)),
+        leading: Column(
+          crossAxisAlignment: CrossAxisAlignment.center,
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: [
+            GestureDetector(
+                onTap: () {
+                 Get.back();
+                },
+                child: profileController.selectedLAnguage.value != 'English' ? Image.asset(
+                      'assets/images/forward_icon.png',
+                      height: 19,
+                      width: 19,
+                    )
+                  : Image.asset(
+                      'assets/images/back_icon_new.png',
+                      height: 19,
+                      width: 19,
+                    ),
+            ),
+          ],
+        ),
         automaticallyImplyLeading: false,
         // centerTitle: true,
         backgroundColor: Colors.white,

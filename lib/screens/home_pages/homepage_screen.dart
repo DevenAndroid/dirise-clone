@@ -529,7 +529,7 @@ class _HomePageState extends State<HomePage> {
           title: Column(
             children: [
               Image.asset(
-                'assets/images/dirise_home_logo.PNG',
+                'assets/images/new_logo.png',
                 width: 75,
                 // color: Colors.white,
               ),

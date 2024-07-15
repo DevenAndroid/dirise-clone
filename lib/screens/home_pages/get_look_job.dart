@@ -147,10 +147,13 @@ class _GetLookJobState extends State<GetLookJob> {
             ):Column(
               children: [
                 InkWell(
-onTap:(){
-  Get.to(()=>JobDetailsSingleScreen(),arguments:       item.id.toString(),);
-            },
-                  child: Padding(
+                  onTap: () {
+                                Get.to(
+                                  () => JobDetailsSingleScreen(),
+                                  arguments: item.id.toString(),
+                                );
+                              },
+                    child: Padding(
                     padding: const EdgeInsets.all(12.0),
                     child: Stack(
                       children: [
@@ -270,7 +273,7 @@ onTap:(){
                                         const SizedBox(
                                           height: 15,
                                         ),
-                                        Row(
+                                        item.linkdinUrl != null ?  Row(
                                           crossAxisAlignment: CrossAxisAlignment.center,
                                           mainAxisAlignment: MainAxisAlignment.center,
                                           children: [
@@ -290,7 +293,7 @@ onTap:(){
                                             // ),
                                             GestureDetector(
                                               onTap : (){
-                                                launchUrlString(item.linkdinUrl.toString());
+                                                launchUrlString('https:${item.linkdinUrl.toString()}');
                                               },
                                               child: Image.asset(
                                                 'assets/images/linkdin_new.png',
@@ -299,7 +302,7 @@ onTap:(){
                                               ),
                                             ),
                                           ],
-                                        ),
+                                        ) : const SizedBox.shrink(),
                                       ],
                                     ),
                                   )

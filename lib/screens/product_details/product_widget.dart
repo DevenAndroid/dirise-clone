@@ -373,16 +373,16 @@ class _ProductUIState extends State<ProductUI> {
           print(widget.productElement.id);
 
           if (widget.productElement.itemType == 'giveaway') {
-            Get.to(() => GiveAwayProduct(), arguments: widget.productElement.id.toString());
+            Get.to(() => const GiveAwayProduct(), arguments: widget.productElement.id.toString());
           }
           else if (widget.productElement.productType == 'variants'&& widget.productElement.itemType == 'product') {
-            Get.to(() => VarientsProductScreen(), arguments: widget.productElement.id.toString());
+            Get.to(() => const VarientsProductScreen(), arguments: widget.productElement.id.toString());
           }
           else if (widget.productElement.productType == 'booking'&& widget.productElement.itemType == 'product') {
-            Get.to(() => BookableProductScreen(), arguments: widget.productElement.id.toString());
+            Get.to(() => const BookableProductScreen(), arguments: widget.productElement.id.toString());
           }
           else if (widget.productElement.itemType == 'product') {
-            Get.to(() => SimpleProductScreen(), arguments: widget.productElement.id.toString());
+            Get.to(() => const SimpleProductScreen(), arguments: widget.productElement.id.toString());
           }
         },
       child:  widget.productElement.itemType != 'giveaway' &&   widget.productElement.isShowcase != true
@@ -879,7 +879,7 @@ class _ProductUIState extends State<ProductUI> {
                 constraints: BoxConstraints(
                   // maxHeight: 100,
                   minWidth: 0,
-                  maxWidth: size.width * .8,
+                  maxWidth: size.width * .9,
                 ),
                 // color: Colors.red,
                 margin: const EdgeInsets.only(right: 9),
@@ -1279,7 +1279,7 @@ class _ProductUIState extends State<ProductUI> {
                   color: Colors.white,
                   borderRadius: BorderRadius.circular(8),
                   boxShadow: [
-                    BoxShadow(
+                    const BoxShadow(
 
                       blurStyle: BlurStyle.outer,
                       offset: Offset(1, 1),
@@ -1300,7 +1300,7 @@ class _ProductUIState extends State<ProductUI> {
                 crossAxisAlignment: CrossAxisAlignment.start,
 
                 children: [
-                  SizedBox(height: 20,),
+                  const SizedBox(height: 20,),
                   Row(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     mainAxisAlignment: MainAxisAlignment.start,
@@ -1312,18 +1312,18 @@ class _ProductUIState extends State<ProductUI> {
                           fit: BoxFit.contain,
                           errorWidget: (_, __, ___) => Image.asset('assets/images/new_logo.png')),
 
-                      SizedBox(width: 20,),
+                      const SizedBox(width: 20,),
                       Column(
                         children: [
-                          SizedBox(height: 15,),
+                          const SizedBox(height: 15,),
                           Row(
                             children: [
                               Image.asset('assets/svgs/flagk.png'),
-                              SizedBox(width: 5,),
+                              const SizedBox(width: 5,),
                               Text("Kuwait City", style: GoogleFonts.poppins(
-                                  fontSize: 14, fontWeight: FontWeight.w400, color: Color(0xFF19313C)),
+                                  fontSize: 14, fontWeight: FontWeight.w400, color: const Color(0xFF19313C)),
                               ),
-                              SizedBox(width: 5,),
+                              const SizedBox(width: 5,),
                               Obx(() {
                                 if (wishListController.refreshFav.value > 0) {}
                                 return LikeButtonCat(
@@ -1373,31 +1373,31 @@ class _ProductUIState extends State<ProductUI> {
                               }),
                             ],
                           ),
-                          SizedBox(height: 10,),
+                          const SizedBox(height: 10,),
                           Text(widget.productElement.pName.toString(), style: GoogleFonts.poppins(
-                              fontSize: 16, fontWeight: FontWeight.w400, color: Color(0xFF19313C)),
+                              fontSize: 16, fontWeight: FontWeight.w400, color: const Color(0xFF19313C)),
                           ),
-                          SizedBox(height: 15,),
+                          const SizedBox(height: 15,),
                           Row(
                             children: [
                               Text("yokun", style: GoogleFonts.poppins(
-                                  fontSize: 10, fontWeight: FontWeight.w400, color: Color(0xFF19313C)),
+                                  fontSize: 10, fontWeight: FontWeight.w400, color: const Color(0xFF19313C)),
                               ),
-                              SizedBox(width: 6,),
+                              const SizedBox(width: 6,),
                               Text("gmc", style: GoogleFonts.poppins(
-                                  fontSize: 10, fontWeight: FontWeight.w400, color: Color(0xFF19313C)),
+                                  fontSize: 10, fontWeight: FontWeight.w400, color: const Color(0xFF19313C)),
                               ),
-                              SizedBox(width: 6,),
+                              const SizedBox(width: 6,),
                               Text("used", style: GoogleFonts.poppins(
-                                  fontSize: 10, fontWeight: FontWeight.w400, color: Color(0xFF19313C)),
+                                  fontSize: 10, fontWeight: FontWeight.w400, color: const Color(0xFF19313C)),
                               ),
-                              SizedBox(width: 6,),
+                              const SizedBox(width: 6,),
                               Text("2024", style: GoogleFonts.poppins(
-                                  fontSize: 10, fontWeight: FontWeight.w400, color: Color(0xFF19313C)),
+                                  fontSize: 10, fontWeight: FontWeight.w400, color: const Color(0xFF19313C)),
                               ),
                             ],
                           ),
-                          SizedBox(height: 15,),
+                          const SizedBox(height: 15,),
                           Text.rich(
                             TextSpan(
                               text: '${widget.productElement.discountPrice.toString().split('.')[0]}.',
@@ -1449,7 +1449,7 @@ class _ProductUIState extends State<ProductUI> {
                     children: [
                       Expanded(
                         child: Text( widget.productElement.shortDescription.toString(), style: GoogleFonts.poppins(
-                            fontSize: 11, fontWeight: FontWeight.w400, color: Color(0xFF19313C)),
+                            fontSize: 11, fontWeight: FontWeight.w400, color: const Color(0xFF19313C)),
                         ),
                       ),
 
@@ -1461,7 +1461,7 @@ class _ProductUIState extends State<ProductUI> {
                           width: 25,
                           height: 25,),
                       ),
-                      SizedBox(width: 10,),
+                      const SizedBox(width: 10,),
                       GestureDetector(
                         onTap: () {
                           // launchURLl('mailto:${ widget.productElement.vendorDetails!.email.toString()}');
@@ -1520,7 +1520,7 @@ class _ProductUIState extends State<ProductUI> {
               child: Container(
                 decoration: BoxDecoration(
                     boxShadow: [
-                      BoxShadow(
+                      const BoxShadow(
 
                         // blurStyle: BlurStyle.outer,
                         offset: Offset(2, 3),
@@ -1529,8 +1529,8 @@ class _ProductUIState extends State<ProductUI> {
 
                       )
                     ],
-                    borderRadius: BorderRadius.only(topRight: Radius.circular(8)),
-                    color: Color(0xFF27D6FF).withOpacity(0.6)
+                    borderRadius: const BorderRadius.only(topRight: Radius.circular(8)),
+                    color: const Color(0xFF27D6FF).withOpacity(0.6)
                 ),
                 child: Text(" Showcase ".tr,
                   style: GoogleFonts.poppins(fontSize: 20, fontWeight: FontWeight.w400, color: Colors.white),

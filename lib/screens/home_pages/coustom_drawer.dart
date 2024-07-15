@@ -313,6 +313,7 @@ class _CustomDrawerState extends State<CustomDrawer> {
                                               ),
                                             )
                                           :  Image.asset('assets/images/profile-icon.png',  fit: BoxFit.cover,
+                                        color: AppTheme.buttonColor,
                                         height: 65,
                                         width: 65,),),
                                 ),

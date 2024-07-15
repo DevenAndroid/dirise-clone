@@ -81,7 +81,7 @@ class _ReviewPublishServiceScreenState extends State<ReviewPublishServiceScreen>
       print('API Response Status Code: ${response.status}');
       showToast(response.message.toString());
       if (response.status == true) {
-        Get.to(ExtraInformation());
+        Get.to(const ExtraInformation());
       }});}
   @override
   void initState() {
@@ -181,9 +181,18 @@ class _ReviewPublishServiceScreenState extends State<ReviewPublishServiceScreen>
                                 ),
                               ),
                               GestureDetector(
-                                child: isImageProvide.value == true
-                                    ? const Icon(Icons.keyboard_arrow_up_rounded)
-                                    : const Icon(Icons.keyboard_arrow_down_outlined),
+                                child: isImageProvide.value != true
+                                    ?
+                                Image.asset(
+                                  'assets/images/drop_icon.png',
+                                  height: 17,
+                                  width: 17,
+                                )
+                                    : Image.asset(
+                                  'assets/images/up_icon.png',
+                                  height: 17,
+                                  width: 17,
+                                ),
                                 onTap: () {
                                   setState(() {
                                     isImageProvide.toggle();
@@ -199,9 +208,9 @@ class _ReviewPublishServiceScreenState extends State<ReviewPublishServiceScreen>
                         Stack(
                           children: [
                             Container(
-                              margin: EdgeInsets.only(top: 10),
+                              margin: const EdgeInsets.only(top: 10),
                               width: Get.width,
-                              padding: EdgeInsets.all(10),
+                              padding: const EdgeInsets.all(10),
                               decoration:
                               BoxDecoration(color: Colors.grey.shade200, borderRadius: BorderRadius.circular(11)),
                               child: Column(
@@ -257,9 +266,16 @@ class _ReviewPublishServiceScreenState extends State<ReviewPublishServiceScreen>
                                 ),
                               ),
                               GestureDetector(
-                                child: isServiceProvide.value == true
-                                    ? const Icon(Icons.keyboard_arrow_up_rounded)
-                                    : const Icon(Icons.keyboard_arrow_down_outlined),
+                                child: isServiceProvide.value != true ? Image.asset(
+                                        'assets/images/drop_icon.png',
+                                        height: 17,
+                                        width: 17,
+                                      )
+                                    : Image.asset(
+                                        'assets/images/up_icon.png',
+                                        height: 17,
+                                        width: 17,
+                                      ),
                                 onTap: () {
                                   setState(() {
                                     isServiceProvide.toggle();
@@ -275,9 +291,9 @@ class _ReviewPublishServiceScreenState extends State<ReviewPublishServiceScreen>
                         Stack(
                           children: [
                             Container(
-                              margin: EdgeInsets.only(top: 10),
+                              margin: const EdgeInsets.only(top: 10),
                               width: Get.width,
-                              padding: EdgeInsets.all(10),
+                              padding: const EdgeInsets.all(10),
                               decoration:
                                   BoxDecoration(color: Colors.grey.shade200, borderRadius: BorderRadius.circular(11)),
                               child: Column(
@@ -346,9 +362,17 @@ class _ReviewPublishServiceScreenState extends State<ReviewPublishServiceScreen>
                                 ),
                               ),
                               GestureDetector(
-                                child: isTellUs.value == true
-                                    ? const Icon(Icons.keyboard_arrow_up_rounded)
-                                    : const Icon(Icons.keyboard_arrow_down_outlined),
+                                child: isTellUs.value != true
+                                    ?    Image.asset(
+                                  'assets/images/drop_icon.png',
+                                  height: 17,
+                                  width: 17,
+                                )
+                                    : Image.asset(
+                                  'assets/images/up_icon.png',
+                                  height: 17,
+                                  width: 17,
+                                ),
                                 onTap: () {
                                   setState(() {
                                     isTellUs.toggle();
@@ -364,9 +388,9 @@ class _ReviewPublishServiceScreenState extends State<ReviewPublishServiceScreen>
                         Stack(
                           children: [
                             Container(
-                              margin: EdgeInsets.only(top: 10),
+                              margin: const EdgeInsets.only(top: 10),
                               width: Get.width,
-                              padding: EdgeInsets.all(10),
+                              padding: const EdgeInsets.all(10),
                               decoration:
                                   BoxDecoration(color: Colors.grey.shade200, borderRadius: BorderRadius.circular(11)),
                               child: Column(
@@ -433,9 +457,17 @@ class _ReviewPublishServiceScreenState extends State<ReviewPublishServiceScreen>
                                 ),
                               ),
                               GestureDetector(
-                                child: isReturnPolicy.value == true
-                                    ? const Icon(Icons.keyboard_arrow_up_rounded)
-                                    : const Icon(Icons.keyboard_arrow_down_outlined),
+                                child: isReturnPolicy.value != true
+                                    ?    Image.asset(
+                                  'assets/images/drop_icon.png',
+                                  height: 17,
+                                  width: 17,
+                                )
+                                    : Image.asset(
+                                  'assets/images/up_icon.png',
+                                  height: 17,
+                                  width: 17,
+                                ),
                                 onTap: () {
                                   setState(() {
                                     isReturnPolicy.toggle();
@@ -452,7 +484,7 @@ class _ReviewPublishServiceScreenState extends State<ReviewPublishServiceScreen>
                           children: [
                             Container(
                               width: Get.width,
-                              padding: EdgeInsets.all(10),
+                              padding: const EdgeInsets.all(10),
                               decoration: BoxDecoration(
                                   color: Colors.grey.shade200
                               ),
@@ -539,9 +571,17 @@ class _ReviewPublishServiceScreenState extends State<ReviewPublishServiceScreen>
                                 ),
                               ),
                               GestureDetector(
-                                child: isLocationPolicy.value == true
-                                    ? const Icon(Icons.keyboard_arrow_up_rounded)
-                                    : const Icon(Icons.keyboard_arrow_down_outlined),
+                                child: isLocationPolicy.value != true
+                                    ?    Image.asset(
+                                  'assets/images/drop_icon.png',
+                                  height: 17,
+                                  width: 17,
+                                )
+                                    : Image.asset(
+                                  'assets/images/up_icon.png',
+                                  height: 17,
+                                  width: 17,
+                                ),
                                 onTap: () {
                                   setState(() {
                                     isLocationPolicy.toggle();
@@ -619,9 +659,17 @@ class _ReviewPublishServiceScreenState extends State<ReviewPublishServiceScreen>
                                 ),
                               ),
                               GestureDetector(
-                                child: isInternationalPolicy.value == true
-                                    ? const Icon(Icons.keyboard_arrow_up_rounded)
-                                    : const Icon(Icons.keyboard_arrow_down_outlined),
+                                child: isInternationalPolicy.value != true
+                                    ?    Image.asset(
+                                  'assets/images/drop_icon.png',
+                                  height: 17,
+                                  width: 17,
+                                )
+                                    : Image.asset(
+                                  'assets/images/up_icon.png',
+                                  height: 17,
+                                  width: 17,
+                                ),
                                 onTap: () {
                                   setState(() {
                                     isInternationalPolicy.toggle();
@@ -637,9 +685,9 @@ class _ReviewPublishServiceScreenState extends State<ReviewPublishServiceScreen>
                         Stack(
                           children: [
                             Container(
-                              margin: EdgeInsets.only(top: 10),
+                              margin: const EdgeInsets.only(top: 10),
                               width: Get.width,
-                              padding: EdgeInsets.all(10),
+                              padding: const EdgeInsets.all(10),
                               decoration:
                                   BoxDecoration(color: Colors.grey.shade200, borderRadius: BorderRadius.circular(11)),
                               child: Column(
@@ -714,9 +762,17 @@ class _ReviewPublishServiceScreenState extends State<ReviewPublishServiceScreen>
                                 ),
                               ),
                               GestureDetector(
-                                child: optionalDescription.value == true
-                                    ? const Icon(Icons.keyboard_arrow_up_rounded)
-                                    : const Icon(Icons.keyboard_arrow_down_outlined),
+                                child: optionalDescription.value != true
+                                    ?    Image.asset(
+                                  'assets/images/drop_icon.png',
+                                  height: 17,
+                                  width: 17,
+                                )
+                                    : Image.asset(
+                                  'assets/images/up_icon.png',
+                                  height: 17,
+                                  width: 17,
+                                ),
                                 onTap: () {
                                   setState(() {
                                     optionalDescription.toggle();
@@ -731,9 +787,9 @@ class _ReviewPublishServiceScreenState extends State<ReviewPublishServiceScreen>
                         Stack(
                           children: [
                             Container(
-                              margin: EdgeInsets.only(top: 10),
+                              margin: const EdgeInsets.only(top: 10),
                               width: Get.width,
-                              padding: EdgeInsets.all(10),
+                              padding: const EdgeInsets.all(10),
                               decoration:
                                   BoxDecoration(color: Colors.grey.shade200, borderRadius: BorderRadius.circular(11)),
                               child: Column(
@@ -775,7 +831,7 @@ class _ReviewPublishServiceScreenState extends State<ReviewPublishServiceScreen>
                           ],
                         ),
 
-                      SizedBox(
+                      const SizedBox(
                         height: 20,
                       ),
                       GestureDetector(
@@ -801,9 +857,17 @@ class _ReviewPublishServiceScreenState extends State<ReviewPublishServiceScreen>
                                 ),
                               ),
                               GestureDetector(
-                                child: optionalClassification.value == true
-                                    ? const Icon(Icons.keyboard_arrow_up_rounded)
-                                    : const Icon(Icons.keyboard_arrow_down_outlined),
+                                child: optionalClassification.value != true
+                                    ?    Image.asset(
+                                  'assets/images/drop_icon.png',
+                                  height: 17,
+                                  width: 17,
+                                )
+                                    : Image.asset(
+                                  'assets/images/up_icon.png',
+                                  height: 17,
+                                  width: 17,
+                                ),
                                 onTap: () {
                                   setState(() {
                                     optionalClassification.toggle();
@@ -818,9 +882,9 @@ class _ReviewPublishServiceScreenState extends State<ReviewPublishServiceScreen>
                         Stack(
                           children: [
                             Container(
-                              margin: EdgeInsets.only(top: 10),
+                              margin: const EdgeInsets.only(top: 10),
                               width: Get.width,
-                              padding: EdgeInsets.all(10),
+                              padding: const EdgeInsets.all(10),
                               decoration:
                                   BoxDecoration(color: Colors.grey.shade200, borderRadius: BorderRadius.circular(11)),
                               child: Column(
@@ -876,7 +940,7 @@ class _ReviewPublishServiceScreenState extends State<ReviewPublishServiceScreen>
                       ),
                     ],
                   )
-                : Center(
+                : const Center(
                     child: CircularProgressIndicator(
                     color: Colors.grey,
                   ));

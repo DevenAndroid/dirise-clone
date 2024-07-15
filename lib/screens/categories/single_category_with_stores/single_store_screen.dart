@@ -494,7 +494,7 @@ class _SingleStoreScreenState extends State<SingleStoreScreen> {
                               ),
                               Row(
                                 children: [
-                                  if (storeUrl.isNotEmpty)
+                                  if (storeUrl.isNotEmpty && storeUrl != '')
                                     Expanded(
                                       child: MaterialButton(
                                         onPressed: () async {

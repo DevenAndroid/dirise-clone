@@ -122,7 +122,7 @@ class _JobReviewPublishScreenState extends State<JobReviewPublishScreen> {
                           child: Container(
                             padding: const EdgeInsets.symmetric(vertical: 12, horizontal: 12),
                             decoration: BoxDecoration(
-                                color: Colors.white,
+                                color: Colors.grey.shade200,
                                 borderRadius: BorderRadius.circular(8),
                                 border: Border.all(color: AppTheme.secondaryColor)),
                             child: Row(
@@ -131,14 +131,22 @@ class _JobReviewPublishScreenState extends State<JobReviewPublishScreen> {
                                 Text(
                                   'Features Image',
                                   style: GoogleFonts.poppins(
-                                    color: AppTheme.primaryColor,
+                                    color: Colors.black,
                                     fontSize: 15,
                                   ),
                                 ),
                                 GestureDetector(
-                                  child: isImageProvide.value == true
-                                      ? const Icon(Icons.keyboard_arrow_up_rounded)
-                                      : const Icon(Icons.keyboard_arrow_down_outlined),
+                                  child: isImageProvide.value != true
+                                      ?   Image.asset(
+                                    'assets/images/drop_icon.png',
+                                    height: 17,
+                                    width: 17,
+                                  )
+                                      : Image.asset(
+                                    'assets/images/up_icon.png',
+                                    height: 17,
+                                    width: 17,
+                                  ),
                                   onTap: () {
                                     setState(() {
                                       isImageProvide.toggle();
@@ -199,9 +207,22 @@ class _JobReviewPublishScreenState extends State<JobReviewPublishScreen> {
                                 color: Colors.grey.shade200,
                                 borderRadius: BorderRadius.circular(10),
                                 border: Border.all(color: Colors.grey.shade400, width: 1)),
-                            child: const Row(
+                            child:  Row(
                               mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                              children: [Text('Job Details'), Icon(Icons.arrow_drop_down_sharp)],
+                              children: [const Text('Job Details'),
+                                isItemDetailsVisible != true ?
+                                Image.asset(
+                                  'assets/images/drop_icon.png',
+                                  height: 17,
+                                  width: 17,
+                                )
+                                    : Image.asset(
+                                  'assets/images/up_icon.png',
+                                  height: 17,
+                                  width: 17,
+                                ),
+
+                              ],
                             ),
                           ),
                         ),
@@ -277,9 +298,21 @@ class _JobReviewPublishScreenState extends State<JobReviewPublishScreen> {
                                 color: Colors.grey.shade200,
                                 borderRadius: BorderRadius.circular(10),
                                 border: Border.all(color: Colors.grey.shade400, width: 1)),
-                            child: const Row(
+                            child:  Row(
                               mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                              children: [Text('Tell us about yourself'), Icon(Icons.arrow_drop_down_sharp)],
+                              children: [const Text('Tell us about yourself'),
+                                isItemDetailsVisible1 != true ?
+                                Image.asset(
+                                  'assets/images/drop_icon.png',
+                                  height: 17,
+                                  width: 17,
+                                )
+                                    : Image.asset(
+                                  'assets/images/up_icon.png',
+                                  height: 17,
+                                  width: 17,
+                                ),
+                              ],
                             ),
                           ),
                         ),

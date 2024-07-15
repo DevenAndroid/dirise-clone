@@ -177,9 +177,17 @@ class _ProductReviewPublicScreenState extends State<ProductReviewPublicScreen> {
                                 ),
                               ),
                               GestureDetector(
-                                child: isImageProvide.value == true
-                                    ? const Icon(Icons.keyboard_arrow_up_rounded)
-                                    : const Icon(Icons.keyboard_arrow_down_outlined),
+                                child: isImageProvide.value != true
+                                    ? Image.asset(
+                                        'assets/images/drop_icon.png',
+                                        height: 17,
+                                        width: 17,
+                                      )
+                                    : Image.asset(
+                                        'assets/images/up_icon.png',
+                                        height: 17,
+                                        width: 17,
+                                      ),
                                 onTap: () {
                                   setState(() {
                                     isImageProvide.toggle();
@@ -254,9 +262,17 @@ class _ProductReviewPublicScreenState extends State<ProductReviewPublicScreen> {
                                 ),
                               ),
                               GestureDetector(
-                                child: isServiceProvide.value == true
-                                    ? const Icon(Icons.keyboard_arrow_up_rounded)
-                                    : const Icon(Icons.keyboard_arrow_down_outlined),
+                                child: isServiceProvide.value != true
+                                    ? Image.asset(
+                                  'assets/images/drop_icon.png',
+                                  height: 17,
+                                  width: 17,
+                                )
+                                    : Image.asset(
+                                  'assets/images/up_icon.png',
+                                  height: 17,
+                                  width: 17,
+                                ),
                                 onTap: () {
                                   setState(() {
                                     isServiceProvide.toggle();
@@ -333,9 +349,17 @@ class _ProductReviewPublicScreenState extends State<ProductReviewPublicScreen> {
                                 ),
                               ),
                               GestureDetector(
-                                child: isTellUs.value == true
-                                    ? const Icon(Icons.keyboard_arrow_up_rounded)
-                                    : const Icon(Icons.keyboard_arrow_down_outlined),
+                                child: isTellUs.value != true
+                                    ? Image.asset(
+                                        'assets/images/drop_icon.png',
+                                        height: 17,
+                                        width: 17,
+                                      )
+                                    : Image.asset(
+                                        'assets/images/up_icon.png',
+                                        height: 17,
+                                        width: 17,
+                                      ),
                                 onTap: () {
                                   setState(() {
                                     isTellUs.toggle();
@@ -411,9 +435,17 @@ class _ProductReviewPublicScreenState extends State<ProductReviewPublicScreen> {
                                 ),
                               ),
                               GestureDetector(
-                                child: isDiscrptionPolicy.value == true
-                                    ? const Icon(Icons.keyboard_arrow_up_rounded)
-                                    : const Icon(Icons.keyboard_arrow_down_outlined),
+                                child: isDiscrptionPolicy.value != true
+                                    ? Image.asset(
+                                  'assets/images/drop_icon.png',
+                                  height: 17,
+                                  width: 17,
+                                )
+                                    : Image.asset(
+                                  'assets/images/up_icon.png',
+                                  height: 17,
+                                  width: 17,
+                                ),
                                 onTap: () {
                                   setState(() {
                                     isDiscrptionPolicy.toggle();
@@ -494,9 +526,17 @@ class _ProductReviewPublicScreenState extends State<ProductReviewPublicScreen> {
                                 ),
                               ),
                               GestureDetector(
-                                child: isDeliverySize.value == true
-                                    ? const Icon(Icons.keyboard_arrow_up_rounded)
-                                    : const Icon(Icons.keyboard_arrow_down_outlined),
+                                child: isDeliverySize.value != true
+                                    ? Image.asset(
+                                  'assets/images/drop_icon.png',
+                                  height: 17,
+                                  width: 17,
+                                )
+                                    : Image.asset(
+                                  'assets/images/up_icon.png',
+                                  height: 17,
+                                  width: 17,
+                                ),
                                 onTap: () {
                                   setState(() {
                                     isDeliverySize.toggle();
@@ -571,9 +611,17 @@ class _ProductReviewPublicScreenState extends State<ProductReviewPublicScreen> {
                                 ),
                               ),
                               GestureDetector(
-                                child: isReturnPolicy.value == true
-                                    ? const Icon(Icons.keyboard_arrow_up_rounded)
-                                    : const Icon(Icons.keyboard_arrow_down_outlined),
+                                child: isReturnPolicy.value != true
+                                    ? Image.asset(
+                                  'assets/images/drop_icon.png',
+                                  height: 17,
+                                  width: 17,
+                                )
+                                    : Image.asset(
+                                  'assets/images/up_icon.png',
+                                  height: 17,
+                                  width: 17,
+                                ),
                                 onTap: () {
                                   setState(() {
                                     isReturnPolicy.toggle();
@@ -686,9 +734,17 @@ class _ProductReviewPublicScreenState extends State<ProductReviewPublicScreen> {
                                 ),
                               ),
                               GestureDetector(
-                                child: isInternationalPolicy.value == true
-                                    ? const Icon(Icons.keyboard_arrow_up_rounded)
-                                    : const Icon(Icons.keyboard_arrow_down_outlined),
+                                child: isInternationalPolicy.value != true
+                                    ? Image.asset(
+                                  'assets/images/drop_icon.png',
+                                  height: 17,
+                                  width: 17,
+                                )
+                                    : Image.asset(
+                                  'assets/images/up_icon.png',
+                                  height: 17,
+                                  width: 17,
+                                ),
                                 onTap: () {
                                   setState(() {
                                     isInternationalPolicy.toggle();
@@ -781,9 +837,17 @@ class _ProductReviewPublicScreenState extends State<ProductReviewPublicScreen> {
                                 ),
                               ),
                               GestureDetector(
-                                child: optionalDescription.value == true
-                                    ? const Icon(Icons.keyboard_arrow_up_rounded)
-                                    : const Icon(Icons.keyboard_arrow_down_outlined),
+                                child: optionalDescription.value != true
+                                    ? Image.asset(
+                                  'assets/images/drop_icon.png',
+                                  height: 17,
+                                  width: 17,
+                                )
+                                    : Image.asset(
+                                  'assets/images/up_icon.png',
+                                  height: 17,
+                                  width: 17,
+                                ),
                                 onTap: () {
                                   setState(() {
                                     optionalDescription.toggle();
@@ -859,9 +923,17 @@ class _ProductReviewPublicScreenState extends State<ProductReviewPublicScreen> {
                                 ),
                               ),
                               GestureDetector(
-                                child: optionalClassification.value == true
-                                    ? const Icon(Icons.keyboard_arrow_up_rounded)
-                                    : const Icon(Icons.keyboard_arrow_down_outlined),
+                                child: optionalClassification.value != true
+                                    ? Image.asset(
+                                  'assets/images/drop_icon.png',
+                                  height: 17,
+                                  width: 17,
+                                )
+                                    : Image.asset(
+                                  'assets/images/up_icon.png',
+                                  height: 17,
+                                  width: 17,
+                                ),
                                 onTap: () {
                                   setState(() {
                                     optionalClassification.toggle();
@@ -934,9 +1006,13 @@ class _ProductReviewPublicScreenState extends State<ProductReviewPublicScreen> {
                           // Get.to(RewardScreen());
                         },
                       ),
+                      const SizedBox(
+                        height: 40,
+                      ),
+
                     ],
                   )
-                : Center(
+                : const Center(
                     child: CircularProgressIndicator(
                     color: Colors.grey,
                   ));
