@@ -204,9 +204,11 @@ class _SearchProductsScreenState extends State<SearchProductsScreen> {
                             final item = modelSearch.value.data!.items![index];
                             return GestureDetector(
                               onTap: (){
+
                                 bottomSheet(productDetails:  ProductElement.fromJson(modelSearch.value.data!.items![index].toJson()), context: context);
                               },
-                              child: item.itemType != 'giveaway' ? Container(
+                              child: item.itemType != 'giveaway' ?
+                              Container(
                                 constraints: BoxConstraints(
                                   minWidth: 0,
                                   maxWidth: size.width * .45,
