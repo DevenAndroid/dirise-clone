@@ -15,6 +15,10 @@ import 'package:google_fonts/google_fonts.dart';
 import '../model/model_virtual_assets.dart';
 import '../model/product_model/model_product_element.dart';
 import '../model/search_model.dart';
+import '../single_products/bookable_single.dart';
+import '../single_products/give_away_single.dart';
+import '../single_products/simple_product.dart';
+import '../single_products/variable_single.dart';
 import '../widgets/common_colour.dart';
 
 class SearchProductsScreen extends StatefulWidget {
@@ -203,10 +207,26 @@ class _SearchProductsScreenState extends State<SearchProductsScreen> {
                           itemBuilder: (BuildContext context, int index) {
                             final item = modelSearch.value.data!.items![index];
                             return GestureDetector(
-                              onTap: (){
+                              onTap: () {
+                                print(item.id);
 
-                                bottomSheet(productDetails:  ProductElement.fromJson(modelSearch.value.data!.items![index].toJson()), context: context);
+                                if (item.itemType == 'giveaway') {
+                                  Get.to(() => const GiveAwayProduct(), arguments: item.id.toString());
+                                }
+                                else if (item.productType == 'variants'&& item.itemType == 'product') {
+                                  Get.to(() => const VarientsProductScreen(), arguments: item.id.toString());
+                                }
+                                else if (item.productType == 'booking'&& item.itemType == 'product') {
+                                  Get.to(() => const BookableProductScreen(), arguments: item.id.toString());
+                                }
+                                else if (item.itemType == 'product') {
+                                  Get.to(() => const SimpleProductScreen(), arguments: item.id.toString());
+                                }
                               },
+                              // onTap: (){
+                              //
+                              //   bottomSheet(productDetails:  ProductElement.fromJson(modelSearch.value.data!.items![index].toJson()), context: context);
+                              // },
                               child: item.itemType != 'giveaway' ?
                               Container(
                                 constraints: BoxConstraints(

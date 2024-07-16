@@ -190,10 +190,11 @@ class _GiveAwayProductState extends State<GiveAwayProduct> {
         statusSingle = RxStatus.empty();
       }
       setState(() {});
-    }).catchError((error) {
-      statusSingle = RxStatus.error(error.toString());
-      setState(() {});
     });
+    //     .catchError((error) {
+    //   statusSingle = RxStatus.error(error.toString());
+    //   setState(() {});
+    // });
   }
 
   //
@@ -509,9 +510,9 @@ class _GiveAwayProductState extends State<GiveAwayProduct> {
                           options: CarouselOptions(
                               height: 180.0,
                               viewportFraction: .8,
-                              onPageChanged: (daf, sda) {
-                                currentIndex.value = daf;
-                              }),
+                            onPageChanged: (index, reason) {
+                              currentIndex.value = index;
+                            },),
                           carouselController: carouselController,
                           items: imagesList.map((i) {
                             return Builder(
@@ -555,18 +556,34 @@ class _GiveAwayProductState extends State<GiveAwayProduct> {
                           height: 30,
                         ),
                         // Center(child: Image.asset("assets/svgs/single.png")),
-                        Container(
+                        Obx(() => Container(
                           padding: EdgeInsets.symmetric(vertical: 8, horizontal: 18),
                           decoration: BoxDecoration(
-                              borderRadius: BorderRadius.circular(30),
-                              // border: Border.all(color: Colors.white),
-                              color: Colors.white,
-                              boxShadow: [BoxShadow(offset: Offset(1, 1), blurRadius: 2, color: Colors.grey)]),
-                          child: Text(
-                            "1/10",
-                            style: GoogleFonts.poppins(fontWeight: FontWeight.w500, fontSize: 10, color: Color(0xFF014E70)),
+                            borderRadius: BorderRadius.circular(30),
+                            color: Colors.white,
+                            boxShadow: [BoxShadow(offset: Offset(1, 1), blurRadius: 2, color: Colors.grey)],
                           ),
-                        ),
+                          child: Text(
+                            "${currentIndex.value + 1}/${imagesList.length}",
+                            style: GoogleFonts.poppins(
+                              fontWeight: FontWeight.w500,
+                              fontSize: 10,
+                              color: Color(0xFF014E70),
+                            ),
+                          ),
+                        )),
+                        // Container(
+                        //   padding: EdgeInsets.symmetric(vertical: 8, horizontal: 18),
+                        //   decoration: BoxDecoration(
+                        //       borderRadius: BorderRadius.circular(30),
+                        //       // border: Border.all(color: Colors.white),
+                        //       color: Colors.white,
+                        //       boxShadow: [BoxShadow(offset: Offset(1, 1), blurRadius: 2, color: Colors.grey)]),
+                        //   child: Text(
+                        //     "1/10",
+                        //     style: GoogleFonts.poppins(fontWeight: FontWeight.w500, fontSize: 10, color: Color(0xFF014E70)),
+                        //   ),
+                        // ),
                         // SizedBox(height: 20,),
                         // SizedBox(
                         //   height: 58,
@@ -851,28 +868,45 @@ class _GiveAwayProductState extends State<GiveAwayProduct> {
                         SizedBox(
                           height: 20,
                         ),
-                        SizedBox(
-                          height: 28,
-                          child: ListView.builder(
-                            itemCount: modelSingleProduct.value.singleGiveawayProduct!.catId!.length,
-                            shrinkWrap: true,
-                            scrollDirection: Axis.horizontal,
-                            physics: AlwaysScrollableScrollPhysics(),
-                            itemBuilder: (BuildContext context, int index) {
-                              return Container(
-                                padding: EdgeInsets.symmetric(vertical: 7, horizontal: 37),
-                                decoration: BoxDecoration(
-                                  color: Color(0xFF014E70).withOpacity(.07),
-                                  borderRadius: BorderRadius.circular(20),
-                                ),
-                                child: Text(
-                                  modelSingleProduct.value.singleGiveawayProduct!.catId![index].title.toString(),
-                                  style: GoogleFonts.poppins(
-                                      color: Color(0xFF014E70), fontSize: 10, fontWeight: FontWeight.w400),
-                                ),
-                              );
-                            },
-                          ),
+                        Row(
+                          children: [
+                            SizedBox(
+                              height: 28,
+                              child: ListView.builder(
+                                itemCount: modelSingleProduct.value.singleGiveawayProduct!.catId!.length,
+                                shrinkWrap: true,
+                                scrollDirection: Axis.horizontal,
+                                physics: AlwaysScrollableScrollPhysics(),
+                                itemBuilder: (BuildContext context, int index) {
+                                  return Container(
+                                    padding: EdgeInsets.symmetric(vertical: 7, horizontal: 37),
+                                    decoration: BoxDecoration(
+                                      color: Color(0xFF014E70).withOpacity(.07),
+                                      borderRadius: BorderRadius.circular(20),
+                                    ),
+                                    child: Text(
+                                      modelSingleProduct.value.singleGiveawayProduct!.catId![index].title.toString(),
+                                      style: GoogleFonts.poppins(
+                                          color: Color(0xFF014E70), fontSize: 10, fontWeight: FontWeight.w400),
+                                    ),
+                                  );
+                                },
+                              ),
+                            ),
+        SizedBox(width: 10,),
+        Container(
+        padding: EdgeInsets.symmetric(vertical: 7, horizontal: 37),
+        decoration: BoxDecoration(
+        color: Color(0xFF014E70).withOpacity(.07),
+        borderRadius: BorderRadius.circular(20),
+        ),
+        child: Text(
+        modelSingleProduct.value.singleGiveawayProduct!.giveawayItemCondition.toString(),
+        style: GoogleFonts.poppins(
+        color: Color(0xFF014E70), fontSize: 10, fontWeight: FontWeight.w400),
+        ),
+        ),
+                          ],
                         ),
                         SizedBox(
                           height: 20,
@@ -1171,6 +1205,27 @@ class _GiveAwayProductState extends State<GiveAwayProduct> {
                         SizedBox(
                           height: 10,
                         ),
+                        Text(
+                          'Description',
+                          style: GoogleFonts.poppins(color: Colors.black, fontSize: 20, fontWeight: FontWeight.w500),
+                        ),
+                        SizedBox(
+                          height: 10,
+                        ),
+                        Text(
+                        modelSingleProduct.value.singleGiveawayProduct!.longDescription!= null?      modelSingleProduct.value.singleGiveawayProduct!.longDescription.toString().capitalize!:"No discription",
+                          style: GoogleFonts.poppins(fontWeight: FontWeight.w400, fontSize: 12, color: Color(0xFF19313C)),
+                        ),
+                        SizedBox(
+                          height: 10,
+                        ),
+                        Divider(
+                          color: Colors.grey.withOpacity(.5),
+                          thickness: 1,
+                        ),
+                        SizedBox(
+                          height: 10,
+                        ),
 
                         Row(
                           children: [
@@ -1292,7 +1347,14 @@ class _GiveAwayProductState extends State<GiveAwayProduct> {
                         SizedBox(
                           height: 20,
                         ),
-                        Center(child: Image.asset("assets/svgs/licence.png")),
+                        Center(
+                          child: CachedNetworkImage(
+                              imageUrl:
+                              modelSingleProduct.value.singleGiveawayProduct!.storemeta!.document2.toString(),
+                              height: 180,
+                              fit: BoxFit.cover,
+                              errorWidget: (_, __, ___) => Image.asset('assets/images/new_logo.png')),
+                        ),
 
                         Align(
                           alignment: Alignment.centerRight,

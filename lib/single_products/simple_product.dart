@@ -585,18 +585,23 @@ class _SimpleProductScreenState extends State<SimpleProductScreen> {
                     height: 30,
                   ),
                   // Center(child: Image.asset("assets/svgs/single.png")),
-                  Container(
-                    padding: const EdgeInsets.symmetric(vertical: 8, horizontal: 18),
+                  Obx(() => Container(
+                    padding: EdgeInsets.symmetric(vertical: 8, horizontal: 18),
                     decoration: BoxDecoration(
-                        borderRadius: BorderRadius.circular(30),
-                        // border: Border.all(color: Colors.white),
-                        color: Colors.white,
-                        boxShadow: const [BoxShadow(offset: Offset(1, 1), blurRadius: 2, color: Colors.grey)]),
-                    child: Text(
-                      "${currentIndex1.value}/${imagesList.length}",
-                      style: GoogleFonts.poppins(fontWeight: FontWeight.w500, fontSize: 10, color: const Color(0xFF014E70)),
+                      borderRadius: BorderRadius.circular(30),
+                      color: Colors.white,
+                      boxShadow: [BoxShadow(offset: Offset(1, 1), blurRadius: 2, color: Colors.grey)],
                     ),
-                  ),
+                    child: Text(
+                      "${currentIndex.value + 1}/${imagesList.length}",
+                      style: GoogleFonts.poppins(
+                        fontWeight: FontWeight.w500,
+                        fontSize: 10,
+                        color: Color(0xFF014E70),
+                      ),
+
+                    ),
+                  )),
                   // SizedBox(height: 20,),
                   // SizedBox(
                   //   height: 58,

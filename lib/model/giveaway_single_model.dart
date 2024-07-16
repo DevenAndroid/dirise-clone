@@ -25,44 +25,48 @@ class GiveAwaySingleModel {
 }
 
 class SingleGiveawayProduct {
-  dynamic id;
-  dynamic vendorId;
-  dynamic addressId;
+ dynamic id;
+ dynamic vendorId;
+ dynamic addressId;
   List<CatId>? catId;
+ dynamic catId2;
   dynamic pname;
   dynamic productType;
   dynamic itemType;
+ dynamic giveawayItemCondition;
   dynamic featuredImage;
   dynamic featureImageApp;
   dynamic featureImageWeb;
   List<String>? galleryImage;
   dynamic inStock;
   dynamic pPrice;
-  ReturnPolicyDesc? returnPolicyDesc;
+  dynamic returnPolicyDesc;
   dynamic shortDescription;
-  Null? longDescription;
-  dynamic isComplete;
+ dynamic longDescription;
+ dynamic isComplete;
   dynamic virtualProductFile;
-  dynamic views;
-  dynamic rating;
+ dynamic views;
+ dynamic rating;
   bool? alreadyReview;
   bool? inWishlist;
-  dynamic wishlistCount;
+ dynamic wishlistCount;
   Storemeta? storemeta;
-  dynamic lowestDeliveryPrice;
+  double? lowestDeliveryPrice;
   dynamic shippingDate;
   dynamic discountPrice;
   dynamic discountOff;
-  Null? shippingPolicy;
+ dynamic shippingPolicy;
 
   SingleGiveawayProduct(
       {this.id,
         this.vendorId,
         this.addressId,
         this.catId,
+        this.catId2,
         this.pname,
         this.productType,
         this.itemType,
+        this.giveawayItemCondition,
         this.featuredImage,
         this.featureImageApp,
         this.featureImageWeb,
@@ -96,18 +100,18 @@ class SingleGiveawayProduct {
         catId!.add(new CatId.fromJson(v));
       });
     }
+    catId2 = json['cat_id_2'];
     pname = json['pname'];
     productType = json['product_type'];
     itemType = json['item_type'];
+    giveawayItemCondition = json['giveaway_item_condition'];
     featuredImage = json['featured_image'];
     featureImageApp = json['feature_image_app'];
     featureImageWeb = json['feature_image_web'];
     galleryImage = json['gallery_image'].cast<String>();
     inStock = json['in_stock'];
     pPrice = json['p_price'];
-    returnPolicyDesc = json['return_policy_desc'] != null
-        ? new ReturnPolicyDesc.fromJson(json['return_policy_desc'])
-        : null;
+    returnPolicyDesc = json['return_policy_desc'];
     shortDescription = json['short_description'];
     longDescription = json['long_description'];
     isComplete = json['is_complete'];
@@ -135,18 +139,18 @@ class SingleGiveawayProduct {
     if (this.catId != null) {
       data['cat_id'] = this.catId!.map((v) => v.toJson()).toList();
     }
+    data['cat_id_2'] = this.catId2;
     data['pname'] = this.pname;
     data['product_type'] = this.productType;
     data['item_type'] = this.itemType;
+    data['giveaway_item_condition'] = this.giveawayItemCondition;
     data['featured_image'] = this.featuredImage;
     data['feature_image_app'] = this.featureImageApp;
     data['feature_image_web'] = this.featureImageWeb;
     data['gallery_image'] = this.galleryImage;
     data['in_stock'] = this.inStock;
     data['p_price'] = this.pPrice;
-    if (this.returnPolicyDesc != null) {
-      data['return_policy_desc'] = this.returnPolicyDesc!.toJson();
-    }
+    data['return_policy_desc'] = this.returnPolicyDesc;
     data['short_description'] = this.shortDescription;
     data['long_description'] = this.longDescription;
     data['is_complete'] = this.isComplete;
@@ -169,8 +173,8 @@ class SingleGiveawayProduct {
 }
 
 class CatId {
-  dynamic id;
-  dynamic title;
+ dynamic id;
+ dynamic title;
 
   CatId({this.id, this.title});
 
@@ -187,70 +191,14 @@ class CatId {
   }
 }
 
-class ReturnPolicyDesc {
-  dynamic id;
-  dynamic userId;
-  dynamic title;
-  dynamic days;
-  dynamic policyDiscreption;
-  dynamic returnShippingFees;
-  dynamic unit;
-  dynamic noReturn;
-  dynamic isDefault;
-  dynamic createdAt;
-  dynamic updatedAt;
-
-  ReturnPolicyDesc(
-      {this.id,
-        this.userId,
-        this.title,
-        this.days,
-        this.policyDiscreption,
-        this.returnShippingFees,
-        this.unit,
-        this.noReturn,
-        this.isDefault,
-        this.createdAt,
-        this.updatedAt});
-
-  ReturnPolicyDesc.fromJson(Map<String, dynamic> json) {
-    id = json['id'];
-    userId = json['user_id'];
-    title = json['title'];
-    days = json['days'];
-    policyDiscreption = json['policy_discreption'];
-    returnShippingFees = json['return_shipping_fees'];
-    unit = json['unit'];
-    noReturn = json['no_return'];
-    isDefault = json['is_default'];
-    createdAt = json['created_at'];
-    updatedAt = json['updated_at'];
-  }
-
-  Map<String, dynamic> toJson() {
-    final Map<String, dynamic> data = new Map<String, dynamic>();
-    data['id'] = this.id;
-    data['user_id'] = this.userId;
-    data['title'] = this.title;
-    data['days'] = this.days;
-    data['policy_discreption'] = this.policyDiscreption;
-    data['return_shipping_fees'] = this.returnShippingFees;
-    data['unit'] = this.unit;
-    data['no_return'] = this.noReturn;
-    data['is_default'] = this.isDefault;
-    data['created_at'] = this.createdAt;
-    data['updated_at'] = this.updatedAt;
-    return data;
-  }
-}
-
 class Storemeta {
   dynamic firstName;
   dynamic lastName;
-  dynamic storeId;
+ dynamic storeId;
   dynamic storeName;
   dynamic storeLocation;
   dynamic profileImg;
+  dynamic document2;
   dynamic bannerProfile;
   dynamic commercialLicense;
   dynamic storeCategory;
@@ -263,6 +211,7 @@ class Storemeta {
         this.storeLocation,
         this.profileImg,
         this.bannerProfile,
+        this.document2,
         this.commercialLicense,
         this.storeCategory});
 
@@ -274,6 +223,7 @@ class Storemeta {
     storeLocation = json['store_location'];
     profileImg = json['profile_img'];
     bannerProfile = json['banner_profile'];
+    document2 = json['document_2'];
     commercialLicense = json['commercial_license'];
     storeCategory = json['store_category'];
   }
@@ -284,6 +234,7 @@ class Storemeta {
     data['last_name'] = this.lastName;
     data['store_id'] = this.storeId;
     data['store_name'] = this.storeName;
+    data['document_2'] = this.document2;
     data['store_location'] = this.storeLocation;
     data['profile_img'] = this.profileImg;
     data['banner_profile'] = this.bannerProfile;

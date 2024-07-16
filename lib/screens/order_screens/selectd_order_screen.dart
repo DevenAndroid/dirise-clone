@@ -39,7 +39,7 @@ class _SelectedOrderScreenState extends State<SelectedOrderScreen> {
   Future getOrderDetails() async {
     await repositories.postApi(url: ApiUrls.orderDetailsUrl, mapData: {
       "order_id": widget.modelDataOrder!.orderId,
-    }).then((value) {
+    },showResponse: true).then((value) {
       singleOrder = ModelSingleOrderResponse.fromJson(jsonDecode(value));
       setState(() {});
     });
@@ -207,6 +207,8 @@ class _SelectedOrderScreenState extends State<SelectedOrderScreen> {
                                       const SizedBox(
                                         height: 4,
                                       ),
+                                      item.productPrice == 0?
+                                        SizedBox.shrink():
                                       Text(
                                         '${item.orderTrackData!
                                             .reversed
