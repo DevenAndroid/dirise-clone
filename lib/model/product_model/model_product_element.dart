@@ -23,6 +23,7 @@ class ProductElement {
   dynamic productNew;
   dynamic bestSaller;
   dynamic featured;
+  dynamic showcaseProduct;
   dynamic taxApply;
   dynamic taxType;
   dynamic shortDescription;
@@ -100,6 +101,7 @@ class ProductElement {
     this.virtualProductFileType,
     this.pPrice,
     this.sPrice,
+    this.showcaseProduct,
     this.commission,
     this.productNew,
     this.bestSaller,
@@ -181,6 +183,7 @@ class ProductElement {
     sPrice = json["s_price"];
     commission = json["commission"];
     alreadyReview = json['already_review'];
+    showcaseProduct = json['showcase_product'];
     productNew = json["new"];
     bestSaller = json["best_saller"];
     featured = json["featured"];
@@ -285,6 +288,7 @@ isShowcase = json['is_showcase'];
     "product_type": productType,
     "sku_id": skuId,
     "p_price": pPrice,
+ 'showcase_product': showcaseProduct,
     "s_price": sPrice,
     "commission": commission,
     'before_purchase' : beforePurchase,
