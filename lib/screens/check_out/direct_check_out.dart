@@ -2834,7 +2834,7 @@ class _DirectCheckOutScreenState extends State<DirectCheckOutScreen> {
                         height: 8,
                       ),
                       IntlPhoneField(
-                        key: ValueKey(profileController.code),
+                        // key: ValueKey(profileController.code),
                         flagsButtonPadding: const EdgeInsets.all(8),
                         dropdownIconPosition: IconPosition.trailing,
                         showDropdownIcon: true,

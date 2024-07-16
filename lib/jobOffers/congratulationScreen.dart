@@ -82,7 +82,7 @@ class _CongratulationScreenState extends State<CongratulationScreen> {
               ),
               GestureDetector(
                 onTap: (){
-                  Get.offNamed( FrequentlyAskedQuestionsScreen.route);
+                  Get.to( const FrequentlyAskedQuestionsScreen());
                 },
                 child: Text(
                   'FAQs'.tr,

@@ -444,7 +444,7 @@ class _AddressScreenState extends State<AddressScreen> {
                         height: 8,
                       ),
                       IntlPhoneField(
-                        key: ValueKey(profileController.code),
+                        // key: ValueKey(code),
                         flagsButtonPadding: const EdgeInsets.all(8),
                         dropdownIconPosition: IconPosition.trailing,
                         showDropdownIcon: true,

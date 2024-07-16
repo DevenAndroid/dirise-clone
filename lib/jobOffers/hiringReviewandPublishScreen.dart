@@ -3,6 +3,7 @@ import 'dart:developer';
 import 'dart:io';
 
 import 'package:dirise/addNewProduct/rewardScreen.dart';
+import 'package:dirise/utils/helper.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
@@ -201,11 +202,12 @@ class _HiringReviewPublishScreenState extends State<HiringReviewPublishScreen> {
                         child: GestureDetector(
                             onTap: () {
                               File imageFile = File(productDetailsModel.value.productDetails!.product!.featuredImage);
+                              File gallery = File(productDetailsModel.value.productDetails!.product!.galleryImage![0]);
 
                               Get.to(AddProductFirstImageScreen(
                                 id: productDetailsModel.value.productDetails!.product!.id,
                                 image: imageFile,
-
+                                galleryImg: gallery,
                               ));
                             },
                             child: const Text(
@@ -262,6 +264,7 @@ class _HiringReviewPublishScreenState extends State<HiringReviewPublishScreen> {
                           mainAxisAlignment: MainAxisAlignment.start,
                           crossAxisAlignment: CrossAxisAlignment.start,
                           children: [
+                            20.spaceY,
                             Text('Job title: ${productDetailsModel.value.productDetails!.product!.pname ?? ""}'),
                             Text('Job Category: ${productDetailsModel.value.productDetails!.product!.jobParentCat ?? ""}'),
                             Text('Job Category: ${productDetailsModel.value.productDetails!.product!.jobCat ?? ""}'),
@@ -287,9 +290,10 @@ class _HiringReviewPublishScreenState extends State<HiringReviewPublishScreen> {
                                 Get.to(HiringJobDetailsScreen(
                                   id: productDetailsModel.value.productDetails!.product!.id,
                                   experience: productDetailsModel.value.productDetails!.product!.experience,
+                                  countryId: productDetailsModel.value.productDetails!.product!.jobCountryId.toString(),
                                   jobCategory: productDetailsModel.value.productDetails!.product!.jobParentCat,
                                   jobCity: productDetailsModel.value.productDetails!.product!.jobCity,
-                                  jobCountry: productDetailsModel.value.productDetails!.product!.jobCountry,
+                                  jobCountry: productDetailsModel.value.productDetails!.product!.jobCountry.toString(),
                                   jobModel:productDetailsModel.value.productDetails!.product!.jobModel ,
                                   jobState: productDetailsModel.value.productDetails!.product!.jobState,
                                   jobSubCategory: productDetailsModel.value.productDetails!.product!.jobCat,
@@ -355,6 +359,7 @@ class _HiringReviewPublishScreenState extends State<HiringReviewPublishScreen> {
                       mainAxisAlignment: MainAxisAlignment.start,
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
+                        20.spaceY,
                         Text('Tell us about yourself: ${productDetailsModel.value.productDetails!.product!.describeJobRole}'),
 
 

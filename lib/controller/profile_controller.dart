@@ -19,8 +19,7 @@ import '../utils/api_constant.dart';
 
 class ProfileController extends GetxController {
   String vendorType = '';
-  File featuredImage = File("");
-  List<File> selectedFiles = [];
+
   checkLanguage() async {
     SharedPreferences sharedPreferences = await SharedPreferences.getInstance();
     if (sharedPreferences.getString("app_language") == null ||

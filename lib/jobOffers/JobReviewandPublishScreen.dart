@@ -1,5 +1,6 @@
 import 'dart:convert';
 import 'dart:io';
+import 'package:dirise/utils/helper.dart';
 import 'package:dirise/widgets/loading_animation.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
@@ -181,11 +182,12 @@ class _JobReviewPublishScreenState extends State<JobReviewPublishScreen> {
                                   child: GestureDetector(
                                       onTap: () {
                                         File imageFile = File(productDetailsModel.value.productDetails!.product!.featuredImage);
+                                        File gallery = File(productDetailsModel.value.productDetails!.product!.galleryImage![0]);
 
                                         Get.to(AddProductFirstImageScreen(
                                           id: productDetailsModel.value.productDetails!.product!.id,
                                           image: imageFile,
-
+                                          galleryImg: gallery,
                                         ));
                                       },
                                       child: const Text(
@@ -240,6 +242,7 @@ class _JobReviewPublishScreenState extends State<JobReviewPublishScreen> {
                                     mainAxisAlignment: MainAxisAlignment.start,
                                     crossAxisAlignment: CrossAxisAlignment.start,
                                     children: [
+                                      20.spaceY,
                                       Text('Job title: ${productDetailsModel.value.productDetails!.product!.pname ?? ""}'),
                                       Text('Job Category: ${productDetailsModel.value.productDetails!.product!.jobParentCat ?? ""}'),
                                       Text(
@@ -329,6 +332,7 @@ class _JobReviewPublishScreenState extends State<JobReviewPublishScreen> {
                                 mainAxisAlignment: MainAxisAlignment.start,
                                 crossAxisAlignment: CrossAxisAlignment.start,
                                 children: [
+                                  20.spaceY,
                                   Text(
                                       'Tell us about yourself: ${productDetailsModel.value.productDetails!.product!.describeJobRole ?? ""}'),
                                 ],

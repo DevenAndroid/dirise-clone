@@ -5,6 +5,7 @@ import 'dart:io';
 import 'package:dirise/addNewProduct/pickUpAddressScreen.dart';
 import 'package:dirise/addNewProduct/rewardScreen.dart';
 import 'package:dirise/utils/api_constant.dart';
+import 'package:dirise/utils/helper.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
@@ -257,10 +258,12 @@ class _ReviewPublishScreenState extends State<ReviewPublishScreen> {
                                   child: GestureDetector(
                                       onTap: () {
                                         File imageFile = File(productDetailsModel.value.productDetails!.product!.featuredImage);
+                                        File gallery = File(productDetailsModel.value.productDetails!.product!.galleryImage![0]);
 
                                         Get.to(AddProductFirstImageScreen(
                                           id: productDetailsModel.value.productDetails!.product!.id,
                                           image: imageFile,
+                                          galleryImg: gallery,
 
                                         ));
                                       },
@@ -317,6 +320,7 @@ class _ReviewPublishScreenState extends State<ReviewPublishScreen> {
                                     mainAxisAlignment: MainAxisAlignment.start,
                                     crossAxisAlignment: CrossAxisAlignment.start,
                                     children: [
+                                      20.spaceY,
                                       Text(
                                           'product name: ${productDetailsModel.value.productDetails!.product!.pname ?? ""}'),
                                       Text(
@@ -385,6 +389,7 @@ class _ReviewPublishScreenState extends State<ReviewPublishScreen> {
                                     mainAxisAlignment: MainAxisAlignment.start,
                                     crossAxisAlignment: CrossAxisAlignment.start,
                                     children: [
+                                      20.spaceY,
                                       Text('Town: ${productDetailsModel.value.productDetails!.address!.town ?? ""}'),
                                       Text('city: ${productDetailsModel.value.productDetails!.address!.city ?? ""}'),
                                       Text('state: ${productDetailsModel.value.productDetails!.address!.state ?? ""}'),
@@ -459,6 +464,7 @@ class _ReviewPublishScreenState extends State<ReviewPublishScreen> {
                                     mainAxisAlignment: MainAxisAlignment.start,
                                     crossAxisAlignment: CrossAxisAlignment.start,
                                     children: [
+                                      20.spaceY,
                                       Text(
                                           'delivery Size: ${productDetailsModel.value.productDetails!.product!.deliverySize ?? ""}'),
                                     ],
@@ -522,6 +528,7 @@ class _ReviewPublishScreenState extends State<ReviewPublishScreen> {
                                     mainAxisAlignment: MainAxisAlignment.start,
                                     crossAxisAlignment: CrossAxisAlignment.start,
                                     children: [
+                                      20.spaceY,
                                       Text(
                                           'Unit of measure: ${productDetailsModel.value.productDetails!.productDimentions!.units ?? ""}'),
                                       Text(
@@ -608,6 +615,7 @@ class _ReviewPublishScreenState extends State<ReviewPublishScreen> {
                                     mainAxisAlignment: MainAxisAlignment.start,
                                     crossAxisAlignment: CrossAxisAlignment.start,
                                     children: [
+                                      20.spaceY,
                                       Text(
                                           'Long Description: ${productDetailsModel.value.productDetails!.product!.longDescription ?? ""}'),
                                       Text(

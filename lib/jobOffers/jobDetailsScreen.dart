@@ -250,7 +250,6 @@ class _JobDetailsScreenState extends State<JobDetailsScreen> {
     map["job_country_id"] = idCountry.toString();
     map["job_state_id"] = stateCategory.toString();
     map["job_city_id"] = cityId.toString();
-
     map['id'] = addProductController.idProduct.value.toString();
 
     repositories
