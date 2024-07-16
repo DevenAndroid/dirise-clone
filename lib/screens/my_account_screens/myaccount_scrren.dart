@@ -330,25 +330,23 @@ class _MyAccountScreenState extends State<MyAccountScreen> {
                             width: 65,
                             child: profileController.userLoggedIn
                                 ? Image.network(
-                                    profileController.apiLoaded && profileController.model.user != null
-                                        ? profileController.model.user!.profileImage.toString()
-                                        : "",
+                                     profileController.model.user!.profileImage.toString(),
                                     fit: BoxFit.cover,
                                     height: 65,
                                     width: 65,
-                                    loadingBuilder: (context, child, loadingProgress) => Image.asset('assets/images/profile-icon.png',  fit: BoxFit.cover,
-                    height: 65,
-                                      color: AppTheme.buttonColor,
-                    width: 65,),
+
                                     // errorBuilder: (_, __, ___) => Image.asset(
                                     //   'assets/images/myaccount.png',
                                     //   height: 65,
                                     //   width: 65,
                                     // ),
-                                   errorBuilder: (_,__,___) => Image.asset('assets/images/profile-icon.png',  fit: BoxFit.cover,
-                                     color: AppTheme.buttonColor,
-                                     height: 65,
-                                     width: 65,),
+                                    errorBuilder: (_, __, ___) => Image.asset(
+                                      'assets/images/profile-icon.png',
+                                      fit: BoxFit.cover,
+                                      color: AppTheme.buttonColor,
+                                      height: 65,
+                                      width: 65,
+                                    ),
                                   )
                                 // : Image.asset(
                                 //     'assets/images/myaccount.png',

@@ -192,10 +192,12 @@ class _SimpleProductScreenState extends State<SimpleProductScreen> {
         statusSingle = RxStatus.empty();
       }
       setState(() {});
-    }).catchError((error) {
-      statusSingle = RxStatus.error(error.toString());
-      setState(() {});
     });
+
+    //     .catchError((error) {
+    //   statusSingle = RxStatus.error(error.toString());
+    //   setState(() {});
+    // });
   }
 
   //
@@ -342,6 +344,7 @@ class _SimpleProductScreenState extends State<SimpleProductScreen> {
 
   List<String> imagesList = [];
   RxInt currentIndex = 0.obs;
+  RxInt currentIndex1 = 1.obs;
   Variants? selectedVariant;
 
   @override
@@ -402,7 +405,7 @@ class _SimpleProductScreenState extends State<SimpleProductScreen> {
         leadingWidth: 120,
         leading: Row(
           children: [
-            SizedBox(
+            const SizedBox(
               width: 20,
             ),
             GestureDetector(
@@ -427,7 +430,7 @@ class _SimpleProductScreenState extends State<SimpleProductScreen> {
                 ],
               ),
             ),
-            SizedBox(
+            const SizedBox(
               width: 20,
             ),
             InkWell(
@@ -449,11 +452,11 @@ class _SimpleProductScreenState extends State<SimpleProductScreen> {
         actions: [
           // ...vendorPartner(),
           const CartBagCard(),
-          Icon(
+          const Icon(
             Icons.more_vert,
             color: Color(0xFF014E70),
           ),
-          SizedBox(
+          const SizedBox(
             width: 10,
           )
         ],
@@ -503,7 +506,7 @@ class _SimpleProductScreenState extends State<SimpleProductScreen> {
                       //     style: GoogleFonts.poppins(fontWeight: FontWeight.w700, fontSize: 11, color: Colors.black),
                       //   ),
                       // ),
-                      Spacer(),
+                      const Spacer(),
                       // Text(
                       //   "512 ",
                       //   style: GoogleFonts.poppins(fontWeight: FontWeight.w500, fontSize: 12, color: Color(0xFf000000)
@@ -526,7 +529,7 @@ class _SimpleProductScreenState extends State<SimpleProductScreen> {
                       // Icon(Icons.favorite_border, color: Colors.red,),
                     ],
                   ),
-                  SizedBox(
+                  const SizedBox(
                     height: 20,
                   ),
                   CarouselSlider(
@@ -535,6 +538,7 @@ class _SimpleProductScreenState extends State<SimpleProductScreen> {
                         viewportFraction: .8,
                         onPageChanged: (daf, sda) {
                           currentIndex.value = daf;
+                          currentIndex1.value = daf + 1;
                         }),
                     carouselController: carouselController,
                     items: imagesList.map((i) {
@@ -582,15 +586,15 @@ class _SimpleProductScreenState extends State<SimpleProductScreen> {
                   ),
                   // Center(child: Image.asset("assets/svgs/single.png")),
                   Container(
-                    padding: EdgeInsets.symmetric(vertical: 8, horizontal: 18),
+                    padding: const EdgeInsets.symmetric(vertical: 8, horizontal: 18),
                     decoration: BoxDecoration(
                         borderRadius: BorderRadius.circular(30),
                         // border: Border.all(color: Colors.white),
                         color: Colors.white,
-                        boxShadow: [BoxShadow(offset: Offset(1, 1), blurRadius: 2, color: Colors.grey)]),
+                        boxShadow: const [BoxShadow(offset: Offset(1, 1), blurRadius: 2, color: Colors.grey)]),
                     child: Text(
-                      "1/10",
-                      style: GoogleFonts.poppins(fontWeight: FontWeight.w500, fontSize: 10, color: Color(0xFF014E70)),
+                      "${currentIndex1.value}/${imagesList.length}",
+                      style: GoogleFonts.poppins(fontWeight: FontWeight.w500, fontSize: 10, color: const Color(0xFF014E70)),
                     ),
                   ),
                   // SizedBox(height: 20,),
@@ -607,7 +611,7 @@ class _SimpleProductScreenState extends State<SimpleProductScreen> {
                   //
                   //   ),
                   // ),
-                  SizedBox(
+                  const SizedBox(
                     height: 20,
                   ),
                   Text(
@@ -615,14 +619,14 @@ class _SimpleProductScreenState extends State<SimpleProductScreen> {
                         .pname
                         .toString()
                         .capitalize!,
-                    style: GoogleFonts.poppins(fontWeight: FontWeight.w500, fontSize: 18, color: Color(0xFF19313C)),
+                    style: GoogleFonts.poppins(fontWeight: FontWeight.w500, fontSize: 18, color: const Color(0xFF19313C)),
                   ),
                   Text(
                     modelSingleProduct.value.simpleProduct!
                         .shortDescription
                         .toString()
                         .capitalize!,
-                    style: GoogleFonts.poppins(fontWeight: FontWeight.w400, fontSize: 12, color: Color(0xFF19313C)),
+                    style: GoogleFonts.poppins(fontWeight: FontWeight.w400, fontSize: 12, color: const Color(0xFF19313C)),
                   ),
 
                   // Row(
@@ -633,7 +637,7 @@ class _SimpleProductScreenState extends State<SimpleProductScreen> {
                   //     Text("dicoins", style: GoogleFonts.poppins(fontWeight: FontWeight.w600, fontSize: 14, color:Colors.black),),
                   //   ],
                   // ),
-                  SizedBox(
+                  const SizedBox(
                     height: 6,
                   ),
 
@@ -778,49 +782,49 @@ class _SimpleProductScreenState extends State<SimpleProductScreen> {
                          print(rating);
                        },
                      ),
-                     SizedBox(width: 10,),
+                     const SizedBox(width: 10,),
                      Image.asset("assets/svgs/rils.png"),
                    ],
                  ),
-                  SizedBox(height: 20,),
+                  const SizedBox(height: 20,),
                   SizedBox(
                     height: 28,
                     child: ListView.builder(
                       itemCount: modelSingleProduct.value.simpleProduct!.catId!.length,
                       shrinkWrap: true,
                       scrollDirection: Axis.horizontal,
-                      physics: AlwaysScrollableScrollPhysics(),
+                      physics: const AlwaysScrollableScrollPhysics(),
                       itemBuilder: (BuildContext context, int index) {
                         return Row(
                           children: [
                             Container(
-                              padding: EdgeInsets.symmetric(vertical: 7, horizontal: 37),
+                              padding: const EdgeInsets.symmetric(vertical: 7, horizontal: 37),
                               decoration: BoxDecoration(
-                                color: Color(0xFF014E70).withOpacity(.07),
+                                color: const Color(0xFF014E70).withOpacity(.07),
                                 borderRadius: BorderRadius.circular(20),
                               ),
                               child: Text(
                                 modelSingleProduct.value.simpleProduct!.catId![index].title.toString(),
                                 style: GoogleFonts.poppins(
-                                    color: Color(0xFF014E70), fontSize: 10, fontWeight: FontWeight.w400),
+                                    color: const Color(0xFF014E70), fontSize: 10, fontWeight: FontWeight.w400),
                               ),
                             ),
-                            SizedBox(width: 10,)
+                            const SizedBox(width: 10,)
                           ],
                         );
                       },
                     ),
                   ),
-                  SizedBox(height: 20,),
+                  const SizedBox(height: 20,),
       Text(
         "Dirise Welcome deal  ",
-        style: GoogleFonts.poppins(fontWeight: FontWeight.w500, fontSize: 18, color:Color(0xFF014E70)),
+        style: GoogleFonts.poppins(fontWeight: FontWeight.w500, fontSize: 18, color:const Color(0xFF014E70)),
 
       ),
-      SizedBox(height: 10,),
+      const SizedBox(height: 10,),
       Row(
         children: [
-          Icon(Icons.circle,color: Colors.grey,size: 10,),
+          const Icon(Icons.circle,color: Colors.grey,size: 10,),
           const SizedBox(
             width: 7,
           ),
@@ -837,10 +841,11 @@ class _SimpleProductScreenState extends State<SimpleProductScreen> {
 
         ],
       ),
-      SizedBox(height: 10,),
+      const SizedBox(height: 10,),
       Row(
+        crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          Icon(Icons.circle,color: Colors.grey,size: 10,),
+          const Icon(Icons.circle,color: Colors.grey,size: 10,),
           const SizedBox(
             width: 7,
           ),
@@ -852,20 +857,23 @@ class _SimpleProductScreenState extends State<SimpleProductScreen> {
                 fontSize: 14,
                 fontWeight: FontWeight.w500),
           ),
-          Text(
-        modelSingleProduct.value.simpleProduct!.shippingDate.toString(),
-            style: GoogleFonts.poppins(
-
-                color:  Color(0xFf014E70),
-                fontSize: 14,
-                fontWeight: FontWeight.w600),
+          5.spaceX,
+          Expanded(
+            child: Text(
+                    modelSingleProduct.value.simpleProduct!.shippingDate.toString(),
+              style: GoogleFonts.poppins(
+            
+                  color:  const Color(0xFf014E70),
+                  fontSize: 14,
+                  fontWeight: FontWeight.w600),
+            ),
           ),
 
 
 
         ],
       ),
-                  SizedBox(height: 20,),
+                  const SizedBox(height: 20,),
       Row(
         children: [
 
@@ -877,33 +885,33 @@ class _SimpleProductScreenState extends State<SimpleProductScreen> {
                 fontSize: 20,
                 fontWeight: FontWeight.w500),
           ),
-          Spacer(),
+          const Spacer(),
 
 
           IconButton(
-            icon: Icon(Icons.remove,color: Color(0xFF014E70),),
+            icon: const Icon(Icons.remove,color: Color(0xFF014E70),),
             onPressed: decrementCounter,
           ),
           Text(
             '$_counter',
             style: GoogleFonts.poppins(
 
-                color:  Color(0xFF014E70),
+                color:  const Color(0xFF014E70),
                 fontSize: 26,
                 fontWeight: FontWeight.w500),
           ),
           IconButton(
-            icon: Icon(Icons.add,color: Color(0xFF014E70),),
+            icon: const Icon(Icons.add,color: Color(0xFF014E70),),
             onPressed: incrementCounter,
           ),
 
         ],
       ),
-                  SizedBox(
+                  const SizedBox(
                     height: 20,
                   ),
 
-                  SizedBox(
+                  const SizedBox(
                     height: 20,
                   ),
                   Row(
@@ -914,7 +922,7 @@ class _SimpleProductScreenState extends State<SimpleProductScreen> {
                           directBuyProduct();
                         },
                         child: Container(
-                          padding: EdgeInsets.symmetric(vertical: 10, horizontal: 40),
+                          padding: const EdgeInsets.symmetric(vertical: 10, horizontal: 40),
                           decoration: BoxDecoration(
                             border: Border.all(color: Colors.red),
                             borderRadius: BorderRadius.circular(20),
@@ -930,11 +938,11 @@ class _SimpleProductScreenState extends State<SimpleProductScreen> {
                           addToCartProduct();
                         },
                         child: Container(
-                          padding: EdgeInsets.symmetric(vertical: 10, horizontal: 40),
+                          padding: const EdgeInsets.symmetric(vertical: 10, horizontal: 40),
                           decoration: BoxDecoration(
-                            color: Color(0xFF014E70),
+                            color: const Color(0xFF014E70),
                             border: Border.all(
-                              color: Color(0xFF014E70),
+                              color: const Color(0xFF014E70),
                             ),
                             borderRadius: BorderRadius.circular(20),
                           ),
@@ -947,7 +955,7 @@ class _SimpleProductScreenState extends State<SimpleProductScreen> {
                     ],
                   ),
 
-                   SizedBox(height: 10,),
+                   const SizedBox(height: 10,),
                    Text(
                      'Specifications',
                      style: GoogleFonts.poppins(
@@ -956,7 +964,7 @@ class _SimpleProductScreenState extends State<SimpleProductScreen> {
                          fontSize: 20,
                          fontWeight: FontWeight.w500),
                    ),
-                   SizedBox(height: 16,),
+                   const SizedBox(height: 16,),
 
                    Row(
                      children: [
@@ -972,7 +980,7 @@ class _SimpleProductScreenState extends State<SimpleProductScreen> {
                        const SizedBox(
                          width: 20,
                        ),
-                       Icon(Icons.circle, color: Colors.grey, size: 6,),
+                       const Icon(Icons.circle, color: Colors.grey, size: 6,),
                        const SizedBox(
                          width: 7,
                        ),
@@ -1037,13 +1045,13 @@ class _SimpleProductScreenState extends State<SimpleProductScreen> {
                    //
                    //   ],
                    // ),
-                   SizedBox(height: 10,),
+                   const SizedBox(height: 10,),
                    Divider(
                      color: Colors.grey.withOpacity(.5),
                      thickness: 1,
                    ),
 
-                  SizedBox(
+                  const SizedBox(
                     height: 20,
                   ),
 
@@ -1051,7 +1059,7 @@ class _SimpleProductScreenState extends State<SimpleProductScreen> {
                     'Delivery',
                     style: GoogleFonts.poppins(color: Colors.black, fontSize: 20, fontWeight: FontWeight.w500),
                   ),
-                  SizedBox(
+                  const SizedBox(
                     height: 16,
                   ),
                   Row(
@@ -1063,7 +1071,7 @@ class _SimpleProductScreenState extends State<SimpleProductScreen> {
                       const SizedBox(
                         width: 20,
                       ),
-                      Icon(
+                      const Icon(
                         Icons.circle,
                         color: Color(0xFF014E70),
                         size: 6,
@@ -1074,11 +1082,11 @@ class _SimpleProductScreenState extends State<SimpleProductScreen> {
                       Text(
                         locationController.city.toString(),
                         style:
-                        GoogleFonts.poppins(color: Color(0xFF014E70), fontSize: 14, fontWeight: FontWeight.w500),
+                        GoogleFonts.poppins(color: const Color(0xFF014E70), fontSize: 14, fontWeight: FontWeight.w500),
                       ),
                     ],
                   ),
-                  SizedBox(
+                  const SizedBox(
                     height: 10,
                   ),
                   Row(
@@ -1090,7 +1098,7 @@ class _SimpleProductScreenState extends State<SimpleProductScreen> {
                       const SizedBox(
                         width: 20,
                       ),
-                      Icon(
+                      const Icon(
                         Icons.circle,
                         color: Color(0xFF014E70),
                         size: 6,
@@ -1102,12 +1110,12 @@ class _SimpleProductScreenState extends State<SimpleProductScreen> {
                         child: Text(
                           modelSingleProduct.value.simpleProduct!.shippingDate.toString(),
                           style:
-                          GoogleFonts.poppins(color: Color(0xFF014E70), fontSize: 14, fontWeight: FontWeight.w500),
+                          GoogleFonts.poppins(color: const Color(0xFF014E70), fontSize: 14, fontWeight: FontWeight.w500),
                         ),
                       ),
                     ],
                   ),
-                  SizedBox(
+                  const SizedBox(
                     height: 10,
                   ),
                   Row(
@@ -1121,7 +1129,7 @@ class _SimpleProductScreenState extends State<SimpleProductScreen> {
                       const SizedBox(
                         width: 20,
                       ),
-                      Icon(
+                      const Icon(
                         Icons.circle,
                         color: Color(0xFF014E70),
                         size: 6,
@@ -1135,35 +1143,39 @@ class _SimpleProductScreenState extends State<SimpleProductScreen> {
                               ? "0"
                               : modelSingleProduct.value.simpleProduct!.lowestDeliveryPrice.toString(),
                           style:
-                          GoogleFonts.poppins(color: Color(0xFF014E70), fontSize: 14, fontWeight: FontWeight.w500),
+                          GoogleFonts.poppins(color: const Color(0xFF014E70), fontSize: 14, fontWeight: FontWeight.w500),
                         ),
                       ),
                     ],
                   ),
-                  SizedBox(
+                  const SizedBox(
                     height: 10,
                   ),
                   Divider(
                     color: Colors.grey.withOpacity(.5),
                     thickness: 1,
                   ),
-                  SizedBox(
+                  const SizedBox(
                     height: 10,
                   ),
 
                   Row(
+                    crossAxisAlignment: CrossAxisAlignment.center,
+                    mainAxisAlignment: MainAxisAlignment.start,
                     children: [
-                      Text(
-                        modelSingleProduct.value.simpleProduct!.storemeta!.storeName.toString(),
-                        style: GoogleFonts.poppins(color: Colors.black, fontSize: 20, fontWeight: FontWeight.w500),
+                      Flexible(
+                        child: Text(
+                          modelSingleProduct.value.simpleProduct!.storemeta!.storeName.toString(),
+                          style: GoogleFonts.poppins(color: Colors.black, fontSize: 20, fontWeight: FontWeight.w500),
+                        ),
                       ),
-                      SizedBox(
+                      const SizedBox(
                         width: 20,
                       ),
-                      Image.asset("assets/svgs/verified.png")
+                      Image.asset("assets/svgs/verified.png",width: 100,)
                     ],
                   ),
-                  SizedBox(
+                  const SizedBox(
                     height: 10,
                   ),
 
@@ -1182,13 +1194,13 @@ class _SimpleProductScreenState extends State<SimpleProductScreen> {
                         child: Text(
                           modelSingleProduct.value.simpleProduct!.storemeta!.storeId.toString(),
                           style:
-                          GoogleFonts.poppins(color: Color(0xFF014E70), fontSize: 14, fontWeight: FontWeight.w500),
+                          GoogleFonts.poppins(color: const Color(0xFF014E70), fontSize: 14, fontWeight: FontWeight.w500),
                         ),
                       ),
                     ],
                   ),
 
-                  SizedBox(
+                  const SizedBox(
                     height: 15,
                   ),
                   Row(
@@ -1199,7 +1211,7 @@ class _SimpleProductScreenState extends State<SimpleProductScreen> {
                         modelSingleProduct.value.simpleProduct!.storemeta!.storeLocation.toString(),
                         style: GoogleFonts.poppins(color: Colors.grey, fontSize: 14, fontWeight: FontWeight.w600),
                       ),
-                      SizedBox(
+                      const SizedBox(
                         width: 30,
                       ),
                       Text(
@@ -1208,7 +1220,7 @@ class _SimpleProductScreenState extends State<SimpleProductScreen> {
                       ),
                     ],
                   ),
-                  SizedBox(
+                  const SizedBox(
                     height: 13,
                   ),
                   // Row(
@@ -1234,21 +1246,21 @@ class _SimpleProductScreenState extends State<SimpleProductScreen> {
                   //   ],
                   // ),
 
-                  SizedBox(
+                  const SizedBox(
                     height: 10,
                   ),
                   Divider(
                     color: Colors.grey.withOpacity(.5),
                     thickness: 1,
                   ),
-                  SizedBox(
+                  const SizedBox(
                     height: 10,
                   ),
                   Text(
                     'Seller Commercial Licence',
                     style: GoogleFonts.poppins(color: Colors.black, fontSize: 20, fontWeight: FontWeight.w600),
                   ),
-                  SizedBox(
+                  const SizedBox(
                     height: 20,
                   ),
                   Center(
@@ -1261,14 +1273,14 @@ class _SimpleProductScreenState extends State<SimpleProductScreen> {
                   ),
                   // Center(child: Image.asset("assets/svgs/licence.png")),
 
-                  SizedBox(
+                  const SizedBox(
                     height: 25,
                   ),
                   Text(
                     'Translated Commercial Licence',
                     style: GoogleFonts.poppins(color: Colors.black, fontSize: 20, fontWeight: FontWeight.w600),
                   ),
-                  SizedBox(
+                  const SizedBox(
                     height: 20,
                   ),
                   Center(child: Image.asset("assets/svgs/licence.png")),
@@ -1277,55 +1289,55 @@ class _SimpleProductScreenState extends State<SimpleProductScreen> {
                     alignment: Alignment.centerRight,
                     child: Container(
                       width: 130,
-                      padding: EdgeInsets.all(10),
+                      padding: const EdgeInsets.all(10),
                       decoration: BoxDecoration(
-                          border: Border.all(color: Color(0xFF014E70), width: 1.5),
+                          border: Border.all(color: const Color(0xFF014E70), width: 1.5),
                           borderRadius: BorderRadius.circular(30)),
                       child: Center(
                         child: Text(
                           "Seller profile",
                           style:
-                          GoogleFonts.poppins(color: Color(0xFF014E70), fontSize: 14, fontWeight: FontWeight.w500),
+                          GoogleFonts.poppins(color: const Color(0xFF014E70), fontSize: 14, fontWeight: FontWeight.w500),
                         ),
                       ),
                     ),
                   ),
-                  SizedBox(
+                  const SizedBox(
                     height: 20,
                   ),
                   Align(
                     alignment: Alignment.centerRight,
                     child: Container(
                       width: 130,
-                      padding: EdgeInsets.all(10),
+                      padding: const EdgeInsets.all(10),
                       decoration: BoxDecoration(
-                          border: Border.all(color: Color(0xFF014E70), width: 1.5),
+                          border: Border.all(color: const Color(0xFF014E70), width: 1.5),
                           borderRadius: BorderRadius.circular(30)),
                       child: Center(
                         child: Text(
                           "Take Below",
                           style:
-                          GoogleFonts.poppins(color: Color(0xFF014E70), fontSize: 14, fontWeight: FontWeight.w500),
+                          GoogleFonts.poppins(color: const Color(0xFF014E70), fontSize: 14, fontWeight: FontWeight.w500),
                         ),
                       ),
                     ),
                   ),
 
-                  SizedBox(
+                  const SizedBox(
                     height: 10,
                   ),
                   Divider(
                     color: Colors.grey.withOpacity(.5),
                     thickness: 1,
                   ),
-                  SizedBox(
+                  const SizedBox(
                     height: 30,
                   ),
                   modelRelated.value.relatedProduct != null?
                  Text(
                    'Similar products',
                    style: GoogleFonts.poppins(color: Colors.black, fontSize: 20, fontWeight: FontWeight.w600),
-                 ):SizedBox(),
+                 ):const SizedBox(),
 
                   Obx(() {
                     return modelRelated.value.relatedProduct != null?
@@ -1337,7 +1349,7 @@ class _SimpleProductScreenState extends State<SimpleProductScreen> {
                           .height,
                       child: ListView.builder(
                         shrinkWrap: true,
-                        physics: NeverScrollableScrollPhysics(),
+                        physics: const NeverScrollableScrollPhysics(),
                         itemCount: modelRelated.value.relatedProduct!.product!.length,
                         itemBuilder: (BuildContext context, int index) {
                           var item = modelRelated.value.relatedProduct!.product![index];
@@ -1989,7 +2001,7 @@ class _SimpleProductScreenState extends State<SimpleProductScreen> {
                 ],
               )),
         )
-            : Center(child: CircularProgressIndicator());
+            : const Center(child: CircularProgressIndicator());
       }),
     );
   }

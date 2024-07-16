@@ -148,6 +148,7 @@ class ApiUrls {
   static const String getJobHiringList = "${baseUrl}job-hiring-list";
   static const String singleJobList = "${baseUrl}single-job-product?product_id=";
   static const String releatedProduct = "${baseUrl}related-product";
+  static const String returnRequest = "${baseUrl}add-order-return-request";
 
 
 

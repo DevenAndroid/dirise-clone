@@ -52,7 +52,7 @@ class SimpleProduct {
   bool? inWishlist;
   bool? alreadyReview;
   Storemeta? storemeta;
-  double? lowestDeliveryPrice;
+  dynamic lowestDeliveryPrice;
   dynamic shippingDate;
   dynamic discountPrice;
   dynamic discountOff;
