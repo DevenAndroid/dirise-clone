@@ -385,7 +385,7 @@ class _ProductUIState extends State<ProductUI> {
             Get.to(() => const SimpleProductScreen(), arguments: widget.productElement.id.toString());
           }
         },
-      child:  widget.productElement.itemType != 'giveaway' &&   widget.productElement.isShowcase != true
+      child:  widget.productElement.itemType != 'giveaway' &&   widget.productElement.isShowcase != true&&widget.productElement.showcaseProduct != true
           ? Padding(
         padding: const EdgeInsets.all(5.0),
         child:
@@ -856,7 +856,7 @@ class _ProductUIState extends State<ProductUI> {
         ),
       )
           :
-      widget.productElement.isShowcase != true ?
+      widget.productElement.isShowcase != true&&widget.productElement.showcaseProduct != true ?
       Padding(
         padding: const EdgeInsets.all(5.0),
         child: Container(

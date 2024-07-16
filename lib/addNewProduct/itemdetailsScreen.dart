@@ -65,7 +65,7 @@ class _ItemDetailsScreensState extends State<ItemDetailsScreens> {
   final addProductController = Get.put(AddProductController());
   deliverySizeApi() {
     Map<String, dynamic> map = {};
-    map['category_id'] = idForChild.join(',').toString();
+    map['category_id'] = idForChild.isNotEmpty ? idForChild.join(',').toString():  id.value.toString();
     map['product_name'] = ProductNameController.text.toString();
     map['item_type'] = 'giveaway';
     map['id'] = addProductController.idProduct.value.toString();
