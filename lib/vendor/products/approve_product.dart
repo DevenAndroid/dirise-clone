@@ -235,92 +235,98 @@ class _ApproveProductScreenState extends State<ApproveProductScreen> {
                                                 style: GoogleFonts.poppins(fontSize: 16, fontWeight: FontWeight.w500),
                                               ),
                                             ),
-                                            GestureDetector(
-                                              onTap: () {
-                                                // log('dadad${item.itemType.toString()}');
-                                                log(item.itemType);
-                                                if (item.itemType == "giveaway") {
-                                                  addProductController.idProduct.value = item.id.toString();
-                                                  Get.to(ReviewPublishScreen());
-                                                }
-                                                if (item.itemType == "product") {
-                                                  addProductController.idProduct.value = item.id.toString();
-                                                  Get.to(ProductReviewPublicScreen());
-                                                }
-                                                if (item.itemType == "job") {
-                                                  addProductController.idProduct.value = item.id.toString();
-                                                  Get.to(JobReviewPublishScreen());
-                                                }
-                                                if (item.itemType == "service") {
-                                                  addProductController.idProduct.value = item.id.toString();
-                                                  Get.to(ReviewPublishServiceScreen());
-                                                }
-                                                if (item.itemType == "virtual_product") {
-                                                  addProductController.idProduct.value = item.id.toString();
-                                                  Get.to(VirtualReviewandPublishScreen());
-                                                }
-                                              },
-                                              child: Container(
-                                                  height: AddSize.size25,
-                                                  width: AddSize.size25,
-                                                  decoration: BoxDecoration(
-                                                      borderRadius: BorderRadius.circular(40),
-                                                      border: Border.all(color: AppTheme.buttonColor)),
-                                                  child: Center(
-                                                    child: Icon(
-                                                      Icons.edit,
-                                                      color: AppTheme.buttonColor,
-                                                      size: AddSize.size15,
-                                                    ),
-                                                  )),
-                                            ),
-                                            10.spaceX,
-                                            GestureDetector(
-                                              onTap: () {
-                                                showDialog(
-                                                    context: context,
-                                                    builder: (context1) {
-                                                      return AlertDialog(
-                                                        title: Text(
-                                                          "Are you sure you want to delete this product?".tr,
-                                                          style: titleStyle,
-                                                          textAlign: TextAlign.center,
-                                                        ),
-                                                        actions: [
-                                                         Row(
-                                                           mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                                                           children: [
-                                                             ElevatedButton(
-                                                                 onPressed: () {
-                                                                   controller.productId = item.id.toString();
-                                                                   controller.deleteProductForAll(context);
-                                                                 },
-                                                                 child: Text("Delete".tr)),
-                                                             ElevatedButton(
-                                                                 onPressed: () {
-                                                                   Get.back();
-                                                                 },
-                                                                 child: Text("Cancel".tr)),
+                                            item.itemType == "giveaway"&& item.inStock == "0"?
+                                                Text("Sold Out",  style: GoogleFonts.poppins(fontSize: 16, fontWeight: FontWeight.w500,color: Colors.red),):
+                                           Row(
+                                             children: [
+                                               GestureDetector(
+                                                 onTap: () {
+                                                   // log('dadad${item.itemType.toString()}');
+                                                   log(item.itemType);
+                                                   if (item.itemType == "giveaway") {
+                                                     addProductController.idProduct.value = item.id.toString();
+                                                     Get.to(ReviewPublishScreen());
+                                                   }
+                                                   if (item.itemType == "product") {
+                                                     addProductController.idProduct.value = item.id.toString();
+                                                     Get.to(ProductReviewPublicScreen());
+                                                   }
+                                                   if (item.itemType == "job") {
+                                                     addProductController.idProduct.value = item.id.toString();
+                                                     Get.to(JobReviewPublishScreen());
+                                                   }
+                                                   if (item.itemType == "service") {
+                                                     addProductController.idProduct.value = item.id.toString();
+                                                     Get.to(ReviewPublishServiceScreen());
+                                                   }
+                                                   if (item.itemType == "virtual_product") {
+                                                     addProductController.idProduct.value = item.id.toString();
+                                                     Get.to(VirtualReviewandPublishScreen());
+                                                   }
+                                                 },
+                                                 child: Container(
+                                                     height: AddSize.size25,
+                                                     width: AddSize.size25,
+                                                     decoration: BoxDecoration(
+                                                         borderRadius: BorderRadius.circular(40),
+                                                         border: Border.all(color: AppTheme.buttonColor)),
+                                                     child: Center(
+                                                       child: Icon(
+                                                         Icons.edit,
+                                                         color: AppTheme.buttonColor,
+                                                         size: AddSize.size15,
+                                                       ),
+                                                     )),
+                                               ),
+                                               10.spaceX,
+                                               GestureDetector(
+                                                 onTap: () {
+                                                   showDialog(
+                                                       context: context,
+                                                       builder: (context1) {
+                                                         return AlertDialog(
+                                                           title: Text(
+                                                             "Are you sure you want to delete this product?".tr,
+                                                             style: titleStyle,
+                                                             textAlign: TextAlign.center,
+                                                           ),
+                                                           actions: [
+                                                             Row(
+                                                               mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                                                               children: [
+                                                                 ElevatedButton(
+                                                                     onPressed: () {
+                                                                       controller.productId = item.id.toString();
+                                                                       controller.deleteProductForAll(context);
+                                                                     },
+                                                                     child: Text("Delete".tr)),
+                                                                 ElevatedButton(
+                                                                     onPressed: () {
+                                                                       Get.back();
+                                                                     },
+                                                                     child: Text("Cancel".tr)),
+                                                               ],
+                                                             )
                                                            ],
-                                                         )
-                                                        ],
-                                                      );
-                                                    });
-                                              },
-                                              child: Container(
-                                                  height: AddSize.size25,
-                                                  width: AddSize.size25,
-                                                  decoration: BoxDecoration(
-                                                      borderRadius: BorderRadius.circular(40),
-                                                      border: Border.all(color: Colors.red)),
-                                                  child: Center(
-                                                    child: Icon(
-                                                      Icons.delete,
-                                                      color: Colors.red,
-                                                      size: AddSize.size15,
-                                                    ),
-                                                  )),
-                                            ),
+                                                         );
+                                                       });
+                                                 },
+                                                 child: Container(
+                                                     height: AddSize.size25,
+                                                     width: AddSize.size25,
+                                                     decoration: BoxDecoration(
+                                                         borderRadius: BorderRadius.circular(40),
+                                                         border: Border.all(color: Colors.red)),
+                                                     child: Center(
+                                                       child: Icon(
+                                                         Icons.delete,
+                                                         color: Colors.red,
+                                                         size: AddSize.size15,
+                                                       ),
+                                                     )),
+                                               ),
+                                             ],
+                                           )
                                           ],
                                         ),
                                         Text(
