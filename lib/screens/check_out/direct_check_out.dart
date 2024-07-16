@@ -2780,44 +2780,92 @@ class _DirectCheckOutScreenState extends State<DirectCheckOutScreen> {
                       //       }
                       //       return null;
                       //     }),
-                      ...commonField(
-                          textController: phoneController,
-                          title: "${'Phone'.tr}*",
-                          hintText: "Enter your phone number".tr,
-                          keyboardType: TextInputType.number,
-                          validator: (value) {
-                            if (value!.trim().isEmpty) {
-                              return "Please enter phone number".tr;
-                            }
-                            if (value
-                                .trim()
-                                .length > 15) {
-                              return "Please enter valid phone number".tr;
-                            }
-                            if (value
-                                .trim()
-                                .length < 8) {
-                              return "Please enter valid phone number".tr;
-                            }
-                            return null;
-                          }),
-                      ...commonField(
-                          textController: alternatePhoneController,
-                          title: "${'Alternate Phone'.tr}*",
-                          hintText: "Enter your alternate phone number".tr,
-                          keyboardType: TextInputType.number,
-                          validator: (value) {
-                            // if(value!.trim().isEmpty){
-                            //   return "Please enter phone number";
-                            // }
-                            // if(value.trim().length > 15){
-                            //   return "Please enter valid phone number";
-                            // }
-                            // if(value.trim().length < 8){
-                            //   return "Please enter valid phone number";
-                            // }
-                            return null;
-                          }),
+
+                      Text(
+                        'Phone *'.tr,
+                        style: GoogleFonts.poppins(
+                            fontWeight: FontWeight.w500, fontSize: 16, color: const Color(0xff585858)),
+                      ),
+                      const SizedBox(
+                        height: 8,
+                      ),
+                      IntlPhoneField(
+                        key: ValueKey(profileController.code),
+                        flagsButtonPadding: const EdgeInsets.all(8),
+                        dropdownIconPosition: IconPosition.trailing,
+                        showDropdownIcon: true,
+                        cursorColor: Colors.black,
+                        textInputAction: TextInputAction.next,
+                        dropdownTextStyle: const TextStyle(color: Colors.black),
+                        style: const TextStyle(color: AppTheme.textColor),
+                        controller: phoneController,
+                        decoration: const InputDecoration(
+                            contentPadding: EdgeInsets.zero,
+                            hintStyle: TextStyle(color: AppTheme.textColor),
+                            hintText: 'Enter your phone number',
+                            labelStyle: TextStyle(color: AppTheme.textColor),
+                            border: OutlineInputBorder(
+                              borderSide: BorderSide(),
+                            ),
+                            enabledBorder: OutlineInputBorder(borderSide: BorderSide(color: AppTheme.shadowColor)),
+                            focusedBorder: OutlineInputBorder(borderSide: BorderSide(color: AppTheme.shadowColor))),
+                        initialCountryCode: profileController.code.toString(),
+                        languageCode: '+91',
+                        onCountryChanged: (phone) {
+                          profileController.code = phone.code;
+                          print(phone.code);
+                          print(profileController.code.toString());
+                        },
+                        onChanged: (phone) {
+                          profileController.code = phone.countryISOCode.toString();
+                          print(phone.countryCode);
+                          print(profileController.code.toString());
+                        },
+                      ),
+                      const SizedBox(
+                        height: 5,
+                      ),
+                      Text(
+                        'Alternate Phone*'.tr,
+                        style: GoogleFonts.poppins(
+                            fontWeight: FontWeight.w500, fontSize: 16, color: const Color(0xff585858)),
+                      ),
+                      const SizedBox(
+                        height: 8,
+                      ),
+                      IntlPhoneField(
+                        // key: ValueKey(profileController.code),
+                        flagsButtonPadding: const EdgeInsets.all(8),
+                        dropdownIconPosition: IconPosition.trailing,
+                        showDropdownIcon: true,
+                        cursorColor: Colors.black,
+                        textInputAction: TextInputAction.next,
+                        dropdownTextStyle: const TextStyle(color: Colors.black),
+                        style: const TextStyle(color: AppTheme.textColor),
+                        controller: alternatePhoneController,
+                        decoration: const InputDecoration(
+                            contentPadding: EdgeInsets.zero,
+                            hintStyle: TextStyle(color: AppTheme.textColor),
+                            hintText: 'Enter your phone number',
+                            labelStyle: TextStyle(color: AppTheme.textColor),
+                            border: OutlineInputBorder(
+                              borderSide: BorderSide(),
+                            ),
+                            enabledBorder: OutlineInputBorder(borderSide: BorderSide(color: AppTheme.shadowColor)),
+                            focusedBorder: OutlineInputBorder(borderSide: BorderSide(color: AppTheme.shadowColor))),
+                        initialCountryCode: profileController.code.toString(),
+                        languageCode: '+91',
+                        onCountryChanged: (phone) {
+                          profileController.code = phone.code;
+                          print(phone.code);
+                          print(profileController.code.toString());
+                        },
+                        onChanged: (phone) {
+                          profileController.code = phone.countryISOCode.toString();
+                          print(phone.countryCode);
+                          print(profileController.code.toString());
+                        },
+                      ),
                       ...commonField(
                           textController: addressController,
                           title: "${'Address'.tr}*",

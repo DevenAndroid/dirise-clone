@@ -39,15 +39,16 @@ class _AddProductFirstImageScreenState extends State<AddProductFirstImageScreen>
       return false;
     }
   }
-
+  File featuredImage = File("");
+  List<File> selectedFiles = [];
   @override
   void initState() {
     // TODO: implement initState
     super.initState();
     if(widget.id != null){
-      profileController.featuredImage = widget.image!;
-      if (!profileController.selectedFiles.contains(widget.galleryImg!)) {
-        profileController.selectedFiles.add(widget.galleryImg!);
+       featuredImage = widget.image!;
+      if (! selectedFiles.contains(widget.galleryImg!)) {
+         selectedFiles.add(widget.galleryImg!);
       }
     }
 
@@ -57,9 +58,9 @@ class _AddProductFirstImageScreenState extends State<AddProductFirstImageScreen>
   Map<String, File> images = {};
   void addProduct() {
     Map<String, String> map = {};
-    images["featured_image"] = profileController.featuredImage;
-    for (int i = 0; i < profileController.selectedFiles.length; i++) {
-      images["gallery_image[$i]"] = profileController.selectedFiles[i];
+    images["featured_image"] =  featuredImage;
+    for (int i = 0; i <  selectedFiles.length; i++) {
+      images["gallery_image[$i]"] =  selectedFiles[i];
     }
 
     final Repositories repositories = Repositories();
@@ -75,7 +76,7 @@ class _AddProductFirstImageScreenState extends State<AddProductFirstImageScreen>
         .then((value) {
       JobResponceModel response = JobResponceModel.fromJson(jsonDecode(value));
       log('response${response.toJson()}');
-       profileController.productImage = profileController.featuredImage;
+       profileController.productImage = featuredImage;
       if(response.status == false){
         showToastCenter(response.message.toString());
       }
@@ -129,21 +130,21 @@ class _AddProductFirstImageScreenState extends State<AddProductFirstImageScreen>
               ImageWidget(
                 // key: paymentReceiptCertificateKey,
                 title: "Upload cover photo".tr,
-                file: profileController.featuredImage,
-                validation: checkValidation(showValidation.value, profileController.featuredImage.path.isEmpty),
+                file: featuredImage,
+                validation: checkValidation(showValidation.value, featuredImage.path.isEmpty),
                 filePicked: (File g) {
-                  profileController.featuredImage = g;
+                  featuredImage = g;
                 },
               ),
               const SizedBox(height: 20,),
               MultiImageWidget(
-                files: profileController.selectedFiles,
+                files: selectedFiles,
                 title: 'Upload extra photos',
                 validation: true,
                 imageOnly: true,
                 filesPicked: (List<File> pickedFiles) {
                   setState(() {
-                    profileController.selectedFiles = pickedFiles;
+                    selectedFiles = pickedFiles;
                   });
                 },
               ),
@@ -153,7 +154,7 @@ class _AddProductFirstImageScreenState extends State<AddProductFirstImageScreen>
               CustomOutlineButton(
                 title: 'Next',
                 onPressed: () {
-                  if(profileController.featuredImage.path.isNotEmpty && profileController.selectedFiles.isNotEmpty){
+                  if(featuredImage.path.isNotEmpty && selectedFiles.isNotEmpty){
                     productController.getProductsCategoryList();
                     addProduct();
                   }

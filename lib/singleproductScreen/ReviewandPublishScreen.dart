@@ -10,6 +10,7 @@ import 'package:dirise/singleproductScreen/singleProductPriceScreen.dart';
 import 'package:dirise/singleproductScreen/singleProductReturnPolicy.dart';
 import 'package:dirise/singleproductScreen/singleproductDeliverySize.dart';
 import 'package:dirise/tellaboutself/ExtraInformation.dart';
+import 'package:dirise/utils/helper.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
@@ -308,6 +309,7 @@ class _ProductReviewPublicScreenState extends State<ProductReviewPublicScreen> {
                           mainAxisAlignment: MainAxisAlignment.start,
                           crossAxisAlignment: CrossAxisAlignment.start,
                           children: [
+                            20.spaceY,
                             Text(
                                 'product name: ${ profileController.productDetailsModel.value.productDetails!.product!
                                     .pname ?? ""}'),
@@ -399,6 +401,7 @@ class _ProductReviewPublicScreenState extends State<ProductReviewPublicScreen> {
                           mainAxisAlignment: MainAxisAlignment.start,
                           crossAxisAlignment: CrossAxisAlignment.start,
                           children: [
+                            20.spaceY,
                             Text('Price: ${ profileController.productDetailsModel.value.productDetails!.product!.pPrice ??
                                 ""} KWD'),
                             Text(
@@ -489,6 +492,7 @@ class _ProductReviewPublicScreenState extends State<ProductReviewPublicScreen> {
                           mainAxisAlignment: MainAxisAlignment.start,
                           crossAxisAlignment: CrossAxisAlignment.start,
                           children: [
+                            20.spaceY,
                             Text(
                                 'Short Description: ${ profileController.productDetailsModel.value.productDetails!.product!
                                     .shortDescription ?? ""}'),
@@ -586,6 +590,7 @@ class _ProductReviewPublicScreenState extends State<ProductReviewPublicScreen> {
                           mainAxisAlignment: MainAxisAlignment.start,
                           crossAxisAlignment: CrossAxisAlignment.start,
                           children: [
+                            20.spaceY,
                             Text(
                                 'Who will pay the shipping: ${ profileController.productDetailsModel.value.productDetails!
                                     .product!.shippingPay}'),
@@ -675,6 +680,7 @@ class _ProductReviewPublicScreenState extends State<ProductReviewPublicScreen> {
                           mainAxisAlignment: MainAxisAlignment.start,
                           crossAxisAlignment: CrossAxisAlignment.start,
                           children: [
+                            20.spaceY,
                             Text(
                                 'Policy Name: ${ profileController.productDetailsModel.value.productDetails!.product!
                                     .returnPolicyDesc!.title ?? ""}'),
@@ -804,6 +810,7 @@ class _ProductReviewPublicScreenState extends State<ProductReviewPublicScreen> {
                           mainAxisAlignment: MainAxisAlignment.start,
                           crossAxisAlignment: CrossAxisAlignment.start,
                           children: [
+                            20.spaceY,
                             Text(
                                 'Unit of measure: ${ profileController.productDetailsModel.value.productDetails!
                                     .productDimentions!.units ?? ""}'),
@@ -918,6 +925,7 @@ class _ProductReviewPublicScreenState extends State<ProductReviewPublicScreen> {
                           mainAxisAlignment: MainAxisAlignment.start,
                           crossAxisAlignment: CrossAxisAlignment.start,
                           children: [
+                            20.spaceY,
                             Text(
                                 'Meta Title: ${ profileController.productDetailsModel.value.productDetails!.product!
                                     .metaTitle ?? ""}'),
@@ -1009,6 +1017,7 @@ class _ProductReviewPublicScreenState extends State<ProductReviewPublicScreen> {
                           mainAxisAlignment: MainAxisAlignment.start,
                           crossAxisAlignment: CrossAxisAlignment.start,
                           children: [
+                            20.spaceY,
                             Text(
                                 'Product Code: ${ profileController.productDetailsModel.value.productDetails!.product!
                                     .productCode ?? ""}'),

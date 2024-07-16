@@ -135,7 +135,7 @@ class _SocialMediaStoreState extends State<SocialMediaStore> {
         ),
       ),
       bottomNavigationBar: Padding(
-        padding: const EdgeInsets.all(8.0),
+        padding: const EdgeInsets.all(20.0).copyWith(bottom: 20),
         child: SizedBox(
           height: 50,
           child: CustomOutlineButton(

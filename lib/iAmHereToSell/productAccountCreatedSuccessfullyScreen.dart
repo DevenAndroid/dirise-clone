@@ -81,7 +81,7 @@ class _ProductAccountCreatedSuccessfullyScreenState extends State<ProductAccount
                 ),
                 if( profileController.thankYouValue == 'Product')
            Text(
-              "Product have been added  successfully".tr,
+              "Product have been added successfully".tr,
                   textAlign: TextAlign.center,
                   style: Theme.of(context)
                       .textTheme
@@ -90,7 +90,7 @@ class _ProductAccountCreatedSuccessfullyScreenState extends State<ProductAccount
                 ),
                 if( profileController.thankYouValue == 'Virtual')
            Text(
-              "Virtual have been added  successfully".tr,
+              "Virtual have been added successfully".tr,
                   textAlign: TextAlign.center,
                   style: Theme.of(context)
                       .textTheme

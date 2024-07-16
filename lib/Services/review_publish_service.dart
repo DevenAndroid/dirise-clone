@@ -8,6 +8,7 @@ import 'package:dirise/Services/tellUsscreen.dart';
 import 'package:dirise/Services/whatServiceDoYouProvide.dart';
 import 'package:dirise/addNewProduct/rewardScreen.dart';
 import 'package:dirise/tellaboutself/ExtraInformation.dart';
+import 'package:dirise/utils/helper.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
@@ -227,11 +228,11 @@ class _ReviewPublishServiceScreenState extends State<ReviewPublishServiceScreen>
                                 child: GestureDetector(
                                     onTap: () {
                                       File imageFile = File(productDetailsModel.value.productDetails!.product!.featuredImage);
-
+                                      File gallery = File(productDetailsModel.value.productDetails!.product!.galleryImage![0]);
                                       Get.to(AddProductFirstImageScreen(
                                         id: productDetailsModel.value.productDetails!.product!.id,
                                         image: imageFile,
-
+                                        galleryImg: gallery,
                                       ));
                                     },
                                     child: const Text(
@@ -300,6 +301,7 @@ class _ReviewPublishServiceScreenState extends State<ReviewPublishServiceScreen>
                                 mainAxisAlignment: MainAxisAlignment.start,
                                 crossAxisAlignment: CrossAxisAlignment.start,
                                 children: [
+                                  20.spaceY,
                                   Text(
                                       'Service Name: ${productDetailsModel.value.productDetails!.product!.pname ?? ""}'),
                                   Text('Price: ${productDetailsModel.value.productDetails!.product!.pPrice ?? ""} KWD'),
@@ -397,6 +399,7 @@ class _ReviewPublishServiceScreenState extends State<ReviewPublishServiceScreen>
                                 mainAxisAlignment: MainAxisAlignment.start,
                                 crossAxisAlignment: CrossAxisAlignment.start,
                                 children: [
+                                  20.spaceY,
                                   Text(
                                       'Short Description: ${productDetailsModel.value.productDetails!.product!.shortDescription ?? ""}'),
                                   if(productDetailsModel.value.productDetails!.product!.inStock == '-1' )
@@ -492,6 +495,7 @@ class _ReviewPublishServiceScreenState extends State<ReviewPublishServiceScreen>
                                 mainAxisAlignment: MainAxisAlignment.start,
                                 crossAxisAlignment: CrossAxisAlignment.start,
                                 children: [
+                                  20.spaceY,
                                   Text(
                                       'Policy Name: ${productDetailsModel.value.productDetails!.product!.returnPolicyDesc!.title ?? ""}'),
                                   const SizedBox(height: 5,),
@@ -605,6 +609,7 @@ class _ReviewPublishServiceScreenState extends State<ReviewPublishServiceScreen>
                                 mainAxisAlignment: MainAxisAlignment.start,
                                 crossAxisAlignment: CrossAxisAlignment.start,
                                 children: [
+                                  20.spaceY,
                                   Text('Town: ${productDetailsModel.value.productDetails!.address!.town ?? ""}'),
                                   Text('city: ${productDetailsModel.value.productDetails!.address!.city ?? ""}'),
                                   Text('state: ${productDetailsModel.value.productDetails!.address!.state ?? ""}'),
@@ -694,6 +699,7 @@ class _ReviewPublishServiceScreenState extends State<ReviewPublishServiceScreen>
                                 mainAxisAlignment: MainAxisAlignment.start,
                                 crossAxisAlignment: CrossAxisAlignment.start,
                                 children: [
+                                  20.spaceY,
                                   Text(
                                       'Unit of measure: ${productDetailsModel.value.productDetails!.productDimentions!.units ?? ""}'),
                                   Text(
@@ -796,6 +802,7 @@ class _ReviewPublishServiceScreenState extends State<ReviewPublishServiceScreen>
                                 mainAxisAlignment: MainAxisAlignment.start,
                                 crossAxisAlignment: CrossAxisAlignment.start,
                                 children: [
+                                  20.spaceY,
                                   Text(
                                       'Long Description: ${productDetailsModel.value.productDetails!.product!.longDescription ?? ""}'),
                                   Text(
@@ -891,6 +898,7 @@ class _ReviewPublishServiceScreenState extends State<ReviewPublishServiceScreen>
                                 mainAxisAlignment: MainAxisAlignment.start,
                                 crossAxisAlignment: CrossAxisAlignment.start,
                                 children: [
+                                  20.spaceY,
                                   Text(
                                       'Product Code: ${productDetailsModel.value.productDetails!.product!.productCode ?? ""}'),
                                   Text(

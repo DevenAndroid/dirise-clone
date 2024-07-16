@@ -906,7 +906,7 @@ class _ProductUIState extends State<ProductUI> {
                               imageUrl: widget.productElement.featuredImage.toString(),
                               height: 180,
                               width: 120,
-                              fit: BoxFit.cover,
+                              fit: BoxFit.contain,
                               errorWidget: (_, __, ___) => Image.asset('assets/images/new_logo.png')),
                         ),
                         const SizedBox(

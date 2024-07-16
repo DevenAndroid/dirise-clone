@@ -4,6 +4,7 @@ import 'dart:io';
 import 'package:dirise/addNewProduct/rewardScreen.dart';
 import 'package:dirise/controller/vendor_controllers/add_product_controller.dart';
 import 'package:dirise/tellaboutself/ExtraInformation.dart';
+import 'package:dirise/utils/helper.dart';
 import 'package:dirise/virtualProduct/product_information_screen.dart';
 import 'package:dirise/virtualProduct/singleProductDiscriptionScreen.dart';
 import 'package:dirise/virtualProduct/singleProductPriceScreen.dart';
@@ -228,11 +229,11 @@ class _VirtualReviewandPublishScreenState extends State<VirtualReviewandPublishS
                                 child: GestureDetector(
                                     onTap: () {
                                       File imageFile = File(productDetailsModel.value.productDetails!.product!.featuredImage);
-
+                                      File gallery = File(productDetailsModel.value.productDetails!.product!.galleryImage![0]);
                                       Get.to(AddProductFirstImageScreen(
                                         id: productDetailsModel.value.productDetails!.product!.id,
                                         image: imageFile,
-
+                                        galleryImg: gallery,
                                       ));
                                     },
                                     child: const Text(
@@ -300,6 +301,7 @@ class _VirtualReviewandPublishScreenState extends State<VirtualReviewandPublishS
                                 mainAxisAlignment: MainAxisAlignment.start,
                                 crossAxisAlignment: CrossAxisAlignment.start,
                                 children: [
+                                  20.spaceY,
                                   Text(
                                       'product name: ${productDetailsModel.value.productDetails!.product!.pname ?? ""}'),
                                   Text(
@@ -386,6 +388,7 @@ class _VirtualReviewandPublishScreenState extends State<VirtualReviewandPublishS
                                 mainAxisAlignment: MainAxisAlignment.start,
                                 crossAxisAlignment: CrossAxisAlignment.start,
                                 children: [
+                                  20.spaceY,
                                   Text('Price: ${productDetailsModel.value.productDetails!.product!.pPrice ?? ""} KWD'),
                                   Text(
                                       'Fixed Discounted Price : ${productDetailsModel.value.productDetails!.product!.fixedDiscountPrice ?? ""} KWD'),
@@ -533,6 +536,7 @@ class _VirtualReviewandPublishScreenState extends State<VirtualReviewandPublishS
                                 mainAxisAlignment: MainAxisAlignment.start,
                                 crossAxisAlignment: CrossAxisAlignment.start,
                                 children: [
+                                  20.spaceY,
                                   Text(
                                       'Short Description: ${productDetailsModel.value.productDetails!.product!.shortDescription ?? ""}'),
                                   if(productDetailsModel.value.productDetails!.product!.inStock == '-1' )
@@ -624,6 +628,7 @@ class _VirtualReviewandPublishScreenState extends State<VirtualReviewandPublishS
                                 mainAxisAlignment: MainAxisAlignment.start,
                                 crossAxisAlignment: CrossAxisAlignment.start,
                                 children: [
+                                  20.spaceY,
                                   Text(
                                       'Meta Tags: ${productDetailsModel.value.productDetails!.product!.metaTags ?? ""}'),
                                   Text(
@@ -710,6 +715,7 @@ class _VirtualReviewandPublishScreenState extends State<VirtualReviewandPublishS
                                 mainAxisAlignment: MainAxisAlignment.start,
                                 crossAxisAlignment: CrossAxisAlignment.start,
                                 children: [
+                                  20.spaceY,
                                   Text(
                                       'Product Code: ${productDetailsModel.value.productDetails!.product!.productCode ?? ""}'),
                                   Text(

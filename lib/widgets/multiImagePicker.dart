@@ -184,7 +184,7 @@ class _MultiImageWidgetState extends State<MultiImageWidget> {
               itemBuilder: (context, index) {
                 return Image.file(
                   files[index],
-                  fit: BoxFit.cover,
+                  fit: BoxFit.contain,
                   errorBuilder: (_, __, ___) => Image.network(
                     files[index].path,
                     errorBuilder: (_, __, ___) => Column(

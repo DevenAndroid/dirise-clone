@@ -59,7 +59,6 @@ class _InternationalshippingdetailsScreenState extends State<Internationalshippi
   List<String> unitOfMeasureList = [
     'Cm/Kg',
     'Lb/Inch',
-    'Kilogram (Kg)/Pound (Lb)'
   ];
 
   String selectNumberOfPackages = '1';
