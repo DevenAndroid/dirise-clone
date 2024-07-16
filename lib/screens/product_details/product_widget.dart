@@ -292,9 +292,9 @@ class _ProductUIState extends State<ProductUI> {
       map["sloat_end_time"] = selectedSlot.split("--").last;
     }
     if (isVariantType) {
-      map["variation"] = selectedVariant!.id.toString();
+       map["variation"] = selectedVariant!.id.toString();
     }
-    return map;
+    return map ;
   }
 
   ProductElement productElement = ProductElement();
