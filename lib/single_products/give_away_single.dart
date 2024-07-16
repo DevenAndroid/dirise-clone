@@ -1347,7 +1347,14 @@ class _GiveAwayProductState extends State<GiveAwayProduct> {
                         SizedBox(
                           height: 20,
                         ),
-                        Center(child: Image.asset("assets/svgs/licence.png")),
+                        Center(
+                          child: CachedNetworkImage(
+                              imageUrl:
+                              modelSingleProduct.value.singleGiveawayProduct!.storemeta!.document2.toString(),
+                              height: 180,
+                              fit: BoxFit.cover,
+                              errorWidget: (_, __, ___) => Image.asset('assets/images/new_logo.png')),
+                        ),
 
                         Align(
                           alignment: Alignment.centerRight,

@@ -198,6 +198,7 @@ class Storemeta {
   dynamic storeName;
   dynamic storeLocation;
   dynamic profileImg;
+  dynamic document2;
   dynamic bannerProfile;
   dynamic commercialLicense;
   dynamic storeCategory;
@@ -210,6 +211,7 @@ class Storemeta {
         this.storeLocation,
         this.profileImg,
         this.bannerProfile,
+        this.document2,
         this.commercialLicense,
         this.storeCategory});
 
@@ -221,6 +223,7 @@ class Storemeta {
     storeLocation = json['store_location'];
     profileImg = json['profile_img'];
     bannerProfile = json['banner_profile'];
+    document2 = json['document_2'];
     commercialLicense = json['commercial_license'];
     storeCategory = json['store_category'];
   }
@@ -231,6 +234,7 @@ class Storemeta {
     data['last_name'] = this.lastName;
     data['store_id'] = this.storeId;
     data['store_name'] = this.storeName;
+    data['document_2'] = this.document2;
     data['store_location'] = this.storeLocation;
     data['profile_img'] = this.profileImg;
     data['banner_profile'] = this.bannerProfile;
