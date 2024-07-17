@@ -392,7 +392,7 @@ class AddProductController extends GetxController {
       ModelCommonResponse modelCommonResponse = ModelCommonResponse.fromJson(jsonDecode(value));
       showToast(modelCommonResponse.message.toString());
       if (modelCommonResponse.status == true) {
-        productListController.getProductList();
+        productListController.getProductList(context: context);
         Get.back();
         Get.back();
       }
@@ -407,7 +407,7 @@ class AddProductController extends GetxController {
       showToast(modelCommonResponse.message.toString());
       if (modelCommonResponse.status == true) {
         // productController.getProductList();
-        productController.getProductList1();
+        productController.getProductList1(context: context);
         // productListController.getProductList();
         Get.back();
       }
@@ -695,7 +695,7 @@ class AddProductController extends GetxController {
       if (response.status == true) {
         productController.getProductList();
         Get.to(ProductAccountCreatedSuccessfullyScreen());
-        productListController.getProductList();
+        productListController.getProductList(context: context);
       }
     }).catchError((e) {
       NotificationService().hideAllNotifications();
@@ -982,7 +982,7 @@ class AddProductController extends GetxController {
       if (response.status == true) {
         productController.getProductList();
         Get.back();
-        productListController.getProductList();
+        productListController.getProductList(context: context);
       }
     }).catchError((e) {
       NotificationService().hideAllNotifications();

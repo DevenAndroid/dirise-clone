@@ -22,6 +22,7 @@ import '../../../model/model_category_stores.dart';
 import '../../../model/product_model/model_product_element.dart';
 import '../../../model/vendor_models/model_category_list.dart';
 import '../../../model/vendor_models/vendor_category_model.dart';
+import '../../../shop_by_product.dart';
 import '../../../utils/api_constant.dart';
 import '../../../vendor/authentication/vendor_plans_screen.dart';
 import '../../../vendor/dashboard/dashboard_screen.dart';
@@ -224,7 +225,14 @@ class _SingleCategoriesState extends State<SingleCategories> {
       //     : const SizedBox(),
     ];
   }
+  String? selectedValue1;
 
+
+  final List<String> dropdownItems = [
+    'Shop by Product',
+    'Shop by Vendor',
+
+  ];
   Future getCategoryStores({required int page, String? search, bool? resetAll}) async {
     if (resetAll == true) {
       allLoaded = false;
@@ -593,6 +601,44 @@ class _SingleCategoriesState extends State<SingleCategories> {
                     : const SizedBox(),
               ),
             ),
+            SliverToBoxAdapter(
+              child:    Align(
+                alignment: Alignment.centerRight,
+                child: Padding(
+                  padding: const EdgeInsets.only(right: 8.0),
+                  child: Container(
+                    width: 200,
+                    padding: EdgeInsets.symmetric(horizontal: 12, vertical: 2),
+                    decoration: BoxDecoration(
+                      border: Border.all(color: Colors.blueAccent),
+                      borderRadius: BorderRadius.circular(5),
+                    ),
+                    child: DropdownButton<String>(
+                      isExpanded: true,
+                      hint: Text('Select an Type',style: TextStyle(color:  Colors.black),),
+                      value:selectedValue1,
+
+                      onChanged: (String? newValue) {
+                        setState(() {
+                       selectedValue1 = newValue;
+                       // selectedValue1 == "Shop by Product"? Get.to(()=>ShopProductScreen(),arguments: widget.vendorCategories.id.toString()):Get.back();
+                          print("value"+selectedValue1.toString());
+
+                     // getProductList1(context: context);
+                        });
+                      },
+                      items:dropdownItems.map<DropdownMenuItem<String>>((String value) {
+                        return DropdownMenuItem<String>(
+                          value: value,
+                          child: Text(value),
+                        );
+                      }).toList(),
+                      underline: SizedBox(), // Removes the default underline
+                    ),
+                  ),
+                ),
+              ),),
+
             modelCategoryList != null
                 ? SliverToBoxAdapter(
                     child: Padding(

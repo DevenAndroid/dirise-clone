@@ -30,34 +30,59 @@ class ProductsController extends GetxController {
 
   int page = 1;
   int page1 = 1;
+  String? selectedValue;
+  String? selectedValue1;
 
-  Future getProductList({bool? reset}) async {
+  final List<String> dropdownItems = [
+    'All',
+    'Giveaway',
+    'Product',
+    'Job',
+    'Service',
+    'Virtual',
+  ];
+  final List<String> dropdownItems1 = [
+    'All',
+    'Giveaway',
+    'Product',
+    'Job',
+    'Service',
+    'Virtual',
+  ];
+  Future getProductList({bool? reset,context}) async {
     String url = ApiUrls.myProductsListUrl;
     List<String> params = [];
     if(textEditingController.text.trim().isNotEmpty){
       params.add("search=${textEditingController.text.trim()}");
     }
     params.add("page=$page");
+    if (selectedValue1 != null && selectedValue1.toString().isNotEmpty) {
+      params.add("filter_type=${selectedValue1 == "All"?"":selectedValue1.toString()}");
+    }
     if(params.isNotEmpty){
       url = "$url?${params.join("&")}";
     }
-    await repositories.getApi(url: "$url&limit=50").then((value) {
+    await repositories.getApi(url: "$url&limit=50",context: context).then((value) {
       apiLoaded = true;
       model = ModelProductsList.fromJson(jsonDecode(value));
       updateUI;
     });
   }
-  Future getProductList1({bool? reset}) async {
+  Future getProductList1({bool? reset,context}) async {
     String url = ApiUrls.myApproved;
     List<String> params = [];
     if(textEditingController.text.trim().isNotEmpty){
       params.add("search=${textEditingController.text.trim()}");
     }
     params.add("page=$page1");
+    if (selectedValue != null && selectedValue.toString().isNotEmpty) {
+      params.add("filter_type=${selectedValue == "All"?"":selectedValue.toString()}");
+      print("value slected"+selectedValue.toString());
+    }
     if(params.isNotEmpty){
       url = "$url?${params.join("&")}";
     }
-    await repositories.getApi(url: "$url&limit=50").then((value) {
+    await repositories.getApi(url: "$url&limit=50",context: context).then((value) {
       apiLoaded1 = true;
       model1 = ApprovedModel.fromJson(jsonDecode(value));
       updateUI;

@@ -150,6 +150,7 @@ class _VendorProductScreenState extends State<VendorProductScreen> {
                         ),
                       ),
                     ),
+
                     const SizedBox(
                       width: 16,
                     ),
@@ -173,6 +174,40 @@ class _VendorProductScreenState extends State<VendorProductScreen> {
                       ),
                     )
                   ],
+                ),
+              ),
+              const SizedBox(
+                height: 20,
+              ),
+              Align(
+                alignment: Alignment.centerRight,
+                child: Container(
+                  width: 200,
+                  padding: EdgeInsets.symmetric(horizontal: 12, vertical: 2),
+                  decoration: BoxDecoration(
+                    border: Border.all(color: Colors.blueAccent),
+                    borderRadius: BorderRadius.circular(5),
+                  ),
+                  child: DropdownButton<String>(
+                    isExpanded: true,
+                    hint: Text('Select an Type',style: TextStyle(color:  Colors.black),),
+                    value:productController . selectedValue1,
+
+                    onChanged: (String? newValue) {
+                      setState(() {
+                        productController .selectedValue1 = newValue;
+                        print("value"+productController .selectedValue1.toString());
+                        productController.getProductList1(context: context);
+                      });
+                    },
+                    items:productController .dropdownItems1.map<DropdownMenuItem<String>>((String value) {
+                      return DropdownMenuItem<String>(
+                        value: value,
+                        child: Text(value),
+                      );
+                    }).toList(),
+                    underline: SizedBox(), // Removes the default underline
+                  ),
                 ),
               ),
               const SizedBox(
