@@ -363,7 +363,8 @@ class _SingleStoreScreenState extends State<SingleStoreScreen> {
                                                   'assets/svgs/insta_img.svg',
                                                   width: 15,
                                                   height: 15,
-                                                )),
+                                                )
+                                            ),
                                           ),
                                           getCategoryStoresModel.value.socialLinks != null &&
                                               getCategoryStoresModel.value.socialLinks!.instagram != null &&
