@@ -186,9 +186,9 @@ onTap:(){
                                               fontSize: 15, fontWeight: FontWeight.w500, color: const Color(0xFF19313C)),
                                         ),
                                         Text(
-                                          item.describeJobRole.toString(),
+                                          item.jobCat.toString(),
                                           style: GoogleFonts.poppins(
-                                              fontSize: 15, fontWeight: FontWeight.w500, color: const Color(0xFF19313C)),
+                                              fontSize: 11, fontWeight: FontWeight.w400, color: const Color(0xFF19313C)),
                                         ),
                                         10.spaceY,
                                         Text(
@@ -299,7 +299,7 @@ onTap:(){
                                         ),
                                         2.spaceY,
                                         Text(
-                                         item.jobStateId.toString(),
+                                           item.jobModel.toString(),
                                           textAlign: TextAlign.center,
                                           style: GoogleFonts.poppins(
                                               fontSize: 14, fontWeight: FontWeight.w400, color: const Color(0xFF19313C)),
@@ -355,7 +355,7 @@ onTap:(){
                                           maxLines: 1,
                                           overflow: TextOverflow.ellipsis,
                                           style: GoogleFonts.poppins(
-                                              fontSize: 15, fontWeight: FontWeight.w500, color: const Color(0xFF19313C)),
+                                              fontSize: 12, fontWeight: FontWeight.bold, color: const Color(0xFF19313C)),
                                         ),
                                         3.spaceY,
                                         Text(
@@ -375,7 +375,7 @@ onTap:(){
                                           maxLines: 1,
                                           overflow: TextOverflow.ellipsis,
                                           style: GoogleFonts.poppins(
-                                              fontSize: 15, fontWeight: FontWeight.w500, color: const Color(0xFF19313C)),
+                                              fontSize: 12, fontWeight: FontWeight.bold, color: const Color(0xFF19313C)),
                                         ),
                                         3.spaceY,
                                         Text(
@@ -394,7 +394,7 @@ onTap:(){
                                           maxLines: 1,
                                           overflow: TextOverflow.ellipsis,
                                           style: GoogleFonts.poppins(
-                                              fontSize: 15, fontWeight: FontWeight.w500, color: const Color(0xFF19313C)),
+                                              fontSize: 12, fontWeight: FontWeight.bold, color: const Color(0xFF19313C)),
                                         ),
                                         3.spaceY,
                                         Text(

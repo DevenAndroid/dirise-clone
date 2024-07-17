@@ -927,7 +927,7 @@ class _SingleStoreScreenState extends State<SingleStoreScreen> {
                     crossAxisCount: 1,
                     crossAxisSpacing: 10,
                     mainAxisSpacing: 10,
-                    childAspectRatio: 01,
+                    childAspectRatio: .90,
                   ),
                   itemCount: modelProductsList.data!.length,
                   itemBuilder: (BuildContext context, int index) {
