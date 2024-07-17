@@ -46,10 +46,21 @@ class _AddProductFirstImageScreenState extends State<AddProductFirstImageScreen>
     // TODO: implement initState
     super.initState();
     if(widget.id != null){
-       featuredImage = widget.image!;
-      if (! selectedFiles.contains(widget.galleryImg!)) {
-         selectedFiles.add(widget.galleryImg!);
+      profileController.getVendorCategories(addProductController.idProduct.value.toString());
+      featuredImage = File(profileController.productDetailsModel.value.productDetails!.product!.featuredImage);
+      if (profileController.productDetailsModel.value.productDetails != null &&
+          profileController.productDetailsModel.value.productDetails!.product != null &&
+          profileController.productDetailsModel.value.productDetails!.product!.galleryImage != null) {
+        for (var i = 0; i < profileController.productDetailsModel.value.productDetails!.product!.galleryImage!.length; i++) {
+          selectedFiles.add(File(profileController.productDetailsModel.value.productDetails!.product!.galleryImage![i]));
+        }
       }
+      //
+      //  featuredImage = widget.image!;
+      //  log('new image is::::${featuredImage.toString()}');
+      // if (! selectedFiles.contains(widget.galleryImg!)) {
+      //    selectedFiles.add(widget.galleryImg!);
+      // }
     }
 
   }
@@ -58,11 +69,14 @@ class _AddProductFirstImageScreenState extends State<AddProductFirstImageScreen>
   Map<String, File> images = {};
   void addProduct() {
     Map<String, String> map = {};
+    if(widget.id != null){
+    map["id"] = addProductController.idProduct.value.toString();
+    }
     images["featured_image"] =  featuredImage;
     for (int i = 0; i <  selectedFiles.length; i++) {
       images["gallery_image[$i]"] =  selectedFiles[i];
     }
-
+    log('images: $images');
     final Repositories repositories = Repositories();
     repositories
         .multiPartApi(
@@ -101,7 +115,13 @@ class _AddProductFirstImageScreenState extends State<AddProductFirstImageScreen>
         centerTitle: true,
         leading: GestureDetector(
           onTap: (){
-            Get.back();
+            if(widget.id != null){
+              profileController.getVendorCategories(addProductController.idProduct.value.toString());
+              Get.back();
+            }
+            else {
+              Get.to(MyItemISScreen());
+            }
           },
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.center,

@@ -248,10 +248,10 @@ class _JobReviewPublishScreenState extends State<JobReviewPublishScreen> {
                                       Text(
                                           'Job Sub Category: ${productDetailsModel.value.productDetails!.product!.jobCat ?? ""}'),
                                       Text(
-                                          'Job Country: ${productDetailsModel.value.productDetails!.product!.jobCountry ?? ""}'),
+                                          'Job Country: ${productDetailsModel.value.productDetails!.product!.jobCountryName ?? ""}'),
                                       Text(
-                                          'Job State: ${productDetailsModel.value.productDetails!.product!.jobState ?? ""}'),
-                                      Text('Job City: ${productDetailsModel.value.productDetails!.product!.jobCity ?? ""}'),
+                                          'Job State: ${productDetailsModel.value.productDetails!.product!.jobStateName ?? ""}'),
+                                      Text('Job City: ${productDetailsModel.value.productDetails!.product!.jobCityName ?? ""}'),
                                       Text('Job Type: ${productDetailsModel.value.productDetails!.product!.jobType ?? ""}'),
                                       Text(
                                           'Job Model: ${productDetailsModel.value.productDetails!.product!.jobModel ?? ""}'),
@@ -267,14 +267,20 @@ class _JobReviewPublishScreenState extends State<JobReviewPublishScreen> {
                                     top: 20,
                                     child: GestureDetector(
                                         onTap: (){
+                                          File imageFile = File(productDetailsModel.value.productDetails!.product!.featuredImage);
                                           Get.to(JobDetailsScreen(
                                             id: productDetailsModel.value.productDetails!.product!.id,
+                                            countryId: productDetailsModel.value.productDetails!.product!.jobCountryId.toString(),
+                                            stateId: productDetailsModel.value.productDetails!.product!.jobStateId.toString(),
+                                            cityId: productDetailsModel.value.productDetails!.product!.jobCityId.toString(),
                                             experience: productDetailsModel.value.productDetails!.product!.experience,
+                                            uploadCv: imageFile,
+                                            catName: productDetailsModel.value.productDetails!.product!.jobCat,
                                             jobCategory: productDetailsModel.value.productDetails!.product!.jobParentCat,
-                                            jobCity: productDetailsModel.value.productDetails!.product!.jobCity,
-                                            jobCountry: productDetailsModel.value.productDetails!.product!.jobCountry,
+                                            jobCity: productDetailsModel.value.productDetails!.product!.jobCityName,
+                                            jobCountry: productDetailsModel.value.productDetails!.product!.jobCountryName,
                                             jobModel:productDetailsModel.value.productDetails!.product!.jobModel ,
-                                            jobState: productDetailsModel.value.productDetails!.product!.jobState,
+                                            jobState: productDetailsModel.value.productDetails!.product!.jobStateName,
                                             jobSubCategory: productDetailsModel.value.productDetails!.product!.jobCat,
                                             jobTitle: productDetailsModel.value.productDetails!.product!.pname,
                                             jobType: productDetailsModel.value.productDetails!.product!.jobType,

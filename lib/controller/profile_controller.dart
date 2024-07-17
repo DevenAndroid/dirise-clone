@@ -31,13 +31,14 @@ class ProfileController extends GetxController {
       selectedLAnguage.value = 'عربي';
     }
   }
+
   Rx<ModelProductDetails> productDetailsModel = ModelProductDetails().obs;
   getVendorCategories(id) {
     repositories.getApi(url: ApiUrls.getProductDetailsUrl + id).then((value) {
       productDetailsModel.value = ModelProductDetails.fromJson(jsonDecode(value));
-
     });
   }
+
 
 
   ProfileModel model = ProfileModel();

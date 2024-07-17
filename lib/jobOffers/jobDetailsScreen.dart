@@ -1,4 +1,5 @@
 import 'dart:convert';
+import 'dart:developer';
 import 'dart:io';
 
 import 'package:dirise/model/customer_profile/model_state_list.dart';
@@ -35,17 +36,27 @@ class JobDetailsScreen extends StatefulWidget {
   String? jobSubCategory;
   String? jobCountry;
   String? jobState;
+  String? countryId;
+  String? stateId;
+  String? cityId;
   String? jobCity;
   String? jobType;
   String? jobModel;
+  String? catName;
   String? experience;
   String? salary;
   String? linkedIn;
   String? tellUsAboutYourSelf;
+  File? uploadCv;
   JobDetailsScreen(
       {super.key,
         this.id,
       this.jobCity,
+      this.catName,
+      this.uploadCv,
+      this.cityId,
+      this.stateId,
+      this.countryId,
       this.jobCountry,
       this.jobState,
       this.salary,
@@ -272,7 +283,7 @@ class _JobDetailsScreenState extends State<JobDetailsScreen> {
       }
     });
   }
-
+  TextEditingController subCeteController = TextEditingController();
   bool isItemDetailsVisible = false;
   @override
   void initState() {
@@ -286,6 +297,21 @@ class _JobDetailsScreenState extends State<JobDetailsScreen> {
       experienceController.text =widget.experience.toString();
       salaryController.text = widget.salary.toString();
       jobTitle.text = widget.jobTitle.toString();
+      subCategoryName.value = widget.catName.toString();
+      log('select value issss...${ subCategoryName.value.toString()}');
+      subCeteController.text = widget.jobSubCategory.toString();
+      idCountry = widget.countryId.toString();
+      categoryName.value = widget.jobCategory.toString();
+      countryName.value = widget.jobCountry.toString();
+      stateName.value = widget.jobState.toString();
+      cityName.value = widget.jobCity.toString();
+      stateCategory = widget.stateId.toString();
+      idProof = File(widget.uploadCv.toString());
+      cityId = widget.cityId.toString();
+      WidgetsBinding.instance.addPostFrameCallback((timeStamp) {
+        getStateApi();
+        getCityApi();
+      });
     }
 
   }
@@ -363,7 +389,9 @@ class _JobDetailsScreenState extends State<JobDetailsScreen> {
                     iconSize: 30,
                     iconDisabledColor: const Color(0xff97949A),
                     iconEnabledColor: const Color(0xff97949A),
-                    value: null,
+                    value: modelVendorCategory.data!.firstWhereOrNull(
+                          (element) => element.title == categoryName.value,
+                    ),
                     style: GoogleFonts.poppins(color: Colors.black, fontSize: 16),
                     decoration: InputDecoration(
                       border: InputBorder.none,
@@ -395,7 +423,7 @@ class _JobDetailsScreenState extends State<JobDetailsScreen> {
                     onChanged: (value) {
                       setState(() {
                         selectedCategory = value!.id.toString();
-                        categoryName.value = value!.title.toString();
+                        categoryName.value = value.title.toString();
                         getSubCategories(
                             selectedCategory.toString()); // Assuming you want to use the ID as the category value
                       });
@@ -436,6 +464,7 @@ class _JobDetailsScreenState extends State<JobDetailsScreen> {
                                   .toList();
                               setState(() {});
                             },
+                            controller: subCeteController,
                             decoration: InputDecoration(
                               hintText: 'Search',
                               prefixIcon: const Icon(Icons.search),
@@ -575,7 +604,9 @@ class _JobDetailsScreenState extends State<JobDetailsScreen> {
                     iconSize: 30,
                     iconDisabledColor: const Color(0xff97949A),
                     iconEnabledColor: const Color(0xff97949A),
-                    value: null,
+                    value: modelCountryList.country!.firstWhereOrNull(
+                          (element) => element.name == countryName.value,
+                    ),
                     style: GoogleFonts.poppins(color: Colors.black, fontSize: 14),
                     decoration: InputDecoration(
                       border: InputBorder.none,
@@ -644,7 +675,9 @@ class _JobDetailsScreenState extends State<JobDetailsScreen> {
                           iconSize: 30,
                           iconDisabledColor: const Color(0xff97949A),
                           iconEnabledColor: const Color(0xff97949A),
-                          value: null,
+                          value: modelStateList.state!.firstWhereOrNull(
+                            (element) => element.stateName == stateName.value,
+                          ),
                           style: GoogleFonts.poppins(color: Colors.black, fontSize: 16),
                           decoration: InputDecoration(
                             border: InputBorder.none,
@@ -713,7 +746,9 @@ class _JobDetailsScreenState extends State<JobDetailsScreen> {
                           iconSize: 30,
                           iconDisabledColor: const Color(0xff97949A),
                           iconEnabledColor: const Color(0xff97949A),
-                          value: null,
+                          value:  modelCityList.value.city!.firstWhereOrNull(
+                                (element) => element.cityName ==  cityName.value,
+                          ),
                           style: GoogleFonts.poppins(color: Colors.black, fontSize: 16),
                           decoration: InputDecoration(
                             border: InputBorder.none,

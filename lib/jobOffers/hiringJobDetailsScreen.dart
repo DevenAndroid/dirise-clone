@@ -29,8 +29,11 @@ class HiringJobDetailsScreen extends StatefulWidget {
   String? jobSubCategory;
   String? jobCountry;
   String? countryId;
+  String? stateId;
+  String? cityId;
   String? jobState;
   String? jobCity;
+  String? catName;
   String? jobType;
   String? jobModel;
   String? experience;
@@ -38,15 +41,20 @@ class HiringJobDetailsScreen extends StatefulWidget {
   String? linkedIn;
   String? tellUsAboutYourSelf;
   int? hoursPerWeek;
+  dynamic jobCatIds;
   HiringJobDetailsScreen(
       {super.key,
         this.id,
         this.jobCity,
+        this.catName,
+        this.stateId,
+        this.cityId,
         this.jobCountry,
         this.countryId,
         this.jobState,
         this.salary,
         this.experience,
+        this.jobCatIds,
         this.jobModel,
         this.jobType,
         this.jobCategory,
@@ -262,7 +270,11 @@ class _HiringJobDetailsScreenState extends State<HiringJobDetailsScreen> {
         categoryName.value = widget.jobCategory.toString();
         countryName.value = widget.jobCountry.toString();
         idCountry = widget.countryId.toString();
+        stateCategory = widget.stateId.toString();
+        cityId = widget.cityId.toString();
+        subCategoryName.value = widget.catName.toString();
         stateName.value = widget.jobState.toString();
+        selectedSubCategory = widget.jobCatIds.toString();
         cityName.value = widget.jobCity.toString();
         subCeteController.text = widget.jobSubCategory.toString();
         selectedCategory = widget.jobCategory.toString();
@@ -271,8 +283,11 @@ class _HiringJobDetailsScreenState extends State<HiringJobDetailsScreen> {
         salaryController.text = widget.salary.toString();
         jobTitle.text = widget.jobTitle.toString();
         hoursperweekController.text = widget.hoursPerWeek.toString();
+        stateCategory = widget.stateId.toString();
+        cityId = widget.cityId.toString();
         WidgetsBinding.instance.addPostFrameCallback((timeStamp) {
           getStateApi();
+          getCityApi();
         });
       }
     }

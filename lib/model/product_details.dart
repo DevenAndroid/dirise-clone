@@ -61,6 +61,7 @@ class Product {
   dynamic toLocation;
   dynamic fromExtraNotes;
   dynamic toExtraNotes;
+  dynamic catName;
   dynamic meeting_platform;
   dynamic eligible_min_age;
   dynamic eligible_max_age;
@@ -108,6 +109,9 @@ class Product {
   dynamic bestSaller;
   dynamic featured;
   dynamic taxApply;
+  dynamic jobCountryName;
+  dynamic jobStateName;
+  dynamic jobCityName;
   dynamic taxType;
   dynamic shortDescription;
   dynamic arabShortDescription;
@@ -177,7 +181,7 @@ class Product {
   ProductAvailability? productAvailability;
   List<ProductWeeklyAvailability>? productWeeklyAvailability;
   List<ProductVacation>? productVacation;
-
+  JobCategory? jobCategory;
   Product(
       {this.id,
       this.spot,
@@ -187,6 +191,7 @@ class Product {
         this.toExtraNotes,
       this.meeting_platform,
       this.serviceTimeSloat,
+        this.catName,
       this.startLocation,
       this.endLocation,
       this.jobCountryId,
@@ -200,6 +205,9 @@ class Product {
       this.program_name,
       this.program_desc,
       this.program_goal,
+      this.jobCountryName,
+      this.jobStateName,
+      this.jobCityName,
       this.bookable_product_location,
       this.jobCountry,
       this.jobState,
@@ -297,6 +305,7 @@ class Product {
       this.forAuction,
       this.returnPolicyDesc,
       this.shippingPolicyDesc,
+      this.jobCategory,
       this.discountPrice});
 
   Product.fromJson(Map<String, dynamic> json) {
@@ -311,6 +320,7 @@ class Product {
     toExtraNotes = json['to_extra_notes'];
     meeting_platform = json['meeting_platform'];
     endLocation = json['end_location'];
+    catName = json['cat_name'];
     timingExtraNotes = json['timing_extra_notes'];
     eligible_min_age = json['eligible_min_age'];
     jobCountryId = json['job_country_id'];
@@ -327,6 +337,9 @@ class Product {
     jobCountry = json['job_country_id'];
     jobState = json['job_state_id'];
     jobCity = json['job_city_id'];
+    jobCountryName = json['job_country_name'];
+    jobStateName = json['job_state_name'];
+    jobCityName = json['job_city_name'];
     addressId = json['address_id'];
     catId = json['cat_id'];
     catId2 = json['cat_id_2'];
@@ -417,7 +430,9 @@ class Product {
     isPublish = json['is_publish'];
     inOffer = json['in_offer'];
     forAuction = json['for_auction'];
-
+    jobCategory = json['job_category'] != null
+        ? new JobCategory.fromJson(json['job_category'])
+        : null;
     returnPolicyDesc =
         json['return_policy_desc'] != null ? ReturnPolicyDesc.fromJson(json['return_policy_desc']) : null;
 
@@ -452,6 +467,7 @@ class Product {
     data['cat_id_2'] = catId2;
     data['job_cat'] = jobCat;
     data['brand_slug'] = brandSlug;
+    data['cat_name'] = catName;
     data['slug'] = slug;
     data['pname'] = pname;
     data['job_country_id'] = jobCountryId;
@@ -461,6 +477,9 @@ class Product {
     data['prodect_name'] = prodectName;
     data['prodect_sku'] = prodectSku;
     data['views'] = views;
+    data['job_country_name'] = jobCountryName;
+    data['job_state_name'] = jobStateName;
+    data['job_city_name'] = jobCityName;
     data['code'] = code;
     data['booking_product_type'] = bookingProductType;
     data['prodect_price'] = prodectPrice;
@@ -542,10 +561,88 @@ class Product {
     data['return_policy_desc'] = returnPolicyDesc;
     data['shipping_policy_desc'] = shippingPolicyDesc;
     data['discount_price'] = discountPrice;
+    if (jobCategory != null) {
+      data['job_category'] = jobCategory!.toJson();
+    }
     return data;
   }
 }
+class JobCategory {
+ dynamic  id;
+ dynamic  vendorId;
+ dynamic  parentId;
+ dynamic  vendorCategory;
+ dynamic  level;
+ dynamic   commision;
+ dynamic  categoryImage;
+ dynamic  categoryImageBanner;
+ dynamic  discription;
+ dynamic  arabDescription;
+ dynamic   status;
+ dynamic   title;
+ dynamic   arabTitle;
+ dynamic   slug;
+ dynamic   createdAt;
+ dynamic   updatedAt;
 
+  JobCategory(
+      {this.id,
+        this.vendorId,
+        this.parentId,
+        this.vendorCategory,
+        this.level,
+        this.commision,
+        this.categoryImage,
+        this.categoryImageBanner,
+        this.discription,
+        this.arabDescription,
+        this.status,
+        this.title,
+        this.arabTitle,
+        this.slug,
+        this.createdAt,
+        this.updatedAt});
+
+  JobCategory.fromJson(Map<String, dynamic> json) {
+    id = json['id'];
+    vendorId = json['vendor_id'];
+    parentId = json['parent_id'];
+    vendorCategory = json['vendor_category'];
+    level = json['level'];
+    commision = json['commision'];
+    categoryImage = json['category_image'];
+    categoryImageBanner = json['category_image_banner'];
+    discription = json['discription'];
+    arabDescription = json['arab_description'];
+    status = json['status'];
+    title = json['title'];
+    arabTitle = json['arab_title'];
+    slug = json['slug'];
+    createdAt = json['created_at'];
+    updatedAt = json['updated_at'];
+  }
+
+  Map<String, dynamic> toJson() {
+    final Map<String, dynamic> data = new Map<String, dynamic>();
+    data['id'] = this.id;
+    data['vendor_id'] = this.vendorId;
+    data['parent_id'] = this.parentId;
+    data['vendor_category'] = this.vendorCategory;
+    data['level'] = this.level;
+    data['commision'] = this.commision;
+    data['category_image'] = this.categoryImage;
+    data['category_image_banner'] = this.categoryImageBanner;
+    data['discription'] = this.discription;
+    data['arab_description'] = this.arabDescription;
+    data['status'] = this.status;
+    data['title'] = this.title;
+    data['arab_title'] = this.arabTitle;
+    data['slug'] = this.slug;
+    data['created_at'] = this.createdAt;
+    data['updated_at'] = this.updatedAt;
+    return data;
+  }
+}
 class Address {
   dynamic id;
   dynamic userId;

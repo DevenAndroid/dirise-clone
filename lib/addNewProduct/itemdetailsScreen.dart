@@ -31,7 +31,8 @@ class ItemDetailsScreens extends StatefulWidget {
   int? id;
   String? name;
   int? categoryID;
-  ItemDetailsScreens({super.key,this.id,this.name,this.categoryID});
+  String? categoryName;
+  ItemDetailsScreens({super.key,this.id,this.name,this.categoryID,this.categoryName});
 
   @override
   State<ItemDetailsScreens> createState() => _ItemDetailsScreensState();
@@ -158,7 +159,7 @@ class _ItemDetailsScreensState extends State<ItemDetailsScreens> {
   bool isItemDetailsVisible1 = false;
   bool isItemDetailsVisible2 = false;
   bool isItemDetailsVisible3 = false;
-
+  TextEditingController searchController = TextEditingController();
   @override
   void initState() {
     // TODO: implement initState
@@ -168,6 +169,7 @@ class _ItemDetailsScreensState extends State<ItemDetailsScreens> {
     fetchSubCategoryBasedOnId(ProductID);
     if(widget.id != null){
       ProductNameController.text = widget.name.toString();
+      searchController.text= widget.categoryName.toString();
       idForChild.add(widget.categoryID);
     }
   }
@@ -285,6 +287,7 @@ class _ItemDetailsScreensState extends State<ItemDetailsScreens> {
                           .toList();
                       setState(() {});
                     },
+                    controller: searchController,
                     decoration: InputDecoration(
                       hintText: 'Search',
                       prefixIcon: const Icon(Icons.search),

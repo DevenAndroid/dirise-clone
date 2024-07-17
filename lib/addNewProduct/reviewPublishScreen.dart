@@ -103,20 +103,9 @@ class _ReviewPublishScreenState extends State<ReviewPublishScreen> {
   final Repositories repositories = Repositories();
 
   final addProductController = Get.put(AddProductController());
+  final addProductControllerNew = Get.put(ProfileController());
   String productId = "";
-  Rx<ModelProductDetails> productDetailsModel = ModelProductDetails().obs;
   Rx<RxStatus> vendorCategoryStatus = RxStatus.empty().obs;
-
-  getVendorCategories(id) {
-    // vendorCategoryStatus.value = RxStatus.loading();
-    print('callllllll......');
-    repositories.getApi(url: ApiUrls.getProductDetailsUrl + id).then((value) {
-      productDetailsModel.value = ModelProductDetails.fromJson(jsonDecode(value));
-      // vendorCategoryStatus.value = RxStatus.success();
-      log('callllllll......${productDetailsModel.value.toJson()}');
-      setState(() {});
-    });
-  }
   completeApi() {
     Map<String, dynamic> map = {};
 
@@ -136,7 +125,7 @@ class _ReviewPublishScreenState extends State<ReviewPublishScreen> {
     // TODO: implement initState
     super.initState();
     log('dadadad${addProductController.idProduct.value.toString()}');
-    getVendorCategories(addProductController.idProduct.value.toString());
+    addProductControllerNew.getVendorCategories(addProductController.idProduct.value.toString());
 
   }
 
@@ -185,7 +174,7 @@ class _ReviewPublishScreenState extends State<ReviewPublishScreen> {
         child: Container(
             margin: const EdgeInsets.only(left: 15, right: 15),
             child: Obx(() {
-              return productDetailsModel.value.productDetails != null
+              return addProductControllerNew.productDetailsModel.value.productDetails != null
                   ? Column(
                       children: [
                         const SizedBox(height: 20),
@@ -248,7 +237,7 @@ class _ReviewPublishScreenState extends State<ReviewPublishScreen> {
                                   mainAxisAlignment: MainAxisAlignment.start,
                                   crossAxisAlignment: CrossAxisAlignment.start,
                                   children: [
-                                    Image.network(productDetailsModel.value.productDetails!.product!.featuredImage,height: 200,)
+                                    Image.network(addProductControllerNew.productDetailsModel.value.productDetails!.product!.featuredImage,height: 200,)
                                   ],
                                 ),
                               ),
@@ -257,13 +246,13 @@ class _ReviewPublishScreenState extends State<ReviewPublishScreen> {
                                   top: 20,
                                   child: GestureDetector(
                                       onTap: () {
-                                        File imageFile = File(productDetailsModel.value.productDetails!.product!.featuredImage);
-                                        File gallery = File(productDetailsModel.value.productDetails!.product!.galleryImage![0]);
+                                        File imageFile = File(addProductControllerNew.productDetailsModel.value.productDetails!.product!.featuredImage);
+                                        // File gallery = File(addProductControllerNew.productDetailsModel.value.productDetails!.product!.galleryImage![0]);
 
                                         Get.to(AddProductFirstImageScreen(
-                                          id: productDetailsModel.value.productDetails!.product!.id,
+                                          id: addProductControllerNew.productDetailsModel.value.productDetails!.product!.id,
                                           image: imageFile,
-                                          galleryImg: gallery,
+                                          // galleryImg: gallery,
 
                                         ));
                                       },
@@ -322,10 +311,10 @@ class _ReviewPublishScreenState extends State<ReviewPublishScreen> {
                                     children: [
                                       20.spaceY,
                                       Text(
-                                          'product name: ${productDetailsModel.value.productDetails!.product!.pname ?? ""}'),
+                                          'product name: ${addProductControllerNew.productDetailsModel.value.productDetails!.product!.pname ?? ""}'),
                                       Text(
-                                          'product Type: ${productDetailsModel.value.productDetails!.product!.productType ?? ''}'),
-                                      Text('product ID: ${productDetailsModel.value.productDetails!.product!.id ?? ""}'),
+                                          'product Type: ${addProductControllerNew.productDetailsModel.value.productDetails!.product!.productType ?? ''}'),
+                                      Text('product ID: ${addProductControllerNew.productDetailsModel.value.productDetails!.product!.id ?? ""}'),
                                     ],
                                   ),
                                 ),
@@ -334,9 +323,9 @@ class _ReviewPublishScreenState extends State<ReviewPublishScreen> {
                                     top: 20,
                                     child: GestureDetector(
                                         onTap: (){
-                                          Get.to(ItemDetailsScreens(id: productDetailsModel.value.productDetails!.product!.id,
-                                            name: productDetailsModel.value.productDetails!.product!.pname,
-
+                                          Get.to(ItemDetailsScreens(id: addProductControllerNew.productDetailsModel.value.productDetails!.product!.id,
+                                            name: addProductControllerNew.productDetailsModel.value.productDetails!.product!.pname,
+                                            categoryName:  addProductControllerNew.productDetailsModel.value.productDetails!.product!.catName,
                                           ));
                                         },
                                         child: const Text('Edit',style: TextStyle(color: Colors.red,fontSize: 13),)))
@@ -390,11 +379,11 @@ class _ReviewPublishScreenState extends State<ReviewPublishScreen> {
                                     crossAxisAlignment: CrossAxisAlignment.start,
                                     children: [
                                       20.spaceY,
-                                      Text('Town: ${productDetailsModel.value.productDetails!.address!.town ?? ""}'),
-                                      Text('city: ${productDetailsModel.value.productDetails!.address!.city ?? ""}'),
-                                      Text('state: ${productDetailsModel.value.productDetails!.address!.state ?? ""}'),
-                                      Text('address: ${productDetailsModel.value.productDetails!.address!.address ?? ""}'),
-                                      Text('zip code: ${productDetailsModel.value.productDetails!.address!.zipCode ?? ""}'),
+                                      Text('Town: ${addProductControllerNew.productDetailsModel.value.productDetails!.address!.town ?? ""}'),
+                                      Text('city: ${addProductControllerNew.productDetailsModel.value.productDetails!.address!.city ?? ""}'),
+                                      Text('state: ${addProductControllerNew.productDetailsModel.value.productDetails!.address!.state ?? ""}'),
+                                      Text('address: ${addProductControllerNew.productDetailsModel.value.productDetails!.address!.address ?? ""}'),
+                                      Text('zip code: ${addProductControllerNew.productDetailsModel.value.productDetails!.address!.zipCode ?? ""}'),
                                     ],
                                   ),
                                   Positioned(
@@ -403,13 +392,13 @@ class _ReviewPublishScreenState extends State<ReviewPublishScreen> {
                                       child: GestureDetector(
                                         onTap: (){
                                           Get.to(AddProductPickUpAddressScreen(
-                                            id: productDetailsModel.value.productDetails!.address!.id ?? "",
-                                            town: productDetailsModel.value.productDetails!.address!.town ?? "",
-                                            country: productDetailsModel.value.productDetails!.address!.country ?? "",
-                                            zipcode: productDetailsModel.value.productDetails!.address!.zipCode ?? "",
-                                            state: productDetailsModel.value.productDetails!.address!.state ?? "",
-                                            city: productDetailsModel.value.productDetails!.address!.city ?? "",
-                                            street: productDetailsModel.value.productDetails!.address!.address ?? "",
+                                            id: addProductControllerNew.productDetailsModel.value.productDetails!.address!.id ?? "",
+                                            town: addProductControllerNew.productDetailsModel.value.productDetails!.address!.town ?? "",
+                                            country: addProductControllerNew.productDetailsModel.value.productDetails!.address!.country ?? "",
+                                            zipcode: addProductControllerNew.productDetailsModel.value.productDetails!.address!.zipCode ?? "",
+                                            state: addProductControllerNew.productDetailsModel.value.productDetails!.address!.state ?? "",
+                                            city: addProductControllerNew.productDetailsModel.value.productDetails!.address!.city ?? "",
+                                            street: addProductControllerNew.productDetailsModel.value.productDetails!.address!.address ?? "",
                                           ));
                                         },
                                           child: const Text('Edit',style: TextStyle(color: Colors.red,fontSize: 13),)
@@ -466,7 +455,7 @@ class _ReviewPublishScreenState extends State<ReviewPublishScreen> {
                                     children: [
                                       20.spaceY,
                                       Text(
-                                          'delivery Size: ${productDetailsModel.value.productDetails!.product!.deliverySize ?? ""}'),
+                                          'delivery Size: ${addProductControllerNew.productDetailsModel.value.productDetails!.product!.deliverySize ?? ""}'),
                                     ],
                                   ),
                                 ),
@@ -475,8 +464,8 @@ class _ReviewPublishScreenState extends State<ReviewPublishScreen> {
                                     top: 20,
                                     child: GestureDetector(
                                         onTap: (){
-                                          Get.to(DeliverySizeScreen(id: productDetailsModel.value.productDetails!.product!.id,
-                                            selectedRadio: productDetailsModel.value.productDetails!.product!.deliverySize,));
+                                          Get.to(DeliverySizeScreen(id: addProductControllerNew.productDetailsModel.value.productDetails!.product!.id,
+                                            selectedRadio: addProductControllerNew.productDetailsModel.value.productDetails!.product!.deliverySize,));
                                         },
                                         child: const Text('Edit',style: TextStyle(color: Colors.red,fontSize: 13),)))
 
@@ -530,18 +519,18 @@ class _ReviewPublishScreenState extends State<ReviewPublishScreen> {
                                     children: [
                                       20.spaceY,
                                       Text(
-                                          'Unit of measure: ${productDetailsModel.value.productDetails!.productDimentions!.units ?? ""}'),
+                                          'Unit of measure: ${addProductControllerNew.productDetailsModel.value.productDetails!.productDimentions!.units ?? ""}'),
                                       Text(
-                                          'Weight Of the Item: ${productDetailsModel.value.productDetails!.productDimentions!.weight ?? ""}'),
+                                          'Weight Of the Item: ${addProductControllerNew.productDetailsModel.value.productDetails!.productDimentions!.weight ?? ""}'),
                                       Text(
-                                          'Select Number Of Packages: ${productDetailsModel.value.productDetails!.productDimentions!.numberOfPackage ?? ""}'),
+                                          'Select Number Of Packages: ${addProductControllerNew.productDetailsModel.value.productDetails!.productDimentions!.numberOfPackage ?? ""}'),
                                       Text(
-                                          'Select Type Material: ${productDetailsModel.value.productDetails!.productDimentions!.material ?? ""}'),
+                                          'Select Type Material: ${addProductControllerNew.productDetailsModel.value.productDetails!.productDimentions!.material ?? ""}'),
                                       Text(
-                                          'Select Type Of Packaging: ${productDetailsModel.value.productDetails!.productDimentions!.typeOfPackages ?? ""}'),
-                                      Text('Length X Width X Height: ${productDetailsModel.value.productDetails!.productDimentions!.boxLength ?? ""}X' +
-                                          "${productDetailsModel.value.productDetails!.productDimentions!.boxWidth ?? ""}X"
-                                              "${productDetailsModel.value.productDetails!.productDimentions!.boxHeight ?? ""}"),
+                                          'Select Type Of Packaging: ${addProductControllerNew.productDetailsModel.value.productDetails!.productDimentions!.typeOfPackages ?? ""}'),
+                                      Text('Length X Width X Height: ${addProductControllerNew.productDetailsModel.value.productDetails!.productDimentions!.boxLength ?? ""}X' +
+                                          "${addProductControllerNew.productDetailsModel.value.productDetails!.productDimentions!.boxWidth ?? ""}X"
+                                              "${addProductControllerNew.productDetailsModel.value.productDetails!.productDimentions!.boxHeight ?? ""}"),
                                     ],
                                   ),
                                 ),
@@ -551,15 +540,17 @@ class _ReviewPublishScreenState extends State<ReviewPublishScreen> {
                                     child: GestureDetector(
                                         onTap: (){
                                           Get.to(InternationalshippingdetailsScreen(
-                                            id: productDetailsModel.value.productDetails!.product!.id,
-                                            WeightOftheItem: productDetailsModel.value.productDetails!.productDimentions!.weightUnit,
-                                            Unitofmeasure: productDetailsModel.value.productDetails!.productDimentions!.weight!,
-                                            SelectTypeOfPackaging: productDetailsModel.value.productDetails!.productDimentions!.typeOfPackages,
-                                            SelectTypeMaterial:productDetailsModel.value.productDetails!.productDimentions!.material ,
-                                            SelectNumberOfPackages:productDetailsModel.value.productDetails!.productDimentions!.numberOfPackage ,
-                                            Length: "${productDetailsModel.value.productDetails!.productDimentions!.boxLength}X" ,
-                                            Width : "${productDetailsModel.value.productDetails!.productDimentions!.boxWidth ?? ""}X",
-                                            Height : "${productDetailsModel.value.productDetails!.productDimentions!.boxHeight ?? ""}X",
+                                            id: addProductControllerNew.productDetailsModel.value.productDetails!.product!.id,
+                                            WeightOftheItem: addProductControllerNew.productDetailsModel.value.productDetails!.productDimentions!.weightUnit,
+                                            Unitofmeasure: addProductControllerNew.productDetailsModel.value.productDetails!.productDimentions!.weight!,
+                                            SelectTypeOfPackaging: addProductControllerNew.productDetailsModel.value.productDetails!.productDimentions!.typeOfPackages,
+                                            SelectTypeMaterial:addProductControllerNew.productDetailsModel.value.productDetails!.productDimentions!.material ,
+                                            SelectNumberOfPackages:addProductControllerNew.productDetailsModel.value.productDetails!.productDimentions!.numberOfPackage ,
+                                            Length: "${addProductControllerNew.productDetailsModel.value.productDetails!.productDimentions!.boxLength}X" ,
+                                            Width : "${addProductControllerNew.productDetailsModel.value.productDetails!.productDimentions!.boxWidth ?? ""}X",
+                                            Height : "${addProductControllerNew.productDetailsModel.value.productDetails!.productDimentions!.boxHeight ?? ""}X",
+                                            selectTypeMaterial:addProductControllerNew.productDetailsModel.value.productDetails!.productDimentions!.material,
+                                            productType : addProductControllerNew.productDetailsModel.value.productDetails!.productDimentions!.typeOfPackages,
                                           )
                                               ,arguments: "txt"
                                           );
@@ -617,15 +608,15 @@ class _ReviewPublishScreenState extends State<ReviewPublishScreen> {
                                     children: [
                                       20.spaceY,
                                       Text(
-                                          'Long Description: ${productDetailsModel.value.productDetails!.product!.longDescription ?? ""}'),
+                                          'Long Description: ${addProductControllerNew.productDetailsModel.value.productDetails!.product!.longDescription ?? ""}'),
                                       Text(
-                                          'Meta Title: ${productDetailsModel.value.productDetails!.product!.metaTitle ?? ""}'),
+                                          'Meta Title: ${addProductControllerNew.productDetailsModel.value.productDetails!.product!.metaTitle ?? ""}'),
                                       Text(
-                                          'Meta Description: ${productDetailsModel.value.productDetails!.product!.metaDescription ?? ""}'),
+                                          'Meta Description: ${addProductControllerNew.productDetailsModel.value.productDetails!.product!.metaDescription ?? ""}'),
                                       Text(
-                                          'Serial Number: ${productDetailsModel.value.productDetails!.product!.serialNumber ?? ""}'),
+                                          'Serial Number: ${addProductControllerNew.productDetailsModel.value.productDetails!.product!.serialNumber ?? ""}'),
                                       Text(
-                                          'Product number: ${productDetailsModel.value.productDetails!.product!.productNumber ?? ""}'),
+                                          'Product number: ${addProductControllerNew.productDetailsModel.value.productDetails!.product!.productNumber ?? ""}'),
                                     ],
                                   ),
                                 ),
@@ -635,12 +626,12 @@ class _ReviewPublishScreenState extends State<ReviewPublishScreen> {
                                     child: GestureDetector(
                                         onTap: (){
                                           Get.to(OptionalScreen(
-                                            id: productDetailsModel.value.productDetails!.product!.id,
-                                            SerialNumber: productDetailsModel.value.productDetails!.product!.serialNumber,
-                                            Productnumber: productDetailsModel.value.productDetails!.product!.productNumber,
-                                            MetaTitle: productDetailsModel.value.productDetails!.product!.metaTitle,
-                                            MetaDescription: productDetailsModel.value.productDetails!.product!.metaDescription,
-                                            LongDescription: productDetailsModel.value.productDetails!.product!.longDescription,
+                                            id: addProductControllerNew.productDetailsModel.value.productDetails!.product!.id,
+                                            SerialNumber: addProductControllerNew.productDetailsModel.value.productDetails!.product!.serialNumber,
+                                            Productnumber: addProductControllerNew.productDetailsModel.value.productDetails!.product!.productNumber,
+                                            MetaTitle: addProductControllerNew.productDetailsModel.value.productDetails!.product!.metaTitle,
+                                            MetaDescription: addProductControllerNew.productDetailsModel.value.productDetails!.product!.metaDescription,
+                                            LongDescription: addProductControllerNew.productDetailsModel.value.productDetails!.product!.longDescription,
                                           )
                                           );
                                         },

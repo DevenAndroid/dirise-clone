@@ -25,23 +25,28 @@ class InternationalshippingdetailsScreen extends StatefulWidget {
   int? id;
   dynamic Unitofmeasure;
   dynamic WeightOftheItem;
+  dynamic productType;
   dynamic SelectNumberOfPackages;
   dynamic SelectTypeMaterial;
   dynamic SelectTypeOfPackaging;
   dynamic Length;
   dynamic Width;
   dynamic Height;
+  dynamic selectTypeMaterial;
   InternationalshippingdetailsScreen(
       {super.key,
         this.id,
         this.WeightOftheItem,
+        this.productType,
         this.Unitofmeasure,
         this.SelectTypeOfPackaging,
         this.SelectTypeMaterial,
         this.SelectNumberOfPackages,
         this.Length,
         this.Height,
-        this.Width});
+        this.Width,
+        this.selectTypeMaterial,
+      });
 
   @override
   State<InternationalshippingdetailsScreen> createState() => _InternationalshippingdetailsScreenState();
@@ -144,6 +149,8 @@ class _InternationalshippingdetailsScreenState extends State<Internationalshippi
       dimensionController.text = widget.Length.toString();
       dimensionWidthController.text = widget.Width.toString();
       dimensionHeightController.text = widget.Height.toString();
+      selectTypeMaterial = widget.selectTypeMaterial.toString();
+      selectTypeOfPackaging = widget.productType.toString();
     }
   }
 
