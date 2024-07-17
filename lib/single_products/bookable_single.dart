@@ -361,7 +361,7 @@ class _BookableProductScreenState extends State<BookableProductScreen> {
 
   // bool get checkLoaded => modelSingleProduct.singleGiveawayProduct!.pname != null;
 
-  CarouselController carouselController = CarouselController();
+  CarouselControllerImpl carouselController = CarouselControllerImpl();
 
   final wishListController = Get.put(WishListController());
 

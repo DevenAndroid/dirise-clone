@@ -51,7 +51,7 @@ class SingleGiveawayProduct {
   bool? inWishlist;
  dynamic wishlistCount;
   Storemeta? storemeta;
-  double? lowestDeliveryPrice;
+ dynamic lowestDeliveryPrice;
   dynamic shippingDate;
   dynamic discountPrice;
   dynamic discountOff;
@@ -202,6 +202,7 @@ class Storemeta {
   dynamic bannerProfile;
   dynamic commercialLicense;
   dynamic storeCategory;
+  bool? isVendor;
 
   Storemeta(
       {this.firstName,
@@ -213,6 +214,7 @@ class Storemeta {
         this.bannerProfile,
         this.document2,
         this.commercialLicense,
+        this.isVendor,
         this.storeCategory});
 
   Storemeta.fromJson(Map<String, dynamic> json) {
@@ -226,6 +228,7 @@ class Storemeta {
     document2 = json['document_2'];
     commercialLicense = json['commercial_license'];
     storeCategory = json['store_category'];
+    isVendor = json['is_vendor'];
   }
 
   Map<String, dynamic> toJson() {
@@ -240,6 +243,8 @@ class Storemeta {
     data['banner_profile'] = this.bannerProfile;
     data['commercial_license'] = this.commercialLicense;
     data['store_category'] = this.storeCategory;
+    data['is_vendor'] = this.isVendor;
+
     return data;
   }
 }

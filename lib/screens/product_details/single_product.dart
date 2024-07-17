@@ -275,7 +275,7 @@ class _SingleProductDetailsState extends State<SingleProductDetails> {
   }
 
   RxBool alreadyReview = false.obs;
-  CarouselController carouselController = CarouselController();
+  CarouselControllerImpl carouselController = CarouselControllerImpl();
   @override
   Widget build(BuildContext context) {
     Size size = MediaQuery.of(context).size;

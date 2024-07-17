@@ -2,8 +2,6 @@ import 'dart:convert';
 import 'dart:developer';
 
 import 'package:cached_network_image/cached_network_image.dart';
-import 'package:carousel_slider/carousel_controller.dart';
-import 'package:carousel_slider/carousel_options.dart';
 import 'package:carousel_slider/carousel_slider.dart';
 import 'package:dirise/utils/helper.dart';
 import 'package:easy_image_viewer/easy_image_viewer.dart';
@@ -361,7 +359,11 @@ class _AdvirtismentProductScreenState extends State<AdvirtismentProductScreen> {
 
   // bool get checkLoaded => modelSingleProduct.singleGiveawayProduct!.pname != null;
 
-  CarouselController carouselController = CarouselController();
+  // CarouselController carouselController = CarouselController();
+
+  CarouselControllerImpl carouselControllerImpl = CarouselControllerImpl();
+
+
 
   final wishListController = Get.put(WishListController());
 
@@ -537,7 +539,7 @@ class _AdvirtismentProductScreenState extends State<AdvirtismentProductScreen> {
                       onPageChanged: (index, reason) {
                         currentIndex.value = index;
                       },),
-                    carouselController: carouselController,
+                    carouselController: carouselControllerImpl,
                     items: imagesList.map((i) {
                       return Builder(
                         builder: (BuildContext context) {
