@@ -41,11 +41,19 @@ class _ApproveProductScreenState extends State<ApproveProductScreen> {
   final Repositories repositories = Repositories();
 
   Timer? timer;
-
+  // String? selectedValue;
+  //
+  // final List<String> dropdownItems = [
+  //   'Giveaway',
+  //   'Product',
+  //   'Job',
+  //   'Service',
+  //   'Virtual',
+  // ];
   debounceSearch() {
     if (timer != null) timer!.cancel();
     timer = Timer(const Duration(milliseconds: 500), () {
-      productController.getProductList1();
+      productController.getProductList1(context: context);
     });
   }
 
@@ -53,7 +61,7 @@ class _ApproveProductScreenState extends State<ApproveProductScreen> {
   void initState() {
     super.initState();
     SchedulerBinding.instance.addPostFrameCallback((timeStamp) {
-      productController.getProductList1();
+      productController.getProductList1(context: context);
     });
   }
 
@@ -179,10 +187,46 @@ class _ApproveProductScreenState extends State<ApproveProductScreen> {
             const SizedBox(
               height: 20,
             ),
+
+
+        Align(
+          alignment: Alignment.centerRight,
+          child: Container(
+            width: 200,
+            padding: EdgeInsets.symmetric(horizontal: 12, vertical: 2),
+            decoration: BoxDecoration(
+              border: Border.all(color: Colors.blueAccent),
+              borderRadius: BorderRadius.circular(5),
+            ),
+            child: DropdownButton<String>(
+              isExpanded: true,
+              hint: Text('Select an Type',style: TextStyle(color:  Colors.black),),
+              value:productController . selectedValue,
+
+              onChanged: (String? newValue) {
+                setState(() {
+                  productController .selectedValue = newValue;
+                  print("value"+productController .selectedValue.toString());
+                  productController.getProductList1(context: context);
+                });
+              },
+              items:productController .dropdownItems.map<DropdownMenuItem<String>>((String value) {
+                return DropdownMenuItem<String>(
+                  value: value,
+                  child: Text(value),
+                );
+              }).toList(),
+              underline: SizedBox(), // Removes the default underline
+            ),
+          ),
+        ),
+            const SizedBox(
+              height: 20,
+            ),
             Expanded(
               child: RefreshIndicator(
                 onRefresh: () async {
-                  await productController.getProductList1();
+                  await productController.getProductList1(context: context);
                 },
                 child: Obx(() {
                   if (productController.refreshInt.value > 0) {}
