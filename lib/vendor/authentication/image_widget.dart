@@ -205,6 +205,7 @@ class _ImageWidgetState extends State<ImageWidget> {
                   )
                 : Image.file(
                     file,
+              fit: BoxFit.contain,
                     errorBuilder: (_, __, ___) => Image.network(
                       file.path,
                       errorBuilder: (_, __, ___) => Column(

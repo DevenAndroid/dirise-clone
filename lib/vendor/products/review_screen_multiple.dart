@@ -44,7 +44,7 @@ class _RewardScreenMultipleState extends State<RewardScreenMultiple> {
             children: [
               40.spaceY,
               Image.asset(
-                'assets/images/newlogoo.png',
+                'assets/images/new_logo.png',
                 height: 200,
                 width: 200,
               ),

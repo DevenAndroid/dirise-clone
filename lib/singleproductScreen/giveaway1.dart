@@ -1,3 +1,4 @@
+import 'dart:convert';
 import 'dart:io';
 
 import 'package:dirise/addNewProduct/itemdetailsScreen.dart';
@@ -10,10 +11,13 @@ import 'package:get/get.dart';
 import 'package:google_fonts/google_fonts.dart';
 
 import '../Services/whatServiceDoYouProvide.dart';
+import '../controller/vendor_controllers/add_product_controller.dart';
 import '../iAmHereToSell/whichplantypedescribeyouScreen.dart';
 import '../jobOffers/tellusaboutyourselfScreen.dart';
 import '../language/app_strings.dart';
+import '../model/common_modal.dart';
 import '../newAddress/pickUpAddressScreen.dart';
+import '../repository/repository.dart';
 import '../singleproductScreen/product_information_screen.dart';
 import '../widgets/common_button.dart';
 
@@ -31,21 +35,37 @@ class _Giveway1ScreenState extends State<Giveway1Screen> {
   final profileController = Get.put(ProfileController());
 
   List<String> itemTexts = [
-    'Working',
-    'Not Working',
-    'Scrap',
+    'working',
+    'need_maintenance',
+    'scrab',
 
   ];
+  final Repositories repositories = Repositories();
+  final addProductController = Get.put(AddProductController());
+  addGiveAwayType() {
+    Map<String, dynamic> map = {};
+    map['id'] = addProductController.idProduct.value.toString();
+    map['giveaway_item_condition'] = selectedRadio;
 
+    FocusManager.instance.primaryFocus!.unfocus();
+    repositories.postApi(url: ApiUrls.giveawayProductAddress, context: context, mapData: map).then((value) {
+      ModelCommonResponse response = ModelCommonResponse.fromJson(jsonDecode(value));
+      print('API Response Status Code: ${response.status}');
+      showToast(response.message.toString());
+      if (response.status == true) {
+        navigateNext();
+      }
+    });
+  }
   void navigateNext() {
     if (profileController.model.user!.isVendor == true) {
       // If user is a vendor, allow all radio buttons
-      if (selectedRadio == 'Working') {
+      if (selectedRadio == 'working') {
         Get.to( ItemDetailsScreens());
-      } else if (selectedRadio == 'Not Working') {
+      } else if (selectedRadio == 'need_maintenance') {
         Get.to( ItemDetailsScreens());
         // Get.to(ProductInformationScreens(fetaureImage: widget.featureImage,));
-      } else if (selectedRadio == 'Scrap') {
+      } else if (selectedRadio == 'scrab') {
         Get.to( ItemDetailsScreens());
         // Get.to(JobTellusaboutyourselfScreen());
       } else {
@@ -116,24 +136,24 @@ class _Giveway1ScreenState extends State<Giveway1Screen> {
               30.spaceY,
               GestureDetector(
                 onTap: (){
-                  selectedRadio = 'Working';
-                  navigateNext();
+                  selectedRadio = 'working';
+                  addGiveAwayType();
                   setState(() {});
                 },
                   child: Image.asset('assets/images/working_logo.png')),
               20.spaceY,
               GestureDetector(
                   onTap: (){
-                    selectedRadio = 'Not Working';
-                    navigateNext();
+                    selectedRadio = 'need_maintenance';
+                    addGiveAwayType();
                     setState(() {});
                   },
                   child: Image.asset('assets/images/need_maintenance.png')),
               20.spaceY,
               GestureDetector(
                   onTap: (){
-                    selectedRadio = 'Scrap';
-                    navigateNext();
+                    selectedRadio = 'scrab';
+                    addGiveAwayType();
                     setState(() {});
                   },
                   child: Image.asset('assets/images/scrap_img.png')),

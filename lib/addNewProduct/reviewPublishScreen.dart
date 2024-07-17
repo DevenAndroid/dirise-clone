@@ -5,6 +5,7 @@ import 'dart:io';
 import 'package:dirise/addNewProduct/pickUpAddressScreen.dart';
 import 'package:dirise/addNewProduct/rewardScreen.dart';
 import 'package:dirise/utils/api_constant.dart';
+import 'package:dirise/utils/helper.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
@@ -198,7 +199,7 @@ class _ReviewPublishScreenState extends State<ReviewPublishScreen> {
                           child: Container(
                             padding: const EdgeInsets.symmetric(vertical: 12, horizontal: 12),
                             decoration: BoxDecoration(
-                                color: Colors.white,
+                                color: Colors.grey.shade200,
                                 borderRadius: BorderRadius.circular(8),
                                 border: Border.all(color: AppTheme.secondaryColor)),
                             child: Row(
@@ -212,9 +213,17 @@ class _ReviewPublishScreenState extends State<ReviewPublishScreen> {
                                   ),
                                 ),
                                 GestureDetector(
-                                  child: isImageProvide.value == true
-                                      ? const Icon(Icons.keyboard_arrow_up_rounded)
-                                      : const Icon(Icons.keyboard_arrow_down_outlined),
+                                  child: isImageProvide.value != true
+                                      ? Image.asset(
+                                          'assets/images/drop_icon.png',
+                                          height: 17,
+                                          width: 17,
+                                        )
+                                      : Image.asset(
+                                          'assets/images/up_icon.png',
+                                          height: 17,
+                                          width: 17,
+                                        ),
                                   onTap: () {
                                     setState(() {
                                       isImageProvide.toggle();
@@ -230,9 +239,9 @@ class _ReviewPublishScreenState extends State<ReviewPublishScreen> {
                           Stack(
                             children: [
                               Container(
-                                margin: EdgeInsets.only(top: 10),
+                                margin: const EdgeInsets.only(top: 10),
                                 width: Get.width,
-                                padding: EdgeInsets.all(10),
+                                padding: const EdgeInsets.all(10),
                                 decoration:
                                 BoxDecoration(color: Colors.grey.shade200, borderRadius: BorderRadius.circular(11)),
                                 child: Column(
@@ -249,10 +258,12 @@ class _ReviewPublishScreenState extends State<ReviewPublishScreen> {
                                   child: GestureDetector(
                                       onTap: () {
                                         File imageFile = File(productDetailsModel.value.productDetails!.product!.featuredImage);
+                                        File gallery = File(productDetailsModel.value.productDetails!.product!.galleryImage![0]);
 
                                         Get.to(AddProductFirstImageScreen(
                                           id: productDetailsModel.value.productDetails!.product!.id,
                                           image: imageFile,
+                                          galleryImg: gallery,
 
                                         ));
                                       },
@@ -276,9 +287,22 @@ class _ReviewPublishScreenState extends State<ReviewPublishScreen> {
                                 color: Colors.grey.shade200,
                                 borderRadius: BorderRadius.circular(10),
                                 border: Border.all(color: Colors.grey.shade400, width: 1)),
-                            child: const Row(
+                            child:  Row(
                               mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                              children: [Text('Item details'), Icon(Icons.arrow_drop_down_sharp)],
+                              children: [const Text('Item details'),
+                                isItemDetailsVisible != true    ?
+                                Image.asset(
+                          'assets/images/drop_icon.png',
+                          height: 17,
+                            width: 17,
+                          )
+                              : Image.asset(
+                                  'assets/images/up_icon.png',
+                                  height: 17,
+                                  width: 17,
+                                ),
+
+                              ],
                             ),
                           ),
                         ),
@@ -287,15 +311,16 @@ class _ReviewPublishScreenState extends State<ReviewPublishScreen> {
                             child: Stack(
                               children: [
                                 Container(
-                                  margin: EdgeInsets.only(top: 10),
+                                  margin: const EdgeInsets.only(top: 10),
                                   width: Get.width,
-                                  padding: EdgeInsets.all(10),
+                                  padding: const EdgeInsets.all(10),
                                   decoration:
                                   BoxDecoration(color: Colors.grey.shade200, borderRadius: BorderRadius.circular(11)),
                                   child: Column(
                                     mainAxisAlignment: MainAxisAlignment.start,
                                     crossAxisAlignment: CrossAxisAlignment.start,
                                     children: [
+                                      20.spaceY,
                                       Text(
                                           'product name: ${productDetailsModel.value.productDetails!.product!.pname ?? ""}'),
                                       Text(
@@ -331,9 +356,21 @@ class _ReviewPublishScreenState extends State<ReviewPublishScreen> {
                                 color: Colors.grey.shade200,
                                 borderRadius: BorderRadius.circular(10),
                                 border: Border.all(color: Colors.grey.shade400, width: 1)),
-                            child: const Row(
+                            child:  Row(
                               mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                              children: [Text('Pickup address'), Icon(Icons.arrow_drop_down_sharp)],
+                              children: [const Text('Pickup address'),
+                                isItemDetailsVisible1 != true    ?
+                                Image.asset(
+                                  'assets/images/drop_icon.png',
+                                  height: 17,
+                                  width: 17,
+                                )
+                                    : Image.asset(
+                                  'assets/images/up_icon.png',
+                                  height: 17,
+                                  width: 17,
+                                ),
+                              ],
                             ),
                           ),
                         ),
@@ -341,9 +378,9 @@ class _ReviewPublishScreenState extends State<ReviewPublishScreen> {
                         Visibility(
                             visible: isItemDetailsVisible1,
                             child: Container(
-                              margin: EdgeInsets.only(top: 10),
+                              margin: const EdgeInsets.only(top: 10),
                               width: Get.width,
-                              padding: EdgeInsets.all(10),
+                              padding: const EdgeInsets.all(10),
                               decoration:
                                   BoxDecoration(color: Colors.grey.shade200, borderRadius: BorderRadius.circular(11)),
                               child: Stack(
@@ -352,6 +389,7 @@ class _ReviewPublishScreenState extends State<ReviewPublishScreen> {
                                     mainAxisAlignment: MainAxisAlignment.start,
                                     crossAxisAlignment: CrossAxisAlignment.start,
                                     children: [
+                                      20.spaceY,
                                       Text('Town: ${productDetailsModel.value.productDetails!.address!.town ?? ""}'),
                                       Text('city: ${productDetailsModel.value.productDetails!.address!.city ?? ""}'),
                                       Text('state: ${productDetailsModel.value.productDetails!.address!.state ?? ""}'),
@@ -393,9 +431,21 @@ class _ReviewPublishScreenState extends State<ReviewPublishScreen> {
                                 color: Colors.grey.shade200,
                                 borderRadius: BorderRadius.circular(10),
                                 border: Border.all(color: Colors.grey.shade400, width: 1)),
-                            child: const Row(
+                            child:  Row(
                               mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                              children: [Text('Delivery Size'), Icon(Icons.arrow_drop_down_sharp)],
+                              children: [const Text('Delivery Size'),
+                                isItemDetailsVisible2 != true    ?
+                                Image.asset(
+                                  'assets/images/drop_icon.png',
+                                  height: 17,
+                                  width: 17,
+                                )
+                                    : Image.asset(
+                                  'assets/images/up_icon.png',
+                                  height: 17,
+                                  width: 17,
+                                ),
+                              ],
                             ),
                           ),
                         ),
@@ -405,15 +455,16 @@ class _ReviewPublishScreenState extends State<ReviewPublishScreen> {
                             child: Stack(
                               children: [
                                 Container(
-                                  margin: EdgeInsets.only(top: 10),
+                                  margin: const EdgeInsets.only(top: 10),
                                   width: Get.width,
-                                  padding: EdgeInsets.all(10),
+                                  padding: const EdgeInsets.all(10),
                                   decoration:
                                   BoxDecoration(color: Colors.grey.shade200, borderRadius: BorderRadius.circular(11)),
                                   child: Column(
                                     mainAxisAlignment: MainAxisAlignment.start,
                                     crossAxisAlignment: CrossAxisAlignment.start,
                                     children: [
+                                      20.spaceY,
                                       Text(
                                           'delivery Size: ${productDetailsModel.value.productDetails!.product!.deliverySize ?? ""}'),
                                     ],
@@ -444,9 +495,21 @@ class _ReviewPublishScreenState extends State<ReviewPublishScreen> {
                                 color: Colors.grey.shade200,
                                 borderRadius: BorderRadius.circular(10),
                                 border: Border.all(color: Colors.grey.shade400, width: 1)),
-                            child: const Row(
+                            child:  Row(
                               mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                              children: [Text('Item Weight & Dimensions'), Icon(Icons.arrow_drop_down_sharp)],
+                              children: [const Text('Item Weight & Dimensions'),
+                                isItemDetailsVisible3 != true    ?
+                                Image.asset(
+                                  'assets/images/drop_icon.png',
+                                  height: 17,
+                                  width: 17,
+                                )
+                                    : Image.asset(
+                                  'assets/images/up_icon.png',
+                                  height: 17,
+                                  width: 17,
+                                ),
+                              ],
                             ),
                           ),
                         ),
@@ -456,15 +519,16 @@ class _ReviewPublishScreenState extends State<ReviewPublishScreen> {
                             child: Stack(
                               children: [
                                 Container(
-                                  margin: EdgeInsets.only(top: 10),
+                                  margin: const EdgeInsets.only(top: 10),
                                   width: Get.width,
-                                  padding: EdgeInsets.all(10),
+                                  padding: const EdgeInsets.all(10),
                                   decoration:
                                   BoxDecoration(color: Colors.grey.shade200, borderRadius: BorderRadius.circular(11)),
                                   child: Column(
                                     mainAxisAlignment: MainAxisAlignment.start,
                                     crossAxisAlignment: CrossAxisAlignment.start,
                                     children: [
+                                      20.spaceY,
                                       Text(
                                           'Unit of measure: ${productDetailsModel.value.productDetails!.productDimentions!.units ?? ""}'),
                                       Text(
@@ -518,9 +582,21 @@ class _ReviewPublishScreenState extends State<ReviewPublishScreen> {
                                 color: Colors.grey.shade200,
                                 borderRadius: BorderRadius.circular(10),
                                 border: Border.all(color: Colors.grey.shade400, width: 1)),
-                            child: const Row(
+                            child:  Row(
                               mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                              children: [Text('Optional'), Icon(Icons.arrow_drop_down_sharp)],
+                              children: [const Text('Optional'),
+                                isItemDetailsVisible4 != true    ?
+                                Image.asset(
+                                  'assets/images/drop_icon.png',
+                                  height: 17,
+                                  width: 17,
+                                )
+                                    : Image.asset(
+                                  'assets/images/up_icon.png',
+                                  height: 17,
+                                  width: 17,
+                                ),
+                              ],
                             ),
                           ),
                         ),
@@ -530,15 +606,16 @@ class _ReviewPublishScreenState extends State<ReviewPublishScreen> {
                             child: Stack(
                               children: [
                                 Container(
-                                  margin: EdgeInsets.only(top: 10),
+                                  margin: const EdgeInsets.only(top: 10),
                                   width: Get.width,
-                                  padding: EdgeInsets.all(10),
+                                  padding: const EdgeInsets.all(10),
                                   decoration:
                                   BoxDecoration(color: Colors.grey.shade200, borderRadius: BorderRadius.circular(11)),
                                   child: Column(
                                     mainAxisAlignment: MainAxisAlignment.start,
                                     crossAxisAlignment: CrossAxisAlignment.start,
                                     children: [
+                                      20.spaceY,
                                       Text(
                                           'Long Description: ${productDetailsModel.value.productDetails!.product!.longDescription ?? ""}'),
                                       Text(

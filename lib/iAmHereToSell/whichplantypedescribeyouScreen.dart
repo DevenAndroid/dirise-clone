@@ -42,6 +42,28 @@ class _WhichplantypedescribeyouScreenState extends State<Whichplantypedescribeyo
     });
   }
 
+  void vendorregister() {
+    if( _selectedOption == 1){
+      profileController.vendorType = 'advertisement';
+    } else if( _selectedOption == 2){
+      profileController.vendorType = 'personal';
+    }else{
+      profileController.vendorType = 'company';
+    }
+    Map<String, String> map = {};
+    map["vendor_type"] = profileController.vendorType.toString();
+    repositories.postApi(url: ApiUrls.vendorRegistrationUrl, context: context, mapData: map).then((value) async {
+      if (_selectedOption == 1 || _selectedOption == 2 || _selectedOption == 3 ) {
+        if (_isValue == true) {
+          Get.to(const WhatdoyousellScreen());
+        } else {
+          showToast("Agree terms and Conditions".tr);
+        }
+      } else {
+        showToast("Please select a plan first".tr);
+      }
+    });
+  }
   final ScrollController _scrollController = ScrollController();
   final GlobalKey _cloudComparisonKey = GlobalKey();
 
@@ -988,15 +1010,7 @@ class _WhichplantypedescribeyouScreenState extends State<Whichplantypedescribeyo
               ),
               InkWell(
                 onTap: () {
-                  if (_selectedOption == 1 || _selectedOption == 2 || _selectedOption == 3 ) {
-                    if (_isValue == true) {
-                      Get.to(const WhatdoyousellScreen());
-                    } else {
-                      showToast("Agree terms and Conditions".tr);
-                    }
-                  } else {
-                    showToast("Please select a plan first".tr);
-                  }
+                  vendorregister();
                 },
                 child: Container(
                   width: Get.width,

@@ -24,7 +24,7 @@ dependencies:
   geocoding: ^3.0.0
   flutter_google_places_hoc081098: any
   cupertino_icons: ^1.0.6
-  carousel_slider: ^4.2.0
+  carousel_slider: ^4.2.1
   smooth_page_indicator: ^1.1.0
   client_information: ^2.1.3
   device_info_plus:
@@ -65,11 +65,10 @@ dependencies:
   syncfusion_flutter_pdfviewer: ^26.1.40
   audioplayers: ^5.2.0
   audio_video_progress_bar: ^2.0.1
-  flutter_local_notifications: ^15.1.1
+  flutter_local_notifications: ^17.2.1+2
   flutter_exif_rotation: ^0.5.1
   webview_flutter: ^4.2.4
   url_launcher: ^6.1.15
-  freshchat_sdk: ^0.10.14
   better_player_plus:
   chewie: ^1.7.0
   video_player: ^2.8.2
@@ -77,9 +76,10 @@ dependencies:
   image_cropper: ^5.0.1
   hive:
   hive_flutter: ^1.1.0
-  firebase_crashlytics: ^3.3.0
+#  firebase_crashlytics: ^3.3.0
   firebase_analytics: ^10.0.0
   intl_phone_field: ^3.2.0
+  color:
   easy_image_viewer: ^1.4.2
   flutter_exit_app: ^1.1.2
   pdf:

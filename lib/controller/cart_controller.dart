@@ -62,6 +62,7 @@ class CartController extends GetxController {
   String shippingTitle = '';
   String shippingPrices = '';
   String shippingPrices1 = '';
+  String shipping_new_api = '';
   String shippingPrices2 = '';
   double withoutSelectPrice = 0.0;
   String shippingPrices3 = '';
@@ -152,7 +153,7 @@ class CartController extends GetxController {
 
           "type":purchaseType1,
           "shipment_provider": shipmentProvider,
-          "store_id":  storeIdShipping.toString(), "store_name": storeNameShipping.toString(),"ship_price": shippingPrices1.toString() , "shipping_type_id": shippingId,
+          "store_id":  storeIdShipping.toString(), "store_name": storeNameShipping.toString(),"ship_price": shipping_new_api.toString() , "shipping_type_id": shippingId,
         'shipping_date' :  shippingDates.toString()}
       ],
       "cart_id": ["2"],
@@ -402,6 +403,7 @@ class CartController extends GetxController {
       required String landmark,
       required String title,
       required String phoneCountryCode,
+       String? type,
       required BuildContext context,
       id}) {
     final map = {
@@ -424,6 +426,7 @@ class CartController extends GetxController {
       'city_id': cityId,
       'state': state,
       'city': city,
+      'type' : type,
       'phone_country_code' : phoneCountryCode
     };
 
@@ -528,7 +531,7 @@ class CartController extends GetxController {
     map["country_id"]= profileController.model.user!= null && countryId.isEmpty ? profileController.model.user!.country_id : countryId.toString();
     // map["country_id"]= countryId.isNotEmpty ? countryId.toString() : '117';
     map["zip_code"]= zipCode.isNotEmpty ? zipCode.toString() : '302021';
-    map["city"]= zipCode.isNotEmpty ?city.value.toString():"jaipur";
+    map["city"]= zipCode.isNotEmpty ?  city.value.toString():"jaipur";
     map["address"]= address.value.toString();
     map["identifier_key"]= "checkout";
 

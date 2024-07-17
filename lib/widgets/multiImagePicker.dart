@@ -184,13 +184,18 @@ class _MultiImageWidgetState extends State<MultiImageWidget> {
               itemBuilder: (context, index) {
                 return Image.file(
                   files[index],
-                  fit: BoxFit.cover,
-                  errorBuilder: (_, __, ___) => Column(
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    children: [
-                      const Icon(Icons.error),
-                      Text(files[index].path.split("/").last),
-                    ],
+                  fit: BoxFit.contain,
+                  errorBuilder: (_, __, ___) => Image.network(
+                    files[index].path,
+                    errorBuilder: (_, __, ___) => Column(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: [
+                        const Icon(Icons.upload),
+                        Text(
+                            files[index].path.toString().split("/").last,
+                        )
+                      ],
+                    ),
                   ),
                 );
               },

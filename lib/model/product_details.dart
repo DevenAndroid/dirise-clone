@@ -13,10 +13,10 @@ class ModelProductDetails {
 
   Map<String, dynamic> toJson() {
     final Map<String, dynamic> data = new Map<String, dynamic>();
-    data['status'] = this.status;
-    data['message'] = this.message;
-    if (this.productDetails != null) {
-      data['product_details'] = this.productDetails!.toJson();
+    data['status'] = status;
+    data['message'] = message;
+    if (productDetails != null) {
+      data['product_details'] = productDetails!.toJson();
     }
     return data;
   }
@@ -40,16 +40,16 @@ class ProductDetails {
 
   Map<String, dynamic> toJson() {
     final Map<String, dynamic> data = new Map<String, dynamic>();
-    if (this.product != null) {
-      data['product'] = this.product!.toJson();
+    if (product != null) {
+      data['product'] = product!.toJson();
     }
-    if (this.address != null) {
-      data['address'] = this.address!.toJson();
+    if (address != null) {
+      data['address'] = address!.toJson();
     }
-    if (this.productDimentions != null) {
-      data['product_dimentions'] = this.productDimentions!.toJson();
+    if (productDimentions != null) {
+      data['product_dimentions'] = productDimentions!.toJson();
     }
-    data['dirise_fess'] = this.diriseFess;
+    data['dirise_fess'] = diriseFess;
     return data;
   }
 }
@@ -75,6 +75,9 @@ class Product {
   dynamic jobCity;
   dynamic vendorId;
   dynamic addressId;
+  dynamic jobCountryId;
+  dynamic jobStateId;
+  dynamic jobCityId;
   dynamic catId;
   dynamic catId2;
   dynamic jobCat;
@@ -186,6 +189,9 @@ class Product {
       this.serviceTimeSloat,
       this.startLocation,
       this.endLocation,
+      this.jobCountryId,
+      this.jobStateId,
+      this.jobCityId,
       this.timingExtraNotes,
       this.eligible_min_age,
       this.eligible_max_age,
@@ -307,6 +313,9 @@ class Product {
     endLocation = json['end_location'];
     timingExtraNotes = json['timing_extra_notes'];
     eligible_min_age = json['eligible_min_age'];
+    jobCountryId = json['job_country_id'];
+    jobStateId = json['job_state_id'];
+    jobCityId = json['job_city_id'];
     eligible_max_age = json['eligible_max_age'];
     eligible_gender = json['eligible_gender'];
     bookable_product_location = json['bookable_product_location'];
@@ -432,104 +441,107 @@ class Product {
 
   Map<String, dynamic> toJson() {
     final Map<String, dynamic> data = new Map<String, dynamic>();
-    data['id'] = this.id;
-    data['from_location'] = this.fromLocation;
-    data['to_location'] = this.toLocation;
-    data['from_extra_notes'] = this.fromExtraNotes;
-    data['to_extra_notes'] = this.toExtraNotes;
-    data['vendor_id'] = this.vendorId;
-    data['address_id'] = this.addressId;
-    data['cat_id'] = this.catId;
-    data['cat_id_2'] = this.catId2;
-    data['job_cat'] = this.jobCat;
-    data['brand_slug'] = this.brandSlug;
-    data['slug'] = this.slug;
-    data['pname'] = this.pname;
-    data['prodect_image'] = this.prodectImage;
-    data['prodect_name'] = this.prodectName;
-    data['prodect_sku'] = this.prodectSku;
-    data['views'] = this.views;
-    data['code'] = this.code;
-    data['booking_product_type'] = this.bookingProductType;
-    data['prodect_price'] = this.prodectPrice;
-    data['prodect_min_qty'] = this.prodectMinQty;
-    data['prodect_mix_qty'] = this.prodectMixQty;
-    data['prodect_description'] = this.prodectDescription;
-    data['image'] = this.image;
-    data['arab_pname'] = this.arabPname;
-    data['product_type'] = this.productType;
-    data['item_type'] = this.itemType;
-    data['virtual_product_type'] = this.virtualProductType;
-    data['sku_id'] = this.skuId;
-    data['p_price'] = this.pPrice;
-    data['s_price'] = this.sPrice;
-    data['commission'] = this.commission;
-    data['newP'] = this.newP;
-    data['best_saller'] = this.bestSaller;
-    data['featured'] = this.featured;
-    data['tax_apply'] = this.taxApply;
-    data['tax_type'] = this.taxType;
-    data['short_description'] = this.shortDescription;
-    data['arab_short_description'] = this.arabShortDescription;
-    data['long_description'] = this.longDescription;
-    data['arab_long_description'] = this.arabLongDescription;
-    data['featured_image'] = this.featuredImage;
-    data['gallery_image'] = this.galleryImage;
-    data['virtual_product_file'] = this.virtualProductFile;
-    data['virtual_product_file_type'] = this.virtualProductFileType;
-    data['virtual_product_file_language'] = this.virtualProductFileLanguage;
-    data['feature_image_app'] = this.featureImageApp;
-    data['feature_image_web'] = this.featureImageWeb;
-    data['in_stock'] = this.inStock;
-    data['weight'] = this.weight;
-    data['weight_unit'] = this.weightUnit;
-    data['time'] = this.time;
-    data['time_period'] = this.timePeriod;
-    data['stock_alert'] = this.stockAlert;
-    data['shipping_type'] = this.shippingType;
-    data['shipping_charge'] = this.shippingCharge;
-    data['avg_rating'] = this.avgRating;
-    data['meta_title'] = this.metaTitle;
-    data['meta_keyword'] = this.metaKeyword;
-    data['meta_description'] = this.metaDescription;
-    data['meta_tags'] = this.metaTags;
-    data['seo_tags'] = this.seoTags;
-    data['parent_id'] = this.parentId;
-    data['service_start_time'] = this.serviceStartTime;
-    data['service_end_time'] = this.serviceEndTime;
-    data['service_duration'] = this.serviceDuration;
-    data['delivery_size'] = this.deliverySize;
-    data['serial_number'] = this.serialNumber;
-    data['product_number'] = this.productNumber;
-    data['product_code'] = this.productCode;
-    data['promotion_code'] = this.promotionCode;
-    data['package_detail'] = this.packageDetail;
-    data['jobseeking_or_offering'] = this.jobseekingOrOffering;
-    data['job_type'] = this.jobType;
-    data['job_model'] = this.jobModel;
-    data['describe_job_role'] = this.describeJobRole;
-    data['linkdin_url'] = this.linkdinUrl;
-    data['experience'] = this.experience;
-    data['salary'] = this.salary;
-    data['about_yourself'] = this.aboutYourself;
-    data['job_hours'] = this.jobHours;
-    data['upload_cv'] = this.uploadCv;
-    data['is_onsale'] = this.isOnsale;
-    data['discount_percent'] = this.discountPercent;
-    data['fixed_discount_price'] = this.fixedDiscountPrice;
-    data['shipping_pay'] = this.shippingPay;
-    data['created_at'] = this.createdAt;
-    data['updated_at'] = this.updatedAt;
-    data['top_hunderd'] = this.topHunderd;
-    data['limited_time_deal'] = this.limitedTimeDeal;
-    data['return_days'] = this.returnDays;
-    data['keyword'] = this.keyword;
-    data['is_publish'] = this.isPublish;
-    data['in_offer'] = this.inOffer;
-    data['for_auction'] = this.forAuction;
-    data['return_policy_desc'] = this.returnPolicyDesc;
-    data['shipping_policy_desc'] = this.shippingPolicyDesc;
-    data['discount_price'] = this.discountPrice;
+    data['id'] = id;
+    data['from_location'] = fromLocation;
+    data['to_location'] = toLocation;
+    data['from_extra_notes'] = fromExtraNotes;
+    data['to_extra_notes'] = toExtraNotes;
+    data['vendor_id'] = vendorId;
+    data['address_id'] = addressId;
+    data['cat_id'] = catId;
+    data['cat_id_2'] = catId2;
+    data['job_cat'] = jobCat;
+    data['brand_slug'] = brandSlug;
+    data['slug'] = slug;
+    data['pname'] = pname;
+    data['job_country_id'] = jobCountryId;
+    data['job_state_id'] = jobStateId;
+    data['job_city_id'] = jobCityId;
+    data['prodect_image'] = prodectImage;
+    data['prodect_name'] = prodectName;
+    data['prodect_sku'] = prodectSku;
+    data['views'] = views;
+    data['code'] = code;
+    data['booking_product_type'] = bookingProductType;
+    data['prodect_price'] = prodectPrice;
+    data['prodect_min_qty'] = prodectMinQty;
+    data['prodect_mix_qty'] = prodectMixQty;
+    data['prodect_description'] = prodectDescription;
+    data['image'] = image;
+    data['arab_pname'] = arabPname;
+    data['product_type'] = productType;
+    data['item_type'] = itemType;
+    data['virtual_product_type'] = virtualProductType;
+    data['sku_id'] = skuId;
+    data['p_price'] = pPrice;
+    data['s_price'] = sPrice;
+    data['commission'] = commission;
+    data['newP'] = newP;
+    data['best_saller'] = bestSaller;
+    data['featured'] = featured;
+    data['tax_apply'] = taxApply;
+    data['tax_type'] = taxType;
+    data['short_description'] = shortDescription;
+    data['arab_short_description'] = arabShortDescription;
+    data['long_description'] = longDescription;
+    data['arab_long_description'] = arabLongDescription;
+    data['featured_image'] = featuredImage;
+    data['gallery_image'] = galleryImage;
+    data['virtual_product_file'] = virtualProductFile;
+    data['virtual_product_file_type'] = virtualProductFileType;
+    data['virtual_product_file_language'] = virtualProductFileLanguage;
+    data['feature_image_app'] = featureImageApp;
+    data['feature_image_web'] = featureImageWeb;
+    data['in_stock'] = inStock;
+    data['weight'] = weight;
+    data['weight_unit'] = weightUnit;
+    data['time'] = time;
+    data['time_period'] = timePeriod;
+    data['stock_alert'] = stockAlert;
+    data['shipping_type'] = shippingType;
+    data['shipping_charge'] = shippingCharge;
+    data['avg_rating'] = avgRating;
+    data['meta_title'] = metaTitle;
+    data['meta_keyword'] = metaKeyword;
+    data['meta_description'] = metaDescription;
+    data['meta_tags'] = metaTags;
+    data['seo_tags'] = seoTags;
+    data['parent_id'] = parentId;
+    data['service_start_time'] = serviceStartTime;
+    data['service_end_time'] = serviceEndTime;
+    data['service_duration'] = serviceDuration;
+    data['delivery_size'] = deliverySize;
+    data['serial_number'] = serialNumber;
+    data['product_number'] = productNumber;
+    data['product_code'] = productCode;
+    data['promotion_code'] = promotionCode;
+    data['package_detail'] = packageDetail;
+    data['jobseeking_or_offering'] = jobseekingOrOffering;
+    data['job_type'] = jobType;
+    data['job_model'] = jobModel;
+    data['describe_job_role'] = describeJobRole;
+    data['linkdin_url'] = linkdinUrl;
+    data['experience'] = experience;
+    data['salary'] = salary;
+    data['about_yourself'] = aboutYourself;
+    data['job_hours'] = jobHours;
+    data['upload_cv'] = uploadCv;
+    data['is_onsale'] = isOnsale;
+    data['discount_percent'] = discountPercent;
+    data['fixed_discount_price'] = fixedDiscountPrice;
+    data['shipping_pay'] = shippingPay;
+    data['created_at'] = createdAt;
+    data['updated_at'] = updatedAt;
+    data['top_hunderd'] = topHunderd;
+    data['limited_time_deal'] = limitedTimeDeal;
+    data['return_days'] = returnDays;
+    data['keyword'] = keyword;
+    data['is_publish'] = isPublish;
+    data['in_offer'] = inOffer;
+    data['for_auction'] = forAuction;
+    data['return_policy_desc'] = returnPolicyDesc;
+    data['shipping_policy_desc'] = shippingPolicyDesc;
+    data['discount_price'] = discountPrice;
     return data;
   }
 }
@@ -636,37 +648,37 @@ class Address {
 
   Map<String, dynamic> toJson() {
     final Map<String, dynamic> data = new Map<String, dynamic>();
-    data['id'] = this.id;
-    data['user_id'] = this.userId;
-    data['is_login'] = this.isLogin;
-    data['giveaway_id'] = this.giveawayId;
-    data['first_name'] = this.firstName;
-    data['last_name'] = this.lastName;
-    data['email'] = this.email;
-    data['company_name'] = this.companyName;
-    data['order_id'] = this.orderId;
-    data['phone'] = this.phone;
-    data['phone_country_code'] = this.phoneCountryCode;
-    data['alternate_phone'] = this.alternatePhone;
-    data['alter_phone_country_code'] = this.alterPhoneCountryCode;
-    data['address_type'] = this.addressType;
-    data['type'] = this.type;
-    data['is_default'] = this.isDefault;
-    data['address'] = this.address;
-    data['address2'] = this.address2;
-    data['city'] = this.city;
-    data['country'] = this.country;
-    data['state'] = this.state;
-    data['town'] = this.town;
-    data['country_id'] = this.countryId;
-    data['state_id'] = this.stateId;
-    data['city_id'] = this.cityId;
-    data['title'] = this.title;
-    data['zip_code'] = this.zipCode;
-    data['instruction'] = this.instruction;
-    data['landmark'] = this.landmark;
-    data['created_at'] = this.createdAt;
-    data['updated_at'] = this.updatedAt;
+    data['id'] = id;
+    data['user_id'] = userId;
+    data['is_login'] = isLogin;
+    data['giveaway_id'] = giveawayId;
+    data['first_name'] = firstName;
+    data['last_name'] = lastName;
+    data['email'] = email;
+    data['company_name'] = companyName;
+    data['order_id'] = orderId;
+    data['phone'] = phone;
+    data['phone_country_code'] = phoneCountryCode;
+    data['alternate_phone'] = alternatePhone;
+    data['alter_phone_country_code'] = alterPhoneCountryCode;
+    data['address_type'] = addressType;
+    data['type'] = type;
+    data['is_default'] = isDefault;
+    data['address'] = address;
+    data['address2'] = address2;
+    data['city'] = city;
+    data['country'] = country;
+    data['state'] = state;
+    data['town'] = town;
+    data['country_id'] = countryId;
+    data['state_id'] = stateId;
+    data['city_id'] = cityId;
+    data['title'] = title;
+    data['zip_code'] = zipCode;
+    data['instruction'] = instruction;
+    data['landmark'] = landmark;
+    data['created_at'] = createdAt;
+    data['updated_at'] = updatedAt;
     return data;
   }
 }
@@ -728,22 +740,22 @@ class ProductDimentions {
 
   Map<String, dynamic> toJson() {
     final Map<String, dynamic> data = new Map<String, dynamic>();
-    data['id'] = this.id;
-    data['giveaway_id'] = this.giveawayId;
-    data['product_id'] = this.productId;
-    data['weight'] = this.weight;
-    data['weight_unit'] = this.weightUnit;
-    data['material'] = this.material;
-    data['type_of_packages'] = this.typeOfPackages;
-    data['number_of_package'] = this.numberOfPackage;
-    data['description'] = this.description;
-    data['box_dimension'] = this.boxDimension;
-    data['box_height'] = this.boxHeight;
-    data['box_width'] = this.boxWidth;
-    data['box_length'] = this.boxLength;
-    data['units'] = this.units;
-    data['created_at'] = this.createdAt;
-    data['updated_at'] = this.updatedAt;
+    data['id'] = id;
+    data['giveaway_id'] = giveawayId;
+    data['product_id'] = productId;
+    data['weight'] = weight;
+    data['weight_unit'] = weightUnit;
+    data['material'] = material;
+    data['type_of_packages'] = typeOfPackages;
+    data['number_of_package'] = numberOfPackage;
+    data['description'] = description;
+    data['box_dimension'] = boxDimension;
+    data['box_height'] = boxHeight;
+    data['box_width'] = boxWidth;
+    data['box_length'] = boxLength;
+    data['units'] = units;
+    data['created_at'] = createdAt;
+    data['updated_at'] = updatedAt;
     return data;
   }
 }
@@ -778,13 +790,13 @@ class ProductAvailability {
 
   Map<String, dynamic> toJson() {
     final Map<String, dynamic> data = new Map<String, dynamic>();
-    data['qty'] = this.qty;
-    data['type'] = this.type;
-    data['from_date'] = this.fromDate;
-    data['to_date'] = this.toDate;
-    data['interval'] = this.interval;
-    data['preparation_block_time'] = this.preparationBlockTime;
-    data['recovery_block_time'] = this.recoveryBlockTime;
+    data['qty'] = qty;
+    data['type'] = type;
+    data['from_date'] = fromDate;
+    data['to_date'] = toDate;
+    data['interval'] = interval;
+    data['preparation_block_time'] = preparationBlockTime;
+    data['recovery_block_time'] = recoveryBlockTime;
     return data;
   }
 }
@@ -813,13 +825,13 @@ class ProductWeeklyAvailability {
 
   Map<String, dynamic> toJson() {
     final Map<String, dynamic> data = new Map<String, dynamic>();
-    data['id'] = this.id;
-    data['week_day'] = this.weekDay;
-    data['start_time'] = this.startTime;
-    data['end_time'] = this.endTime;
-    data['start_break_time'] = this.startBreakTime;
-    data['end_break_time'] = this.endBreakTime;
-    data['status'] = this.status;
+    data['id'] = id;
+    data['week_day'] = weekDay;
+    data['start_time'] = startTime;
+    data['end_time'] = endTime;
+    data['start_break_time'] = startBreakTime;
+    data['end_break_time'] = endBreakTime;
+    data['status'] = status;
     return data;
   }
 }
@@ -854,13 +866,13 @@ class ProductVacation {
 
   Map<String, dynamic> toJson() {
     final Map<String, dynamic> data = new Map<String, dynamic>();
-    data['id'] = this.id;
-    data['product_id'] = this.productId;
-    data['product_availability_id'] = this.productAvailabilityId;
-    data['vendor_id'] = this.vendorId;
-    data['vacation_type'] = this.vacationType;
-    data['vacation_from_date'] = this.vacationFromDate;
-    data['vacation_to_date'] = this.vacationToDate;
+    data['id'] = id;
+    data['product_id'] = productId;
+    data['product_availability_id'] = productAvailabilityId;
+    data['vendor_id'] = vendorId;
+    data['vacation_type'] = vacationType;
+    data['vacation_from_date'] = vacationFromDate;
+    data['vacation_to_date'] = vacationToDate;
     return data;
   }
 }
@@ -878,8 +890,8 @@ class ServiceTimeSloat {
 
   Map<String, dynamic> toJson() {
     final Map<String, dynamic> data = new Map<String, dynamic>();
-    data['time_sloat'] = this.timeSloat;
-    data['time_sloat_end'] = this.timeSloatEnd;
+    data['time_sloat'] = timeSloat;
+    data['time_sloat_end'] = timeSloatEnd;
     return data;
   }
 }
@@ -920,15 +932,15 @@ class ReturnPolicyDesc {
 
   Map<String, dynamic> toJson() {
     final Map<String, dynamic> data = new Map<String, dynamic>();
-    data['id'] = this.id;
-    data['user_id'] = this.userId;
-    data['title'] = this.title;
-    data['days'] = this.days;
-    data['policy_discreption'] = this.policyDiscreption;
-    data['return_shipping_fees'] = this.returnShippingFees;
-    data['no_return'] = this.noReturn;
-    data['unit'] = this.unit;
-    data['is_default'] = this.isDefault;
+    data['id'] = id;
+    data['user_id'] = userId;
+    data['title'] = title;
+    data['days'] = days;
+    data['policy_discreption'] = policyDiscreption;
+    data['return_shipping_fees'] = returnShippingFees;
+    data['no_return'] = noReturn;
+    data['unit'] = unit;
+    data['is_default'] = isDefault;
     return data;
   }
 }

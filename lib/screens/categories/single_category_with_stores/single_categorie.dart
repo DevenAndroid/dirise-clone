@@ -332,7 +332,7 @@ class _SingleCategoriesState extends State<SingleCategories> {
       key: scaffoldKey1,
       backgroundColor: Colors.white,
       appBar: AppBar(
-        toolbarHeight: kToolbarHeight + 10,
+        toolbarHeight: kToolbarHeight + 20,
         backgroundColor: Color(0xFFF2F2F2),
         surfaceTintColor: Color(0xFFF2F2F2),
         leading: Padding(
@@ -372,6 +372,8 @@ class _SingleCategoriesState extends State<SingleCategories> {
         leadingWidth: 100,
         title: Expanded(
           child: Column(
+            crossAxisAlignment: CrossAxisAlignment.center,
+            mainAxisAlignment: MainAxisAlignment.center,
             children: [
               ClipRRect(
                   borderRadius: BorderRadius.circular(10),
@@ -388,15 +390,19 @@ class _SingleCategoriesState extends State<SingleCategories> {
                               errorWidget: (_, __, ___) => Image.asset('assets/images/new_logo.png')),
                         ),
                       ))),
-              Text(
-                profileController.selectedLAnguage.value == 'English' ?    mainCategory.name.toString() :
-                mainCategory.arabName.toString(),
-                textAlign: TextAlign.center,
-                style: const TextStyle(
-                fontSize: 13
+              SizedBox(
+                width: 130,
+                child: Text(
+                  profileController.selectedLAnguage.value == 'English' ?    mainCategory.name.toString() :
+                  mainCategory.arabName.toString(),
+                  textAlign: TextAlign.center,
+                  style: const TextStyle(
+                  fontSize: 13
+                ),
+                  maxLines: 2,
+                ),
               ),
-                maxLines: 2,
-              ),
+              3.spaceY
             ],
           ),
         ),

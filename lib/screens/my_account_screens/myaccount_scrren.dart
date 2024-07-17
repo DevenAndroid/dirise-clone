@@ -1,29 +1,21 @@
 import 'dart:convert';
 import 'dart:io';
 import 'package:dirise/language/app_strings.dart';
-import 'package:dirise/personalizeyourstore/addSocialMediaScreen.dart';
 import 'package:dirise/screens/auth_screens/login_screen.dart';
+import 'package:dirise/screens/my_account_screens/social_link_for_account.dart';
 import 'package:dirise/utils/helper.dart';
-import 'package:dirise/widgets/loading_animation.dart';
-import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_svg/flutter_svg.dart';
-import 'package:freshchat_sdk/freshchat_sdk.dart';
-import 'package:freshchat_sdk/freshchat_user.dart';
 import 'package:get/get.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:intl_phone_field/intl_phone_field.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:url_launcher/url_launcher.dart';
-import '../../addNewProduct/addProductScreen.dart';
-import '../../addNewProduct/addProductStartScreen.dart';
-import '../../addNewProduct/myItemIsScreen.dart';
 import '../../controller/cart_controller.dart';
 import '../../controller/home_controller.dart';
 import '../../controller/profile_controller.dart';
-import '../../freshchat.dart';
 import '../../iAmHereToSell/whichplantypedescribeyouScreen.dart';
 import '../../model/common_modal.dart';
 import '../../model/customer_profile/model_city_list.dart';
@@ -32,14 +24,10 @@ import '../../model/customer_profile/model_state_list.dart';
 import '../../model/model_address_list.dart';
 import '../../model/model_user_delete.dart';
 import '../../newAddress/map_find_my_location.dart';
-import '../../personalizeyourstore/operatinghourScreen.dart';
 import '../../personalizeyourstore/socialMediaScreen.dart';
 import '../../posts/posts_ui.dart';
 import '../../repository/repository.dart';
-import '../../singleproductScreen/itemdetailsScreen.dart';
-import '../../tellaboutself/ExtraInformation.dart';
 import '../../utils/api_constant.dart';
-import '../../vendor/authentication/vendor_plans_screen.dart';
 import '../../vendor/dashboard/dashboard_screen.dart';
 import '../../vendor/dashboard/store_open_time_screen.dart';
 import '../../vendor/orders/vendor_order_list_screen.dart';
@@ -49,7 +37,6 @@ import '../../vendor/products/all_product_screen.dart';
 import '../../vendor/products/approve_product.dart';
 import '../../widgets/common_colour.dart';
 import '../../widgets/common_textfield.dart';
-import '../calender.dart';
 import '../check_out/address/address_screen.dart';
 import '../check_out/address/edit_address.dart';
 import '../check_out/check_out_screen.dart';
@@ -120,17 +107,7 @@ class _MyAccountScreenState extends State<MyAccountScreen> {
     }
   }
   Rx<UserDeleteModel> deleteModal = UserDeleteModel().obs;
-  checkLanguage() async {
-    SharedPreferences sharedPreferences = await SharedPreferences.getInstance();
-    if (sharedPreferences.getString("app_language") == null ||
-        sharedPreferences.getString("app_language") == "English") {
-      Get.updateLocale(const Locale('en', 'US'));
-      profileController.selectedLAnguage.value = "English";
-    } else {
-      Get.updateLocale(const Locale('ar', 'Ar'));
-      profileController.selectedLAnguage.value = 'عربي';
-    }
-  }
+
 
   RxString language = "".obs;
   final RxBool _isValue = false.obs;
@@ -234,14 +211,6 @@ class _MyAccountScreenState extends State<MyAccountScreen> {
     }
   }
 
-  void notifyRestoreId(var event) async {
-    FreshchatUser user = await Freshchat.getUser;
-    String? restoreId = user.getRestoreId();
-    if (restoreId != null) {
-      Clipboard.setData(new ClipboardData(text: restoreId));
-      // showToast("Restore ID copied: $restoreId");
-    }
-  }
 
   ModelCountryList? modelCountryList;
   Country? selectedCountry;
@@ -298,77 +267,14 @@ class _MyAccountScreenState extends State<MyAccountScreen> {
 
   String countryIddd = '';
 
-  void registerFcmToken() async {
-    if (Platform.isAndroid) {
-      String? token = await FirebaseMessaging.instance.getToken();
-      String? token1 = await FirebaseMessaging.instance.getToken();
-      print("FCM Token is generated $token");
-      Freshchat.setPushRegistrationToken(token!);
-    }
-  }
 
-  String APP_ID = "83a33165-1124-4e35-90f5-947c57f0ada6",
-      APP_KEY = "f09bf7f2-bd19-4a81-a5e5-b2cc1f1a621a",
-      DOMAIN = "msdk.freshchat.com";
   void initState() {
     super.initState();
-    checkLanguage();
+    profileController.checkLanguage();
     getCountryList();
     checkUser();
     getStateList(countryId: countryIddd.toString());
     getCityList(stateId: stateIddd.toString());
-    Freshchat.init(
-      APP_ID,
-      APP_KEY,
-      DOMAIN,
-      teamMemberInfoVisible: true,
-      cameraCaptureEnabled: true,
-      gallerySelectionEnabled: true,
-      responseExpectationEnabled: true,
-      showNotificationBanneriOS: true,
-    );
-    /**
-     * This is the Firebase push notification server key for this sample app.
-     * Please save this in your Freshchat account to test push notifications in Sample app.
-     *
-     * Server key: Please refer support documentation for the server key of this sample app.
-     *
-     * Note: This is the push notification server key for sample app. You need to use your own server key for testing in your application
-     */
-    var restoreStream = Freshchat.onRestoreIdGenerated;
-    var restoreStreamSubsctiption = restoreStream.listen((event) {
-      print("Restore ID Generated: $event");
-      notifyRestoreId(event);
-    });
-
-    var unreadCountStream = Freshchat.onMessageCountUpdate;
-    unreadCountStream.listen((event) {
-      print("Have unread messages: $event");
-    });
-
-    var userInteractionStream = Freshchat.onUserInteraction;
-    userInteractionStream.listen((event) {
-      print("User interaction for Freshchat SDK");
-    });
-
-    if (Platform.isAndroid) {
-      registerFcmToken();
-      FirebaseMessaging.instance.onTokenRefresh.listen(Freshchat.setPushRegistrationToken);
-
-      Freshchat.setNotificationConfig(notificationInterceptionEnabled: true);
-      var notificationInterceptStream = Freshchat.onNotificationIntercept;
-      notificationInterceptStream.listen((event) {
-        print("Freshchat Notification Intercept detected");
-        Freshchat.openFreshchatDeeplink(event["url"]);
-      });
-
-      FirebaseMessaging.onMessage.listen((RemoteMessage message) {
-        var data = message.data;
-        handleFreshchatNotification(data);
-        print("Notification Content: $data");
-      });
-      FirebaseMessaging.onBackgroundMessage(myBackgroundMessageHandler);
-    }
   }
 
 
@@ -424,51 +330,40 @@ class _MyAccountScreenState extends State<MyAccountScreen> {
                             width: 65,
                             child: profileController.userLoggedIn
                                 ? Image.network(
-                                    profileController.apiLoaded && profileController.model.user != null
-                                        ? profileController.model.user!.profileImage.toString()
-                                        : "",
+                                    profileController.apiLoaded
+                                        ? profileController.model.user!.profileImage.toString() : "",
                                     fit: BoxFit.cover,
                                     height: 65,
                                     width: 65,
+                                    loadingBuilder: (context, child, loadingProgress) => Image.asset(
+                                      'assets/images/profile-icon.png',
+                                      fit: BoxFit.cover,
+                                      height: 65,
+                                      color: AppTheme.buttonColor,
+                                      width: 65,
+                                    ),
                                     // errorBuilder: (_, __, ___) => Image.asset(
                                     //   'assets/images/myaccount.png',
                                     //   height: 65,
                                     //   width: 65,
                                     // ),
-                                   errorBuilder: (_,__,___) => Container(
-                                     decoration: BoxDecoration(
-                                         shape: BoxShape.circle,
-                                         color: AppTheme.buttonColor,
-                                         border: Border.all(color:  AppTheme.buttonColor)),
-                                     child: const SizedBox(
-                                         height: 65,
-                                         width: 65,
-                                         child: Icon(
-                                           Icons.person,
-                                           color: Colors.white,
-                                           size: 45,
-                                         )),
-                                   ),
+                                    errorBuilder: (_, __, ___) => Image.asset(
+                                      'assets/images/profile-icon.png',
+                                      fit: BoxFit.cover,
+                                      color: AppTheme.buttonColor,
+                                      height: 65,
+                                      width: 65,
+                                    ),
                                   )
                                 // : Image.asset(
                                 //     'assets/images/myaccount.png',
                                 //     height: 65,
                                 //     width: 65,
                                 //   ),
-                        :  Container(
-                              decoration: BoxDecoration(
-                                  shape: BoxShape.circle,
-                                  color: Colors.white,
-                                  border: Border.all(color: Colors.white)),
-                              child: const SizedBox(
-                                  height: 65,
-                                  width: 65,
-                                  child: Icon(
-                                    Icons.person,
-                                    color: AppTheme.buttonColor,
-                                    size: 45,
-                                  )),
-                            ),
+                        :  Image.asset('assets/images/profile-icon.png',  fit: BoxFit.cover,
+                              height: 65,
+                              color: AppTheme.buttonColor,
+                              width: 65,),
                           ),
                         ),
                         5.spaceY,
@@ -664,86 +559,6 @@ class _MyAccountScreenState extends State<MyAccountScreen> {
                           ],
                         ),
                       ),
-                      const SizedBox(
-                        height: 5,
-                      ),
-                      const Divider(
-                        thickness: 1,
-                        color: Color(0x1A000000),
-                      ),
-                      const SizedBox(
-                        height: 5,
-                      ),
-                      // GestureDetector(
-                      //   behavior: HitTestBehavior.translucent,
-                      //   onTap: () {
-                      //     Get.toNamed(EventCalendarScreen.route);
-                      //   },
-                      //   child: Row(
-                      //     children: [
-                      //       Image.asset(height: 25, 'assets/icons/calendar.png'),
-                      //       const SizedBox(
-                      //         width: 20,
-                      //       ),
-                      //       Text(
-                      //         AppStrings.calendar.tr,
-                      //         style: GoogleFonts.poppins(
-                      //             color: const Color(0xFF2A3032), fontSize: 16, fontWeight: FontWeight.w500),
-                      //       ),
-                      //       const Spacer(),
-                      //       const Icon(
-                      //         Icons.arrow_forward_ios,
-                      //         size: 15,
-                      //       ),
-                      //     ],
-                      //   ),
-                      // ),
-                      // const SizedBox(
-                      //   height: 5,
-                      // ),
-                      // const Divider(
-                      //   thickness: 1,
-                      //   color: Color(0x1A000000),
-                      // ),
-                      const SizedBox(
-                        height: 5,
-                      ),
-                      GestureDetector(
-                        behavior: HitTestBehavior.translucent,
-                        onTap: () {
-                          setState(() {});
-                          Freshchat.showConversations();
-                        },
-                        child: Row(
-                          children: [
-                            Image.asset(height: 25, 'assets/icons/chat.png'),
-                            const SizedBox(
-                              width: 20,
-                            ),
-                            Text(
-                              'Chat'.tr,
-                              style: GoogleFonts.poppins(
-                                  color: const Color(0xFF2A3032), fontSize: 16, fontWeight: FontWeight.w500),
-                            ),
-                            const Spacer(),
-                            profileController.selectedLAnguage.value == 'English' ?
-                            Image.asset(
-                              'assets/images/forward_icon.png',
-                              height: 17,
-                              width: 17,
-                            ) :
-                            Image.asset(
-                              'assets/images/back_icon_new.png',
-                              height: 17,
-                              width: 17,
-                            ),
-                          ],
-                        ),
-                      ),
-                      const SizedBox(
-                        height: 5,
-                      ),
-
                       const SizedBox(
                         height: 5,
                       ),
@@ -2420,7 +2235,7 @@ class _MyAccountScreenState extends State<MyAccountScreen> {
                                              Get.to(const WithdrawMoney());
                                            }
                                            else if(vendor[index] == 'Social Media'){
-                                             Get.to(const SocialMediaStore());
+                                             Get.to(const SocialMediaStoreAccount());
                                            }
                                            else {
                                               showToast('Your payment is not successfull'.tr);

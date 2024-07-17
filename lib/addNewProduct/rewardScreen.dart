@@ -101,7 +101,7 @@ class _RewardScreenState extends State<RewardScreen> {
                 title: 'Continue',
                 borderRadius: 11,
                 onPressed: () {
-                  Get.to(()=>const BottomNavbar());
+                  Get.offAllNamed(BottomNavbar.route);
                 },
               ),
             ],

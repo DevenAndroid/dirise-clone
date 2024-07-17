@@ -2,6 +2,7 @@ import 'dart:convert';
 import 'dart:developer';
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:carousel_slider/carousel_slider.dart';
+
 import 'package:dirise/utils/helper.dart';
 import 'package:dirise/widgets/common_textfield.dart';
 import 'package:easy_image_viewer/easy_image_viewer.dart';
@@ -140,7 +141,8 @@ class _SingleProductDetailsState extends State<SingleProductDetails> {
     // updateValues();
   }
 
-  Map<String, dynamic> get getMap {
+  Map<String, dynamic> get getMap
+  {
     Map<String, dynamic> map = {};
     map["product_id"] = productElement.id.toString();
     map["quantity"] = map["quantity"] = int.tryParse(productQuantity.value.toString());
@@ -263,7 +265,7 @@ class _SingleProductDetailsState extends State<SingleProductDetails> {
 
   bool get checkLoaded => productElement.pName != null && productElement.sPrice != null;
 
-  CarouselController carouselController = CarouselController();
+
   Rx<ModelGetReview> modelGetReview = ModelGetReview().obs;
 
   Future getPublishPostData() async {
@@ -273,7 +275,7 @@ class _SingleProductDetailsState extends State<SingleProductDetails> {
   }
 
   RxBool alreadyReview = false.obs;
-
+  CarouselControllerImpl carouselController = CarouselControllerImpl();
   @override
   Widget build(BuildContext context) {
     Size size = MediaQuery.of(context).size;
@@ -922,4 +924,5 @@ class _SingleProductDetailsState extends State<SingleProductDetails> {
           : const LoadingAnimation(),
     );
   }
+
 }

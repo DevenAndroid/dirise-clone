@@ -4,6 +4,7 @@ import 'dart:io';
 import 'package:dirise/addNewProduct/rewardScreen.dart';
 import 'package:dirise/controller/vendor_controllers/add_product_controller.dart';
 import 'package:dirise/tellaboutself/ExtraInformation.dart';
+import 'package:dirise/utils/helper.dart';
 import 'package:dirise/virtualProduct/product_information_screen.dart';
 import 'package:dirise/virtualProduct/singleProductDiscriptionScreen.dart';
 import 'package:dirise/virtualProduct/singleProductPriceScreen.dart';
@@ -183,9 +184,17 @@ class _VirtualReviewandPublishScreenState extends State<VirtualReviewandPublishS
                                 ),
                               ),
                               GestureDetector(
-                                child: isImageProvide.value == true
-                                    ? const Icon(Icons.keyboard_arrow_up_rounded)
-                                    : const Icon(Icons.keyboard_arrow_down_outlined),
+                                child: isImageProvide.value != true
+                                    ? Image.asset(
+                                  'assets/images/drop_icon.png',
+                                  height: 17,
+                                  width: 17,
+                                )
+                                    : Image.asset(
+                                  'assets/images/up_icon.png',
+                                  height: 17,
+                                  width: 17,
+                                ),
                                 onTap: () {
                                   setState(() {
                                     isImageProvide.toggle();
@@ -220,11 +229,11 @@ class _VirtualReviewandPublishScreenState extends State<VirtualReviewandPublishS
                                 child: GestureDetector(
                                     onTap: () {
                                       File imageFile = File(productDetailsModel.value.productDetails!.product!.featuredImage);
-
+                                      File gallery = File(productDetailsModel.value.productDetails!.product!.galleryImage![0]);
                                       Get.to(AddProductFirstImageScreen(
                                         id: productDetailsModel.value.productDetails!.product!.id,
                                         image: imageFile,
-
+                                        galleryImg: gallery,
                                       ));
                                     },
                                     child: const Text(
@@ -257,9 +266,17 @@ class _VirtualReviewandPublishScreenState extends State<VirtualReviewandPublishS
                                 ),
                               ),
                               GestureDetector(
-                                child: isServiceProvide.value == true
-                                    ? const Icon(Icons.keyboard_arrow_up_rounded)
-                                    : const Icon(Icons.keyboard_arrow_down_outlined),
+                                child: isServiceProvide.value != true
+                                    ? Image.asset(
+                                  'assets/images/drop_icon.png',
+                                  height: 17,
+                                  width: 17,
+                                )
+                                    : Image.asset(
+                                  'assets/images/up_icon.png',
+                                  height: 17,
+                                  width: 17,
+                                ),
                                 onTap: () {
                                   setState(() {
                                     isServiceProvide.toggle();
@@ -284,6 +301,7 @@ class _VirtualReviewandPublishScreenState extends State<VirtualReviewandPublishS
                                 mainAxisAlignment: MainAxisAlignment.start,
                                 crossAxisAlignment: CrossAxisAlignment.start,
                                 children: [
+                                  20.spaceY,
                                   Text(
                                       'product name: ${productDetailsModel.value.productDetails!.product!.pname ?? ""}'),
                                   Text(
@@ -335,9 +353,17 @@ class _VirtualReviewandPublishScreenState extends State<VirtualReviewandPublishS
                                 ),
                               ),
                               GestureDetector(
-                                child: isTellUs.value == true
-                                    ? const Icon(Icons.keyboard_arrow_up_rounded)
-                                    : const Icon(Icons.keyboard_arrow_down_outlined),
+                                child: isTellUs.value != true
+                                    ? Image.asset(
+                                  'assets/images/drop_icon.png',
+                                  height: 17,
+                                  width: 17,
+                                )
+                                    : Image.asset(
+                                  'assets/images/up_icon.png',
+                                  height: 17,
+                                  width: 17,
+                                ),
                                 onTap: () {
                                   setState(() {
                                     isTellUs.toggle();
@@ -362,6 +388,7 @@ class _VirtualReviewandPublishScreenState extends State<VirtualReviewandPublishS
                                 mainAxisAlignment: MainAxisAlignment.start,
                                 crossAxisAlignment: CrossAxisAlignment.start,
                                 children: [
+                                  20.spaceY,
                                   Text('Price: ${productDetailsModel.value.productDetails!.product!.pPrice ?? ""} KWD'),
                                   Text(
                                       'Fixed Discounted Price : ${productDetailsModel.value.productDetails!.product!.fixedDiscountPrice ?? ""} KWD'),
@@ -476,9 +503,17 @@ class _VirtualReviewandPublishScreenState extends State<VirtualReviewandPublishS
                                 ),
                               ),
                               GestureDetector(
-                                child: isDiscrptionPolicy.value == true
-                                    ? const Icon(Icons.keyboard_arrow_up_rounded)
-                                    : const Icon(Icons.keyboard_arrow_down_outlined),
+                                child: isDiscrptionPolicy.value != true
+                                    ? Image.asset(
+                                  'assets/images/drop_icon.png',
+                                  height: 17,
+                                  width: 17,
+                                )
+                                    : Image.asset(
+                                  'assets/images/up_icon.png',
+                                  height: 17,
+                                  width: 17,
+                                ),
                                 onTap: () {
                                   setState(() {
                                     isDiscrptionPolicy.toggle();
@@ -501,6 +536,7 @@ class _VirtualReviewandPublishScreenState extends State<VirtualReviewandPublishS
                                 mainAxisAlignment: MainAxisAlignment.start,
                                 crossAxisAlignment: CrossAxisAlignment.start,
                                 children: [
+                                  20.spaceY,
                                   Text(
                                       'Short Description: ${productDetailsModel.value.productDetails!.product!.shortDescription ?? ""}'),
                                   if(productDetailsModel.value.productDetails!.product!.inStock == '-1' )
@@ -558,9 +594,17 @@ class _VirtualReviewandPublishScreenState extends State<VirtualReviewandPublishS
                                 ),
                               ),
                               GestureDetector(
-                                child: optionalDescription.value == true
-                                    ? const Icon(Icons.keyboard_arrow_up_rounded)
-                                    : const Icon(Icons.keyboard_arrow_down_outlined),
+                                child: optionalDescription.value != true
+                                    ? Image.asset(
+                                  'assets/images/drop_icon.png',
+                                  height: 17,
+                                  width: 17,
+                                )
+                                    : Image.asset(
+                                  'assets/images/up_icon.png',
+                                  height: 17,
+                                  width: 17,
+                                ),
                                 onTap: () {
                                   setState(() {
                                     optionalDescription.toggle();
@@ -584,6 +628,7 @@ class _VirtualReviewandPublishScreenState extends State<VirtualReviewandPublishS
                                 mainAxisAlignment: MainAxisAlignment.start,
                                 crossAxisAlignment: CrossAxisAlignment.start,
                                 children: [
+                                  20.spaceY,
                                   Text(
                                       'Meta Tags: ${productDetailsModel.value.productDetails!.product!.metaTags ?? ""}'),
                                   Text(
@@ -638,9 +683,17 @@ class _VirtualReviewandPublishScreenState extends State<VirtualReviewandPublishS
                                 ),
                               ),
                               GestureDetector(
-                                child: optionalClassification.value == true
-                                    ? const Icon(Icons.keyboard_arrow_up_rounded)
-                                    : const Icon(Icons.keyboard_arrow_down_outlined),
+                                child: optionalClassification.value != true
+                                    ? Image.asset(
+                                  'assets/images/drop_icon.png',
+                                  height: 17,
+                                  width: 17,
+                                )
+                                    : Image.asset(
+                                  'assets/images/up_icon.png',
+                                  height: 17,
+                                  width: 17,
+                                ),
                                 onTap: () {
                                   setState(() {
                                     optionalClassification.toggle();
@@ -662,6 +715,7 @@ class _VirtualReviewandPublishScreenState extends State<VirtualReviewandPublishS
                                 mainAxisAlignment: MainAxisAlignment.start,
                                 crossAxisAlignment: CrossAxisAlignment.start,
                                 children: [
+                                  20.spaceY,
                                   Text(
                                       'Product Code: ${productDetailsModel.value.productDetails!.product!.productCode ?? ""}'),
                                   Text(

@@ -59,6 +59,7 @@ class _BottomNavbarState extends State<BottomNavbar> {
   @override
   void initState() {
     super.initState();
+    profileController.checkLanguage();
     // locationController.checkGps(context);
     checkUser();
     // _showWelcomeDialog();

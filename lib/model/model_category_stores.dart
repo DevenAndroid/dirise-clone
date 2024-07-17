@@ -63,6 +63,7 @@ class ModelCategoryStores {
 }
 
 class User {
+  dynamic loginUserId;
   dynamic currentPage;
   dynamic day;
   dynamic start;
@@ -74,6 +75,7 @@ class User {
   List<VendorAvailability>? vendorAvailability;
   User({
     this.currentPage,
+    this.loginUserId,
     this.data,
     this.links,
     this.vendorAvailability,
@@ -88,6 +90,7 @@ class User {
     start = json['start'] ?? "";
     storeBannerDesccription = json['store_banner_desccription'] ?? "";
     end = json['end'] ?? "";
+    loginUserId = json['login_user_id'];
     status = json['status'] ?? '';
     if (json['data'] != null) {
       data = <VendorStoreData>[];
@@ -117,6 +120,7 @@ class User {
     data['day'] = day;
     data['start'] = start;
     data['end'] = end;
+    data['login_user_id'] = loginUserId;
     data['status'] = status;
     data['store_banner_desccription'] = storeBannerDesccription;
     if (this.data != null) {

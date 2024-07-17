@@ -29,6 +29,7 @@ class User {
   dynamic storeLogo;
   dynamic storeImage;
   dynamic storeName;
+  dynamic storeUrl;
   dynamic email;
   dynamic storePhone;
   dynamic description;
@@ -49,6 +50,7 @@ class User {
         this.storeName,
         this.email,
         this.storePhone,
+        this.storeUrl,
         this.day,
         this.start,
         this.end,
@@ -68,6 +70,7 @@ class User {
     storeImage = json['store_image'];
     storeName = json['store_name'];
     email = json['email'];
+    storeUrl = json['store_url'];
     storePhone = json['store_phone'];
     description = json['description'];
     storeBannerDesccription = json['store_banner_desccription'];
@@ -89,6 +92,7 @@ class User {
     data['store_image'] = storeImage;
     data['store_name'] = storeName;
     data['email'] = email;
+    data['store_url'] = this.storeUrl;
     data['start_break_time'] = startBreakTime;
     data['end_break_time'] = endBreakTime;
     data['store_phone'] = storePhone;

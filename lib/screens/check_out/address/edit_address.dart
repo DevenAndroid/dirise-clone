@@ -319,7 +319,7 @@ class _EditAddressSheetState extends State<EditAddressSheet> {
                       enabledBorder: OutlineInputBorder(borderSide: BorderSide(color: AppTheme.shadowColor)),
                       focusedBorder: OutlineInputBorder(borderSide: BorderSide(color: AppTheme.shadowColor))),
                   initialCountryCode: profileController.code.toString(),
-                  languageCode: '+91',
+                  languageCode: profileController.code,
                   onCountryChanged: (phone) {
                     profileController.code = phone.code;
                     print(phone.code);
@@ -652,9 +652,13 @@ class _EditAddressSheetState extends State<EditAddressSheet> {
                           cityId: cartController.cityCode.toString(),
                           stateId: cartController.stateCode.toString(),
                           phoneCountryCode: profileController.code.toString(),
+                          type : 'checkout',
                           id: addressData.id);
                     }
-                    cartController.getCart();
+                      if(addressData.id != null){
+                        Get.back();
+                      }
+                      cartController.getCart();
                   },
                   child: Container(
                     decoration: const BoxDecoration(color: Color(0xff014E70)),

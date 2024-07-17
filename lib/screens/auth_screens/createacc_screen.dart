@@ -1,5 +1,6 @@
 import 'dart:convert';
 import 'package:dirise/language/app_strings.dart';
+import 'package:dirise/utils/helper.dart';
 import 'package:dirise/widgets/common_colour.dart';
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
@@ -120,13 +121,10 @@ class _CreateAccountScreenState extends State<CreateAccountScreen> {
             padding: const EdgeInsets.only(left: 15, right: 15),
             child: Column(
               children: [
-                const Padding(
-                  padding: EdgeInsets.only(top: 15),
-                  child: Image(height: 70, image: AssetImage('assets/images/diriselogo.png')),
-                ),
-                SizedBox(
-                  height: size.height * .08,
-                ),
+                10.spaceY,
+                Image.asset('assets/images/new_logo.png',
+                  height: 180,),
+                20.spaceY,
                 CommonTextField(
                     controller: _emailController,
                     obSecure: false,

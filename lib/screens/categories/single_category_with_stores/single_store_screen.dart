@@ -182,7 +182,7 @@ class _SingleStoreScreenState extends State<SingleStoreScreen> {
       throw 'Could not launch $url';
     }
   }
-
+  String storeUrl = '';
   Rx<ModelCategoryStores> getCategoryStoresModel = ModelCategoryStores().obs;
   Rx<VendorAvailability> vendorAvailabilityModel = VendorAvailability().obs;
 
@@ -191,11 +191,13 @@ class _SingleStoreScreenState extends State<SingleStoreScreen> {
     repositories.getApi(url: ApiUrls.getVendorInfoUrl + vendorId).then((value) {
       ModelSingleVendor response = ModelSingleVendor.fromJson(jsonDecode(value));
       productCount = response.productCount.toString();
-       description = response.user!.storeBannerDesccription.toString();
+       description = response.user!.storeBannerDesccription ?? 'store description not found';
       bannerString = response.user!.bannerProfileApp.toString();
       storeLogo = response.user!.storeLogo.toString();
+      storeUrl = response.user!.storeUrl.toString();
       gg = VendorStoreData.fromJson(response.user!.toJson());
       log('vendorrrrrr${gg.toJson()}');
+      log('vendorrrrr ulr${storeUrl.toString()}');
       ee = SocialLinks.fromJson(response.toJson());
       ss = ModelCategoryStores.fromJson(response.user!.toJson());
       setState(() {});
@@ -361,7 +363,8 @@ class _SingleStoreScreenState extends State<SingleStoreScreen> {
                                                   'assets/svgs/insta_img.svg',
                                                   width: 15,
                                                   height: 15,
-                                                )),
+                                                )
+                                            ),
                                           ),
                                           getCategoryStoresModel.value.socialLinks != null &&
                                               getCategoryStoresModel.value.socialLinks!.instagram != null &&
@@ -475,7 +478,7 @@ class _SingleStoreScreenState extends State<SingleStoreScreen> {
                               height: 10,
                             ),
                             Text(
-                              description.toString(),
+                              description.isNotEmpty ? description : 'store description not found'.tr,
                               style: GoogleFonts.poppins(
                                   color: const Color(0xFF014E70), fontSize: 14, fontWeight: FontWeight.w500),
                             ),
@@ -490,6 +493,79 @@ class _SingleStoreScreenState extends State<SingleStoreScreen> {
                               const SizedBox(
                                 height: 12,
                               ),
+                              Row(
+                                children: [
+                                  if (storeUrl.isNotEmpty && storeUrl != '')
+                                    Expanded(
+                                      child: MaterialButton(
+                                        onPressed: () async {
+
+                                        },
+                                        shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(8)),
+                                        child: Row(
+                                          //  crossAxisAlignment: CrossAxisAlignment.start,
+                                          children: [
+                                            const Text(
+                                              "Store-Url",
+                                              style: TextStyle(fontSize: 15, fontWeight: FontWeight.bold),
+                                            ),
+                                            const SizedBox(
+                                              width: 5,
+                                            ),
+                                            Expanded(
+                                              child: Text(
+                                                "${storeUrl.toString()}",
+                                                style: normalStyle.copyWith(
+                                                  color: const Color(0xFF7D7D7D),
+                                                ),
+                                              ),
+                                            ),
+                                          ],
+                                        ),
+                                      ),
+                                    ),
+                                  if (storeInfo.storePhone
+                                      .toString()
+                                      .trim()
+                                      .isNotEmpty)
+                                    Expanded(
+                                      child: MaterialButton(
+                                        onPressed: () async {
+                                          await Clipboard.setData(
+                                              ClipboardData(text: storeInfo.storePhone.toString().trim()));
+                                          final snackBar = SnackBar(
+                                            content: Text(
+                                              "Phone no. copied".tr,
+                                              style: normalStyle,
+                                            ),
+                                            action: SnackBarAction(
+                                                label: "Make Call".tr,
+                                                onPressed: () {
+                                                  Helpers.makeCall(phoneNumber: storeInfo.storePhone.toString().trim());
+                                                }),
+                                            backgroundColor: AppTheme.buttonColor,
+                                          );
+                                          if (!mounted) return;
+                                          ScaffoldMessenger.of(context).showSnackBar(snackBar);
+                                        },
+                                        shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(8)),
+                                        child: Row(
+                                          crossAxisAlignment: CrossAxisAlignment.start,
+                                          children: [
+                                            SvgPicture.asset("assets/svgs/phone_call.svg"),
+                                            Text(
+                                              "+${storeInfo.storePhone}",
+                                              style: normalStyle.copyWith(
+                                                color: const Color(0xFF7D7D7D),
+                                              ),
+                                            ),
+                                          ],
+                                        ),
+                                      ),
+                                    ),
+                                ],
+                              ),
+                              const SizedBox(height: 10,),
                               Row(
                                 children: [
                                   if (storeInfo.email
@@ -824,7 +900,8 @@ class _SingleStoreScreenState extends State<SingleStoreScreen> {
                     final item = filterModel.value.product![index];
                     return Padding(
                       padding: const EdgeInsets.symmetric(horizontal: 12),
-                      child: ProductUI(
+                      child:
+                      ProductUI(
                         productElement:item,
                         isSingle: true,
                         onLiked: (value) {
@@ -835,8 +912,14 @@ class _SingleStoreScreenState extends State<SingleStoreScreen> {
                   },
                 )
                     : SliverToBoxAdapter(
-                    child: Center(
-                      child: Text(AppStrings.storeDontHaveAnyProduct),
+                    child:Column(
+                      children: [
+                        Center(
+                          child: Text(AppStrings.storeDontHaveAnyProduct.tr),
+                        ),
+                        Text('User id is ${ getCategoryStoresModel.value.user!.loginUserId.toString()}'),
+                        Text('Vendor id is ${vendorId.toString()}'),
+                      ],
                     )),
               if (modelProductsList.data != null && controller.isFilter.value == false )
                 modelProductsList.data!.isNotEmpty
@@ -845,7 +928,7 @@ class _SingleStoreScreenState extends State<SingleStoreScreen> {
                     crossAxisCount: 1,
                     crossAxisSpacing: 10,
                     mainAxisSpacing: 10,
-                    childAspectRatio: .82,
+                    childAspectRatio: .90,
                   ),
                   itemCount: modelProductsList.data!.length,
                   itemBuilder: (BuildContext context, int index) {
@@ -864,9 +947,9 @@ class _SingleStoreScreenState extends State<SingleStoreScreen> {
                 )
 
                     : SliverToBoxAdapter(
-                    child: Center(
+                    child:  Center(
                       child: Text(AppStrings.storeDontHaveAnyProduct.tr),
-                    ))
+                    ),)
               else
                 SliverToBoxAdapter(child: controller.isFilter.value == false ? const LoadingAnimation() : const SizedBox()),
               const SliverToBoxAdapter(

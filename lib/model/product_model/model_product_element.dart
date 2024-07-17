@@ -1,6 +1,7 @@
 import 'package:dirise/utils/helper.dart';
 
 class ProductElement {
+  dynamic userId;
   dynamic id;
   dynamic vendorId;
   dynamic catId;
@@ -22,6 +23,8 @@ class ProductElement {
   dynamic productNew;
   dynamic bestSaller;
   dynamic featured;
+  dynamic showcaseProduct;
+
   dynamic taxApply;
   dynamic taxType;
   dynamic shortDescription;
@@ -61,6 +64,7 @@ class ProductElement {
   dynamic stepPrice;
   dynamic currentBid;
   dynamic featureImageApp;
+  dynamic isShowcase;
   dynamic beforePurchase;
   dynamic alreadyReview;
   bool? isShipping;
@@ -78,6 +82,7 @@ class ProductElement {
   dynamic itemType;
   ProductElement({
     this.id,
+    this.userId,
     this.vendorId,
     this.catId,
     this.alreadyReview,
@@ -97,6 +102,7 @@ class ProductElement {
     this.virtualProductFileType,
     this.pPrice,
     this.sPrice,
+    this.showcaseProduct,
     this.commission,
     this.productNew,
     this.bestSaller,
@@ -142,6 +148,7 @@ class ProductElement {
     this.stepPrice,
     this.currentBid,
     this.discountPrice,
+    this.isShowcase,
     this.itemType,
     // this.attributes,
     this.serviceTimeSloat,
@@ -159,6 +166,7 @@ class ProductElement {
     vendorId = json["vendor_id"];
     catId = json["cat_id"];
     catId2 = json["cat_id_2"];
+    userId = json['user_id'];
     catId3 = json["cat_id_3"];
     brandSlug = json["brand_slug"];
     slug = json["slug"];
@@ -176,6 +184,7 @@ class ProductElement {
     sPrice = json["s_price"];
     commission = json["commission"];
     alreadyReview = json['already_review'];
+    showcaseProduct = json['showcase_product'];
     productNew = json["new"];
     bestSaller = json["best_saller"];
     featured = json["featured"];
@@ -227,6 +236,7 @@ class ProductElement {
     stepPrice = json["step_price"];
     rating = json["rating"];
     currentBid = json["current_bid"];
+isShowcase = json['is_showcase'];
     lowestDeliveryPrice = json['lowestDeliveryPrice'];
     shippingDate = json['shipping_date'];
     itemType = json['item_type'];
@@ -267,6 +277,7 @@ class ProductElement {
     "brand_slug": brandSlug,
     "slug": slug,
     "pname": pName,
+  "is_showcase": isShowcase,
     'is_shipping' : isShipping,
     'feature_image_app' : featureImageApp,
     if (serviceTimeSloat != null) 'serviceTimeSloat': serviceTimeSloat!.map((v) => v.toJson()).toList(),
@@ -278,6 +289,7 @@ class ProductElement {
     "product_type": productType,
     "sku_id": skuId,
     "p_price": pPrice,
+ 'showcase_product': showcaseProduct,
     "s_price": sPrice,
     "commission": commission,
     'before_purchase' : beforePurchase,
@@ -285,6 +297,7 @@ class ProductElement {
    'already_review': alreadyReview,
     "best_saller": bestSaller,
     "featured": featured,
+    'user_id' : userId,
     "tax_apply": taxApply,
     "tax_type": taxType,
     "discount_price": discountPrice,

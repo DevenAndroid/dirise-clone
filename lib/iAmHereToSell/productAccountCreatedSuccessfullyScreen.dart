@@ -2,6 +2,7 @@
 import 'package:dirise/bottomavbar.dart';
 import 'package:dirise/widgets/common_colour.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_svg/svg.dart';
 import 'package:get/get.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:url_launcher/url_launcher_string.dart';
@@ -53,7 +54,7 @@ class _ProductAccountCreatedSuccessfullyScreenState extends State<ProductAccount
                   child: Image(
                     height: AddSize.size200,
                     width: double.maxFinite,
-                    image: const AssetImage('assets/images/newlogoo.png'),
+                    image: const AssetImage('assets/images/new_logo.png'),
                     fit: BoxFit.contain,
                     opacity: const AlwaysStoppedAnimation(.80),
                   ),
@@ -81,7 +82,7 @@ class _ProductAccountCreatedSuccessfullyScreenState extends State<ProductAccount
                 ),
                 if( profileController.thankYouValue == 'Product')
            Text(
-              "Product have been added  successfully".tr,
+              "Product have been added successfully".tr,
                   textAlign: TextAlign.center,
                   style: Theme.of(context)
                       .textTheme
@@ -90,7 +91,7 @@ class _ProductAccountCreatedSuccessfullyScreenState extends State<ProductAccount
                 ),
                 if( profileController.thankYouValue == 'Virtual')
            Text(
-              "Virtual have been added  successfully".tr,
+              "Virtual have been added successfully".tr,
                   textAlign: TextAlign.center,
                   style: Theme.of(context)
                       .textTheme
@@ -100,14 +101,16 @@ class _ProductAccountCreatedSuccessfullyScreenState extends State<ProductAccount
                 SizedBox(
                   height: AddSize.size15,
                 ),
-                const Padding(
-                  padding: EdgeInsets.symmetric(horizontal: 24),
-                  child: Image(
-                    height: 100,
-                    width: double.maxFinite,
-                    image: AssetImage('assets/images/thanku.png'),
-                    fit: BoxFit.contain,
-                    opacity: AlwaysStoppedAnimation(.80),
+                Padding(
+                  padding: const EdgeInsets.symmetric(horizontal: 24),
+                  child:  CircleAvatar(
+                      radius: 40,
+                      backgroundColor: Colors.white,
+                      child: SvgPicture.asset(
+                        'assets/images/right.svg',
+                        width: 100,
+                        height: 100,
+                      )
                   ),
                 ),
                 SizedBox(

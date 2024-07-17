@@ -109,7 +109,7 @@ class _WhatdoyousellScreenState extends State<WhatdoyousellScreen> {
     map["store_name"] = storeName.text.trim();
     map["store_email"] = storeEmail.text.trim();
     map["store_number"] = storeNumber.text.trim();
-    map["vendor_type"] = selectedPlan.name;
+    map["vendor_type"] = profileController.vendorType.toString();
     map["category_id"] = allSelectedCategory.entries.map((e) => e.key).toList().join(",");
     repositories.postApi(url: ApiUrls.vendorRegistrationUrl, context: context, mapData: map).then((value) async {
       response.value = LoginModal.fromJson(jsonDecode(value));

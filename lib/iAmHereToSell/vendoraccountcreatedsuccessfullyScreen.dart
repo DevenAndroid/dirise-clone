@@ -47,7 +47,7 @@ class _VendorAccountCreatedSuccessfullyScreenState extends State<VendorAccountCr
                   child: Image(
                     height: AddSize.size300,
                     width: double.maxFinite,
-                    image: const AssetImage('assets/images/newlogoo.png'),
+                    image: const AssetImage('assets/images/new_logo.png'),
                     fit: BoxFit.contain,
                     opacity: const AlwaysStoppedAnimation(.80),
                   ),

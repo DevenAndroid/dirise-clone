@@ -116,7 +116,17 @@ class _OrderCompleteScreenState extends State<OrderCompleteScreen> {
                                 CircleAvatar(
                                   radius: 20,
                                   backgroundColor: const Color(0xffEEEEEE),
-                                  child: Text("${orderItems.quantity}x"),
+                                  child: FittedBox(
+                                    child: Padding(
+                                      padding: const EdgeInsets.all(8.0),
+                                      child: Text("${orderItems.quantity} x",style: const TextStyle(
+                                        fontSize: 16,
+                                        fontWeight: FontWeight.w300,
+                                      ),
+                                        textAlign: TextAlign.center,
+                                      ),
+                                    ),
+                                  ),
                                 ),
                                 const SizedBox(
                                   width: 12,

@@ -11,6 +11,7 @@ import '../controller/vendor_controllers/add_product_controller.dart';
 import '../model/common_modal.dart';
 import '../model/jobResponceModel.dart';
 import '../repository/repository.dart';
+import '../singleproductScreen/ReviewandPublishScreen.dart';
 import '../utils/api_constant.dart';
 import '../vendor/authentication/image_widget.dart';
 import '../widgets/common_button.dart';
@@ -20,16 +21,16 @@ import 'myItemIsScreen.dart';
 class AddProductFirstImageScreen extends StatefulWidget {
   int? id;
   File? image;
-  AddProductFirstImageScreen({super.key,this.id,this.image});
+  File? galleryImg;
+  AddProductFirstImageScreen({super.key,this.id,this.image,this.galleryImg});
 
   @override
   State<AddProductFirstImageScreen> createState() => _AddProductFirstImageScreenState();
 }
 
 class _AddProductFirstImageScreenState extends State<AddProductFirstImageScreen> {
-  File featuredImage = File("");
+
   RxBool showValidation = false.obs;
-  List<File> selectedFiles = [];
   final profileController = Get.put(ProfileController());
   bool checkValidation(bool bool1, bool2) {
     if (bool1 == true && bool2 == true) {
@@ -38,13 +39,17 @@ class _AddProductFirstImageScreenState extends State<AddProductFirstImageScreen>
       return false;
     }
   }
-
+  File featuredImage = File("");
+  List<File> selectedFiles = [];
   @override
   void initState() {
     // TODO: implement initState
     super.initState();
     if(widget.id != null){
-      featuredImage = widget.image!;
+       featuredImage = widget.image!;
+      if (! selectedFiles.contains(widget.galleryImg!)) {
+         selectedFiles.add(widget.galleryImg!);
+      }
     }
 
   }
@@ -53,9 +58,9 @@ class _AddProductFirstImageScreenState extends State<AddProductFirstImageScreen>
   Map<String, File> images = {};
   void addProduct() {
     Map<String, String> map = {};
-    images["featured_image"] = featuredImage;
-    for (int i = 0; i < selectedFiles.length; i++) {
-      images["gallery_image[$i]"] = selectedFiles[i];
+    images["featured_image"] =  featuredImage;
+    for (int i = 0; i <  selectedFiles.length; i++) {
+      images["gallery_image[$i]"] =  selectedFiles[i];
     }
 
     final Repositories repositories = Repositories();
@@ -76,8 +81,13 @@ class _AddProductFirstImageScreenState extends State<AddProductFirstImageScreen>
         showToastCenter(response.message.toString());
       }
       addProductController.idProduct.value = response.productDetails!.product!.id.toString();
-
-       Get.to(MyItemISScreen());
+      if(widget.id != null){
+        profileController.getVendorCategories(addProductController.idProduct.value.toString());
+        Get.back();
+      }
+      else {
+        Get.to(MyItemISScreen());
+      }
       showToast('Add Product Image successfully');
     });
   }

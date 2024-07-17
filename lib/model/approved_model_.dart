@@ -66,7 +66,7 @@ class ApproveProduct {
  dynamic longDescription;
  dynamic arabLongDescription;
  dynamic featuredImage;
-  List<String>? galleryImage;
+  // List<String>? galleryImage;
  dynamic virtualProductFile;
  dynamic virtualProductFileType;
  dynamic virtualProductFileLanguage;
@@ -202,7 +202,7 @@ class ApproveProduct {
         this.longDescription,
         this.arabLongDescription,
         this.featuredImage,
-        this.galleryImage,
+        // this.galleryImage,
         this.virtualProductFile,
         this.virtualProductFileType,
         this.virtualProductFileLanguage,
@@ -338,7 +338,7 @@ class ApproveProduct {
     longDescription = json['long_description'];
     arabLongDescription = json['arab_long_description'];
     featuredImage = json['featured_image'];
-    galleryImage = json['gallery_image'].cast<String>();
+    // galleryImage = json['gallery_image'].cast<String>();
     virtualProductFile = json['virtual_product_file'];
     virtualProductFileType = json['virtual_product_file_type'];
     virtualProductFileLanguage = json['virtual_product_file_language'];
@@ -488,7 +488,7 @@ class ApproveProduct {
     data['long_description'] = this.longDescription;
     data['arab_long_description'] = this.arabLongDescription;
     data['featured_image'] = this.featuredImage;
-    data['gallery_image'] = this.galleryImage;
+    // data['gallery_image'] = this.galleryImage;
     data['virtual_product_file'] = this.virtualProductFile;
     data['virtual_product_file_type'] = this.virtualProductFileType;
     data['virtual_product_file_language'] = this.virtualProductFileLanguage;

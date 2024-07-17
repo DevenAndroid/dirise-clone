@@ -3,7 +3,7 @@ import 'dart:developer';
 
 import 'package:dirise/addNewProduct/rewardScreen.dart';
 import 'package:dirise/screens/Seminars%20&%20%20Attendable%20Course/seminars_date_screen.dart';
-import 'package:dirise/screens/Seminars%20&%20%20Attendable%20Course/sponsors_academic_screen.dart';
+import 'package:dirise/screens/Seminars%20&%20%20Attendable%20Course/sponsors_seminars_screen.dart';
 import 'package:dirise/screens/Seminars%20&%20%20Attendable%20Course/webinarScreen.dart';
 import 'package:dirise/widgets/loading_animation.dart';
 import 'package:flutter/cupertino.dart';
@@ -162,9 +162,17 @@ class _ReviewScreenSeminarAndAttendableState extends State<ReviewScreenSeminarAn
                           ),
                         ),
                         GestureDetector(
-                          child: isServiceProvide.value == true
-                              ? const Icon(Icons.keyboard_arrow_up_rounded)
-                              : const Icon(Icons.keyboard_arrow_down_outlined),
+                          child: isServiceProvide.value != true
+                              ? Image.asset(
+                            'assets/images/drop_icon.png',
+                            height: 17,
+                            width: 17,
+                          )
+                              : Image.asset(
+                            'assets/images/up_icon.png',
+                            height: 17,
+                            width: 17,
+                          ),
                           onTap: () {
                             setState(() {
                               isServiceProvide.toggle();
@@ -253,9 +261,17 @@ class _ReviewScreenSeminarAndAttendableState extends State<ReviewScreenSeminarAn
                           ),
                         ),
                         GestureDetector(
-                          child: isTime.value == true
-                              ? const Icon(Icons.keyboard_arrow_up_rounded)
-                              : const Icon(Icons.keyboard_arrow_down_outlined),
+                          child: isTime.value != true
+                              ? Image.asset(
+                            'assets/images/drop_icon.png',
+                            height: 17,
+                            width: 17,
+                          )
+                              : Image.asset(
+                            'assets/images/up_icon.png',
+                            height: 17,
+                            width: 17,
+                          ),
                           onTap: () {
                             setState(() {
                               isTime.toggle();
@@ -333,9 +349,17 @@ class _ReviewScreenSeminarAndAttendableState extends State<ReviewScreenSeminarAn
                           ),
                         ),
                         GestureDetector(
-                          child: isOperational.value == true
-                              ? const Icon(Icons.keyboard_arrow_up_rounded)
-                              : const Icon(Icons.keyboard_arrow_down_outlined),
+                          child: isOperational.value != true
+                              ? Image.asset(
+                            'assets/images/drop_icon.png',
+                            height: 17,
+                            width: 17,
+                          )
+                              : Image.asset(
+                            'assets/images/up_icon.png',
+                            height: 17,
+                            width: 17,
+                          ),
                           onTap: () {
                             setState(() {
                               isOperational.toggle();
@@ -426,9 +450,17 @@ class _ReviewScreenSeminarAndAttendableState extends State<ReviewScreenSeminarAn
                           ),
                         ),
                         GestureDetector(
-                          child: isSponsors.value == true
-                              ? const Icon(Icons.keyboard_arrow_up_rounded)
-                              : const Icon(Icons.keyboard_arrow_down_outlined),
+                          child: isSponsors.value != true
+                              ? Image.asset(
+                            'assets/images/drop_icon.png',
+                            height: 17,
+                            width: 17,
+                          )
+                              : Image.asset(
+                            'assets/images/up_icon.png',
+                            height: 17,
+                            width: 17,
+                          ),
                           onTap: () {
                             setState(() {
                               isSponsors.toggle();
@@ -500,9 +532,17 @@ class _ReviewScreenSeminarAndAttendableState extends State<ReviewScreenSeminarAn
                           ),
                         ),
                         GestureDetector(
-                          child: eligibleCustomer.value == true
-                              ? const Icon(Icons.keyboard_arrow_up_rounded)
-                              : const Icon(Icons.keyboard_arrow_down_outlined),
+                          child: eligibleCustomer.value != true
+                              ? Image.asset(
+                            'assets/images/drop_icon.png',
+                            height: 17,
+                            width: 17,
+                          )
+                              : Image.asset(
+                            'assets/images/up_icon.png',
+                            height: 17,
+                            width: 17,
+                          ),
                           onTap: () {
                             setState(() {
                               eligibleCustomer.toggle();

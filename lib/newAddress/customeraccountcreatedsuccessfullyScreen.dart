@@ -13,9 +13,8 @@ const String navigationBackUrl = "navigationbackUrlCode/navigationbackUrlCode";
 const String failureUrl = "navigationbackUrlCode/navigationbackUrlCode__failureUrl";
 
 class CustomerAccountCreatedSuccessfullyScreen extends StatefulWidget {
-  const CustomerAccountCreatedSuccessfullyScreen({
-    Key? key,
-  }) : super(key: key);
+  const CustomerAccountCreatedSuccessfullyScreen({Key? key,}) : super(key: key);
+  static String route = "/CustomerAccountCreatedSuccessfullyScreen";
   // final PlanInfoData planInfoData;
   @override
   State<CustomerAccountCreatedSuccessfullyScreen> createState() => _CustomerAccountCreatedSuccessfullyScreenState();
@@ -47,7 +46,7 @@ class _CustomerAccountCreatedSuccessfullyScreenState extends State<CustomerAccou
                   child: Image(
                     height: AddSize.size300,
                     width: double.maxFinite,
-                    image: const AssetImage('assets/images/newlogoo.png'),
+                    image: const AssetImage('assets/images/new_logo.png'),
                     fit: BoxFit.contain,
                     opacity: const AlwaysStoppedAnimation(.80),
                   ),
@@ -89,7 +88,7 @@ class _CustomerAccountCreatedSuccessfullyScreenState extends State<CustomerAccou
                 ),
                 GestureDetector(
                   onTap: () {
-                    Get.offNamed(FrequentlyAskedQuestionsScreen.route);
+                    Get.toNamed(FrequentlyAskedQuestionsScreen.route);
                   },
                   child: Text(
                     'FAQs'.tr,

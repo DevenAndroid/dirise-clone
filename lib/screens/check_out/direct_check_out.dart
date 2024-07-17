@@ -51,7 +51,7 @@ class _DirectCheckOutScreenState extends State<DirectCheckOutScreen> {
   double fedxTotal = 0.0;
   double fedxTotalShip = 0.0;
   ModelPaymentMethods? methods;
-
+  double commisionShipping = 0.0;
   getPaymentGateWays() {
     Repositories().getApi(url: ApiUrls.paymentMethodsUrl).then((value) {
       methods = ModelPaymentMethods.fromJson(jsonDecode(value));
@@ -182,6 +182,7 @@ class _DirectCheckOutScreenState extends State<DirectCheckOutScreen> {
     super.dispose();
     cartController.directOrderResponse;
   }
+  double shippingCommision=  0.0;
   @override
   Widget build(BuildContext context) {
     Size size = MediaQuery
@@ -459,6 +460,8 @@ class _DirectCheckOutScreenState extends State<DirectCheckOutScreen> {
                                                   cartController.shippingTitle = product.name.toString();
                                                   cartController.shippingPrices1 = product.value.toString();
                                                   print('total isss${cartController.formattedTotal.toString()}');
+                                                  cartController.shipping_new_api = product.value.toString();
+                                                  print('fdfdff${cartController.shipping_new_api.toString()}');
                                                   log(cartController.directOrderResponse.value.shippingOption.value);
                                                   log(cartController.shippingId);
                                                   cartController.directOrderResponse.value.sPrice = double.parse(product
@@ -573,6 +576,9 @@ class _DirectCheckOutScreenState extends State<DirectCheckOutScreen> {
                                         RatedShipmentDetails product1 = cartController.directOrderResponse.value
                                             .shippingType!.fedexShipping!.output!
                                             .rateReplyDetails![ii].ratedShipmentDetails![index];
+                                        shippingCommision = double.parse(cartController.directOrderResponse.value.fedexCommision.toString());
+                                        double shipping = double.parse(product1.totalNetCharge.toString());
+                                        double fedxTotalIs = shipping + shippingCommision;
                                         // double subtotal = double.parse(directOrderResponse.fedexCommision.toString());
                                         // double shipping = double.parse(product1.totalNetCharge.toString());
                                         // fedxTotal = subtotal + shipping;
@@ -617,6 +623,8 @@ class _DirectCheckOutScreenState extends State<DirectCheckOutScreen> {
                                                         // cartController.shippingPrices = product.ratedShipmentDetails![index].totalNetCharge.toString();
                                                         cartController.directOrderResponse.value.shippingOption.value =
                                                             value.toString();
+                                                        cartController.shipping_new_api = fedxTotalIs.toString();
+                                                        print('fdfdff${cartController.shipping_new_api.toString()}');
                                                         print(cartController.directOrderResponse.value.fedexShippingOption
                                                             .value.toString());
                                                         print(cartController.shippingTitle.toString());
@@ -625,7 +633,9 @@ class _DirectCheckOutScreenState extends State<DirectCheckOutScreen> {
                                                         double subtotal = double.parse(
                                                             cartController.directOrderResponse.value.subtotal.toString());
                                                         double shipping = double.parse(product1.totalNetCharge.toString());
-                                                        total = subtotal + shipping;
+                                                        double total123 = subtotal + shipping;
+                                                        total = total123 + shippingCommision;
+                                                        cartController.formattedTotal2 = total.toStringAsFixed(3);
                                                         cartController.formattedTotal2 = total.toStringAsFixed(3);
                                                         print("icarryCommision" +
                                                             cartController.directOrderResponse.value.fedexCommision
@@ -651,8 +661,9 @@ class _DirectCheckOutScreenState extends State<DirectCheckOutScreen> {
                                                         log("Initial sPrice:$sPrice1");
                                                         log("Initial sPrice" + cartController.shippingTitle);
                                                         log(product.serviceType.toString());
+                                                        commisionShipping = fedxTotalIs.toDouble();
                                                         cartController.directOrderResponse.value.sPrice =
-                                                            double.parse(product1.totalNetCharge.toString());
+                                                            double.parse(fedxTotalIs.toString());
                                                         sPrice1 = 0.0;
                                                         // cartController.withoutSelectPrice = double.parse(cartController.shippingPrices);
                                                         print('value change:::${cartController.shippingPrices.toString()}');
@@ -686,7 +697,7 @@ class _DirectCheckOutScreenState extends State<DirectCheckOutScreen> {
                                                             style: GoogleFonts.poppins(fontWeight: FontWeight.w500,
                                                                 fontSize: 16)),
                                                         3.spaceY,
-                                                        Text('kwd ${ product1.totalNetCharge.toString()}',
+                                                        Text('kwd ${ fedxTotalIs.toString()}',
                                                             style: GoogleFonts.poppins(fontWeight: FontWeight.w400,
                                                                 fontSize: 16,
                                                                 color: const Color(0xFF03a827))),
@@ -742,6 +753,9 @@ class _DirectCheckOutScreenState extends State<DirectCheckOutScreen> {
                                         cartController.directOrderResponse.value.prodcutData!.vendorId.toString();
                                     IcarryShipping product = cartController.directOrderResponse.value.shippingType!
                                         .icarryShipping![ii];
+                                    shippingCommision = double.parse(cartController.directOrderResponse.value.icarryCommision.toString());
+                                    double shipping = double.parse(product.rate.toString());
+                                    double icarryTotal = shipping + shippingCommision;
                                     // double subtotal = double.parse(directOrderResponse.icarryCommision.toString());
                                     // double shipping = double.parse(product.rate.toString());
                                     // fedxTotal = subtotal + shipping;
@@ -783,6 +797,7 @@ class _DirectCheckOutScreenState extends State<DirectCheckOutScreen> {
                                                         value.toString();
                                                     cartController.shippingTitle = product.name.toString();
                                                     cartController.shippingDates = product.methodName.toString();
+                                                    cartController.shipping_new_api = icarryTotal.toString();
                                                     //  double subtotal = double.parse(directOrderResponse.icarryCommision.toString());
                                                     //  double shipping = double.parse(product.rate.toString());
                                                     //  total = subtotal + shipping;
@@ -800,6 +815,10 @@ class _DirectCheckOutScreenState extends State<DirectCheckOutScreen> {
                                                     double subtotal = double.parse(
                                                         cartController.directOrderResponse.value.icarryCommision.toString());
                                                     double shipping = double.parse(product.rate.toString());
+                                                    double total123 = subtotal + shipping;
+                                                    total = total123 + shippingCommision;
+                                                    cartController.formattedTotal2 = total.toStringAsFixed(3);
+                                                    commisionShipping = icarryTotal;
                                                     total = subtotal + shipping;
                                                     cartController.formattedTotal2 = total.toStringAsFixed(3);
                                                     print("icarryCommision" +
@@ -831,8 +850,7 @@ class _DirectCheckOutScreenState extends State<DirectCheckOutScreen> {
                                                         cartController.shippingDates.toString());
                                                     log("Initial sPrice:" + cartController.shippingTitle.toString());
                                                     log("Initial sPrice::" + shipmentProvider.value.toString());
-                                                    cartController.directOrderResponse.value.prodcutData!.sPrice = double
-                                                        .parse(product.rate.toString());
+                                                    cartController.directOrderResponse.value.prodcutData!.sPrice = double.parse(icarryTotal.toString());
                                                     sPrice1 = 0.0;
                                                     log("kiska price hai :::::::::::::::s+ ${shippingType.value
                                                         .toString()}");
@@ -865,7 +883,7 @@ class _DirectCheckOutScreenState extends State<DirectCheckOutScreen> {
                                                         style: GoogleFonts.poppins(fontWeight: FontWeight.w500,
                                                             fontSize: 16)),
                                                     3.spaceY,
-                                                    Text("KWD " + cartController.shippingPrices.toString(),
+                                                    Text("KWD " + icarryTotal.toString(),
                                                         style: GoogleFonts.poppins(fontWeight: FontWeight.w400,
                                                             fontSize: 16,
                                                             color: const Color(0xFF03a827))),
@@ -1370,8 +1388,10 @@ class _DirectCheckOutScreenState extends State<DirectCheckOutScreen> {
                       children: [
                         Text("Shipping".tr,
                             style: GoogleFonts.poppins(fontWeight: FontWeight.w400, color: const Color(0xff949495))),
-                        Text("KWD ${sPrice1.toString()}",
+                        Text("KWD ${commisionShipping.toString()}",
                             style: GoogleFonts.poppins(fontWeight: FontWeight.w400, color: const Color(0xff949495))),
+                        // Text("KWD ${sPrice1.toString()}",
+                        //     style: GoogleFonts.poppins(fontWeight: FontWeight.w400, color: const Color(0xff949495))),
                       ],
                     ),
                     const SizedBox(
@@ -2255,6 +2275,7 @@ class _DirectCheckOutScreenState extends State<DirectCheckOutScreen> {
                                 phone: phoneController.text.trim(),
                                 zipCode: zipCodeController.text.trim(),
                                 phoneCountryCode: profileController.code.toString(),
+                                type: 'checkout',
                                 id: addressData.id);
                           }
                         },
@@ -2759,44 +2780,92 @@ class _DirectCheckOutScreenState extends State<DirectCheckOutScreen> {
                       //       }
                       //       return null;
                       //     }),
-                      ...commonField(
-                          textController: phoneController,
-                          title: "${'Phone'.tr}*",
-                          hintText: "Enter your phone number".tr,
-                          keyboardType: TextInputType.number,
-                          validator: (value) {
-                            if (value!.trim().isEmpty) {
-                              return "Please enter phone number".tr;
-                            }
-                            if (value
-                                .trim()
-                                .length > 15) {
-                              return "Please enter valid phone number".tr;
-                            }
-                            if (value
-                                .trim()
-                                .length < 8) {
-                              return "Please enter valid phone number".tr;
-                            }
-                            return null;
-                          }),
-                      ...commonField(
-                          textController: alternatePhoneController,
-                          title: "${'Alternate Phone'.tr}*",
-                          hintText: "Enter your alternate phone number".tr,
-                          keyboardType: TextInputType.number,
-                          validator: (value) {
-                            // if(value!.trim().isEmpty){
-                            //   return "Please enter phone number";
-                            // }
-                            // if(value.trim().length > 15){
-                            //   return "Please enter valid phone number";
-                            // }
-                            // if(value.trim().length < 8){
-                            //   return "Please enter valid phone number";
-                            // }
-                            return null;
-                          }),
+
+                      Text(
+                        'Phone *'.tr,
+                        style: GoogleFonts.poppins(
+                            fontWeight: FontWeight.w500, fontSize: 16, color: const Color(0xff585858)),
+                      ),
+                      const SizedBox(
+                        height: 8,
+                      ),
+                      IntlPhoneField(
+                        key: ValueKey(profileController.code),
+                        flagsButtonPadding: const EdgeInsets.all(8),
+                        dropdownIconPosition: IconPosition.trailing,
+                        showDropdownIcon: true,
+                        cursorColor: Colors.black,
+                        textInputAction: TextInputAction.next,
+                        dropdownTextStyle: const TextStyle(color: Colors.black),
+                        style: const TextStyle(color: AppTheme.textColor),
+                        controller: phoneController,
+                        decoration: const InputDecoration(
+                            contentPadding: EdgeInsets.zero,
+                            hintStyle: TextStyle(color: AppTheme.textColor),
+                            hintText: 'Enter your phone number',
+                            labelStyle: TextStyle(color: AppTheme.textColor),
+                            border: OutlineInputBorder(
+                              borderSide: BorderSide(),
+                            ),
+                            enabledBorder: OutlineInputBorder(borderSide: BorderSide(color: AppTheme.shadowColor)),
+                            focusedBorder: OutlineInputBorder(borderSide: BorderSide(color: AppTheme.shadowColor))),
+                        initialCountryCode: profileController.code.toString(),
+                        languageCode: '+91',
+                        onCountryChanged: (phone) {
+                          profileController.code = phone.code;
+                          print(phone.code);
+                          print(profileController.code.toString());
+                        },
+                        onChanged: (phone) {
+                          profileController.code = phone.countryISOCode.toString();
+                          print(phone.countryCode);
+                          print(profileController.code.toString());
+                        },
+                      ),
+                      const SizedBox(
+                        height: 5,
+                      ),
+                      Text(
+                        'Alternate Phone*'.tr,
+                        style: GoogleFonts.poppins(
+                            fontWeight: FontWeight.w500, fontSize: 16, color: const Color(0xff585858)),
+                      ),
+                      const SizedBox(
+                        height: 8,
+                      ),
+                      IntlPhoneField(
+                        // key: ValueKey(profileController.code),
+                        flagsButtonPadding: const EdgeInsets.all(8),
+                        dropdownIconPosition: IconPosition.trailing,
+                        showDropdownIcon: true,
+                        cursorColor: Colors.black,
+                        textInputAction: TextInputAction.next,
+                        dropdownTextStyle: const TextStyle(color: Colors.black),
+                        style: const TextStyle(color: AppTheme.textColor),
+                        controller: alternatePhoneController,
+                        decoration: const InputDecoration(
+                            contentPadding: EdgeInsets.zero,
+                            hintStyle: TextStyle(color: AppTheme.textColor),
+                            hintText: 'Enter your phone number',
+                            labelStyle: TextStyle(color: AppTheme.textColor),
+                            border: OutlineInputBorder(
+                              borderSide: BorderSide(),
+                            ),
+                            enabledBorder: OutlineInputBorder(borderSide: BorderSide(color: AppTheme.shadowColor)),
+                            focusedBorder: OutlineInputBorder(borderSide: BorderSide(color: AppTheme.shadowColor))),
+                        initialCountryCode: profileController.code.toString(),
+                        languageCode: '+91',
+                        onCountryChanged: (phone) {
+                          profileController.code = phone.code;
+                          print(phone.code);
+                          print(profileController.code.toString());
+                        },
+                        onChanged: (phone) {
+                          profileController.code = phone.countryISOCode.toString();
+                          print(phone.countryCode);
+                          print(profileController.code.toString());
+                        },
+                      ),
                       ...commonField(
                           textController: addressController,
                           title: "${'Address'.tr}*",
