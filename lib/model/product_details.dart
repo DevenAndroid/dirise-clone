@@ -57,6 +57,7 @@ class ProductDetails {
 class Product {
   dynamic id;
   dynamic spot;
+  dynamic giveawayItemCondition;
   dynamic fromLocation;
   dynamic toLocation;
   dynamic fromExtraNotes;
@@ -189,6 +190,7 @@ class Product {
         this.toLocation,
         this.fromExtraNotes,
         this.toExtraNotes,
+        this.giveawayItemCondition,
       this.meeting_platform,
       this.serviceTimeSloat,
         this.catName,
@@ -330,6 +332,7 @@ class Product {
     eligible_gender = json['eligible_gender'];
     bookable_product_location = json['bookable_product_location'];
     host_name = json['host_name'];
+    giveawayItemCondition = json['giveaway_item_condition'];
     program_name = json['program_name'];
     program_goal = json['program_goal'];
     program_desc = json['program_desc'];
@@ -508,6 +511,7 @@ class Product {
     data['gallery_image'] = galleryImage;
     data['virtual_product_file'] = virtualProductFile;
     data['virtual_product_file_type'] = virtualProductFileType;
+    data['giveaway_item_condition'] = giveawayItemCondition;
     data['virtual_product_file_language'] = virtualProductFileLanguage;
     data['feature_image_app'] = featureImageApp;
     data['feature_image_web'] = featureImageWeb;

@@ -137,6 +137,7 @@ class _Giveway1ScreenState extends State<Giveway1Screen> {
               GestureDetector(
                 onTap: (){
                   selectedRadio = 'working';
+                  addProductController.selectedRadio = selectedRadio;
                   addGiveAwayType();
                   setState(() {});
                 },
@@ -145,6 +146,7 @@ class _Giveway1ScreenState extends State<Giveway1Screen> {
               GestureDetector(
                   onTap: (){
                     selectedRadio = 'need_maintenance';
+                    addProductController.selectedRadio = selectedRadio;
                     addGiveAwayType();
                     setState(() {});
                   },
@@ -153,6 +155,7 @@ class _Giveway1ScreenState extends State<Giveway1Screen> {
               GestureDetector(
                   onTap: (){
                     selectedRadio = 'scrab';
+                    addProductController.selectedRadio = selectedRadio;
                     addGiveAwayType();
                     setState(() {});
                   },

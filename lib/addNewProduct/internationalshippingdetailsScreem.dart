@@ -69,7 +69,7 @@ class _InternationalshippingdetailsScreenState extends State<Internationalshippi
   String selectNumberOfPackages = '1';
   List<String> selectNumberOfPackagesList = List.generate(30, (index) => (index + 1).toString());
 
-  String selectTypeMaterial = 'Paper';
+  String? selectTypeMaterial;
   List<String> selectTypeMaterialList = [
     'Paper',
     'Plastic',
@@ -149,8 +149,13 @@ class _InternationalshippingdetailsScreenState extends State<Internationalshippi
       dimensionController.text = widget.Length.toString();
       dimensionWidthController.text = widget.Width.toString();
       dimensionHeightController.text = widget.Height.toString();
-      selectTypeMaterial = widget.selectTypeMaterial.toString();
-      selectTypeOfPackaging = widget.productType.toString();
+      log('dadada${widget.selectTypeMaterial}');
+      if(widget.selectTypeMaterial != ''){
+        selectTypeMaterial = widget.selectTypeMaterial.toString();
+      }
+      if(widget.productType != ''){
+        selectTypeOfPackaging = widget.productType.toString();
+      }
     }
   }
 
@@ -313,7 +318,7 @@ class _InternationalshippingdetailsScreenState extends State<Internationalshippi
                   style: GoogleFonts.poppins(color: const Color(0xff292F45), fontWeight: FontWeight.w500, fontSize: 18),
                 ),
                 const SizedBox(height: 5),
-                DropdownButtonFormField<String>(
+                DropdownButtonFormField<String?>(
                   value: selectTypeMaterial,
                   onChanged: (String? newValue) {
                     setState(() {

@@ -315,6 +315,8 @@ class _ReviewPublishScreenState extends State<ReviewPublishScreen> {
                                       Text(
                                           'product Type: ${addProductControllerNew.productDetailsModel.value.productDetails!.product!.productType ?? ''}'),
                                       Text('product ID: ${addProductControllerNew.productDetailsModel.value.productDetails!.product!.id ?? ""}'),
+                                      Text('vendor category: ${addProductControllerNew.productDetailsModel.value.productDetails!.product!.catName ?? ""}'),
+                                      Text('my item is a : ${ addProductControllerNew.productDetailsModel.value.productDetails!.product!.giveawayItemCondition}'),
                                     ],
                                   ),
                                 ),
@@ -326,6 +328,7 @@ class _ReviewPublishScreenState extends State<ReviewPublishScreen> {
                                           Get.to(ItemDetailsScreens(id: addProductControllerNew.productDetailsModel.value.productDetails!.product!.id,
                                             name: addProductControllerNew.productDetailsModel.value.productDetails!.product!.pname,
                                             categoryName:  addProductControllerNew.productDetailsModel.value.productDetails!.product!.catName,
+                                            catId:  addProductControllerNew.productDetailsModel.value.productDetails!.product!.catId2.toString(),
                                           ));
                                         },
                                         child: const Text('Edit',style: TextStyle(color: Colors.red,fontSize: 13),)))
@@ -549,8 +552,8 @@ class _ReviewPublishScreenState extends State<ReviewPublishScreen> {
                                             Length: "${addProductControllerNew.productDetailsModel.value.productDetails!.productDimentions!.boxLength}X" ,
                                             Width : "${addProductControllerNew.productDetailsModel.value.productDetails!.productDimentions!.boxWidth ?? ""}X",
                                             Height : "${addProductControllerNew.productDetailsModel.value.productDetails!.productDimentions!.boxHeight ?? ""}X",
-                                            selectTypeMaterial:addProductControllerNew.productDetailsModel.value.productDetails!.productDimentions!.material,
-                                            productType : addProductControllerNew.productDetailsModel.value.productDetails!.productDimentions!.typeOfPackages,
+                                            selectTypeMaterial:addProductControllerNew.productDetailsModel.value.productDetails!.productDimentions!.material.toString(),
+                                            productType : addProductControllerNew.productDetailsModel.value.productDetails!.productDimentions!.typeOfPackages.toString(),
                                           )
                                               ,arguments: "txt"
                                           );

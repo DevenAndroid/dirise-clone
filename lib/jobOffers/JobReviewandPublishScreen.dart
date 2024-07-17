@@ -36,14 +36,8 @@ class _JobReviewPublishScreenState extends State<JobReviewPublishScreen> {
   final Repositories repositories = Repositories();
 
   final addProductController = Get.put(AddProductController());
-  Rx<ModelProductDetails> productDetailsModel = ModelProductDetails().obs;
   Rx<RxStatus> vendorCategoryStatus = RxStatus.empty().obs;
-
-  getVendorCategories(id) {
-    repositories.getApi(url: ApiUrls.getProductDetailsUrl + id).then((value) {
-      productDetailsModel.value = ModelProductDetails.fromJson(jsonDecode(value));
-    });
-  }
+  final addProductControllerNew = Get.put(ProfileController());
   completeApi() {
     Map<String, dynamic> map = {};
 
@@ -61,7 +55,7 @@ class _JobReviewPublishScreenState extends State<JobReviewPublishScreen> {
   void initState() {
     // TODO: implement initState
     super.initState();
-    getVendorCategories(addProductController.idProduct.value.toString());
+    addProductControllerNew.getVendorCategories(addProductController.idProduct.value.toString());
   }
 
   final profileController = Get.put(ProfileController());
@@ -109,7 +103,7 @@ class _JobReviewPublishScreenState extends State<JobReviewPublishScreen> {
         child: Container(
             margin: const EdgeInsets.only(left: 15, right: 15),
             child: Obx(() {
-              return productDetailsModel.value.productDetails != null
+              return addProductControllerNew.productDetailsModel.value.productDetails != null
                   ? Column(
                       children: [
                         const SizedBox(height: 20),
@@ -172,7 +166,7 @@ class _JobReviewPublishScreenState extends State<JobReviewPublishScreen> {
                                   mainAxisAlignment: MainAxisAlignment.start,
                                   crossAxisAlignment: CrossAxisAlignment.start,
                                   children: [
-                                    Image.network(productDetailsModel.value.productDetails!.product!.featuredImage,height: 200,)
+                                    Image.network(addProductControllerNew.productDetailsModel.value.productDetails!.product!.featuredImage,height: 200,)
                                   ],
                                 ),
                               ),
@@ -181,13 +175,13 @@ class _JobReviewPublishScreenState extends State<JobReviewPublishScreen> {
                                   top: 20,
                                   child: GestureDetector(
                                       onTap: () {
-                                        File imageFile = File(productDetailsModel.value.productDetails!.product!.featuredImage);
-                                        File gallery = File(productDetailsModel.value.productDetails!.product!.galleryImage![0]);
+                                        File imageFile = File(addProductControllerNew.productDetailsModel.value.productDetails!.product!.featuredImage);
+                                        // File gallery = File(productDetailsModel.value.productDetails!.product!.galleryImage![0]);
 
                                         Get.to(AddProductFirstImageScreen(
-                                          id: productDetailsModel.value.productDetails!.product!.id,
+                                          id: addProductControllerNew.productDetailsModel.value.productDetails!.product!.id,
                                           image: imageFile,
-                                          galleryImg: gallery,
+                                          // galleryImg: gallery,
                                         ));
                                       },
                                       child: const Text(
@@ -243,22 +237,22 @@ class _JobReviewPublishScreenState extends State<JobReviewPublishScreen> {
                                     crossAxisAlignment: CrossAxisAlignment.start,
                                     children: [
                                       20.spaceY,
-                                      Text('Job title: ${productDetailsModel.value.productDetails!.product!.pname ?? ""}'),
-                                      Text('Job Category: ${productDetailsModel.value.productDetails!.product!.jobParentCat ?? ""}'),
+                                      Text('Job title: ${addProductControllerNew.productDetailsModel.value.productDetails!.product!.pname ?? ""}'),
+                                      Text('Job Category: ${addProductControllerNew.productDetailsModel.value.productDetails!.product!.jobParentCat ?? ""}'),
                                       Text(
-                                          'Job Sub Category: ${productDetailsModel.value.productDetails!.product!.jobCat ?? ""}'),
+                                          'Job Sub Category: ${addProductControllerNew.productDetailsModel.value.productDetails!.product!.jobCat ?? ""}'),
                                       Text(
-                                          'Job Country: ${productDetailsModel.value.productDetails!.product!.jobCountryName ?? ""}'),
+                                          'Job Country: ${addProductControllerNew.productDetailsModel.value.productDetails!.product!.jobCountryName ?? ""}'),
                                       Text(
-                                          'Job State: ${productDetailsModel.value.productDetails!.product!.jobStateName ?? ""}'),
-                                      Text('Job City: ${productDetailsModel.value.productDetails!.product!.jobCityName ?? ""}'),
-                                      Text('Job Type: ${productDetailsModel.value.productDetails!.product!.jobType ?? ""}'),
+                                          'Job State: ${addProductControllerNew.productDetailsModel.value.productDetails!.product!.jobStateName ?? ""}'),
+                                      Text('Job City: ${addProductControllerNew.productDetailsModel.value.productDetails!.product!.jobCityName ?? ""}'),
+                                      Text('Job Type: ${addProductControllerNew.productDetailsModel.value.productDetails!.product!.jobType ?? ""}'),
                                       Text(
-                                          'Job Model: ${productDetailsModel.value.productDetails!.product!.jobModel ?? ""}'),
+                                          'Job Model: ${addProductControllerNew.productDetailsModel.value.productDetails!.product!.jobModel ?? ""}'),
                                       Text(
-                                          'Experience: ${productDetailsModel.value.productDetails!.product!.experience ?? ""}'),
-                                      Text('Salary: ${productDetailsModel.value.productDetails!.product!.salary ?? ""}'),
-                                      Text('LinkedIn Url: ${productDetailsModel.value.productDetails!.product!.linkdinUrl ?? ""}'),
+                                          'Experience: ${addProductControllerNew.productDetailsModel.value.productDetails!.product!.experience ?? ""}'),
+                                      Text('Salary: ${addProductControllerNew.productDetailsModel.value.productDetails!.product!.salary ?? ""}'),
+                                      Text('LinkedIn Url: ${addProductControllerNew.productDetailsModel.value.productDetails!.product!.linkdinUrl ?? ""}'),
                                     ],
                                   ),
                                 ),
@@ -267,26 +261,26 @@ class _JobReviewPublishScreenState extends State<JobReviewPublishScreen> {
                                     top: 20,
                                     child: GestureDetector(
                                         onTap: (){
-                                          File imageFile = File(productDetailsModel.value.productDetails!.product!.featuredImage);
+                                          File imageFile = File(addProductControllerNew.productDetailsModel.value.productDetails!.product!.featuredImage);
                                           Get.to(JobDetailsScreen(
-                                            id: productDetailsModel.value.productDetails!.product!.id,
-                                            countryId: productDetailsModel.value.productDetails!.product!.jobCountryId.toString(),
-                                            stateId: productDetailsModel.value.productDetails!.product!.jobStateId.toString(),
-                                            cityId: productDetailsModel.value.productDetails!.product!.jobCityId.toString(),
-                                            experience: productDetailsModel.value.productDetails!.product!.experience,
+                                            id: addProductControllerNew.productDetailsModel.value.productDetails!.product!.id,
+                                            countryId: addProductControllerNew.productDetailsModel.value.productDetails!.product!.jobCountryId.toString(),
+                                            stateId: addProductControllerNew.productDetailsModel.value.productDetails!.product!.jobStateId.toString(),
+                                            cityId: addProductControllerNew.productDetailsModel.value.productDetails!.product!.jobCityId.toString(),
+                                            experience: addProductControllerNew.productDetailsModel.value.productDetails!.product!.experience,
                                             uploadCv: imageFile,
-                                            catName: productDetailsModel.value.productDetails!.product!.jobCat,
-                                            jobCategory: productDetailsModel.value.productDetails!.product!.jobParentCat,
-                                            jobCity: productDetailsModel.value.productDetails!.product!.jobCityName,
-                                            jobCountry: productDetailsModel.value.productDetails!.product!.jobCountryName,
-                                            jobModel:productDetailsModel.value.productDetails!.product!.jobModel ,
-                                            jobState: productDetailsModel.value.productDetails!.product!.jobStateName,
-                                            jobSubCategory: productDetailsModel.value.productDetails!.product!.jobCat,
-                                            jobTitle: productDetailsModel.value.productDetails!.product!.pname,
-                                            jobType: productDetailsModel.value.productDetails!.product!.jobType,
-                                            linkedIn: productDetailsModel.value.productDetails!.product!.linkdinUrl,
-                                            salary:productDetailsModel.value.productDetails!.product!.salary ,
-                                            tellUsAboutYourSelf: productDetailsModel.value.productDetails!.product!.describeJobRole,
+                                            catName: addProductControllerNew.productDetailsModel.value.productDetails!.product!.jobCat,
+                                            jobCategory: addProductControllerNew.productDetailsModel.value.productDetails!.product!.jobParentCat,
+                                            jobCity: addProductControllerNew.productDetailsModel.value.productDetails!.product!.jobCityName,
+                                            jobCountry: addProductControllerNew.productDetailsModel.value.productDetails!.product!.jobCountryName,
+                                            jobModel:addProductControllerNew.productDetailsModel.value.productDetails!.product!.jobModel ,
+                                            jobState: addProductControllerNew.productDetailsModel.value.productDetails!.product!.jobStateName,
+                                            jobSubCategory: addProductControllerNew.productDetailsModel.value.productDetails!.product!.jobCat,
+                                            jobTitle: addProductControllerNew.productDetailsModel.value.productDetails!.product!.pname,
+                                            jobType: addProductControllerNew.productDetailsModel.value.productDetails!.product!.jobType,
+                                            linkedIn: addProductControllerNew.productDetailsModel.value.productDetails!.product!.linkdinUrl,
+                                            salary:addProductControllerNew.productDetailsModel.value.productDetails!.product!.salary ,
+                                            tellUsAboutYourSelf: addProductControllerNew.productDetailsModel.value.productDetails!.product!.describeJobRole,
 
                                           ));
                                         },
@@ -340,7 +334,7 @@ class _JobReviewPublishScreenState extends State<JobReviewPublishScreen> {
                                 children: [
                                   20.spaceY,
                                   Text(
-                                      'Tell us about yourself: ${productDetailsModel.value.productDetails!.product!.describeJobRole ?? ""}'),
+                                      'Tell us about yourself: ${addProductControllerNew.productDetailsModel.value.productDetails!.product!.describeJobRole ?? ""}'),
                                 ],
                               ),
                             )),

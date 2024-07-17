@@ -31,8 +31,9 @@ class ItemDetailsScreens extends StatefulWidget {
   int? id;
   String? name;
   int? categoryID;
+  String? catId;
   String? categoryName;
-  ItemDetailsScreens({super.key,this.id,this.name,this.categoryID,this.categoryName});
+  ItemDetailsScreens({super.key,this.id,this.name,this.categoryID,this.categoryName,this.catId});
 
   @override
   State<ItemDetailsScreens> createState() => _ItemDetailsScreensState();
@@ -66,7 +67,8 @@ class _ItemDetailsScreensState extends State<ItemDetailsScreens> {
   final addProductController = Get.put(AddProductController());
   deliverySizeApi() {
     Map<String, dynamic> map = {};
-    map['category_id'] = idForChild.isNotEmpty ? idForChild.join(',').toString():  "";
+    // map['category_id'] = idForChild.isNotEmpty ? idForChild.join(',').toString():  "";
+    map['category_id'] =   "";
     map['category_id_2'] = id.value.toString();
     map['product_name'] = ProductNameController.text.toString();
     map['item_type'] = 'giveaway';
@@ -169,8 +171,10 @@ class _ItemDetailsScreensState extends State<ItemDetailsScreens> {
     fetchSubCategoryBasedOnId(ProductID);
     if(widget.id != null){
       ProductNameController.text = widget.name.toString();
-      searchController.text= widget.categoryName.toString();
+      searchController.text = widget.categoryName.toString();
       idForChild.add(widget.categoryID);
+      id.value = widget.catId.toString();
+      categoryName.value = widget.categoryName.toString();
     }
   }
   Color borderColor = Colors.grey.shade400;

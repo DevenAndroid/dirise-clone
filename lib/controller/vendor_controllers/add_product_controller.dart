@@ -28,6 +28,7 @@ class AddProductController extends GetxController {
   String? formattedStartDate;
   RxBool check = false.obs;
   final productController = Get.put(ProductsController());
+  String selectedRadio = '';
   Future getProductsCategoryList() async {
     // if (modelCategoryList != null) {
     //   updateCategories();
