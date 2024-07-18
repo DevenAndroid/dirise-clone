@@ -621,7 +621,7 @@ class _SingleCategoriesState extends State<SingleCategories> {
                       onChanged: (String? newValue) {
                         setState(() {
                        selectedValue1 = newValue;
-                       // selectedValue1 == "Shop by Product"? Get.to(()=>ShopProductScreen(),arguments: widget.vendorCategories.id.toString()):Get.back();
+                       selectedValue1 == "Shop by Product"? Get.to(()=>ShopProductScreen(vendorCategories: widget.vendorCategories,),arguments: widget.vendorCategories.id.toString()):Get.back();
                           print("value"+selectedValue1.toString());
 
                      // getProductList1(context: context);
@@ -639,47 +639,47 @@ class _SingleCategoriesState extends State<SingleCategories> {
                 ),
               ),),
 
-            modelCategoryList != null
-                ? SliverToBoxAdapter(
-                    child: Padding(
-                      padding: const EdgeInsets.fromLTRB(15, 10, 0, 20),
-                      child: Column(
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        mainAxisAlignment: MainAxisAlignment.start,
-                        children: [
-                          if (isSelect == true)
-                            GestureDetector(
-                              onTap: () {
-                                modelCategoryList = null;
-                                getCategoryFilter();
-                                getCategoryStores(page: 1, resetAll: true);
-                                isSelect = false;
-                                setState(() {});
-                              },
-                              child: Container(
-                                height: 36,
-                                width: 120,
-                                padding: const EdgeInsets.fromLTRB(10, 0, 10, 0),
-                                decoration: BoxDecoration(
-                                    border: Border.all(color: const Color(0xff014E70)),
-                                    color: const Color(0xffEBF1F4),
-                                    borderRadius: BorderRadius.circular(22)),
-                                child: Center(
-                                  child: Text(
-                                    "Clear",
-                                    style: GoogleFonts.poppins(
-                                        fontSize: 14, fontWeight: FontWeight.w500, color: const Color(0xff014E70)),
+              modelCategoryList != null
+                  ? SliverToBoxAdapter(
+                      child: Padding(
+                        padding: const EdgeInsets.fromLTRB(15, 10, 0, 20),
+                        child: Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          mainAxisAlignment: MainAxisAlignment.start,
+                          children: [
+                            if (isSelect == true)
+                              GestureDetector(
+                                onTap: () {
+                                  modelCategoryList = null;
+                                  getCategoryFilter();
+                                  getCategoryStores(page: 1, resetAll: true);
+                                  isSelect = false;
+                                  setState(() {});
+                                },
+                                child: Container(
+                                  height: 36,
+                                  width: 120,
+                                  padding: const EdgeInsets.fromLTRB(10, 0, 10, 0),
+                                  decoration: BoxDecoration(
+                                      border: Border.all(color: const Color(0xff014E70)),
+                                      color: const Color(0xffEBF1F4),
+                                      borderRadius: BorderRadius.circular(22)),
+                                  child: Center(
+                                    child: Text(
+                                      "Clear",
+                                      style: GoogleFonts.poppins(
+                                          fontSize: 14, fontWeight: FontWeight.w500, color: const Color(0xff014E70)),
+                                    ),
                                   ),
                                 ),
                               ),
-                            ),
-                        ],
+                          ],
+                        ),
                       ),
+                    )
+                  : const SliverToBoxAdapter(
+                      child: SizedBox(),
                     ),
-                  )
-                : const SliverToBoxAdapter(
-                    child: SizedBox(),
-                  ),
             if (modelCategoryStores != null)
               for (var i = 0; i < modelCategoryStores!.length; i++) ...list(i)
             else
