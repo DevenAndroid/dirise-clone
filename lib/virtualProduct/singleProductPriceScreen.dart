@@ -329,21 +329,21 @@ class _VirtualPriceScreenState extends State<VirtualPriceScreen> {
                       validator: (value) {
                         if (discountPrecrnt.text.isEmpty) {
                           if (value!.trim().isEmpty) {
-                            return 'Discount Price is required'.tr;
+                            return 'Discount amount is required'.tr;
                           }
                           double? price = double.tryParse(value);
                           if (price == null || price < 0) {
-                            return 'Price must be a non-negative number'.tr;
+                            return 'Discount amount must be a non-negative number'.tr;
                           }
                           double? discountValue = double.tryParse(value);
                           double? priceValue = double.tryParse(priceController.text);
                           if (discountValue != null && priceValue != null && discountValue > priceValue) {
-                            return 'Discount Price cannot be greater than Price'.tr;
+                            return 'Discount amount cannot be greater than Price'.tr;
                           }
                         }
                         return null; // Return null if validation passes
                       },
-                      hintText: 'Discount Price'.tr,
+                      hintText: 'Discount amount'.tr,
                     ),
                     const SizedBox(height: 10,),
                     Align(
@@ -363,7 +363,7 @@ class _VirtualPriceScreenState extends State<VirtualPriceScreen> {
                       obSecure: false,
                       // hintText: 'Name',
                       keyboardType: TextInputType.number,
-                      hintText: 'Percentage'.tr,
+                      hintText: 'Discount Percentage'.tr,
                       onChanged: (value) {
                         fixedDiscount.text = "";
                         isPercentageDiscount = true;
@@ -374,16 +374,16 @@ class _VirtualPriceScreenState extends State<VirtualPriceScreen> {
                       validator: (value) {
                         if (fixedDiscount.text.isEmpty) {
                           if (value == null || value.trim().isEmpty) {
-                            return 'Percentage is required'.tr;
+                            return 'Discount Percentage is required'.tr;
                           }
                           double? price = double.tryParse(value);
                           if (price == null || price < 0) {
-                            return 'Price must be a non-negative number'.tr;
+                            return 'Discount Percentage must be a non-negative number'.tr;
                           }
                           else {
                             double? percentage = double.tryParse(value);
                             if (percentage == null || percentage > 100) {
-                              return 'Percentage must be between 0 and 100'.tr;
+                              return 'Discount Percentage must be between 0 and 100'.tr;
                             }
                           }
                         }

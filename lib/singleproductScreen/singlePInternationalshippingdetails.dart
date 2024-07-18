@@ -449,12 +449,12 @@ class _SinglePInternationalshippingdetailsScreenState extends State<SinglePInter
                       obSecure: false,
                       keyboardType: TextInputType.number,
                       hintText: 'Length X ',
-                      // validator: (value) {
-                      //   if (value!.trim().isEmpty) {
-                      //     return 'Product length is required'.tr;
-                      //   }
-                      //   return null; // Return null if validation passes
-                      // },
+                      validator: (value) {
+                        if (value!.trim().isEmpty) {
+                          return 'Product length is required'.tr;
+                        }
+                        return null; // Return null if validation passes
+                      },
                     )),
                     10.spaceX,
                     Expanded(
@@ -463,12 +463,12 @@ class _SinglePInternationalshippingdetailsScreenState extends State<SinglePInter
                       obSecure: false,
                       hintText: 'Width X',
                       keyboardType: TextInputType.number,
-                      // validator: (value) {
-                      //   if (value!.trim().isEmpty) {
-                      //     return 'Product Width is required'.tr;
-                      //   }
-                      //   return null; // Return null if validation passes
-                      // },
+                      validator: (value) {
+                        if (value!.trim().isEmpty) {
+                          return 'Product Width is required'.tr;
+                        }
+                        return null; // Return null if validation passes
+                      },
                     )
                     ),
                     10.spaceX,
@@ -478,12 +478,12 @@ class _SinglePInternationalshippingdetailsScreenState extends State<SinglePInter
                       obSecure: false,
                       hintText: 'Height X',
                       keyboardType: TextInputType.number,
-                      // validator: (value) {
-                      //   if (value!.trim().isEmpty) {
-                      //     return 'Product Height is required'.tr;
-                      //   }
-                      //   return null; // Return null if validation passes
-                      // },
+                      validator: (value) {
+                        if (value!.trim().isEmpty) {
+                          return 'Product Height is required'.tr;
+                        }
+                        return null; // Return null if validation passes
+                      },
                     )),
                   ],
                 ),

@@ -236,19 +236,21 @@ class _LocationwherecustomerwilljoinState extends State<Locationwherecustomerwil
                                     children: [
                                       Container(
                                         padding: const EdgeInsets.all(15),
-                                        child: Column(
-                                          crossAxisAlignment: CrossAxisAlignment.start,
-                                          children: [
-                                            Text('City - $city'),
-                                            Text('State - $state'),
-                                            Text('Country - $country'),
-                                            Text('Zip code - $zip_code'),
-                                            Text('Street - $street'),
-                                            Text('Town - $town'),
-                                            const SizedBox(
-                                              height: 8,
-                                            ),
-                                          ],
+                                        child: Expanded(
+                                          child: Column(
+                                            crossAxisAlignment: CrossAxisAlignment.start,
+                                            children: [
+                                              Text('City - $city'),
+                                              Text('State - $state'),
+                                              Text('Country - $country'),
+                                              Text('Zip code - $zip_code'),
+                                              Text('Street - $street'),
+                                              Text('Town - $town'),
+                                              const SizedBox(
+                                                height: 8,
+                                              ),
+                                            ],
+                                          ),
                                         ),
                                       )
                                     ],
