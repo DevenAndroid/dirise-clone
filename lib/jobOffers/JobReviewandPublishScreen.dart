@@ -124,7 +124,7 @@ class _JobReviewPublishScreenState extends State<JobReviewPublishScreen> {
                               mainAxisAlignment: MainAxisAlignment.spaceBetween,
                               children: [
                                 Text(
-                                  'Features Image',
+                                  'Featured Image',
                                   style: GoogleFonts.poppins(
                                     color: Colors.black,
                                     fontSize: 15,

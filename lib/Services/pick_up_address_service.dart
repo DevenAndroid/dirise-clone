@@ -1,5 +1,6 @@
 import 'dart:convert';
 import 'package:dirise/Services/review_publish_service.dart';
+import 'package:dirise/Services/service_discrptions_screen.dart';
 import 'package:dirise/Services/service_international_shipping_details.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
@@ -94,7 +95,8 @@ class _PickUpAddressServiceState extends State<PickUpAddressService> {
         if (widget.id != null) {
           Get.to(const ReviewPublishServiceScreen());
         } else {
-          Get.to(ServiceInternationalShippingService());
+          // Get.to(ServiceInternationalShippingService());
+          Get.to(()=> ServiceOptionalScreen());
         }
       }
     });

@@ -23,18 +23,20 @@ import '../widgets/common_colour.dart';
 import '../widgets/common_textfield.dart';
 
 class ServiceInternationalShippingService extends StatefulWidget {
-  int? id;
-  String? Unitofmeasure;
-  int? WeightOftheItem;
-  int? SelectNumberOfPackages;
-  String? SelectTypeMaterial;
-  String? SelectTypeOfPackaging;
-  String? Length;
-  String? Width;
-  String? Height;
+  dynamic id;
+  dynamic Unitofmeasure;
+  dynamic WeightOftheItem;
+  dynamic SelectNumberOfPackages;
+  dynamic SelectTypeMaterial;
+  dynamic SelectTypeOfPackaging;
+  dynamic Length;
+  dynamic Width;
+  dynamic Height;
+  dynamic unitOfMeasure;
   ServiceInternationalShippingService(
       {super.key,
         this.id,
+        this.unitOfMeasure,
         this.WeightOftheItem,
         this.Unitofmeasure,
         this.SelectTypeOfPackaging,
@@ -146,6 +148,9 @@ class _ServiceInternationalShippingServiceState extends State<ServiceInternation
       dimensionController.text = widget.Length.toString();
       dimensionWidthController.text = widget.Width.toString();
       dimensionHeightController.text = widget.Height.toString();
+      selectTypeMaterial = widget.SelectTypeMaterial.toString();
+      selectTypeOfPackaging = widget.SelectTypeOfPackaging.toString();
+      // unitOfMeasure = widget.unitOfMeasure.toString();
       // selectTypeOfPackaging = widget.SelectTypeOfPackaging.toString();
     }
   }

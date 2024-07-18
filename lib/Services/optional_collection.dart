@@ -18,12 +18,12 @@ import '../widgets/common_colour.dart';
 import '../widgets/common_textfield.dart';
 
 class OptionalColloectionScreen extends StatefulWidget {
-  int? id;
-  String? Packagedetails;
-  int? PromotionCode;
-  int? ProductCode;
-  String? SerialNumber;
-  String? Productnumber;
+  dynamic id;
+  dynamic Packagedetails;
+  dynamic PromotionCode;
+  dynamic ProductCode;
+  dynamic SerialNumber;
+  dynamic Productnumber;
   OptionalColloectionScreen(
       {super.key,
         this.id,

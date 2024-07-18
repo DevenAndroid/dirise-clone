@@ -138,7 +138,7 @@ class _HiringReviewPublishScreenState extends State<HiringReviewPublishScreen> {
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
                       Text(
-                        'Features Image',
+                        'Featured Image',
                         style: GoogleFonts.poppins(
                           color: AppTheme.primaryColor,
                           fontSize: 15,

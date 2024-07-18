@@ -2,6 +2,7 @@ import 'dart:convert';
 import 'dart:developer';
 
 import 'package:dirise/Services/pick_up_address_service.dart';
+import 'package:dirise/Services/service_discrptions_screen.dart';
 import 'package:dirise/Services/service_international_shipping_details.dart';
 import 'package:dirise/singleproductScreen/singleProductReturnPolicy.dart';
 import 'package:dirise/utils/helper.dart';
@@ -62,7 +63,8 @@ class _LocationwherecustomerwilljoinState extends State<Locationwherecustomerwil
       ModelCommonResponse response = ModelCommonResponse.fromJson(jsonDecode(value));
       showToast(response.message.toString());
       if (response.status == true) {
-        Get.to(ServiceInternationalShippingService());
+        // Get.to(ServiceInternationalShippingService());
+        Get.to(()=> ServiceOptionalScreen());
       }
     });
   }
