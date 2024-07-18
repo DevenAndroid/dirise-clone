@@ -67,8 +67,8 @@ class _ItemDetailsScreensState extends State<ItemDetailsScreens> {
   final addProductController = Get.put(AddProductController());
   deliverySizeApi() {
     Map<String, dynamic> map = {};
-    // map['category_id'] = idForChild.isNotEmpty ? idForChild.join(',').toString():  "";
-    map['category_id'] =   "";
+    map['category_id'] = idForChild.isNotEmpty ? idForChild.join(',').toString():  "";
+    // map['category_id'] =   "";
     map['category_id_2'] = id.value.toString();
     map['product_name'] = ProductNameController.text.toString();
     map['item_type'] = 'giveaway';
@@ -314,6 +314,7 @@ class _ItemDetailsScreensState extends State<ItemDetailsScreens> {
                           isItemDetailsVisible = !isItemDetailsVisible;
                           categoryName.value = data.title.toString();
                           id.value = data.id.toString();
+                          idForChild.clear();
                           setState(() {
                             selectedValue = data.title;
                             tappedIndex = index;
