@@ -30,7 +30,7 @@ import '../widgets/common_textfield.dart';
 class ItemDetailsScreens extends StatefulWidget {
   int? id;
   String? name;
-  int? categoryID;
+  String? categoryID;
   String? catId;
   String? categoryName;
   ItemDetailsScreens({super.key,this.id,this.name,this.categoryID,this.categoryName,this.catId});
@@ -67,6 +67,7 @@ class _ItemDetailsScreensState extends State<ItemDetailsScreens> {
   final addProductController = Get.put(AddProductController());
   deliverySizeApi() {
     Map<String, dynamic> map = {};
+    log('gjfkgg${idForChild.toString()}');
     map['category_id'] = idForChild.isNotEmpty ? idForChild.join(',').toString():  "";
     // map['category_id'] =   "";
     map['category_id_2'] = id.value.toString();
@@ -172,7 +173,10 @@ class _ItemDetailsScreensState extends State<ItemDetailsScreens> {
     if(widget.id != null){
       ProductNameController.text = widget.name.toString();
       searchController.text = widget.categoryName.toString();
-      idForChild.add(widget.categoryID);
+      int? parsedValue = int.tryParse(widget.categoryID.toString());
+      if (parsedValue != null) {
+        idForChild.add(parsedValue);
+      }
       id.value = widget.catId.toString();
       categoryName.value = widget.categoryName.toString();
     }

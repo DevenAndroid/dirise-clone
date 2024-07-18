@@ -27,6 +27,11 @@ class JobProductModel {
 class SingleJobProduct {
   dynamic id;
   dynamic vendorId;
+  dynamic storeName;
+  dynamic storeEmail;
+  dynamic storePhone;
+  dynamic storeLinkedIn;
+  StoerAddress? stoerAddress;
   List<JobCat>? jobCat;
   dynamic pname;
   dynamic slug;
@@ -44,17 +49,23 @@ class SingleJobProduct {
   dynamic experience;
   dynamic salary;
   dynamic aboutYourself;
- dynamic jobHours;
+  dynamic jobHours;
   dynamic jobCountryId;
   dynamic jobStateId;
   dynamic jobCityId;
+  dynamic phone;
   dynamic uploadCv;
-  bool? accountStatus;
+  dynamic accountStatus;
   dynamic isComplete;
 
   SingleJobProduct(
       {this.id,
         this.vendorId,
+        this.storeName,
+        this.storeEmail,
+        this.storePhone,
+        this.storeLinkedIn,
+        this.stoerAddress,
         this.jobCat,
         this.pname,
         this.slug,
@@ -76,6 +87,7 @@ class SingleJobProduct {
         this.jobCountryId,
         this.jobStateId,
         this.jobCityId,
+        this.phone,
         this.uploadCv,
         this.accountStatus,
         this.isComplete});
@@ -83,6 +95,13 @@ class SingleJobProduct {
   SingleJobProduct.fromJson(Map<String, dynamic> json) {
     id = json['id'];
     vendorId = json['vendor_id'];
+    storeName = json['store_name'];
+    storeEmail = json['store_email'];
+    storePhone = json['store_phone'];
+    storeLinkedIn = json['store_linked_in'];
+    stoerAddress = json['stoer_address'] != null
+        ? new StoerAddress.fromJson(json['stoer_address'])
+        : null;
     if (json['job_cat'] != null) {
       jobCat = <JobCat>[];
       json['job_cat'].forEach((v) {
@@ -109,6 +128,7 @@ class SingleJobProduct {
     jobCountryId = json['job_country_id'];
     jobStateId = json['job_state_id'];
     jobCityId = json['job_city_id'];
+    phone = json['phone'];
     uploadCv = json['upload_cv'];
     accountStatus = json['account_status'];
     isComplete = json['is_complete'];
@@ -118,6 +138,13 @@ class SingleJobProduct {
     final Map<String, dynamic> data = new Map<String, dynamic>();
     data['id'] = this.id;
     data['vendor_id'] = this.vendorId;
+    data['store_name'] = this.storeName;
+    data['store_email'] = this.storeEmail;
+    data['store_phone'] = this.storePhone;
+    data['store_linked_in'] = this.storeLinkedIn;
+    if (this.stoerAddress != null) {
+      data['stoer_address'] = this.stoerAddress!.toJson();
+    }
     if (this.jobCat != null) {
       data['job_cat'] = this.jobCat!.map((v) => v.toJson()).toList();
     }
@@ -141,9 +168,123 @@ class SingleJobProduct {
     data['job_country_id'] = this.jobCountryId;
     data['job_state_id'] = this.jobStateId;
     data['job_city_id'] = this.jobCityId;
+    data['phone'] = this.phone;
     data['upload_cv'] = this.uploadCv;
     data['account_status'] = this.accountStatus;
     data['is_complete'] = this.isComplete;
+    return data;
+  }
+}
+
+class StoerAddress {
+  dynamic id;
+  dynamic userId;
+  dynamic isLogin;
+  dynamic giveawayId;
+  dynamic firstName;
+  dynamic lastName;
+  dynamic email;
+  dynamic companyName;
+  dynamic phone;
+  dynamic addressType;
+  dynamic type;
+  bool? isDefault;
+  dynamic address;
+  dynamic address2;
+  dynamic city;
+  dynamic country;
+  dynamic state;
+  dynamic town;
+  dynamic countryId;
+  dynamic stateId;
+  dynamic cityId;
+  dynamic title;
+  dynamic zipCode;
+  dynamic instruction;
+  dynamic landmark;
+
+  StoerAddress(
+      {this.id,
+        this.userId,
+        this.isLogin,
+        this.giveawayId,
+        this.firstName,
+        this.lastName,
+        this.email,
+        this.companyName,
+        this.phone,
+        this.addressType,
+        this.type,
+        this.isDefault,
+        this.address,
+        this.address2,
+        this.city,
+        this.country,
+        this.state,
+        this.town,
+        this.countryId,
+        this.stateId,
+        this.cityId,
+        this.title,
+        this.zipCode,
+        this.instruction,
+        this.landmark});
+
+  StoerAddress.fromJson(Map<String, dynamic> json) {
+    id = json['id'];
+    userId = json['user_id'];
+    isLogin = json['is_login'];
+    giveawayId = json['giveaway_id'];
+    firstName = json['first_name'];
+    lastName = json['last_name'];
+    email = json['email'];
+    companyName = json['company_name'];
+    phone = json['phone'];
+    addressType = json['address_type'];
+    type = json['type'];
+    isDefault = json['is_default'];
+    address = json['address'];
+    address2 = json['address2'];
+    city = json['city'];
+    country = json['country'];
+    state = json['state'];
+    town = json['town'];
+    countryId = json['country_id'];
+    stateId = json['state_id'];
+    cityId = json['city_id'];
+    title = json['title'];
+    zipCode = json['zip_code'];
+    instruction = json['instruction'];
+    landmark = json['landmark'];
+  }
+
+  Map<String, dynamic> toJson() {
+    final Map<String, dynamic> data = new Map<String, dynamic>();
+    data['id'] = this.id;
+    data['user_id'] = this.userId;
+    data['is_login'] = this.isLogin;
+    data['giveaway_id'] = this.giveawayId;
+    data['first_name'] = this.firstName;
+    data['last_name'] = this.lastName;
+    data['email'] = this.email;
+    data['company_name'] = this.companyName;
+    data['phone'] = this.phone;
+    data['address_type'] = this.addressType;
+    data['type'] = this.type;
+    data['is_default'] = this.isDefault;
+    data['address'] = this.address;
+    data['address2'] = this.address2;
+    data['city'] = this.city;
+    data['country'] = this.country;
+    data['state'] = this.state;
+    data['town'] = this.town;
+    data['country_id'] = this.countryId;
+    data['state_id'] = this.stateId;
+    data['city_id'] = this.cityId;
+    data['title'] = this.title;
+    data['zip_code'] = this.zipCode;
+    data['instruction'] = this.instruction;
+    data['landmark'] = this.landmark;
     return data;
   }
 }
