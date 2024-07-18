@@ -622,9 +622,7 @@ class _GiveAwayProductState extends State<GiveAwayProduct> {
                         //     Text("dicoins", style: GoogleFonts.poppins(fontWeight: FontWeight.w600, fontSize: 14, color:Colors.black),),
                         //   ],
                         // ),
-                        const SizedBox(
-                          height: 6,
-                        ),
+
 
                         // Row(
                         //   children: [
@@ -870,50 +868,58 @@ class _GiveAwayProductState extends State<GiveAwayProduct> {
                         //   ],
                         // ),
                         const SizedBox(
+                          height: 10,
+                        ),
+                        Container(
+                          padding: const EdgeInsets.symmetric(vertical: 7, horizontal: 37),
+                          decoration: BoxDecoration(
+                            color: const Color(0xFF014E70).withOpacity(.07),
+                            borderRadius: BorderRadius.circular(20),
+                          ),
+                          child: Text(
+                            modelSingleProduct.value.singleGiveawayProduct!.giveawayItemCondition.toString(),
+                            style: GoogleFonts.poppins(
+                              color: const Color(0xFF014E70),
+                              fontSize: 10,
+                              fontWeight: FontWeight.w400,
+                            ),
+                          ),
+                        ),
+                        const SizedBox(
                           height: 20,
                         ),
-                        Row(
-                          children: [
-                            SizedBox(
-                              height: 28,
-                              child: ListView.builder(
-                                itemCount: modelSingleProduct.value.singleGiveawayProduct!.catId!.length,
-                                shrinkWrap: true,
-                                scrollDirection: Axis.horizontal,
-                                physics: const AlwaysScrollableScrollPhysics(),
-                                itemBuilder: (BuildContext context, int index) {
-                                  return Container(
-                                    padding: const EdgeInsets.symmetric(vertical: 7, horizontal: 37),
-                                    decoration: BoxDecoration(
-                                      color: const Color(0xFF014E70).withOpacity(.07),
-                                      borderRadius: BorderRadius.circular(20),
+                        SizedBox(
+                          height: 28 * (1 + (modelSingleProduct.value.singleGiveawayProduct!.catId!.length / 3).ceil().toDouble()), // Adjust height based on number of items
+                          child: Wrap(
+                            spacing: 2, // Spacing between items horizontally
+                            runSpacing: 13, // Spacing between items vertically
+                            children: List.generate(
+                              modelSingleProduct.value.singleGiveawayProduct!.catId!.length,
+                                  (index) {
+                                return Container(
+                                  padding: const EdgeInsets.symmetric(vertical: 7, horizontal: 37),
+                                  decoration: BoxDecoration(
+                                    color: const Color(0xFF014E70).withOpacity(.07),
+                                    borderRadius: BorderRadius.circular(20),
+                                  ),
+                                  child: Text(
+                                    modelSingleProduct.value.singleGiveawayProduct!.catId![index].title.toString(),
+                                    style: GoogleFonts.poppins(
+                                      color: const Color(0xFF014E70),
+                                      fontSize: 10,
+                                      fontWeight: FontWeight.w400,
                                     ),
-                                    child: Text(
-                                      modelSingleProduct.value.singleGiveawayProduct!.catId![index].title.toString(),
-                                      style: GoogleFonts.poppins(
-                                          color: const Color(0xFF014E70), fontSize: 10, fontWeight: FontWeight.w400),
-                                    ),
-                                  );
-                                },
-                              ),
+                                  ),
+                                );
+                              },
                             ),
-                            const SizedBox(
-                              width: 10,
-                            ),
-                            Container(
-                              padding: const EdgeInsets.symmetric(vertical: 7, horizontal: 37),
-                              decoration: BoxDecoration(
-                                color: const Color(0xFF014E70).withOpacity(.07),
-                                borderRadius: BorderRadius.circular(20),
-                              ),
-                              child: Text(
-                                modelSingleProduct.value.singleGiveawayProduct!.giveawayItemCondition.toString(),
-                                style: GoogleFonts.poppins(
-                                    color: const Color(0xFF014E70), fontSize: 10, fontWeight: FontWeight.w400),
-                              ),
-                            ),
-                          ],
+                          ),
                         ),
+
+                        const SizedBox(
+                          width: 10,
+                        ),
+
                         const SizedBox(
                           height: 20,
                         ),
@@ -1251,7 +1257,8 @@ class _GiveAwayProductState extends State<GiveAwayProduct> {
                             const SizedBox(
                               width: 20,
                             ),
-                            Expanded(child: Image.asset("assets/svgs/verified.png",height: 30,))
+                            modelSingleProduct.value.singleGiveawayProduct!.storemeta!.isVendor == true?
+                            Expanded(child: Image.asset("assets/svgs/verified.png",height: 30,)):SizedBox()
                           ],
                         ),
                         const SizedBox(

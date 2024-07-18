@@ -317,6 +317,7 @@ class _ReviewPublishScreenState extends State<ReviewPublishScreen> {
                                       Text('product ID: ${addProductControllerNew.productDetailsModel.value.productDetails!.product!.id ?? ""}'),
                                       Text('vendor category: ${addProductControllerNew.productDetailsModel.value.productDetails!.product!.catName ?? ""}'),
                                       Text('my item is a : ${ addProductControllerNew.productDetailsModel.value.productDetails!.product!.giveawayItemCondition}'),
+                                      // Text('my item is a : ${  addProductControllerNew.productDetailsModel.value.productDetails!.product!.catId != 'null' ?  addProductControllerNew.productDetailsModel.value.productDetails!.product!.catId : ''}'),
                                     ],
                                   ),
                                 ),
@@ -329,6 +330,7 @@ class _ReviewPublishScreenState extends State<ReviewPublishScreen> {
                                             name: addProductControllerNew.productDetailsModel.value.productDetails!.product!.pname,
                                             categoryName:  addProductControllerNew.productDetailsModel.value.productDetails!.product!.catName,
                                             catId:  addProductControllerNew.productDetailsModel.value.productDetails!.product!.catId2.toString(),
+                                            categoryID:  addProductControllerNew.productDetailsModel.value.productDetails!.product!.catId != 'null' ?  addProductControllerNew.productDetailsModel.value.productDetails!.product!.catId : '',
                                           ));
                                         },
                                         child: const Text('Edit',style: TextStyle(color: Colors.red,fontSize: 13),)))
