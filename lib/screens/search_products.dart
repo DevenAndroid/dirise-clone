@@ -219,7 +219,7 @@ class _SearchProductsScreenState extends State<SearchProductsScreen> {
                                 else if (item.productType == 'booking'&& item.itemType == 'product') {
                                   Get.to(() => const BookableProductScreen(), arguments: item.id.toString());
                                 }
-                                else if (item.itemType == 'product') {
+                                else if (item.itemType == 'product' || item.itemType =='service') {
                                   Get.to(() => const SimpleProductScreen(), arguments: item.id.toString());
                                 }
                               },

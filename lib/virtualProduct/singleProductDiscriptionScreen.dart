@@ -61,12 +61,28 @@ class _VirtualDiscriptionScreenState extends State<VirtualDiscriptionScreen> {
       if (response.status == true) {
         // addProductController.idProduct.value = response.productDetails!.product!.id.toString();
         print(addProductController.idProduct.value.toString());
-        Get.to(const VirtualProductScreen());
+        if(widget.id != null){
+          Get.back();
+        }else{
+          Get.to(const VirtualProductScreen());
+        }
       }
     });
   }
 
   final profileController = Get.put(ProfileController());
+  @override
+  void initState() {
+    // TODO: implement initState
+    super.initState();
+    if (widget.id != null) {
+      shortController.text = widget.description.toString();
+      inStockController.text = widget.stockquantity.toString();
+      alertDiscount.text = widget.setstock.toString();
+      tagDiscount.text = widget.sEOTags.toString();
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(

@@ -213,7 +213,7 @@ class _VirtualProductScreenState extends State<VirtualProductScreen> {
                     ),
                   ),
                   Container(
-                    height: 220,
+                    height: 250,
                     width: 200,
                     child: ImageWidget(
                       // key: paymentReceiptCertificateKey,
@@ -228,9 +228,6 @@ class _VirtualProductScreenState extends State<VirtualProductScreen> {
                     ),
                   ),
                 ],
-              ),
-              const SizedBox(
-                height: 10,
               ),
               Text(
                 'Language:'.tr,
