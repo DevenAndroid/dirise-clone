@@ -1,50 +1,50 @@
- import 'dart:convert';
-  import 'dart:developer';
-  import 'dart:ffi';
-  import 'dart:io';
-  import 'package:dirise/addNewProduct/pickUpAddressScreen.dart';
-  import 'package:dirise/controller/vendor_controllers/add_product_controller.dart';
-  import 'package:dirise/singleproductScreen/singleProductPriceScreen.dart';
+import 'dart:convert';
+import 'dart:developer';
+import 'dart:ffi';
+import 'dart:io';
+import 'package:dirise/addNewProduct/pickUpAddressScreen.dart';
+import 'package:dirise/controller/vendor_controllers/add_product_controller.dart';
+import 'package:dirise/singleproductScreen/singleProductPriceScreen.dart';
 import 'package:dirise/virtualProduct/singleProductPriceScreen.dart';
-  import 'package:flutter/cupertino.dart';
-  import 'package:flutter/foundation.dart';
-  import 'package:flutter/material.dart';
-  import 'package:form_field_validator/form_field_validator.dart';
-  import 'package:get/get.dart';
-  import 'package:google_fonts/google_fonts.dart';
-  import '../controller/profile_controller.dart';
-  import '../controller/vendor_controllers/vendor_profile_controller.dart';
-  import '../model/common_modal.dart';
-  import '../model/getSubCategoryModel.dart';
-  import '../model/productCategoryModel.dart';
-  import '../model/vendor_models/add_product_model.dart';
-  import '../model/vendor_models/model_add_product_category.dart';
-  import '../model/vendor_models/model_category_list.dart';
-  import '../model/vendor_models/model_vendor_details.dart';
-  import '../model/vendor_models/vendor_category_model.dart';
-  import '../repository/repository.dart';
-  import '../utils/api_constant.dart';
-  import '../utils/styles.dart';
-  import '../widgets/common_button.dart';
-  import '../widgets/common_colour.dart';
-  import '../widgets/common_textfield.dart';
-  import 'ReviewandPublishScreen.dart';
+import 'package:flutter/cupertino.dart';
+import 'package:flutter/foundation.dart';
+import 'package:flutter/material.dart';
+import 'package:form_field_validator/form_field_validator.dart';
+import 'package:get/get.dart';
+import 'package:google_fonts/google_fonts.dart';
+import '../controller/profile_controller.dart';
+import '../controller/vendor_controllers/vendor_profile_controller.dart';
+import '../model/common_modal.dart';
+import '../model/getSubCategoryModel.dart';
+import '../model/productCategoryModel.dart';
+import '../model/vendor_models/add_product_model.dart';
+import '../model/vendor_models/model_add_product_category.dart';
+import '../model/vendor_models/model_category_list.dart';
+import '../model/vendor_models/model_vendor_details.dart';
+import '../model/vendor_models/vendor_category_model.dart';
+import '../repository/repository.dart';
+import '../utils/api_constant.dart';
+import '../utils/styles.dart';
+import '../widgets/common_button.dart';
+import '../widgets/common_colour.dart';
+import '../widgets/common_textfield.dart';
+import 'ReviewandPublishScreen.dart';
 
-  class VirtualProductInformationScreens extends StatefulWidget {
+class VirtualProductInformationScreens extends StatefulWidget {
   int? id;
   String? catid;
   String? name;
 
-
-  VirtualProductInformationScreens({super.key,this.id,this.name,this.catid});
+  VirtualProductInformationScreens({super.key, this.id, this.name, this.catid});
 
   @override
   State<VirtualProductInformationScreens> createState() => _VirtualProductInformationScreensState();
-  }
+}
 
-  class _VirtualProductInformationScreensState extends State<VirtualProductInformationScreens> {
+class _VirtualProductInformationScreensState extends State<VirtualProductInformationScreens> {
   ProductCategoryData? selectedSubcategory;
   SubProductData? selectedProductSubcategory;
+  bool showFilters = false;
 
   final TextEditingController ProductNameController = TextEditingController();
   int vendorID = 0;
@@ -53,37 +53,34 @@ import 'package:dirise/virtualProduct/singleProductPriceScreen.dart';
   final addProductController = Get.put(AddProductController());
   final profileController = Get.put(ProfileController());
   deliverySizeApi() {
-  Map<String, dynamic> map = {};
-  map['category_id'] = idForChild.join(',').toString();
-  map['product_name'] = ProductNameController.text.toString();
-  map['item_type'] = 'giveaway';
-  map['id'] = addProductController.idProduct.value.toString();
-  /////please change this when image ui is done
+    Map<String, dynamic> map = {};
+    map['category_id'] = idForChild.join(',').toString();
+    map['product_name'] = ProductNameController.text.toString();
+    map['item_type'] = 'giveaway';
+    map['id'] = addProductController.idProduct.value.toString();
+    /////please change this when image ui is done
 
-  final Repositories repositories = Repositories();
-  FocusManager.instance.primaryFocus!.unfocus();
-  repositories.postApi(url: ApiUrls.giveawayProductAddress, context: context, mapData: map).then((value) {
-  AddProductModel response = AddProductModel.fromJson(jsonDecode(value));
-  print('API Response Status Code: ${response.status}');
-  showToast(response.message.toString());
-  if (response.status == true) {
-  addProductController.idProduct.value = response.productDetails!.product!.id.toString();
-  print(addProductController.idProduct.value.toString());
-  if(widget.id != null){
- Get.back();
-  }else{
-  Get.to(VirtualPriceScreen());
-
-  }
-  }
-  });
+    final Repositories repositories = Repositories();
+    FocusManager.instance.primaryFocus!.unfocus();
+    repositories.postApi(url: ApiUrls.giveawayProductAddress, context: context, mapData: map).then((value) {
+      AddProductModel response = AddProductModel.fromJson(jsonDecode(value));
+      print('API Response Status Code: ${response.status}');
+      showToast(response.message.toString());
+      if (response.status == true) {
+        addProductController.idProduct.value = response.productDetails!.product!.id.toString();
+        print(addProductController.idProduct.value.toString());
+        if (widget.id != null) {
+          Get.to(VirtualReviewandPublishScreen());
+        } else {
+          Get.to(VirtualPriceScreen());
+        }
+      }
+    });
   }
 
   ModelVendorCategory modelVendorCategory = ModelVendorCategory(usphone: []);
   Rx<ModelCategoryList> productCategoryModel = ModelCategoryList().obs;
-  Rx<RxStatus> vendorCategoryStatus = RxStatus
-      .empty()
-      .obs;
+  Rx<RxStatus> vendorCategoryStatus = RxStatus.empty().obs;
   final GlobalKey categoryKey = GlobalKey();
   final GlobalKey subcategoryKey = GlobalKey();
   final GlobalKey productsubcategoryKey = GlobalKey();
@@ -95,43 +92,43 @@ import 'package:dirise/virtualProduct/singleProductPriceScreen.dart';
   final vendorProfileController = Get.put(VendorProfileController());
 
   void getVendorCategories() {
-  vendorCategoryStatus.value = RxStatus.loading();
-  repositories.getApi(url: ApiUrls.vendorCategoryListUrl, showResponse: false).then((value) {
-  modelVendorCategory = ModelVendorCategory.fromJson(jsonDecode(value));
-  vendorCategoryStatus.value = RxStatus.success();
+    vendorCategoryStatus.value = RxStatus.loading();
+    repositories.getApi(url: ApiUrls.vendorCategoryListUrl, showResponse: false).then((value) {
+      modelVendorCategory = ModelVendorCategory.fromJson(jsonDecode(value));
+      vendorCategoryStatus.value = RxStatus.success();
 
-  for (var element in vendorInfo.vendorCategory!) {
-  allSelectedCategory[element.id.toString()] = VendorCategoriesData.fromJson(element.toJson());
-  }
-  setState(() {});
-  }).catchError((e) {
-  vendorCategoryStatus.value = RxStatus.error();
-  });
+      for (var element in vendorInfo.vendorCategory!) {
+        allSelectedCategory[element.id.toString()] = VendorCategoriesData.fromJson(element.toJson());
+      }
+      setState(() {});
+    }).catchError((e) {
+      vendorCategoryStatus.value = RxStatus.error();
+    });
   }
 
   List<ProductCategoryData> fetchedDropdownItems = [];
   List<SubProductData> subProductData = [];
 
   void fetchDataBasedOnId(int id) async {
-  String apiUrl = 'https://dirise.virtualdemo.tech/api/product-category?id=$id';
-  await repositories.getApi(url: apiUrl).then((value) {
-  productCategoryModel.value = ModelCategoryList.fromJson(jsonDecode(value));
-  // setState(() {
-  //   fetchedDropdownItems = productCategoryModel.productdata ?? [];
-  // });
-  });
+    String apiUrl = 'https://dirise.virtualdemo.tech/api/product-category?id=$id';
+    await repositories.getApi(url: apiUrl).then((value) {
+      productCategoryModel.value = ModelCategoryList.fromJson(jsonDecode(value));
+      // setState(() {
+      //   fetchedDropdownItems = productCategoryModel.productdata ?? [];
+      // });
+    });
   }
 
   SubCategoryModel subProductCategoryModel = SubCategoryModel();
 
   void fetchSubCategoryBasedOnId(int id1) async {
-  String apiUrl1 = 'https://dirise.virtualdemo.tech/api/product-subcategory?category_id=$id1';
-  await repositories.getApi(url: apiUrl1).then((value) {
-  subProductCategoryModel = SubCategoryModel.fromJson(jsonDecode(value));
-  setState(() {
-  subProductData = subProductCategoryModel.data ?? [];
-  });
-  });
+    String apiUrl1 = 'https://dirise.virtualdemo.tech/api/product-subcategory?category_id=$id1';
+    await repositories.getApi(url: apiUrl1).then((value) {
+      subProductCategoryModel = SubCategoryModel.fromJson(jsonDecode(value));
+      setState(() {
+        subProductData = subProductCategoryModel.data ?? [];
+      });
+    });
   }
 
   RxString categoryName = "".obs;
@@ -145,49 +142,49 @@ import 'package:dirise/virtualProduct/singleProductPriceScreen.dart';
   final productController = Get.put(AddProductController());
   @override
   void initState() {
-  // TODO: implement initState
-  super.initState();
-  getVendorCategories();
-  productController.getProductsCategoryList();
-  if (productController.modelCategoryList != null &&
-      productController.modelCategoryList!.data != null &&
-      productController.modelCategoryList!.data!.isNotEmpty) {
-    fetchDataBasedOnId(productController.modelCategoryList!.data![0].vendorCategory);
-  }
+    // TODO: implement initState
+    super.initState();
+    getVendorCategories();
+    productController.getProductsCategoryList();
+    if (productController.modelCategoryList != null &&
+        productController.modelCategoryList!.data != null &&
+        productController.modelCategoryList!.data!.isNotEmpty) {
+      fetchDataBasedOnId(productController.modelCategoryList!.data![0].vendorCategory);
+    }
 
-  fetchSubCategoryBasedOnId(ProductID);
-  if(widget.id != null){
-  ProductNameController.text = widget.name.toString();
-  // productController.modelCategoryList!.vendorCategoryName = widget.catid.toString();
-  }
+    fetchSubCategoryBasedOnId(ProductID);
+    if (widget.id != null) {
+      ProductNameController.text = widget.name.toString();
+      // productController.modelCategoryList!.vendorCategoryName = widget.catid.toString();
+    }
   }
 
   String idChild = '';
   List<int?> idForChild = [];
   @override
   Widget build(BuildContext context) {
-  return Scaffold(
-  appBar: AppBar(
-  backgroundColor: Colors.white,
-  surfaceTintColor: Colors.white,
-  elevation: 0,
-  leading: GestureDetector(
-    onTap: (){
-      Get.back();
-    },
-    child: Column(
-      crossAxisAlignment: CrossAxisAlignment.center,
-      mainAxisAlignment: MainAxisAlignment.center,
-      children: [
-        Image.asset(
-          'assets/images/back_icon_new.png',
-          height: 19,
-          width: 19,
+    return Scaffold(
+      appBar: AppBar(
+        backgroundColor: Colors.white,
+        surfaceTintColor: Colors.white,
+        elevation: 0,
+        leading: GestureDetector(
+          onTap: () {
+            Get.back();
+          },
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.center,
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: [
+              Image.asset(
+                'assets/images/back_icon_new.png',
+                height: 19,
+                width: 19,
+              ),
+            ],
+          ),
         ),
-      ],
-    ),
-  ),
-  titleSpacing: 0,
+        titleSpacing: 0,
         title: Row(
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: [
@@ -352,6 +349,30 @@ import 'package:dirise/virtualProduct/singleProductPriceScreen.dart';
               ),
               Obx(() {
                 return productCategoryModel.value.data != null
+                    ? GestureDetector(
+                  onTap: () {
+                    setState(() {
+                      showFilters = !showFilters;
+                    });
+                  },
+                  child: Container(
+                    padding: EdgeInsets.all(10),
+                    decoration: BoxDecoration(color: Color(0xff292F45),borderRadius: BorderRadius.circular(11)),
+                    child: Text(
+                      'Filters(Optional)'.tr,
+                      style: GoogleFonts.poppins(color: Colors.white, fontWeight: FontWeight.w600, fontSize: 16),
+                    ),
+                  ),
+                )
+                    : const SizedBox();
+              }),
+              const SizedBox(
+                height: 15,
+              ),
+
+              showFilters ?
+              Obx(() {
+                return productCategoryModel.value.data != null
                     ? Column(
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: productCategoryModel.value.data!
@@ -464,7 +485,7 @@ import 'package:dirise/virtualProduct/singleProductPriceScreen.dart';
                             .toList(),
                       )
                     : const SizedBox();
-              }),
+              }) : SizedBox(),
               const SizedBox(
                 height: 20,
               ),
@@ -496,5 +517,4 @@ import 'package:dirise/virtualProduct/singleProductPriceScreen.dart';
       ),
     );
   }
-  }
-
+}

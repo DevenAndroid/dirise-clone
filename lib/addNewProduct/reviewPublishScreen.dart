@@ -100,6 +100,7 @@ class _ReviewPublishScreenState extends State<ReviewPublishScreen> {
   bool isItemDetailsVisible3 = false;
   bool isItemDetailsVisible4 = false;
   RxBool isImageProvide = false.obs;
+  RxBool isOtherImageProvide = false.obs;
   final Repositories repositories = Repositories();
 
   final addProductController = Get.put(AddProductController());
@@ -262,6 +263,117 @@ class _ReviewPublishScreenState extends State<ReviewPublishScreen> {
                                       )))
                             ],
                           ),
+                        const SizedBox(height: 20),
+                        GestureDetector(
+                          onTap: () {
+                            setState(() {
+                              isOtherImageProvide.toggle();
+                            });
+                          },
+                          child: Container(
+                            padding: const EdgeInsets.symmetric(vertical: 12, horizontal: 12),
+                            decoration: BoxDecoration(
+                                color: Colors.grey.shade200,
+                                borderRadius: BorderRadius.circular(8),
+                                border: Border.all(color: AppTheme.secondaryColor)),
+                            child: Row(
+                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                              children: [
+                                Text(
+                                  'Other Image',
+                                  style: GoogleFonts.poppins(
+                                    color: AppTheme.primaryColor,
+                                    fontSize: 15,
+                                  ),
+                                ),
+                                GestureDetector(
+                                  child: isImageProvide.value != true
+                                      ? Image.asset(
+                                    'assets/images/drop_icon.png',
+                                    height: 17,
+                                    width: 17,
+                                  )
+                                      : Image.asset(
+                                    'assets/images/up_icon.png',
+                                    height: 17,
+                                    width: 17,
+                                  ),
+                                  onTap: () {
+                                    setState(() {
+                                      isOtherImageProvide.toggle();
+                                    });
+                                  },
+                                ),
+                              ],
+                            ),
+                          ),
+                        ),
+
+                        if (isOtherImageProvide.value == true)
+                          Stack(
+                            children: [
+                              Container(
+                                margin: const EdgeInsets.only(top: 10),
+                                width: Get.width,
+                                padding: const EdgeInsets.all(10),
+                                decoration: BoxDecoration(
+                                  color: Colors.grey.shade200,
+                                  borderRadius: BorderRadius.circular(11),
+                                ),
+                                child: addProductControllerNew.productDetailsModel.value.productDetails != null &&
+                                    addProductControllerNew.productDetailsModel.value.productDetails!.product != null &&
+                                    addProductControllerNew.productDetailsModel.value.productDetails!.product!.galleryImage != null &&
+                                    addProductControllerNew.productDetailsModel.value.productDetails!.product!.galleryImage!.isNotEmpty
+                                    ? GridView.builder(
+                                  shrinkWrap: true,
+                                  physics: NeverScrollableScrollPhysics(), // Prevent scrolling in the grid
+                                  itemCount: addProductControllerNew.productDetailsModel.value.productDetails!.product!.galleryImage!.length,
+                                  gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
+                                    crossAxisCount: 2, // 2 images per row
+                                    crossAxisSpacing: 10,
+                                    mainAxisSpacing: 10,
+                                    childAspectRatio: 1, // Adjust aspect ratio as needed
+                                  ),
+                                  itemBuilder: (context, index) {
+                                    String imageUrl = addProductControllerNew.productDetailsModel.value.productDetails!.product!.galleryImage![index];
+                                    return Image.network(
+                                      imageUrl,
+                                      height: 200,
+                                      width: double.infinity,
+                                      fit: BoxFit.cover,
+                                    );
+                                  },
+                                )
+                                    : const Text('No images available'),
+                              ),
+                              Positioned(
+                                right: 10,
+                                top: 20,
+                                child: GestureDetector(
+                                  onTap: () {
+                                    if (addProductControllerNew.productDetailsModel.value.productDetails != null &&
+                                        addProductControllerNew.productDetailsModel.value.productDetails!.product != null &&
+                                        addProductControllerNew.productDetailsModel.value.productDetails!.product!.galleryImage != null &&
+                                        addProductControllerNew.productDetailsModel.value.productDetails!.product!.galleryImage!.isNotEmpty) {
+                                      // Assuming you want to edit the first image for simplicity
+                                      File imageFile = File(addProductControllerNew.productDetailsModel.value.productDetails!.product!.galleryImage![0]);
+                                      Get.to(AddProductFirstImageScreen(
+                                        id: addProductControllerNew.productDetailsModel.value.productDetails!.product!.id,
+                                        image: imageFile,
+                                      ));
+                                    }
+                                  },
+                                  child: const Text(
+                                    'Edit',
+                                    style: TextStyle(color: Colors.red, fontSize: 13),
+                                  ),
+                                ),
+                              ),
+                            ],
+                          ),
+
+
+
 
                         const SizedBox(height: 20),
                         GestureDetector(
