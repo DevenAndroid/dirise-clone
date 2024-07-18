@@ -310,7 +310,7 @@ class _VirtualReviewandPublishScreenState extends State<VirtualReviewandPublishS
                                     onTap: () {
                                       Get.to(VirtualProductInformationScreens(
                                         id: controller.productDetailsModel.value.productDetails!.product!.id,
-                                        // name: productDetailsModel.value.productDetails!.product!.pname,
+                                        name: controller.productDetailsModel.value.productDetails!.product!.pname,
                                       ));
                                     },
                                     child: const Text(
