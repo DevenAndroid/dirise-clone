@@ -67,7 +67,7 @@ class _VirtualOptionalClassificationScreenState extends State<VirtualOptionalCla
       showToast(response.message.toString());
       if (response.status == true) {
         if(widget.id != null){
-          Get.to(const VirtualReviewandPublishScreen());
+         Get.back();
         }else{
           Get.to(const VirtualReviewandPublishScreen());
         }
@@ -242,7 +242,11 @@ class _VirtualOptionalClassificationScreenState extends State<VirtualOptionalCla
                 const SizedBox(height: 20),
                 GestureDetector(
                   onTap: () {
-                    Get.to(const VirtualReviewandPublishScreen());
+                    if(widget.id != null){
+                      Get.back();
+                    }else{
+                      Get.to(const VirtualReviewandPublishScreen());
+                    }
                   },
                   child: Container(
                     width: Get.width,
