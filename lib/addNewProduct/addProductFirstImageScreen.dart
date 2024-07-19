@@ -147,7 +147,7 @@ class _AddProductFirstImageScreenState extends State<AddProductFirstImageScreen>
           margin: const EdgeInsets.only(left: 30,right: 30,top: 30),
           child: Column(
             children: [
-              ImageWidget(
+              ProductImageWidget(
                 // key: paymentReceiptCertificateKey,
                 title: "Upload cover photo".tr,
                 file: featuredImage,

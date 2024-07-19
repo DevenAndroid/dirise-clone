@@ -38,22 +38,22 @@ class AddProductPickUpAddressScreen extends StatefulWidget {
   final String? locationcountry;
   final String? locationzipcode;
   final String? locationtown;
-  AddProductPickUpAddressScreen({
-    Key? key,
-    this.street,
-    this.city,
-    this.state,
-    this.country,
-    this.zipcode,
-    this.town,
-    this.id,
-    this.locationcity,
-    this.locationcountry,
-    this.locationstate,
-    this.locationstreet,
-    this.locationtown,
-    this.locationzipcode
-  }) : super(key: key);
+  AddProductPickUpAddressScreen(
+      {Key? key,
+      this.street,
+      this.city,
+      this.state,
+      this.country,
+      this.zipcode,
+      this.town,
+      this.id,
+      this.locationcity,
+      this.locationcountry,
+      this.locationstate,
+      this.locationstreet,
+      this.locationtown,
+      this.locationzipcode})
+      : super(key: key);
 
   @override
   State<AddProductPickUpAddressScreen> createState() => _AddProductPickUpAddressScreenState();
@@ -73,7 +73,7 @@ class _AddProductPickUpAddressScreenState extends State<AddProductPickUpAddressS
   RxBool hide1 = true.obs;
   bool showValidation = false;
   final Repositories repositories = Repositories();
-    final formKey1 = GlobalKey<FormState>();
+  final formKey1 = GlobalKey<FormState>();
   String code = "+91";
   editAddressApi() {
     Map<String, dynamic> map = {};
@@ -84,12 +84,12 @@ class _AddProductPickUpAddressScreenState extends State<AddProductPickUpAddressS
         widget.town != null) {
       map['city'] = cityController.text.trim();
       map['item_type'] = 'giveaway';
-      map['state'] =  stateController.text.trim();
+      map['state'] = stateController.text.trim();
       map['zip_code'] = zipcodeController.text.trim();
       map['town'] = townController.text.trim();
       map['country'] = countryController.text.trim();
       map['id'] = addProductController.idProduct.value.toString();
-      map['street'] =  streetController.text.trim();
+      map['street'] = streetController.text.trim();
       map['special_instruction'] = specialInstructionController.text.trim();
     } else {
       map['city'] = cityController.text.trim();
@@ -109,13 +109,11 @@ class _AddProductPickUpAddressScreenState extends State<AddProductPickUpAddressS
       print('API Response Status Code: ${response.status}');
       showToast(response.message.toString());
       if (response.status == true) {
-        if(widget.id != null){
+        if (widget.id != null) {
           Get.to(ReviewPublishScreen());
-        }else
-          {
-            Get.to(DeliverySizeScreen());
-          }
-
+        } else {
+          Get.to(DeliverySizeScreen());
+        }
       }
     });
   }
@@ -133,7 +131,7 @@ class _AddProductPickUpAddressScreenState extends State<AddProductPickUpAddressS
       townController.text = widget.town ?? '';
     }
 
-    if(widget.locationzipcode != null){
+    if (widget.locationzipcode != null) {
       streetController.text = widget.locationstreet!;
       cityController.text = widget.locationcity ?? '';
       stateController.text = widget.locationstate ?? '';
@@ -153,24 +151,24 @@ class _AddProductPickUpAddressScreenState extends State<AddProductPickUpAddressS
         surfaceTintColor: Colors.white,
         elevation: 0,
         leading: GestureDetector(
-          onTap: (){
+          onTap: () {
             Get.back();
           },
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.center,
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
-              profileController.selectedLAnguage.value != 'English' ?
-              Image.asset(
-                'assets/images/forward_icon.png',
-                height: 19,
-                width: 19,
-              ) :
-              Image.asset(
-                'assets/images/back_icon_new.png',
-                height: 19,
-                width: 19,
-              ),
+              profileController.selectedLAnguage.value != 'English'
+                  ? Image.asset(
+                      'assets/images/forward_icon.png',
+                      height: 19,
+                      width: 19,
+                    )
+                  : Image.asset(
+                      'assets/images/back_icon_new.png',
+                      height: 19,
+                      width: 19,
+                    ),
             ],
           ),
         ),
@@ -179,7 +177,7 @@ class _AddProductPickUpAddressScreenState extends State<AddProductPickUpAddressS
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: [
             Text(
-             "Vendor address",
+              "Vendor address",
               style: GoogleFonts.poppins(color: Color(0xff292F45), fontWeight: FontWeight.w600, fontSize: 20),
             ),
           ],
@@ -207,7 +205,7 @@ class _AddProductPickUpAddressScreenState extends State<AddProductPickUpAddressS
                 InkWell(
                   onTap: () {
                     // Get.toNamed("/chooseAddressScreen");
-              Get.to(ChooseAddressForGiveaway());
+                    Get.to(ChooseAddressForGiveaway());
                   },
                   child: Align(
                     alignment: Alignment.center,
@@ -217,12 +215,16 @@ class _AddProductPickUpAddressScreenState extends State<AddProductPickUpAddressS
                     ),
                   ),
                 ),
-                SizedBox(height: 20,),
+                SizedBox(
+                  height: 20,
+                ),
                 Text(
                   "Street*".tr,
                   style: GoogleFonts.poppins(color: Color(0xff044484), fontWeight: FontWeight.w600, fontSize: 14),
                 ),
-                SizedBox(height: 5,),
+                SizedBox(
+                  height: 5,
+                ),
                 CommonTextField(
                   controller: streetController,
                   obSecure: false,
@@ -234,107 +236,130 @@ class _AddProductPickUpAddressScreenState extends State<AddProductPickUpAddressS
                     return null; // Return null if validation passes
                   },
                 ),
-
-                SizedBox(height: 20,),
+                SizedBox(
+                  height: 20,
+                ),
                 Text(
                   "Country*".tr,
                   style: GoogleFonts.poppins(color: Color(0xff044484), fontWeight: FontWeight.w600, fontSize: 14),
                 ),
-                SizedBox(height: 5,),
+                SizedBox(
+                  height: 5,
+                ),
                 CommonTextField(
-                   controller: countryController,
-                    obSecure: false,
-                    hintText: 'Country'.tr,
-                    validator: (value) {
-                      if (value!.trim().isEmpty) {
-                        return 'Country is required'.tr;
-                      }
-                      return null; // Return null if validation passes
-                    },
-                 ),
-                SizedBox(height: 10,),
+                  controller: countryController,
+                  obSecure: false,
+                  hintText: 'Country'.tr,
+                  validator: (value) {
+                    if (value!.trim().isEmpty) {
+                      return 'Country is required'.tr;
+                    }
+                    return null; // Return null if validation passes
+                  },
+                ),
+                SizedBox(
+                  height: 10,
+                ),
                 Text(
                   "City*".tr,
                   style: GoogleFonts.poppins(color: Color(0xff044484), fontWeight: FontWeight.w600, fontSize: 14),
                 ),
-                SizedBox(height: 5,),
+                SizedBox(
+                  height: 5,
+                ),
                 CommonTextField(
-                   controller: cityController,
-                    obSecure: false,
-                    hintText: 'city'.tr,
-                    validator: (value) {
-                      if (value!.trim().isEmpty) {
-                        return 'city is required'.tr;
-                      }
-                      return null; // Return null if validation passes
-                    },
-                    ),
-                SizedBox(height: 10,),
+                  controller: cityController,
+                  obSecure: false,
+                  hintText: 'city'.tr,
+                  validator: (value) {
+                    if (value!.trim().isEmpty) {
+                      return 'city is required'.tr;
+                    }
+                    return null; // Return null if validation passes
+                  },
+                ),
+                SizedBox(
+                  height: 10,
+                ),
                 Text(
                   "State*".tr,
                   style: GoogleFonts.poppins(color: Color(0xff044484), fontWeight: FontWeight.w600, fontSize: 14),
                 ),
-                SizedBox(height: 5,),
-                CommonTextField(
-                   controller: stateController,
-                    obSecure: false,
-                    hintText: 'State'.tr,
-                    validator: (value) {
-                      if (value!.trim().isEmpty) {
-                        return 'State is required'.tr;
-                      }
-                      return null; // Return null if validation passes
-                    },
-
+                SizedBox(
+                  height: 5,
                 ),
-                SizedBox(height: 10,),
+                CommonTextField(
+                  controller: stateController,
+                  obSecure: false,
+                  hintText: 'State'.tr,
+                  validator: (value) {
+                    if (value!.trim().isEmpty) {
+                      return 'State is required'.tr;
+                    }
+                    return null; // Return null if validation passes
+                  },
+                ),
+                SizedBox(
+                  height: 10,
+                ),
                 Text(
                   "Zip Code*".tr,
                   style: GoogleFonts.poppins(color: Color(0xff044484), fontWeight: FontWeight.w600, fontSize: 14),
                 ),
-                SizedBox(height: 5,),
+                SizedBox(
+                  height: 5,
+                ),
                 CommonTextField(
-                   controller: zipcodeController,
-                    obSecure: false,
-                    hintText: 'Zip Code'.tr,
-                    validator: (value) {
-                      if (value!.trim().isEmpty) {
-                        return 'Zip Code is required'.tr;
-                      }
-                      return null; // Return null if validation passes
-                    },
-                   ),
-                SizedBox(height: 10,),
+                  controller: zipcodeController,
+                  obSecure: false,
+                  hintText: 'Zip Code'.tr,
+                  validator: (value) {
+                    if (value!.trim().isEmpty) {
+                      return 'If you dont have any zipcode then write 99999 and make sure write a right zipcode otherwise we cant help in shipping'
+                          .tr;
+                    }
+                    return null; // Return null if validation passes
+                  },
+                ),
+                SizedBox(
+                  height: 10,
+                ),
                 Text(
                   "Town*".tr,
                   style: GoogleFonts.poppins(color: Color(0xff044484), fontWeight: FontWeight.w600, fontSize: 14),
                 ),
-                SizedBox(height: 5,),
+                SizedBox(
+                  height: 5,
+                ),
                 CommonTextField(
-                   controller: townController,
-                    obSecure: false,
-                    hintText: 'Town'.tr,
-                    validator: (value) {
-                      if (value!.trim().isEmpty) {
-                        return 'Town is required'.tr;
-                      }
-                      return null; // Return null if validation passes
-                    },
-                    ),
-                SizedBox(height: 10,),
-
+                  controller: townController,
+                  obSecure: false,
+                  hintText: 'Town'.tr,
+                  validator: (value) {
+                    if (value!.trim().isEmpty) {
+                      return 'Town is required'.tr;
+                    }
+                    return null; // Return null if validation passes
+                  },
+                ),
+                SizedBox(
+                  height: 10,
+                ),
                 Text(
                   "Special instruction".tr,
                   style: GoogleFonts.poppins(color: Color(0xff044484), fontWeight: FontWeight.w600, fontSize: 14),
                 ),
-                SizedBox(height: 5,),
+                SizedBox(
+                  height: 5,
+                ),
                 CommonTextField(
-                   controller: specialInstructionController,
-                    obSecure: false,
-                    hintText: 'Special instruction'.tr,
-
-                    ),
-                SizedBox(height: 10,),
+                  controller: specialInstructionController,
+                  obSecure: false,
+                  hintText: 'Special instruction'.tr,
+                ),
+                SizedBox(
+                  height: 10,
+                ),
                 SizedBox(
                   height: size.height * .02,
                 ),
@@ -359,5 +384,3 @@ class _AddProductPickUpAddressScreenState extends State<AddProductPickUpAddressS
     );
   }
 }
-
-

@@ -290,7 +290,8 @@ class _PickUpAddressServiceState extends State<PickUpAddressService> {
                   hintText: 'Zip Code'.tr,
                   validator: (value) {
                     if (value!.trim().isEmpty) {
-                      return 'Zip Code is required'.tr;
+                      return 'If you dont have any zipcode then write 99999 and make sure write a right zipcode otherwise we cant help in shipping'
+                          .tr;
                     }
                     return null; // Return null if validation passes
                   },
