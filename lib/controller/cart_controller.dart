@@ -73,6 +73,7 @@ class CartController extends GetxController {
   RxInt countDown = 30.obs;
   Timer? _timer;
   String formattedTotal = '';
+  String completeAddress = '';
   String formattedTotalddf = '';
   String formattedTotal3 = '';
   String formattedTotal2 = '';
