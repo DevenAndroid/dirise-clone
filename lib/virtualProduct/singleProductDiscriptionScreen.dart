@@ -23,8 +23,9 @@ class VirtualDiscriptionScreen extends StatefulWidget {
   String? setstock;
   String? sEOTags;
   int? id;
+  dynamic noNeed;
 
-  VirtualDiscriptionScreen({super.key,this.description,this.sEOTags,this.setstock,this.stockquantity,this.id});
+  VirtualDiscriptionScreen({super.key,this.description,this.sEOTags,this.setstock,this.stockquantity,this.id,this.noNeed});
 
   @override
   State<VirtualDiscriptionScreen> createState() => _VirtualDiscriptionScreenState();
@@ -77,9 +78,11 @@ class _VirtualDiscriptionScreenState extends State<VirtualDiscriptionScreen> {
     super.initState();
     if (widget.id != null) {
       shortController.text = widget.description.toString();
-      inStockController.text = widget.stockquantity.toString();
-      alertDiscount.text = widget.setstock.toString();
+      inStockController.text= widget.stockquantity == '-1' ? '0' :  widget.stockquantity.toString();
+      // inStockController.text = widget.stockquantity.toString();
+      alertDiscount.text= widget.setstock == 'null' ? '0' : widget.setstock.toString();
       tagDiscount.text = widget.sEOTags.toString();
+      isDelivery.value  = widget.noNeed!;
     }
   }
 

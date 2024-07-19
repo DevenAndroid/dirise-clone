@@ -412,8 +412,7 @@ class _ReviewPublishServiceScreenState extends State<ReviewPublishServiceScreen>
                                       'Percentage: ${controller.productDetailsModel.value.productDetails!.product!.discountPercent ?? ""}'),
                                   Text(
                                       'Fixed after sale price: ${controller.productDetailsModel.value.productDetails!.product!.fixedDiscountPrice ?? ""} KWD'),
-                                  Text(
-                                      'Fixed after sale price: ${controller.productDetailsModel.value.productDetails!.product!.isOnsale ?? ""} KWD'),
+
                                 ],
                               ),
                             ),

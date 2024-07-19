@@ -208,16 +208,16 @@ class _AcademicDurationScreenState extends State<AcademicDurationScreen> {
                   ),
                 ],
               ),
-              10.spaceY,
-              Align(
-                alignment: Alignment.topRight,
-                child: Text('Price 30 KWD'.tr,
-                    style: GoogleFonts.poppins(
-                      fontSize: 14,
-                      fontWeight: FontWeight.w500,
-                      color: const Color(0xffEB4335),
-                    )),
-              ),
+              // 10.spaceY,
+              // Align(
+              //   alignment: Alignment.topRight,
+              //   child: Text('Price 30 KWD'.tr,
+              //       style: GoogleFonts.poppins(
+              //         fontSize: 14,
+              //         fontWeight: FontWeight.w500,
+              //         color: const Color(0xffEB4335),
+              //       )),
+              // ),
               10.spaceY,
               Text('Allow multiple booking'.tr,
                   style: GoogleFonts.poppins(
