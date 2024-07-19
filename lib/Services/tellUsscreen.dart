@@ -82,8 +82,8 @@ class _TellUsScreenState extends State<TellUsScreen> {
     if(widget.id != null){
       inStockController.text= widget.stockquantity == '-1' ? '0' :  widget.stockquantity.toString();
       shortController.text=widget.description.toString();
-      alertDiscount.text= widget.setstock == 'null' ? '0' : widget.setstock.toString();
-      tagDiscount.text=widget.sEOTags.toString();
+      alertDiscount.text= widget.setstock == null ? '0' : widget.setstock.toString();
+      tagDiscount.text= widget.sEOTags.toString();
       isDelivery.value  = widget.noNeed!;
     }
   }
