@@ -26,12 +26,14 @@ import '../model/common_modal.dart';
 // import '../model/filter_by_price_model.dart';
 import '../model/get_review_model.dart';
 import '../model/giveaway_single_model.dart';
+import '../model/model_category_stores.dart';
 import '../model/model_single_product.dart';
 import '../model/order_models/model_direct_order_details.dart';
 import '../model/product_model/model_product_element.dart';
 import '../model/releated_product_model.dart';
 import '../model/simple_product_model.dart';
 import '../repository/repository.dart';
+import '../screens/categories/single_category_with_stores/single_store_screen.dart';
 import '../screens/check_out/direct_check_out.dart';
 import '../screens/my_account_screens/contact_us_screen.dart';
 import '../utils/api_constant.dart';
@@ -1290,19 +1292,28 @@ class _SimpleProductScreenState extends State<SimpleProductScreen> {
                   ),
                   Center(child: Image.asset("assets/svgs/licence.png")),
 
-                  Align(
-                    alignment: Alignment.centerRight,
-                    child: Container(
-                      width: 130,
-                      padding: const EdgeInsets.all(10),
-                      decoration: BoxDecoration(
-                          border: Border.all(color: const Color(0xFF014E70), width: 1.5),
-                          borderRadius: BorderRadius.circular(30)),
-                      child: Center(
-                        child: Text(
-                          "Seller profile",
-                          style:
-                          GoogleFonts.poppins(color: const Color(0xFF014E70), fontSize: 14, fontWeight: FontWeight.w500),
+                  GestureDetector(
+                    onTap: (){
+                      Get.to(
+                              () => SingleStoreScreen(storeDetails:  VendorStoreData(id:
+                          modelSingleProduct.value.simpleProduct!.vendorInformation!.storeId
+                          ))
+                      );
+                    },
+                    child: Align(
+                      alignment: Alignment.centerRight,
+                      child: Container(
+                        width: 130,
+                        padding: const EdgeInsets.all(10),
+                        decoration: BoxDecoration(
+                            border: Border.all(color: const Color(0xFF014E70), width: 1.5),
+                            borderRadius: BorderRadius.circular(30)),
+                        child: Center(
+                          child: Text(
+                            "Seller profile",
+                            style:
+                            GoogleFonts.poppins(color: const Color(0xFF014E70), fontSize: 14, fontWeight: FontWeight.w500),
+                          ),
                         ),
                       ),
                     ),
@@ -1310,19 +1321,28 @@ class _SimpleProductScreenState extends State<SimpleProductScreen> {
                   const SizedBox(
                     height: 20,
                   ),
-                  Align(
-                    alignment: Alignment.centerRight,
-                    child: Container(
-                      width: 130,
-                      padding: const EdgeInsets.all(10),
-                      decoration: BoxDecoration(
-                          border: Border.all(color: const Color(0xFF014E70), width: 1.5),
-                          borderRadius: BorderRadius.circular(30)),
-                      child: Center(
-                        child: Text(
-                          "Take Below",
-                          style:
-                          GoogleFonts.poppins(color: const Color(0xFF014E70), fontSize: 14, fontWeight: FontWeight.w500),
+                  GestureDetector(
+                    onTap: (){
+                      Get.to(
+                              () => SingleStoreScreen(storeDetails:  VendorStoreData(id:
+                          modelSingleProduct.value.simpleProduct!.vendorInformation!.storeId
+                          ))
+                      );
+                    },
+                    child: Align(
+                      alignment: Alignment.centerRight,
+                      child: Container(
+                        width: 130,
+                        padding: const EdgeInsets.all(10),
+                        decoration: BoxDecoration(
+                            border: Border.all(color: const Color(0xFF014E70), width: 1.5),
+                            borderRadius: BorderRadius.circular(30)),
+                        child: Center(
+                          child: Text(
+                            "Take Below",
+                            style:
+                            GoogleFonts.poppins(color: const Color(0xFF014E70), fontSize: 14, fontWeight: FontWeight.w500),
+                          ),
                         ),
                       ),
                     ),
