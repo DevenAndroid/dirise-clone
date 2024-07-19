@@ -98,7 +98,7 @@ class _ProductReviewPublicScreenState extends State<ProductReviewPublicScreen> {
       print('API Response Status Code: ${response.status}');
       showToast(response.message.toString());
       if (response.status == true) {
-        Get.to(ExtraInformation());
+        Get.to(const ExtraInformation());
       }
     });
   }
@@ -208,9 +208,9 @@ class _ProductReviewPublicScreenState extends State<ProductReviewPublicScreen> {
                   Stack(
                     children: [
                       Container(
-                        margin: EdgeInsets.only(top: 10),
+                        margin: const EdgeInsets.only(top: 10),
                         width: Get.width,
-                        padding: EdgeInsets.all(10),
+                        padding: const EdgeInsets.all(10),
                         decoration:
                         BoxDecoration(color: Colors.grey.shade200, borderRadius: BorderRadius.circular(11)),
                         child: Obx(() {
@@ -260,7 +260,7 @@ class _ProductReviewPublicScreenState extends State<ProductReviewPublicScreen> {
                   child: Container(
                     padding: const EdgeInsets.symmetric(vertical: 12, horizontal: 12),
                     decoration: BoxDecoration(
-                        color: Colors.grey.shade200,
+                        color: Colors.white,
                         borderRadius: BorderRadius.circular(8),
                         border: Border.all(color: AppTheme.secondaryColor)),
                     child: Row(
@@ -274,7 +274,7 @@ class _ProductReviewPublicScreenState extends State<ProductReviewPublicScreen> {
                           ),
                         ),
                         GestureDetector(
-                          child: isImageProvide.value != true
+                          child: isOtherImageProvide.value != true
                               ? Image.asset(
                             'assets/images/drop_icon.png',
                             height: 17,
@@ -313,9 +313,9 @@ class _ProductReviewPublicScreenState extends State<ProductReviewPublicScreen> {
                             addProductControllerNew.productDetailsModel.value.productDetails!.product!.galleryImage!.isNotEmpty
                             ? GridView.builder(
                           shrinkWrap: true,
-                          physics: NeverScrollableScrollPhysics(), // Prevent scrolling in the grid
+                          physics: const NeverScrollableScrollPhysics(), // Prevent scrolling in the grid
                           itemCount: addProductControllerNew.productDetailsModel.value.productDetails!.product!.galleryImage!.length,
-                          gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
+                          gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
                             crossAxisCount: 2, // 2 images per row
                             crossAxisSpacing: 10,
                             mainAxisSpacing: 10,
@@ -323,11 +323,18 @@ class _ProductReviewPublicScreenState extends State<ProductReviewPublicScreen> {
                           ),
                           itemBuilder: (context, index) {
                             String imageUrl = addProductControllerNew.productDetailsModel.value.productDetails!.product!.galleryImage![index];
-                            return Image.network(
-                              imageUrl,
-                              height: 200,
-                              width: double.infinity,
-                              fit: BoxFit.cover,
+                            return Column(
+                              children: [
+                                20.spaceY,
+                                Flexible(
+                                  child: Image.network(
+                                    imageUrl,
+                                    height: 200,
+                                    width: double.infinity,
+                                    fit: BoxFit.cover,
+                                  ),
+                                ),
+                              ],
                             );
                           },
                         )
@@ -411,7 +418,7 @@ class _ProductReviewPublicScreenState extends State<ProductReviewPublicScreen> {
                     children: [
                       Container(
                         width: Get.width,
-                        padding: EdgeInsets.all(10),
+                        padding: const EdgeInsets.all(10),
                         decoration: BoxDecoration(color: Colors.grey.shade200),
                         child: Column(
                           mainAxisAlignment: MainAxisAlignment.start,
@@ -503,7 +510,7 @@ class _ProductReviewPublicScreenState extends State<ProductReviewPublicScreen> {
                     children: [
                       Container(
                         width: Get.width,
-                        padding: EdgeInsets.all(10),
+                        padding: const EdgeInsets.all(10),
                         decoration: BoxDecoration(color: Colors.grey.shade200),
                         child: Column(
                           mainAxisAlignment: MainAxisAlignment.start,
@@ -594,7 +601,7 @@ class _ProductReviewPublicScreenState extends State<ProductReviewPublicScreen> {
                     children: [
                       Container(
                         width: Get.width,
-                        padding: EdgeInsets.all(10),
+                        padding: const EdgeInsets.all(10),
                         decoration: BoxDecoration(color: Colors.grey.shade200),
                         child: Column(
                           mainAxisAlignment: MainAxisAlignment.start,
@@ -692,7 +699,7 @@ class _ProductReviewPublicScreenState extends State<ProductReviewPublicScreen> {
                     children: [
                       Container(
                         width: Get.width,
-                        padding: EdgeInsets.all(10),
+                        padding: const EdgeInsets.all(10),
                         decoration: BoxDecoration(color: Colors.grey.shade200),
                         child: Column(
                           mainAxisAlignment: MainAxisAlignment.start,
@@ -702,7 +709,7 @@ class _ProductReviewPublicScreenState extends State<ProductReviewPublicScreen> {
                             Text(
                                 'Who will pay the shipping: ${ profileController.productDetailsModel.value.productDetails!
                                     .product!.shippingPay}'),
-                            SizedBox(
+                            const SizedBox(
                               height: 5,
                             ),
                             Text(
@@ -782,7 +789,7 @@ class _ProductReviewPublicScreenState extends State<ProductReviewPublicScreen> {
                     children: [
                       Container(
                         width: Get.width,
-                        padding: EdgeInsets.all(10),
+                        padding: const EdgeInsets.all(10),
                         decoration: BoxDecoration(color: Colors.grey.shade200),
                         child: Column(
                           mainAxisAlignment: MainAxisAlignment.start,
@@ -912,7 +919,7 @@ class _ProductReviewPublicScreenState extends State<ProductReviewPublicScreen> {
                     children: [
                       Container(
                         width: Get.width,
-                        padding: EdgeInsets.all(10),
+                        padding: const EdgeInsets.all(10),
                         decoration: BoxDecoration(color: Colors.grey.shade200),
                         child: Column(
                           mainAxisAlignment: MainAxisAlignment.start,
@@ -1027,7 +1034,7 @@ class _ProductReviewPublicScreenState extends State<ProductReviewPublicScreen> {
                     children: [
                       Container(
                         width: Get.width,
-                        padding: EdgeInsets.all(10),
+                        padding: const EdgeInsets.all(10),
                         decoration: BoxDecoration(color: Colors.grey.shade200),
                         child: Column(
                           mainAxisAlignment: MainAxisAlignment.start,
@@ -1067,7 +1074,7 @@ class _ProductReviewPublicScreenState extends State<ProductReviewPublicScreen> {
                               )))
                     ],
                   ),
-                SizedBox(
+                const SizedBox(
                   height: 20,
                 ),
                 GestureDetector(
@@ -1119,7 +1126,7 @@ class _ProductReviewPublicScreenState extends State<ProductReviewPublicScreen> {
                     children: [
                       Container(
                         width: Get.width,
-                        padding: EdgeInsets.all(10),
+                        padding: const EdgeInsets.all(10),
                         decoration: BoxDecoration(color: Colors.grey.shade200),
                         child: Column(
                           mainAxisAlignment: MainAxisAlignment.start,

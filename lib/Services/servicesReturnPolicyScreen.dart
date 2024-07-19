@@ -412,10 +412,10 @@ class _ServicesReturnPolicyState extends State<ServicesReturnPolicy> {
                           value: 'buyer_pays',
                           groupValue: radioButtonValue,
                           onChanged: (value) {
-                            setState(() {
+                            singleModelReturnPolicy.value.data == null  &&   selectedReturnDay == '' ? setState(() {
                               radioButtonValue = value!;
                               updateButtonState();
-                            });
+                            }) : null;
                           },
                         ),
                         Text(
@@ -431,10 +431,10 @@ class _ServicesReturnPolicyState extends State<ServicesReturnPolicy> {
                           value: 'seller_pays',
                           groupValue: radioButtonValue,
                           onChanged: (value) {
-                            setState(() {
+                            singleModelReturnPolicy.value.data == null  && selectedReturnDay == '' ?   setState(() {
                               radioButtonValue = value!;
                               updateButtonState();
-                            });
+                            }) : null;
                           },
                         ),
                         Text(

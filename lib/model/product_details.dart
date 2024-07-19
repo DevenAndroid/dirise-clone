@@ -56,6 +56,7 @@ class ProductDetails {
 
 class Product {
   dynamic id;
+  dynamic noNeedStock;
   dynamic spot;
   dynamic giveawayItemCondition;
   dynamic fromLocation;
@@ -205,6 +206,7 @@ class Product {
       this.eligible_gender,
       this.host_name,
       this.program_name,
+      this.noNeedStock,
       this.program_desc,
       this.program_goal,
       this.jobCountryName,
@@ -367,6 +369,7 @@ class Product {
     itemType = json['item_type'];
     virtualProductType = json['virtual_product_type'];
     skuId = json['sku_id'];
+    noNeedStock = json['no_need_stock'];
     pPrice = json['p_price'];
     sPrice = json['s_price'];
     commission = json['commission'];
@@ -469,6 +472,7 @@ class Product {
     data['cat_id'] = catId;
     data['cat_id_2'] = catId2;
     data['job_cat'] = jobCat;
+    data['no_need_stock'] = noNeedStock;
     data['brand_slug'] = brandSlug;
     data['cat_name'] = catName;
     data['slug'] = slug;

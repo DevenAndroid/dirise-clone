@@ -412,6 +412,8 @@ class _ReviewPublishServiceScreenState extends State<ReviewPublishServiceScreen>
                                       'Percentage: ${controller.productDetailsModel.value.productDetails!.product!.discountPercent ?? ""}'),
                                   Text(
                                       'Fixed after sale price: ${controller.productDetailsModel.value.productDetails!.product!.fixedDiscountPrice ?? ""} KWD'),
+                                  Text(
+                                      'Fixed after sale price: ${controller.productDetailsModel.value.productDetails!.product!.isOnsale ?? ""} KWD'),
                                 ],
                               ),
                             ),
@@ -427,7 +429,7 @@ class _ReviewPublishServiceScreenState extends State<ReviewPublishServiceScreen>
                                         fixedPrice:
                                         controller.productDetailsModel.value.productDetails!.product!.fixedDiscountPrice,
                                         name: controller.productDetailsModel.value.productDetails!.product!.pname,
-                                        isDelivery: true.obs,
+                                        isDelivery: controller.productDetailsModel.value.productDetails!.product!.isOnsale,
                                       ));
                                     },
                                     child: const Text(
@@ -508,7 +510,7 @@ class _ReviewPublishServiceScreenState extends State<ReviewPublishServiceScreen>
                                   Text(
                                       'Stock quantity : ${controller.productDetailsModel.value.productDetails!.product!.inStock ?? ""}'),
                                   Text(
-                                      'Set stock alert: ${controller.productDetailsModel.value.productDetails!.product!.stockAlert ?? ''}'),
+                                      'Set stock alert: ${controller.productDetailsModel.value.productDetails!.product!.stockAlert == null ? '0' : controller.productDetailsModel.value.productDetails!.product!.stockAlert.toString()}'),
                                   Text('SEO Tags: ${controller.productDetailsModel.value.productDetails!.product!.seoTags ?? ""}'),
                                 ],
                               ),
@@ -525,6 +527,7 @@ class _ReviewPublishServiceScreenState extends State<ReviewPublishServiceScreen>
                                         sEOTags: controller.productDetailsModel.value.productDetails!.product!.seoTags,
                                         setstock: controller.productDetailsModel.value.productDetails!.product!.stockAlert,
                                         stockquantity: controller.productDetailsModel.value.productDetails!.product!.inStock,
+                                        noNeed:   controller.productDetailsModel.value.productDetails!.product!.noNeedStock,
                                       ));
                                     },
                                     child: const Text(
@@ -739,51 +742,51 @@ class _ReviewPublishServiceScreenState extends State<ReviewPublishServiceScreen>
                           ],
                         ),
 
-                      const SizedBox(height: 20),
-                      GestureDetector(
-                        onTap: () {
-                          setState(() {
-                            isInternationalPolicy.toggle();
-                          });
-                        },
-                        child: Container(
-                          padding: const EdgeInsets.symmetric(vertical: 12, horizontal: 12),
-                          decoration: BoxDecoration(
-                              color: Colors.white,
-                              borderRadius: BorderRadius.circular(8),
-                              border: Border.all(color: AppTheme.secondaryColor)),
-                          child: Row(
-                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                            children: [
-                              Text(
-                                'Item Weight & Dimensions',
-                                style: GoogleFonts.poppins(
-                                  color: AppTheme.primaryColor,
-                                  fontSize: 15,
-                                ),
-                              ),
-                              GestureDetector(
-                                child: isInternationalPolicy.value != true
-                                    ?    Image.asset(
-                                  'assets/images/drop_icon.png',
-                                  height: 17,
-                                  width: 17,
-                                )
-                                    : Image.asset(
-                                  'assets/images/up_icon.png',
-                                  height: 17,
-                                  width: 17,
-                                ),
-                                onTap: () {
-                                  setState(() {
-                                    isInternationalPolicy.toggle();
-                                  });
-                                },
-                              ),
-                            ],
-                          ),
-                        ),
-                      ),
+                      // const SizedBox(height: 20),
+                      // GestureDetector(
+                      //   onTap: () {
+                      //     setState(() {
+                      //       isInternationalPolicy.toggle();
+                      //     });
+                      //   },
+                      //   child: Container(
+                      //     padding: const EdgeInsets.symmetric(vertical: 12, horizontal: 12),
+                      //     decoration: BoxDecoration(
+                      //         color: Colors.white,
+                      //         borderRadius: BorderRadius.circular(8),
+                      //         border: Border.all(color: AppTheme.secondaryColor)),
+                      //     child: Row(
+                      //       mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      //       children: [
+                      //         Text(
+                      //           'Item Weight & Dimensions',
+                      //           style: GoogleFonts.poppins(
+                      //             color: AppTheme.primaryColor,
+                      //             fontSize: 15,
+                      //           ),
+                      //         ),
+                      //         GestureDetector(
+                      //           child: isInternationalPolicy.value != true
+                      //               ?    Image.asset(
+                      //             'assets/images/drop_icon.png',
+                      //             height: 17,
+                      //             width: 17,
+                      //           )
+                      //               : Image.asset(
+                      //             'assets/images/up_icon.png',
+                      //             height: 17,
+                      //             width: 17,
+                      //           ),
+                      //           onTap: () {
+                      //             setState(() {
+                      //               isInternationalPolicy.toggle();
+                      //             });
+                      //           },
+                      //         ),
+                      //       ],
+                      //     ),
+                      //   ),
+                      // ),
                       // const SizedBox(height: 20),
                       // if (isInternationalPolicy.value == true)
                       //   Stack(
