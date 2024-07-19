@@ -884,15 +884,17 @@ class _VarientsProductScreenState extends State<VarientsProductScreen> {
 
                         Row(
                           children: [
-                            Text(
-                              modelSingleProduct.value.variantProduct!.storemeta!.storeName.toString(),
-                              style:
-                                  GoogleFonts.poppins(color: Colors.black, fontSize: 20, fontWeight: FontWeight.w500),
+                            Flexible(
+                              child: Text(
+                                modelSingleProduct.value.variantProduct!.storemeta!.storeName.toString(),
+                                style:
+                                    GoogleFonts.poppins(color: Colors.black, fontSize: 20, fontWeight: FontWeight.w500),
+                              ),
                             ),
                             const SizedBox(
                               width: 20,
                             ),
-                            Image.asset("assets/svgs/verified.png")
+                            Flexible(child: Image.asset("assets/svgs/verified.png"))
                           ],
                         ),
                         const SizedBox(
