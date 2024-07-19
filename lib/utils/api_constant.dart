@@ -42,6 +42,7 @@ class ApiUrls {
   static const String updateProfile = "${baseUrl}edit-account";
   static const String userProfile = "${baseUrl}my-account";
   static const String addressListUrl = "${baseUrl}address";
+  static const String defaultAddressUrl = "${baseUrl}my-default-address";
   static const String editAddressUrl = "${baseUrl}edit-address";
   static const String giveawayProductAddress = "${baseUrl}add-vendor-product";
   static const String addMultipleProduct = "${baseUrl}add-multiple-product";
