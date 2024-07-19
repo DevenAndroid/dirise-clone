@@ -24,9 +24,13 @@ class ExtendedProgramsScreenDateScreen extends StatefulWidget {
   String? vacation_from_date;
   String? vacation_to_date;
   int? spot;
+  String? formattedStartDateVacation;
+  String? formattedStartDate1Vacation;
 
   ExtendedProgramsScreenDateScreen(
-      {super.key, this.from_date, this.to_date, this.vacation_from_date, this.vacation_to_date, this.id, this.spot});
+      {super.key, this.from_date,
+        this.formattedStartDateVacation,
+        this.formattedStartDate1Vacation,this.to_date, this.vacation_from_date, this.vacation_to_date, this.id, this.spot});
 
   @override
   State<ExtendedProgramsScreenDateScreen> createState() => _ExtendedProgramsScreenDateScreenState();
@@ -175,6 +179,8 @@ class _ExtendedProgramsScreenDateScreenState extends State<ExtendedProgramsScree
       addProductController.formattedStartDate = widget.from_date;
       formattedStartDate1 = widget.to_date;
       spotsController.text = widget.spot.toString();
+      formattedStartDateVacation = widget.formattedStartDateVacation;
+      formattedStartDate1Vacation = widget.formattedStartDate1Vacation;
     }
   }
 
