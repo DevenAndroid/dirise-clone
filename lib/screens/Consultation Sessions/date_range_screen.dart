@@ -1,5 +1,6 @@
 import 'dart:convert';
 import 'dart:math';
+import 'package:dirise/screens/Consultation%20Sessions/review_screen.dart';
 import 'package:dirise/screens/Consultation%20Sessions/set_store_time.dart';
 import 'package:dirise/screens/academic%20programs/set_store_time.dart';
 import 'package:dirise/utils/helper.dart';
@@ -11,6 +12,7 @@ import 'package:intl/intl.dart';
 import '../../controller/profile_controller.dart';
 import '../../controller/vendor_controllers/add_product_controller.dart';
 import '../../model/jobResponceModel.dart';
+import '../../model/product_details.dart';
 import '../../repository/repository.dart';
 import '../../utils/api_constant.dart';
 import '../../widgets/common_colour.dart';
@@ -23,9 +25,19 @@ class DateRangeScreen extends StatefulWidget {
   String? vacation_from_date;
   String? vacation_to_date;
   int? spot;
+  String? formattedStartDateVacation;
+  String? formattedStartDate1Vacation;
 
   DateRangeScreen(
-      {super.key, this.from_date, this.to_date, this.vacation_from_date, this.vacation_to_date, this.id, this.spot});
+      {super.key,
+      this.from_date,
+      this.to_date,
+      this.vacation_from_date,
+      this.vacation_to_date,
+      this.id,
+      this.spot,
+      this.formattedStartDateVacation,
+      this.formattedStartDate1Vacation});
 
   @override
   State<DateRangeScreen> createState() => _DateRangeScreenState();
@@ -120,7 +132,6 @@ class _DateRangeScreenState extends State<DateRangeScreen> {
   final Repositories repositories = Repositories();
   int index = 0;
   void updateProfile() {
-
     if (addProductController.formattedStartDate == null || formattedStartDate1 == null) {
       setState(() {
         dateRangeError = 'Please select both start and end dates.';
@@ -158,9 +169,13 @@ class _DateRangeScreenState extends State<DateRangeScreen> {
       print('object${value.toString()}');
       JobResponceModel response = JobResponceModel.fromJson(jsonDecode(value));
       if (response.status == true) {
-        showToast(response.message.toString());
-        Get.to(() => SetTimeScreenConsultation());
-        print('value isssss${response.toJson()}');
+        if (widget.id != null) {
+          Get.to(const ReviewScreen());
+        } else {
+          showToast(response.message.toString());
+          Get.to(() => SetTimeScreenConsultation());
+          print('value isssss${response.toJson()}');
+        }
       } else {
         showToast(response.message.toString());
       }
@@ -175,6 +190,10 @@ class _DateRangeScreenState extends State<DateRangeScreen> {
       addProductController.formattedStartDate = widget.from_date;
       formattedStartDate1 = widget.to_date;
       spotsController.text = widget.spot.toString();
+
+      formattedStartDateVacation = widget.formattedStartDateVacation;
+      formattedStartDate1Vacation = widget.formattedStartDate1Vacation;
+      print('gggggggg${widget.formattedStartDateVacation}');
     }
   }
 
@@ -449,10 +468,9 @@ class _DateRangeScreenState extends State<DateRangeScreen> {
               InkWell(
                 onTap: () {
                   // updateProfile();
-                  if(formKey.currentState!.validate()){
+                  if (formKey.currentState!.validate()) {
                     updateProfile();
                   }
-
 
                   // Get.to(()=> const SetTimeScreenConsultation());
                 },

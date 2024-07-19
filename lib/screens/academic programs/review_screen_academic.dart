@@ -196,9 +196,8 @@ class _ReviewScreenAcademicState extends State<ReviewScreenAcademic> {
                                 mainAxisAlignment: MainAxisAlignment.start,
                                 crossAxisAlignment: CrossAxisAlignment.start,
                                 children: [
-                                  Text('Dates range: ${productDetailsModel.value.productDetails!.product!.productAvailability!.fromDate ?? ""} to ${productDetailsModel.value.productDetails!.product!.productAvailability!.toDate ?? ""}'),
-                                  Text('Spot: ${productDetailsModel.value.productDetails!.product!.spot ?? ""}'),
-
+                                  Text(
+                                      'Dates range: ${productDetailsModel.value.productDetails!.product!.productAvailability!.fromDate ?? ""} to ${productDetailsModel.value.productDetails!.product!.productAvailability!.toDate ?? ""}'),
                                   ListView.builder(
                                       itemCount:
                                       productDetailsModel.value.productDetails!.product!.productVacation!.length,
@@ -207,30 +206,59 @@ class _ReviewScreenAcademicState extends State<ReviewScreenAcademic> {
                                       itemBuilder: (context, index) {
                                         var productVacation =
                                         productDetailsModel.value.productDetails!.product!.productVacation![index];
-                                        return Text(
-                                            'Add vacations : ${productVacation.vacationFromDate ?? ""} to ${productVacation.vacationToDate ?? ""}');
+                                        return Row(
+                                          mainAxisAlignment: MainAxisAlignment.start,
+                                          crossAxisAlignment: CrossAxisAlignment.start,
+                                          children: [
+                                            Flexible(
+                                              child: GestureDetector(
+                                                onTap: (){
+                                                  Get.to(AcademicDateScreen(
+                                                    id: productDetailsModel.value.productDetails!.product!.id,
+                                                    from_date: productDetailsModel
+                                                        .value.productDetails!.product!.productAvailability!.fromDate,
+                                                    to_date: productDetailsModel
+                                                        .value.productDetails!.product!.productAvailability!.toDate,
+                                                    spot:  productDetailsModel
+                                                        .value.productDetails!.product!.spot,
+                                                    formattedStartDateVacation: productDetailsModel.value.productDetails!.product!.productVacation![index].vacationToDate,
+                                                    formattedStartDate1Vacation:  productDetailsModel.value.productDetails!.product!.productVacation![index].vacationToDate,
+
+                                                  ));
+
+
+                                                },
+                                                child: Text(
+                                                    'Add vacations : ${productVacation.vacationFromDate ?? ""} to ${productVacation.vacationToDate ?? ""}'),
+                                              ),
+                                            ),
+
+                                            GestureDetector(
+                                              onTap: (){
+                                                Get.to(AcademicDateScreen(
+                                                  id: productDetailsModel.value.productDetails!.product!.id,
+                                                  from_date: productDetailsModel
+                                                      .value.productDetails!.product!.productAvailability!.fromDate,
+                                                  to_date: productDetailsModel
+                                                      .value.productDetails!.product!.productAvailability!.toDate,
+                                                  spot:  productDetailsModel
+                                                      .value.productDetails!.product!.spot,
+                                                  formattedStartDateVacation: productDetailsModel.value.productDetails!.product!.productVacation![index].vacationToDate,
+                                                  formattedStartDate1Vacation:  productDetailsModel.value.productDetails!.product!.productVacation![index].vacationToDate,
+
+                                                ));
+                                              },
+                                              child: const Text(
+                                                'Edit',
+                                                style: TextStyle(color: Colors.red, fontSize: 13),
+                                              ),
+                                            )
+                                          ],
+                                        );
                                       })
                                 ],
                               ),
                             ),
-                            Positioned(
-                                right: 10,
-                                top: 20,
-                                child: GestureDetector(
-                                    onTap: () {
-                                      Get.to(AcademicDateScreen(
-                                        id: productDetailsModel.value.productDetails!.product!.id,
-                                        from_date: productDetailsModel
-                                            .value.productDetails!.product!.productAvailability!.fromDate,
-                                        to_date: productDetailsModel
-                                            .value.productDetails!.product!.productAvailability!.toDate,
-                                        spot:  productDetailsModel.value.productDetails!.product!.spot ,
-                                      ));
-                                    },
-                                    child: const Text(
-                                      'Edit',
-                                      style: TextStyle(color: Colors.red, fontSize: 13),
-                                    )))
                           ],
                         ),
                       const SizedBox(height: 20),
