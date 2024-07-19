@@ -43,7 +43,7 @@ class _ItemDetailsScreensState extends State<ItemDetailsScreens> {
   ProductCategoryData? selectedSubcategory;
   SubProductData? selectedProductSubcategory;
   final profileController = Get.put(ProfileController());
-
+  bool showFilters = false;
   final TextEditingController ProductNameController = TextEditingController();
 
   int vendorID = 0;
@@ -354,11 +354,25 @@ class _ItemDetailsScreensState extends State<ItemDetailsScreens> {
               const SizedBox(
                 height: 15,
               ),
-              productCategoryModel.value.data != null ?
-              Text(
-                'Filters(Optional)'.tr,
-                style: GoogleFonts.poppins(color: Colors.black, fontWeight: FontWeight.w600, fontSize: 16),
-              ): const SizedBox(),
+              Obx(() {
+                return productCategoryModel.value.data != null
+                    ? GestureDetector(
+                  onTap: () {
+                    setState(() {
+                      showFilters = !showFilters;
+                    });
+                  },
+                  child: Container(
+                    padding: EdgeInsets.all(10),
+                    decoration: BoxDecoration(color: Color(0xff292F45),borderRadius: BorderRadius.circular(11)),
+                    child: Text(
+                      'Filters(Optional)'.tr,
+                      style: GoogleFonts.poppins(color: Colors.white, fontWeight: FontWeight.w600, fontSize: 16),
+                    ),
+                  ),
+                )
+                    : const SizedBox();
+              }),
               const SizedBox(
                 height: 5,
               ),
@@ -393,6 +407,8 @@ class _ItemDetailsScreensState extends State<ItemDetailsScreens> {
               const SizedBox(
                 height: 20,
               ),
+
+              showFilters ?
               Obx(() {
                 return
                   productCategoryModel.value.data != null ?
@@ -502,7 +518,7 @@ class _ItemDetailsScreensState extends State<ItemDetailsScreens> {
                         ))
                         .toList(),
                   ) : const SizedBox();
-              }),
+              }) : SizedBox(),
 
               const SizedBox(
                 height: 20,

@@ -24,10 +24,10 @@ import '../widgets/common_textfield.dart';
 
 class VirtualPriceScreen extends StatefulWidget {
 
-  int? price;
-  int? fixedPrice;
-  int? percentage;
-  int? id;
+  dynamic price;
+  dynamic fixedPrice;
+  dynamic percentage;
+  dynamic id;
 
 
   VirtualPriceScreen({super.key,this.percentage,this.price,this.fixedPrice,this.id});
@@ -115,7 +115,11 @@ class _VirtualPriceScreenState extends State<VirtualPriceScreen> {
       if (response.status == true) {
         // addProductController.idProduct.value = response.productDetails!.product!.id.toString();
         print(addProductController.idProduct.value.toString());
-        Get.to( VirtualDiscriptionScreen());
+       if(widget.id != null){
+       Get.back();
+       }else{
+         Get.to( VirtualDiscriptionScreen());
+       }
       }
     });
   }
