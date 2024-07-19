@@ -41,6 +41,7 @@ class _AddProductFirstImageScreenState extends State<AddProductFirstImageScreen>
   }
   File featuredImage = File("");
   List<File> selectedFiles = [];
+  List<String> selectedFilesOld = [];
   @override
   void initState() {
     // TODO: implement initState
@@ -53,6 +54,7 @@ class _AddProductFirstImageScreenState extends State<AddProductFirstImageScreen>
           profileController.productDetailsModel.value.productDetails!.product!.galleryImage != null) {
         for (var i = 0; i < profileController.productDetailsModel.value.productDetails!.product!.galleryImage!.length; i++) {
           selectedFiles.add(File(profileController.productDetailsModel.value.productDetails!.product!.galleryImage![i]));
+          selectedFilesOld.add(profileController.productDetailsModel.value.productDetails!.product!.galleryImage![i]);
         }
       }
       //
@@ -71,6 +73,9 @@ class _AddProductFirstImageScreenState extends State<AddProductFirstImageScreen>
     Map<String, String> map = {};
     if(widget.id != null){
     map["id"] = addProductController.idProduct.value.toString();
+    for (int i = 0; i <  selectedFilesOld.length; i++) {
+      map["gallery_image_old[$i]"] =  selectedFilesOld[i].toString();
+    }
     }
     images["featured_image"] =  featuredImage;
     for (int i = 0; i <  selectedFiles.length; i++) {

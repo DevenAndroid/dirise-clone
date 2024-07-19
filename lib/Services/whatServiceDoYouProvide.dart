@@ -26,7 +26,7 @@ class whatServiceDoYouProvide extends StatefulWidget {
   dynamic percentage;
   dynamic id;
   String? name;
-  RxBool? isDelivery = false.obs;
+  bool? isDelivery = false;
 
   whatServiceDoYouProvide(
       {super.key, this.percentage, this.price, this.fixedPrice, this.id, this.name, this.isDelivery});
@@ -103,8 +103,6 @@ class _whatServiceDoYouProvideState extends State<whatServiceDoYouProvide> {
 
   TextEditingController serviceNameController = TextEditingController();
   TextEditingController priceController = TextEditingController();
-  TextEditingController fixedPriceController = TextEditingController();
-  TextEditingController percentageController = TextEditingController();
   double realPrice1 = 0.0;
   final formKey = GlobalKey<FormState>();
   final addProductController = Get.put(AddProductController());
@@ -114,9 +112,10 @@ class _whatServiceDoYouProvideState extends State<whatServiceDoYouProvide> {
     map['product_name'] = serviceNameController.text.trim();
     map['item_type'] = 'service';
     map['p_price'] = priceController.text.trim();
-    map['fixed_discount_price'] = isDelivery.value == false ? "0" : fixedPriceController.text.trim();
-    map['discount_percent'] = percentageController.text.trim();
+    map['fixed_discount_price'] = isDelivery.value == false ?  "0" : fixedDiscount.text == '' ? '0' : fixedDiscount.text.trim();
+    map['discount_percent'] = discountPrecrnt.text == '' ? '0' : discountPrecrnt.text.trim();
     map['id'] = addProductController.idProduct.value.toString();
+    map['is_onsale'] = isDelivery.value.toString();
 
     // map['discount_percent'] = fixedPriceAfterSaleController.text.trim();
 
@@ -156,12 +155,13 @@ class _whatServiceDoYouProvideState extends State<whatServiceDoYouProvide> {
       priceController.text = widget.price.toString();
       discountPrecrnt.text = widget.percentage.toString();
       fixedDiscount.text = widget.fixedPrice.toString();
-      isDelivery = widget.isDelivery!;
+      isDelivery.value = widget.isDelivery!;
     }
     getVendorCategories(addProductController.idProduct.value.toString());
   }
   double discountAmount = 0.0;
   RxBool isDelivery = false.obs;
+  bool isDeliveryy = false;
   RxBool isPercantage = false.obs;
   String discount = '0.0';
   String diriseFeesAsString = '' ;
