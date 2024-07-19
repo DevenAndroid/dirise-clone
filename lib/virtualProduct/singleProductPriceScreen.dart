@@ -28,9 +28,10 @@ class VirtualPriceScreen extends StatefulWidget {
   dynamic fixedPrice;
   dynamic percentage;
   dynamic id;
+  dynamic onSale;
 
 
-  VirtualPriceScreen({super.key,this.percentage,this.price,this.fixedPrice,this.id});
+  VirtualPriceScreen({super.key,this.percentage,this.price,this.fixedPrice,this.onSale,this.id});
 
   @override
   State<VirtualPriceScreen> createState() => _VirtualPriceScreenState();
@@ -105,6 +106,7 @@ class _VirtualPriceScreenState extends State<VirtualPriceScreen> {
     map['p_price'] = priceController.text.toString();
     map['item_type'] = 'product';
     map['id'] = addProductController.idProduct.value.toString();
+    map['is_onsale'] = isDelivery.value.toString();
 
     final Repositories repositories = Repositories();
     FocusManager.instance.primaryFocus!.unfocus();
@@ -136,10 +138,12 @@ class _VirtualPriceScreenState extends State<VirtualPriceScreen> {
   void initState() {
     // TODO: implement initState
     super.initState();
+    print(widget.onSale);
     if(widget.id != null){
       priceController.text = widget.price.toString();
+      isDelivery = widget.onSale!;
       discountPrecrnt.text = widget.percentage.toString() ?? "";
-          fixedDiscount.text = widget.fixedPrice.toString() ?? "";
+      fixedDiscount.text = widget.fixedPrice.toString() ?? "";
     }
     getVendorCategories(addProductController.idProduct.value.toString());
   }
