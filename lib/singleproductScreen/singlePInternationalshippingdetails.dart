@@ -31,6 +31,9 @@ class SinglePInternationalshippingdetailsScreen extends StatefulWidget {
   String? Length;
   String? Width;
   String? Height;
+  dynamic selectTypeMaterial;
+  dynamic productType;
+  dynamic unitOfMeasure;
   SinglePInternationalshippingdetailsScreen(
       {super.key,
         this.id,
@@ -41,7 +44,11 @@ class SinglePInternationalshippingdetailsScreen extends StatefulWidget {
         this.SelectNumberOfPackages,
         this.Length,
         this.Height,
-        this.Width});
+        this.Width,
+        this.selectTypeMaterial,
+        this.productType,
+        this.unitOfMeasure
+      });
 
   @override
   State<SinglePInternationalshippingdetailsScreen> createState() => _SinglePInternationalshippingdetailsScreenState();
@@ -95,7 +102,7 @@ class _SinglePInternationalshippingdetailsScreenState extends State<SinglePInter
     'Plywood',
   ];
 
-  String selectTypeOfPackaging = 'your packaging';
+  String? selectTypeOfPackaging;
   Map<String, String> selectTypeOfPackagingMap = {
     'your packaging': 'your_packaging',
     'custom packaging': 'custom_packaging'
@@ -155,6 +162,15 @@ class _SinglePInternationalshippingdetailsScreenState extends State<SinglePInter
       dimensionHeightController.text = widget.Height.toString();
       numberOfPackagesController.text = widget.SelectNumberOfPackages.toString();
       // selectTypeOfPackaging = widget.SelectTypeOfPackaging.toString();
+      if(widget.selectTypeMaterial != ''){
+        selectTypeMaterial = widget.selectTypeMaterial.toString();
+      }
+      // if(widget.productType != ''){
+      //   selectTypeOfPackaging = widget.productType.toString();
+      // }
+      if(widget.unitOfMeasure != ''){
+        unitOfMeasure = widget.unitOfMeasure.toString();
+      }
     }
   }
 

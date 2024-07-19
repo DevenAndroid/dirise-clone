@@ -64,7 +64,7 @@ class _OptionalDiscrptionsScreenState extends State<OptionalDiscrptionsScreen> {
       if (response.status == true) {
 
         if(widget.id != null){
-          Get.to(ProductReviewPublicScreen());
+         Get.back();
         }else{
           Get.to(() => OptionalClassificationScreen());
         }
@@ -246,7 +246,11 @@ class _OptionalDiscrptionsScreenState extends State<OptionalDiscrptionsScreen> {
                 const SizedBox(height: 20),
                 GestureDetector(
                   onTap: () {
-                    Get.to(OptionalClassificationScreen());
+                    if(widget.id != null){
+                      Get.back();
+                    }else{
+                      Get.to(OptionalClassificationScreen());
+                    }
                   },
                   child: Container(
                     width: Get.width,

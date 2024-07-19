@@ -81,7 +81,7 @@ class _OptionalClassificationScreenState extends State<OptionalClassificationScr
       controller.productNumberController.text = widget.Productnumber ?? "";
       controller.productCodeController.text = widget.PromotionCode.toString();
       controller.promotionCodeController.text = widget.SerialNumber ?? "";
-      controller.packageDetailsController.text = widget.Productnumber ?? "";
+      controller.packageDetailsController.text = widget.Packagedetails ?? "";
     }
   }
 
@@ -238,7 +238,7 @@ class _OptionalClassificationScreenState extends State<OptionalClassificationScr
                 const SizedBox(height: 20),
                 GestureDetector(
                   onTap: () {
-                    Get.to( ProductReviewPublicScreen());
+                    Get.to( const ProductReviewPublicScreen());
                   },
                   child: Container(
                     width: Get.width,

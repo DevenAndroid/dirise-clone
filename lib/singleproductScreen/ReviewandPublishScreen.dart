@@ -540,6 +540,7 @@ class _ProductReviewPublicScreenState extends State<ProductReviewPublicScreen> {
                                   profileController.productDetailsModel.value.productDetails!.product!.fixedDiscountPrice,
                                   percentage: profileController.productDetailsModel.value.productDetails!.product!
                                       .discountPercent,
+                                  isDelivery:  profileController.productDetailsModel.value.productDetails!.product!.isOnsale,
                                 ));
                               },
                               child: const Text(
@@ -971,13 +972,18 @@ class _ProductReviewPublicScreenState extends State<ProductReviewPublicScreen> {
                                       .value.productDetails!.productDimentions!.numberOfPackage,
                                   Length:
                                   "${ profileController.productDetailsModel.value.productDetails!.productDimentions!
-                                      .boxLength}X",
+                                      .boxLength}",
                                   Width:
                                   "${ profileController.productDetailsModel.value.productDetails!.productDimentions!
-                                      .boxWidth ?? ""}X",
+                                      .boxWidth ?? ""}",
                                   Height:
                                   "${ profileController.productDetailsModel.value.productDetails!.productDimentions!
-                                      .boxHeight ?? ""}X",
+                                      .boxHeight ?? ""}",
+                                  selectTypeMaterial:addProductControllerNew.productDetailsModel.value.productDetails!.productDimentions!.material.toString(),
+                                  productType : addProductControllerNew.productDetailsModel.value.productDetails!.productDimentions!.typeOfPackages == 'custom_packaging' ?
+                                  'your packaging' : 'custom packaging',
+                                    unitOfMeasure : addProductControllerNew.productDetailsModel.value.productDetails!.productDimentions!.weightUnit == 'inch/lb' ?
+                                    'Lb/Inch' : 'Cm/Kg',
                                 ));
                               },
                               child: const Text(

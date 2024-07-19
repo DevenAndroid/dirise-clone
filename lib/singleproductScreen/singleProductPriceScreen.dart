@@ -27,9 +27,10 @@ class SingleProductPriceScreen extends StatefulWidget {
   dynamic fixDiscount;
   dynamic percentage;
   int? id;
+  bool? isDelivery = false;
 
   SingleProductPriceScreen(
-      {super.key,  this.price, this.fixDiscount, this.percentage, this.id});
+      {super.key,  this.price, this.fixDiscount, this.percentage, this.id,this.isDelivery});
 
   @override
   State<SingleProductPriceScreen> createState() => _SingleProductPriceScreenState();
@@ -97,11 +98,12 @@ class _SingleProductPriceScreenState extends State<SingleProductPriceScreen> {
 
   deliverySizeApi() {
     Map<String, dynamic> map = {};
-    map['discount_percent'] = discountPrecrnt.text.toString();
-    map['fixed_discount_price'] = fixedDiscount.text.toString().trim();
+    map['fixed_discount_price'] = isDelivery.value == false ?  "0" : fixedDiscount.text == '' ? '0' : fixedDiscount.text.trim();
+    map['discount_percent'] = discountPrecrnt.text == '' ? '0' : discountPrecrnt.text.trim();
     map['p_price'] = priceController.text.toString();
     map['item_type'] = 'product';
     map['id'] = addProductController.idProduct.value.toString();
+    map['is_onsale'] = isDelivery.value.toString();
 
     final Repositories repositories = Repositories();
     FocusManager.instance.primaryFocus!.unfocus();
@@ -138,6 +140,7 @@ class _SingleProductPriceScreenState extends State<SingleProductPriceScreen> {
       priceController.text = widget.price.toString();
       discountPrecrnt.text = widget.percentage.toString();
       fixedDiscount.text = widget.fixDiscount.toString();
+      isDelivery.value = widget.isDelivery!;
     }
     getVendorCategories(addProductController.idProduct.value.toString());
   }

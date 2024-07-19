@@ -287,7 +287,7 @@ class _SingleProductReturnPolicyState extends State<SingleProductReturnPolicy> {
                             height: 5,
                           ),
                           VendorCommonTextfield(
-                              readOnly: singleModelReturnPolicy.value.data != null ? true : false,
+                              readOnly: singleModelReturnPolicy.value.data != null || selectedReturnDay != ''? true : false,
                               controller: titleController,
                               hintText: selectedReturnPolicy != null
                                   ? selectedReturnPolicy!.title.toString()
@@ -401,10 +401,10 @@ class _SingleProductReturnPolicyState extends State<SingleProductReturnPolicy> {
                                 value: 'buyer_pays',
                                 groupValue: radioButtonValue,
                                 onChanged: (value) {
-                                  setState(() {
+                                  singleModelReturnPolicy.value.data == null && selectedReturnDay == '' ? setState(() {
                                     radioButtonValue = value!;
                                     updateButtonState();
-                                  });
+                                  }) : null;
                                 },
                               ),
                               Text(
@@ -420,10 +420,10 @@ class _SingleProductReturnPolicyState extends State<SingleProductReturnPolicy> {
                                 value: 'seller_pays',
                                 groupValue: radioButtonValue,
                                 onChanged: (value) {
-                                  setState(() {
+                                  singleModelReturnPolicy.value.data == null && selectedReturnDay == '' ?  setState(() {
                                     radioButtonValue = value!;
                                     updateButtonState();
-                                  });
+                                  }): null;
                                 },
                               ),
                               Text(
@@ -447,7 +447,7 @@ class _SingleProductReturnPolicyState extends State<SingleProductReturnPolicy> {
                           TextFormField(
                             maxLines: 4,
                             minLines: 4,
-                            readOnly: singleModelReturnPolicy.value.data != null ? true : false,
+                            readOnly: singleModelReturnPolicy.value.data != null  || selectedReturnDay != '' ? true : false,
                             validator: (value) {
                               if (value == null || value.isEmpty) {
                                 return 'Please write return policy description';
