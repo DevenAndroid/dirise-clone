@@ -21,6 +21,7 @@ class ApiUrls {
   static const String getPickUpPolicy = "${baseUrl}pickup-policy";
   static const String newRegisterUrl = "${baseUrl}register";
   static const String socialMediaUrl = "${baseUrl}social-media";
+  static const String singleVirtualProductUrl = "${baseUrl}single-virtual-product";
   static const String getSocialMediaUrl = "${baseUrl}social-media";
   static const String loginUrl = "${baseUrl}login";
   static const String resendOtpUrl = "${baseUrl}resend-otp";

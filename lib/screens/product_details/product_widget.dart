@@ -32,6 +32,7 @@ import '../../single_products/advirtising_single.dart';
 import '../../single_products/bookable_single.dart';
 import '../../single_products/simple_product.dart';
 import '../../single_products/variable_single.dart';
+import '../../single_products/vritual_product_single.dart';
 import '../../utils/api_constant.dart';
 import '../../utils/styles.dart';
 import '../../widgets/common_colour.dart';
@@ -380,6 +381,9 @@ class _ProductUIState extends State<ProductUI> {
           }
           else if (widget.productElement.productType == 'booking'&& widget.productElement.itemType == 'product') {
             Get.to(() => const BookableProductScreen(), arguments: widget.productElement.id.toString());
+          }
+          else if (widget.productElement.productType == 'virtual_product'&& widget.productElement.itemType == 'virtual_product') {
+            Get.to(() =>  VritualProductScreen(), arguments:  widget.productElement.id.toString());
           }
           else if (widget.productElement.itemType == 'product') {
             Get.to(() => const SimpleProductScreen(), arguments: widget.productElement.id.toString());
