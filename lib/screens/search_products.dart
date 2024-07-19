@@ -5,6 +5,7 @@ import 'package:cached_network_image/cached_network_image.dart';
 import 'package:dirise/repository/repository.dart';
 import 'package:dirise/screens/app_bar/common_app_bar.dart';
 import 'package:dirise/screens/product_details/product_widget.dart';
+import 'package:dirise/screens/service_single_ui.dart';
 import 'package:dirise/utils/api_constant.dart';
 import 'package:dirise/utils/helper.dart';
 import 'package:dirise/widgets/loading_animation.dart';
@@ -219,8 +220,10 @@ class _SearchProductsScreenState extends State<SearchProductsScreen> {
                                 else if (item.productType == 'booking'&& item.itemType == 'product') {
                                   Get.to(() => const BookableProductScreen(), arguments: item.id.toString());
                                 }
-                                else if (item.itemType == 'product' || item.itemType =='service') {
+                                else if (item.itemType == 'product') {
                                   Get.to(() => const SimpleProductScreen(), arguments: item.id.toString());
+                                }else if(item.itemType =='service'){
+                                  Get.to(() => const ServiceProductScreen(), arguments: item.id.toString());
                                 }
                               },
                               // onTap: (){
