@@ -21,6 +21,7 @@ class ApiUrls {
   static const String getPickUpPolicy = "${baseUrl}pickup-policy";
   static const String newRegisterUrl = "${baseUrl}register";
   static const String socialMediaUrl = "${baseUrl}social-media";
+  static const String singleVirtualProductUrl = "${baseUrl}single-virtual-product";
   static const String getSocialMediaUrl = "${baseUrl}social-media";
   static const String loginUrl = "${baseUrl}login";
   static const String resendOtpUrl = "${baseUrl}resend-otp";
@@ -41,6 +42,7 @@ class ApiUrls {
   static const String updateProfile = "${baseUrl}edit-account";
   static const String userProfile = "${baseUrl}my-account";
   static const String addressListUrl = "${baseUrl}address";
+  static const String defaultAddressUrl = "${baseUrl}my-default-address";
   static const String editAddressUrl = "${baseUrl}edit-address";
   static const String giveawayProductAddress = "${baseUrl}add-vendor-product";
   static const String addMultipleProduct = "${baseUrl}add-multiple-product";
@@ -76,6 +78,7 @@ class ApiUrls {
   static const String updateProductStatusUrl = "${baseUrl}update-product-status";
   static const String vendorDashBoardUrl = "${baseUrl}vendor-dashboard";
   static const String getCategoryStoresUrl = "${baseUrl}get-vendor-details?";
+  static const String shopByProductUrl = "${baseUrl}shop-by-product?";
   static const String vendorProductListUrl = "${baseUrl}vendor-product-list?";
   static const String singleProductUrl = "${baseUrl}product";
   static const String singleGiveAwayUrl = "${baseUrl}single-giveaway-product";
@@ -145,7 +148,10 @@ class ApiUrls {
   static const String sponsorList = "${baseUrl}sponsor-list";
   static const String featuredStore = "${baseUrl}get-featured-store";
   static const String getJobList = "${baseUrl}job-product-list";
+  static const String getJobHiringList = "${baseUrl}job-hiring-list";
+  static const String singleJobList = "${baseUrl}single-job-product?product_id=";
   static const String releatedProduct = "${baseUrl}related-product";
+  static const String returnRequest = "${baseUrl}add-order-return-request";
 
 
 

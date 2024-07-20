@@ -52,7 +52,7 @@ class JobProduct {
   dynamic jobStateId;
   dynamic jobCityId;
   dynamic uploadCv;
-  bool? accountStatus;
+  dynamic accountStatus;
   dynamic isComplete;
 
   JobProduct(

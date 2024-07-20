@@ -2,6 +2,7 @@ import 'dart:convert';
 import 'dart:io';
 import 'package:dirise/language/app_strings.dart';
 import 'package:dirise/screens/auth_screens/login_screen.dart';
+import 'package:dirise/screens/my_account_screens/social_link_for_account.dart';
 import 'package:dirise/utils/helper.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
@@ -329,51 +330,40 @@ class _MyAccountScreenState extends State<MyAccountScreen> {
                             width: 65,
                             child: profileController.userLoggedIn
                                 ? Image.network(
-                                    profileController.apiLoaded && profileController.model.user != null
-                                        ? profileController.model.user!.profileImage.toString()
-                                        : "",
+                                    profileController.apiLoaded
+                                        ? profileController.model.user!.profileImage.toString() : "",
                                     fit: BoxFit.cover,
                                     height: 65,
                                     width: 65,
+                                    // loadingBuilder: (context, child, loadingProgress) => Image.asset(
+                                    //   'assets/images/profile-icon.png',
+                                    //   fit: BoxFit.cover,
+                                    //   height: 65,
+                                    //   color: AppTheme.buttonColor,
+                                    //   width: 65,
+                                    // ),
                                     // errorBuilder: (_, __, ___) => Image.asset(
                                     //   'assets/images/myaccount.png',
                                     //   height: 65,
                                     //   width: 65,
                                     // ),
-                                   errorBuilder: (_,__,___) => Container(
-                                     decoration: BoxDecoration(
-                                         shape: BoxShape.circle,
-                                         color: AppTheme.buttonColor,
-                                         border: Border.all(color:  AppTheme.buttonColor)),
-                                     child: const SizedBox(
-                                         height: 65,
-                                         width: 65,
-                                         child: Icon(
-                                           Icons.person,
-                                           color: Colors.white,
-                                           size: 45,
-                                         )),
-                                   ),
+                                    errorBuilder: (_, __, ___) => Image.asset(
+                                      'assets/images/profile-icon.png',
+                                      fit: BoxFit.cover,
+                                      color: AppTheme.buttonColor,
+                                      height: 65,
+                                      width: 65,
+                                    ),
                                   )
                                 // : Image.asset(
                                 //     'assets/images/myaccount.png',
                                 //     height: 65,
                                 //     width: 65,
                                 //   ),
-                        :  Container(
-                              decoration: BoxDecoration(
-                                  shape: BoxShape.circle,
-                                  color: Colors.white,
-                                  border: Border.all(color: Colors.white)),
-                              child: const SizedBox(
-                                  height: 65,
-                                  width: 65,
-                                  child: Icon(
-                                    Icons.person,
-                                    color: AppTheme.buttonColor,
-                                    size: 45,
-                                  )),
-                            ),
+                        :  Image.asset('assets/images/profile-icon.png',  fit: BoxFit.cover,
+                              height: 65,
+                              color: AppTheme.buttonColor,
+                              width: 65,),
                           ),
                         ),
                         5.spaceY,
@@ -2245,7 +2235,7 @@ class _MyAccountScreenState extends State<MyAccountScreen> {
                                              Get.to(const WithdrawMoney());
                                            }
                                            else if(vendor[index] == 'Social Media'){
-                                             Get.to(const SocialMediaStore());
+                                             Get.to(const SocialMediaStoreAccount());
                                            }
                                            else {
                                               showToast('Your payment is not successfull'.tr);

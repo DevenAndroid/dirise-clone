@@ -26,8 +26,8 @@ class SingleProductDiscriptionScreen extends StatefulWidget {
   String? setstock;
   String? sEOTags;
   int? id;
-
-  SingleProductDiscriptionScreen({super.key,this.description,this.sEOTags,this.setstock,this.stockquantity,this.id});
+  dynamic noNeed;
+  SingleProductDiscriptionScreen({super.key,this.description,this.sEOTags,this.setstock,this.stockquantity,this.id,this.noNeed});
 
   @override
   State<SingleProductDiscriptionScreen> createState() => _SingleProductDiscriptionScreenState();
@@ -68,9 +68,10 @@ class _SingleProductDiscriptionScreenState extends State<SingleProductDiscriptio
         if(widget.id != null){
           Get.to( ProductReviewPublicScreen());
         }
+        else{
         Get.to( SingleProductReturnPolicy());
       }
-    });
+    }});
   }
 
   @override
@@ -78,10 +79,14 @@ class _SingleProductDiscriptionScreenState extends State<SingleProductDiscriptio
     // TODO: implement initState
     super.initState();
     if(widget.id != null){
-      inStockController.text=widget.stockquantity.toString();
+      inStockController.text= widget.stockquantity == '-1' ? '0' :  widget.stockquantity.toString();
+      // inStockController.text = widget.stockquantity.toString();
+      alertDiscount.text= widget.setstock == null ? '0' : widget.setstock.toString();
+      // inStockController.text=widget.stockquantity.toString();
       shortController.text=widget.description.toString();
-      alertDiscount.text=widget.setstock.toString();
+      // alertDiscount.text=widget.setstock.toString();
       tagDiscount.text=widget.sEOTags.toString();
+      isDelivery.value  = widget.noNeed!;
     }
   }
 

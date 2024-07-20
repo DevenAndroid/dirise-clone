@@ -16,6 +16,8 @@ import '../../language/app_strings.dart';
 import '../../model/common_modal.dart';
 import '../../model/get_job_model.dart';
 import '../../repository/repository.dart';
+import '../../single_products/job_details_single.dart';
+import '../../single_products/job_offer_details.dart';
 import '../../utils/api_constant.dart';
 import '../../widgets/like_button.dart';
 
@@ -57,8 +59,8 @@ class _GetLookJobState extends State<GetLookJob> {
       ModelCommonResponse response = ModelCommonResponse.fromJson(jsonDecode(value));
       showToast(response.message);
       if (response.status == true) {
+        jobTypeApi();
         wishListController.getYourWishList();
-        wishListController.updateFav;
       }
     });
   }
@@ -146,9 +148,9 @@ class _GetLookJobState extends State<GetLookJob> {
             ):Column(
               children: [
                 InkWell(
-                  onTap: () {
-                    // bottomSheet(productDetails: widget.productElement, context: context);
-                  },
+onTap:(){
+  Get.to(()=>JobOfferDetailsSingleScreen(),arguments:       item.id.toString(),);
+            },
                   child: Padding(
                     padding: const EdgeInsets.all(12.0),
                     child: Stack(
@@ -184,9 +186,9 @@ class _GetLookJobState extends State<GetLookJob> {
                                               fontSize: 15, fontWeight: FontWeight.w500, color: const Color(0xFF19313C)),
                                         ),
                                         Text(
-                                          item.describeJobRole.toString(),
+                                          item.jobCat.toString(),
                                           style: GoogleFonts.poppins(
-                                              fontSize: 15, fontWeight: FontWeight.w500, color: const Color(0xFF19313C)),
+                                              fontSize: 11, fontWeight: FontWeight.w400, color: const Color(0xFF19313C)),
                                         ),
                                         10.spaceY,
                                         Text(
@@ -206,12 +208,48 @@ class _GetLookJobState extends State<GetLookJob> {
                                           padding: const EdgeInsets.only(top: 8.0),
                                           child: LikeButtonCat(
                                             onPressed: () {
-                                              item.id = id.toString();
+                                              id = item.id.toString();
                                               if (wishListController.favoriteItems.contains(item.id.toString())) {
-                                                removeFromWishList();
-                                              } else {
-                                                addToWishList();
+                                                repositories
+                                                    .postApi(
+                                                    url: ApiUrls.removeFromWishListUrl,
+                                                    mapData: {
+                                                      "product_id": id.toString(),
+                                                    },
+                                                    context: context)
+                                                    .then((value) {
+                                                  ModelCommonResponse response = ModelCommonResponse.fromJson(jsonDecode(value));
+                                                  showToast(response.message);
+                                                  if (response.status == true) {
+                                                    wishListController.getYourWishList();
+                                                    wishListController.favoriteItems.removeWhere((element) => element == item.id.toString());
+                                                    wishListController.updateFav;
+                                                  }
+                                                });
                                               }
+                                              else {
+                                                repositories
+                                                    .postApi(
+                                                    url: ApiUrls.addToWishListUrl,
+                                                    mapData: {
+                                                      "product_id":   item.id,
+                                                    },
+                                                    context: context)
+                                                    .then((value) {
+                                                  ModelCommonResponse response = ModelCommonResponse.fromJson(jsonDecode(value));
+                                                  showToast(response.message);
+                                                  setState(() {
+
+                                                  });
+                                                    wishListController.getYourWishList();
+                                                    wishListController.favoriteItems.add(item.id.toString());
+                                                    wishListController.updateFav;
+
+                                                });
+                                              }
+                                              setState(() {
+
+                                              });
                                             },
                                             isLiked: wishListController.favoriteItems.contains(item.id.toString()),
                                           ),
@@ -261,7 +299,7 @@ class _GetLookJobState extends State<GetLookJob> {
                                         ),
                                         2.spaceY,
                                         Text(
-                                         item.jobStateId.toString(),
+                                           item.jobModel.toString(),
                                           textAlign: TextAlign.center,
                                           style: GoogleFonts.poppins(
                                               fontSize: 14, fontWeight: FontWeight.w400, color: const Color(0xFF19313C)),
@@ -317,7 +355,7 @@ class _GetLookJobState extends State<GetLookJob> {
                                           maxLines: 1,
                                           overflow: TextOverflow.ellipsis,
                                           style: GoogleFonts.poppins(
-                                              fontSize: 15, fontWeight: FontWeight.w500, color: const Color(0xFF19313C)),
+                                              fontSize: 12, fontWeight: FontWeight.bold, color: const Color(0xFF19313C)),
                                         ),
                                         3.spaceY,
                                         Text(
@@ -334,8 +372,10 @@ class _GetLookJobState extends State<GetLookJob> {
                                       children: [
                                         Text(
                                           'Asking Salary'.tr,
+                                          maxLines: 1,
+                                          overflow: TextOverflow.ellipsis,
                                           style: GoogleFonts.poppins(
-                                              fontSize: 15, fontWeight: FontWeight.w500, color: const Color(0xFF19313C)),
+                                              fontSize: 12, fontWeight: FontWeight.bold, color: const Color(0xFF19313C)),
                                         ),
                                         3.spaceY,
                                         Text(
@@ -351,8 +391,10 @@ class _GetLookJobState extends State<GetLookJob> {
                                       children: [
                                         Text(
                                           'Experience'.tr,
+                                          maxLines: 1,
+                                          overflow: TextOverflow.ellipsis,
                                           style: GoogleFonts.poppins(
-                                              fontSize: 15, fontWeight: FontWeight.w500, color: const Color(0xFF19313C)),
+                                              fontSize: 12, fontWeight: FontWeight.bold, color: const Color(0xFF19313C)),
                                         ),
                                         3.spaceY,
                                         Text(
@@ -382,9 +424,9 @@ class _GetLookJobState extends State<GetLookJob> {
                                   )
                                 ],
                                 borderRadius: BorderRadius.only(topRight: Radius.circular(8)),
-                                color: Color(0xFF27D6FF)),
+                                color: Color(0xFF255459)),
                             child: Text(
-                              " Job Offer ".tr,
+                              " Looking for a job ".tr,
                               style: GoogleFonts.poppins(fontSize: 20, fontWeight: FontWeight.w400, color: Colors.white),
                             ),
                           ),

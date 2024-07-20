@@ -17,7 +17,6 @@ import '../../widgets/common_colour.dart';
 import '../../widgets/common_textfield.dart';
 import 'duration_screen.dart';
 
-
 class AcademicDateScreen extends StatefulWidget {
   int? id;
   String? from_date;
@@ -25,9 +24,12 @@ class AcademicDateScreen extends StatefulWidget {
   String? vacation_from_date;
   String? vacation_to_date;
   int? spot;
-
-  AcademicDateScreen({super.key, this.from_date, this.to_date, this.vacation_from_date, this.vacation_to_date, this.id,this.spot});
-
+  String? formattedStartDateVacation;
+  String? formattedStartDate1Vacation;
+  AcademicDateScreen(
+      {super.key, this.from_date, this.to_date, this.vacation_from_date,
+        this.formattedStartDateVacation,
+        this.formattedStartDate1Vacation,this.vacation_to_date, this.id, this.spot});
 
   @override
   State<AcademicDateScreen> createState() => _AcademicDateScreenState();
@@ -37,10 +39,11 @@ class _AcademicDateScreenState extends State<AcademicDateScreen> {
   DateTime _startDate = DateTime.now();
   DateTime _endDate = DateTime.now();
   final addProductController = Get.put(AddProductController());
-  TextEditingController spotsController =  TextEditingController();
+  TextEditingController spotsController = TextEditingController();
   String? formattedStartDate1;
   RxBool isServiceProvide = false.obs;
-
+  final formKey = GlobalKey<FormState>();
+  String? dateRangeError;
   Future<void> _selectStartDate(BuildContext context) async {
     final DateTime? picked = await showDatePicker(
       context: context,
@@ -52,10 +55,12 @@ class _AcademicDateScreenState extends State<AcademicDateScreen> {
       setState(() {
         _startDate = picked;
         addProductController.formattedStartDate = DateFormat('yyyy/MM/dd').format(_startDate);
+        dateRangeError = null;
         print('Now Select........${addProductController.formattedStartDate.toString()}');
       });
     }
   }
+
   Future<void> _selectEndDate(BuildContext context) async {
     final DateTime? picked = await showDatePicker(
       context: context,
@@ -67,6 +72,7 @@ class _AcademicDateScreenState extends State<AcademicDateScreen> {
       setState(() {
         _endDate = picked;
         formattedStartDate1 = DateFormat('yyyy/MM/dd').format(_endDate);
+        dateRangeError = null;
         print('Now Select........${formattedStartDate1.toString()}');
       });
     }
@@ -96,6 +102,7 @@ class _AcademicDateScreenState extends State<AcademicDateScreen> {
       });
     }
   }
+
   Future<void> selectEndDateVacation(BuildContext context) async {
     final DateTime? picked = await showDatePicker(
       context: context,
@@ -112,9 +119,16 @@ class _AcademicDateScreenState extends State<AcademicDateScreen> {
       });
     }
   }
+
   final Repositories repositories = Repositories();
   int index = 0;
   void updateProfile() {
+    if (addProductController.formattedStartDate == null || formattedStartDate1 == null) {
+      setState(() {
+        dateRangeError = 'Please select both start and end dates.';
+      });
+      return;
+    }
     Map<String, dynamic> map = {};
     Map<String, dynamic> map1 = {};
     Map<String, dynamic> map2 = {};
@@ -122,24 +136,22 @@ class _AcademicDateScreenState extends State<AcademicDateScreen> {
 
     map["product_type"] = "booking";
     map["spot"] = spotsController.text.trim();
-    map["id"] =  addProductController.idProduct.value.toString();
-    map["group"] = addProductController.formattedStartDate  == formattedStartDate1?"date":"range";
-    if(addProductController.formattedStartDate  == formattedStartDate1){
+    map["id"] = addProductController.idProduct.value.toString();
+    map["group"] = addProductController.formattedStartDate == formattedStartDate1 ? "date" : "range";
+    if (addProductController.formattedStartDate == formattedStartDate1) {
       map["single_date"] = addProductController.formattedStartDate.toString();
-    }
-    else{
+    } else {
       map["from_date"] = addProductController.formattedStartDate.toString();
       map["to_date"] = formattedStartDate1.toString();
     }
     map['vacation_type'] = map1;
     map['vacation_from_date'] = map2;
     map['vacation_to_date'] = map3;
-    map1['$index'] = formattedStartDateVacation  == formattedStartDate1Vacation?"date":"range";
+    map1['$index'] = formattedStartDateVacation == formattedStartDate1Vacation ? "date" : "range";
     // map["vacation_type[0]"] = formattedStartDateVacation  == formattedStartDate1Vacation?"date":"range";
-    if(formattedStartDateVacation  == formattedStartDate1Vacation){
+    if (formattedStartDateVacation == formattedStartDate1Vacation) {
       map["vacation_single_date[]"] = formattedStartDateVacation.toString();
-    }
-    else{
+    } else {
       map2["$index"] = formattedStartDateVacation.toString();
       map3["$index"] = formattedStartDate1Vacation.toString();
     }
@@ -149,9 +161,9 @@ class _AcademicDateScreenState extends State<AcademicDateScreen> {
       JobResponceModel response = JobResponceModel.fromJson(jsonDecode(value));
       if (response.status == true) {
         showToast(response.message.toString());
-        Get.to(()=>  SetTimeScreenAcademic());
+        Get.to(() => SetTimeScreenAcademic());
         print('value isssss${response.toJson()}');
-      }else{
+      } else {
         showToast(response.message.toString());
       }
     });
@@ -165,6 +177,8 @@ class _AcademicDateScreenState extends State<AcademicDateScreen> {
       addProductController.formattedStartDate = widget.from_date;
       formattedStartDate1 = widget.to_date;
       spotsController.text = widget.spot.toString();
+      formattedStartDateVacation = widget.formattedStartDateVacation;
+      formattedStartDate1Vacation = widget.formattedStartDate1Vacation;
     }
   }
 
@@ -177,24 +191,24 @@ class _AcademicDateScreenState extends State<AcademicDateScreen> {
         surfaceTintColor: Colors.white,
         elevation: 0,
         leading: GestureDetector(
-          onTap: (){
+          onTap: () {
             Get.back();
           },
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.center,
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
-              profileController.selectedLAnguage.value != 'English' ?
-              Image.asset(
-                'assets/images/forward_icon.png',
-                height: 19,
-                width: 19,
-              ) :
-              Image.asset(
-                'assets/images/back_icon_new.png',
-                height: 19,
-                width: 19,
-              ),
+              profileController.selectedLAnguage.value != 'English'
+                  ? Image.asset(
+                      'assets/images/forward_icon.png',
+                      height: 19,
+                      width: 19,
+                    )
+                  : Image.asset(
+                      'assets/images/back_icon_new.png',
+                      height: 19,
+                      width: 19,
+                    ),
             ],
           ),
         ),
@@ -210,276 +224,302 @@ class _AcademicDateScreenState extends State<AcademicDateScreen> {
         ),
       ),
       body: SingleChildScrollView(
-        padding: const EdgeInsets.symmetric(vertical: 20,horizontal: 10),
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            Text('Dates range',
-                style:GoogleFonts.poppins(fontSize:19,fontWeight:FontWeight.w600)),
-            15.spaceY,
-            Text('The start date and end date which this service offered',
-                style:GoogleFonts.poppins(fontSize:15,fontWeight:FontWeight.w400)),
-            40.spaceY,
-            Row(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-              children: [
-                Expanded(
-                  child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                    children: [
-                      Text('Start Date: ${addProductController.formattedStartDate ?? ''}',
-                        style:const TextStyle(
-                            fontSize: 17,
-                            fontWeight: FontWeight.w500
-                        ),),
-                      10.spaceY,
-                      ElevatedButton(
-                        style: ButtonStyle(
-                            backgroundColor: MaterialStateColor.resolveWith((states) => const Color(0xff014E70))
-                        ),
-                        onPressed: () => _selectStartDate(context),
-                        child: const Text('Select Start Date',style: TextStyle(color: Colors.white),),
-                      ),
-                    ],
-                  ),
-                ),
-                const SizedBox(width: 20),
-                Expanded(
-                  child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                    children: [
-                      Text('End Date: ${formattedStartDate1 ?? ''}',
-                        style:const TextStyle(
-                            fontSize: 17,
-                            fontWeight: FontWeight.w500
-                        ),),
-                      const SizedBox(height: 10),
-                      ElevatedButton(
-                        style: ButtonStyle(
-                            backgroundColor: MaterialStateColor.resolveWith((states) => const Color(0xff014E70))
-                        ),
-                        onPressed: () => _selectEndDate(context),
-                        child: const Text('Select End Date',style: TextStyle(color: Colors.white),),
-                      ),
-                    ],
-                  ),
-                )
-              ],
-            ),
-            const SizedBox(height: 40),
-            Text('Add vacations ',
-                style:GoogleFonts.poppins(fontSize:19,fontWeight:FontWeight.w600)),
-            20.spaceY,
-            Row(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-              children: [
-                Expanded(
+        padding: const EdgeInsets.symmetric(vertical: 20, horizontal: 10),
+        child: Form(
+          key: formKey,
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              Text('Dates range', style: GoogleFonts.poppins(fontSize: 19, fontWeight: FontWeight.w600)),
+              15.spaceY,
+              Text('The start date and end date which this service offered',
+                  style: GoogleFonts.poppins(fontSize: 15, fontWeight: FontWeight.w400)),
+              40.spaceY,
+              Row(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                children: [
+                  Expanded(
                     child: Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
-                      mainAxisAlignment: MainAxisAlignment.start,
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
                       children: [
-                        Text('Start Date: ${formattedStartDateVacation ?? ''}',
-                          style:const TextStyle(
-                              fontSize: 17,
-                              fontWeight: FontWeight.w500
-                          ),),
+                        Text(
+                          'Start Date: ${addProductController.formattedStartDate ?? ''}',
+                          style: const TextStyle(fontSize: 17, fontWeight: FontWeight.w500),
+                        ),
                         10.spaceY,
                         ElevatedButton(
                           style: ButtonStyle(
-                              backgroundColor: MaterialStateColor.resolveWith((states) => const Color(0xFF014E70))
+                              backgroundColor: MaterialStateColor.resolveWith((states) => const Color(0xff014E70))),
+                          onPressed: () => _selectStartDate(context),
+                          child: const Text(
+                            'Select Start Date',
+                            style: TextStyle(color: Colors.white),
                           ),
-                          onPressed: () => selectStartDateVacation(context),
-                          child: const Text('Select Start Date',style: TextStyle(color: Colors.white),),
                         ),
                       ],
-                    )
-                ),
-                const SizedBox(width: 20),
-                Expanded(
+                    ),
+                  ),
+                  const SizedBox(width: 20),
+                  Expanded(
                     child: Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
-                      mainAxisAlignment: MainAxisAlignment.start,
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
                       children: [
-                        Text('End Date: ${formattedStartDate1Vacation ?? ''}',
-                          style:const TextStyle(
-                              fontSize: 17,
-                              fontWeight: FontWeight.w500
-                          ),),
+                        Text(
+                          'End Date: ${formattedStartDate1 ?? ''}',
+                          style: const TextStyle(fontSize: 17, fontWeight: FontWeight.w500),
+                        ),
                         const SizedBox(height: 10),
                         ElevatedButton(
                           style: ButtonStyle(
-                              backgroundColor: MaterialStateColor.resolveWith((states) => const Color(0xFF014E70))
+                              backgroundColor: MaterialStateColor.resolveWith((states) => const Color(0xff014E70))),
+                          onPressed: () => _selectEndDate(context),
+                          child: const Text(
+                            'Select End Date',
+                            style: TextStyle(color: Colors.white),
                           ),
-                          onPressed: () => selectEndDateVacation(context),
-                          child: const Text('Select End Date',style: TextStyle(color: Colors.white),),
                         ),
                       ],
-                    )
-                )
-              ],
-            ),
-            30.spaceY,
-            GestureDetector(
-              onTap: (){
-                setState(() {
-                  isServiceProvide.toggle();
-                });
-              },
-              child: Container(
-                padding: const EdgeInsets.symmetric(vertical: 12,horizontal: 12),
-                decoration: BoxDecoration(
-                    color: Colors.white,
-                    borderRadius: BorderRadius.circular(8),
-                    border: Border.all(color: AppTheme.secondaryColor)
-                ),
-                child: Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                  children: [
-                    Text('Range of vacations',style: GoogleFonts.poppins(
-                      color: AppTheme.primaryColor,
-                      fontSize: 15,
-                    ),),
-                    GestureDetector(
-                      child: isServiceProvide.value == true ? const Icon(Icons.keyboard_arrow_up_rounded) : const Icon(Icons.keyboard_arrow_down_outlined),
-                      onTap: (){
-                        setState(() {
-                          isServiceProvide.toggle();
-                        });
-                      },
                     ),
-                  ],
+                  )
+                ],
+              ),
+              if (dateRangeError != null) // Display error message
+                Padding(
+                  padding: const EdgeInsets.only(top: 8.0),
+                  child: Text(
+                    dateRangeError!,
+                    style: TextStyle(color: Colors.red, fontSize: 12),
+                  ),
+                ),
+              const SizedBox(height: 40),
+              Text('Add vacations ', style: GoogleFonts.poppins(fontSize: 19, fontWeight: FontWeight.w600)),
+              20.spaceY,
+              Row(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                children: [
+                  Expanded(
+                      child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    mainAxisAlignment: MainAxisAlignment.start,
+                    children: [
+                      Text(
+                        'Start Date: ${formattedStartDateVacation ?? ''}',
+                        style: const TextStyle(fontSize: 17, fontWeight: FontWeight.w500),
+                      ),
+                      10.spaceY,
+                      ElevatedButton(
+                        style: ButtonStyle(
+                            backgroundColor: MaterialStateColor.resolveWith((states) => const Color(0xFF014E70))),
+                        onPressed: () => selectStartDateVacation(context),
+                        child: const Text(
+                          'Select Start Date',
+                          style: TextStyle(color: Colors.white),
+                        ),
+                      ),
+                    ],
+                  )),
+                  const SizedBox(width: 20),
+                  Expanded(
+                      child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    mainAxisAlignment: MainAxisAlignment.start,
+                    children: [
+                      Text(
+                        'End Date: ${formattedStartDate1Vacation ?? ''}',
+                        style: const TextStyle(fontSize: 17, fontWeight: FontWeight.w500),
+                      ),
+                      const SizedBox(height: 10),
+                      ElevatedButton(
+                        style: ButtonStyle(
+                            backgroundColor: MaterialStateColor.resolveWith((states) => const Color(0xFF014E70))),
+                        onPressed: () => selectEndDateVacation(context),
+                        child: const Text(
+                          'Select End Date',
+                          style: TextStyle(color: Colors.white),
+                        ),
+                      ),
+                    ],
+                  ))
+                ],
+              ),
+              if (dateRangeError != null) // Display error message
+                Padding(
+                  padding: const EdgeInsets.only(top: 8.0),
+                  child: Text(
+                    dateRangeError!,
+                    style: TextStyle(color: Colors.red, fontSize: 12),
+                  ),
+                ),
+              30.spaceY,
+              GestureDetector(
+                onTap: () {
+                  setState(() {
+                    isServiceProvide.toggle();
+                  });
+                },
+                child: Container(
+                  padding: const EdgeInsets.symmetric(vertical: 12, horizontal: 12),
+                  decoration: BoxDecoration(
+                      color: Colors.white,
+                      borderRadius: BorderRadius.circular(8),
+                      border: Border.all(color: AppTheme.secondaryColor)),
+                  child: Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    children: [
+                      Text(
+                        'Range of vacations',
+                        style: GoogleFonts.poppins(
+                          color: AppTheme.primaryColor,
+                          fontSize: 15,
+                        ),
+                      ),
+                      GestureDetector(
+                        child: isServiceProvide.value == true
+                            ? const Icon(Icons.keyboard_arrow_up_rounded)
+                            : const Icon(Icons.keyboard_arrow_down_outlined),
+                        onTap: () {
+                          setState(() {
+                            isServiceProvide.toggle();
+                          });
+                        },
+                      ),
+                    ],
+                  ),
                 ),
               ),
-            ),
-
-       SizedBox(height: 20,),
-            CommonTextField(
-              controller: spotsController,
-              obSecure: false,
-              hintText: 'Spots'.tr,
-              keyboardType: TextInputType.number,
-              validator: (value) {
-                if (value!.trim().isEmpty) {
-                  return "Spots is required".tr;
-                }
-                return null;
-              },
-
-            ),
-            if(isServiceProvide.value == true)
-              20.spaceY,
-            if(isServiceProvide.value == true)
-              ListView.builder(
-                shrinkWrap: true,
-                padding: const EdgeInsets.symmetric(horizontal: 10),
-                itemCount: min(startDateList.length, lastDateList.length),
-                itemBuilder: (context, index) {
-                  return Container(
-                    color: const Color(0xFFF9F9F9),
-                    padding: const EdgeInsets.all(10).copyWith(bottom: 0),
-                    child: Column(
-                      children: [
-                        Row(
-                          crossAxisAlignment: CrossAxisAlignment.start,
-                          children: [
-                            Expanded(
-                              flex:3,
-                              child: Text('Start ${startDateList[index]!} End ${lastDateList[index]!}', style: const TextStyle(
-                                color: AppTheme.buttonColor,
-                                fontSize: 15,
-                                fontWeight: FontWeight.w500,
-                              )),
-                            ),
-                            Expanded(
-                              child: GestureDetector(
-                                  onTap: (){
-                                    startDateList.removeAt(index);
-                                    lastDateList.removeAt(index);
-                                    setState(() {});
-                                    print('object');
-                                  },
-                                  child: const Icon(Icons.cancel)),
-                            )
-                          ],
-                        ),
-                        const SizedBox(height: 5), // Use SizedBox instead of 5.spaceY
-                      ],
-                    ),
-                  );
+              SizedBox(
+                height: 20,
+              ),
+              CommonTextField(
+                controller: spotsController,
+                obSecure: false,
+                hintText: 'Spots'.tr,
+                keyboardType: TextInputType.number,
+                validator: (value) {
+                  if (value!.trim().isEmpty) {
+                    return "Spots is required".tr;
+                  }
+                  return null;
                 },
               ),
-            const SizedBox(height: 40),
-            20.spaceY,
-            InkWell(
-              onTap: (){
-                // updateProfile();
-                updateProfile();
-                // Get.to(()=> const SetTimeScreenConsultation());
-              },
-              child: Container(
-                width: Get.width,
-                height: 50,
-                decoration: BoxDecoration(
-                  color: const Color(0xffF5F2F2),
-                  borderRadius: BorderRadius.circular(2), // Border radius
+              if (isServiceProvide.value == true) 20.spaceY,
+              if (isServiceProvide.value == true)
+                ListView.builder(
+                  shrinkWrap: true,
+                  padding: const EdgeInsets.symmetric(horizontal: 10),
+                  itemCount: min(startDateList.length, lastDateList.length),
+                  itemBuilder: (context, index) {
+                    return Container(
+                      color: const Color(0xFFF9F9F9),
+                      padding: const EdgeInsets.all(10).copyWith(bottom: 0),
+                      child: Column(
+                        children: [
+                          Row(
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: [
+                              Expanded(
+                                flex: 3,
+                                child: Text('Start ${startDateList[index]!} End ${lastDateList[index]!}',
+                                    style: const TextStyle(
+                                      color: AppTheme.buttonColor,
+                                      fontSize: 15,
+                                      fontWeight: FontWeight.w500,
+                                    )),
+                              ),
+                              Expanded(
+                                child: GestureDetector(
+                                    onTap: () {
+                                      startDateList.removeAt(index);
+                                      lastDateList.removeAt(index);
+                                      setState(() {});
+                                      print('object');
+                                    },
+                                    child: const Icon(Icons.cancel)),
+                              )
+                            ],
+                          ),
+                          const SizedBox(height: 5), // Use SizedBox instead of 5.spaceY
+                        ],
+                      ),
+                    );
+                  },
                 ),
-                padding: const EdgeInsets.all(10), // Padding inside the container
-                child: const Center(
-                  child: Text(
-                    'Save',
-                    style: TextStyle(
-                      fontSize: 16,
-                      fontWeight: FontWeight.bold,
-                      color: Color(0xff514949), // Text color
+              const SizedBox(height: 40),
+              20.spaceY,
+              InkWell(
+                onTap: () {
+                  // updateProfile();
+                  if (formKey.currentState!.validate()) {
+                    updateProfile();
+                  }
+
+                  // Get.to(()=> const SetTimeScreenConsultation());
+                },
+                child: Container(
+                  width: Get.width,
+                  height: 50,
+                  decoration: BoxDecoration(
+                    color: const Color(0xffF5F2F2),
+                    borderRadius: BorderRadius.circular(2), // Border radius
+                  ),
+                  padding: const EdgeInsets.all(10), // Padding inside the container
+                  child: const Center(
+                    child: Text(
+                      'Save',
+                      style: TextStyle(
+                        fontSize: 16,
+                        fontWeight: FontWeight.bold,
+                        color: Color(0xff514949), // Text color
+                      ),
                     ),
                   ),
                 ),
               ),
-            ),
-            const SizedBox(
-              height: 20,
-            ),
-            InkWell(
-              onTap: (){
-                Get.to(()=>  SetTimeScreenAcademic());
-              },
-              child: Container(
-                width: Get.width,
-                height: 70,
-                decoration: BoxDecoration(
-                  color: AppTheme.buttonColor,
-                  borderRadius: BorderRadius.circular(2), // Border radius
-                ),
-                padding: const EdgeInsets.all(10), // Padding inside the container
-                child: const Column(
-                  crossAxisAlignment: CrossAxisAlignment.center,
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  children: [
-                    Text(
-                      'Skip',
-                      style: TextStyle(
-                        fontSize: 16,
-                        fontWeight: FontWeight.bold,
-                        color: Colors.white, // Text color
+              const SizedBox(
+                height: 20,
+              ),
+              InkWell(
+                onTap: () {
+                  Get.to(() => SetTimeScreenAcademic());
+                },
+                child: Container(
+                  width: Get.width,
+                  height: 70,
+                  decoration: BoxDecoration(
+                    color: AppTheme.buttonColor,
+                    borderRadius: BorderRadius.circular(2), // Border radius
+                  ),
+                  padding: const EdgeInsets.all(10), // Padding inside the container
+                  child: const Column(
+                    crossAxisAlignment: CrossAxisAlignment.center,
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: [
+                      Text(
+                        'Skip',
+                        style: TextStyle(
+                          fontSize: 16,
+                          fontWeight: FontWeight.bold,
+                          color: Colors.white, // Text color
+                        ),
                       ),
-                    ),
-                    Text(
-                      'Product will show call for availability',
-                      style: TextStyle(
-                        fontSize: 11,
-                        fontWeight: FontWeight.w400,
-                        color: Colors.white, // Text color
+                      Text(
+                        'Product will show call for availability',
+                        style: TextStyle(
+                          fontSize: 11,
+                          fontWeight: FontWeight.w400,
+                          color: Colors.white, // Text color
+                        ),
                       ),
-                    ),
-                  ],
+                    ],
+                  ),
                 ),
               ),
-            ),
-          ],
+            ],
+          ),
         ),
       ),
     );

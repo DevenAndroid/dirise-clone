@@ -21,12 +21,12 @@ import '../widgets/common_colour.dart';
 import '../widgets/common_textfield.dart';
 
 class whatServiceDoYouProvide extends StatefulWidget {
-  int? price;
-  int? fixedPrice;
-  int? percentage;
-  int? id;
+  dynamic price;
+  dynamic fixedPrice;
+  dynamic percentage;
+  dynamic id;
   String? name;
-  RxBool? isDelivery = false.obs;
+  bool? isDelivery = false;
 
   whatServiceDoYouProvide(
       {super.key, this.percentage, this.price, this.fixedPrice, this.id, this.name, this.isDelivery});
@@ -103,8 +103,6 @@ class _whatServiceDoYouProvideState extends State<whatServiceDoYouProvide> {
 
   TextEditingController serviceNameController = TextEditingController();
   TextEditingController priceController = TextEditingController();
-  TextEditingController fixedPriceController = TextEditingController();
-  TextEditingController percentageController = TextEditingController();
   double realPrice1 = 0.0;
   final formKey = GlobalKey<FormState>();
   final addProductController = Get.put(AddProductController());
@@ -114,9 +112,10 @@ class _whatServiceDoYouProvideState extends State<whatServiceDoYouProvide> {
     map['product_name'] = serviceNameController.text.trim();
     map['item_type'] = 'service';
     map['p_price'] = priceController.text.trim();
-    map['fixed_discount_price'] = isDelivery.value == false ? "0" : fixedPriceController.text.trim();
-    map['discount_percent'] = percentageController.text.trim();
+    map['fixed_discount_price'] = isDelivery.value == false ?  "0" : fixedDiscount.text == '' ? '0' : fixedDiscount.text.trim();
+    map['discount_percent'] = discountPrecrnt.text == '' ? '0' : discountPrecrnt.text.trim();
     map['id'] = addProductController.idProduct.value.toString();
+    map['is_onsale'] = isDelivery.value.toString();
 
     // map['discount_percent'] = fixedPriceAfterSaleController.text.trim();
 
@@ -156,12 +155,13 @@ class _whatServiceDoYouProvideState extends State<whatServiceDoYouProvide> {
       priceController.text = widget.price.toString();
       discountPrecrnt.text = widget.percentage.toString();
       fixedDiscount.text = widget.fixedPrice.toString();
-      isDelivery = widget.isDelivery!;
+      isDelivery.value = widget.isDelivery!;
     }
     getVendorCategories(addProductController.idProduct.value.toString());
   }
   double discountAmount = 0.0;
   RxBool isDelivery = false.obs;
+  bool isDeliveryy = false;
   RxBool isPercantage = false.obs;
   String discount = '0.0';
   String diriseFeesAsString = '' ;
@@ -359,21 +359,21 @@ class _whatServiceDoYouProvideState extends State<whatServiceDoYouProvide> {
                         validator: (value) {
                           if (discountPrecrnt.text.isEmpty) {
                             if (value!.trim().isEmpty) {
-                              return 'Discount Price is required'.tr;
+                              return 'Discount amount is required'.tr;
                             }
                             double? price = double.tryParse(value);
                             if (price == null || price < 0) {
-                              return 'Price must be a non-negative number'.tr;
+                              return 'Discount amount must be a non-negative number'.tr;
                             }
                             double? discountValue = double.tryParse(value);
                             double? priceValue = double.tryParse(priceController.text);
                             if (discountValue != null && priceValue != null && discountValue > priceValue) {
-                              return 'Discount Price cannot be greater than Price'.tr;
+                              return 'Discount amount cannot be greater than Price'.tr;
                             }
                           }
                           return null; // Return null if validation passes
                         },
-                        hintText: 'Discount Price'.tr,
+                        hintText: 'Discount amount'.tr,
                       ),
                       const SizedBox(
                         height: 10,
@@ -398,7 +398,7 @@ class _whatServiceDoYouProvideState extends State<whatServiceDoYouProvide> {
                         obSecure: false,
                         // hintText: 'Name',
                         keyboardType: TextInputType.number,
-                        hintText: 'Percentage'.tr,
+                        hintText: 'Discount percentage'.tr,
                         onChanged: (value) {
                           discountDouble = double.tryParse(value.toString()) ?? 0.0;
                           fixedDiscount.text = "";
@@ -410,16 +410,16 @@ class _whatServiceDoYouProvideState extends State<whatServiceDoYouProvide> {
                         validator: (value) {
                           if (fixedDiscount.text.isEmpty) {
                             if (value == null || value.trim().isEmpty) {
-                              return 'Percentage is required'.tr;
+                              return 'Discount percentage is required'.tr;
                             }
                             double? price = double.tryParse(value);
                             if (price == null || price < 0) {
-                              return 'Price must be a non-negative number'.tr;
+                              return 'Discount percentage must be a non-negative number'.tr;
                             }
                             else {
                               double? percentage = double.tryParse(value);
                               if (percentage == null || percentage > 100) {
-                                return 'Percentage must be between 0 and 100'.tr;
+                                return 'Discount percentage must be between 0 and 100'.tr;
                               }
                             }
                           }

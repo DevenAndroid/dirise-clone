@@ -20,11 +20,11 @@ import '../widgets/common_colour.dart';
 import '../widgets/vendor_common_textfield.dart';
 
 class ServicesReturnPolicy extends StatefulWidget {
-  String? policyName;
-  String? policyDescription;
-  String? returnWithIn;
-  String? returnShippingFees;
-  int? id;
+  dynamic policyName;
+  dynamic policyDescription;
+  dynamic returnWithIn;
+  dynamic returnShippingFees;
+  dynamic id;
   ServicesReturnPolicy(
       {super.key, this.policyName, this.policyDescription, this.returnShippingFees, this.returnWithIn, this.id});
 
@@ -87,7 +87,7 @@ class _ServicesReturnPolicyState extends State<ServicesReturnPolicy> {
   final addProductController = Get.put(AddProductController());
   returnPolicyApi() {
     Map<String, dynamic> map = {};
-
+    map['id'] = addProductController.idProduct.value.toString();
     map['title'] = titleController.text.trim();
     map['days'] = selectedItem;
     map['item_type'] = 'service';
@@ -100,7 +100,11 @@ class _ServicesReturnPolicyState extends State<ServicesReturnPolicy> {
       ModelCommonResponse response = ModelCommonResponse.fromJson(jsonDecode(value));
       showToast(response.message.toString());
       if (response.status == true) {
-        // Refresh the return policy dropdown
+        if(widget.id != null){
+          Get.back();
+        }else{
+
+        }
         getReturnPolicyData();
         showToast(response.message.toString());
       }
@@ -111,6 +115,7 @@ class _ServicesReturnPolicyState extends State<ServicesReturnPolicy> {
     Map<String, dynamic> map = {};
     map['return_policy_desc'] = selectedReturnPolicy!.id.toString();
     map['item_type'] = 'service';
+    map['days'] = selectedItem.toString();
     map['id'] = addProductController.idProduct.value.toString();
     map['no_return'] = noReturnSelected;
 
@@ -121,13 +126,17 @@ class _ServicesReturnPolicyState extends State<ServicesReturnPolicy> {
       showToast(response.message.toString());
       if (response.status == true) {
         log("gfgfgfgfg${response.toJson()}");
-        Get.to(() => const Locationwherecustomerwilljoin());
+        if(widget.id != null){
+          Get.back();
+        }else{
+          Get.to(() => const Locationwherecustomerwilljoin());
+        }
       } else {
         showToast(response.message.toString());
       }
     });
   }
-
+ String selectedReturnDay = '';
   @override
   void initState() {
     // TODO: implement initState
@@ -136,6 +145,7 @@ class _ServicesReturnPolicyState extends State<ServicesReturnPolicy> {
     if (widget.id != null) {
       titleController.text = widget.policyName.toString();
       descController.text = widget.policyDescription.toString();
+      selectedReturnDay = widget.returnWithIn.toString();
     }
   }
 
@@ -313,7 +323,8 @@ class _ServicesReturnPolicyState extends State<ServicesReturnPolicy> {
                           width: 10,
                         ),
                         Expanded(
-                          child: DropdownButtonFormField<String>(
+                          child: singleModelReturnPolicy.value.data == null && selectedReturnDay == '' ?
+                          DropdownButtonFormField<String>(
                             value: selectedReturnPolicy != null
                                 ? selectedReturnPolicy!.days.toString()
                                 : selectedItem,
@@ -360,56 +371,29 @@ class _ServicesReturnPolicyState extends State<ServicesReturnPolicy> {
                               }
                               return null;
                             },
+                          ) :  Container(
+                            padding:   const EdgeInsets.symmetric(horizontal: 15, vertical: 13),
+                            decoration: BoxDecoration(
+                                color: const Color(0xffE2E2E2).withOpacity(.35),
+                                border: Border.all(color: AppTheme.secondaryColor),
+                                borderRadius: BorderRadius.circular(8)
+                            ),
+                            child:  Center(child: Text(selectedReturnPolicy != null
+                                ? selectedReturnPolicy!.days.toString() : selectedReturnDay)),
                           ),
                         ),
                         const SizedBox(
                           width: 4,
                         ),
                         Expanded(
-                          child: DropdownButtonFormField<String>(
-                            value: selectedItemDay,
-                            onChanged: (String? newValue) {
-                              setState(() {
-                                selectedItemDay = newValue!;
-                              });
-                            },
-                            items: <String>['Days', 'Week', 'Month', 'Year']
-                                .map<DropdownMenuItem<String>>((String value) {
-                              return DropdownMenuItem<String>(
-                                value: value,
-                                child: Text(value),
-                              );
-                            }).toList(),
-                            decoration: InputDecoration(
-                              border: InputBorder.none,
-                              filled: true,
-                              fillColor: const Color(0xffE2E2E2).withOpacity(.35),
-                              contentPadding:
-                              const EdgeInsets.symmetric(horizontal: 15, vertical: 10).copyWith(right: 8),
-                              focusedErrorBorder: const OutlineInputBorder(
-                                  borderRadius: BorderRadius.all(Radius.circular(8)),
-                                  borderSide: BorderSide(color: AppTheme.secondaryColor)),
-                              errorBorder: const OutlineInputBorder(
-                                  borderRadius: BorderRadius.all(Radius.circular(8)),
-                                  borderSide: BorderSide(color: Color(0xffE2E2E2))),
-                              focusedBorder: const OutlineInputBorder(
-                                  borderRadius: BorderRadius.all(Radius.circular(8)),
-                                  borderSide: BorderSide(color: AppTheme.secondaryColor)),
-                              disabledBorder: const OutlineInputBorder(
-                                borderRadius: BorderRadius.all(Radius.circular(8)),
-                                borderSide: BorderSide(color: AppTheme.secondaryColor),
-                              ),
-                              enabledBorder: const OutlineInputBorder(
-                                borderRadius: BorderRadius.all(Radius.circular(8)),
-                                borderSide: BorderSide(color: AppTheme.secondaryColor),
-                              ),
+                          child: Container(
+                            padding:   const EdgeInsets.symmetric(horizontal: 15, vertical: 13),
+                            decoration: BoxDecoration(
+                                color: const Color(0xffE2E2E2).withOpacity(.35),
+                              border: Border.all(color: AppTheme.secondaryColor),
+                              borderRadius: BorderRadius.circular(8)
                             ),
-                            validator: (value) {
-                              if (value == null || value.isEmpty) {
-                                return 'Please select an item';
-                              }
-                              return null;
-                            },
+                            child: const Center(child: Text('days')),
                           ),
                         ),
                       ],
@@ -428,10 +412,10 @@ class _ServicesReturnPolicyState extends State<ServicesReturnPolicy> {
                           value: 'buyer_pays',
                           groupValue: radioButtonValue,
                           onChanged: (value) {
-                            setState(() {
+                            singleModelReturnPolicy.value.data == null  &&   selectedReturnDay == '' ? setState(() {
                               radioButtonValue = value!;
                               updateButtonState();
-                            });
+                            }) : null;
                           },
                         ),
                         Text(
@@ -447,10 +431,10 @@ class _ServicesReturnPolicyState extends State<ServicesReturnPolicy> {
                           value: 'seller_pays',
                           groupValue: radioButtonValue,
                           onChanged: (value) {
-                            setState(() {
+                            singleModelReturnPolicy.value.data == null  && selectedReturnDay == '' ?   setState(() {
                               radioButtonValue = value!;
                               updateButtonState();
-                            });
+                            }) : null;
                           },
                         ),
                         Text(
@@ -542,7 +526,11 @@ class _ServicesReturnPolicyState extends State<ServicesReturnPolicy> {
                           }
                         }
                       } else {
-                        Get.to(() => const Locationwherecustomerwilljoin());
+                          if(widget.id !=null){
+                            Get.back();
+                          }else{
+                            Get.to(() => const Locationwherecustomerwilljoin());
+                          }
                       }
                     } // Disable button if no radio button is selected
                 ),

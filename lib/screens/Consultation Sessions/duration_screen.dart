@@ -15,21 +15,22 @@ import '../../utils/api_constant.dart';
 import '../../widgets/common_colour.dart';
 import 'optional_details.dart';
 
-
 class DurationScreen extends StatefulWidget {
   int? id;
   dynamic recoveryBlockTime;
   dynamic preparationBlockTime;
   dynamic interval;
 
-  DurationScreen({super.key,this.recoveryBlockTime,this.preparationBlockTime,this.interval,this.id});
+  DurationScreen({super.key, this.recoveryBlockTime, this.preparationBlockTime, this.interval, this.id});
 
   @override
   State<DurationScreen> createState() => _DurationScreenState();
 }
 
 class _DurationScreenState extends State<DurationScreen> {
-  String selectedItemDay = 'min';
+  String serviceSlotTime = 'min';
+  String preparationTime = 'min';
+  String recoveryTime = 'min';
   TextEditingController timeController = TextEditingController();
   TextEditingController timeControllerPreparation = TextEditingController();
   TextEditingController timeControllerRecovery = TextEditingController();
@@ -52,20 +53,20 @@ class _DurationScreenState extends State<DurationScreen> {
       if (response.status == true) {
         addProductController.idProduct.value = response.productDetails!.product!.id.toString();
         print(addProductController.idProduct.value.toString());
-        if(widget.id != null){
-          Get.to(()=>const ReviewScreen());
-        }else{
-          Get.to(()=> OptionalDetailsScreen());
+        if (widget.id != null) {
+          Get.to(() => const ReviewScreen());
+        } else {
+          Get.to(() => OptionalDetailsScreen());
         }
-
       }
     });
   }
+
   createSlots() {
     Map<String, dynamic> map = {};
 
     // map["product_id"] = addProductController.productId.toString();
-    map["product_id"] =  addProductController.idProduct.value.toString();
+    map["product_id"] = addProductController.idProduct.value.toString();
     map["todayDate"] = addProductController.formattedStartDate.toString();
     map['recovery_block_time'] = timeControllerRecovery.text.trim().toString();
     map['preparation_block_time'] = timeControllerPreparation.text.trim().toString();
@@ -80,13 +81,13 @@ class _DurationScreenState extends State<DurationScreen> {
   void initState() {
     // TODO: implement initState
     super.initState();
-    if(widget.id != null){
+    if (widget.id != null) {
       timeControllerRecovery.text = widget.recoveryBlockTime.toString();
       timeControllerPreparation.text = widget.preparationBlockTime.toString();
       timeController.text = widget.interval.toString();
     }
-
   }
+
   final profileController = Get.put(ProfileController());
   @override
   Widget build(BuildContext context) {
@@ -107,22 +108,22 @@ class _DurationScreenState extends State<DurationScreen> {
           },
           child: Padding(
             padding: const EdgeInsets.all(15),
-            child:     profileController.selectedLAnguage.value != 'English' ?
-            Image.asset(
-              'assets/images/forward_icon.png',
-              height: 19,
-              width: 19,
-            ) :
-            Image.asset(
-              'assets/images/back_icon_new.png',
-              height: 19,
-              width: 19,
-            ),
+            child: profileController.selectedLAnguage.value != 'English'
+                ? Image.asset(
+                    'assets/images/forward_icon.png',
+                    height: 19,
+                    width: 19,
+                  )
+                : Image.asset(
+                    'assets/images/back_icon_new.png',
+                    height: 19,
+                    width: 19,
+                  ),
           ),
         ),
       ),
       body: SingleChildScrollView(
-        padding: const EdgeInsets.symmetric(horizontal: 10,vertical: 18),
+        padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 18),
         child: Form(
           key: formKey,
           child: Column(
@@ -143,33 +144,31 @@ class _DurationScreenState extends State<DurationScreen> {
                       ),
                     ),
                   ),
-                   Expanded(
+                  Expanded(
                       child: SizedBox(
-                        height: 56,
-                        child: CommonTextField(
-                          keyboardType: TextInputType.number,
-                          hintText: 'Time',
-                          controller: timeController,
-                          validator: (value){
-                            if(value!.trim().isEmpty){
-                              return 'Enter time';
-                            }
-                            return null;
-                          },
-                        ),
-                      )
-                  ),
+                    height: 56,
+                    child: CommonTextField(
+                      keyboardType: TextInputType.number,
+                      hintText: 'Time',
+                      controller: timeController,
+                      validator: (value) {
+                        if (value!.trim().isEmpty) {
+                          return 'Enter time';
+                        }
+                        return null;
+                      },
+                    ),
+                  )),
                   6.spaceX,
                   Expanded(
                     child: DropdownButtonFormField<String>(
-                      value: selectedItemDay,
+                      value: serviceSlotTime,
                       onChanged: (String? newValue) {
                         setState(() {
-                          selectedItemDay = newValue!;
+                          serviceSlotTime = newValue!;
                         });
                       },
-                      items: <String>['min', 'hours']
-                          .map<DropdownMenuItem<String>>((String value) {
+                      items: <String>['min', 'hours'].map<DropdownMenuItem<String>>((String value) {
                         return DropdownMenuItem<String>(
                           value: value,
                           child: Text(value),
@@ -208,16 +207,16 @@ class _DurationScreenState extends State<DurationScreen> {
                   ),
                 ],
               ),
-              10.spaceY,
-              Align(
-                alignment: Alignment.topRight,
-                child: Text('Price 30 KWD'.tr,
-                    style: GoogleFonts.poppins(
-                      fontSize: 14,
-                      fontWeight: FontWeight.w500,
-                      color: const Color(0xffEB4335),
-                    )),
-              ),
+              // 10.spaceY,
+              // Align(
+              //   alignment: Alignment.topRight,
+              //   child: Text('Price 30 KWD'.tr,
+              //       style: GoogleFonts.poppins(
+              //         fontSize: 14,
+              //         fontWeight: FontWeight.w500,
+              //         color: const Color(0xffEB4335),
+              //       )),
+              // ),
               10.spaceY,
               Text('Allow multiple booking'.tr,
                   style: GoogleFonts.poppins(
@@ -237,13 +236,14 @@ class _DurationScreenState extends State<DurationScreen> {
                 padding: const EdgeInsets.all(9),
                 width: Get.width,
                 decoration: BoxDecoration(
-                  color: const Color(0xFFF9F9F9),
-                  borderRadius: BorderRadius.circular(8),
-                  border: Border.all(
-                    color: const Color(0xFFE3E3E3),
-                  )
-                ),
-                child: Text('This is the time you need to prepare for the service. EXP. Preparation time set for two hours Customer at 10 O’clock will be able to book from 12 O’clock the at the earliest. '.tr,
+                    color: const Color(0xFFF9F9F9),
+                    borderRadius: BorderRadius.circular(8),
+                    border: Border.all(
+                      color: const Color(0xFFE3E3E3),
+                    )),
+                child: Text(
+                    'This is the time you need to prepare for the service. EXP. Preparation time set for two hours Customer at 10 O’clock will be able to book from 12 O’clock the at the earliest. '
+                        .tr,
                     style: GoogleFonts.poppins(
                       fontSize: 11,
                       fontWeight: FontWeight.w500,
@@ -268,30 +268,34 @@ class _DurationScreenState extends State<DurationScreen> {
                   ),
                   Expanded(
                       child: Padding(
-                        padding: const EdgeInsets.only(top: 8.0),
-                        child: SizedBox(
-                          height: 56,
-                          child: CommonTextField(
-                            keyboardType: TextInputType.number,
-                            hintText: 'Time',
-                            controller: timeControllerPreparation,
-                          ),
-                        ),
-                      )
-                  ),
+                    padding: const EdgeInsets.only(top: 8.0),
+                    child: SizedBox(
+                      height: 56,
+                      child: CommonTextField(
+                        keyboardType: TextInputType.number,
+                        hintText: 'Time',
+                        controller: timeControllerPreparation,
+                        validator: (value) {
+                          if (value!.trim().isEmpty) {
+                            return 'Enter time';
+                          }
+                          return null;
+                        },
+                      ),
+                    ),
+                  )),
                   6.spaceX,
                   Expanded(
                     child: DropdownButtonFormField<String>(
-                      value: selectedItemDay,
+                      value: preparationTime,
                       isDense: true,
                       isExpanded: true,
                       onChanged: (String? newValue) {
                         setState(() {
-                          selectedItemDay = newValue!;
+                          preparationTime = newValue!;
                         });
                       },
-                      items: <String>['min', 'hours']
-                          .map<DropdownMenuItem<String>>((String value) {
+                      items: <String>['min', 'hours'].map<DropdownMenuItem<String>>((String value) {
                         return DropdownMenuItem<String>(
                           value: value,
                           child: Text(value),
@@ -358,9 +362,10 @@ class _DurationScreenState extends State<DurationScreen> {
                     borderRadius: BorderRadius.circular(8),
                     border: Border.all(
                       color: const Color(0xFFE3E3E3),
-                    )
-                ),
-                child: Text('This time you need to rest or organize for the next available.EXP. Recovery time set for 15 minutes. If your service is blocked from 1000 till 1030, customer will be able to book the 1045 for the slot earlier.'.tr,
+                    )),
+                child: Text(
+                    'This time you need to rest or organize for the next available.EXP. Recovery time set for 15 minutes. If your service is blocked from 1000 till 1030, customer will be able to book the 1045 for the slot earlier.'
+                        .tr,
                     style: GoogleFonts.poppins(
                       fontSize: 11,
                       fontWeight: FontWeight.w500,
@@ -385,30 +390,34 @@ class _DurationScreenState extends State<DurationScreen> {
                   ),
                   Expanded(
                       child: Padding(
-                        padding: const EdgeInsets.only(top: 8.0),
-                        child: SizedBox(
-                          height: 56,
-                          child: CommonTextField(
-                            keyboardType: TextInputType.number,
-                            hintText: 'Time',
-                            controller: timeControllerRecovery,
-                          ),
-                        ),
-                      )
-                  ),
+                    padding: const EdgeInsets.only(top: 8.0),
+                    child: SizedBox(
+                      height: 56,
+                      child: CommonTextField(
+                        keyboardType: TextInputType.number,
+                        hintText: 'Time',
+                        controller: timeControllerRecovery,
+                        validator: (value) {
+                          if (value!.trim().isEmpty) {
+                            return 'Enter time';
+                          }
+                          return null;
+                        },
+                      ),
+                    ),
+                  )),
                   6.spaceX,
                   Expanded(
                     child: DropdownButtonFormField<String>(
-                      value: selectedItemDay,
+                      value: recoveryTime,
                       isDense: true,
                       isExpanded: true,
                       onChanged: (String? newValue) {
                         setState(() {
-                          selectedItemDay = newValue!;
+                          recoveryTime = newValue!;
                         });
                       },
-                      items: <String>['min', 'hours']
-                          .map<DropdownMenuItem<String>>((String value) {
+                      items: <String>['min', 'hours'].map<DropdownMenuItem<String>>((String value) {
                         return DropdownMenuItem<String>(
                           value: value,
                           child: Text(value),
@@ -469,9 +478,11 @@ class _DurationScreenState extends State<DurationScreen> {
               30.spaceY,
               Align(
                 alignment: Alignment.bottomRight,
-                child:  InkWell(
-                  onTap: (){
-                    createSlots();
+                child: InkWell(
+                  onTap: () {
+                    if (formKey.currentState!.validate()) {
+                      createSlots();
+                    }
                   },
                   child: Container(
                     width: 140,
@@ -500,48 +511,47 @@ class _DurationScreenState extends State<DurationScreen> {
                     fontWeight: FontWeight.w500,
                     color: const Color(0xff423E5E),
                   )),
-              createSlotsModel.value.data!=null ?
-              ListView.builder(
-                  shrinkWrap: true,
-                  itemCount: createSlotsModel.value.data!.length,
-                  physics: const NeverScrollableScrollPhysics(),
-                  padding: const EdgeInsets.symmetric(horizontal: 0,vertical: 30),
-                  itemBuilder: (context, index) {
-                    var item = createSlotsModel.value.data![index];
-                    return Column(
-                      children: [
-                         Row(
-                           mainAxisAlignment: MainAxisAlignment.start,
-                           crossAxisAlignment: CrossAxisAlignment.start,
-                           children: [
-                             Expanded(
-                               child: Text(item.timeSloat.toString(),
-                                 textAlign: TextAlign.start,
-                                 style: const TextStyle(
-                                 color: Colors.black,
-                                 fontWeight: FontWeight.w500,
-                                 fontSize: 16
-                               ),),
-                             ),
-                             Expanded(
-                               child: Text(item.timeSloatEnd.toString(),
-                                 textAlign: TextAlign.start,
-                                 style: const TextStyle(
-                                 color: Colors.black,
-                                 fontWeight: FontWeight.w500,
-                                 fontSize: 16
-                               ),),
-                             ),
-                           ],
-                         ),
-                        20.spaceY
-                      ],
-                    );
-                  },
-              ): const SizedBox.shrink(),
+              createSlotsModel.value.data != null
+                  ? ListView.builder(
+                      shrinkWrap: true,
+                      itemCount: createSlotsModel.value.data!.length,
+                      physics: const NeverScrollableScrollPhysics(),
+                      padding: const EdgeInsets.symmetric(horizontal: 0, vertical: 30),
+                      itemBuilder: (context, index) {
+                        var item = createSlotsModel.value.data![index];
+                        return Column(
+                          children: [
+                            Row(
+                              mainAxisAlignment: MainAxisAlignment.start,
+                              crossAxisAlignment: CrossAxisAlignment.start,
+                              children: [
+                                Expanded(
+                                  child: Text(
+                                    item.timeSloat.toString(),
+                                    textAlign: TextAlign.start,
+                                    style:
+                                        const TextStyle(color: Colors.black, fontWeight: FontWeight.w500, fontSize: 16),
+                                  ),
+                                ),
+                                Expanded(
+                                  child: Text(
+                                    item.timeSloatEnd.toString(),
+                                    textAlign: TextAlign.start,
+                                    style:
+                                        const TextStyle(color: Colors.black, fontWeight: FontWeight.w500, fontSize: 16),
+                                  ),
+                                ),
+                              ],
+                            ),
+                            20.spaceY
+                          ],
+                        );
+                      },
+                    )
+                  : const SizedBox.shrink(),
               40.spaceY,
               InkWell(
-                onTap: (){
+                onTap: () {
                   createDuration();
                 },
                 child: Container(
@@ -568,8 +578,8 @@ class _DurationScreenState extends State<DurationScreen> {
                 height: 20,
               ),
               InkWell(
-                onTap: (){
-                  Get.to(()=>OptionalDetailsScreen());
+                onTap: () {
+                  Get.to(() => OptionalDetailsScreen());
                 },
                 child: Container(
                   width: Get.width,

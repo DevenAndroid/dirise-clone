@@ -52,12 +52,12 @@ class SimpleProduct {
   bool? inWishlist;
   bool? alreadyReview;
   Storemeta? storemeta;
-  double? lowestDeliveryPrice;
+  dynamic lowestDeliveryPrice;
   dynamic shippingDate;
   dynamic discountPrice;
   dynamic discountOff;
   dynamic shippingPolicy;
-
+  VendorInformation? vendorInformation;
   SimpleProduct(
       {this.id,
         this.vendorId,
@@ -90,7 +90,9 @@ class SimpleProduct {
         this.shippingDate,
         this.discountPrice,
         this.discountOff,
-        this.shippingPolicy});
+        this.shippingPolicy,
+        this.vendorInformation
+      });
 
   SimpleProduct.fromJson(Map<String, dynamic> json) {
     id = json['id'];
@@ -124,6 +126,9 @@ class SimpleProduct {
     views = json['views'];
     rating = json['rating'];
     alreadyReview = json['already_review'];
+    vendorInformation = json['vendor_information'] != null
+        ? new VendorInformation.fromJson(json['vendor_information'])
+        : null;
     storemeta = json['storemeta'] != null
         ? new Storemeta.fromJson(json['storemeta'])
         : null;
@@ -141,6 +146,9 @@ class SimpleProduct {
     data['address_id'] = this.addressId;
     if (this.catId != null) {
       data['cat_id'] = this.catId!.map((v) => v.toJson()).toList();
+    }
+    if (this.vendorInformation != null) {
+      data['vendor_information'] = this.vendorInformation!.toJson();
     }
     data['pname'] = this.pname;
     data['product_type'] = this.productType;
@@ -175,7 +183,62 @@ class SimpleProduct {
     return data;
   }
 }
+class VendorInformation {
+  dynamic storeId;
+  dynamic storeName;
+  dynamic storeEmail;
+  dynamic storePhone;
+  dynamic storeLogo;
+  dynamic storeImage;
+  dynamic storeLogoApp;
+  dynamic storeLogoWeb;
+  dynamic bannerProfile;
+  dynamic bannerProfileApp;
+  dynamic bannerProfileWeb;
 
+  VendorInformation(
+      {this.storeId,
+        this.storeName,
+        this.storeEmail,
+        this.storePhone,
+        this.storeLogo,
+        this.storeImage,
+        this.storeLogoApp,
+        this.storeLogoWeb,
+        this.bannerProfile,
+        this.bannerProfileApp,
+        this.bannerProfileWeb});
+
+  VendorInformation.fromJson(Map<String, dynamic> json) {
+    storeId = json['store_id'];
+    storeName = json['store_name'];
+    storeEmail = json['store_email'];
+    storePhone = json['store_phone'];
+    storeLogo = json['store_logo'];
+    storeImage = json['store_image'];
+    storeLogoApp = json['store_logo_app'];
+    storeLogoWeb = json['store_logo_web'];
+    bannerProfile = json['banner_profile'];
+    bannerProfileApp = json['banner_profile_app'];
+    bannerProfileWeb = json['banner_profile_web'];
+  }
+
+  Map<String, dynamic> toJson() {
+    final Map<String, dynamic> data = new Map<String, dynamic>();
+    data['store_id'] = this.storeId;
+    data['store_name'] = this.storeName;
+    data['store_email'] = this.storeEmail;
+    data['store_phone'] = this.storePhone;
+    data['store_logo'] = this.storeLogo;
+    data['store_image'] = this.storeImage;
+    data['store_logo_app'] = this.storeLogoApp;
+    data['store_logo_web'] = this.storeLogoWeb;
+    data['banner_profile'] = this.bannerProfile;
+    data['banner_profile_app'] = this.bannerProfileApp;
+    data['banner_profile_web'] = this.bannerProfileWeb;
+    return data;
+  }
+}
 class CatId {
   dynamic id;
   dynamic title;

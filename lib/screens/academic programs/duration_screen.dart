@@ -30,7 +30,9 @@ class AcademicDurationScreen extends StatefulWidget {
 }
 
 class _AcademicDurationScreenState extends State<AcademicDurationScreen> {
-  String selectedItemDay = 'min';
+  String serviceSlotTime = 'min';
+  String preparationTime = 'min';
+  String recoveryTime = 'min';
   TextEditingController timeController = TextEditingController();
   TextEditingController timeControllerPreparation = TextEditingController();
   TextEditingController timeControllerRecovery = TextEditingController();
@@ -160,10 +162,10 @@ class _AcademicDurationScreenState extends State<AcademicDurationScreen> {
                   6.spaceX,
                   Expanded(
                     child: DropdownButtonFormField<String>(
-                      value: selectedItemDay,
+                      value: serviceSlotTime,
                       onChanged: (String? newValue) {
                         setState(() {
-                          selectedItemDay = newValue!;
+                          serviceSlotTime = newValue!;
                         });
                       },
                       items: <String>['min', 'hours']
@@ -206,16 +208,16 @@ class _AcademicDurationScreenState extends State<AcademicDurationScreen> {
                   ),
                 ],
               ),
-              10.spaceY,
-              Align(
-                alignment: Alignment.topRight,
-                child: Text('Price 30 KWD'.tr,
-                    style: GoogleFonts.poppins(
-                      fontSize: 14,
-                      fontWeight: FontWeight.w500,
-                      color: const Color(0xffEB4335),
-                    )),
-              ),
+              // 10.spaceY,
+              // Align(
+              //   alignment: Alignment.topRight,
+              //   child: Text('Price 30 KWD'.tr,
+              //       style: GoogleFonts.poppins(
+              //         fontSize: 14,
+              //         fontWeight: FontWeight.w500,
+              //         color: const Color(0xffEB4335),
+              //       )),
+              // ),
               10.spaceY,
               Text('Allow multiple booking'.tr,
                   style: GoogleFonts.poppins(
@@ -273,6 +275,12 @@ class _AcademicDurationScreenState extends State<AcademicDurationScreen> {
                             keyboardType: TextInputType.number,
                             hintText: 'Time',
                             controller: timeControllerPreparation,
+                            validator: (value){
+                              if(value!.trim().isEmpty){
+                                return 'Enter time';
+                              }
+                              return null;
+                            },
                           ),
                         ),
                       )
@@ -280,12 +288,12 @@ class _AcademicDurationScreenState extends State<AcademicDurationScreen> {
                   6.spaceX,
                   Expanded(
                     child: DropdownButtonFormField<String>(
-                      value: selectedItemDay,
+                      value: preparationTime,
                       isDense: true,
                       isExpanded: true,
                       onChanged: (String? newValue) {
                         setState(() {
-                          selectedItemDay = newValue!;
+                          preparationTime = newValue!;
                         });
                       },
                       items: <String>['min', 'hours']
@@ -390,6 +398,12 @@ class _AcademicDurationScreenState extends State<AcademicDurationScreen> {
                             keyboardType: TextInputType.number,
                             hintText: 'Time',
                             controller: timeControllerRecovery,
+                            validator: (value){
+                              if(value!.trim().isEmpty){
+                                return 'Enter time';
+                              }
+                              return null;
+                            },
                           ),
                         ),
                       )
@@ -397,12 +411,12 @@ class _AcademicDurationScreenState extends State<AcademicDurationScreen> {
                   6.spaceX,
                   Expanded(
                     child: DropdownButtonFormField<String>(
-                      value: selectedItemDay,
+                      value: recoveryTime,
                       isDense: true,
                       isExpanded: true,
                       onChanged: (String? newValue) {
                         setState(() {
-                          selectedItemDay = newValue!;
+                          recoveryTime = newValue!;
                         });
                       },
                       items: <String>['min', 'hours']
@@ -469,7 +483,10 @@ class _AcademicDurationScreenState extends State<AcademicDurationScreen> {
                 alignment: Alignment.bottomRight,
                 child:  InkWell(
                   onTap: (){
-                    createSlots();
+                    if(formKey.currentState!.validate()){
+                      createSlots();
+                    }
+
                   },
                   child: Container(
                     width: 140,

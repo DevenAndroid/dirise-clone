@@ -11,12 +11,14 @@ import '../model/aboutus_model.dart';
 import '../model/customer_profile/model_city_list.dart';
 import '../model/customer_profile/model_country_list.dart';
 import '../model/customer_profile/model_state_list.dart';
+import '../model/product_details.dart';
 import '../model/profile_model.dart';
 import '../model/vendor_models/model_vendor_details.dart';
 import '../repository/repository.dart';
 import '../utils/api_constant.dart';
 
 class ProfileController extends GetxController {
+  String vendorType = '';
 
   checkLanguage() async {
     SharedPreferences sharedPreferences = await SharedPreferences.getInstance();
@@ -28,6 +30,13 @@ class ProfileController extends GetxController {
       Get.updateLocale(const Locale('ar', 'Ar'));
       selectedLAnguage.value = 'عربي';
     }
+  }
+
+  Rx<ModelProductDetails> productDetailsModel = ModelProductDetails().obs;
+  getVendorCategories(id) {
+    repositories.getApi(url: ApiUrls.getProductDetailsUrl + id).then((value) {
+      productDetailsModel.value = ModelProductDetails.fromJson(jsonDecode(value));
+    });
   }
 
 

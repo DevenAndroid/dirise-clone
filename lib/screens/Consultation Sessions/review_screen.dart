@@ -159,9 +159,17 @@ class _ReviewScreenState extends State<ReviewScreen> {
                                 ),
                               ),
                               GestureDetector(
-                                child: isServiceProvide.value == true
-                                    ? const Icon(Icons.keyboard_arrow_up_rounded)
-                                    : const Icon(Icons.keyboard_arrow_down_outlined),
+                                child: isServiceProvide.value != true
+                                    ? Image.asset(
+                                        'assets/images/drop_icon.png',
+                                        height: 17,
+                                        width: 17,
+                                      )
+                                    : Image.asset(
+                                        'assets/images/up_icon.png',
+                                        height: 17,
+                                        width: 17,
+                                      ),
                                 onTap: () {
                                   setState(() {
                                     isServiceProvide.toggle();
@@ -195,29 +203,59 @@ class _ReviewScreenState extends State<ReviewScreen> {
                                       itemBuilder: (context, index) {
                                         var productVacation =
                                             productDetailsModel.value.productDetails!.product!.productVacation![index];
-                                        return Text(
-                                            'Add vacations : ${productVacation.vacationFromDate ?? ""} to ${productVacation.vacationToDate ?? ""}');
+                                        return Row(
+                                          mainAxisAlignment: MainAxisAlignment.start,
+                                          crossAxisAlignment: CrossAxisAlignment.start,
+                                          children: [
+                                            Flexible(
+                                              child: GestureDetector(
+                                                onTap: (){
+                                                  Get.to(DateRangeScreen(
+                                                    id: productDetailsModel.value.productDetails!.product!.id,
+                                                    from_date: productDetailsModel
+                                                        .value.productDetails!.product!.productAvailability!.fromDate,
+                                                    to_date: productDetailsModel
+                                                        .value.productDetails!.product!.productAvailability!.toDate,
+                                                    spot:  productDetailsModel
+                                                        .value.productDetails!.product!.spot,
+                                                    formattedStartDateVacation: productDetailsModel.value.productDetails!.product!.productVacation![index].vacationToDate,
+                                                    formattedStartDate1Vacation:  productDetailsModel.value.productDetails!.product!.productVacation![index].vacationToDate,
+
+                                                  ));
+                                              
+                                              
+                                                },
+                                                child: Text(
+                                                    'Add vacations : ${productVacation.vacationFromDate ?? ""} to ${productVacation.vacationToDate ?? ""}'),
+                                              ),
+                                            ),
+
+                                            GestureDetector(
+                                              onTap: (){
+                                                Get.to(DateRangeScreen(
+                                                  id: productDetailsModel.value.productDetails!.product!.id,
+                                                  from_date: productDetailsModel
+                                                      .value.productDetails!.product!.productAvailability!.fromDate,
+                                                  to_date: productDetailsModel
+                                                      .value.productDetails!.product!.productAvailability!.toDate,
+                                                  spot:  productDetailsModel
+                                                      .value.productDetails!.product!.spot,
+                                                  formattedStartDateVacation: productDetailsModel.value.productDetails!.product!.productVacation![index].vacationToDate,
+                                                  formattedStartDate1Vacation:  productDetailsModel.value.productDetails!.product!.productVacation![index].vacationToDate,
+
+                                                ));
+                                              },
+                                              child: const Text(
+                                                'Edit',
+                                                style: TextStyle(color: Colors.red, fontSize: 13),
+                                              ),
+                                            )
+                                          ],
+                                        );
                                       })
                                 ],
                               ),
                             ),
-                            Positioned(
-                                right: 10,
-                                top: 20,
-                                child: GestureDetector(
-                                    onTap: () {
-                                      Get.to(DateRangeScreen(
-                                        id: productDetailsModel.value.productDetails!.product!.id,
-                                        from_date: productDetailsModel
-                                            .value.productDetails!.product!.productAvailability!.fromDate,
-                                        to_date: productDetailsModel
-                                            .value.productDetails!.product!.productAvailability!.toDate,
-                                      ));
-                                    },
-                                    child: const Text(
-                                      'Edit',
-                                      style: TextStyle(color: Colors.red, fontSize: 13),
-                                    )))
                           ],
                         ),
                       const SizedBox(height: 20),
@@ -244,9 +282,17 @@ class _ReviewScreenState extends State<ReviewScreen> {
                                 ),
                               ),
                               GestureDetector(
-                                child: isTime.value == true
-                                    ? const Icon(Icons.keyboard_arrow_up_rounded)
-                                    : const Icon(Icons.keyboard_arrow_down_outlined),
+                                child: isTime.value != true
+                                    ? Image.asset(
+                                  'assets/images/drop_icon.png',
+                                  height: 17,
+                                  width: 17,
+                                )
+                                    : Image.asset(
+                                  'assets/images/up_icon.png',
+                                  height: 17,
+                                  width: 17,
+                                ),
                                 onTap: () {
                                   setState(() {
                                     isTime.toggle();
@@ -321,9 +367,17 @@ class _ReviewScreenState extends State<ReviewScreen> {
                                 ),
                               ),
                               GestureDetector(
-                                child: isDuration.value == true
-                                    ? const Icon(Icons.keyboard_arrow_up_rounded)
-                                    : const Icon(Icons.keyboard_arrow_down_outlined),
+                                child: isDuration.value != true
+                                    ? Image.asset(
+                                  'assets/images/drop_icon.png',
+                                  height: 17,
+                                  width: 17,
+                                )
+                                    : Image.asset(
+                                  'assets/images/up_icon.png',
+                                  height: 17,
+                                  width: 17,
+                                ),
                                 onTap: () {
                                   setState(() {
                                     isDuration.toggle();
@@ -401,9 +455,17 @@ class _ReviewScreenState extends State<ReviewScreen> {
                                 ),
                               ),
                               GestureDetector(
-                                child: isOperational.value == true
-                                    ? const Icon(Icons.keyboard_arrow_up_rounded)
-                                    : const Icon(Icons.keyboard_arrow_down_outlined),
+                                child: isOperational.value != true
+                                    ? Image.asset(
+                                  'assets/images/drop_icon.png',
+                                  height: 17,
+                                  width: 17,
+                                )
+                                    : Image.asset(
+                                  'assets/images/up_icon.png',
+                                  height: 17,
+                                  width: 17,
+                                ),
                                 onTap: () {
                                   setState(() {
                                     isOperational.toggle();
@@ -489,9 +551,17 @@ class _ReviewScreenState extends State<ReviewScreen> {
                                 ),
                               ),
                               GestureDetector(
-                                child: isSponsors.value == true
-                                    ? const Icon(Icons.keyboard_arrow_up_rounded)
-                                    : const Icon(Icons.keyboard_arrow_down_outlined),
+                                child: isSponsors.value != true
+                                    ? Image.asset(
+                                  'assets/images/drop_icon.png',
+                                  height: 17,
+                                  width: 17,
+                                )
+                                    : Image.asset(
+                                  'assets/images/up_icon.png',
+                                  height: 17,
+                                  width: 17,
+                                ),
                                 onTap: () {
                                   setState(() {
                                     isSponsors.toggle();
@@ -563,9 +633,17 @@ class _ReviewScreenState extends State<ReviewScreen> {
                                 ),
                               ),
                               GestureDetector(
-                                child: eligibleCustomer.value == true
-                                    ? const Icon(Icons.keyboard_arrow_up_rounded)
-                                    : const Icon(Icons.keyboard_arrow_down_outlined),
+                                child: eligibleCustomer.value != true
+                                    ? Image.asset(
+                                  'assets/images/drop_icon.png',
+                                  height: 17,
+                                  width: 17,
+                                )
+                                    : Image.asset(
+                                  'assets/images/up_icon.png',
+                                  height: 17,
+                                  width: 17,
+                                ),
                                 onTap: () {
                                   setState(() {
                                     eligibleCustomer.toggle();

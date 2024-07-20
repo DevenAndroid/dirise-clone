@@ -6,6 +6,7 @@ import 'package:dirise/screens/order_screens/my_orders_screen.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
+import 'package:flutter_svg/svg.dart';
 import 'package:get/get.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:url_launcher/url_launcher_string.dart';
@@ -69,20 +70,31 @@ class _CongratulationScreenState extends State<CongratulationScreen> {
             mainAxisAlignment: MainAxisAlignment.center,
             crossAxisAlignment: CrossAxisAlignment.center,
             children: [
-              Image.asset('assets/images/newlogoo.png',height: 200,width: 200,),
+              Image.asset('assets/images/new_logo.png',height: 200,width: 200,),
               Text(
                 'Your job profile has been published successfully'.tr,
                 style: GoogleFonts.poppins(color: const Color(0xff0D5877), fontWeight: FontWeight.w600, fontSize: 30),
               ),
               SizedBox(height: 10,),
-              Image.asset('assets/images/check.png',height: 100,width: 100,),
+              Padding(
+                padding: const EdgeInsets.symmetric(horizontal: 24),
+                child:  CircleAvatar(
+                    radius: 40,
+                    backgroundColor: Colors.white,
+                    child: SvgPicture.asset(
+                      'assets/images/right.svg',
+                      width: 100,
+                      height: 100,
+                    )
+                ),
+              ),
               Text(
                 'If you are having troubles:-'.tr,
                 style: GoogleFonts.poppins(color: Color(0xff596774), fontWeight: FontWeight.w400, fontSize: 14),
               ),
               GestureDetector(
                 onTap: (){
-                  Get.offNamed( FrequentlyAskedQuestionsScreen.route);
+                  Get.to( const FrequentlyAskedQuestionsScreen());
                 },
                 child: Text(
                   'FAQs'.tr,

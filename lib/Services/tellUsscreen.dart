@@ -24,9 +24,10 @@ class TellUsScreen extends StatefulWidget {
   String? stockquantity;
   String? setstock;
   String? sEOTags;
+  dynamic noNeed;
   int? id;
 
-  TellUsScreen({super.key,this.description,this.sEOTags,this.setstock,this.stockquantity,this.id});
+  TellUsScreen({super.key,this.description,this.sEOTags,this.setstock,this.stockquantity,this.id,this.noNeed});
 
 
 
@@ -38,7 +39,7 @@ class _TellUsScreenState extends State<TellUsScreen> {
   String enteredText = '';
   final formKey = GlobalKey<FormState>();
   final addProductController = Get.put(AddProductController());
-
+  String noNeed = '';
 
   TextEditingController inStockController = TextEditingController();
   TextEditingController shortController   = TextEditingController();
@@ -67,8 +68,9 @@ class _TellUsScreenState extends State<TellUsScreen> {
       if (response.status == true) {
         if(widget.id != null){
           Get.to(const ReviewPublishServiceScreen());
+        }else{
+          Get.to(ServicesReturnPolicy());
         }
-        Get.to(ServicesReturnPolicy());
       }
     });
   }
@@ -78,10 +80,11 @@ class _TellUsScreenState extends State<TellUsScreen> {
     // TODO: implement initState
     super.initState();
     if(widget.id != null){
-      inStockController.text=widget.stockquantity.toString();
+      inStockController.text= widget.stockquantity == '-1' ? '0' :  widget.stockquantity.toString();
       shortController.text=widget.description.toString();
-      alertDiscount.text=widget.setstock.toString();
-      tagDiscount.text=widget.sEOTags.toString();
+      alertDiscount.text= widget.setstock == null ? '0' : widget.setstock.toString();
+      tagDiscount.text= widget.sEOTags.toString();
+      isDelivery.value  = widget.noNeed!;
     }
   }
   RxBool isDelivery = false.obs;

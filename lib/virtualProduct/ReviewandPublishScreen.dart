@@ -4,6 +4,7 @@ import 'dart:io';
 import 'package:dirise/addNewProduct/rewardScreen.dart';
 import 'package:dirise/controller/vendor_controllers/add_product_controller.dart';
 import 'package:dirise/tellaboutself/ExtraInformation.dart';
+import 'package:dirise/utils/helper.dart';
 import 'package:dirise/virtualProduct/product_information_screen.dart';
 import 'package:dirise/virtualProduct/singleProductDiscriptionScreen.dart';
 import 'package:dirise/virtualProduct/singleProductPriceScreen.dart';
@@ -36,7 +37,7 @@ class VirtualReviewandPublishScreen extends StatefulWidget {
 class _VirtualReviewandPublishScreenState extends State<VirtualReviewandPublishScreen> {
   String selectedItem = 'Item 1';
   final serviceController = Get.put(ServiceController());
-
+  final addProductControllerNew = Get.put(ProfileController());
   RxBool isServiceProvide = false.obs;
   RxBool isTellUs = false.obs;
   RxBool isReturnPolicy = false.obs;
@@ -46,9 +47,9 @@ class _VirtualReviewandPublishScreenState extends State<VirtualReviewandPublishS
   RxBool isImageProvide = false.obs;
   final Repositories repositories = Repositories();
   RxInt returnPolicyLoaded = 0.obs;
+  RxBool isOtherImageProvide = false.obs;
   final addProductController = Get.put(AddProductController());
   String productId = "";
-  Rx<ModelProductDetails> productDetailsModel = ModelProductDetails().obs;
   Rx<RxStatus> vendorCategoryStatus = RxStatus.empty().obs;
 
   ReturnPolicyModel? modelReturnPolicy;
@@ -83,17 +84,11 @@ class _VirtualReviewandPublishScreenState extends State<VirtualReviewandPublishS
       if (response.status == true) {
         Get.to(const ExtraInformation());
       }});}
-  getVendorCategories(id) {
-    repositories.getApi(url: ApiUrls.getProductDetailsUrl + id).then((value) {
-      productDetailsModel.value = ModelProductDetails.fromJson(jsonDecode(value));
-      setState(() {});
-    });
-  }
-
+  final controller = Get.put(ProfileController());
   @override
   void initState() {
     super.initState();
-    getVendorCategories(addProductController.idProduct.value.toString());
+    controller.getVendorCategories(addProductController.idProduct.value.toString());
     getReturnPolicyData();
   }
 
@@ -155,7 +150,7 @@ class _VirtualReviewandPublishScreenState extends State<VirtualReviewandPublishS
         child: Container(
           margin: const EdgeInsets.only(left: 15, right: 15),
           child: Obx(() {
-            return productDetailsModel.value.productDetails != null
+            return controller.productDetailsModel.value.productDetails != null
                 ? Column(
                     children: [
                       const SizedBox(height: 20),
@@ -176,16 +171,24 @@ class _VirtualReviewandPublishScreenState extends State<VirtualReviewandPublishS
                             mainAxisAlignment: MainAxisAlignment.spaceBetween,
                             children: [
                               Text(
-                                'Features Image',
+                                'Featured Image',
                                 style: GoogleFonts.poppins(
                                   color: AppTheme.primaryColor,
                                   fontSize: 15,
                                 ),
                               ),
                               GestureDetector(
-                                child: isImageProvide.value == true
-                                    ? const Icon(Icons.keyboard_arrow_up_rounded)
-                                    : const Icon(Icons.keyboard_arrow_down_outlined),
+                                child: isImageProvide.value != true
+                                    ? Image.asset(
+                                  'assets/images/drop_icon.png',
+                                  height: 17,
+                                  width: 17,
+                                )
+                                    : Image.asset(
+                                  'assets/images/up_icon.png',
+                                  height: 17,
+                                  width: 17,
+                                ),
                                 onTap: () {
                                   setState(() {
                                     isImageProvide.toggle();
@@ -210,7 +213,7 @@ class _VirtualReviewandPublishScreenState extends State<VirtualReviewandPublishS
                                 mainAxisAlignment: MainAxisAlignment.start,
                                 crossAxisAlignment: CrossAxisAlignment.start,
                                 children: [
-                                  Image.network(productDetailsModel.value.productDetails!.product!.featuredImage,height: 200,)
+                                  Image.network(controller.productDetailsModel.value.productDetails!.product!.featuredImage,height: 200,)
                                 ],
                               ),
                             ),
@@ -219,18 +222,127 @@ class _VirtualReviewandPublishScreenState extends State<VirtualReviewandPublishS
                                 top: 20,
                                 child: GestureDetector(
                                     onTap: () {
-                                      File imageFile = File(productDetailsModel.value.productDetails!.product!.featuredImage);
-
+                                      File imageFile = File(controller.productDetailsModel.value.productDetails!.product!.featuredImage);
+                                      File gallery = File(controller.productDetailsModel.value.productDetails!.product!.galleryImage![0]);
                                       Get.to(AddProductFirstImageScreen(
-                                        id: productDetailsModel.value.productDetails!.product!.id,
+                                        id: controller.productDetailsModel.value.productDetails!.product!.id,
                                         image: imageFile,
-
+                                        galleryImg: gallery,
                                       ));
                                     },
                                     child: const Text(
                                       'Edit',
                                       style: TextStyle(color: Colors.red, fontSize: 13),
                                     )))
+                          ],
+                        ),
+
+                      const SizedBox(height: 20),
+                      GestureDetector(
+                        onTap: () {
+                          setState(() {
+                            isOtherImageProvide.toggle();
+                          });
+                        },
+                        child: Container(
+                          padding: const EdgeInsets.symmetric(vertical: 12, horizontal: 12),
+                          decoration: BoxDecoration(
+                              color: Colors.grey.shade200,
+                              borderRadius: BorderRadius.circular(8),
+                              border: Border.all(color: AppTheme.secondaryColor)),
+                          child: Row(
+                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                            children: [
+                              Text(
+                                'Other Image',
+                                style: GoogleFonts.poppins(
+                                  color: AppTheme.primaryColor,
+                                  fontSize: 15,
+                                ),
+                              ),
+                              GestureDetector(
+                                child: isImageProvide.value != true
+                                    ? Image.asset(
+                                  'assets/images/drop_icon.png',
+                                  height: 17,
+                                  width: 17,
+                                )
+                                    : Image.asset(
+                                  'assets/images/up_icon.png',
+                                  height: 17,
+                                  width: 17,
+                                ),
+                                onTap: () {
+                                  setState(() {
+                                    isOtherImageProvide.toggle();
+                                  });
+                                },
+                              ),
+                            ],
+                          ),
+                        ),
+                      ),
+
+                      if (isOtherImageProvide.value == true)
+                        Stack(
+                          children: [
+                            Container(
+                              margin: const EdgeInsets.only(top: 10),
+                              width: Get.width,
+                              padding: const EdgeInsets.all(10),
+                              decoration: BoxDecoration(
+                                color: Colors.grey.shade200,
+                                borderRadius: BorderRadius.circular(11),
+                              ),
+                              child: addProductControllerNew.productDetailsModel.value.productDetails != null &&
+                                  addProductControllerNew.productDetailsModel.value.productDetails!.product != null &&
+                                  addProductControllerNew.productDetailsModel.value.productDetails!.product!.galleryImage != null &&
+                                  addProductControllerNew.productDetailsModel.value.productDetails!.product!.galleryImage!.isNotEmpty
+                                  ? GridView.builder(
+                                shrinkWrap: true,
+                                physics: NeverScrollableScrollPhysics(), // Prevent scrolling in the grid
+                                itemCount: addProductControllerNew.productDetailsModel.value.productDetails!.product!.galleryImage!.length,
+                                gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
+                                  crossAxisCount: 2, // 2 images per row
+                                  crossAxisSpacing: 10,
+                                  mainAxisSpacing: 10,
+                                  childAspectRatio: 1, // Adjust aspect ratio as needed
+                                ),
+                                itemBuilder: (context, index) {
+                                  String imageUrl = addProductControllerNew.productDetailsModel.value.productDetails!.product!.galleryImage![index];
+                                  return Image.network(
+                                    imageUrl,
+                                    height: 200,
+                                    width: double.infinity,
+                                    fit: BoxFit.cover,
+                                  );
+                                },
+                              )
+                                  : const Text('No images available'),
+                            ),
+                            Positioned(
+                              right: 10,
+                              top: 20,
+                              child: GestureDetector(
+                                onTap: () {
+                                  if (addProductControllerNew.productDetailsModel.value.productDetails != null &&
+                                      addProductControllerNew.productDetailsModel.value.productDetails!.product != null &&
+                                      addProductControllerNew.productDetailsModel.value.productDetails!.product!.galleryImage != null &&
+                                      addProductControllerNew.productDetailsModel.value.productDetails!.product!.galleryImage!.isNotEmpty) {
+                                    // Assuming you want to edit the first image for simplicity
+                                    File imageFile = File(addProductControllerNew.productDetailsModel.value.productDetails!.product!.galleryImage![0]);
+                                    Get.to(AddProductFirstImageScreen(
+                                      id: addProductControllerNew.productDetailsModel.value.productDetails!.product!.id,
+                                      image: imageFile,
+                                    ));
+                                  }
+                                },
+                                child: const Text(
+                                  'Edit',
+                                  style: TextStyle(color: Colors.red, fontSize: 13),
+                                ),
+                              ),
+                            ),
                           ],
                         ),
                       const SizedBox(height: 20),
@@ -257,9 +369,17 @@ class _VirtualReviewandPublishScreenState extends State<VirtualReviewandPublishS
                                 ),
                               ),
                               GestureDetector(
-                                child: isServiceProvide.value == true
-                                    ? const Icon(Icons.keyboard_arrow_up_rounded)
-                                    : const Icon(Icons.keyboard_arrow_down_outlined),
+                                child: isServiceProvide.value != true
+                                    ? Image.asset(
+                                  'assets/images/drop_icon.png',
+                                  height: 17,
+                                  width: 17,
+                                )
+                                    : Image.asset(
+                                  'assets/images/up_icon.png',
+                                  height: 17,
+                                  width: 17,
+                                ),
                                 onTap: () {
                                   setState(() {
                                     isServiceProvide.toggle();
@@ -284,11 +404,12 @@ class _VirtualReviewandPublishScreenState extends State<VirtualReviewandPublishS
                                 mainAxisAlignment: MainAxisAlignment.start,
                                 crossAxisAlignment: CrossAxisAlignment.start,
                                 children: [
+                                  20.spaceY,
                                   Text(
-                                      'product name: ${productDetailsModel.value.productDetails!.product!.pname ?? ""}'),
+                                      'product name: ${controller.productDetailsModel.value.productDetails!.product!.pname ?? ""}'),
                                   Text(
-                                      'product Type: ${productDetailsModel.value.productDetails!.product!.productType ?? ''}'),
-                                  Text('product ID: ${productDetailsModel.value.productDetails!.product!.id ?? ""}'),
+                                      'product Type: ${controller.productDetailsModel.value.productDetails!.product!.productType ?? ''}'),
+                                  Text('product ID: ${controller.productDetailsModel.value.productDetails!.product!.id ?? ""}'),
                                 ],
                               ),
                             ),
@@ -298,8 +419,8 @@ class _VirtualReviewandPublishScreenState extends State<VirtualReviewandPublishS
                                 child: GestureDetector(
                                     onTap: () {
                                       Get.to(VirtualProductInformationScreens(
-                                        id: productDetailsModel.value.productDetails!.product!.id,
-                                        // name: productDetailsModel.value.productDetails!.product!.pname,
+                                        id: controller.productDetailsModel.value.productDetails!.product!.id,
+                                        name: controller.productDetailsModel.value.productDetails!.product!.pname,
                                       ));
                                     },
                                     child: const Text(
@@ -335,9 +456,17 @@ class _VirtualReviewandPublishScreenState extends State<VirtualReviewandPublishS
                                 ),
                               ),
                               GestureDetector(
-                                child: isTellUs.value == true
-                                    ? const Icon(Icons.keyboard_arrow_up_rounded)
-                                    : const Icon(Icons.keyboard_arrow_down_outlined),
+                                child: isTellUs.value != true
+                                    ? Image.asset(
+                                  'assets/images/drop_icon.png',
+                                  height: 17,
+                                  width: 17,
+                                )
+                                    : Image.asset(
+                                  'assets/images/up_icon.png',
+                                  height: 17,
+                                  width: 17,
+                                ),
                                 onTap: () {
                                   setState(() {
                                     isTellUs.toggle();
@@ -362,11 +491,12 @@ class _VirtualReviewandPublishScreenState extends State<VirtualReviewandPublishS
                                 mainAxisAlignment: MainAxisAlignment.start,
                                 crossAxisAlignment: CrossAxisAlignment.start,
                                 children: [
-                                  Text('Price: ${productDetailsModel.value.productDetails!.product!.pPrice ?? ""} KWD'),
+                                  20.spaceY,
+                                  Text('Price: ${controller.productDetailsModel.value.productDetails!.product!.pPrice ?? ""} KWD'),
                                   Text(
-                                      'Fixed Discounted Price : ${productDetailsModel.value.productDetails!.product!.fixedDiscountPrice ?? ""} KWD'),
+                                      'Fixed Discounted Price : ${controller.productDetailsModel.value.productDetails!.product!.fixedDiscountPrice ?? ""} KWD'),
                                   Text(
-                                      'Discount Percentage: ${productDetailsModel.value.productDetails!.product!.discountPrice ?? ''}'),
+                                      'Discount Percentage: ${controller.productDetailsModel.value.productDetails!.product!.discountPrice ?? ''}'),
                                 ],
                               ),
                             ),
@@ -376,11 +506,11 @@ class _VirtualReviewandPublishScreenState extends State<VirtualReviewandPublishS
                                 child: GestureDetector(
                                     onTap: () {
                                       Get.to(VirtualPriceScreen(
-                                        id: productDetailsModel.value.productDetails!.product!.id,
-                                        price: productDetailsModel.value.productDetails!.product!.pPrice,
-                                        percentage: productDetailsModel.value.productDetails!.product!.discountPercent,
-                                        fixedPrice:
-                                            productDetailsModel.value.productDetails!.product!.fixedDiscountPrice,
+                                        id: controller.productDetailsModel.value.productDetails!.product!.id,
+                                        price: controller.productDetailsModel.value.productDetails!.product!.pPrice,
+                                        percentage: controller.productDetailsModel.value.productDetails!.product!.discountPercent,
+                                        fixedPrice: controller.productDetailsModel.value.productDetails!.product!.fixedDiscountPrice,
+                                        onSale:true.obs ,
                                       ));
                                     },
                                     child: const Text(
@@ -476,9 +606,17 @@ class _VirtualReviewandPublishScreenState extends State<VirtualReviewandPublishS
                                 ),
                               ),
                               GestureDetector(
-                                child: isDiscrptionPolicy.value == true
-                                    ? const Icon(Icons.keyboard_arrow_up_rounded)
-                                    : const Icon(Icons.keyboard_arrow_down_outlined),
+                                child: isDiscrptionPolicy.value != true
+                                    ? Image.asset(
+                                  'assets/images/drop_icon.png',
+                                  height: 17,
+                                  width: 17,
+                                )
+                                    : Image.asset(
+                                  'assets/images/up_icon.png',
+                                  height: 17,
+                                  width: 17,
+                                ),
                                 onTap: () {
                                   setState(() {
                                     isDiscrptionPolicy.toggle();
@@ -501,17 +639,18 @@ class _VirtualReviewandPublishScreenState extends State<VirtualReviewandPublishS
                                 mainAxisAlignment: MainAxisAlignment.start,
                                 crossAxisAlignment: CrossAxisAlignment.start,
                                 children: [
+                                  20.spaceY,
                                   Text(
-                                      'Short Description: ${productDetailsModel.value.productDetails!.product!.shortDescription ?? ""}'),
-                                  if(productDetailsModel.value.productDetails!.product!.inStock == '-1' )
+                                      'Short Description: ${controller.productDetailsModel.value.productDetails!.product!.shortDescription ?? ""}'),
+                                  if(controller.productDetailsModel.value.productDetails!.product!.inStock == '-1' )
                                     const Text(
                                         'Stock quantity : ${'No need'}'),
-                                  if(productDetailsModel.value.productDetails!.product!.inStock != '-1' )
+                                  if(controller.productDetailsModel.value.productDetails!.product!.inStock != '-1' )
                                     Text(
-                                        'Stock quantity : ${productDetailsModel.value.productDetails!.product!.inStock ?? ""}'),
+                                        'Stock quantity : ${controller.productDetailsModel.value.productDetails!.product!.inStock ?? ""}'),
                                   Text(
-                                      'Set stock/spot alert: ${productDetailsModel.value.productDetails!.product!.stockAlert ?? ''}'),
-                                  Text('SEO Tags: ${productDetailsModel.value.productDetails!.product!.seoTags ?? ''}'),
+                                      'Set stock/spot alert: ${controller.productDetailsModel.value.productDetails!.product!.stockAlert ?? ''}'),
+                                  Text('SEO Tags: ${controller.productDetailsModel.value.productDetails!.product!.seoTags ?? ''}'),
                                 ],
                               ),
                             ),
@@ -521,12 +660,13 @@ class _VirtualReviewandPublishScreenState extends State<VirtualReviewandPublishS
                                 child: GestureDetector(
                                     onTap: () {
                                       Get.to(VirtualDiscriptionScreen(
-                                        id: productDetailsModel.value.productDetails!.product!.id,
+                                        id: controller.productDetailsModel.value.productDetails!.product!.id,
                                         description:
-                                        productDetailsModel.value.productDetails!.product!.shortDescription,
-                                        stockquantity: productDetailsModel.value.productDetails!.product!.inStock,
-                                        setstock: productDetailsModel.value.productDetails!.product!.stockAlert,
-                                        sEOTags: productDetailsModel.value.productDetails!.product!.seoTags,
+                                        controller.productDetailsModel.value.productDetails!.product!.shortDescription,
+                                        stockquantity: controller.productDetailsModel.value.productDetails!.product!.inStock,
+                                        setstock: controller.productDetailsModel.value.productDetails!.product!.stockAlert,
+                                        sEOTags: controller.productDetailsModel.value.productDetails!.product!.seoTags,
+                                        noNeed:   controller.productDetailsModel.value.productDetails!.product!.noNeedStock,
                                       ));
                                     },
                                     child: const Text(
@@ -558,9 +698,17 @@ class _VirtualReviewandPublishScreenState extends State<VirtualReviewandPublishS
                                 ),
                               ),
                               GestureDetector(
-                                child: optionalDescription.value == true
-                                    ? const Icon(Icons.keyboard_arrow_up_rounded)
-                                    : const Icon(Icons.keyboard_arrow_down_outlined),
+                                child: optionalDescription.value != true
+                                    ? Image.asset(
+                                  'assets/images/drop_icon.png',
+                                  height: 17,
+                                  width: 17,
+                                )
+                                    : Image.asset(
+                                  'assets/images/up_icon.png',
+                                  height: 17,
+                                  width: 17,
+                                ),
                                 onTap: () {
                                   setState(() {
                                     optionalDescription.toggle();
@@ -584,12 +732,13 @@ class _VirtualReviewandPublishScreenState extends State<VirtualReviewandPublishS
                                 mainAxisAlignment: MainAxisAlignment.start,
                                 crossAxisAlignment: CrossAxisAlignment.start,
                                 children: [
+                                  20.spaceY,
                                   Text(
-                                      'Meta Tags: ${productDetailsModel.value.productDetails!.product!.metaTags ?? ""}'),
+                                      'Meta Tags: ${controller.productDetailsModel.value.productDetails!.product!.metaTags ?? ""}'),
                                   Text(
-                                      'Meta Title: ${productDetailsModel.value.productDetails!.product!.metaTitle ?? ""}'),
+                                      'Meta Title: ${controller.productDetailsModel.value.productDetails!.product!.metaTitle ?? ""}'),
                                   Text(
-                                      'Meta Description: ${productDetailsModel.value.productDetails!.product!.metaDescription ?? ""}'),
+                                      'Meta Description: ${controller.productDetailsModel.value.productDetails!.product!.metaDescription ?? ""}'),
                                 ],
                               ),
                             ),
@@ -599,11 +748,11 @@ class _VirtualReviewandPublishScreenState extends State<VirtualReviewandPublishS
                                 child: GestureDetector(
                                     onTap: () {
                                       Get.to(VirtualOptionalDiscrptionsScreen(
-                                        id: productDetailsModel.value.productDetails!.product!.id,
-                                        metaTitle: productDetailsModel.value.productDetails!.product!.metaTitle,
+                                        id: controller.productDetailsModel.value.productDetails!.product!.id,
+                                        metaTitle: controller.productDetailsModel.value.productDetails!.product!.metaTitle,
                                         metaDescription:
-                                            productDetailsModel.value.productDetails!.product!.metaDescription,
-                                        metaTags: productDetailsModel.value.productDetails!.product!.metaTags,
+                                        controller.productDetailsModel.value.productDetails!.product!.metaDescription,
+                                        metaTags: controller.productDetailsModel.value.productDetails!.product!.metaTags,
                                       ));
                                     },
                                     child: const Text(
@@ -638,9 +787,17 @@ class _VirtualReviewandPublishScreenState extends State<VirtualReviewandPublishS
                                 ),
                               ),
                               GestureDetector(
-                                child: optionalClassification.value == true
-                                    ? const Icon(Icons.keyboard_arrow_up_rounded)
-                                    : const Icon(Icons.keyboard_arrow_down_outlined),
+                                child: optionalClassification.value != true
+                                    ? Image.asset(
+                                  'assets/images/drop_icon.png',
+                                  height: 17,
+                                  width: 17,
+                                )
+                                    : Image.asset(
+                                  'assets/images/up_icon.png',
+                                  height: 17,
+                                  width: 17,
+                                ),
                                 onTap: () {
                                   setState(() {
                                     optionalClassification.toggle();
@@ -662,16 +819,17 @@ class _VirtualReviewandPublishScreenState extends State<VirtualReviewandPublishS
                                 mainAxisAlignment: MainAxisAlignment.start,
                                 crossAxisAlignment: CrossAxisAlignment.start,
                                 children: [
+                                  20.spaceY,
                                   Text(
-                                      'Product Code: ${productDetailsModel.value.productDetails!.product!.productCode ?? ""}'),
+                                      'Product Code: ${controller.productDetailsModel.value.productDetails!.product!.productCode ?? ""}'),
                                   Text(
-                                      'Promotion Code: ${productDetailsModel.value.productDetails!.product!.promotionCode ?? ""}'),
+                                      'Promotion Code: ${controller.productDetailsModel.value.productDetails!.product!.promotionCode ?? ""}'),
                                   Text(
-                                      'Package details: ${productDetailsModel.value.productDetails!.product!.packageDetail ?? ""}'),
+                                      'Package details: ${controller.productDetailsModel.value.productDetails!.product!.packageDetail ?? ""}'),
                                   Text(
-                                      'Serial Number: ${productDetailsModel.value.productDetails!.product!.serialNumber ?? ""}'),
+                                      'Serial Number: ${controller.productDetailsModel.value.productDetails!.product!.serialNumber ?? ""}'),
                                   Text(
-                                      'Product number: ${productDetailsModel.value.productDetails!.product!.productNumber ?? ""}'),
+                                      'Product number: ${controller.productDetailsModel.value.productDetails!.product!.productNumber ?? ""}'),
                                 ],
                               ),
                             ),
@@ -681,17 +839,17 @@ class _VirtualReviewandPublishScreenState extends State<VirtualReviewandPublishS
                                 child: GestureDetector(
                                     onTap: () {
                                       Get.to(VirtualOptionalClassificationScreen(
-                                        id: productDetailsModel.value.productDetails!.product!.id ?? "",
+                                        id: controller.productDetailsModel.value.productDetails!.product!.id ?? "",
                                         productNumber:
-                                        productDetailsModel.value.productDetails!.product!.productNumber ?? "",
+                                        controller.productDetailsModel.value.productDetails!.product!.productNumber ?? "",
                                         productCode:
-                                        productDetailsModel.value.productDetails!.product!.productCode ?? "",
+                                        controller.productDetailsModel.value.productDetails!.product!.productCode ?? "",
                                         promotionCode:
-                                        productDetailsModel.value.productDetails!.product!.promotionCode ?? "",
+                                        controller.productDetailsModel.value.productDetails!.product!.promotionCode ?? "",
                                         serialNumber:
-                                        productDetailsModel.value.productDetails!.product!.serialNumber ?? "",
+                                        controller.productDetailsModel.value.productDetails!.product!.serialNumber ?? "",
                                         packageDetail:
-                                        productDetailsModel.value.productDetails!.product!.packageDetail ?? "",
+                                        controller.productDetailsModel.value.productDetails!.product!.packageDetail ?? "",
                                       ));
                                     },
                                     child: const Text(

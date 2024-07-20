@@ -147,7 +147,7 @@ class _WishListScreenState extends State<WishListScreen> {
                                               height: 100,
                                               fit: BoxFit.cover,
                                               errorWidget: (context, url, error) =>
-                                                  Image.asset("assets/images/bag.png"),
+                                                  Image.asset("assets/images/new_logo.png"),
                                             ),
                                           ),
                                           const SizedBox(

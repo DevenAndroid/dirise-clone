@@ -179,9 +179,17 @@ class _MultipleReviewAndPublishScreenState extends State<MultipleReviewAndPublis
                         ),
                       ),
                       GestureDetector(
-                        child: isServiceProvide.value == true
-                            ? const Icon(Icons.keyboard_arrow_up_rounded)
-                            : const Icon(Icons.keyboard_arrow_down_outlined),
+                        child: isServiceProvide.value != true
+                            ? Image.asset(
+                          'assets/images/drop_icon.png',
+                          height: 17,
+                          width: 17,
+                        )
+                            : Image.asset(
+                          'assets/images/up_icon.png',
+                          height: 17,
+                          width: 17,
+                        ),
                         onTap: () {
                           setState(() {
                             isServiceProvide.toggle();

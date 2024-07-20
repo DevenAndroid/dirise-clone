@@ -205,7 +205,14 @@ class _PickUpPolicyListScreenState extends State<PickUpPolicyListScreen> {
                             )),
                       );
                     })
-                :  Center(child: Text('No Shipping policy Available'.tr))
+                :  Center(child: Text('No Shipping policy Available'.tr)),
+            modelPickUpPolicy.value.pickupPolicy != null ?
+            Column(
+              children: [
+                if(modelPickUpPolicy.value.pickupPolicy!.isEmpty)
+                  Center(child: Text('No Shipping policy Available'.tr)),
+              ],
+            )  : const SizedBox.shrink(),
           ],
         ),
       ),

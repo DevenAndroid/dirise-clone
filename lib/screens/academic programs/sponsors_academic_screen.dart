@@ -27,8 +27,7 @@ class SponsorsScreenAcademic extends StatefulWidget {
   String? sponsorType;
   String? sponsorName;
 
-  SponsorsScreenAcademic({super.key,this.id,this.sponsorName,this.sponsorType});
-
+  SponsorsScreenAcademic({super.key, this.id, this.sponsorName, this.sponsorType});
 
   @override
   State<SponsorsScreenAcademic> createState() => _SponsorsScreenAcademicState();
@@ -60,7 +59,7 @@ class _SponsorsScreenAcademicState extends State<SponsorsScreenAcademic> {
     map['sponsor_type'] = sponsorTypeController.text.trim();
     map['sponsor_name'] = sponsorNameController.text.trim();
     images['sponsor_logo'] = idProof;
-    // map["id"] = addProductController.idProduct.value.toString();
+// map["id"] =  addProductController.idProduct.value.toString();
 
     FocusManager.instance.primaryFocus!.unfocus();
     repositories
@@ -73,7 +72,14 @@ class _SponsorsScreenAcademicState extends State<SponsorsScreenAcademic> {
       if (response.status == true) {
         showToast(response.message.toString());
         if (formKey1.currentState!.validate()) {
-          // Get.to(()=> const SponsorsScreen());
+          getSponsors();
+          setState(() {});
+          sponsorTypeController.clear();
+          sponsorNameController.clear();
+          setState(() {
+            idProof = File("");
+            sponsorImage = '';
+          });
         }
       }
     });
@@ -98,11 +104,15 @@ class _SponsorsScreenAcademicState extends State<SponsorsScreenAcademic> {
     repositories.postApi(url: ApiUrls.giveawayProductAddress, context: context, mapData: map).then((value) {
       ModelCommonResponse response = ModelCommonResponse.fromJson(jsonDecode(value));
       print('API Response Status Code: ${response.status}');
-      // showToast(response.message.toString());
+// showToast(response.message.toString());
       if (response.status == true) {
         showToast(response.message.toString());
         if (formKey1.currentState!.validate()) {
-          Get.to(() =>  OptionalDetailsAcademicScreen());
+          if (widget.id != null) {
+            Get.to(() => ReviewScreen());
+          } else {
+            Get.to(() => OptionalDetailsAcademicScreen());
+          }
         }
       }
     });
@@ -114,11 +124,12 @@ class _SponsorsScreenAcademicState extends State<SponsorsScreenAcademic> {
     WidgetsBinding.instance.addPostFrameCallback((timeStamp) {
       getSponsors();
     });
-    if(widget.id != null){
+    if (widget.id != null) {
       sponsorTypeController.text = widget.sponsorType.toString();
       sponsorNameController.text = widget.sponsorName.toString();
     }
   }
+
   final profileController = Get.put(ProfileController());
   @override
   Widget build(BuildContext context) {
@@ -128,24 +139,24 @@ class _SponsorsScreenAcademicState extends State<SponsorsScreenAcademic> {
           surfaceTintColor: Colors.white,
           elevation: 0,
           leading: GestureDetector(
-            onTap: (){
+            onTap: () {
               Get.back();
             },
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.center,
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
-                profileController.selectedLAnguage.value != 'English' ?
-                Image.asset(
-                  'assets/images/forward_icon.png',
-                  height: 19,
-                  width: 19,
-                ) :
-                Image.asset(
-                  'assets/images/back_icon_new.png',
-                  height: 19,
-                  width: 19,
-                ),
+                profileController.selectedLAnguage.value != 'English'
+                    ? Image.asset(
+                        'assets/images/forward_icon.png',
+                        height: 19,
+                        width: 19,
+                      )
+                    : Image.asset(
+                        'assets/images/back_icon_new.png',
+                        height: 19,
+                        width: 19,
+                      ),
               ],
             ),
           ),
@@ -170,58 +181,52 @@ class _SponsorsScreenAcademicState extends State<SponsorsScreenAcademic> {
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
                         sponsorsDetailsModel.value.data != null
-                            ? Column(
-                                crossAxisAlignment: CrossAxisAlignment.start,
-                                children: sponsorsDetailsModel.value.data!
-                                    .map((e) => Column(
-                                          crossAxisAlignment: CrossAxisAlignment.start,
-                                          children: [
-                                            DropdownButtonFormField(
-                                                decoration: InputDecoration(
-                                                  border: const OutlineInputBorder(
-                                                    borderRadius: BorderRadius.all(Radius.circular(8)),
-                                                    borderSide: BorderSide(color: AppTheme.secondaryColor),
-                                                  ),
-                                                  enabled: true,
-                                                  filled: true,
-                                                  hintText: "Select Sponsor Type".tr,
-                                                  labelStyle: GoogleFonts.poppins(color: Colors.black),
-                                                  labelText: "Select Sponsor Type".tr,
-                                                  fillColor: const Color(0xffE2E2E2).withOpacity(.35),
-                                                  contentPadding:
-                                                      const EdgeInsets.symmetric(horizontal: 15, vertical: 14),
-                                                  enabledBorder: const OutlineInputBorder(
-                                                    borderRadius: BorderRadius.all(Radius.circular(8)),
-                                                    borderSide: BorderSide(color: AppTheme.secondaryColor),
-                                                  ),
-                                                ),
-                                                isExpanded: true,
-                                                items: sponsorsDetailsModel.value.data!
-                                                    .map((e) => DropdownMenuItem(
-                                                        value: e.id.toString(),
-                                                        child: Row(
-                                                          children: [
-                                                            Expanded(child: Text(e.sponsorType.toString())),
-                                                            SizedBox(
-                                                                width: 35,
-                                                                height: 35,
-                                                                child: Image.network(e.sponsorLogo.toString()))
-                                                          ],
-                                                        )))
-                                                    .toList(),
-                                                onChanged: (value) {
-                                                  if (value == null) return;
-                                                  sponsorValue = value;
-                                                  sponsorTypeController.text = e.sponsorType.toString();
-                                                  sponsorNameController.text = e.sponsorName.toString();
-                                                  sponsorImage = e.sponsorLogo.toString();
-                                                  // sponsorValueId = ;
-                                                  setState(() {});
-                                                })
-                                          ],
-                                        ))
-                                    .toList(),
-                              )
+                            ? Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
+                                DropdownButtonFormField(
+                                  decoration: InputDecoration(
+                                    border: const OutlineInputBorder(
+                                      borderRadius: BorderRadius.all(Radius.circular(8)),
+                                      borderSide: BorderSide(color: AppTheme.secondaryColor),
+                                    ),
+                                    enabled: true,
+                                    filled: true,
+                                    hintText: "Select Sponsor Type".tr,
+                                    labelStyle: GoogleFonts.poppins(color: Colors.black),
+                                    labelText: "Select Sponsor Type".tr,
+                                    fillColor: const Color(0xffE2E2E2).withOpacity(.35),
+                                    contentPadding: const EdgeInsets.symmetric(horizontal: 15, vertical: 14),
+                                    enabledBorder: const OutlineInputBorder(
+                                      borderRadius: BorderRadius.all(Radius.circular(8)),
+                                      borderSide: BorderSide(color: AppTheme.secondaryColor),
+                                    ),
+                                  ),
+                                  isExpanded: true,
+                                  items: sponsorsDetailsModel.value.data!
+                                      .map((e) => DropdownMenuItem(
+                                            value: e.id.toString(),
+                                            child: Row(
+                                              children: [
+                                                Expanded(child: Text(e.sponsorType.toString())),
+                                                SizedBox(
+                                                    width: 35,
+                                                    height: 35,
+                                                    child: Image.network(e.sponsorLogo.toString()))
+                                              ],
+                                            ),
+                                          ))
+                                      .toList(),
+                                  onChanged: (value) {
+                                    if (value == null) return;
+                                    final selectedSponsor = sponsorsDetailsModel.value.data!
+                                        .firstWhere((element) => element.id.toString() == value);
+                                    sponsorValue = value;
+                                    sponsorTypeController.text = selectedSponsor.sponsorType.toString();
+                                    sponsorNameController.text = selectedSponsor.sponsorName.toString();
+                                    sponsorImage = selectedSponsor.sponsorLogo.toString();
+                                    setState(() {});
+                                  },
+                                ),
+                              ])
                             : const SizedBox.shrink(),
                         15.spaceY,
                         CommonTextField(
@@ -235,11 +240,13 @@ class _SponsorsScreenAcademicState extends State<SponsorsScreenAcademic> {
                             return null;
                           },
                         ),
+                        const SizedBox(
+                          height: 10,
+                        ),
                         CommonTextField(
                           controller: sponsorNameController,
                           obSecure: false,
                           hintText: 'Sponsor name'.tr,
-                          keyboardType: TextInputType.number,
                           validator: (value) {
                             if (value!.trim().isEmpty) {
                               return "Sponsor name is required".tr;
@@ -248,41 +255,34 @@ class _SponsorsScreenAcademicState extends State<SponsorsScreenAcademic> {
                           },
                         ),
                         25.spaceY,
-                        if (sponsorImage != '')
-                          ImageWidget(
-                            // key: paymentReceiptCertificateKey,
-                            title: "Upload Sponsor logo".tr,
-                            file: idProof,
-                            validation: checkValidation(showValidation.value, idProof.path.isEmpty),
-                            filePicked: (File g) {
-                              idProof = g;
-                            },
-                          ),
-                        if (sponsorImage == '')
-                          Text(
-                            "Upload Sponsor logo".tr,
-                            style: GoogleFonts.poppins(
-                                fontWeight: FontWeight.w500, color: const Color(0xff2F2F2F), fontSize: 16),
-                          ),
-                        if (sponsorImage == '') 8.spaceY,
-                        if (sponsorImage == '')
-                          Container(
-                            padding: EdgeInsets.symmetric(horizontal: AddSize.padding16, vertical: AddSize.padding16),
-                            width: AddSize.screenWidth,
-                            height: context.getSize.width * .38,
-                            decoration: BoxDecoration(
-                                color: const Color(0xffE2E2E2).withOpacity(.4),
-                                borderRadius: BorderRadius.circular(10),
-                                border: Border.all(
-                                  color: Colors.grey.shade300,
-                                )),
-                            child: CachedNetworkImage(
-                              imageUrl: sponsorImage.toString(),
-                              errorWidget: (context, url, error) {
-                                return const SizedBox.shrink();
-                              },
-                            ),
-                          ),
+                        sponsorImage.isEmpty
+                            ? ImageWidget(
+// key: paymentReceiptCertificateKey,
+                                title: "Upload Sponsor logo".tr,
+                                file: idProof,
+                                validation: checkValidation(showValidation.value, idProof.path.isEmpty),
+                                filePicked: (File g) {
+                                  idProof = g;
+                                },
+                              )
+                            : Container(
+                                padding:
+                                    EdgeInsets.symmetric(horizontal: AddSize.padding16, vertical: AddSize.padding16),
+                                width: AddSize.screenWidth,
+                                height: context.getSize.width * .38,
+                                decoration: BoxDecoration(
+                                    color: const Color(0xffE2E2E2).withOpacity(.4),
+                                    borderRadius: BorderRadius.circular(10),
+                                    border: Border.all(
+                                      color: Colors.grey.shade300,
+                                    )),
+                                child: CachedNetworkImage(
+                                  imageUrl: sponsorImage.toString(),
+                                  errorWidget: (context, url, error) {
+                                    return const SizedBox.shrink();
+                                  },
+                                ),
+                              ),
                         20.spaceY,
                         const Text(
                           'Adding sponsor requires approval by admin, Also sponsor letter is required with the following :- Written to DIRISE Not older than7 days on the day of submitting.Number of contact of the sponsor to verify verbally Email to verify electronic',
@@ -294,23 +294,25 @@ class _SponsorsScreenAcademicState extends State<SponsorsScreenAcademic> {
                           style: TextStyle(fontWeight: FontWeight.w500, fontSize: 12, color: Colors.red),
                         ),
                         6.spaceY,
-                        GestureDetector(
-                          onTap: () {
-                            if (formKey1.currentState!.validate()) {
-                              addSponsors();
-                            }
-                          },
-                          child: const Align(
-                            alignment: Alignment.topRight,
-                            child: Text(
-                              '+ Add more sponsor',
-                              style: TextStyle(
-                                fontWeight: FontWeight.w500,
-                                fontSize: 15,
-                              ),
-                            ),
-                          ),
-                        ),
+                        sponsorImage.isEmpty
+                            ? GestureDetector(
+                                onTap: () {
+                                  if (formKey1.currentState!.validate()) {
+                                    addSponsors();
+                                  }
+                                },
+                                child: const Align(
+                                  alignment: Alignment.topRight,
+                                  child: Text(
+                                    '+ Add more sponsor',
+                                    style: TextStyle(
+                                      fontWeight: FontWeight.w500,
+                                      fontSize: 15,
+                                    ),
+                                  ),
+                                ),
+                              )
+                            : const SizedBox(),
                         25.spaceY,
                         CustomOutlineButton(
                           title: 'Done',

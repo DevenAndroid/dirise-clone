@@ -2,8 +2,6 @@ import 'dart:convert';
 import 'dart:developer';
 
 import 'package:cached_network_image/cached_network_image.dart';
-import 'package:carousel_slider/carousel_controller.dart';
-import 'package:carousel_slider/carousel_options.dart';
 import 'package:carousel_slider/carousel_slider.dart';
 import 'package:dirise/utils/helper.dart';
 import 'package:easy_image_viewer/easy_image_viewer.dart';
@@ -361,7 +359,11 @@ class _AdvirtismentProductScreenState extends State<AdvirtismentProductScreen> {
 
   // bool get checkLoaded => modelSingleProduct.singleGiveawayProduct!.pname != null;
 
-  CarouselController carouselController = CarouselController();
+  // CarouselController carouselController = CarouselController();
+
+  CarouselControllerImpl carouselControllerImpl = CarouselControllerImpl();
+
+
 
   final wishListController = Get.put(WishListController());
 
@@ -534,10 +536,10 @@ class _AdvirtismentProductScreenState extends State<AdvirtismentProductScreen> {
                     options: CarouselOptions(
                         height: 180.0,
                         viewportFraction: .8,
-                        onPageChanged: (daf, sda) {
-                          currentIndex.value = daf;
-                        }),
-                    carouselController: carouselController,
+                      onPageChanged: (index, reason) {
+                        currentIndex.value = index;
+                      },),
+                    carouselController: carouselControllerImpl,
                     items: imagesList.map((i) {
                       return Builder(
                         builder: (BuildContext context) {
@@ -582,18 +584,22 @@ class _AdvirtismentProductScreenState extends State<AdvirtismentProductScreen> {
                     height: 30,
                   ),
                   // Center(child: Image.asset("assets/svgs/single.png")),
-                  Container(
+                  Obx(() => Container(
                     padding: EdgeInsets.symmetric(vertical: 8, horizontal: 18),
                     decoration: BoxDecoration(
-                        borderRadius: BorderRadius.circular(30),
-                        // border: Border.all(color: Colors.white),
-                        color: Colors.white,
-                        boxShadow: [BoxShadow(offset: Offset(1, 1), blurRadius: 2, color: Colors.grey)]),
-                    child: Text(
-                      "1/10",
-                      style: GoogleFonts.poppins(fontWeight: FontWeight.w500, fontSize: 10, color: Color(0xFF014E70)),
+                      borderRadius: BorderRadius.circular(30),
+                      color: Colors.white,
+                      boxShadow: [BoxShadow(offset: Offset(1, 1), blurRadius: 2, color: Colors.grey)],
                     ),
-                  ),
+                    child: Text(
+                      "${currentIndex.value + 1}/${imagesList.length}",
+                      style: GoogleFonts.poppins(
+                        fontWeight: FontWeight.w500,
+                        fontSize: 10,
+                        color: Color(0xFF014E70),
+                      ),
+                    ),
+                  )),
                   // SizedBox(height: 20,),
                   // SizedBox(
                   //   height: 58,

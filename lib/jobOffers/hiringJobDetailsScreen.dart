@@ -28,8 +28,12 @@ class HiringJobDetailsScreen extends StatefulWidget {
   String? jobCategory;
   String? jobSubCategory;
   String? jobCountry;
+  String? countryId;
+  String? stateId;
+  String? cityId;
   String? jobState;
   String? jobCity;
+  String? catName;
   String? jobType;
   String? jobModel;
   String? experience;
@@ -37,14 +41,20 @@ class HiringJobDetailsScreen extends StatefulWidget {
   String? linkedIn;
   String? tellUsAboutYourSelf;
   int? hoursPerWeek;
+  dynamic jobCatIds;
   HiringJobDetailsScreen(
       {super.key,
         this.id,
         this.jobCity,
+        this.catName,
+        this.stateId,
+        this.cityId,
         this.jobCountry,
+        this.countryId,
         this.jobState,
         this.salary,
         this.experience,
+        this.jobCatIds,
         this.jobModel,
         this.jobType,
         this.jobCategory,
@@ -222,6 +232,7 @@ class _HiringJobDetailsScreenState extends State<HiringJobDetailsScreen> {
   TextEditingController experienceController = TextEditingController();
   TextEditingController salaryController = TextEditingController();
   TextEditingController hoursperweekController = TextEditingController();
+  TextEditingController subCeteController = TextEditingController();
   final addProductController = Get.put(AddProductController());
   TextEditingController jobTitle = TextEditingController();
   void updateProfile() {
@@ -256,11 +267,28 @@ class _HiringJobDetailsScreenState extends State<HiringJobDetailsScreen> {
       getCountry();
       if(widget.id != null){
         describe_job_roleController.text = widget.tellUsAboutYourSelf.toString();
+        categoryName.value = widget.jobCategory.toString();
+        countryName.value = widget.jobCountry.toString();
+        idCountry = widget.countryId.toString();
+        stateCategory = widget.stateId.toString();
+        cityId = widget.cityId.toString();
+        subCategoryName.value = widget.catName.toString();
+        stateName.value = widget.jobState.toString();
+        selectedSubCategory = widget.jobCatIds.toString();
+        cityName.value = widget.jobCity.toString();
+        subCeteController.text = widget.jobSubCategory.toString();
+        selectedCategory = widget.jobCategory.toString();
         linkdin_urlController.text = widget.linkedIn.toString();
         experienceController.text =widget.experience.toString();
         salaryController.text = widget.salary.toString();
         jobTitle.text = widget.jobTitle.toString();
         hoursperweekController.text = widget.hoursPerWeek.toString();
+        stateCategory = widget.stateId.toString();
+        cityId = widget.cityId.toString();
+        WidgetsBinding.instance.addPostFrameCallback((timeStamp) {
+          getStateApi();
+          getCityApi();
+        });
       }
     }
     @override
@@ -320,16 +348,23 @@ class _HiringJobDetailsScreenState extends State<HiringJobDetailsScreen> {
                           .map((e) => DropdownMenuItem(value: e, child: Text(e.title.toString().capitalize!)))
                           .toList());
                     }
-                    return DropdownButtonFormField<Data>(
+                    return modelVendorCategory.data!= null ?
+                      DropdownButtonFormField<Data>(
                       key: categoryKey,
                       autovalidateMode: AutovalidateMode.onUserInteraction,
                       icon: vendorCategoryStatus.value.isLoading
-                          ? const CupertinoActivityIndicator()
-                          : const Icon(Icons.keyboard_arrow_down_rounded),
+                          ? const SizedBox.shrink()
+                          : Image.asset(
+                        'assets/images/drop_icon.png',
+                        height: 17,
+                        width: 17,
+                      ),
                       iconSize: 30,
                       iconDisabledColor: const Color(0xff97949A),
                       iconEnabledColor: const Color(0xff97949A),
-                      value: null,
+                        value: modelVendorCategory.data!.firstWhereOrNull(
+                              (element) => element.title == categoryName.value,
+                        ),
                       style: GoogleFonts.poppins(color: Colors.black, fontSize: 16),
                       decoration: InputDecoration(
                         border: InputBorder.none,
@@ -361,7 +396,7 @@ class _HiringJobDetailsScreenState extends State<HiringJobDetailsScreen> {
                       onChanged: (value) {
                         setState(() {
                           selectedCategory = value!.id.toString();
-                          categoryName.value = value!.title.toString();
+                          categoryName.value = value.title.toString();
                           getSubCategories(selectedCategory.toString());// Assuming you want to use the ID as the category value
                         });
                         // if (value == null) return;
@@ -375,7 +410,7 @@ class _HiringJobDetailsScreenState extends State<HiringJobDetailsScreen> {
                       //   }
                       //   return null;
                       // },
-                    );
+                    ) : SizedBox.shrink();
                   }),
                   SizedBox(height: 7,),
                   categoryName.value.isEmpty?SizedBox():
@@ -400,6 +435,7 @@ class _HiringJobDetailsScreenState extends State<HiringJobDetailsScreen> {
                              .toList();
                          setState(() {});
                        },
+                       controller: subCeteController,
                        decoration: InputDecoration(
                          hintText: 'Search',
                          prefixIcon: const Icon(Icons.search),
@@ -529,12 +565,18 @@ class _HiringJobDetailsScreenState extends State<HiringJobDetailsScreen> {
                       key: categoryKey1,
                       autovalidateMode: AutovalidateMode.onUserInteraction,
                       icon: countryStatus.value.isLoading
-                          ? const CupertinoActivityIndicator()
-                          : const Icon(Icons.keyboard_arrow_down_rounded),
+                          ? const SizedBox.shrink()
+                          : Image.asset(
+                        'assets/images/drop_icon.png',
+                        height: 17,
+                        width: 17,
+                      ),
                       iconSize: 30,
                       iconDisabledColor: const Color(0xff97949A),
                       iconEnabledColor: const Color(0xff97949A),
-                      value: null,
+                      value: modelCountryList.country!.firstWhereOrNull(
+                            (element) => element.name == countryName.value,
+                      ),
                       style: GoogleFonts.poppins(color: Colors.black, fontSize: 14),
                       decoration: InputDecoration(
                         border: InputBorder.none,
@@ -598,12 +640,18 @@ class _HiringJobDetailsScreenState extends State<HiringJobDetailsScreen> {
                       key: categoryKey2,
                       autovalidateMode: AutovalidateMode.onUserInteraction,
                       icon: stateStatus.value.isLoading
-                          ? const CupertinoActivityIndicator()
-                          : const Icon(Icons.keyboard_arrow_down_rounded),
+                          ? const SizedBox.shrink()
+                          : Image.asset(
+                        'assets/images/drop_icon.png',
+                        height: 17,
+                        width: 17,
+                      ),
                       iconSize: 30,
                       iconDisabledColor: const Color(0xff97949A),
                       iconEnabledColor: const Color(0xff97949A),
-                      value: null,
+                      value:modelStateList.state!.firstWhereOrNull(
+                            (element) => element.stateName == stateName.value,
+                      ),
                       style: GoogleFonts.poppins(color: Colors.black, fontSize: 16),
                       decoration: InputDecoration(
                         border: InputBorder.none,
@@ -666,12 +714,22 @@ class _HiringJobDetailsScreenState extends State<HiringJobDetailsScreen> {
                       key: categoryKey3,
                       autovalidateMode: AutovalidateMode.onUserInteraction,
                       icon: cityStatus.value.isLoading
-                          ? const CupertinoActivityIndicator()
-                          : const Icon(Icons.keyboard_arrow_down_rounded),
+                          ? Image.asset(
+                        'assets/images/up_icon.png',
+                        height: 17,
+                        width: 17,
+                      )
+                          : Image.asset(
+                        'assets/images/drop_icon.png',
+                        height: 17,
+                        width: 17,
+                      ),
                       iconSize: 30,
                       iconDisabledColor: const Color(0xff97949A),
                       iconEnabledColor: const Color(0xff97949A),
-                      value: null,
+                      value: modelCityList.value.city!.firstWhereOrNull(
+                            (element) => element.cityName == categoryName.value,
+                      ),
                       style: GoogleFonts.poppins(color: Colors.black, fontSize: 16),
                       decoration: InputDecoration(
                         border: InputBorder.none,

@@ -23,6 +23,8 @@ class ProductElement {
   dynamic productNew;
   dynamic bestSaller;
   dynamic featured;
+  dynamic showcaseProduct;
+
   dynamic taxApply;
   dynamic taxType;
   dynamic shortDescription;
@@ -62,6 +64,7 @@ class ProductElement {
   dynamic stepPrice;
   dynamic currentBid;
   dynamic featureImageApp;
+  dynamic isShowcase;
   dynamic beforePurchase;
   dynamic alreadyReview;
   bool? isShipping;
@@ -99,6 +102,7 @@ class ProductElement {
     this.virtualProductFileType,
     this.pPrice,
     this.sPrice,
+    this.showcaseProduct,
     this.commission,
     this.productNew,
     this.bestSaller,
@@ -144,6 +148,7 @@ class ProductElement {
     this.stepPrice,
     this.currentBid,
     this.discountPrice,
+    this.isShowcase,
     this.itemType,
     // this.attributes,
     this.serviceTimeSloat,
@@ -179,6 +184,7 @@ class ProductElement {
     sPrice = json["s_price"];
     commission = json["commission"];
     alreadyReview = json['already_review'];
+    showcaseProduct = json['showcase_product'];
     productNew = json["new"];
     bestSaller = json["best_saller"];
     featured = json["featured"];
@@ -230,6 +236,7 @@ class ProductElement {
     stepPrice = json["step_price"];
     rating = json["rating"];
     currentBid = json["current_bid"];
+isShowcase = json['is_showcase'];
     lowestDeliveryPrice = json['lowestDeliveryPrice'];
     shippingDate = json['shipping_date'];
     itemType = json['item_type'];
@@ -270,6 +277,7 @@ class ProductElement {
     "brand_slug": brandSlug,
     "slug": slug,
     "pname": pName,
+  "is_showcase": isShowcase,
     'is_shipping' : isShipping,
     'feature_image_app' : featureImageApp,
     if (serviceTimeSloat != null) 'serviceTimeSloat': serviceTimeSloat!.map((v) => v.toJson()).toList(),
@@ -281,6 +289,7 @@ class ProductElement {
     "product_type": productType,
     "sku_id": skuId,
     "p_price": pPrice,
+ 'showcase_product': showcaseProduct,
     "s_price": sPrice,
     "commission": commission,
     'before_purchase' : beforePurchase,

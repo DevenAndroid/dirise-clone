@@ -27,9 +27,10 @@ class SingleProductPriceScreen extends StatefulWidget {
   dynamic fixDiscount;
   dynamic percentage;
   int? id;
+  bool? isDelivery = false;
 
   SingleProductPriceScreen(
-      {super.key,  this.price, this.fixDiscount, this.percentage, this.id});
+      {super.key,  this.price, this.fixDiscount, this.percentage, this.id,this.isDelivery});
 
   @override
   State<SingleProductPriceScreen> createState() => _SingleProductPriceScreenState();
@@ -97,11 +98,12 @@ class _SingleProductPriceScreenState extends State<SingleProductPriceScreen> {
 
   deliverySizeApi() {
     Map<String, dynamic> map = {};
-    map['discount_percent'] = discountPrecrnt.text.toString();
-    map['fixed_discount_price'] = fixedDiscount.text.toString().trim();
+    map['fixed_discount_price'] = isDelivery.value == false ?  "0" : fixedDiscount.text == '' ? '0' : fixedDiscount.text.trim();
+    map['discount_percent'] = discountPrecrnt.text == '' ? '0' : discountPrecrnt.text.trim();
     map['p_price'] = priceController.text.toString();
     map['item_type'] = 'product';
     map['id'] = addProductController.idProduct.value.toString();
+    map['is_onsale'] = isDelivery.value.toString();
 
     final Repositories repositories = Repositories();
     FocusManager.instance.primaryFocus!.unfocus();
@@ -138,6 +140,7 @@ class _SingleProductPriceScreenState extends State<SingleProductPriceScreen> {
       priceController.text = widget.price.toString();
       discountPrecrnt.text = widget.percentage.toString();
       fixedDiscount.text = widget.fixDiscount.toString();
+      isDelivery.value = widget.isDelivery!;
     }
     getVendorCategories(addProductController.idProduct.value.toString());
   }
@@ -341,21 +344,21 @@ class _SingleProductPriceScreenState extends State<SingleProductPriceScreen> {
                         validator: (value) {
                           if (discountPrecrnt.text.isEmpty) {
                             if (value!.trim().isEmpty) {
-                              return 'Discount Price is required'.tr;
+                              return 'Discount amount is required'.tr;
                             }
                             double? price = double.tryParse(value);
                             if (price == null || price < 0) {
-                              return 'Price must be a non-negative number'.tr;
+                              return 'amount must be a non-negative number'.tr;
                             }
                             double? discountValue = double.tryParse(value);
                             double? priceValue = double.tryParse(priceController.text);
                             if (discountValue != null && priceValue != null && discountValue > priceValue) {
-                              return 'Discount Price cannot be greater than Price'.tr;
+                              return 'Discount amount cannot be greater than Price'.tr;
                             }
                           }
                           return null; // Return null if validation passes
                         },
-                        hintText: 'Discount Price'.tr,
+                        hintText: 'Discount amount'.tr,
                       ),
                       const SizedBox(
                         height: 10,
@@ -380,7 +383,7 @@ class _SingleProductPriceScreenState extends State<SingleProductPriceScreen> {
                         obSecure: false,
                         // hintText: 'Name',
                         keyboardType: TextInputType.number,
-                        hintText: 'Percentage'.tr,
+                        hintText: ' Discount percentage'.tr,
                         onChanged: (value) {
                           fixedDiscount.text = "";
                           isPercentageDiscount = true;
@@ -391,16 +394,16 @@ class _SingleProductPriceScreenState extends State<SingleProductPriceScreen> {
                         validator: (value) {
                           if (fixedDiscount.text.isEmpty) {
                             if (value == null || value.trim().isEmpty) {
-                              return 'Percentage is required'.tr;
+                              return 'Discount Percentage is required'.tr;
                             }
                             double? price = double.tryParse(value);
                             if (price == null || price < 0) {
-                              return 'Price must be a non-negative number'.tr;
+                              return 'Discount Percentage must be a non-negative number'.tr;
                             }
                             else {
                               double? percentage = double.tryParse(value);
                               if (percentage == null || percentage > 100) {
-                                return 'Percentage must be between 0 and 100'.tr;
+                                return 'Discount Percentage must be between 0 and 100'.tr;
                               }
                             }
                           }

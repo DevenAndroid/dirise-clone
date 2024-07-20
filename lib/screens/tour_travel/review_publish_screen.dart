@@ -2,7 +2,7 @@ import 'dart:convert';
 import 'dart:developer';
 
 import 'package:dirise/addNewProduct/rewardScreen.dart';
-import 'package:dirise/screens/tour_travel/sponsors_academic_screen.dart';
+import 'package:dirise/screens/tour_travel/sponsors_tourandtravel_screen.dart';
 import 'package:dirise/screens/tour_travel/timing_screen.dart';
 import 'package:dirise/widgets/loading_animation.dart';
 import 'package:flutter/cupertino.dart';
@@ -25,7 +25,7 @@ import '../../widgets/common_textfield.dart';
 import '../Consultation Sessions/consultation_session_thankyou.dart';
 import 'date_range_screen_tour.dart';
 import 'eligible_customer_academic.dart';
-import 'optional_details_academic.dart';
+import 'optional_details_tourandtravel.dart';
 
 class ReviewandPublishTourScreenScreen extends StatefulWidget {
   const ReviewandPublishTourScreenScreen({super.key});
@@ -161,9 +161,17 @@ class _ReviewandPublishTourScreenScreenState extends State<ReviewandPublishTourS
                                 ),
                               ),
                               GestureDetector(
-                                child: isServiceProvide.value == true
-                                    ? const Icon(Icons.keyboard_arrow_up_rounded)
-                                    : const Icon(Icons.keyboard_arrow_down_outlined),
+                                child: isServiceProvide.value != true
+                                    ? Image.asset(
+                                  'assets/images/drop_icon.png',
+                                  height: 17,
+                                  width: 17,
+                                )
+                                    : Image.asset(
+                                  'assets/images/up_icon.png',
+                                  height: 17,
+                                  width: 17,
+                                ),
                                 onTap: () {
                                   setState(() {
                                     isServiceProvide.toggle();
@@ -242,9 +250,17 @@ class _ReviewandPublishTourScreenScreenState extends State<ReviewandPublishTourS
                                 ),
                               ),
                               GestureDetector(
-                                child: isTime.value == true
-                                    ? const Icon(Icons.keyboard_arrow_up_rounded)
-                                    : const Icon(Icons.keyboard_arrow_down_outlined),
+                                child: isTime.value != true
+                                    ? Image.asset(
+                                  'assets/images/drop_icon.png',
+                                  height: 17,
+                                  width: 17,
+                                )
+                                    : Image.asset(
+                                  'assets/images/up_icon.png',
+                                  height: 17,
+                                  width: 17,
+                                ),
                                 onTap: () {
                                   setState(() {
                                     isTime.toggle();
@@ -323,9 +339,17 @@ class _ReviewandPublishTourScreenScreenState extends State<ReviewandPublishTourS
                                 ),
                               ),
                               GestureDetector(
-                                child: isOperational.value == true
-                                    ? const Icon(Icons.keyboard_arrow_up_rounded)
-                                    : const Icon(Icons.keyboard_arrow_down_outlined),
+                                child: isOperational.value != true
+                                    ? Image.asset(
+                                  'assets/images/drop_icon.png',
+                                  height: 17,
+                                  width: 17,
+                                )
+                                    : Image.asset(
+                                  'assets/images/up_icon.png',
+                                  height: 17,
+                                  width: 17,
+                                ),
                                 onTap: () {
                                   setState(() {
                                     isOperational.toggle();
@@ -411,9 +435,17 @@ class _ReviewandPublishTourScreenScreenState extends State<ReviewandPublishTourS
                                 ),
                               ),
                               GestureDetector(
-                                child: isSponsors.value == true
-                                    ? const Icon(Icons.keyboard_arrow_up_rounded)
-                                    : const Icon(Icons.keyboard_arrow_down_outlined),
+                                child: isSponsors.value != true
+                                    ? Image.asset(
+                                  'assets/images/drop_icon.png',
+                                  height: 17,
+                                  width: 17,
+                                )
+                                    : Image.asset(
+                                  'assets/images/up_icon.png',
+                                  height: 17,
+                                  width: 17,
+                                ),
                                 onTap: () {
                                   setState(() {
                                     isSponsors.toggle();
@@ -485,9 +517,17 @@ class _ReviewandPublishTourScreenScreenState extends State<ReviewandPublishTourS
                                 ),
                               ),
                               GestureDetector(
-                                child: eligibleCustomer.value == true
-                                    ? const Icon(Icons.keyboard_arrow_up_rounded)
-                                    : const Icon(Icons.keyboard_arrow_down_outlined),
+                                child: eligibleCustomer.value != true
+                                    ? Image.asset(
+                                  'assets/images/drop_icon.png',
+                                  height: 17,
+                                  width: 17,
+                                )
+                                    : Image.asset(
+                                  'assets/images/up_icon.png',
+                                  height: 17,
+                                  width: 17,
+                                ),
                                 onTap: () {
                                   setState(() {
                                     eligibleCustomer.toggle();

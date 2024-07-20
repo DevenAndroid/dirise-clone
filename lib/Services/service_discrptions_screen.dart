@@ -22,12 +22,12 @@ import '../widgets/common_textfield.dart';
 import 'optional_collection.dart';
 
 class ServiceOptionalScreen extends StatefulWidget {
-  int? id;
-  String? metaTags;
-  String? MetaTitle;
-  String? MetaDescription;
-  String? longDescription;
-  String? noTax;
+  dynamic id;
+  dynamic metaTags;
+  dynamic MetaTitle;
+  dynamic MetaDescription;
+  dynamic longDescription;
+  dynamic noTax;
 
   ServiceOptionalScreen({super.key, this.id, this.metaTags, this.MetaDescription, this.MetaTitle,this.longDescription,this.noTax});
 

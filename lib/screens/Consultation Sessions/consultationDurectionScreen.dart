@@ -13,6 +13,8 @@ class ConsultationDurectionScreen extends StatefulWidget {
 
 class _ConsultationDurectionScreenState extends State<ConsultationDurectionScreen> {
   final profileController = Get.put(ProfileController());
+  final formKey = GlobalKey<FormState>();
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(

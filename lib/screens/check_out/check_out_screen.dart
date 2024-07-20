@@ -116,6 +116,7 @@ class _CheckOutScreenState extends State<CheckOutScreen> {
   bool get userLoggedIn => profileController.userLoggedIn;
   double total = 0.0;
   double fedxTotal = 0.0;
+  double commisionShipping = 0.0;
 
   @override
   void initState() {
@@ -170,7 +171,7 @@ RxString shipId = "".obs;
       cityRefresh.value = DateTime.now().millisecondsSinceEpoch;
     });
   }
-
+  double shippingCommision=  0.0;
   double shippingTotal = 0;
   @override
   void dispose() {
@@ -429,8 +430,10 @@ RxString shipId = "".obs;
             children: [
               Text("Shipping Fees".tr,
                   style: GoogleFonts.poppins(fontWeight: FontWeight.w400, color: const Color(0xff949495))),
-              Text("KWD ${sPrice1.toString()}",
+              Text("KWD ${commisionShipping.toString()}",
                   style: GoogleFonts.poppins(fontWeight: FontWeight.w400, color: const Color(0xff949495))),
+              // Text("KWD ${sPrice1.toString()}",
+              //     style: GoogleFonts.poppins(fontWeight: FontWeight.w400, color: const Color(0xff949495))),
             ],
           ),
           10.spaceY,
@@ -774,6 +777,8 @@ RxString shipId = "".obs;
                                               shippingPrice = e.value.shipping!.localShipping![ii].value.toString();
                                               cartController.shippingTitle = product.name.toString();
                                               cartController.shippingPrices1 = product.value.toString();
+                                              cartController.shipping_new_api = product.value.toString();
+                                              print('fdfdff${cartController.shipping_new_api.toString()}');
                                               double shipping = double.parse(shippingPrice);
                                               double subtotal = double.parse(cartController.cartModel.subtotal.toString());
                                               total = subtotal + shipping;
@@ -882,9 +887,10 @@ RxString shipId = "".obs;
                                      itemBuilder: (context, index) {
                                        RateReplyDetails product = e.value.shipping!.fedexShipping!.output!.rateReplyDetails![ii];
                                        RatedShipmentDetails product1 = e.value.shipping!.fedexShipping!.output!.rateReplyDetails![ii].ratedShipmentDetails![index];
+                                       shippingCommision = double.parse(e.value.fedexCommision.toString());
+                                       double shipping = double.parse(product1.totalNetCharge.toString());
+                                       double fedxTotalIs = shipping + shippingCommision;
                                        // double subtotal = double.parse(e.value.fedexCommision.toString());
-                                       // double shipping = double.parse(product1.totalNetCharge.toString());
-                                       // fedxTotal = subtotal + shipping;
                                        // cartController.formattedTotal = fedxTotal.toStringAsFixed(3);
                                        // print("icarryCommision"+ e.value.fedexCommision.toString());
                                        // print("rate"+product1.totalNetCharge.toString());
@@ -917,6 +923,8 @@ RxString shipId = "".obs;
                                                        e.value.shipping!.fedexShippingOption.value = value.toString();
                                                        shipId.value = "";
                                                        shipmentProvider.value = "";
+                                                       cartController.shipping_new_api = fedxTotalIs.toString();
+                                                       print('fdfdff${cartController.shipping_new_api.toString()}');
                                                        // cartController.shippingDates = product.commit!.dateDetail!.dayFormat.toString();
                                                        // e.value.shipping![ii].output!.rateReplyDetails![index].shippingDate = product.operationalDetail!.deliveryDate;
                                                        cartController.shippingTitle = product.serviceName.toString();
@@ -931,7 +939,8 @@ RxString shipId = "".obs;
                                                        double subtotal = double.parse(cartController.cartModel.subtotal.toString());
                                                        print('subtotal is $subtotal');
                                                        double shipping = double.parse(product1.totalNetCharge.toString());
-                                                       total = subtotal + shipping;
+                                                       double total123 = subtotal + shipping;
+                                                       total = total123 + shippingCommision;
                                                        cartController.formattedTotal2 = total.toStringAsFixed(3);
                                                        print("icarryCommision"+ e.value.fedexCommision.toString());
                                                        print("rate"+product1.totalNetCharge.toString());
@@ -941,8 +950,9 @@ RxString shipId = "".obs;
                                                        // e.value.vendorId.value = e.value.shipping![ii].vendorId!;
                                                        e.value.shippingVendorName.value = product.serviceName.toString();
                                                        e.value.vendorPrice.value = product.ratedShipmentDetails![index].totalNetCharge.toString();
-
-                                                       e.value.sPrice = product.ratedShipmentDetails![index].totalNetCharge.toDouble();
+                                                       commisionShipping = fedxTotalIs.toDouble();
+                                                       print('commisionShipping ${commisionShipping.toString()}');
+                                                       e.value.sPrice = fedxTotalIs.toDouble();
 
                                                        log("sPrices data:${e.value.sPrice}");
                                                        log("Initial sPrice:$sPrice1");
@@ -975,7 +985,7 @@ RxString shipId = "".obs;
                                                        Text(product.serviceName.toString().capitalize!.replaceAll('_', ' '),
                                                            style: GoogleFonts.poppins(fontWeight: FontWeight.w500, fontSize: 16)),
                                                        3.spaceY,
-                                                       Text('kwd ${ product1.totalNetCharge.toString()}',
+                                                       Text('kwd ${ fedxTotalIs.toString()}',
                                                            style: GoogleFonts.poppins(fontWeight: FontWeight.w400,
                                                                fontSize: 16,
                                                                color: const Color(0xFF03a827))),
@@ -1030,6 +1040,9 @@ RxString shipId = "".obs;
                             padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 15).copyWith(top: 0),
                             itemBuilder: (context, ii) {
                               IcarryShipping product = e.value.shipping!.icarryShipping![ii];
+                              shippingCommision = double.parse(e.value.icarryCommision.toString());
+                              double shipping = double.parse(product.rate.toString());
+                              double icarryTotal = shipping + shippingCommision;
                               // double subtotal = double.parse(e.value.icarryCommision.toString());
                               // double shipping = double.parse(product.rate.toString());
                               // total = subtotal + shipping;
@@ -1068,6 +1081,9 @@ RxString shipId = "".obs;
                                               e.value.shipping!.fedexShippingOption.value = value.toString();
                                               cartController.shippingTitle =    product.name.toString();
                                               cartController.shippingPrices1 = cartController.shippingPrices.toString();
+                                              cartController.shipping_new_api = icarryTotal.toString();
+
+                                              print('fdfdff${cartController.shipping_new_api.toString()}');
                                               // cartController.shippingPrices = product.price.toString();
                                               print( e.value.shipping!.fedexShippingOption.value.toString());
                                               print(cartController.shippingTitle.toString());
@@ -1077,9 +1093,10 @@ RxString shipId = "".obs;
                                               // double subtotal = double.parse(cartController.cartModel.subtotal.toString());
                                               double subtotal = double.parse(cartController.cartModel.subtotal.toString());
                                               double shipping = double.parse(product.rate.toString());
-                                              total = subtotal + shipping;
+                                              double total123 = subtotal + shipping;
+                                              total = total123 + shippingCommision;
                                               cartController.formattedTotal2 = total.toStringAsFixed(3);
-
+                                              commisionShipping = icarryTotal;
                                               cartController.shippingPrices1 = cartController.formattedTotal2.toString();
                                               // double shipping = double.parse(shippingPrice.toString());
                                               // total = subtotal + shipping;
@@ -1089,7 +1106,7 @@ RxString shipId = "".obs;
                                               // e.value.shippingVendorName.value = product.serviceName.toString();
                                               // e.value.vendorPrice.value = product.ratedShipmentDetails![index].totalNetCharge.toString();
 
-                                              e.value.sPrice = product.rate.toDouble();
+                                              e.value.sPrice = icarryTotal.toDouble();
 
                                               log("Initial sPrice:$sPrice1");
                                               log("Initial sPrice:"+  cartController.shippingTitle.toString());
@@ -1126,7 +1143,7 @@ RxString shipId = "".obs;
                                                   .replaceAll('_', ' '),
                                                   style: GoogleFonts.poppins(fontWeight: FontWeight.w500, fontSize: 16)),
                                               3.spaceY,
-                                              Text( 'KWD ${product.rate.toString()}',
+                                              Text( 'KWD ${icarryTotal.toString()}',
                                                   style: GoogleFonts.poppins(fontWeight: FontWeight.w400,
                                                       fontSize: 16,
                                                       color: const Color(0xFF03a827))),

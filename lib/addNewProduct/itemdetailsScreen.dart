@@ -30,8 +30,10 @@ import '../widgets/common_textfield.dart';
 class ItemDetailsScreens extends StatefulWidget {
   int? id;
   String? name;
-  int? categoryID;
-  ItemDetailsScreens({super.key,this.id,this.name,this.categoryID});
+  String? categoryID;
+  String? catId;
+  String? categoryName;
+  ItemDetailsScreens({super.key,this.id,this.name,this.categoryID,this.categoryName,this.catId});
 
   @override
   State<ItemDetailsScreens> createState() => _ItemDetailsScreensState();
@@ -41,7 +43,7 @@ class _ItemDetailsScreensState extends State<ItemDetailsScreens> {
   ProductCategoryData? selectedSubcategory;
   SubProductData? selectedProductSubcategory;
   final profileController = Get.put(ProfileController());
-
+  bool showFilters = false;
   final TextEditingController ProductNameController = TextEditingController();
 
   int vendorID = 0;
@@ -65,7 +67,10 @@ class _ItemDetailsScreensState extends State<ItemDetailsScreens> {
   final addProductController = Get.put(AddProductController());
   deliverySizeApi() {
     Map<String, dynamic> map = {};
-    map['category_id'] = idForChild.join(',').toString();
+    log('gjfkgg${idForChild.toString()}');
+    map['category_id'] = idForChild.isNotEmpty ? idForChild.join(',').toString():  "";
+    // map['category_id'] =   "";
+    map['category_id_2'] = id.value.toString();
     map['product_name'] = ProductNameController.text.toString();
     map['item_type'] = 'giveaway';
     map['id'] = addProductController.idProduct.value.toString();
@@ -157,7 +162,7 @@ class _ItemDetailsScreensState extends State<ItemDetailsScreens> {
   bool isItemDetailsVisible1 = false;
   bool isItemDetailsVisible2 = false;
   bool isItemDetailsVisible3 = false;
-
+  TextEditingController searchController = TextEditingController();
   @override
   void initState() {
     // TODO: implement initState
@@ -167,7 +172,13 @@ class _ItemDetailsScreensState extends State<ItemDetailsScreens> {
     fetchSubCategoryBasedOnId(ProductID);
     if(widget.id != null){
       ProductNameController.text = widget.name.toString();
-      idForChild.add(widget.categoryID);
+      searchController.text = widget.categoryName.toString();
+      int? parsedValue = int.tryParse(widget.categoryID.toString());
+      if (parsedValue != null) {
+        idForChild.add(parsedValue);
+      }
+      id.value = widget.catId.toString();
+      categoryName.value = widget.categoryName.toString();
     }
   }
   Color borderColor = Colors.grey.shade400;
@@ -284,6 +295,7 @@ class _ItemDetailsScreensState extends State<ItemDetailsScreens> {
                           .toList();
                       setState(() {});
                     },
+                    controller: searchController,
                     decoration: InputDecoration(
                       hintText: 'Search',
                       prefixIcon: const Icon(Icons.search),
@@ -306,6 +318,7 @@ class _ItemDetailsScreensState extends State<ItemDetailsScreens> {
                           isItemDetailsVisible = !isItemDetailsVisible;
                           categoryName.value = data.title.toString();
                           id.value = data.id.toString();
+                          idForChild.clear();
                           setState(() {
                             selectedValue = data.title;
                             tappedIndex = index;
@@ -341,11 +354,25 @@ class _ItemDetailsScreensState extends State<ItemDetailsScreens> {
               const SizedBox(
                 height: 15,
               ),
-              id.value.isNotEmpty?
-              Text(
-                'Filters(Optional)'.tr,
-                style: GoogleFonts.poppins(color: Colors.black, fontWeight: FontWeight.w600, fontSize: 16),
-              ):const SizedBox(),
+              Obx(() {
+                return productCategoryModel.value.data != null
+                    ? GestureDetector(
+                  onTap: () {
+                    setState(() {
+                      showFilters = !showFilters;
+                    });
+                  },
+                  child: Container(
+                    padding: EdgeInsets.all(10),
+                    decoration: BoxDecoration(color: Color(0xff292F45),borderRadius: BorderRadius.circular(11)),
+                    child: Text(
+                      'Filters(Optional)'.tr,
+                      style: GoogleFonts.poppins(color: Colors.white, fontWeight: FontWeight.w600, fontSize: 16),
+                    ),
+                  ),
+                )
+                    : const SizedBox();
+              }),
               const SizedBox(
                 height: 5,
               ),
@@ -380,6 +407,8 @@ class _ItemDetailsScreensState extends State<ItemDetailsScreens> {
               const SizedBox(
                 height: 20,
               ),
+
+              showFilters ?
               Obx(() {
                 return
                   productCategoryModel.value.data != null ?
@@ -489,7 +518,7 @@ class _ItemDetailsScreensState extends State<ItemDetailsScreens> {
                         ))
                         .toList(),
                   ) : const SizedBox();
-              }),
+              }) : SizedBox(),
 
               const SizedBox(
                 height: 20,

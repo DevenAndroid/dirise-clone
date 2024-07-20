@@ -10,12 +10,14 @@ import 'package:easy_image_viewer/easy_image_viewer.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_rating_bar/flutter_rating_bar.dart';
+import 'package:flutter_svg/svg.dart';
 import 'package:geocoding/geocoding.dart';
 import 'package:geolocator/geolocator.dart';
 import 'package:get/get.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:shared_preferences/shared_preferences.dart';
+import 'package:url_launcher/url_launcher.dart';
 import '../../controller/cart_controller.dart';
 import '../../controller/home_controller.dart';
 import '../../controller/location_controller.dart';
@@ -30,12 +32,14 @@ import '../../single_products/advirtising_single.dart';
 import '../../single_products/bookable_single.dart';
 import '../../single_products/simple_product.dart';
 import '../../single_products/variable_single.dart';
+import '../../single_products/vritual_product_single.dart';
 import '../../utils/api_constant.dart';
 import '../../utils/styles.dart';
 import '../../widgets/common_colour.dart';
 import '../../widgets/like_button.dart';
 import '../check_out/direct_check_out.dart';
 import '../my_account_screens/contact_us_screen.dart';
+import '../service_single_ui.dart';
 import 'single_product.dart';
 
 class ProductUI extends StatefulWidget {
@@ -49,6 +53,19 @@ class ProductUI extends StatefulWidget {
 }
 
 class _ProductUIState extends State<ProductUI> {
+  void launchURLl(String url) async {
+    if (await canLaunch(url)) {
+      try {
+        await launch(url);
+      } catch (e) {
+        print('Error launching URL: $url');
+        print('Exception: $e');
+      }
+    } else {
+      print('Could not launch $url');
+    }
+  }
+
   final cartController = Get.put(CartController());
   final wishListController = Get.put(WishListController());
   GoogleMapController? mapController;
@@ -277,9 +294,9 @@ class _ProductUIState extends State<ProductUI> {
       map["sloat_end_time"] = selectedSlot.split("--").last;
     }
     if (isVariantType) {
-      map["variation"] = selectedVariant!.id.toString();
+       map["variation"] = selectedVariant!.id.toString();
     }
-    return map;
+    return map ;
   }
 
   ProductElement productElement = ProductElement();
@@ -358,22 +375,29 @@ class _ProductUIState extends State<ProductUI> {
           print(widget.productElement.id);
 
           if (widget.productElement.itemType == 'giveaway') {
-            Get.to(() => GiveAwayProduct(), arguments: widget.productElement.id.toString());
+            Get.to(() => const GiveAwayProduct(), arguments: widget.productElement.id.toString());
           }
           else if (widget.productElement.productType == 'variants'&& widget.productElement.itemType == 'product') {
-            Get.to(() => VarientsProductScreen(), arguments: widget.productElement.id.toString());
+            Get.to(() => const VarientsProductScreen(), arguments: widget.productElement.id.toString());
           }
           else if (widget.productElement.productType == 'booking'&& widget.productElement.itemType == 'product') {
-            Get.to(() => BookableProductScreen(), arguments: widget.productElement.id.toString());
+            Get.to(() => const BookableProductScreen(), arguments: widget.productElement.id.toString());
+          }
+          else if (widget.productElement.productType == 'virtual_product'&& widget.productElement.itemType == 'virtual_product') {
+            Get.to(() =>  VritualProductScreen(), arguments:  widget.productElement.id.toString());
           }
           else if (widget.productElement.itemType == 'product') {
-            Get.to(() => SimpleProductScreen(), arguments: widget.productElement.id.toString());
+            Get.to(() => const SimpleProductScreen(), arguments: widget.productElement.id.toString());
+          }else if(widget.productElement.itemType =='service'){
+            Get.to(() => const ServiceProductScreen(), arguments: widget.productElement.id.toString());
           }
         },
-      child:  widget.productElement.itemType != 'giveaway'
+      child:  widget.productElement.itemType != 'giveaway' &&   widget.productElement.isShowcase != true&&widget.productElement.showcaseProduct != true
           ? Padding(
         padding: const EdgeInsets.all(5.0),
-        child: Container(
+        child:
+
+        Container(
           padding: const EdgeInsets.all(8),
           decoration: const BoxDecoration(
               color: Colors.white, boxShadow: [
@@ -394,8 +418,6 @@ class _ProductUIState extends State<ProductUI> {
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              widget.isSingle == true ? Text('User id is ${widget.productElement.userId}') : const SizedBox.shrink(),
-              widget.isSingle == true ? Text('Vendor id is ${widget.productElement.vendorId}') : const SizedBox.shrink(),
               Row(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
@@ -839,7 +861,9 @@ class _ProductUIState extends State<ProductUI> {
             ],
           ),
         ),
-      ):
+      )
+          :
+      widget.productElement.isShowcase != true&&widget.productElement.showcaseProduct != true ?
       Padding(
         padding: const EdgeInsets.all(5.0),
         child: Container(
@@ -862,7 +886,7 @@ class _ProductUIState extends State<ProductUI> {
                 constraints: BoxConstraints(
                   // maxHeight: 100,
                   minWidth: 0,
-                  maxWidth: size.width * .8,
+                  maxWidth: size.width * .9,
                 ),
                 // color: Colors.red,
                 margin: const EdgeInsets.only(right: 9),
@@ -889,7 +913,7 @@ class _ProductUIState extends State<ProductUI> {
                               imageUrl: widget.productElement.featuredImage.toString(),
                               height: 180,
                               width: 120,
-                              fit: BoxFit.cover,
+                              fit: BoxFit.contain,
                               errorWidget: (_, __, ___) => Image.asset('assets/images/new_logo.png')),
                         ),
                         const SizedBox(
@@ -1248,6 +1272,301 @@ class _ProductUIState extends State<ProductUI> {
               )
             ],
           ),
+        ),
+      ):
+      Padding(
+        padding: const EdgeInsets.all(0.0),
+        child: Stack(
+          children: [
+            Container(
+              height: 350,
+              width: Get.width,
+              padding: const EdgeInsets.all(8),
+              decoration: BoxDecoration(
+                  color: Colors.white,
+                  borderRadius: BorderRadius.circular(8),
+                  boxShadow: const [
+                    BoxShadow(
+                      blurStyle: BlurStyle.outer,
+                      offset: Offset(1, 1),
+                      color: Colors.black12,
+                      blurRadius: 3,
+
+                    )
+                  ]
+              ),
+              // constraints: BoxConstraints(
+              //   // maxHeight: 100,
+              //   minWidth: 0,
+              //   maxWidth: size.width,
+              // ),
+              // color: Colors.red,
+              // margin: const EdgeInsets.only(right: 9,left: 10),
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+
+                children: [
+                  const SizedBox(height: 20,),
+                  Row(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    mainAxisAlignment: MainAxisAlignment.start,
+                    children: [
+                      Expanded(
+                        flex: 1,
+                        child: CachedNetworkImage(
+                            imageUrl:  widget.productElement.featuredImage.toString(),
+                            height: 150,
+                            width: 150,
+                            fit: BoxFit.contain,
+                            errorWidget: (_, __, ___) => Image.asset('assets/images/new_logo.png')),
+                      ),
+
+                      const SizedBox(width: 20,),
+                      Expanded(
+                        child: Column(
+                          children: [
+                            const SizedBox(height: 15,),
+                            Row(
+                              children: [
+                                Image.asset('assets/svgs/flagk.png'),
+                                const SizedBox(width: 5,),
+                                Expanded(
+                                  child: Text("Kuwait City",
+                                    maxLines: 2,
+                                    style: GoogleFonts.poppins(
+                                      fontSize: 14, fontWeight: FontWeight.w400, color: const Color(0xFF19313C)),
+                                  ),
+                                ),
+                                const SizedBox(width: 5,),
+                                Obx(() {
+                                  if (wishListController.refreshFav.value > 0) {}
+                                  return LikeButtonCat(
+                                    onPressed: () {
+                                      if (wishListController.favoriteItems.contains( widget.productElement.id.toString())) {
+                                        repositories
+                                            .postApi(
+                                            url: ApiUrls.removeFromWishListUrl,
+                                            mapData: {
+                                              "product_id":  widget.productElement.id.toString(),
+                                            },
+                                            context: context)
+                                            .then((value) {
+                                          ModelCommonResponse response = ModelCommonResponse.fromJson(
+                                              jsonDecode(value));
+                                          log('api response is${response.toJson()}');
+                                          showToast(response.message);
+                                          wishListController.getYourWishList();
+                                          wishListController.favoriteItems.remove( widget.productElement.id.toString());
+                                          wishListController.updateFav;
+                                          setState(() {
+                        
+                                          });
+                                        });
+                                      } else {
+                                        repositories
+                                            .postApi(
+                                            url: ApiUrls.addToWishListUrl,
+                                            mapData: {
+                                              "product_id":  widget.productElement.id.toString(),
+                                            },
+                                            context: context)
+                                            .then((value) {
+                                          ModelCommonResponse response = ModelCommonResponse.fromJson(
+                                              jsonDecode(value));
+                                          showToast(response.message);
+                                          if (response.status == true) {
+                                            wishListController.getYourWishList();
+                                            wishListController.favoriteItems.add( widget.productElement.id.toString());
+                                            wishListController.updateFav;
+                                          }
+                                        });
+                                      }
+                                    },
+                                    isLiked: wishListController.favoriteItems.contains( widget.productElement.id.toString()),
+                                  );
+                                }),
+                              ],
+                            ),
+                            const SizedBox(height: 25,),
+                            Text(widget.productElement.pName.toString(), style: GoogleFonts.poppins(
+                                fontSize: 16, fontWeight: FontWeight.w400, color: const Color(0xFF19313C)),
+                            ),
+                            const SizedBox(height: 25,),
+                            Row(
+                              children: [
+                                Expanded(
+                                  child: Text("yokun", style: GoogleFonts.poppins(
+                                      fontSize: 10, fontWeight: FontWeight.w400, color: const Color(0xFF19313C)),
+                                    maxLines: 1,
+                                  ),
+                                ),
+                                const SizedBox(width: 6,),
+                                Expanded(
+                                  child: Text("gmc", style: GoogleFonts.poppins(
+                                      fontSize: 10, fontWeight: FontWeight.w400, color: const Color(0xFF19313C)),
+                                    maxLines: 1,
+                                  ),
+                                ),
+                                const SizedBox(width: 6,),
+                                Expanded(
+                                  child: Text("used", style: GoogleFonts.poppins(
+                                      fontSize: 10, fontWeight: FontWeight.w400, color: const Color(0xFF19313C)),
+                                    maxLines: 1,
+                                  ),
+                                ),
+                                const SizedBox(width: 6,),
+                                Expanded(
+                                  child: Text("2024", style: GoogleFonts.poppins(
+                                      fontSize: 10, fontWeight: FontWeight.w400, color: const Color(0xFF19313C)),
+                                    maxLines: 1,
+                                  ),
+                                ),
+                              ],
+                            ),
+                            const SizedBox(height: 35,),
+                            Text.rich(
+                              TextSpan(
+                                text: '${widget.productElement.discountPrice.toString().split('.')[0]}.',
+                        
+                                style: const TextStyle(
+                                  fontSize: 32,
+                                  fontWeight: FontWeight.w600,
+                                  color: Color(0xFF19313B),
+                                ),
+                                children: [
+                                  WidgetSpan(
+                                    alignment: PlaceholderAlignment.middle,
+                                    child: Column(
+                                      mainAxisAlignment: MainAxisAlignment.start,
+                                      children: [
+                                        const Text(
+                                          'KWD',
+                                          style: TextStyle(
+                                            fontSize: 8,
+                                            fontWeight: FontWeight.w500,
+                                            color: Color(0xFF19313B),
+                                          ),
+                                        ),
+                                        InkWell(
+                                          onTap: () {
+                                            // print("date:::::::::::" + widget.productElement.shippingDate);
+                                          },
+                                          child: Text(
+                                            '${widget.productElement.discountPrice.toString().split('.')[1]}',
+                                            style: const TextStyle(
+                                              fontSize: 8,
+                                              fontWeight: FontWeight.w600,
+                                              color: Color(0xFF19313B),
+                                            ),
+                                          ),
+                                        ),
+                                      ],
+                                    ),
+                                  ),
+                                ],
+                              ),
+                            ),
+                        
+                          ],
+                        ),
+                      )
+                    ],
+                  ),
+                  25.spaceY,
+                  Row(
+                    children: [
+                      Expanded(
+                        child: Text(widget.productElement.shortDescription.toString(), style: GoogleFonts.poppins(
+                            fontSize: 11, fontWeight: FontWeight.w400, color: const Color(0xFF19313C)),
+                          maxLines: 3,
+                        ),
+                      ),
+
+                      GestureDetector(
+                        onTap: () {
+                          // launchURLl('tel:${ widget.productElement.vendorDetails!.phoneNumber.toString()}');
+                        },
+                        child: SvgPicture.asset('assets/svgs/phonee.svg',
+                          width: 25,
+                          height: 25,),
+                      ),
+                      const SizedBox(width: 10,),
+                      GestureDetector(
+                        onTap: () {
+                          // launchURLl('mailto:${ widget.productElement.vendorDetails!.email.toString()}');
+                        },
+                        child: SvgPicture.asset('assets/svgs/chat-dots.svg',
+                          width: 25,
+                          height: 25,),
+                      ),
+                    ],
+                  ),
+
+
+                  // SizedBox(height: 10,),
+                  // Align(
+                  //   alignment: Alignment.center,
+                  //   child: Center(
+                  //     child: CachedNetworkImage(
+                  //         imageUrl: item.featuredImage.toString(),
+                  //         height: 150,
+                  //         fit: BoxFit.fill,
+                  //         errorWidget: (_, __, ___) => Image.asset('assets/images/new_logo.png')
+                  //     ),
+                  //   ),
+                  // ),
+                  // const SizedBox(
+                  //   height: 10,
+                  // ),
+                  //
+                  // const SizedBox(
+                  //   height: 3,
+                  // ),
+                  // Text(
+                  //   item.pname.toString(),
+                  //   maxLines: 2,
+                  //   style: GoogleFonts.poppins(fontSize: 12, fontWeight: FontWeight.w500,color: Color(0xFF19313C)),
+                  // ),
+                  // const SizedBox(
+                  //   height: 3,
+                  // ),
+                  // Text(
+                  //   item.shortDescription.toString(),
+                  //   maxLines: 2,
+                  //   style: GoogleFonts.poppins(fontSize: 12, fontWeight: FontWeight.w500,color: Color(0xFF19313C)),
+                  // ),
+                  // const SizedBox(
+                  //   height: 3,
+                  // ),
+
+
+                ],
+              ),
+            ),
+            Positioned(
+              right: 0,
+              top: 0,
+              child: Container(
+                decoration: BoxDecoration(
+                    boxShadow: [
+                      const BoxShadow(
+
+                        // blurStyle: BlurStyle.outer,
+                        offset: Offset(2, 3),
+                        color: Colors.black26,
+                        blurRadius: 3,
+
+                      )
+                    ],
+                    borderRadius: const BorderRadius.only(topRight: Radius.circular(8)),
+                    color: const Color(0xFF27D6FF).withOpacity(0.6)
+                ),
+                child: Text(" Showcase ".tr,
+                  style: GoogleFonts.poppins(fontSize: 20, fontWeight: FontWeight.w400, color: Colors.white),
+                ),
+              ),
+            )
+          ],
         ),
       ),
     );

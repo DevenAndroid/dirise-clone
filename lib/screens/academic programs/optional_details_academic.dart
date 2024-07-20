@@ -140,6 +140,12 @@ class _OptionalDetailsAcademicScreenState extends State<OptionalDetailsAcademicS
                   controller: locationController,
                   maxLines: 2,
                   minLines: 2,
+                  validator: (value) {
+                    if (value!.trim().isEmpty) {
+                      return "Location is required".tr;
+                    }
+                    return null;
+                  },
                   decoration: InputDecoration(
                     counterStyle: GoogleFonts.poppins(
                       color: AppTheme.primaryColor,
@@ -174,6 +180,7 @@ class _OptionalDetailsAcademicScreenState extends State<OptionalDetailsAcademicS
                     ),
                   ),
                 ),
+                const SizedBox(height: 10),
                 CommonTextField(
                   controller: hostNameController,
                   obSecure: false,
@@ -185,6 +192,7 @@ class _OptionalDetailsAcademicScreenState extends State<OptionalDetailsAcademicS
                     return null;
                   },
                 ),
+                const SizedBox(height: 10),
                 CommonTextField(
                   controller: programNameController,
                   obSecure: false,
@@ -197,6 +205,7 @@ class _OptionalDetailsAcademicScreenState extends State<OptionalDetailsAcademicS
                     return null;
                   },
                 ),
+                const SizedBox(height: 10),
                 CommonTextField(
                   controller: programGoalController,
                   obSecure: false,
@@ -208,6 +217,7 @@ class _OptionalDetailsAcademicScreenState extends State<OptionalDetailsAcademicS
                     return null;
                   },
                 ),
+                const SizedBox(height: 10),
                 TextFormField(
                   maxLines: 2,
                   controller: programDescription,
@@ -252,7 +262,7 @@ class _OptionalDetailsAcademicScreenState extends State<OptionalDetailsAcademicS
                     ),
                   ),
                 ),
-                const SizedBox(height: 20),
+                const SizedBox(height: 10),
                 CustomOutlineButton(
                   title: 'Done',
                   borderRadius: 11,

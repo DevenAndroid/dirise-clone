@@ -46,6 +46,8 @@ class _DateRangeSeminarsScreenState extends State<DateRangeSeminarsScreen> {
   bool thurSelected = false;
   bool friSelected = false;
   bool satSelected = false;
+
+  String? dateRangeError;
   final profileController = Get.put(ProfileController());
   Future<void> _selectStartDate(BuildContext context) async {
     final DateTime? picked = await showDatePicker(
@@ -58,6 +60,7 @@ class _DateRangeSeminarsScreenState extends State<DateRangeSeminarsScreen> {
       setState(() {
         _startDate = picked;
         addProductController.formattedStartDate = DateFormat('yyyy/MM/dd').format(_startDate);
+        dateRangeError = null;
         print('Now Select........${addProductController.formattedStartDate.toString()}');
       });
     }
@@ -73,6 +76,7 @@ class _DateRangeSeminarsScreenState extends State<DateRangeSeminarsScreen> {
       setState(() {
         _endDate = picked;
         formattedStartDate1 = DateFormat('yyyy/MM/dd').format(_endDate);
+        dateRangeError = null;
         print('Now Select........${formattedStartDate1.toString()}');
       });
     }
@@ -81,6 +85,12 @@ class _DateRangeSeminarsScreenState extends State<DateRangeSeminarsScreen> {
   final Repositories repositories = Repositories();
   int index = 0;
   void updateProfile() {
+    if (addProductController.formattedStartDate == null || formattedStartDate1 == null) {
+      setState(() {
+        dateRangeError = 'Please select both start and end dates.';
+      });
+      return;
+    }
     Map<String, dynamic> map = {};
 
     map["product_type"] = "booking";
@@ -216,6 +226,14 @@ class _DateRangeSeminarsScreenState extends State<DateRangeSeminarsScreen> {
                 )
               ],
             ),
+            if (dateRangeError != null) // Display error message
+              Padding(
+                padding: const EdgeInsets.only(top: 8.0),
+                child: Text(
+                  dateRangeError!,
+                  style: TextStyle(color: Colors.red, fontSize: 12),
+                ),
+              ),
             const SizedBox(height: 40),
             Text('Off Days',
                 style:GoogleFonts.poppins(fontSize:19,fontWeight:FontWeight.w600)),

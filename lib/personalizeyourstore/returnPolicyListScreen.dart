@@ -196,7 +196,14 @@ class _ReturnPolicyListScreenState extends State<ReturnPolicyListScreen> {
                             )),
                       );
                     })
-                :  Center(child: Text('No Return policy Available'.tr))
+                :  Center(child: Text('No Return policy Available'.tr)),
+            modelReturnPolicy.value.returnPolicy != null ?
+              Column(
+                children: [
+                  if(  modelReturnPolicy.value.returnPolicy!.isEmpty)
+                    Center(child: Text('No Return policy Available'.tr)),
+                ],
+              )  : const SizedBox.shrink(),
           ],
         ),
       ),

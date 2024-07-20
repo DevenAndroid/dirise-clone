@@ -23,6 +23,7 @@ import 'package:shared_preferences/shared_preferences.dart';
 
 import '../controller/google_map_controlleer.dart';
 import '../controller/location_controller.dart';
+import '../controller/profile_controller.dart';
 import '../controller/service_controller.dart';
 import '../widgets/common_button.dart';
 import '../widgets/common_colour.dart';
@@ -39,7 +40,7 @@ class ChooseAddressService extends StatefulWidget {
 }
 
 class _ChooseAddressServiceState extends State<ChooseAddressService> {
-
+  final profileController = Get.put(ProfileController());
   Position? _currentPosition;
   final serviceController = Get.put(ServiceController());
   final controllerMap = Get.put(ControllerMap());
@@ -232,19 +233,46 @@ class _ChooseAddressServiceState extends State<ChooseAddressService> {
                     child: Padding(
                       padding: const EdgeInsets.all(15),
                       child: Card(
-                        child: Container(
-                            decoration: BoxDecoration(color: Colors.white, borderRadius: BorderRadius.circular(10)),
-                            padding: const EdgeInsets.all(0),
-                            width: MediaQuery.of(context).size.width - 40,
-                            child: ListTile(
-                              leading: const Icon(Icons.location_on_outlined, color: AppTheme.primaryColor),
-                              title: Text(
-                                controllerMap.address.value.toString(),
-                                style: TextStyle(fontSize: AddSize.font14),
+                        child: Row(
+                          children: [
+                            SizedBox(width: 15,),
+                            GestureDetector(
+                              onTap: (){
+                                Get.back();
+                              },
+                              child: Column(
+                                crossAxisAlignment: CrossAxisAlignment.center,
+                                mainAxisAlignment: MainAxisAlignment.center,
+                                children: [
+                                  profileController.selectedLAnguage.value != 'English' ?
+                                  Image.asset(
+                                    'assets/images/forward_icon.png',
+                                    height: 19,
+                                    width: 19,
+                                  ) :
+                                  Image.asset(
+                                    'assets/images/back_icon_new.png',
+                                    height: 19,
+                                    width: 19,
+                                  ),
+                                ],
                               ),
-                              trailing: const Icon(Icons.search),
-                              dense: true,
-                            )),
+                            ),
+                            Container(
+                                decoration: BoxDecoration(color: Colors.white, borderRadius: BorderRadius.circular(10)),
+                                padding: const EdgeInsets.all(0),
+                                width: MediaQuery.of(context).size.width - 80,
+                                child: ListTile(
+                                  leading: Icon(Icons.location_on_outlined, color: AppTheme.primaryColor),
+                                  title: Text(
+                                    controllerMap.address.value.toString(),
+                                    style: TextStyle(fontSize: AddSize.font14),
+                                  ),
+                                  trailing: const Icon(Icons.search),
+                                  dense: true,
+                                )),
+                          ],
+                        ),
                       ),
                     ))),
             Positioned(

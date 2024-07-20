@@ -127,20 +127,6 @@ class _PickUpPolicyPolicyScreenState extends State<PickUpPolicyPolicyScreen> {
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                  children: [
-                    // Radio(value: 1, groupValue: 1, onChanged: (value) {}),
-                    Text("Item Is Not eligible for shipping",
-                        style: GoogleFonts.poppins(fontSize: 13, fontWeight: FontWeight.w500)),
-                    const SizedBox(
-                      width: 20,
-                    ),
-                    Text("Add New Policy+",
-                        style: GoogleFonts.poppins(
-                            fontSize: 13, fontWeight: FontWeight.w500, color: const Color(0xff292F45))),
-                  ],
-                ),
                 Padding(
                   padding: const EdgeInsets.symmetric(horizontal: 16,vertical: 10),
                   child: Text("Policy Name", style: GoogleFonts.poppins(fontSize: 18, fontWeight: FontWeight.w600)),

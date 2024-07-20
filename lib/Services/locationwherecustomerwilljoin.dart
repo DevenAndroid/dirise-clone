@@ -2,6 +2,7 @@ import 'dart:convert';
 import 'dart:developer';
 
 import 'package:dirise/Services/pick_up_address_service.dart';
+import 'package:dirise/Services/service_discrptions_screen.dart';
 import 'package:dirise/Services/service_international_shipping_details.dart';
 import 'package:dirise/singleproductScreen/singleProductReturnPolicy.dart';
 import 'package:dirise/utils/helper.dart';
@@ -62,7 +63,8 @@ class _LocationwherecustomerwilljoinState extends State<Locationwherecustomerwil
       ModelCommonResponse response = ModelCommonResponse.fromJson(jsonDecode(value));
       showToast(response.message.toString());
       if (response.status == true) {
-        Get.to(ServiceInternationalShippingService());
+        // Get.to(ServiceInternationalShippingService());
+        Get.to(()=> ServiceOptionalScreen());
       }
     });
   }
@@ -223,39 +225,41 @@ class _LocationwherecustomerwilljoinState extends State<Locationwherecustomerwil
                         return Row(
                           mainAxisAlignment: MainAxisAlignment.spaceBetween,
                           children: [
-                            Column(
-                              children: [
-                                Container(
-                                  decoration: BoxDecoration(
-                                      borderRadius: const BorderRadius.all(Radius.circular(15)),
-                                      border: Border.all(color: const Color(0xffE4E2E2))),
-                                  child: Column(
-                                    crossAxisAlignment: CrossAxisAlignment.start,
-                                    children: [
-                                      Container(
-                                        padding: const EdgeInsets.all(15),
-                                        child: Column(
-                                          crossAxisAlignment: CrossAxisAlignment.start,
-                                          children: [
-                                            Text('City - $city'),
-                                            Text('State - $state'),
-                                            Text('Country - $country'),
-                                            Text('Zip code - $zip_code'),
-                                            Text('Street - $street'),
-                                            Text('Town - $town'),
-                                            const SizedBox(
-                                              height: 8,
-                                            ),
-                                          ],
-                                        ),
-                                      )
-                                    ],
+                            Flexible(
+                              child: Column(
+                                children: [
+                                  Container(
+                                    decoration: BoxDecoration(
+                                        borderRadius: const BorderRadius.all(Radius.circular(15)),
+                                        border: Border.all(color: const Color(0xffE4E2E2))),
+                                    child: Column(
+                                      crossAxisAlignment: CrossAxisAlignment.start,
+                                      children: [
+                                        Container(
+                                          padding: const EdgeInsets.all(15),
+                                          child: Column(
+                                            crossAxisAlignment: CrossAxisAlignment.start,
+                                            children: [
+                                              Text('City - $city'),
+                                              Text('State - $state'),
+                                              Text('Country - $country'),
+                                              Text('Zip code - $zip_code'),
+                                              Text('Street - $street'),
+                                              Text('Town - $town'),
+                                              const SizedBox(
+                                                height: 8,
+                                              ),
+                                            ],
+                                          ),
+                                        )
+                                      ],
+                                    ),
                                   ),
-                                ),
-                                const SizedBox(
-                                  height: 15,
-                                ),
-                              ],
+                                  const SizedBox(
+                                    height: 15,
+                                  ),
+                                ],
+                              ),
                             ),
                             Radio<String>(
                               value: 'address_$index',

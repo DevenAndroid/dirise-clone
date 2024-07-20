@@ -398,6 +398,7 @@ class OrderItem {
   dynamic vendorId;
   dynamic userId;
   dynamic productName;
+  bool? isReturnExpire;
   dynamic category;
   dynamic productType;
   dynamic quantity;
@@ -422,6 +423,7 @@ class OrderItem {
       this.orderTrackData,
       this.virtualProductFile,
       this.orderId,
+      this.isReturnExpire,
       this.childId,
       this.productId,
       this.vendorId,
@@ -459,6 +461,7 @@ class OrderItem {
     quantity = json['quantity'];
     productPrice = json['product_price'];
     discount = json['discount'];
+    isReturnExpire = json['is_return_expire'];
     totalPrice = json['total_price'];
     tax = json['tax'];
     status = json['status'];
@@ -483,6 +486,7 @@ class OrderItem {
     data['child_id'] = childId;
     data['virtual_product_file'] = virtualProductFile;
     data['product_id'] = productId;
+    data['is_return_expire'] = isReturnExpire;
     data['vendor_id'] = vendorId;
     data['user_id'] = userId;
     data['product_name'] = productName;
