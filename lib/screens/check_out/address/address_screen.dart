@@ -917,6 +917,7 @@ class _AddressScreenState extends State<AddressScreen> {
                                                               cartController.zipCode = address.zipCode.toString();
                                                               cartController.getCart();
                                                               print('onTap is....${cartController.countryName.value}');
+                                                              print('onTap is....${cartController.countryName.value}');
                                                               print(
                                                                   'onTap is....${cartController.selectedAddress.id.toString()}');
                                                               if (cartController.isDelivery.value == true) {
