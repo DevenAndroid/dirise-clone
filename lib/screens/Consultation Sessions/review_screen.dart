@@ -240,7 +240,7 @@ class _ReviewScreenState extends State<ReviewScreen> {
                                                       .value.productDetails!.product!.productAvailability!.toDate,
                                                   spot:  productDetailsModel
                                                       .value.productDetails!.product!.spot,
-                                                  formattedStartDateVacation: productDetailsModel.value.productDetails!.product!.productVacation![index].vacationToDate,
+                                                  formattedStartDateVacation: productDetailsModel.value.productDetails!.product!.productVacation![index].vacationFromDate,
                                                   formattedStartDate1Vacation:  productDetailsModel.value.productDetails!.product!.productVacation![index].vacationToDate,
 
                                                 ));
@@ -510,15 +510,15 @@ class _ReviewScreenState extends State<ReviewScreen> {
                                       Get.to(OptionalDetailsScreen(
                                         id: productDetailsModel.value.productDetails!.product!.id,
                                         hostNameController:
-                                            productDetailsModel.value.productDetails!.product!.host_name,
+                                            productDetailsModel.value.productDetails!.product!.host_name ?? '',
                                         locationController: productDetailsModel
-                                            .value.productDetails!.product!.bookable_product_location,
+                                            .value.productDetails!.product!.bookable_product_location ?? '',
                                         programDescription:
-                                            productDetailsModel.value.productDetails!.product!.program_desc,
+                                            productDetailsModel.value.productDetails!.product!.program_desc ?? '',
                                         programGoalController:
-                                            productDetailsModel.value.productDetails!.product!.program_goal,
+                                            productDetailsModel.value.productDetails!.product!.program_goal ?? '',
                                         programNameController:
-                                            productDetailsModel.value.productDetails!.product!.program_name,
+                                            productDetailsModel.value.productDetails!.product!.program_name ?? '',
                                       ));
                                     },
                                     child: const Text(
@@ -601,6 +601,8 @@ class _ReviewScreenState extends State<ReviewScreen> {
                                         id: productDetailsModel.value.productDetails!.product!.id,
                                         sponsorName: productDetailsModel.value.productDetails!.product!.host_name,
                                         sponsorType: productDetailsModel.value.productDetails!.product!.bookable_product_location,
+                                        // image : productDetailsModel.value.productDetails!.product!.im,
+
                                       ));
                                     },
                                     child: const Text(
@@ -680,10 +682,10 @@ class _ReviewScreenState extends State<ReviewScreen> {
                                 child: GestureDetector(
                                     onTap: () {
                                       Get.to(EligibleCustomers(
-                                        id: productDetailsModel.value.productDetails!.product!.id,
-                                       eligibleGender: productDetailsModel.value.productDetails!.product!.eligible_gender,
-                                        eligibleMaxAge: productDetailsModel.value.productDetails!.product!.eligible_max_age,
-                                        eligibleMinAge: productDetailsModel.value.productDetails!.product!.eligible_min_age,
+                                        id: productDetailsModel.value.productDetails!.product!.id.toString(),
+                                       eligibleGender: productDetailsModel.value.productDetails!.product!.eligible_gender ?? '',
+                                        eligibleMaxAge: productDetailsModel.value.productDetails!.product!.eligible_max_age ?? '',
+                                        eligibleMinAge: productDetailsModel.value.productDetails!.product!.eligible_min_age ?? '',
                                       ));
                                     },
                                     child: const Text(

@@ -144,7 +144,7 @@ class _InternationalshippingdetailsScreenState extends State<Internationalshippi
 
 
     if (widget.id != null) {
-      weightController.text = widget.WeightOftheItem.toString();
+      weightController.text = widget.Unitofmeasure.toString();
       numberOfPackageController.text = widget.SelectNumberOfPackages.toString();
       dimensionController.text = widget.Length.toString();
       dimensionWidthController.text = widget.Width.toString();

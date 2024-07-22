@@ -78,14 +78,22 @@ class _DateRangeScreenState extends State<DateRangeScreen> {
       lastDate: DateTime(2101),
     );
     if (picked != null && picked != _endDate) {
-      setState(() {
-        _endDate = picked;
-        formattedStartDate1 = DateFormat('yyyy/MM/dd').format(_endDate);
-        dateRangeError = null;
-        print('Now Select........${formattedStartDate1.toString()}');
-      });
+      if (picked.isBefore(_startDate)) {
+        setState(() {
+          dateRangeError = 'End date cannot be before start date';
+        });
+        print('End date cannot be before start date');
+      } else {
+        setState(() {
+          _endDate = picked;
+          formattedStartDate1 = DateFormat('yyyy/MM/dd').format(_endDate);
+          dateRangeError = null;
+          print('Now Select........${formattedStartDate1.toString()}');
+        });
+      }
     }
   }
+
 
   //Add Vacation
   DateTime startDateVacation = DateTime.now();

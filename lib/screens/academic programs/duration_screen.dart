@@ -21,8 +21,13 @@ class AcademicDurationScreen extends StatefulWidget {
   dynamic recoveryBlockTime;
   dynamic preparationBlockTime;
   dynamic interval;
+  dynamic interval_type;
+  dynamic preparation_block_time_type;
+  dynamic recovery_block_time_type;
 
-  AcademicDurationScreen({super.key,this.recoveryBlockTime,this.preparationBlockTime,this.interval,this.id});
+  AcademicDurationScreen({super.key,this.recoveryBlockTime,this.preparationBlockTime,this.interval,this.id,
+  this.interval_type,this.preparation_block_time_type,this.recovery_block_time_type
+  });
 
 
   @override
@@ -46,6 +51,9 @@ class _AcademicDurationScreenState extends State<AcademicDurationScreen> {
     map['recovery_block_time'] = timeControllerRecovery.text.trim().toString();
     map['preparation_block_time'] = timeControllerPreparation.text.trim().toString();
     map['id'] = addProductController.idProduct.value.toString();
+    map['interval_type'] = serviceSlotTime.toString();
+    map['preparation_block_time_type'] = preparationTime.toString();
+    map['recovery_block_time_type'] = recoveryTime.toString();
     // map['product_type'] = 'booking';
     final Repositories repositories = Repositories();
     FocusManager.instance.primaryFocus!.unfocus();

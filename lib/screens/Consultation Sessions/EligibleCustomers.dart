@@ -14,10 +14,10 @@ import '../../widgets/common_button.dart';
 
 
 class EligibleCustomers extends StatefulWidget {
-  int? id;
-  int? eligibleMinAge;
-  int? eligibleMaxAge;
-  String? eligibleGender;
+  dynamic id;
+  dynamic eligibleMinAge;
+  dynamic eligibleMaxAge;
+  dynamic eligibleGender;
 
   EligibleCustomers({super.key,this.id,this.eligibleGender,this.eligibleMaxAge,this.eligibleMinAge});
 
