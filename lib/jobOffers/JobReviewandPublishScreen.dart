@@ -443,7 +443,7 @@ class _JobReviewPublishScreenState extends State<JobReviewPublishScreen> {
                                 children: [
                                   20.spaceY,
                                   Text(
-                                      'Tell us about yourself: ${addProductControllerNew.productDetailsModel.value.productDetails!.product!.describeJobRole ?? ""}'),
+                                      'Tell us about yourself: ${addProductControllerNew.productDetailsModel.value.productDetails!.product!.aboutYourself ?? ""}'),
                                 ],
                               ),
                             )),

@@ -48,7 +48,7 @@ class ProfileController extends GetxController {
   RxInt refreshInt = 0.obs;
   bool userLoggedIn = false;
   RxString selectedLAnguage = "English".obs;
-  String code = 'KW';
+  String code = '';
   String code1 = 'KW';
   ModelCountryList? modelCountryList;
   Country? selectedCountry;
