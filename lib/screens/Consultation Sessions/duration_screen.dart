@@ -20,8 +20,11 @@ class DurationScreen extends StatefulWidget {
   dynamic recoveryBlockTime;
   dynamic preparationBlockTime;
   dynamic interval;
+  dynamic serviceSlotType;
+  dynamic preparationType;
+  dynamic recoveryType;
 
-  DurationScreen({super.key, this.recoveryBlockTime, this.preparationBlockTime, this.interval, this.id});
+  DurationScreen({super.key, this.recoveryBlockTime, this.preparationBlockTime, this.interval, this.id,this.recoveryType,this.preparationType,this.serviceSlotType});
 
   @override
   State<DurationScreen> createState() => _DurationScreenState();
@@ -43,6 +46,9 @@ class _DurationScreenState extends State<DurationScreen> {
     map['recovery_block_time'] = timeControllerRecovery.text.trim().toString();
     map['preparation_block_time'] = timeControllerPreparation.text.trim().toString();
     map['id'] = addProductController.idProduct.value.toString();
+    map['interval_type'] = serviceSlotTime.toString();
+    map['preparation_block_time_type'] = preparationTime.toString();
+    map['recovery_block_time_type'] = recoveryTime.toString();
     // map['product_type'] = 'booking';
     final Repositories repositories = Repositories();
     FocusManager.instance.primaryFocus!.unfocus();
@@ -71,6 +77,9 @@ class _DurationScreenState extends State<DurationScreen> {
     map['recovery_block_time'] = timeControllerRecovery.text.trim().toString();
     map['preparation_block_time'] = timeControllerPreparation.text.trim().toString();
     map["interval"] = timeController.text.trim().toString();
+    map['interval_type'] = serviceSlotTime.toString();
+    map['preparation_block_time_type'] = preparationTime.toString();
+    map['recovery_block_time_type'] = recoveryTime.toString();
     repositories.postApi(url: ApiUrls.productCreateSlots, mapData: map, context: context).then((value) {
       createSlotsModel.value = CreateSlotsModel.fromJson(jsonDecode(value));
       showToast(createSlotsModel.value.message.toString());
@@ -85,6 +94,9 @@ class _DurationScreenState extends State<DurationScreen> {
       timeControllerRecovery.text = widget.recoveryBlockTime.toString();
       timeControllerPreparation.text = widget.preparationBlockTime.toString();
       timeController.text = widget.interval.toString();
+      serviceSlotTime = widget.serviceSlotType.toString();
+      preparationTime = widget.preparationType.toString();
+      recoveryTime = widget.recoveryType.toString();
     }
   }
 

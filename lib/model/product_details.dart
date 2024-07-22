@@ -632,22 +632,22 @@ class JobCategory {
 
   Map<String, dynamic> toJson() {
     final Map<String, dynamic> data = new Map<String, dynamic>();
-    data['id'] = this.id;
-    data['vendor_id'] = this.vendorId;
-    data['parent_id'] = this.parentId;
-    data['vendor_category'] = this.vendorCategory;
-    data['level'] = this.level;
-    data['commision'] = this.commision;
-    data['category_image'] = this.categoryImage;
-    data['category_image_banner'] = this.categoryImageBanner;
-    data['discription'] = this.discription;
-    data['arab_description'] = this.arabDescription;
-    data['status'] = this.status;
-    data['title'] = this.title;
-    data['arab_title'] = this.arabTitle;
-    data['slug'] = this.slug;
-    data['created_at'] = this.createdAt;
-    data['updated_at'] = this.updatedAt;
+    data['id'] = id;
+    data['vendor_id'] = vendorId;
+    data['parent_id'] = parentId;
+    data['vendor_category'] = vendorCategory;
+    data['level'] = level;
+    data['commision'] = commision;
+    data['category_image'] = categoryImage;
+    data['category_image_banner'] = categoryImageBanner;
+    data['discription'] = discription;
+    data['arab_description'] = arabDescription;
+    data['status'] = status;
+    data['title'] = title;
+    data['arab_title'] = arabTitle;
+    data['slug'] = slug;
+    data['created_at'] = createdAt;
+    data['updated_at'] = updatedAt;
     return data;
   }
 }
@@ -873,6 +873,10 @@ class ProductAvailability {
   dynamic interval;
   dynamic preparationBlockTime;
   dynamic recoveryBlockTime;
+  dynamic preparationBlockTimeType;
+  dynamic recoveryBlockTimeType;
+  dynamic intervalType;
+
 
   ProductAvailability(
       {this.qty,
@@ -881,6 +885,9 @@ class ProductAvailability {
       this.toDate,
       this.interval,
       this.preparationBlockTime,
+      this.preparationBlockTimeType,
+      this.recoveryBlockTimeType,
+      this.intervalType,
       this.recoveryBlockTime});
 
   ProductAvailability.fromJson(Map<String, dynamic> json) {
@@ -891,6 +898,9 @@ class ProductAvailability {
     interval = json['interval'];
     preparationBlockTime = json['preparation_block_time'];
     recoveryBlockTime = json['recovery_block_time'];
+    preparationBlockTimeType = json['preparation_block_time_type'];
+    recoveryBlockTimeType = json['recovery_block_time_type'];
+    intervalType = json['interval_type'];
   }
 
   Map<String, dynamic> toJson() {
@@ -902,6 +912,9 @@ class ProductAvailability {
     data['interval'] = interval;
     data['preparation_block_time'] = preparationBlockTime;
     data['recovery_block_time'] = recoveryBlockTime;
+    data['preparation_block_time_type'] = preparationBlockTimeType;
+    data['recovery_block_time_type'] = recoveryBlockTimeType;
+    data['interval_type'] = intervalType;
     return data;
   }
 }

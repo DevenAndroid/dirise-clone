@@ -423,6 +423,20 @@ class _ReviewScreenState extends State<ReviewScreen> {
                                             .value.productDetails!.product!.productAvailability!.interval,
                                         recoveryBlockTime: productDetailsModel
                                             .value.productDetails!.product!.productAvailability!.recoveryBlockTime,
+                                       recoveryType: productDetailsModel
+                                           .value.productDetails!.product!.productAvailability!.recoveryBlockTimeType != '' ?
+                                       productDetailsModel
+                                           .value.productDetails!.product!.productAvailability!.recoveryBlockTimeType  : 'min' ,
+                                        preparationType: productDetailsModel
+                                            .value.productDetails!.product!.productAvailability!.preparationBlockTimeType != '' ?
+                                        productDetailsModel
+                                            .value.productDetails!.product!.productAvailability!.preparationBlockTimeType
+                                            :'min',
+                                        serviceSlotType: productDetailsModel
+                                            .value.productDetails!.product!.productAvailability!.intervalType != '' ?
+                                        productDetailsModel
+                                            .value.productDetails!.product!.productAvailability!.intervalType
+                                            :'min',
                                       ));
                                     },
                                     child: const Text(

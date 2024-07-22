@@ -1,5 +1,6 @@
 import 'dart:convert';
 
+import 'package:dirise/screens/academic%20programs/review_screen_academic.dart';
 import 'package:dirise/screens/academic%20programs/sponsors_academic_screen.dart';
 import 'package:dirise/utils/helper.dart';
 import 'package:dirise/widgets/common_textfield.dart';
@@ -64,7 +65,12 @@ class _AcademicDurationScreenState extends State<AcademicDurationScreen> {
       if (response.status == true) {
         addProductController.idProduct.value = response.productDetails!.product!.id.toString();
         print(addProductController.idProduct.value.toString());
-        Get.to(()=> SponsorsScreenAcademic());
+        if(widget.id != null){
+          Get.to(const ReviewScreenAcademic());
+        }
+        else{
+          Get.to(()=> SponsorsScreenAcademic());
+        }
       }
     });
   }
@@ -77,6 +83,9 @@ class _AcademicDurationScreenState extends State<AcademicDurationScreen> {
     map['recovery_block_time'] = timeControllerRecovery.text.trim().toString();
     map['preparation_block_time'] = timeControllerPreparation.text.trim().toString();
     map["interval"] = timeController.text.trim().toString();
+    map['interval_type'] = serviceSlotTime.toString();
+    map['preparation_block_time_type'] = preparationTime.toString();
+    map['recovery_block_time_type'] = recoveryTime.toString();
     repositories.postApi(url: ApiUrls.productCreateSlots, mapData: map, context: context).then((value) {
       createSlotsModel.value = CreateSlotsModel.fromJson(jsonDecode(value));
       showToast(createSlotsModel.value.message.toString());
@@ -92,6 +101,9 @@ class _AcademicDurationScreenState extends State<AcademicDurationScreen> {
       timeControllerRecovery.text = widget.recoveryBlockTime.toString();
       timeControllerPreparation.text = widget.preparationBlockTime.toString();
       timeController.text = widget.interval.toString();
+      serviceSlotTime = widget.interval_type.toString();
+      preparationTime = widget.preparation_block_time_type.toString();
+      recoveryTime = widget.recovery_block_time_type.toString();
     }
 
   }
@@ -592,7 +604,12 @@ class _AcademicDurationScreenState extends State<AcademicDurationScreen> {
               ),
               InkWell(
                 onTap: (){
-                  Get.to(()=> SponsorsScreenAcademic());
+                  if(widget.id != null){
+                    Get.to(const ReviewScreenAcademic());
+                  }
+                  else{
+                    Get.to(()=> SponsorsScreenAcademic());
+                  }
                 },
                 child: Container(
                   width: Get.width,

@@ -1,6 +1,7 @@
 import 'dart:convert';
 import 'dart:math';
 import 'package:dirise/screens/Consultation%20Sessions/set_store_time.dart';
+import 'package:dirise/screens/academic%20programs/review_screen_academic.dart';
 import 'package:dirise/screens/academic%20programs/set_store_time.dart';
 import 'package:dirise/utils/helper.dart';
 import 'package:flutter/cupertino.dart';
@@ -161,7 +162,12 @@ class _AcademicDateScreenState extends State<AcademicDateScreen> {
       JobResponceModel response = JobResponceModel.fromJson(jsonDecode(value));
       if (response.status == true) {
         showToast(response.message.toString());
-        Get.to(() => SetTimeScreenAcademic());
+       if(widget.id != null){
+         Get.to(const ReviewScreenAcademic());
+       }
+       else{
+         Get.to(() => SetTimeScreenAcademic());
+       }
         print('value isssss${response.toJson()}');
       } else {
         showToast(response.message.toString());
@@ -484,7 +490,12 @@ class _AcademicDateScreenState extends State<AcademicDateScreen> {
               ),
               InkWell(
                 onTap: () {
-                  Get.to(() => SetTimeScreenAcademic());
+                  if (widget.id != null) {
+                    Get.to(const ReviewScreenAcademic());
+                  }
+                  else {
+                    Get.to(() => SetTimeScreenAcademic());
+                  }
                 },
                 child: Container(
                   width: Get.width,
