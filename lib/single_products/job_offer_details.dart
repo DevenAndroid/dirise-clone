@@ -223,7 +223,7 @@ class _JobOfferDetailsSingleScreenState extends State<JobOfferDetailsSingleScree
                       ),
                       SizedBox(height: 20,),
                       Text(
-                        getJobModel.value.singleJobProduct!.describeJobRole.toString(),
+                        getJobModel.value.singleJobProduct!.aboutYourself.toString(),
                         style: GoogleFonts.poppins(color: Color(0xFF545454), fontWeight: FontWeight.w300, fontSize: 13),),
                       SizedBox(height: 20,),
                       Center(

@@ -192,7 +192,7 @@ onTap:(){
                                         ),
                                         10.spaceY,
                                         Text(
-                                          item.describeJobRole.toString(),
+                                          item.aboutYourself.toString(),
                                             maxLines: 3,
                                         overflow: TextOverflow.ellipsis,
                                           style: GoogleFonts.poppins(
