@@ -16,6 +16,7 @@ import '../repository/repository.dart';
 import '../utils/api_constant.dart';
 import '../widgets/common_colour.dart';
 import '../widgets/common_textfield.dart';
+import 'ReviewandPublishScreen.dart';
 
 class VirtualDiscriptionScreen extends StatefulWidget {
   String? description;
@@ -63,7 +64,7 @@ class _VirtualDiscriptionScreenState extends State<VirtualDiscriptionScreen> {
         // addProductController.idProduct.value = response.productDetails!.product!.id.toString();
         print(addProductController.idProduct.value.toString());
         if(widget.id != null){
-          Get.back();
+          Get.to( VirtualReviewandPublishScreen());
         }else{
           Get.to(const VirtualProductScreen());
         }

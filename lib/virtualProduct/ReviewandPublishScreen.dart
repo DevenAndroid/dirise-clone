@@ -510,7 +510,7 @@ class _VirtualReviewandPublishScreenState extends State<VirtualReviewandPublishS
                                         price: controller.productDetailsModel.value.productDetails!.product!.pPrice,
                                         percentage: controller.productDetailsModel.value.productDetails!.product!.discountPercent,
                                         fixedPrice: controller.productDetailsModel.value.productDetails!.product!.fixedDiscountPrice,
-                                        onSale:true.obs ,
+                                        onSale:controller.productDetailsModel.value.productDetails!.product!.isOnsale ,
                                       ));
                                     },
                                     child: const Text(

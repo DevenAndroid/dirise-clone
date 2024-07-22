@@ -35,6 +35,7 @@ class VirtualOptionalClassificationScreen extends StatefulWidget {
 }
 
 class _VirtualOptionalClassificationScreenState extends State<VirtualOptionalClassificationScreen> {
+  final controller1 = Get.put(ProfileController());
   final controller = Get.put(ServiceController());
   RxBool hide = true.obs;
   RxBool hide1 = true.obs;
@@ -67,7 +68,7 @@ class _VirtualOptionalClassificationScreenState extends State<VirtualOptionalCla
       showToast(response.message.toString());
       if (response.status == true) {
         if(widget.id != null){
-         Get.back();
+          Get.to( VirtualReviewandPublishScreen());
         }else{
           Get.to(const VirtualReviewandPublishScreen());
         }
@@ -244,6 +245,7 @@ class _VirtualOptionalClassificationScreenState extends State<VirtualOptionalCla
                   onTap: () {
                     if(widget.id != null){
                       Get.back();
+                      // controller1.getVendorCategories(addProductController.idProduct.value.toString());
                     }else{
                       Get.to(const VirtualReviewandPublishScreen());
                     }

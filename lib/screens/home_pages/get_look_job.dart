@@ -193,6 +193,8 @@ onTap:(){
                                         10.spaceY,
                                         Text(
                                           item.describeJobRole.toString(),
+                                            maxLines: 3,
+                                        overflow: TextOverflow.ellipsis,
                                           style: GoogleFonts.poppins(
                                               fontSize: 11, fontWeight: FontWeight.w400, color: const Color(0xFF19313C)),
                                         ),
