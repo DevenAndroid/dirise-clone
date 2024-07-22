@@ -27,7 +27,7 @@ class JobHiringModel {
   }
 }
 
-class JobProduct {
+  class JobProduct {
   dynamic id;
   dynamic vendorId;
   dynamic jobCat;

@@ -16,6 +16,7 @@ import '../repository/repository.dart';
 import '../utils/api_constant.dart';
 import '../widgets/common_colour.dart';
 import '../widgets/common_textfield.dart';
+import 'ReviewandPublishScreen.dart';
 
 class VirtualDiscriptionScreen extends StatefulWidget {
   String? description;
@@ -43,7 +44,7 @@ class _VirtualDiscriptionScreenState extends State<VirtualDiscriptionScreen> {
     Map<String, dynamic> map = {};
 
     map['short_description'] = shortController.text.trim();
-    map['item_type'] = 'service';
+    map['item_type'] = 'virtual_product';
     map['seo_tags'] = tagDiscount.text.trim();
     map['id'] = addProductController.idProduct.value.toString();
     map['no_need_stock'] = 'true';
@@ -63,7 +64,7 @@ class _VirtualDiscriptionScreenState extends State<VirtualDiscriptionScreen> {
         // addProductController.idProduct.value = response.productDetails!.product!.id.toString();
         print(addProductController.idProduct.value.toString());
         if(widget.id != null){
-          Get.back();
+          Get.to( VirtualReviewandPublishScreen());
         }else{
           Get.to(const VirtualProductScreen());
         }
