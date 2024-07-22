@@ -105,7 +105,7 @@ class _VirtualPriceScreenState extends State<VirtualPriceScreen> {
     map['discount_percent'] = discountPrecrnt.text.toString();
     map['fixed_discount_price'] = fixedDiscount.text.toString().trim();
     map['p_price'] = priceController.text.toString();
-    map['item_type'] = 'product';
+    map['item_type'] = 'virtual_product';
     map['id'] = addProductController.idProduct.value.toString();
     map['is_onsale'] = isDelivery.toString();
 

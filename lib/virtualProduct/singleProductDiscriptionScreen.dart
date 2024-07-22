@@ -44,7 +44,7 @@ class _VirtualDiscriptionScreenState extends State<VirtualDiscriptionScreen> {
     Map<String, dynamic> map = {};
 
     map['short_description'] = shortController.text.trim();
-    map['item_type'] = 'service';
+    map['item_type'] = 'virtual_product';
     map['seo_tags'] = tagDiscount.text.trim();
     map['id'] = addProductController.idProduct.value.toString();
     map['no_need_stock'] = 'true';
