@@ -56,7 +56,7 @@ class _VirtualProductInformationScreensState extends State<VirtualProductInforma
     Map<String, dynamic> map = {};
     map['category_id'] = idForChild.join(',').toString();
     map['product_name'] = ProductNameController.text.toString();
-    map['item_type'] = 'giveaway';
+    map['item_type'] = 'virtual_product';
     map['id'] = addProductController.idProduct.value.toString();
     /////please change this when image ui is done
 

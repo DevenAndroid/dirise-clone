@@ -45,10 +45,15 @@ class _MultipleReviewAndPublishScreenState extends State<MultipleReviewAndPublis
 
   final Repositories repositories = Repositories();
   RxInt returnPolicyLoaded = 0.obs;
+
   final addProductController = Get.put(AddProductController());
+
   String productId = "";
+
   Rx<ModelProductDetails> productDetailsModel = ModelProductDetails().obs;
+
   Rx<RxStatus> vendorCategoryStatus = RxStatus.empty().obs;
+
   var  link = Get.arguments[0];
   //
   // ReturnPolicyModel? modelReturnPolicy;

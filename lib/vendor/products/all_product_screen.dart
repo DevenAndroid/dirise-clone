@@ -191,12 +191,12 @@ class _VendorProductScreenState extends State<VendorProductScreen> {
                   child: DropdownButton<String>(
                     isExpanded: true,
                     hint: Text('Select an Type',style: TextStyle(color:  Colors.black),),
-                    value:productController . selectedValue1,
+                    value:productController.selectedValue1,
 
                     onChanged: (String? newValue) {
                       setState(() {
                         productController .selectedValue1 = newValue;
-                        print("value"+productController .selectedValue1.toString());
+                        print("value${productController .selectedValue1}");
                         productController.getProductList1(context: context);
                       });
                     },

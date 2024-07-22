@@ -1,17 +1,12 @@
 import 'dart:convert';
-import 'dart:developer';
+import '../../controller/vendor_controllers/add_product_controller.dart';
 import 'dart:io';
-
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:url_launcher/url_launcher.dart';
-
-import '../../addNewProduct/myItemIsScreen.dart';
 import '../../controller/profile_controller.dart';
-import '../../controller/vendor_controllers/add_product_controller.dart';
 import '../../model/addMultipleModel.dart';
-import '../../model/jobResponceModel.dart';
 import '../../model/model_sample_csv.dart';
 import '../../repository/repository.dart';
 import '../../utils/api_constant.dart';
@@ -94,6 +89,7 @@ class _AddMultipleProductScreenState extends State<AddMultipleProductScreen> {
         child: Container(
           margin: const EdgeInsets.only(left: 30,right: 30,top: 30),
           child: Column(
+
             children: [
               const Text("Kindly download the following templates to conveniently upload all your products at once\nCopy and paste your products accordingly Upload it in the next step."),
               const SizedBox(height: 10,),
