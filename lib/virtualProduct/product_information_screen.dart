@@ -347,6 +347,7 @@ class _VirtualProductInformationScreensState extends State<VirtualProductInforma
               const SizedBox(
                 height: 10,
               ),
+              showFilters ?
               Obx(() {
                 return productCategoryModel.value.data != null
                     ? GestureDetector(
@@ -365,7 +366,7 @@ class _VirtualProductInformationScreensState extends State<VirtualProductInforma
                   ),
                 )
                     : const SizedBox();
-              }),
+              }) : SizedBox(),
               const SizedBox(
                 height: 15,
               ),

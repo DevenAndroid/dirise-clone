@@ -695,6 +695,8 @@ class _HomePageState extends State<HomePage> {
                                 locationController.addressListModel.value.status == true &&
                                 locationController.onTapLocation.value == false
                                 ? Row(
+                              crossAxisAlignment: CrossAxisAlignment.center,
+                              mainAxisAlignment: MainAxisAlignment.start,
                               children: [
                                 const SizedBox(width: 10),
                                 SvgPicture.asset(
@@ -706,24 +708,24 @@ class _HomePageState extends State<HomePage> {
                                 const SizedBox(width: 10),
                                 profileController.selectedLAnguage.value == 'English'
                                     ? Flexible(
-                                  child: Center(
-                                      child: Text(
-                                        "Deliver to ${locationController.addressListModel.value.defaultAddress!.city.toString()}, ${locationController.addressListModel.value.defaultAddress!.zipCode.toString()}, ${locationController.addressListModel.value.defaultAddress!.state.toString()}",
-                                        overflow: TextOverflow.visible,
-                                        softWrap: true,
-                                      )),
+                                  child: Text(
+                                    " Deliver to ${locationController.addressListModel.value.defaultAddress!.city.toString()}, ${locationController.addressListModel.value.defaultAddress!.zipCode.toString()}, ${locationController.addressListModel.value.defaultAddress!.state.toString()}",
+                                    overflow: TextOverflow.visible,
+                                    softWrap: true,
+                                  ),
                                 )
                                     : Flexible(
-                                  child: Center(
-                                      child: Text(
-                                        "يسلم إلى ${locationController.addressListModel.value.defaultAddress!.city.toString()}, ${locationController.addressListModel.value.defaultAddress!.zipCode.toString()}, ${locationController.addressListModel.value.defaultAddress!.state.toString()}",
-                                        overflow: TextOverflow.visible,
-                                        softWrap: true,
-                                      )),
+                                  child: Text(
+                                    "يسلم إلى ${locationController.addressListModel.value.defaultAddress!.city.toString()}, ${locationController.addressListModel.value.defaultAddress!.zipCode.toString()}, ${locationController.addressListModel.value.defaultAddress!.state.toString()}",
+                                    overflow: TextOverflow.visible,
+                                    softWrap: true,
+                                  ),
                                 )
                               ],
                             )
                                 : Row(
+                              crossAxisAlignment: CrossAxisAlignment.center,
+                              mainAxisAlignment: MainAxisAlignment.start,
                               children: [
                                 const SizedBox(width: 10),
                                 SvgPicture.asset(
@@ -734,20 +736,18 @@ class _HomePageState extends State<HomePage> {
                                 ),
                                 profileController.selectedLAnguage.value == 'English'
                                     ? Flexible(
-                                  child: Center(
-                                      child: Text(
-                                        "Deliver to ${locationController.city.toString()}, ${locationController.zipcode ?? ''}",
-                                        overflow: TextOverflow.visible,
-                                        softWrap: true,
-                                      )),
+                                  child: Text(
+                                    " Deliver to ${locationController.city.toString()}, ${locationController.zipcode ?? ''}",
+                                    overflow: TextOverflow.visible,
+                                    softWrap: true,
+                                  ),
                                 )
                                     : Flexible(
-                                  child: Center(
-                                      child: Text(
-                                        "يسلم إلى ${locationController.city.toString()}, ${locationController.zipcode ?? ''}",
-                                        overflow: TextOverflow.visible,
-                                        softWrap: true,
-                                      )),
+                                  child: Text(
+                                    "يسلم إلى  ${locationController.city.toString()}, ${locationController.zipcode ?? ''}",
+                                    overflow: TextOverflow.visible,
+                                    softWrap: true,
+                                  ),
                                 )
                               ],
                             );

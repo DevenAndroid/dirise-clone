@@ -621,11 +621,16 @@ class _SingleCategoriesState extends State<SingleCategories> {
 
                       onChanged: (String? newValue) {
                         setState(() {
-                       selectedValue1 = newValue;
-                       selectedValue1 == "Shop by Product"? Get.to(()=>ShopProductScreen(vendorCategories: widget.vendorCategories,),arguments: widget.vendorCategories.id.toString()):Get.back();
-                          print("value"+selectedValue1.toString());
-
-                     // getProductList1(context: context);
+                          selectedValue1 = newValue;
+                          if (selectedValue1 == "Shop by Product") {
+                            Get.to(
+                                  () => ShopProductScreen(vendorCategories: widget.vendorCategories),
+                              arguments: widget.vendorCategories.id.toString(),
+                            );
+                          } else {
+                            Get.back();
+                          }
+                          print("Selected value: " + selectedValue1.toString());
                         });
                       },
                       items:dropdownItems.map<DropdownMenuItem<String>>((String value) {

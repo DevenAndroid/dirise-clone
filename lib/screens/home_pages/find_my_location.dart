@@ -243,7 +243,7 @@ class _FindMyLocationState extends State<FindMyLocation> {
                 Positioned(
                     bottom: 0,
                     child: Container(
-                      height: AddSize.size200,
+                      height: AddSize.size220,
                       width: MediaQuery.of(context).size.width,
                       decoration: const BoxDecoration(
                           color: Colors.transparent,
@@ -330,6 +330,9 @@ class _FindMyLocationState extends State<FindMyLocation> {
                                   locationController.zipcode.value = controllerMap.state.value.toString();
                                   Get.back();
                                 },
+                              ),
+                              const SizedBox(
+                                height: 20,
                               ),
                             ],
                           ),

@@ -431,6 +431,8 @@ class _ProductReviewPublicScreenState extends State<ProductReviewPublicScreen> {
                             Text(
                                 'product Type: ${ profileController.productDetailsModel.value.productDetails!.product!
                                     .productType ?? ''}'),
+                           if(profileController.productDetailsModel.value.productDetails!.product!
+                               .catId !="")
                             Text(
                                 'Category ID: ${ profileController.productDetailsModel.value.productDetails!.product!
                                     .catId ?? ''}'),
