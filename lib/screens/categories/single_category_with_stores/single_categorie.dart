@@ -610,7 +610,8 @@ class _SingleCategoriesState extends State<SingleCategories> {
                     width: 200,
                     padding: EdgeInsets.symmetric(horizontal: 12, vertical: 2),
                     decoration: BoxDecoration(
-                      border: Border.all(color: Colors.blueAccent),
+                      color: Color(0xffEBF1F4),
+                      border: Border.all(color: Color(0xff014E70)),
                       borderRadius: BorderRadius.circular(5),
                     ),
                     child: DropdownButton<String>(
