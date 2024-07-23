@@ -18,6 +18,7 @@ import '../utils/api_constant.dart';
 import '../widgets/common_button.dart';
 import '../widgets/common_colour.dart';
 import '../widgets/vendor_common_textfield.dart';
+import 'ReviewandPublishScreen.dart';
 
 class SingleProductReturnPolicy extends StatefulWidget {
   String? policyName;
@@ -118,8 +119,15 @@ class _SingleProductReturnPolicyState extends State<SingleProductReturnPolicy> {
       ModelCommonResponse response = ModelCommonResponse.fromJson(jsonDecode(value));
       print('API Response Status Code: ${response.status}');
       showToast(response.message.toString());
+
       if (response.status == true) {
-        Get.to(() =>  SingleProductDeliverySize());
+        if(widget.id != null){
+          Get.to(ProductReviewPublicScreen());
+        }else{
+          Get.to(SingleProductDeliverySize());
+
+        }
+        // Get.to(() =>  SingleProductDeliverySize());
       } else {
         showToast(response.message.toString());
       }
@@ -132,6 +140,7 @@ class _SingleProductReturnPolicyState extends State<SingleProductReturnPolicy> {
     super.initState();
     getReturnPolicyData();
     if (widget.id != null) {
+
       titleController.text = widget.policyName.toString();
       descController.text = widget.policyDescription.toString();
       selectedReturnDay = widget.returnWithIn.toString();
