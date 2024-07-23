@@ -729,8 +729,8 @@ class _ReviewPublishServiceScreenState extends State<ReviewPublishServiceScreen>
                                         street: controller.productDetailsModel.value.productDetails!.address!.address,
                                         city: controller.productDetailsModel.value.productDetails!.address!.city,
                                         state: controller.productDetailsModel.value.productDetails!.address!.state,
-                                        zipcode: controller.productDetailsModel.value.productDetails!.address!.country,
-                                        country: controller.productDetailsModel.value.productDetails!.address!.zipCode,
+                                        zipcode: controller.productDetailsModel.value.productDetails!.address!.zipCode,
+                                        country: controller.productDetailsModel.value.productDetails!.address!.country,
                                         town: controller.productDetailsModel.value.productDetails!.address!.town,
                                       ));
                                     },

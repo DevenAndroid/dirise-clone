@@ -2657,6 +2657,7 @@ class _DirectCheckOutScreenState extends State<DirectCheckOutScreen> {
     map["quantity"] = quantity.toString();
     map["key"] = 'fedexRate';
     map["country_id"] = countryIddd.toString();
+    map["zip_code"] = cartController.zipCode.toString();
 
     if (cartController.isBookingProduct) {
       map["start_date"] = cartController.selectedDate.toString();

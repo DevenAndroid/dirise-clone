@@ -127,6 +127,7 @@ class LocationController extends GetxController {
       city.value = addCurrentAddress.value.data!.city;
       zipcode.value = addCurrentAddress.value.data!.state;
       cartController.countryId =  addCurrentAddress.value.data!.countryId.toString();
+      print(   "id::::::::::::::::::::::::::::::"+cartController.countryId);
       cartController.getCart();
       zipcodeController.clear();
       Get.back();

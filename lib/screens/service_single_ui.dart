@@ -153,6 +153,7 @@ class _ServiceProductScreenState extends State<ServiceProductScreen> {
     map["product_id"] = id.toString();
     map["quantity"] = map["quantity"] = int.tryParse(_counter.toString());
     map["key"] = 'fedexRate';
+    map["zip_code"] = cartController.zipCode.toString();
     map["country_id"] = profileController.model.user != null ? profileController.model.user!.country_id : '117';
     repositories.postApi(url: ApiUrls.buyNowDetailsUrl, mapData: map, context: context).then((value) {
       log("Value>>>>>>>$value");

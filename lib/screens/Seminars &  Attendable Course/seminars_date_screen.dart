@@ -1,4 +1,5 @@
 import 'dart:convert';
+import 'package:dirise/screens/Seminars%20&%20%20Attendable%20Course/review_screen.dart';
 import 'package:dirise/screens/Seminars%20&%20%20Attendable%20Course/seminars_sponsors_screen.dart';
 import 'package:dirise/screens/Seminars%20&%20%20Attendable%20Course/webinarScreen.dart';
 import 'package:dirise/screens/tour_travel/dateRangemodel.dart';
@@ -39,6 +40,7 @@ class _DateRangeSeminarsScreenState extends State<DateRangeSeminarsScreen> {
   DateTime _endDate = DateTime.now();
   final addProductController = Get.put(AddProductController());
   String? formattedStartDate1;
+  String? formattedStartDate;
   bool sundaySelected = false;
   bool mondaySelected = false;
   bool tueSelected = false;
@@ -59,9 +61,9 @@ class _DateRangeSeminarsScreenState extends State<DateRangeSeminarsScreen> {
     if (picked != null && picked != _startDate) {
       setState(() {
         _startDate = picked;
-        addProductController.formattedStartDate = DateFormat('yyyy/MM/dd').format(_startDate);
+        formattedStartDate = DateFormat('yyyy/MM/dd').format(_startDate);
         dateRangeError = null;
-        print('Now Select........${addProductController.formattedStartDate.toString()}');
+        print('Now Select........${formattedStartDate.toString()}');
       });
     }
   }
@@ -85,7 +87,7 @@ class _DateRangeSeminarsScreenState extends State<DateRangeSeminarsScreen> {
   final Repositories repositories = Repositories();
   int index = 0;
   void updateProfile() {
-    if (addProductController.formattedStartDate == null || formattedStartDate1 == null) {
+    if (formattedStartDate == null || formattedStartDate1 == null) {
       setState(() {
         dateRangeError = 'Please select both start and end dates.';
       });
@@ -95,7 +97,7 @@ class _DateRangeSeminarsScreenState extends State<DateRangeSeminarsScreen> {
 
     map["product_type"] = "booking";
     map["id"] =  addProductController.idProduct.value.toString();
-    map["from_date"] = addProductController.formattedStartDate.toString();
+    map["from_date"] = formattedStartDate.toString();
     map["to_date"] = formattedStartDate1.toString();
     map["off_days"] = offDaysSelected;
     map['booking_product_type'] = 'webinar';
@@ -107,8 +109,12 @@ class _DateRangeSeminarsScreenState extends State<DateRangeSeminarsScreen> {
       if (response.status == true) {
         showToast(response.message.toString());
         profileController.productAvailabilityId = response.productDetails!.productAvailabilityId!.id!;
-        // Get.to(WebinarScreen());
-         Get.to(()=> WebinarScreen());
+        if(widget.id != null){
+         Get.to(()=> const ReviewScreenSeminarAndAttendable());
+        }
+        else {
+          Get.to(() => WebinarScreen());
+        }
         print('value isssss${response.toJson()}');
       }else{
         showToast(response.message.toString());
@@ -122,7 +128,7 @@ class _DateRangeSeminarsScreenState extends State<DateRangeSeminarsScreen> {
     super.initState();
     addProductController.startDate.text  = '';
     if (widget.id != null) {
-      addProductController.formattedStartDate = widget.from_date;
+      formattedStartDate = widget.from_date;
       formattedStartDate1 = widget.to_date;
     }
   }
@@ -186,7 +192,7 @@ class _DateRangeSeminarsScreenState extends State<DateRangeSeminarsScreen> {
                     crossAxisAlignment: CrossAxisAlignment.start,
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
-                      Text('Start Date: ${addProductController.formattedStartDate ?? ''}',
+                      Text('Start Date: ${formattedStartDate ?? ''}',
                         style:const TextStyle(
                             fontSize: 17,
                             fontWeight: FontWeight.w500
@@ -286,8 +292,12 @@ class _DateRangeSeminarsScreenState extends State<DateRangeSeminarsScreen> {
             ),
             InkWell(
               onTap: (){
-                // updateProfile();
-                Get.to(()=>  SponsorsSeminarScreen());
+                if(widget.id != null){
+                  Get.to(()=> const ReviewScreenSeminarAndAttendable());
+                }
+                else {
+                  Get.to(()=>  WebinarScreen());
+                }
               },
               child: Container(
                 width: Get.width,
