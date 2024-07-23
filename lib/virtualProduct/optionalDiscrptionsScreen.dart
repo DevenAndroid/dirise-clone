@@ -70,9 +70,11 @@ class _VirtualOptionalDiscrptionsScreenState extends State<VirtualOptionalDiscrp
       print('API Response Status Code: ${response.status}');
       if (response.status == true) {
         if(widget.id != null){
-          Get.to( VirtualReviewandPublishScreen());
+          Get.to(()=>VirtualReviewandPublishScreen());
         }
-        Get.to(() => VirtualOptionalClassificationScreen());
+       else{
+          Get.to(() => VirtualOptionalClassificationScreen());
+        }
       }
     });
   }

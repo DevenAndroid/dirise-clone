@@ -1,6 +1,6 @@
 class VritualProductModel {
   bool? status;
-  String? message;
+  dynamic message;
   SingleVirtualProduct? singleVirtualProduct;
 
   VritualProductModel({this.status, this.message, this.singleVirtualProduct});
@@ -25,33 +25,33 @@ class VritualProductModel {
 }
 
 class SingleVirtualProduct {
-  int? id;
-  int? vendorId;
-  int? addressId;
+  dynamic id;
+  dynamic vendorId;
+  dynamic addressId;
   List<CatId>? catId;
-  String? pname;
-  String? productType;
-  String? itemType;
-  String? giveawayItemCondition;
-  String? featuredImage;
-  String? featureImageApp;
-  String? featureImageWeb;
+  dynamic pname;
+  dynamic productType;
+  dynamic itemType;
+  dynamic giveawayItemCondition;
+  dynamic featuredImage;
+  dynamic featureImageApp;
+  dynamic featureImageWeb;
   List<String>? galleryImage;
-  String? inStock;
-  String? pPrice;
-  ReturnPolicyDesc? returnPolicyDesc;
-  String? shortDescription;
-  String? longDescription;
-  int? isComplete;
-  String? virtualProductFile;
-  int? views;
-  int? rating;
+  dynamic inStock;
+  dynamic pPrice;
+  // ReturnPolicyDesc? returnPolicyDesc;
+  dynamic shortDescription;
+  dynamic longDescription;
+  dynamic isComplete;
+  dynamic virtualProductFile;
+  dynamic views;
+  dynamic rating;
   bool? alreadyReview;
   bool? inWishlist;
-  int? wishlistCount;
+  dynamic wishlistCount;
   Storemeta? storemeta;
-  String? discountPrice;
-  String? discountOff;
+  dynamic discountPrice;
+  dynamic discountOff;
 
   SingleVirtualProduct(
       {this.id,
@@ -68,7 +68,7 @@ class SingleVirtualProduct {
         this.galleryImage,
         this.inStock,
         this.pPrice,
-        this.returnPolicyDesc,
+        // this.returnPolicyDesc,
         this.shortDescription,
         this.longDescription,
         this.isComplete,
@@ -102,9 +102,9 @@ class SingleVirtualProduct {
     galleryImage = json['gallery_image'].cast<String>();
     inStock = json['in_stock'];
     pPrice = json['p_price'];
-    returnPolicyDesc = json['return_policy_desc'] != null
-        ? new ReturnPolicyDesc.fromJson(json['return_policy_desc'])
-        : null;
+    // returnPolicyDesc = json['return_policy_desc'] != null
+    //     ? new ReturnPolicyDesc.fromJson(json['return_policy_desc'])
+    //     : null;
     shortDescription = json['short_description'];
     longDescription = json['long_description'];
     isComplete = json['is_complete'];
@@ -139,9 +139,9 @@ class SingleVirtualProduct {
     data['gallery_image'] = this.galleryImage;
     data['in_stock'] = this.inStock;
     data['p_price'] = this.pPrice;
-    if (this.returnPolicyDesc != null) {
-      data['return_policy_desc'] = this.returnPolicyDesc!.toJson();
-    }
+    // if (this.returnPolicyDesc != null) {
+    //   data['return_policy_desc'] = this.returnPolicyDesc!.toJson();
+    // }
     data['short_description'] = this.shortDescription;
     data['long_description'] = this.longDescription;
     data['is_complete'] = this.isComplete;
@@ -161,8 +161,8 @@ class SingleVirtualProduct {
 }
 
 class CatId {
-  int? id;
-  String? title;
+  dynamic id;
+  dynamic title;
 
   CatId({this.id, this.title});
 
@@ -180,17 +180,17 @@ class CatId {
 }
 
 class ReturnPolicyDesc {
-  int? id;
-  int? userId;
-  String? title;
-  String? days;
-  String? policyDiscreption;
-  String? returnShippingFees;
-  String? unit;
-  int? noReturn;
-  int? isDefault;
-  String? createdAt;
-  String? updatedAt;
+  dynamic id;
+  dynamic userId;
+  dynamic title;
+  dynamic days;
+  dynamic policyDiscreption;
+  dynamic returnShippingFees;
+  dynamic unit;
+  dynamic noReturn;
+  dynamic isDefault;
+  dynamic createdAt;
+  dynamic updatedAt;
 
   ReturnPolicyDesc(
       {this.id,
@@ -237,16 +237,16 @@ class ReturnPolicyDesc {
 }
 
 class Storemeta {
-  String? firstName;
-  String? lastName;
-  int? storeId;
-  String? storeName;
-  String? storeLocation;
-  String? profileImg;
-  String? bannerProfile;
-  String? commercialLicense;
-  String? document2;
-  String? storeCategory;
+  dynamic firstName;
+  dynamic lastName;
+  dynamic storeId;
+  dynamic storeName;
+  dynamic storeLocation;
+  dynamic profileImg;
+  dynamic bannerProfile;
+  dynamic commercialLicense;
+  dynamic document2;
+  dynamic storeCategory;
   bool? isVendor;
 
   Storemeta(
