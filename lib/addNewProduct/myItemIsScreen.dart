@@ -58,7 +58,7 @@ class _MyItemISScreenState extends State<MyItemISScreen> {
       } else {}
     } else {
       if (selectedRadio == 'Giveaway') {
-        Get.to(ItemDetailsScreens());
+        Get.to(Giveway1Screen());
       } else if (selectedRadio == 'Job') {
         Get.to(const JobTellusaboutyourselfScreen());
       } else {

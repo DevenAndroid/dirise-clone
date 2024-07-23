@@ -428,16 +428,24 @@ class _ContactUsScreenState extends State<ContactUsScreen> {
                         ),
                         addHeight(30),
                         IconColumnRowWidget(
-                          iconData: 'assets/images/address.svg',
+                          iconData: 'assets/images/whatsapp.svg',
                           title: 'Chatbot'.tr,
                           subtitle: '+965 9876 2557',
                           onTap: () async {
-                            String phoneNumber = Uri.encodeComponent( contactusEmailModal.value.data!.helpNumber.toString());
-                            Uri telUri = Uri.parse("tel:$phoneNumber");
-                            if (await launchUrl(telUri)) {
+                            String phoneNumber = contactusEmailModal.value.data!.helpNumber.toString();
+                            String whatsappUrl = "https://wa.me/$phoneNumber";
+
+                            Uri whatsappUri = Uri.parse(whatsappUrl);
+
+                            if (await canLaunchUrl(whatsappUri)) {
+                              await launchUrl(whatsappUri);
+                            } else {
+                              // Handle the error, e.g., show a message to the user
+                              print('Could not launch $whatsappUrl');
                             }
                           },
                         ),
+
                         addHeight(50),
                         Row(
                           mainAxisAlignment: MainAxisAlignment.center,

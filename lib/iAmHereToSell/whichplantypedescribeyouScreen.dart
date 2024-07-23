@@ -967,11 +967,31 @@ class _WhichplantypedescribeyouScreenState extends State<Whichplantypedescribeyo
                 },
                 child: Align(
                   alignment: Alignment.center,
-                  child: Text(
-                    'Contact  +965 6555 6490 if you need assistance'.tr,
-                    style: GoogleFonts.poppins(color: const Color(0xff014E70), fontWeight: FontWeight.w400, fontSize: 10),
+                  child: RichText(
+                    text: TextSpan(
+                      style: GoogleFonts.poppins(
+                        color: const Color(0xff014E70),
+                        fontWeight: FontWeight.w400,
+                        fontSize: 10,
+                      ),
+                      children: [
+                        TextSpan(
+                          text: 'Contact ',
+                        ),
+                        TextSpan(
+                          text: '+965 6555 6490',
+                          style: TextStyle(
+                            decoration: TextDecoration.underline,
+                          ),
+                        ),
+                        TextSpan(
+                          text: ' if you need assistance'.tr,
+                        ),
+                      ],
+                    ),
                   ),
                 ),
+
               ),
               const SizedBox(
                 height: 10,
