@@ -354,6 +354,7 @@ class _ItemDetailsScreensState extends State<ItemDetailsScreens> {
               const SizedBox(
                 height: 15,
               ),
+              showFilters ?
               Obx(() {
                 return productCategoryModel.value.data != null
                     ? GestureDetector(
@@ -372,7 +373,7 @@ class _ItemDetailsScreensState extends State<ItemDetailsScreens> {
                   ),
                 )
                     : const SizedBox();
-              }),
+              }) : SizedBox(),
               const SizedBox(
                 height: 5,
               ),

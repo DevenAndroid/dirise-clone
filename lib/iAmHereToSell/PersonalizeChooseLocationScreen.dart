@@ -279,7 +279,7 @@ class _PersonalizeChooseLocationState extends State<PersonalizeChooseLocation> {
                 Positioned(
                     bottom: 0,
                     child: Container(
-                      height: AddSize.size200,
+                      height: AddSize.size220,
                       width: MediaQuery.of(context).size.width,
                       decoration: const BoxDecoration(
                           color: Colors.transparent,
@@ -371,6 +371,9 @@ class _PersonalizeChooseLocationState extends State<PersonalizeChooseLocation> {
                                     zipcode:   controllerMap.zipcode.value,
                                   ));
                                 },
+                              ),
+                              const SizedBox(
+                                height: 20,
                               ),
                             ],
                           ),
