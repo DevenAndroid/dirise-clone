@@ -107,7 +107,7 @@ class _ReviewScreenState extends State<ReviewScreen> {
             padding: const EdgeInsets.only(right: 10),
             child: Text(
               'Skip',
-              style: GoogleFonts.poppins(color: Color(0xff0D5877), fontWeight: FontWeight.w400, fontSize: 18),
+              style: GoogleFonts.poppins(color: const Color(0xff0D5877), fontWeight: FontWeight.w400, fontSize: 18),
             ),
           )
         ],
@@ -184,9 +184,9 @@ class _ReviewScreenState extends State<ReviewScreen> {
                         Stack(
                           children: [
                             Container(
-                              margin: EdgeInsets.only(top: 10),
+                              margin: const EdgeInsets.only(top: 10),
                               width: Get.width,
-                              padding: EdgeInsets.all(10),
+                              padding: const EdgeInsets.all(10),
                               decoration:
                                   BoxDecoration(color: Colors.grey.shade200, borderRadius: BorderRadius.circular(11)),
                               child: Column(
@@ -212,8 +212,7 @@ class _ReviewScreenState extends State<ReviewScreen> {
                                                 onTap: (){
                                                   Get.to(DateRangeScreen(
                                                     id: productDetailsModel.value.productDetails!.product!.id,
-                                                    from_date: productDetailsModel
-                                                        .value.productDetails!.product!.productAvailability!.fromDate,
+                                                    from_date: productDetailsModel.value.productDetails!.product!.productAvailability!.fromDate,
                                                     to_date: productDetailsModel
                                                         .value.productDetails!.product!.productAvailability!.toDate,
                                                     spot:  productDetailsModel
@@ -392,9 +391,9 @@ class _ReviewScreenState extends State<ReviewScreen> {
                         Stack(
                           children: [
                             Container(
-                              margin: EdgeInsets.only(top: 10),
+                              margin: const EdgeInsets.only(top: 10),
                               width: Get.width,
-                              padding: EdgeInsets.all(10),
+                              padding: const EdgeInsets.all(10),
                               decoration:
                                   BoxDecoration(color: Colors.grey.shade200, borderRadius: BorderRadius.circular(11)),
                               child: Column(
@@ -494,9 +493,9 @@ class _ReviewScreenState extends State<ReviewScreen> {
                         Stack(
                           children: [
                             Container(
-                              margin: EdgeInsets.only(top: 10),
+                              margin: const EdgeInsets.only(top: 10),
                               width: Get.width,
-                              padding: EdgeInsets.all(10),
+                              padding: const EdgeInsets.all(10),
                               decoration:
                                   BoxDecoration(color: Colors.grey.shade200, borderRadius: BorderRadius.circular(11)),
                               child: Column(
@@ -590,9 +589,9 @@ class _ReviewScreenState extends State<ReviewScreen> {
                         Stack(
                           children: [
                             Container(
-                              margin: EdgeInsets.only(top: 10),
+                              margin: const EdgeInsets.only(top: 10),
                               width: Get.width,
-                              padding: EdgeInsets.all(10),
+                              padding: const EdgeInsets.all(10),
                               decoration:
                                   BoxDecoration(color: Colors.grey.shade200, borderRadius: BorderRadius.circular(11)),
                               child: Column(
@@ -615,7 +614,8 @@ class _ReviewScreenState extends State<ReviewScreen> {
                                         id: productDetailsModel.value.productDetails!.product!.id,
                                         sponsorName: productDetailsModel.value.productDetails!.product!.host_name,
                                         sponsorType: productDetailsModel.value.productDetails!.product!.bookable_product_location,
-                                        // image : productDetailsModel.value.productDetails!.product!.im,
+                                        image : productDetailsModel.value.productDetails!.product!.productSponsors!.sponsorLogo.toString(),
+                                        sponsorsID: productDetailsModel.value.productDetails!.product!.productSponsors!.id.toString(),
 
                                       ));
                                     },
@@ -674,9 +674,9 @@ class _ReviewScreenState extends State<ReviewScreen> {
                         Stack(
                           children: [
                             Container(
-                              margin: EdgeInsets.only(top: 10),
+                              margin: const EdgeInsets.only(top: 10),
                               width: Get.width,
-                              padding: EdgeInsets.all(10),
+                              padding: const EdgeInsets.all(10),
                               decoration:
                               BoxDecoration(color: Colors.grey.shade200, borderRadius: BorderRadius.circular(11)),
                               child:  Column(

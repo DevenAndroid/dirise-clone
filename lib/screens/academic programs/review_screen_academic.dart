@@ -616,6 +616,8 @@ class _ReviewScreenAcademicState extends State<ReviewScreenAcademic> {
                                         id: productDetailsModel.value.productDetails!.product!.id,
                                         sponsorName: productDetailsModel.value.productDetails!.product!.host_name,
                                         sponsorType: productDetailsModel.value.productDetails!.product!.bookable_product_location,
+                                        image : productDetailsModel.value.productDetails!.product!.productSponsors!.sponsorLogo.toString(),
+                                        sponsorsID: productDetailsModel.value.productDetails!.product!.productSponsors!.id.toString(),
                                       ));
                                     },
                                     child: const Text(

@@ -76,6 +76,7 @@ class Product {
   dynamic jobCountry;
   dynamic jobState;
   dynamic jobCity;
+  dynamic meetingPlatform;
   dynamic vendorId;
   dynamic addressId;
   dynamic jobCountryId;
@@ -184,12 +185,14 @@ class Product {
   List<ProductWeeklyAvailability>? productWeeklyAvailability;
   List<ProductVacation>? productVacation;
   JobCategory? jobCategory;
+  ProductSponsors? productSponsors;
   Product(
       {this.id,
       this.spot,
         this.fromLocation,
         this.toLocation,
         this.fromExtraNotes,
+        this.meetingPlatform,
         this.toExtraNotes,
         this.giveawayItemCondition,
       this.meeting_platform,
@@ -310,6 +313,7 @@ class Product {
       this.returnPolicyDesc,
       this.shippingPolicyDesc,
       this.jobCategory,
+      this.productSponsors,
       this.discountPrice});
 
   Product.fromJson(Map<String, dynamic> json) {
@@ -340,6 +344,7 @@ class Product {
     program_desc = json['program_desc'];
     vendorId = json['vendor_id'];
     jobCountry = json['job_country_id'];
+    meetingPlatform = json['meeting_platform'];
     jobState = json['job_state_id'];
     jobCity = json['job_city_id'];
     jobCountryName = json['job_country_name'];
@@ -439,6 +444,9 @@ class Product {
     jobCategory = json['job_category'] != null
         ? new JobCategory.fromJson(json['job_category'])
         : null;
+    productSponsors = json['product_sponsors'] != null
+        ? new ProductSponsors.fromJson(json['product_sponsors'])
+        : null;
     returnPolicyDesc =
         json['return_policy_desc'] != null ? ReturnPolicyDesc.fromJson(json['return_policy_desc']) : null;
 
@@ -472,6 +480,7 @@ class Product {
     data['cat_id'] = catId;
     data['cat_id_2'] = catId2;
     data['job_cat'] = jobCat;
+    data['meeting_platform'] = meetingPlatform;
     data['no_need_stock'] = noNeedStock;
     data['brand_slug'] = brandSlug;
     data['cat_name'] = catName;
@@ -569,9 +578,44 @@ class Product {
     data['return_policy_desc'] = returnPolicyDesc;
     data['shipping_policy_desc'] = shippingPolicyDesc;
     data['discount_price'] = discountPrice;
+    if (productSponsors != null) {
+      data['product_sponsors'] = productSponsors!.toJson();
+    }
     if (jobCategory != null) {
       data['job_category'] = jobCategory!.toJson();
     }
+    return data;
+  }
+}
+class ProductSponsors {
+  dynamic id;
+  dynamic vendorId;
+  dynamic sponsorType;
+  dynamic sponsorName;
+  dynamic sponsorLogo;
+
+  ProductSponsors(
+      {this.id,
+        this.vendorId,
+        this.sponsorType,
+        this.sponsorName,
+        this.sponsorLogo});
+
+  ProductSponsors.fromJson(Map<String, dynamic> json) {
+    id = json['id'];
+    vendorId = json['vendor_id'];
+    sponsorType = json['sponsor_type'];
+    sponsorName = json['sponsor_name'];
+    sponsorLogo = json['sponsor_logo'];
+  }
+
+  Map<String, dynamic> toJson() {
+    final Map<String, dynamic> data = new Map<String, dynamic>();
+    data['id'] = id;
+    data['vendor_id'] = vendorId;
+    data['sponsor_type'] = sponsorType;
+    data['sponsor_name'] = sponsorName;
+    data['sponsor_logo'] = sponsorLogo;
     return data;
   }
 }

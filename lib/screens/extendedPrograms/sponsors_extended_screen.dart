@@ -3,6 +3,7 @@ import 'dart:io';
 
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:dirise/screens/Consultation%20Sessions/review_screen.dart';
+import 'package:dirise/screens/extendedPrograms/review_screen_academic.dart';
 import 'package:dirise/utils/helper.dart';
 import 'package:dirise/widgets/loading_animation.dart';
 import 'package:flutter/material.dart';
@@ -26,8 +27,10 @@ class SponsorsScreenExtendedPrograms extends StatefulWidget {
   int? id;
   String? sponsorType;
   String? sponsorName;
+  String? image;
+  dynamic sponsorsID;
 
-  SponsorsScreenExtendedPrograms({super.key, this.id, this.sponsorName, this.sponsorType});
+  SponsorsScreenExtendedPrograms({super.key, this.id, this.sponsorName, this.sponsorType,this.image,this.sponsorsID});
 
   @override
   State<SponsorsScreenExtendedPrograms> createState() => _SponsorsScreenExtendedProgramsState();
@@ -108,11 +111,10 @@ class _SponsorsScreenExtendedProgramsState extends State<SponsorsScreenExtendedP
       if (response.status == true) {
         showToast(response.message.toString());
         if (formKey1.currentState!.validate()) {
-          if (widget.id != null) {
-            Get.to(() => ReviewScreen());
+          if(widget.id != null){
+            Get.to(()=> const ReviewScreenExtendedPrograms());
           } else {
             Get.to(() => EligibleCustomersExtendedPrograms());
-
           }
         }
       }
@@ -128,6 +130,8 @@ class _SponsorsScreenExtendedProgramsState extends State<SponsorsScreenExtendedP
     if (widget.id != null) {
       sponsorTypeController.text = widget.sponsorType.toString();
       sponsorNameController.text = widget.sponsorName.toString();
+      idProof = File(widget.image.toString());
+      sponsorValue = widget.sponsorsID.toString();
     }
   }
 
@@ -329,7 +333,11 @@ class _SponsorsScreenExtendedProgramsState extends State<SponsorsScreenExtendedP
                         const SizedBox(height: 20),
                         GestureDetector(
                           onTap: () {
-                            Get.to(() => EligibleCustomersExtendedPrograms());
+                            if(widget.id != null){
+                              Get.to(()=> const ReviewScreenExtendedPrograms());
+                            } else {
+                              Get.to(() => EligibleCustomersExtendedPrograms());
+                            }
 
                           },
                           child: Container(

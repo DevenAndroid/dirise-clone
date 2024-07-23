@@ -27,8 +27,9 @@ class SponsorsScreen extends StatefulWidget {
   String? sponsorType;
   String? sponsorName;
   String? image;
+  dynamic sponsorsID;
 
-  SponsorsScreen({super.key, this.id, this.sponsorName, this.sponsorType,this.image});
+  SponsorsScreen({super.key, this.id, this.sponsorName, this.sponsorType,this.image,this.sponsorsID});
 
   @override
   State<SponsorsScreen> createState() => _SponsorsScreenState();
@@ -129,6 +130,7 @@ class _SponsorsScreenState extends State<SponsorsScreen> {
       sponsorTypeController.text = widget.sponsorType.toString();
       sponsorNameController.text = widget.sponsorName.toString();
       idProof = File(widget.image.toString());
+      sponsorValue = widget.sponsorsID.toString();
     }
   }
 
