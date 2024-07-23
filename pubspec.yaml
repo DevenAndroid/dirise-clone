@@ -85,6 +85,7 @@ dependencies:
   pdf:
   multiple_images_picker:
   auto_size_text: ^3.0.0
+  dropdown_search: ^5.0.6
 
 dev_dependencies:
   flutter_test:

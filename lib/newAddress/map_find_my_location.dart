@@ -369,7 +369,7 @@ class _FindMyLocationAddressState extends State<FindMyLocationAddress> {
                 Positioned(
                     bottom: 0,
                     child: Container(
-                      height: AddSize.size200,
+                      height: AddSize.size220,
                       width: MediaQuery.of(context).size.width,
                       decoration: const BoxDecoration(
                           color: Colors.transparent,
@@ -462,6 +462,9 @@ class _FindMyLocationAddressState extends State<FindMyLocationAddress> {
                                   bottomSheet(addressData: AddressData());
 
                                 },
+                              ),
+                              const SizedBox(
+                                height: 20,
                               ),
                             ],
                           ),
