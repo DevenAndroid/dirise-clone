@@ -1,6 +1,7 @@
 import 'dart:convert';
 import 'dart:developer';
 
+import 'package:dirise/screens/Seminars%20&%20%20Attendable%20Course/review_screen.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
@@ -15,13 +16,16 @@ import '../../widgets/common_textfield.dart';
 import 'optional_details_academic.dart';
 
 class WebinarScreen extends StatefulWidget {
-   int? id;
-   String? meetingWillBeat;
-   String? startTime;
-   String? endTime;
-   String? extraNotes;
-   String? spots;
-  WebinarScreen({super.key, this.id,this.startTime,this.endTime,this.extraNotes,this.meetingWillBeat,this.spots});
+   dynamic id;
+   dynamic meetingWillBeat;
+   dynamic startTime;
+   dynamic endTime;
+   dynamic extraNotes;
+   dynamic spots;
+   dynamic extraNotes1;
+   dynamic meetingPlatform;
+   dynamic meetingPlatform1;
+  WebinarScreen({super.key, this.id,this.startTime,this.endTime,this.extraNotes,this.meetingWillBeat,this.spots,this.extraNotes1,this.meetingPlatform1,this.meetingPlatform});
 
   @override
   State<WebinarScreen> createState() => _WebinarScreenState();
@@ -65,6 +69,8 @@ class _WebinarScreenState extends State<WebinarScreen> {
   final addProductController = Get.put(AddProductController());
 
   TextEditingController extraNotesController = TextEditingController();
+  TextEditingController extraNotesController1 = TextEditingController();
+  TextEditingController spotController = TextEditingController();
   final profileController = Get.put(ProfileController());
   webinarApi() {
     log('fgdsgsdf');
@@ -79,6 +85,9 @@ class _WebinarScreenState extends State<WebinarScreen> {
     map['timing_extra_notes'] = extraNotesController.text.trim();
     map['date'] = selectedDates.map((date) => date.toIso8601String()).toList();
     map['id'] = addProductController.idProduct.value.toString();
+    map['spot'] = spotController.text.trim();
+    map['meeting_platform_2'] = meetingWillBe2;
+    map['timing_extra_notes_2'] = extraNotesController1.text.trim();
     map['additional_start_time'] = '';
     map['additional_end_time'] = '';
 
@@ -89,7 +98,12 @@ class _WebinarScreenState extends State<WebinarScreen> {
       showToast(response.message.toString());
       if (response.status == true) {
         log('sdgafahsfshdhhjgf');
-        Get.to(() =>  OptionalDetailsSeminarAndAttendable());
+        if(widget.id != null){
+          Get.to(()=> const ReviewScreenSeminarAndAttendable());
+        }
+        else {
+          Get.to(() => OptionalDetailsSeminarAndAttendable());
+        }
       }
     });
   }
@@ -130,6 +144,9 @@ class _WebinarScreenState extends State<WebinarScreen> {
       startTime = parseTimeOfDay(widget.startTime);
       endTime = parseTimeOfDay(widget.endTime);
       extraNotesController.text = widget.extraNotes.toString();
+      meetingWillBe2 = widget.meetingPlatform1;
+      extraNotesController1.text = widget.extraNotes1;
+      spotController.text = widget.spots.toString();
     }
   }
 
@@ -306,6 +323,7 @@ class _WebinarScreenState extends State<WebinarScreen> {
                       height: 40,
                       width: 60,
                       child: TextFormField(
+                        controller: spotController,
                         decoration: const InputDecoration(border: OutlineInputBorder()),
                         validator: (value) {
                           if (value!.trim().isEmpty) {
@@ -468,6 +486,7 @@ class _WebinarScreenState extends State<WebinarScreen> {
                 CommonTextField(
                   obSecure: false,
                   hintText: 'Notes',
+                  controller: extraNotesController1,
                   keyboardType: TextInputType.text,
                   validator: (value) {
                     if (value!.trim().isEmpty) {
@@ -511,7 +530,12 @@ class _WebinarScreenState extends State<WebinarScreen> {
                 ),
                 InkWell(
                   onTap: () {
-                    Get.to(() =>  OptionalDetailsSeminarAndAttendable());
+                    if(widget.id != null){
+                      Get.to(()=> const ReviewScreenSeminarAndAttendable());
+                    }
+                    else {
+                      Get.to(() => OptionalDetailsSeminarAndAttendable());
+                    }
                   },
                   child: Container(
                     width: Get.width,

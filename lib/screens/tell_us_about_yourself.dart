@@ -316,7 +316,9 @@ class _TellUsYourSelfScreenState extends State<TellUsYourSelfScreen> {
 
                           children:[
                             Text('Others',style:GoogleFonts.poppins(fontSize:28,fontWeight:FontWeight.w500)),
+                            Text('Coming Soon',style:GoogleFonts.poppins(fontSize:22,fontWeight:FontWeight.w500)),
                             Text('Use our system to your advantage. If you are not sure, we are happy to hear from you. contact us  ',style:GoogleFonts.poppins(fontSize:18))
+
 
                           ]),
                     )

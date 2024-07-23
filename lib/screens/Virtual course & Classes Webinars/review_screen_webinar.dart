@@ -49,13 +49,9 @@ class _ReviewScreenWebinarsState extends State<ReviewScreenWebinars> {
   Rx<RxStatus> vendorCategoryStatus = RxStatus.empty().obs;
 
   getVendorCategories(String id) async {
-    try {
       var value = await repositories.getApi(url: ApiUrls.getProductDetailsUrl + id);
       productDetailsModel.value = ModelProductDetails.fromJson(jsonDecode(value));
-      productDetailsModel.refresh(); // Ensure the state is updated
-    } catch (e) {
-      log("Error fetching vendor categories: $e");
-    }
+      productDetailsModel.refresh();
   }
 
   completeApi() {
@@ -310,10 +306,12 @@ class _ReviewScreenWebinarsState extends State<ReviewScreenWebinars> {
                                     onTap: () {
                                       Get.to(SeminarScreenScreen(
                                         id: productDetailsModel.value.productDetails!.product!.id,
-                                        startTime: productDetailsModel.value.productDetails!.product!.productAvailability!.fromDate,
-                                        endTime: productDetailsModel.value.productDetails!.product!.productAvailability!.toDate,
-                                        extraNotes: productDetailsModel.value.productDetails!.product!.productAvailability!.toDate,
+                                        startTime: productDetailsModel.value.productDetails!.product!.productAvailability!.fromDate ?? '',
+                                        endTime: productDetailsModel.value.productDetails!.product!.productAvailability!.toDate ?? '',
+                                        extraNotes: productDetailsModel.value.productDetails!.product!.timingExtraNotes ?? '',
                                         meetingPlatform: productDetailsModel.value.productDetails!.product!.meetingPlatform ?? 'zoom' ,
+                                        meetingPlatform1: productDetailsModel.value.productDetails!.product!.meetingPlatform2 ?? 'zoom' ,
+                                        extraNotes1: productDetailsModel.value.productDetails!.product!.timingExtraNotes2 ?? '',
                                       ));
                                     },
                                     child: const Text(
@@ -553,8 +551,8 @@ class _ReviewScreenWebinarsState extends State<ReviewScreenWebinars> {
                                     onTap: () {
                                       Get.to(SponsorswebinarScreen(
                                         id: productDetailsModel.value.productDetails!.product!.id,
-                                        sponsorName: productDetailsModel.value.productDetails!.product!.host_name,
-                                        sponsorType: productDetailsModel.value.productDetails!.product!.bookable_product_location,
+                                        sponsorName: productDetailsModel.value.productDetails!.product!.host_name ?? '',
+                                        sponsorType: productDetailsModel.value.productDetails!.product!.bookable_product_location ?? '',
                                         image : productDetailsModel.value.productDetails!.product!.productSponsors!.sponsorLogo.toString(),
                                         sponsorsID: productDetailsModel.value.productDetails!.product!.productSponsors!.id.toString(),
                                       ));

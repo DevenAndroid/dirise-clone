@@ -296,10 +296,25 @@ class _ReviewScreenSeminarAndAttendableState extends State<ReviewScreenSeminarAn
                           crossAxisAlignment: CrossAxisAlignment.start,
                           children: [
                             Text('Meeting will be at : ${productDetailsModel.value.productDetails!.product!.meeting_platform ?? ""} '),
-                            Text('Start  Time : ${productDetailsModel.value.productDetails!.product!.serviceTimeSloat!.timeSloat ?? ""}'),
-                            Text('End time : ${productDetailsModel.value.productDetails!.product!.serviceTimeSloat!.timeSloatEnd ?? ""}'),
+                            // Text('Start  Time : ${productDetailsModel.value.productDetails!.product!.serviceTimeSloat!.timeSloat ?? ""}'),
+                            // Text('End time : ${productDetailsModel.value.productDetails!.product!.serviceTimeSloat!.timeSloatEnd ?? ""}'),
                             Text('Extra Notes : ${productDetailsModel.value.productDetails!.product!.timingExtraNotes ?? ""}'),
                             Text('Spots : ${productDetailsModel.value.productDetails!.product!.spot ?? ""}'),
+                            ListView.builder(
+                                itemCount: productDetailsModel.value.productDetails!.product!.serviceTimeSloat!.length,
+                                shrinkWrap: true,
+                                physics: const NeverScrollableScrollPhysics(),
+                                itemBuilder: (context, index) {
+                                  var productWeeklyAvailability = productDetailsModel.value.productDetails!.product!.serviceTimeSloat![index];
+                                  return Column(
+                                    mainAxisAlignment: MainAxisAlignment.start,
+                                    crossAxisAlignment: CrossAxisAlignment.start,
+                                    children: [
+                                      Text('Start  Time : ${productWeeklyAvailability.timeSloat ?? ""}'),
+                                      Text('End time : ${productWeeklyAvailability.timeSloatEnd ?? ""}'),
+                                    ],
+                                  );
+                                }),
                           ],
                         ),
                       ),
@@ -310,11 +325,13 @@ class _ReviewScreenSeminarAndAttendableState extends State<ReviewScreenSeminarAn
                               onTap: () {
                                 Get.to(WebinarScreen(
                                   id: productDetailsModel.value.productDetails!.product!.id,
-                                   startTime: productDetailsModel.value.productDetails!.product!.serviceTimeSloat!.timeSloat,
-                                  endTime: productDetailsModel.value.productDetails!.product!.serviceTimeSloat!.timeSloatEnd,
+                                  //  startTime: productDetailsModel.value.productDetails!.product!.serviceTimeSloat!.timeSloat,
+                                  // endTime: productDetailsModel.value.productDetails!.product!.serviceTimeSloat!.timeSloatEnd,
                                   extraNotes:productDetailsModel.value.productDetails!.product!.timingExtraNotes ,
                                   meetingWillBeat: productDetailsModel.value.productDetails!.product!.meeting_platform ,
                                   spots: productDetailsModel.value.productDetails!.product!.spot,
+                                  meetingPlatform1: productDetailsModel.value.productDetails!.product!.meetingPlatform2 ?? 'zoom' ,
+                                  extraNotes1: productDetailsModel.value.productDetails!.product!.timingExtraNotes2 ?? '',
                                 ));
                               },
                               child: const Text(
@@ -500,6 +517,8 @@ class _ReviewScreenSeminarAndAttendableState extends State<ReviewScreenSeminarAn
                                   id: productDetailsModel.value.productDetails!.product!.id,
                                   sponsorName: productDetailsModel.value.productDetails!.product!.host_name,
                                   sponsorType: productDetailsModel.value.productDetails!.product!.bookable_product_location,
+                                  image : productDetailsModel.value.productDetails!.product!.productSponsors!.sponsorLogo.toString(),
+                                  sponsorsID: productDetailsModel.value.productDetails!.product!.productSponsors!.id.toString(),
                                 ));
                               },
                               child: const Text(

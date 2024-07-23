@@ -77,6 +77,9 @@ class Product {
   dynamic jobState;
   dynamic jobCity;
   dynamic meetingPlatform;
+  dynamic meetingPlatform2;
+  dynamic timingExtraNotes2;
+  dynamic timingExtraNotes;
   dynamic vendorId;
   dynamic addressId;
   dynamic jobCountryId;
@@ -178,9 +181,8 @@ class Product {
   dynamic discountPrice;
   dynamic startLocation;
   dynamic endLocation;
-  dynamic timingExtraNotes;
   ReturnPolicyDesc? returnPolicyDesc;
-  ServiceTimeSloat? serviceTimeSloat;
+  List<ServiceTimeSloat>? serviceTimeSloat;
   ProductAvailability? productAvailability;
   List<ProductWeeklyAvailability>? productWeeklyAvailability;
   List<ProductVacation>? productVacation;
@@ -191,6 +193,8 @@ class Product {
       this.spot,
         this.fromLocation,
         this.toLocation,
+        this.meetingPlatform2,
+        this.timingExtraNotes2,
         this.fromExtraNotes,
         this.meetingPlatform,
         this.toExtraNotes,
@@ -318,8 +322,12 @@ class Product {
 
   Product.fromJson(Map<String, dynamic> json) {
     id = json['id'];
-    serviceTimeSloat =
-        json['serviceTimeSloat'] != null ? new ServiceTimeSloat.fromJson(json['serviceTimeSloat']) : null;
+    if (json['serviceTimeSloat'] != null) {
+      serviceTimeSloat = <ServiceTimeSloat>[];
+      json['serviceTimeSloat'].forEach((v) {
+        serviceTimeSloat!.add(new ServiceTimeSloat.fromJson(v));
+      });
+    }
     startLocation = json['start_location'];
     spot = json['spot'];
     fromLocation = json['from_location'];
@@ -332,6 +340,8 @@ class Product {
     timingExtraNotes = json['timing_extra_notes'];
     eligible_min_age = json['eligible_min_age'];
     jobCountryId = json['job_country_id'];
+    meetingPlatform2 = json['meeting_platform_2'];
+    timingExtraNotes2 = json['timing_extra_notes_2'];
     jobStateId = json['job_state_id'];
     jobCityId = json['job_city_id'];
     eligible_max_age = json['eligible_max_age'];
@@ -482,6 +492,8 @@ class Product {
     data['job_cat'] = jobCat;
     data['meeting_platform'] = meetingPlatform;
     data['no_need_stock'] = noNeedStock;
+    data['meeting_platform_2'] = meetingPlatform2;
+    data['timing_extra_notes_2'] = timingExtraNotes2;
     data['brand_slug'] = brandSlug;
     data['cat_name'] = catName;
     data['slug'] = slug;
@@ -578,6 +590,10 @@ class Product {
     data['return_policy_desc'] = returnPolicyDesc;
     data['shipping_policy_desc'] = shippingPolicyDesc;
     data['discount_price'] = discountPrice;
+    if (serviceTimeSloat != null) {
+      data['serviceTimeSloat'] =
+          serviceTimeSloat!.map((v) => v.toJson()).toList();
+    }
     if (productSponsors != null) {
       data['product_sponsors'] = productSponsors!.toJson();
     }
@@ -1040,18 +1056,25 @@ class ProductVacation {
 }
 
 class ServiceTimeSloat {
-  String? timeSloat;
-  String? timeSloatEnd;
+  dynamic weekDay;
+  dynamic date;
+  dynamic timeSloat;
+  dynamic timeSloatEnd;
 
-  ServiceTimeSloat({this.timeSloat, this.timeSloatEnd});
+  ServiceTimeSloat(
+      {this.weekDay, this.date, this.timeSloat, this.timeSloatEnd});
 
   ServiceTimeSloat.fromJson(Map<String, dynamic> json) {
+    weekDay = json['week_day'];
+    date = json['date'];
     timeSloat = json['time_sloat'];
     timeSloatEnd = json['time_sloat_end'];
   }
 
   Map<String, dynamic> toJson() {
     final Map<String, dynamic> data = new Map<String, dynamic>();
+    data['week_day'] = weekDay;
+    data['date'] = date;
     data['time_sloat'] = timeSloat;
     data['time_sloat_end'] = timeSloatEnd;
     return data;

@@ -16,12 +16,14 @@ import '../../widgets/common_textfield.dart';
 import 'optinal_detail_webinars.dart';
 
 class SeminarScreenScreen extends StatefulWidget {
-  int? id;
+  dynamic id;
   dynamic startTime;
   dynamic endTime;
   dynamic extraNotes;
+  dynamic extraNotes1;
   dynamic meetingPlatform;
-  SeminarScreenScreen({super.key, this.id,this.startTime,this.endTime,this.extraNotes,this.meetingPlatform});
+  dynamic meetingPlatform1;
+  SeminarScreenScreen({super.key, this.id,this.startTime,this.endTime,this.extraNotes,this.meetingPlatform,this.meetingPlatform1,this.extraNotes1});
 
   @override
   State<SeminarScreenScreen> createState() => _SeminarScreenScreenState();
@@ -65,6 +67,8 @@ class _SeminarScreenScreenState extends State<SeminarScreenScreen> {
   final addProductController = Get.put(AddProductController());
   final profileController = Get.put(ProfileController());
   TextEditingController extraNotesController = TextEditingController();
+  TextEditingController extraNotesController1 = TextEditingController();
+  TextEditingController dateController = TextEditingController();
 
   webinarApi() {
     log('fgdsgsdf');
@@ -73,6 +77,8 @@ class _SeminarScreenScreenState extends State<SeminarScreenScreen> {
     map['item_type'] = 'product';
     map['product_type'] = 'booking';
     map['booking_product_type'] = 'webinar';
+    map['meeting_platform_2'] = meetingWillBe2;
+    map['timing_extra_notes_2'] = extraNotesController1.text.trim();
     map['product_availability_id'] = profileController.productAvailabilityId;
     map['start_time'] = startTime?.format(context);
     map['end_time'] = endTime?.format(context);
@@ -123,6 +129,8 @@ class _SeminarScreenScreenState extends State<SeminarScreenScreen> {
     if (widget.id != null) {
       extraNotesController.text = widget.extraNotes;
       meetingWillBe1 = widget.meetingPlatform;
+      meetingWillBe2 = widget.meetingPlatform1;
+      extraNotesController1.text = widget.extraNotes1;
     }
   }
 
@@ -321,6 +329,7 @@ class _SeminarScreenScreenState extends State<SeminarScreenScreen> {
                 ),
                 CommonTextField(
                   obSecure: false,
+                  controller: dateController,
                   hintText: 'dd/mm/yy, dd/mm/yy',
                   keyboardType: TextInputType.text,
                   validator: (value) {
@@ -452,6 +461,7 @@ class _SeminarScreenScreenState extends State<SeminarScreenScreen> {
                 CommonTextField(
                   obSecure: false,
                   hintText: 'Notes',
+                  controller: extraNotesController1,
                   keyboardType: TextInputType.text,
                   validator: (value) {
                     if (value!.trim().isEmpty) {
