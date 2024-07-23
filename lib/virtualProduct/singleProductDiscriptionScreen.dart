@@ -227,6 +227,7 @@ class _VirtualDiscriptionScreenState extends State<VirtualDiscriptionScreen> {
                               onChanged: (bool? value) {
                                 setState(() {
                                   isDelivery.value = value!;
+                                  alertDiscount.clear();
                                 });
                               }),
                         ),

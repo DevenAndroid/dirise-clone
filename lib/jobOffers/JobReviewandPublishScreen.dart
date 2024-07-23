@@ -356,10 +356,8 @@ class _JobReviewPublishScreenState extends State<JobReviewPublishScreen> {
                                           'Job State: ${addProductControllerNew.productDetailsModel.value.productDetails!.product!.jobStateName ?? ""}'),
                                       Text('Job City: ${addProductControllerNew.productDetailsModel.value.productDetails!.product!.jobCityName ?? ""}'),
                                       Text('Job Type: ${addProductControllerNew.productDetailsModel.value.productDetails!.product!.jobType ?? ""}'),
-                                      Text(
-                                          'Job Model: ${addProductControllerNew.productDetailsModel.value.productDetails!.product!.jobModel ?? ""}'),
-                                      Text(
-                                          'Experience: ${addProductControllerNew.productDetailsModel.value.productDetails!.product!.experience ?? ""}'),
+                                      Text('Job Model: ${addProductControllerNew.productDetailsModel.value.productDetails!.product!.jobModel ?? ""}'),
+                                      Text('Experience: ${addProductControllerNew.productDetailsModel.value.productDetails!.product!.experience ?? ""}'),
                                       Text('Salary: ${addProductControllerNew.productDetailsModel.value.productDetails!.product!.salary ?? ""}'),
                                       Text('LinkedIn Url: ${addProductControllerNew.productDetailsModel.value.productDetails!.product!.linkdinUrl ?? ""}'),
                                     ],
