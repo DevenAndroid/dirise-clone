@@ -70,9 +70,11 @@ class _VirtualOptionalDiscrptionsScreenState extends State<VirtualOptionalDiscrp
       print('API Response Status Code: ${response.status}');
       if (response.status == true) {
         if(widget.id != null){
-       Get.back();
+          Get.to(()=>VirtualReviewandPublishScreen());
         }
-        Get.to(() => VirtualOptionalClassificationScreen());
+       else{
+          Get.to(() => VirtualOptionalClassificationScreen());
+        }
       }
     });
   }
@@ -247,10 +249,8 @@ class _VirtualOptionalDiscrptionsScreenState extends State<VirtualOptionalDiscrp
                 const SizedBox(height: 20),
                 GestureDetector(
                   onTap: () {
-                    if(widget.id != null){
-                      Get.back();
-                    }else{
-                      Get.to(const VirtualReviewandPublishScreen());
+                    if (formKey1.currentState!.validate()) {
+                      optionalApi();
                     }
 
                   },

@@ -3,6 +3,7 @@ import 'dart:io';
 
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:dirise/screens/Consultation%20Sessions/review_screen.dart';
+import 'package:dirise/screens/Virtual%20course%20&%20Classes%20Webinars/review_screen_webinar.dart';
 import 'package:dirise/utils/helper.dart';
 import 'package:dirise/widgets/loading_animation.dart';
 import 'package:flutter/material.dart';
@@ -26,8 +27,9 @@ class SponsorswebinarScreen extends StatefulWidget {
   int? id;
   String? sponsorType;
   String? sponsorName;
-
-  SponsorswebinarScreen({super.key, this.id, this.sponsorName, this.sponsorType});
+  String? image;
+  dynamic sponsorsID;
+  SponsorswebinarScreen({super.key, this.id, this.sponsorName, this.sponsorType,this.image,this.sponsorsID});
 
   @override
   State<SponsorswebinarScreen> createState() => _SponsorswebinarScreenState();
@@ -109,7 +111,7 @@ class _SponsorswebinarScreenState extends State<SponsorswebinarScreen> {
         showToast(response.message.toString());
         if (formKey1.currentState!.validate()) {
           if (widget.id != null) {
-            Get.to(() => ReviewScreen());
+            Get.to(() => const ReviewScreenWebinars());
           } else {
             Get.to(() => EligibleCustomersWebinars());
           }
@@ -127,6 +129,8 @@ class _SponsorswebinarScreenState extends State<SponsorswebinarScreen> {
     if (widget.id != null) {
       sponsorTypeController.text = widget.sponsorType.toString();
       sponsorNameController.text = widget.sponsorName.toString();
+      idProof = File(widget.image.toString());
+      sponsorValue = widget.sponsorsID.toString();
     }
   }
 
@@ -328,7 +332,11 @@ class _SponsorswebinarScreenState extends State<SponsorswebinarScreen> {
                         const SizedBox(height: 20),
                         GestureDetector(
                           onTap: () {
-                            Get.to(() => EligibleCustomersWebinars());
+                            if (widget.id != null) {
+                              Get.to(() => const ReviewScreenWebinars());
+                            } else {
+                              Get.to(() => EligibleCustomersWebinars());
+                            }
                           },
                           child: Container(
                             width: Get.width,

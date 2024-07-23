@@ -2,6 +2,7 @@ import 'dart:convert';
 import 'dart:math';
 import 'package:dirise/screens/Consultation%20Sessions/set_store_time.dart';
 import 'package:dirise/screens/academic%20programs/set_store_time.dart';
+import 'package:dirise/screens/extendedPrograms/review_screen_academic.dart';
 import 'package:dirise/screens/extendedPrograms/set_store_time.dart';
 import 'package:dirise/utils/helper.dart';
 import 'package:flutter/cupertino.dart';
@@ -54,8 +55,8 @@ class _ExtendedProgramsScreenDateScreenState extends State<ExtendedProgramsScree
     if (picked != null && picked != _startDate) {
       setState(() {
         _startDate = picked;
-        addProductController.formattedStartDate = DateFormat('yyyy/MM/dd').format(_startDate);
-        print('Now Select........${addProductController.formattedStartDate.toString()}');
+        formattedStartDate = DateFormat('yyyy/MM/dd').format(_startDate);
+        print('Now Select........${formattedStartDate.toString()}');
       });
     }
   }
@@ -80,6 +81,7 @@ class _ExtendedProgramsScreenDateScreenState extends State<ExtendedProgramsScree
   DateTime startDateVacation = DateTime.now();
   DateTime endDateVacation = DateTime.now();
   String? formattedStartDateVacation;
+  String? formattedStartDate;
   String? formattedStartDate1Vacation;
   List<String?> startDateList = [];
   List<String?> lastDateList = [];
@@ -125,7 +127,7 @@ class _ExtendedProgramsScreenDateScreenState extends State<ExtendedProgramsScree
   final Repositories repositories = Repositories();
   int index = 0;
   void updateProfile() {
-    if (addProductController.formattedStartDate == null || formattedStartDate1 == null) {
+    if (formattedStartDate == null || formattedStartDate1 == null) {
       setState(() {
         dateRangeError = 'Please select both start and end dates.';
       });
@@ -139,11 +141,11 @@ class _ExtendedProgramsScreenDateScreenState extends State<ExtendedProgramsScree
     map["product_type"] = "booking";
     map["spot"] = spotsController.text.trim();
     map["id"] = addProductController.idProduct.value.toString();
-    map["group"] = addProductController.formattedStartDate == formattedStartDate1 ? "date" : "range";
-    if (addProductController.formattedStartDate == formattedStartDate1) {
-      map["single_date"] = addProductController.formattedStartDate.toString();
+    map["group"] = formattedStartDate == formattedStartDate1 ? "date" : "range";
+    if (formattedStartDate == formattedStartDate1) {
+      map["single_date"] = formattedStartDate.toString();
     } else {
-      map["from_date"] = addProductController.formattedStartDate.toString();
+      map["from_date"] = formattedStartDate.toString();
       map["to_date"] = formattedStartDate1.toString();
     }
     map['vacation_type'] = map1;
@@ -163,7 +165,11 @@ class _ExtendedProgramsScreenDateScreenState extends State<ExtendedProgramsScree
       JobResponceModel response = JobResponceModel.fromJson(jsonDecode(value));
       if (response.status == true) {
         showToast(response.message.toString());
-        Get.to(() => SetTimeScreenExtendedPrograms());
+       if(widget.id != null){
+          Get.to(()=> const ReviewScreenExtendedPrograms());
+       }else{
+         Get.to(() => SetTimeScreenExtendedPrograms());
+       }
         print('value isssss${response.toJson()}');
       } else {
         showToast(response.message.toString());
@@ -176,7 +182,7 @@ class _ExtendedProgramsScreenDateScreenState extends State<ExtendedProgramsScree
     // TODO: implement initState
     super.initState();
     if (widget.id != null) {
-      addProductController.formattedStartDate = widget.from_date;
+      formattedStartDate = widget.from_date;
       formattedStartDate1 = widget.to_date;
       spotsController.text = widget.spot.toString();
       formattedStartDateVacation = widget.formattedStartDateVacation;
@@ -247,7 +253,7 @@ class _ExtendedProgramsScreenDateScreenState extends State<ExtendedProgramsScree
                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
                       children: [
                         Text(
-                          'Start Date: ${addProductController.formattedStartDate ?? ''}',
+                          'Start Date: ${formattedStartDate ?? ''}',
                           style: const TextStyle(fontSize: 17, fontWeight: FontWeight.w500),
                         ),
                         10.spaceY,

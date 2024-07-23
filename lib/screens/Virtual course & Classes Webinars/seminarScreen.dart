@@ -2,6 +2,7 @@ import 'dart:convert';
 import 'dart:developer';
 
 import 'package:dirise/controller/profile_controller.dart';
+import 'package:dirise/screens/Virtual%20course%20&%20Classes%20Webinars/review_screen_webinar.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
@@ -16,10 +17,11 @@ import 'optinal_detail_webinars.dart';
 
 class SeminarScreenScreen extends StatefulWidget {
   int? id;
-  String? startTime;
-  String? endTime;
-  String? extraNotes;
-  SeminarScreenScreen({super.key, this.id,this.startTime,this.endTime,this.extraNotes});
+  dynamic startTime;
+  dynamic endTime;
+  dynamic extraNotes;
+  dynamic meetingPlatform;
+  SeminarScreenScreen({super.key, this.id,this.startTime,this.endTime,this.extraNotes,this.meetingPlatform});
 
   @override
   State<SeminarScreenScreen> createState() => _SeminarScreenScreenState();
@@ -87,7 +89,11 @@ class _SeminarScreenScreenState extends State<SeminarScreenScreen> {
       showToast(response.message.toString());
       if (response.status == true) {
         log('sdgafahsfshdhhjgf');
-        Get.to(() => OptionalDetailsWebiinarsScreen());
+        if(widget.id != null){
+          Get.to(()=> const ReviewScreenWebinars());
+        }else{
+          Get.to(() => OptionalDetailsWebiinarsScreen());
+        }
       }
     });
   }
@@ -108,6 +114,16 @@ class _SeminarScreenScreenState extends State<SeminarScreenScreen> {
 
   String formatDate(DateTime date) {
     return "${date.day.toString().padLeft(2, '0')}/${date.month.toString().padLeft(2, '0')}/${date.year}";
+  }
+
+  @override
+  void initState() {
+    super.initState();
+    addProductController.startDate.text = '';
+    if (widget.id != null) {
+      extraNotesController.text = widget.extraNotes;
+      meetingWillBe1 = widget.meetingPlatform;
+    }
   }
 
   @override

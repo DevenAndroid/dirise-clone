@@ -72,7 +72,7 @@ class _VirtualProductScreenState extends State<VirtualProductScreen> {
     map['virtual_product_type'] = productItem;
     map['virtual_product_file_language'] = languageItem;
     map['product_type'] = 'virtual_product';
-    map['product_type'] = 'virtual_product';
+    // map['product_type'] = 'virtual_product';
     map['item_type'] = 'virtual_product';
     images['virtual_product_file'] = featuredImage;
     map["id"] =  addProductController.idProduct.value.toString();

@@ -26,6 +26,7 @@ import '../model/common_modal.dart';
 // import '../model/filter_by_price_model.dart';
 import '../model/get_review_model.dart';
 import '../model/giveaway_single_model.dart';
+import '../model/model_category_stores.dart';
 import '../model/model_single_product.dart';
 import '../model/order_models/model_direct_order_details.dart';
 import '../model/product_model/model_product_element.dart';
@@ -33,6 +34,7 @@ import '../model/releated_product_model.dart';
 import '../model/simple_product_model.dart';
 import '../model/vritual_product_model.dart';
 import '../repository/repository.dart';
+import '../screens/categories/single_category_with_stores/single_store_screen.dart';
 import '../screens/check_out/direct_check_out.dart';
 import '../screens/my_account_screens/contact_us_screen.dart';
 import '../utils/api_constant.dart';
@@ -284,7 +286,7 @@ class _VritualProductScreenState extends State<VritualProductScreen> {
     map["quantity"] = map["quantity"] = int.tryParse(_counter.toString());
     map["key"] = 'fedexRate';
     map["country_id"] = profileController.model.user != null ? profileController.model.user!.country_id : '117';
-
+    map["zip_code"] = cartController.zipCode.toString();
     // if (isBookingProduct) {
     //   map["start_date"] = selectedDate.text.trim();
     //   map["time_sloat"] = selectedSlot.split("--").first;
@@ -793,6 +795,7 @@ class _VritualProductScreenState extends State<VritualProductScreen> {
                     ],
                   ),
                   const SizedBox(height: 20,),
+                  modelSingleProduct.value.singleVirtualProduct!.catId!.isNotEmpty?
                   SizedBox(
                     height: 28,
                     child: ListView.builder(
@@ -820,7 +823,7 @@ class _VritualProductScreenState extends State<VritualProductScreen> {
                         );
                       },
                     ),
-                  ),
+                  ):SizedBox.shrink(),
                   const SizedBox(height: 20,),
                   Text(
                     "Dirise Welcome deal  ",
@@ -1282,28 +1285,46 @@ class _VritualProductScreenState extends State<VritualProductScreen> {
                   const SizedBox(
                     height: 25,
                   ),
+                  modelSingleProduct.value.singleVirtualProduct!.storemeta!.document2 !=""?
                   Text(
                     'Translated Commercial Licence',
                     style: GoogleFonts.poppins(color: Colors.black, fontSize: 20, fontWeight: FontWeight.w600),
-                  ),
+                  ):SizedBox.shrink(),
                   const SizedBox(
                     height: 20,
                   ),
-                  Center(child: Image.asset("assets/svgs/licence.png")),
+                  modelSingleProduct.value.singleVirtualProduct!.storemeta!.document2 !=""?
+                  Center(
+                    child: CachedNetworkImage(
+                        imageUrl:
+                        modelSingleProduct.value.singleVirtualProduct!.storemeta!.document2.toString(),
+                        height: 180,
+                        fit: BoxFit.cover,
+                        errorWidget: (_, __, ___) => Image.asset('assets/images/new_logo.png')),
+                  ):SizedBox.shrink(),
 
                   Align(
                     alignment: Alignment.centerRight,
-                    child: Container(
-                      width: 130,
-                      padding: const EdgeInsets.all(10),
-                      decoration: BoxDecoration(
-                          border: Border.all(color: const Color(0xFF014E70), width: 1.5),
-                          borderRadius: BorderRadius.circular(30)),
-                      child: Center(
-                        child: Text(
-                          "Seller profile",
-                          style:
-                          GoogleFonts.poppins(color: const Color(0xFF014E70), fontSize: 14, fontWeight: FontWeight.w500),
+                    child: InkWell(
+                      onTap: (){
+                        Get.to(
+                                () => SingleStoreScreen(storeDetails:  VendorStoreData(id:
+                            modelSingleProduct.value.singleVirtualProduct!.storemeta!.storeId.toString()
+                            ))
+                        );
+                      },
+                      child: Container(
+                        width: 130,
+                        padding: const EdgeInsets.all(10),
+                        decoration: BoxDecoration(
+                            border: Border.all(color: const Color(0xFF014E70), width: 1.5),
+                            borderRadius: BorderRadius.circular(30)),
+                        child: Center(
+                          child: Text(
+                            "Seller profile",
+                            style:
+                            GoogleFonts.poppins(color: const Color(0xFF014E70), fontSize: 14, fontWeight: FontWeight.w500),
+                          ),
                         ),
                       ),
                     ),
@@ -1313,17 +1334,26 @@ class _VritualProductScreenState extends State<VritualProductScreen> {
                   ),
                   Align(
                     alignment: Alignment.centerRight,
-                    child: Container(
-                      width: 130,
-                      padding: const EdgeInsets.all(10),
-                      decoration: BoxDecoration(
-                          border: Border.all(color: const Color(0xFF014E70), width: 1.5),
-                          borderRadius: BorderRadius.circular(30)),
-                      child: Center(
-                        child: Text(
-                          "Take Below",
-                          style:
-                          GoogleFonts.poppins(color: const Color(0xFF014E70), fontSize: 14, fontWeight: FontWeight.w500),
+                    child: InkWell(
+                      onTap: (){
+                        Get.to(
+                                () => SingleStoreScreen(storeDetails:  VendorStoreData(id:
+                                modelSingleProduct.value.singleVirtualProduct!.storemeta!.storeId.toString()
+                            ))
+                        );
+                      },
+                      child: Container(
+                        width: 130,
+                        padding: const EdgeInsets.all(10),
+                        decoration: BoxDecoration(
+                            border: Border.all(color: const Color(0xFF014E70), width: 1.5),
+                            borderRadius: BorderRadius.circular(30)),
+                        child: Center(
+                          child: Text(
+                            "Take Below",
+                            style:
+                            GoogleFonts.poppins(color: const Color(0xFF014E70), fontSize: 14, fontWeight: FontWeight.w500),
+                          ),
                         ),
                       ),
                     ),

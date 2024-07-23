@@ -243,7 +243,7 @@ class _ReviewScreenAcademicState extends State<ReviewScreenAcademic> {
                                                       .value.productDetails!.product!.productAvailability!.toDate,
                                                   spot:  productDetailsModel
                                                       .value.productDetails!.product!.spot,
-                                                  formattedStartDateVacation: productDetailsModel.value.productDetails!.product!.productVacation![index].vacationToDate,
+                                                  formattedStartDateVacation: productDetailsModel.value.productDetails!.product!.productVacation![index].vacationFromDate,
                                                   formattedStartDate1Vacation:  productDetailsModel.value.productDetails!.product!.productVacation![index].vacationToDate,
 
                                                 ));
@@ -411,6 +411,8 @@ class _ReviewScreenAcademicState extends State<ReviewScreenAcademic> {
                                       'Preparation Block Time: ${productDetailsModel.value.productDetails!.product!.productAvailability!.preparationBlockTime ?? ""}'),
                                   Text(
                                       'Recovery Block Time: ${productDetailsModel.value.productDetails!.product!.productAvailability!.recoveryBlockTime ?? ""}'),
+                                  Text(
+                                      'Recovery Block Time: ${productDetailsModel.value.productDetails!.product!.productAvailability!.recoveryBlockTime ?? ""}'),
                                 ],
                               ),
                             ),
@@ -427,6 +429,15 @@ class _ReviewScreenAcademicState extends State<ReviewScreenAcademic> {
                                             .value.productDetails!.product!.productAvailability!.interval,
                                         recoveryBlockTime: productDetailsModel
                                             .value.productDetails!.product!.productAvailability!.recoveryBlockTime,
+                                        interval_type: productDetailsModel
+                                            .value.productDetails!.product!.productAvailability!.intervalType != '' ? productDetailsModel
+                                            .value.productDetails!.product!.productAvailability!.intervalType : 'min',
+                                        preparation_block_time_type: productDetailsModel
+                                            .value.productDetails!.product!.productAvailability!.preparationBlockTimeType != '' ? productDetailsModel
+                                            .value.productDetails!.product!.productAvailability!.preparationBlockTimeType : 'min',
+                                        recovery_block_time_type:  productDetailsModel
+                                            .value.productDetails!.product!.productAvailability!.recoveryBlockTimeType != '' ? productDetailsModel
+                                            .value.productDetails!.product!.productAvailability!.recoveryBlockTimeType : 'min',
                                       ));
                                     },
                                     child: const Text(
@@ -605,6 +616,8 @@ class _ReviewScreenAcademicState extends State<ReviewScreenAcademic> {
                                         id: productDetailsModel.value.productDetails!.product!.id,
                                         sponsorName: productDetailsModel.value.productDetails!.product!.host_name,
                                         sponsorType: productDetailsModel.value.productDetails!.product!.bookable_product_location,
+                                        image : productDetailsModel.value.productDetails!.product!.productSponsors!.sponsorLogo.toString(),
+                                        sponsorsID: productDetailsModel.value.productDetails!.product!.productSponsors!.id.toString(),
                                       ));
                                     },
                                     child: const Text(

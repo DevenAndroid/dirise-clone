@@ -252,7 +252,7 @@ class _JobDetailsScreenState extends State<JobDetailsScreen> {
     map["job_cat"] = selectedSubCategory ?? "";
     map["job_type"] = jobselectedItem;
     map["job_model"] = hiringselectedItem;
-    map["describe_job_role"] = describe_job_roleController.text;
+    map["about_yourself"] = describe_job_roleController.text;
     map["linkdin_url"] = linkdin_urlController.text;
     map["experience"] = experienceController.text;
     map["salary"] = salaryController.text;

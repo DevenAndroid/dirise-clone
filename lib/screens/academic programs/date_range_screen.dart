@@ -1,6 +1,7 @@
 import 'dart:convert';
 import 'dart:math';
 import 'package:dirise/screens/Consultation%20Sessions/set_store_time.dart';
+import 'package:dirise/screens/academic%20programs/review_screen_academic.dart';
 import 'package:dirise/screens/academic%20programs/set_store_time.dart';
 import 'package:dirise/utils/helper.dart';
 import 'package:flutter/cupertino.dart';
@@ -41,6 +42,7 @@ class _AcademicDateScreenState extends State<AcademicDateScreen> {
   final addProductController = Get.put(AddProductController());
   TextEditingController spotsController = TextEditingController();
   String? formattedStartDate1;
+  String? formattedStartDate;
   RxBool isServiceProvide = false.obs;
   final formKey = GlobalKey<FormState>();
   String? dateRangeError;
@@ -54,9 +56,9 @@ class _AcademicDateScreenState extends State<AcademicDateScreen> {
     if (picked != null && picked != _startDate) {
       setState(() {
         _startDate = picked;
-        addProductController.formattedStartDate = DateFormat('yyyy/MM/dd').format(_startDate);
+        formattedStartDate = DateFormat('yyyy/MM/dd').format(_startDate);
         dateRangeError = null;
-        print('Now Select........${addProductController.formattedStartDate.toString()}');
+        print('Now Select........${formattedStartDate.toString()}');
       });
     }
   }
@@ -123,7 +125,7 @@ class _AcademicDateScreenState extends State<AcademicDateScreen> {
   final Repositories repositories = Repositories();
   int index = 0;
   void updateProfile() {
-    if (addProductController.formattedStartDate == null || formattedStartDate1 == null) {
+    if (formattedStartDate == null || formattedStartDate1 == null) {
       setState(() {
         dateRangeError = 'Please select both start and end dates.';
       });
@@ -137,11 +139,11 @@ class _AcademicDateScreenState extends State<AcademicDateScreen> {
     map["product_type"] = "booking";
     map["spot"] = spotsController.text.trim();
     map["id"] = addProductController.idProduct.value.toString();
-    map["group"] = addProductController.formattedStartDate == formattedStartDate1 ? "date" : "range";
-    if (addProductController.formattedStartDate == formattedStartDate1) {
-      map["single_date"] = addProductController.formattedStartDate.toString();
+    map["group"] = formattedStartDate == formattedStartDate1 ? "date" : "range";
+    if (formattedStartDate == formattedStartDate1) {
+      map["single_date"] = formattedStartDate.toString();
     } else {
-      map["from_date"] = addProductController.formattedStartDate.toString();
+      map["from_date"] = formattedStartDate.toString();
       map["to_date"] = formattedStartDate1.toString();
     }
     map['vacation_type'] = map1;
@@ -161,7 +163,12 @@ class _AcademicDateScreenState extends State<AcademicDateScreen> {
       JobResponceModel response = JobResponceModel.fromJson(jsonDecode(value));
       if (response.status == true) {
         showToast(response.message.toString());
-        Get.to(() => SetTimeScreenAcademic());
+       if(widget.id != null){
+         Get.to(const ReviewScreenAcademic());
+       }
+       else{
+         Get.to(() => SetTimeScreenAcademic());
+       }
         print('value isssss${response.toJson()}');
       } else {
         showToast(response.message.toString());
@@ -174,7 +181,7 @@ class _AcademicDateScreenState extends State<AcademicDateScreen> {
     // TODO: implement initState
     super.initState();
     if (widget.id != null) {
-      addProductController.formattedStartDate = widget.from_date;
+      formattedStartDate = widget.from_date;
       formattedStartDate1 = widget.to_date;
       spotsController.text = widget.spot.toString();
       formattedStartDateVacation = widget.formattedStartDateVacation;
@@ -245,7 +252,7 @@ class _AcademicDateScreenState extends State<AcademicDateScreen> {
                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
                       children: [
                         Text(
-                          'Start Date: ${addProductController.formattedStartDate ?? ''}',
+                          'Start Date: ${formattedStartDate ?? ''}',
                           style: const TextStyle(fontSize: 17, fontWeight: FontWeight.w500),
                         ),
                         10.spaceY,
@@ -484,7 +491,12 @@ class _AcademicDateScreenState extends State<AcademicDateScreen> {
               ),
               InkWell(
                 onTap: () {
-                  Get.to(() => SetTimeScreenAcademic());
+                  if (widget.id != null) {
+                    Get.to(const ReviewScreenAcademic());
+                  }
+                  else {
+                    Get.to(() => SetTimeScreenAcademic());
+                  }
                 },
                 child: Container(
                   width: Get.width,

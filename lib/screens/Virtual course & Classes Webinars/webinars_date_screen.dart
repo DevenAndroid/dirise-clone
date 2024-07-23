@@ -5,6 +5,7 @@ import 'package:dirise/controller/profile_controller.dart';
 import 'package:dirise/screens/Consultation%20Sessions/set_store_time.dart';
 import 'package:dirise/screens/Seminars%20&%20%20Attendable%20Course/seminars_sponsors_screen.dart';
 import 'package:dirise/screens/Seminars%20&%20%20Attendable%20Course/webinarScreen.dart';
+import 'package:dirise/screens/Virtual%20course%20&%20Classes%20Webinars/review_screen_webinar.dart';
 import 'package:dirise/screens/Virtual%20course%20&%20Classes%20Webinars/seminarScreen.dart';
 import 'package:dirise/screens/tour_travel/dateRangemodel.dart';
 import 'package:dirise/utils/helper.dart';
@@ -24,7 +25,7 @@ class DateRangeWebiinarsScreen extends StatefulWidget {
   String? to_date;
 
 
-  DateRangeWebiinarsScreen(
+   DateRangeWebiinarsScreen(
       {super.key,
         this.id,
         this.from_date,
@@ -41,6 +42,7 @@ class _DateRangeWebiinarsScreenState extends State<DateRangeWebiinarsScreen> {
   final addProductController = Get.put(AddProductController());
   final profileController = Get.put(ProfileController());
   String? formattedStartDate1;
+  String? formattedStartDate;
   bool sundaySelected = false;
   bool mondaySelected = false;
   bool tueSelected = false;
@@ -59,9 +61,9 @@ class _DateRangeWebiinarsScreenState extends State<DateRangeWebiinarsScreen> {
     if (picked != null && picked != _startDate) {
       setState(() {
         _startDate = picked;
-        addProductController.formattedStartDate = DateFormat('yyyy/MM/dd').format(_startDate);
+        formattedStartDate = DateFormat('yyyy/MM/dd').format(_startDate);
         dateRangeError = null;
-        print('Now Select........${addProductController.formattedStartDate.toString()}');
+        print('Now Select........${formattedStartDate.toString()}');
       });
     }
   }
@@ -86,7 +88,7 @@ class _DateRangeWebiinarsScreenState extends State<DateRangeWebiinarsScreen> {
   final Repositories repositories = Repositories();
   int index = 0;
   void updateProfile() {
-    if (addProductController.formattedStartDate == null || formattedStartDate1 == null) {
+    if (formattedStartDate == null || formattedStartDate1 == null) {
       setState(() {
         dateRangeError = 'Please select both start and end dates.';
       });
@@ -96,7 +98,7 @@ class _DateRangeWebiinarsScreenState extends State<DateRangeWebiinarsScreen> {
 
     map["product_type"] = "booking";
     map["id"] = addProductController.idProduct.value.toString();
-    map["from_date"] = addProductController.formattedStartDate.toString();
+    map["from_date"] = formattedStartDate.toString();
     map["to_date"] = formattedStartDate1.toString();
     map["off_days"] = offDaysSelected;
     map['booking_product_type'] = 'webinar';
@@ -107,8 +109,11 @@ class _DateRangeWebiinarsScreenState extends State<DateRangeWebiinarsScreen> {
       if (response.status == true) {
         showToast(response.message.toString());
         profileController.productAvailabilityId = response.productDetails!.productAvailabilityId!.id!;
-        Get.to(() => SeminarScreenScreen(
-            ));
+        if(widget.id != null){
+           Get.to(()=> const ReviewScreenWebinars());
+        }else{
+          Get.to(() => SeminarScreenScreen());
+        }
         print('value isssss${response.toJson()}');
       } else {
         showToast(response.message.toString());
@@ -123,7 +128,7 @@ class _DateRangeWebiinarsScreenState extends State<DateRangeWebiinarsScreen> {
     super.initState();
     addProductController.startDate.text = '';
     if (widget.id != null) {
-      addProductController.formattedStartDate = widget.from_date;
+      formattedStartDate = widget.from_date;
       formattedStartDate1 = widget.to_date;
     }
   }
@@ -190,7 +195,7 @@ class _DateRangeWebiinarsScreenState extends State<DateRangeWebiinarsScreen> {
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
                       Text(
-                        'Start Date: ${addProductController.formattedStartDate ?? ''}',
+                        'Start Date: ${formattedStartDate ?? ''}',
                         style: const TextStyle(fontSize: 17, fontWeight: FontWeight.w500),
                       ),
                       10.spaceY,
@@ -290,8 +295,11 @@ class _DateRangeWebiinarsScreenState extends State<DateRangeWebiinarsScreen> {
             ),
             InkWell(
               onTap: () {
-                // updateProfile();
-                Get.to(() => SeminarScreenScreen());
+                if(widget.id != null){
+                  Get.to(()=> const ReviewScreenWebinars());
+                }else{
+                  Get.to(() => SeminarScreenScreen());
+                }
               },
               child: Container(
                 width: Get.width,

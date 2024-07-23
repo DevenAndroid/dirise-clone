@@ -3,6 +3,7 @@ import 'package:dirise/Services/services_classification.dart';
 import 'package:dirise/controller/service_controller.dart';
 import 'package:dirise/screens/Consultation%20Sessions/sponsors_screen.dart';
 import 'package:dirise/screens/Seminars%20&%20%20Attendable%20Course/sponsors_seminars_screen.dart';
+import 'package:dirise/screens/Virtual%20course%20&%20Classes%20Webinars/review_screen_webinar.dart';
 import 'package:dirise/screens/Virtual%20course%20&%20Classes%20Webinars/webinars_sponsors_screen.dart';
 import 'package:dirise/screens/extendedPrograms/sponsors_extended_screen.dart';
 import 'package:flutter/cupertino.dart';
@@ -75,7 +76,11 @@ class _OptionalDetailsWebiinarsScreenState extends State<OptionalDetailsWebiinar
         showToast(response.message.toString());
 
         if (formKey1.currentState!.validate()) {
-          Get.to(() =>  SponsorswebinarScreen());
+          if(widget.id != null){
+            Get.to(()=> const ReviewScreenWebinars());
+          }else{
+            Get.to(() =>  SponsorswebinarScreen());
+          }
         }
       }
     });
@@ -235,7 +240,11 @@ class _OptionalDetailsWebiinarsScreenState extends State<OptionalDetailsWebiinar
                 const SizedBox(height: 20),
                 GestureDetector(
                   onTap: () {
-                    Get.to(() =>  SponsorsScreenExtendedPrograms());
+                    if(widget.id != null){
+                      Get.to(()=> const ReviewScreenWebinars());
+                    }else{
+                      Get.to(() =>  SponsorswebinarScreen());
+                    }
                   },
                   child: Container(
                     width: Get.width,
