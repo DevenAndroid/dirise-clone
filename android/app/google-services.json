@@ -1,41 +1,34 @@
 {
   "project_info": {
-    "project_number": "450448442397",
-    "project_id": "diriseapplication",
-    "storage_bucket": "diriseapplication.appspot.com"
+    "project_number": "1034755606968",
+    "firebase_url": "https://dirise-app-default-rtdb.firebaseio.com",
+    "project_id": "dirise-app",
+    "storage_bucket": "dirise-app.appspot.com"
   },
   "client": [
     {
       "client_info": {
-        "mobilesdk_app_id": "1:450448442397:android:d5d5334d3a36cc989df2f4",
+        "mobilesdk_app_id": "1:1034755606968:android:b3bf91378a23e3c217e74d",
         "android_client_info": {
           "package_name": "com.dirise.dirisee"
         }
       },
       "oauth_client": [
         {
-          "client_id": "450448442397-nae5apugeq6268jbehr2eud08eufobce.apps.googleusercontent.com",
-          "client_type": 1,
-          "android_info": {
-            "package_name": "com.dirise.dirisee",
-            "certificate_hash": "93f9b16a3f994c4816000fd384de9e92fa006c39"
-          }
-        },
-        {
-          "client_id": "450448442397-p6r66psvasmupv5eu4l80kjcpmk2t2ao.apps.googleusercontent.com",
+          "client_id": "1034755606968-iqsfs7tbrdjnujto0oaeg5bnr2qp70fb.apps.googleusercontent.com",
           "client_type": 3
         }
       ],
       "api_key": [
         {
-          "current_key": "AIzaSyBfnOfQvo3nUKgcjHyUnrGBZZEMdefIciw"
+          "current_key": "AIzaSyD0GSZovR8h_tjvpWr-NRn3AacRWVgnsqI"
         }
       ],
       "services": {
         "appinvite_service": {
           "other_platform_oauth_client": [
             {
-              "client_id": "450448442397-p6r66psvasmupv5eu4l80kjcpmk2t2ao.apps.googleusercontent.com",
+              "client_id": "1034755606968-iqsfs7tbrdjnujto0oaeg5bnr2qp70fb.apps.googleusercontent.com",
               "client_type": 3
             }
           ]
