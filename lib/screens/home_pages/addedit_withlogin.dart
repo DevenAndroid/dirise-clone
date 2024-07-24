@@ -250,7 +250,7 @@ class _HomeAddEditAddressLoginState extends State<HomeAddEditAddressLogin> {
 
                         locationController.city.value = address.getCity.toString();
                         locationController.zipcode.value = address.state.toString();
-                        print('vava ${locationController.zipcode.toString()}');
+                        print('gvava ${locationController.zipcode.toString()}');
                         cartController.countryId =  address.countryId.toString();
                         locationController.onTapLocation.value = true;
                         cartController.getCart();
