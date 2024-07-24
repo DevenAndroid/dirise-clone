@@ -124,9 +124,11 @@ class _VerificationOptionScreenState extends State<VerificationOptionScreen> {
                       const SizedBox(
                         height: 10,
                       ),
-                      Text(
-                        'We ask you for your credit card to make sure that you are not a robot, helps us reduce fraud and theft.  Any charges, will be refunded. No auto-charge after free trial ends'.tr,
-                        style: GoogleFonts.poppins(fontWeight: FontWeight.w400, fontSize: 14, color: Colors.black),
+                      Flexible(
+                        child: Text(
+                          'We ask you for your credit card to make sure that you are not a robot, helps us reduce fraud and theft.  Any charges, will be refunded. No auto-charge after free trial ends'.tr,
+                          style: GoogleFonts.poppins(fontWeight: FontWeight.w400, fontSize: 14, color: Colors.black),
+                        ),
                       ),
                       Text(
                         'Coming Soon'.tr,

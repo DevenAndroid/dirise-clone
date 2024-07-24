@@ -627,8 +627,6 @@ class _SingleCategoriesState extends State<SingleCategories> {
                                   () => ShopProductScreen(vendorCategories: widget.vendorCategories),
                               arguments: widget.vendorCategories.id.toString(),
                             );
-                          } else {
-                            Get.back();
                           }
                           print("Selected value: " + selectedValue1.toString());
                         });
