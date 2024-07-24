@@ -224,7 +224,15 @@ class _ReviewScreenWebinarsState extends State<ReviewScreenWebinars> {
                                         id: productDetailsModel.value.productDetails!.product!.id,
                                         from_date: productDetailsModel.value.productDetails!.product!.productAvailability!.fromDate,
                                         to_date: productDetailsModel.value.productDetails!.product!.productAvailability!.toDate,
-
+                                        initialOffDays:  productDetailsModel.value.productDetails!.product!.productWeeklyAvailability!
+                                            .map((availability) {
+                                          if (availability.status == true) {
+                                            return true;
+                                          } else {
+                                            return false;
+                                          }
+                                        })
+                                            .toList(),
                                       ));
                                     },
                                     child: const Text(
@@ -312,6 +320,8 @@ class _ReviewScreenWebinarsState extends State<ReviewScreenWebinars> {
                                         meetingPlatform: productDetailsModel.value.productDetails!.product!.meetingPlatform ?? 'zoom' ,
                                         meetingPlatform1: productDetailsModel.value.productDetails!.product!.meetingPlatform2 ?? 'zoom' ,
                                         extraNotes1: productDetailsModel.value.productDetails!.product!.timingExtraNotes2 ?? '',
+                                        daysDate:  productDetailsModel.value.productDetails!.product!.additionalDate ?? '',
+
                                       ));
                                     },
                                     child: const Text(

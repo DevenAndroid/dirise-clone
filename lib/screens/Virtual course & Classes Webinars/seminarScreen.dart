@@ -23,7 +23,10 @@ class SeminarScreenScreen extends StatefulWidget {
   dynamic extraNotes1;
   dynamic meetingPlatform;
   dynamic meetingPlatform1;
-  SeminarScreenScreen({super.key, this.id,this.startTime,this.endTime,this.extraNotes,this.meetingPlatform,this.meetingPlatform1,this.extraNotes1});
+  dynamic daysDate;
+  SeminarScreenScreen({super.key, this.id,this.startTime,this.endTime,this.extraNotes,this.meetingPlatform,this.meetingPlatform1,this.extraNotes1,
+  this.daysDate
+  });
 
   @override
   State<SeminarScreenScreen> createState() => _SeminarScreenScreenState();
@@ -69,10 +72,11 @@ class _SeminarScreenScreenState extends State<SeminarScreenScreen> {
   TextEditingController extraNotesController = TextEditingController();
   TextEditingController extraNotesController1 = TextEditingController();
   TextEditingController dateController = TextEditingController();
-
+  int index = 0;
   webinarApi() {
     log('fgdsgsdf');
     Map<String, dynamic> map = {};
+    Map<String, dynamic> map1 = {};
     map['meeting_platform'] = meetingWillBe1;
     map['item_type'] = 'product';
     map['product_type'] = 'booking';
@@ -83,7 +87,9 @@ class _SeminarScreenScreenState extends State<SeminarScreenScreen> {
     map['start_time'] = startTime?.format(context);
     map['end_time'] = endTime?.format(context);
     map['timing_extra_notes'] = extraNotesController.text.trim();
-    map['date'] = selectedDates.map((date) => date.toIso8601String()).toList();
+    // map['date'] = selectedDates.map((date) => date.toIso8601String()).toList();
+    map['date'] = dateController.text.trim();
+    // map1['$index'] = dateArray.toList();
     map['id'] = addProductController.idProduct.value.toString();
     map['additional_start_time'] = '';
     map['additional_end_time'] = '';
@@ -121,7 +127,7 @@ class _SeminarScreenScreenState extends State<SeminarScreenScreen> {
   String formatDate(DateTime date) {
     return "${date.day.toString().padLeft(2, '0')}/${date.month.toString().padLeft(2, '0')}/${date.year}";
   }
-
+  List<String> dateArray = [];
   @override
   void initState() {
     super.initState();
@@ -131,6 +137,9 @@ class _SeminarScreenScreenState extends State<SeminarScreenScreen> {
       meetingWillBe1 = widget.meetingPlatform;
       meetingWillBe2 = widget.meetingPlatform1;
       extraNotesController1.text = widget.extraNotes1;
+      dateController.text = widget.daysDate;
+      String trimmedDate = dateController.text.trim();
+      dateArray.add(trimmedDate);
     }
   }
 
@@ -242,7 +251,7 @@ class _SeminarScreenScreenState extends State<SeminarScreenScreen> {
                     Radio(value: 1, groupValue: 1, onChanged: (value){
 
                     }),
-                    Expanded(
+                    const Expanded(
                       child: Text(
                         'I will set it the location later. I agree to that a full refund will be mandatory in case if the customer request a refund because of the missing information.  ',
                         style: TextStyle(fontSize: 10, fontWeight: FontWeight.w500, color: Colors.red),
@@ -321,7 +330,7 @@ class _SeminarScreenScreenState extends State<SeminarScreenScreen> {
                   style: TextStyle(fontSize: 10, fontWeight: FontWeight.w400, color: Colors.black),
                 ),
                 const Text(
-                  'Write in this format dd/mm/yy example 13/06/25',
+                  'Write in this format yyyy/mm/dd example 13/06/25',
                   style: TextStyle(fontSize: 10, fontWeight: FontWeight.w400, color: Colors.black),
                 ),
                 const SizedBox(
@@ -330,8 +339,8 @@ class _SeminarScreenScreenState extends State<SeminarScreenScreen> {
                 CommonTextField(
                   obSecure: false,
                   controller: dateController,
-                  hintText: 'dd/mm/yy, dd/mm/yy',
-                  keyboardType: TextInputType.text,
+                  hintText: 'yyyy/mm/dd, yyyy/mm/dd',
+                  keyboardType: TextInputType.number,
                   validator: (value) {
                     if (value!.trim().isEmpty) {
                       return 'Product Notes is required'.tr;

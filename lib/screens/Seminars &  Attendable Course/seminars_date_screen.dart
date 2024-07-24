@@ -21,13 +21,14 @@ class DateRangeSeminarsScreen extends StatefulWidget {
   int? id;
   String? from_date;
   String? to_date;
-
+  final List<bool>? initialOffDays;
 
   DateRangeSeminarsScreen(
       {super.key,
         this.id,
         this.from_date,
         this.to_date,
+        this.initialOffDays
       });
 
 
@@ -85,6 +86,7 @@ class _DateRangeSeminarsScreenState extends State<DateRangeSeminarsScreen> {
   }
 
   final Repositories repositories = Repositories();
+
   int index = 0;
   void updateProfile() {
     if (formattedStartDate == null || formattedStartDate1 == null) {
@@ -130,6 +132,7 @@ class _DateRangeSeminarsScreenState extends State<DateRangeSeminarsScreen> {
     if (widget.id != null) {
       formattedStartDate = widget.from_date;
       formattedStartDate1 = widget.to_date;
+      offDaysSelected = widget.initialOffDays!;
     }
   }
   @override

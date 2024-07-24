@@ -181,6 +181,7 @@ class Product {
   dynamic discountPrice;
   dynamic startLocation;
   dynamic endLocation;
+  dynamic additionalDate;
   ReturnPolicyDesc? returnPolicyDesc;
   List<ServiceTimeSloat>? serviceTimeSloat;
   ProductAvailability? productAvailability;
@@ -195,6 +196,7 @@ class Product {
         this.toLocation,
         this.meetingPlatform2,
         this.timingExtraNotes2,
+        this.additionalDate,
         this.fromExtraNotes,
         this.meetingPlatform,
         this.toExtraNotes,
@@ -332,6 +334,7 @@ class Product {
     spot = json['spot'];
     fromLocation = json['from_location'];
     toLocation = json['to_location'];
+    additionalDate = json['additional_date'];
     fromExtraNotes = json['from_extra_notes'];
     toExtraNotes = json['to_extra_notes'];
     meeting_platform = json['meeting_platform'];
@@ -490,6 +493,7 @@ class Product {
     data['cat_id'] = catId;
     data['cat_id_2'] = catId2;
     data['job_cat'] = jobCat;
+    data['additional_date'] = additionalDate;
     data['meeting_platform'] = meetingPlatform;
     data['no_need_stock'] = noNeedStock;
     data['meeting_platform_2'] = meetingPlatform2;
@@ -1060,7 +1064,6 @@ class ServiceTimeSloat {
   dynamic date;
   dynamic timeSloat;
   dynamic timeSloatEnd;
-
   ServiceTimeSloat(
       {this.weekDay, this.date, this.timeSloat, this.timeSloatEnd});
 

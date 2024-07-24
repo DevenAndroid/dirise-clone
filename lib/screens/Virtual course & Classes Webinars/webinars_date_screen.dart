@@ -23,13 +23,14 @@ class DateRangeWebiinarsScreen extends StatefulWidget {
   int? id;
   String? from_date;
   String? to_date;
-
+  final List<bool>? initialOffDays;
 
    DateRangeWebiinarsScreen(
       {super.key,
         this.id,
         this.from_date,
         this.to_date,
+        this.initialOffDays
       });
 
   @override
@@ -130,6 +131,7 @@ class _DateRangeWebiinarsScreenState extends State<DateRangeWebiinarsScreen> {
     if (widget.id != null) {
       formattedStartDate = widget.from_date;
       formattedStartDate1 = widget.to_date;
+      offDaysSelected = widget.initialOffDays!;
     }
   }
 

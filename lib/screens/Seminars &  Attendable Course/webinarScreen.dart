@@ -25,7 +25,10 @@ class WebinarScreen extends StatefulWidget {
    dynamic extraNotes1;
    dynamic meetingPlatform;
    dynamic meetingPlatform1;
-  WebinarScreen({super.key, this.id,this.startTime,this.endTime,this.extraNotes,this.meetingWillBeat,this.spots,this.extraNotes1,this.meetingPlatform1,this.meetingPlatform});
+   dynamic daysDate;
+  WebinarScreen({super.key, this.id,this.startTime,this.endTime,this.extraNotes,this.meetingWillBeat,this.spots,this.extraNotes1,this.meetingPlatform1,this.meetingPlatform,
+  this.daysDate
+  });
 
   @override
   State<WebinarScreen> createState() => _WebinarScreenState();
@@ -86,6 +89,7 @@ class _WebinarScreenState extends State<WebinarScreen> {
     map['date'] = selectedDates.map((date) => date.toIso8601String()).toList();
     map['id'] = addProductController.idProduct.value.toString();
     map['spot'] = spotController.text.trim();
+    map['date'] = dateController.text.trim();
     map['meeting_platform_2'] = meetingWillBe2;
     map['timing_extra_notes_2'] = extraNotesController1.text.trim();
     map['additional_start_time'] = '';
@@ -147,9 +151,10 @@ class _WebinarScreenState extends State<WebinarScreen> {
       meetingWillBe2 = widget.meetingPlatform1;
       extraNotesController1.text = widget.extraNotes1;
       spotController.text = widget.spots.toString();
+      dateController.text = widget.daysDate;
     }
   }
-
+  TextEditingController dateController = TextEditingController();
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -355,8 +360,9 @@ class _WebinarScreenState extends State<WebinarScreen> {
                 ),
                 CommonTextField(
                   obSecure: false,
-                  hintText: 'dd/mm/yy, dd/mm/yy',
-                  keyboardType: TextInputType.text,
+                  hintText: 'yyyy/mm/dd, yyyy/mm/dd',
+                  controller: dateController,
+                  keyboardType: TextInputType.number,
                   validator: (value) {
                     if (value!.trim().isEmpty) {
                       return 'Product Notes is required'.tr;
