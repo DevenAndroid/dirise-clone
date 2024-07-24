@@ -131,7 +131,7 @@ class _VerificationOptionScreenState extends State<VerificationOptionScreen> {
                         ),
                       ),
                       Text(
-                        'Coming Soon'.tr,
+                        'Not available in your region'.tr,
                         style: GoogleFonts.poppins(fontWeight: FontWeight.w600, fontSize: 16, color: Colors.black),
                       )
                     ],

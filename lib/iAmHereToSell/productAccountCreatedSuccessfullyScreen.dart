@@ -73,7 +73,7 @@ class _ProductAccountCreatedSuccessfullyScreenState extends State<ProductAccount
                   ),
            if( profileController.thankYouValue == 'Service')
            Text(
-              "Service have been added  successfully".tr,
+              "Service have been added successfully".tr,
                   textAlign: TextAlign.center,
                   style: Theme.of(context)
                       .textTheme

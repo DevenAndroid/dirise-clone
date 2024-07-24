@@ -37,7 +37,7 @@ class _Giveway1ScreenState extends State<Giveway1Screen> {
   List<String> itemTexts = [
     'working',
     'need_maintenance',
-    'scrab',
+    'scrap',
 
   ];
   final Repositories repositories = Repositories();
@@ -62,7 +62,7 @@ class _Giveway1ScreenState extends State<Giveway1Screen> {
       // If user is a vendor, allow all radio buttons
       if (selectedRadio == 'working' ||
           selectedRadio == 'need_maintenance' ||
-          selectedRadio == 'scrab') {
+          selectedRadio == 'scrap') {
         Get.to(ItemDetailsScreens());
       } else {
         // Handle the case where the selected radio doesn't match any case
@@ -147,7 +147,7 @@ class _Giveway1ScreenState extends State<Giveway1Screen> {
               20.spaceY,
               GestureDetector(
                   onTap: (){
-                    selectedRadio = 'scrab';
+                    selectedRadio = 'scrap';
                     addProductController.selectedRadio = selectedRadio;
                     addGiveAwayType();
                     setState(() {});

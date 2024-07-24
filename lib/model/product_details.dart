@@ -8,11 +8,11 @@ class ModelProductDetails {
   ModelProductDetails.fromJson(Map<String, dynamic> json) {
     status = json['status'];
     message = json['message'];
-    productDetails = json['product_details'] != null ? new ProductDetails.fromJson(json['product_details']) : null;
+    productDetails = json['product_details'] != null ? ProductDetails.fromJson(json['product_details']) : null;
   }
 
   Map<String, dynamic> toJson() {
-    final Map<String, dynamic> data = new Map<String, dynamic>();
+    final Map<String, dynamic> data = Map<String, dynamic>();
     data['status'] = status;
     data['message'] = message;
     if (productDetails != null) {
@@ -39,7 +39,7 @@ class ProductDetails {
   }
 
   Map<String, dynamic> toJson() {
-    final Map<String, dynamic> data = new Map<String, dynamic>();
+    final Map<String, dynamic> data = Map<String, dynamic>();
     if (product != null) {
       data['product'] = product!.toJson();
     }
@@ -325,7 +325,7 @@ class Product {
     if (json['serviceTimeSloat'] != null) {
       serviceTimeSloat = <ServiceTimeSloat>[];
       json['serviceTimeSloat'].forEach((v) {
-        serviceTimeSloat!.add(new ServiceTimeSloat.fromJson(v));
+        serviceTimeSloat!.add(ServiceTimeSloat.fromJson(v));
       });
     }
     startLocation = json['start_location'];
@@ -452,10 +452,10 @@ class Product {
     inOffer = json['in_offer'];
     forAuction = json['for_auction'];
     jobCategory = json['job_category'] != null
-        ? new JobCategory.fromJson(json['job_category'])
+        ? JobCategory.fromJson(json['job_category'])
         : null;
     productSponsors = json['product_sponsors'] != null
-        ? new ProductSponsors.fromJson(json['product_sponsors'])
+        ? ProductSponsors.fromJson(json['product_sponsors'])
         : null;
     returnPolicyDesc =
         json['return_policy_desc'] != null ? ReturnPolicyDesc.fromJson(json['return_policy_desc']) : null;
@@ -463,23 +463,23 @@ class Product {
     shippingPolicyDesc = json['shipping_policy_desc'];
     discountPrice = json['discount_price'];
     productAvailability =
-        json['productAvailability'] != null ? new ProductAvailability.fromJson(json['productAvailability']) : null;
+        json['productAvailability'] != null ? ProductAvailability.fromJson(json['productAvailability']) : null;
     if (json['product_weekly_availability'] != null) {
       productWeeklyAvailability = <ProductWeeklyAvailability>[];
       json['product_weekly_availability'].forEach((v) {
-        productWeeklyAvailability!.add(new ProductWeeklyAvailability.fromJson(v));
+        productWeeklyAvailability!.add(ProductWeeklyAvailability.fromJson(v));
       });
     }
     if (json['product_vacation'] != null) {
       productVacation = <ProductVacation>[];
       json['product_vacation'].forEach((v) {
-        productVacation!.add(new ProductVacation.fromJson(v));
+        productVacation!.add(ProductVacation.fromJson(v));
       });
     }
   }
 
   Map<String, dynamic> toJson() {
-    final Map<String, dynamic> data = new Map<String, dynamic>();
+    final Map<String, dynamic> data = Map<String, dynamic>();
     data['id'] = id;
     data['from_location'] = fromLocation;
     data['to_location'] = toLocation;
@@ -626,7 +626,7 @@ class ProductSponsors {
   }
 
   Map<String, dynamic> toJson() {
-    final Map<String, dynamic> data = new Map<String, dynamic>();
+    final Map<String, dynamic> data = Map<String, dynamic>();
     data['id'] = id;
     data['vendor_id'] = vendorId;
     data['sponsor_type'] = sponsorType;
@@ -691,7 +691,7 @@ class JobCategory {
   }
 
   Map<String, dynamic> toJson() {
-    final Map<String, dynamic> data = new Map<String, dynamic>();
+    final Map<String, dynamic> data = Map<String, dynamic>();
     data['id'] = id;
     data['vendor_id'] = vendorId;
     data['parent_id'] = parentId;
@@ -812,7 +812,7 @@ class Address {
   }
 
   Map<String, dynamic> toJson() {
-    final Map<String, dynamic> data = new Map<String, dynamic>();
+    final Map<String, dynamic> data = Map<String, dynamic>();
     data['id'] = id;
     data['user_id'] = userId;
     data['is_login'] = isLogin;
@@ -904,7 +904,7 @@ class ProductDimentions {
   }
 
   Map<String, dynamic> toJson() {
-    final Map<String, dynamic> data = new Map<String, dynamic>();
+    final Map<String, dynamic> data = Map<String, dynamic>();
     data['id'] = id;
     data['giveaway_id'] = giveawayId;
     data['product_id'] = productId;
@@ -964,7 +964,7 @@ class ProductAvailability {
   }
 
   Map<String, dynamic> toJson() {
-    final Map<String, dynamic> data = new Map<String, dynamic>();
+    final Map<String, dynamic> data = Map<String, dynamic>();
     data['qty'] = qty;
     data['type'] = type;
     data['from_date'] = fromDate;
@@ -1002,7 +1002,7 @@ class ProductWeeklyAvailability {
   }
 
   Map<String, dynamic> toJson() {
-    final Map<String, dynamic> data = new Map<String, dynamic>();
+    final Map<String, dynamic> data = Map<String, dynamic>();
     data['id'] = id;
     data['week_day'] = weekDay;
     data['start_time'] = startTime;
@@ -1043,7 +1043,7 @@ class ProductVacation {
   }
 
   Map<String, dynamic> toJson() {
-    final Map<String, dynamic> data = new Map<String, dynamic>();
+    final Map<String, dynamic> data = Map<String, dynamic>();
     data['id'] = id;
     data['product_id'] = productId;
     data['product_availability_id'] = productAvailabilityId;
@@ -1072,7 +1072,7 @@ class ServiceTimeSloat {
   }
 
   Map<String, dynamic> toJson() {
-    final Map<String, dynamic> data = new Map<String, dynamic>();
+    final Map<String, dynamic> data = Map<String, dynamic>();
     data['week_day'] = weekDay;
     data['date'] = date;
     data['time_sloat'] = timeSloat;
@@ -1116,7 +1116,7 @@ class ReturnPolicyDesc {
   }
 
   Map<String, dynamic> toJson() {
-    final Map<String, dynamic> data = new Map<String, dynamic>();
+    final Map<String, dynamic> data = Map<String, dynamic>();
     data['id'] = id;
     data['user_id'] = userId;
     data['title'] = title;

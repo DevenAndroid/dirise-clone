@@ -1159,7 +1159,7 @@ class _GiveAwayProductState extends State<GiveAwayProduct> {
                         Row(
                           children: [
                             Text(
-                              'Standerd Delivery :',
+                              'Standard Delivery :',
                               style:
                                   GoogleFonts.poppins(color: Colors.black, fontSize: 16, fontWeight: FontWeight.w500),
                             ),
