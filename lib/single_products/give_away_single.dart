@@ -1237,7 +1237,7 @@ class _GiveAwayProductState extends State<GiveAwayProduct> {
                         Text(
                           modelSingleProduct.value.singleGiveawayProduct!.longDescription != null
                               ? modelSingleProduct.value.singleGiveawayProduct!.longDescription.toString().capitalize!
-                              : "No discription",
+                              : "No description",
                           style: GoogleFonts.poppins(
                               fontWeight: FontWeight.w400, fontSize: 12, color: const Color(0xFF19313C)),
                         ),
