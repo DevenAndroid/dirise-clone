@@ -354,26 +354,32 @@ class _ProductInformationScreensState extends State<ProductInformationScreens> {
                 height: 10,
               ),
               Obx(() {
-                      return productCategoryModel.value.data != null
-                          ? GestureDetector(
-                              onTap: () {
-                                setState(() {
-                                  showFilters = !showFilters;
-                                });
-                              },
-                              child: Container(
-                                padding: EdgeInsets.all(10),
-                                decoration:
-                                    BoxDecoration(color: Color(0xff292F45), borderRadius: BorderRadius.circular(11)),
-                                child: Text(
-                                  'Filters(Optional)'.tr,
-                                  style: GoogleFonts.poppins(
-                                      color: Colors.white, fontWeight: FontWeight.w600, fontSize: 16),
-                                ),
-                              ),
-                            )
-                          : const SizedBox();
-                    }),
+                bool showButton = productCategoryModel.value.data != null &&
+                    productCategoryModel.value.data!.any((value) => value.childCategory != null);
+
+                return showButton
+                    ? GestureDetector(
+                  onTap: () {
+                    setState(() {
+                      showFilters = !showFilters;
+                    });
+                  },
+                  child: Container(
+                    padding: EdgeInsets.all(10),
+                    decoration: BoxDecoration(
+                        color: Color(0xff292F45),
+                        borderRadius: BorderRadius.circular(11)),
+                    child: Text(
+                      'Filters(Optional)'.tr,
+                      style: GoogleFonts.poppins(
+                          color: Colors.white,
+                          fontWeight: FontWeight.w600,
+                          fontSize: 16),
+                    ),
+                  ),
+                )
+                    : const SizedBox();
+              }),
 
               const SizedBox(
                 height: 15,
