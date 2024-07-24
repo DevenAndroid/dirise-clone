@@ -68,11 +68,14 @@ class _SingleCategoriesState extends State<SingleCategories> {
     });
   }
 
+
   paginateApi() {
     if (_scrollController.offset > _scrollController.position.maxScrollExtent - 40) {
       getCategoryStores(page: paginationPage);
     }
   }
+
+
 
   RxInt refreshInt = 0.obs;
 
@@ -154,75 +157,7 @@ class _SingleCategoriesState extends State<SingleCategories> {
   final RxBool _isValue = false.obs;
   List<Widget> vendorPartner() {
     return [
-      // GestureDetector(
-      //   onTap: () {
-      //     if (profileController.model.user == null) {
-      //       showVendorDialog();
-      //       return;
-      //     }
-      //     if (profileController.model.user!.isVendor != true) {
-      //       Get.to(() => const VendorPlansScreen());
-      //       return;
-      //     }
-      //     if (profileController.model.user!.isVendor == true) {
-      //       Get.to(() => const VendorDashBoardScreen());
-      //       return;
-      //     }
-      //     _isValue.value = !_isValue.value;
-      //     setState(() {});
-      //   },
-      //   child:SvgPicture.asset("assets/svgs/heart.svg"),
-      // ),
 
-      // _isValue.value == true
-      //     ? Obx(() {
-      //   if (profileController.refreshInt.value > 0) {}
-      //`
-      //   return profileController.model.user != null
-      //       ? Column(
-      //     crossAxisAlignment: CrossAxisAlignment.start,
-      //     children:
-      //         ? List.generate(
-      //         vendor.length,
-      //             (index) => Row(
-      //           children: [
-      //             const SizedBox(
-      //               width: 30,
-      //             ),
-      //             // Expanded(
-      //             //   child: TextButton(
-      //             //     onPressed: () {
-      //             //       Get.toNamed(vendorRoutes[index]);
-      //             //     },
-      //             //     style: TextButton.styleFrom(
-      //             //         visualDensity: const VisualDensity(vertical: -3, horizontal: -3),
-      //             //         padding: EdgeInsets.zero.copyWith(left: 16)),
-      //             //     child: Row(
-      //             //       children: [
-      //             //         Expanded(
-      //             //           child: Text(
-      //             //             vendor[index],
-      //             //             style: GoogleFonts.poppins(
-      //             //                 fontSize: 16,
-      //             //                 fontWeight: FontWeight.w400,
-      //             //                 color: Colors.grey.shade500),
-      //             //           ),
-      //             //         ),
-      //             //         const Icon(
-      //             //           Icons.arrow_forward_ios_rounded,
-      //             //           size: 14,
-      //             //         )
-      //             //       ],
-      //             //     ),
-      //             //   ),
-      //             // ),
-      //           ],
-      //         ))
-      //         : [],
-      //   )
-      //       : const SizedBox();
-      // })
-      //     : const SizedBox(),
     ];
   }
   String? selectedValue1;

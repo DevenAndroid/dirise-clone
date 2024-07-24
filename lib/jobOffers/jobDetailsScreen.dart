@@ -50,24 +50,24 @@ class JobDetailsScreen extends StatefulWidget {
   File? uploadCv;
   JobDetailsScreen(
       {super.key,
-        this.id,
-        this.jobCity,
-        this.catName,
-        this.uploadCv,
-        this.cityId,
-        this.stateId,
-        this.countryId,
-        this.jobCountry,
-        this.jobState,
-        this.salary,
-        this.experience,
-        this.jobModel,
-        this.jobType,
-        this.jobCategory,
-        this.jobSubCategory,
-        this.jobTitle,
-        this.linkedIn,
-        this.tellUsAboutYourSelf});
+      this.id,
+      this.jobCity,
+      this.catName,
+      this.uploadCv,
+      this.cityId,
+      this.stateId,
+      this.countryId,
+      this.jobCountry,
+      this.jobState,
+      this.salary,
+      this.experience,
+      this.jobModel,
+      this.jobType,
+      this.jobCategory,
+      this.jobSubCategory,
+      this.jobTitle,
+      this.linkedIn,
+      this.tellUsAboutYourSelf});
 
   @override
   State<JobDetailsScreen> createState() => _JobDetailsScreenState();
@@ -264,11 +264,11 @@ class _JobDetailsScreenState extends State<JobDetailsScreen> {
 
     repositories
         .multiPartApi(
-        mapData: map,
-        images: picture,
-        context: context,
-        url: ApiUrls.giveawayProductAddress,
-        onProgress: (int bytes, int totalBytes) {})
+            mapData: map,
+            images: picture,
+            context: context,
+            url: ApiUrls.giveawayProductAddress,
+            onProgress: (int bytes, int totalBytes) {})
         .then((value) {
       JobResponceModel response = JobResponceModel.fromJson(jsonDecode(value));
       if (response.status == true && idProof.path.isNotEmpty) {
@@ -313,6 +313,7 @@ class _JobDetailsScreenState extends State<JobDetailsScreen> {
       });
     }
   }
+
   void showBottomSheet({
     required BuildContext context,
     required List<String> items,
@@ -329,22 +330,22 @@ class _JobDetailsScreenState extends State<JobDetailsScreen> {
           builder: (BuildContext context, StateSetter setState) {
             return Column(
               children: [
-                SizedBox(height: 20,),
+                const SizedBox(
+                  height: 20,
+                ),
                 Padding(
                   padding: const EdgeInsets.all(8.0),
                   child: TextField(
                     controller: searchController,
-                    decoration: InputDecoration(
+                    decoration: const InputDecoration(
                       labelText: 'Search',
                       prefixIcon: Icon(Icons.search),
                       border: OutlineInputBorder(),
                     ),
                     onChanged: (value) {
                       setState(() {
-                        filteredItems = items
-                            .where((item) =>
-                            item.toLowerCase().contains(value.toLowerCase()))
-                            .toList();
+                        filteredItems =
+                            items.where((item) => item.toLowerCase().contains(value.toLowerCase())).toList();
                       });
                     },
                   ),
@@ -390,15 +391,15 @@ class _JobDetailsScreenState extends State<JobDetailsScreen> {
             children: [
               profileController.selectedLAnguage.value != 'English'
                   ? Image.asset(
-                'assets/images/forward_icon.png',
-                height: 19,
-                width: 19,
-              )
+                      'assets/images/forward_icon.png',
+                      height: 19,
+                      width: 19,
+                    )
                   : Image.asset(
-                'assets/images/back_icon_new.png',
-                height: 19,
-                width: 19,
-              ),
+                      'assets/images/back_icon_new.png',
+                      height: 19,
+                      width: 19,
+                    ),
             ],
           ),
         ),
@@ -439,9 +440,14 @@ class _JobDetailsScreenState extends State<JobDetailsScreen> {
                           .map((e) => e.title.toString())
                           .toList(),
                       selectedItem: selectedCategory,
-                      onItemSelected: (String newValue) {
+                      onItemSelected: (newValue) {
                         setState(() {
-                          selectedCategory = newValue;
+                          var selectedCategoryData = modelVendorCategory.data!
+                              .firstWhere((element) => element.title == newValue);
+                          selectedCategory = selectedCategoryData.id.toString();
+                          categoryName.value = selectedCategoryData.title.toString();
+                          getSubCategories(selectedCategory);
+
                         });
                       },
                     );
@@ -457,9 +463,14 @@ class _JobDetailsScreenState extends State<JobDetailsScreen> {
                       mainAxisAlignment:
                       MainAxisAlignment.spaceBetween,
                       children: [
-                        Text(selectedCategory.isEmpty
-                            ? 'Select job type'
-                            : selectedCategory),
+                        Text(
+                          categoryName.value.isEmpty
+                              ? 'Select job type'
+                              : modelVendorCategory.data!
+                              .firstWhereOrNull((element) => element.title == categoryName.value)
+                              ?.title
+                              .toString() ?? 'Select job type',
+                        ),
                         const Icon(Icons.arrow_drop_down),
                       ],
                     ),
@@ -471,80 +482,80 @@ class _JobDetailsScreenState extends State<JobDetailsScreen> {
                 categoryName.value.isEmpty
                     ? const SizedBox()
                     : Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    Text(
-                      'Choose Sub Category'.tr,
-                      style: GoogleFonts.poppins(color: Colors.black, fontWeight: FontWeight.w400, fontSize: 14),
-                    ),
-                    const SizedBox(height: 8),
-                    TextField(
-                      onChanged: (value) {
-                        selectedValue = '';
-                        fetchedDropdownItems = modelSubCategory.subCategory!
-                            .where((element) => element.title!.toLowerCase().contains(value.toLowerCase()))
-                            .map((vendorCategory) =>
-                            SubCategory(id: vendorCategory.id, title: vendorCategory.title))
-                            .toList();
-                        setState(() {});
-                      },
-                      controller: subCeteController,
-                      decoration: InputDecoration(
-                        hintText: 'Search',
-                        prefixIcon: const Icon(Icons.search),
-                        border: OutlineInputBorder(
-                          borderRadius: BorderRadius.circular(10),
-                        ),
-                      ),
-                    ),
-                    const SizedBox(height: 5),
-                    if (selectedValue.isEmpty)
-                      ListView.builder(
-                        padding: EdgeInsets.zero,
-                        itemCount: fetchedDropdownItems.length,
-                        shrinkWrap: true,
-                        physics: const NeverScrollableScrollPhysics(),
-                        itemBuilder: (context, index) {
-                          var data = fetchedDropdownItems[index];
-                          return GestureDetector(
-                            onTap: () {
-                              // fetchDataBasedOnId(data.id);
-                              isItemDetailsVisible = !isItemDetailsVisible;
-                              selectedSubCategory = data.id.toString();
-                              subCategoryName.value = data.title.toString();
-                              setState(() {
-                                selectedValue = data.title!;
-                                tappedIndex = index;
-                              });
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          Text(
+                            'Choose Sub Category'.tr,
+                            style: GoogleFonts.poppins(color: Colors.black, fontWeight: FontWeight.w400, fontSize: 14),
+                          ),
+                          const SizedBox(height: 8),
+                          TextField(
+                            onChanged: (value) {
+                              selectedValue = '';
+                              fetchedDropdownItems = modelSubCategory.subCategory!
+                                  .where((element) => element.title!.toLowerCase().contains(value.toLowerCase()))
+                                  .map((vendorCategory) =>
+                                      SubCategory(id: vendorCategory.id, title: vendorCategory.title))
+                                  .toList();
+                              setState(() {});
                             },
-                            child: Container(
-                              margin: const EdgeInsets.only(bottom: 5),
+                            controller: subCeteController,
+                            decoration: InputDecoration(
+                              hintText: 'Search',
+                              prefixIcon: const Icon(Icons.search),
+                              border: OutlineInputBorder(
+                                borderRadius: BorderRadius.circular(10),
+                              ),
+                            ),
+                          ),
+                          const SizedBox(height: 5),
+                          if (selectedValue.isEmpty)
+                            ListView.builder(
+                              padding: EdgeInsets.zero,
+                              itemCount: fetchedDropdownItems.length,
+                              shrinkWrap: true,
+                              physics: const NeverScrollableScrollPhysics(),
+                              itemBuilder: (context, index) {
+                                var data = fetchedDropdownItems[index];
+                                return GestureDetector(
+                                  onTap: () {
+                                    // fetchDataBasedOnId(data.id);
+                                    isItemDetailsVisible = !isItemDetailsVisible;
+                                    selectedSubCategory = data.id.toString();
+                                    subCategoryName.value = data.title.toString();
+                                    setState(() {
+                                      selectedValue = data.title!;
+                                      tappedIndex = index;
+                                    });
+                                  },
+                                  child: Container(
+                                    margin: const EdgeInsets.only(bottom: 5),
+                                    padding: const EdgeInsets.all(10),
+                                    height: 50,
+                                    decoration: BoxDecoration(
+                                        color: Colors.grey.shade200,
+                                        borderRadius: BorderRadius.circular(10),
+                                        border: Border.all(
+                                            color: tappedIndex == index ? AppTheme.buttonColor : Colors.grey.shade400,
+                                            width: 2)),
+                                    child: Text(data.title.toString()),
+                                  ),
+                                );
+                              },
+                            ),
+                          if (selectedValue.isNotEmpty)
+                            Container(
                               padding: const EdgeInsets.all(10),
                               height: 50,
+                              width: Get.width,
                               decoration: BoxDecoration(
                                   color: Colors.grey.shade200,
                                   borderRadius: BorderRadius.circular(10),
-                                  border: Border.all(
-                                      color: tappedIndex == index ? AppTheme.buttonColor : Colors.grey.shade400,
-                                      width: 2)),
-                              child: Text(data.title.toString()),
+                                  border: Border.all(color: AppTheme.buttonColor, width: 2)),
+                              child: Text(selectedValue),
                             ),
-                          );
-                        },
+                        ],
                       ),
-                    if (selectedValue.isNotEmpty)
-                      Container(
-                        padding: const EdgeInsets.all(10),
-                        height: 50,
-                        width: Get.width,
-                        decoration: BoxDecoration(
-                            color: Colors.grey.shade200,
-                            borderRadius: BorderRadius.circular(10),
-                            border: Border.all(color: AppTheme.buttonColor, width: 2)),
-                        child: Text(selectedValue),
-                      ),
-                  ],
-                ),
                 // Obx(() {
                 //   if (kDebugMode) {
                 //     print(modelSubCategory.subCategory!
@@ -628,7 +639,7 @@ class _JobDetailsScreenState extends State<JobDetailsScreen> {
                     iconDisabledColor: const Color(0xff97949A),
                     iconEnabledColor: const Color(0xff97949A),
                     value: modelCountryList.country!.firstWhereOrNull(
-                          (element) => element.name == countryName.value,
+                      (element) => element.name == countryName.value,
                     ),
                     style: GoogleFonts.poppins(color: Colors.black, fontSize: 14),
                     decoration: InputDecoration(
@@ -690,64 +701,64 @@ class _JobDetailsScreenState extends State<JobDetailsScreen> {
                   // }
                   return modelStateList.state != null
                       ? DropdownButtonFormField<CountryState>(
-                    key: categoryKey2,
-                    autovalidateMode: AutovalidateMode.onUserInteraction,
-                    icon: stateStatus.value.isLoading
-                        ? const CupertinoActivityIndicator()
-                        : const Icon(Icons.keyboard_arrow_down_rounded),
-                    iconSize: 30,
-                    iconDisabledColor: const Color(0xff97949A),
-                    iconEnabledColor: const Color(0xff97949A),
-                    value: modelStateList.state!.firstWhereOrNull(
-                          (element) => element.stateName == stateName.value,
-                    ),
-                    style: GoogleFonts.poppins(color: Colors.black, fontSize: 16),
-                    decoration: InputDecoration(
-                      border: InputBorder.none,
-                      filled: true,
-                      fillColor: const Color(0xffE2E2E2).withOpacity(.35),
-                      contentPadding: const EdgeInsets.symmetric(horizontal: 15, vertical: 10).copyWith(right: 8),
-                      focusedErrorBorder: const OutlineInputBorder(
-                          borderRadius: BorderRadius.all(Radius.circular(8)),
-                          borderSide: BorderSide(color: AppTheme.secondaryColor)),
-                      errorBorder: const OutlineInputBorder(
-                          borderRadius: BorderRadius.all(Radius.circular(8)),
-                          borderSide: BorderSide(color: Color(0xffE2E2E2))),
-                      focusedBorder: const OutlineInputBorder(
-                          borderRadius: BorderRadius.all(Radius.circular(8)),
-                          borderSide: BorderSide(color: AppTheme.secondaryColor)),
-                      disabledBorder: const OutlineInputBorder(
-                        borderRadius: BorderRadius.all(Radius.circular(8)),
-                        borderSide: BorderSide(color: AppTheme.secondaryColor),
-                      ),
-                      enabledBorder: const OutlineInputBorder(
-                        borderRadius: BorderRadius.all(Radius.circular(8)),
-                        borderSide: BorderSide(color: AppTheme.secondaryColor),
-                      ),
-                    ),
-                    items: modelStateList.state!
-                        .map((e) => DropdownMenuItem(value: e, child: Text(e.stateName.toString().capitalize!)))
-                        .toList(),
-                    hint: Text('Search state to choose'.tr),
-                    onChanged: (value) {
-                      setState(() {
-                        stateCategory = value!.stateId.toString();
-                        stateName.value = value.stateName.toString();
-                        getCityApi(); // Assuming you want to use the ID as the category value
-                      });
-                      // modelCityList = ModelCityList();
-                      // if (value == null) return;
-                      // if (allSelectedCategory2.isNotEmpty) return;
-                      // allSelectedCategory2[value.stateId.toString()] = value;
-                      // setState(() {});
-                    },
-                    // validator: (value) {
-                    //   if (allSelectedCategory2.isEmpty) {
-                    //     return "Please select state".tr;
-                    //   }
-                    //   return null;
-                    // },
-                  )
+                          key: categoryKey2,
+                          autovalidateMode: AutovalidateMode.onUserInteraction,
+                          icon: stateStatus.value.isLoading
+                              ? const CupertinoActivityIndicator()
+                              : const Icon(Icons.keyboard_arrow_down_rounded),
+                          iconSize: 30,
+                          iconDisabledColor: const Color(0xff97949A),
+                          iconEnabledColor: const Color(0xff97949A),
+                          value: modelStateList.state!.firstWhereOrNull(
+                            (element) => element.stateName == stateName.value,
+                          ),
+                          style: GoogleFonts.poppins(color: Colors.black, fontSize: 16),
+                          decoration: InputDecoration(
+                            border: InputBorder.none,
+                            filled: true,
+                            fillColor: const Color(0xffE2E2E2).withOpacity(.35),
+                            contentPadding: const EdgeInsets.symmetric(horizontal: 15, vertical: 10).copyWith(right: 8),
+                            focusedErrorBorder: const OutlineInputBorder(
+                                borderRadius: BorderRadius.all(Radius.circular(8)),
+                                borderSide: BorderSide(color: AppTheme.secondaryColor)),
+                            errorBorder: const OutlineInputBorder(
+                                borderRadius: BorderRadius.all(Radius.circular(8)),
+                                borderSide: BorderSide(color: Color(0xffE2E2E2))),
+                            focusedBorder: const OutlineInputBorder(
+                                borderRadius: BorderRadius.all(Radius.circular(8)),
+                                borderSide: BorderSide(color: AppTheme.secondaryColor)),
+                            disabledBorder: const OutlineInputBorder(
+                              borderRadius: BorderRadius.all(Radius.circular(8)),
+                              borderSide: BorderSide(color: AppTheme.secondaryColor),
+                            ),
+                            enabledBorder: const OutlineInputBorder(
+                              borderRadius: BorderRadius.all(Radius.circular(8)),
+                              borderSide: BorderSide(color: AppTheme.secondaryColor),
+                            ),
+                          ),
+                          items: modelStateList.state!
+                              .map((e) => DropdownMenuItem(value: e, child: Text(e.stateName.toString().capitalize!)))
+                              .toList(),
+                          hint: Text('Search state to choose'.tr),
+                          onChanged: (value) {
+                            setState(() {
+                              stateCategory = value!.stateId.toString();
+                              stateName.value = value.stateName.toString();
+                              getCityApi(); // Assuming you want to use the ID as the category value
+                            });
+                            // modelCityList = ModelCityList();
+                            // if (value == null) return;
+                            // if (allSelectedCategory2.isNotEmpty) return;
+                            // allSelectedCategory2[value.stateId.toString()] = value;
+                            // setState(() {});
+                          },
+                          // validator: (value) {
+                          //   if (allSelectedCategory2.isEmpty) {
+                          //     return "Please select state".tr;
+                          //   }
+                          //   return null;
+                          // },
+                        )
                       : const SizedBox.shrink();
                 }),
                 const SizedBox(
@@ -761,64 +772,64 @@ class _JobDetailsScreenState extends State<JobDetailsScreen> {
                   // }
                   return modelCityList.value.city!.isNotEmpty
                       ? DropdownButtonFormField<City>(
-                    key: categoryKey3,
-                    autovalidateMode: AutovalidateMode.onUserInteraction,
-                    icon: cityStatus.value.isLoading
-                        ? const CupertinoActivityIndicator()
-                        : const Icon(Icons.keyboard_arrow_down_rounded),
-                    iconSize: 30,
-                    iconDisabledColor: const Color(0xff97949A),
-                    iconEnabledColor: const Color(0xff97949A),
-                    value: modelCityList.value.city!.firstWhereOrNull(
-                          (element) => element.cityName == cityName.value,
-                    ),
-                    style: GoogleFonts.poppins(color: Colors.black, fontSize: 16),
-                    decoration: InputDecoration(
-                      border: InputBorder.none,
-                      filled: true,
-                      fillColor: const Color(0xffE2E2E2).withOpacity(.35),
-                      contentPadding: const EdgeInsets.symmetric(horizontal: 15, vertical: 10).copyWith(right: 8),
-                      focusedErrorBorder: const OutlineInputBorder(
-                          borderRadius: BorderRadius.all(Radius.circular(8)),
-                          borderSide: BorderSide(color: AppTheme.secondaryColor)),
-                      errorBorder: const OutlineInputBorder(
-                          borderRadius: BorderRadius.all(Radius.circular(8)),
-                          borderSide: BorderSide(color: Color(0xffE2E2E2))),
-                      focusedBorder: const OutlineInputBorder(
-                          borderRadius: BorderRadius.all(Radius.circular(8)),
-                          borderSide: BorderSide(color: AppTheme.secondaryColor)),
-                      disabledBorder: const OutlineInputBorder(
-                        borderRadius: BorderRadius.all(Radius.circular(8)),
-                        borderSide: BorderSide(color: AppTheme.secondaryColor),
-                      ),
-                      enabledBorder: const OutlineInputBorder(
-                        borderRadius: BorderRadius.all(Radius.circular(8)),
-                        borderSide: BorderSide(color: AppTheme.secondaryColor),
-                      ),
-                    ),
-                    items: modelCityList.value.city!
-                        .map((e) => DropdownMenuItem(value: e, child: Text(e.cityName.toString().capitalize!)))
-                        .toList(),
-                    hint: Text('Search city to choose'.tr),
-                    onChanged: (value) {
-                      setState(() {
-                        cityId =
-                            value!.cityId.toString(); // Assuming you want to use the ID as the category value
-                        cityName.value =
-                            value!.cityName.toString(); // Assuming you want to use the ID as the category value
-                      });
-                      // if (value == null) return;
-                      // if (allSelectedCategory3.isNotEmpty) return;
-                      // allSelectedCategory3[value.cityId.toString()] = value;
-                      // setState(() {});
-                    },
-                    // validator: (value) {
-                    //   if (allSelectedCategory3.isEmpty) {
-                    //     return "Please select city".tr;
-                    //   }
-                    //   return null;
-                    // },
-                  )
+                          key: categoryKey3,
+                          autovalidateMode: AutovalidateMode.onUserInteraction,
+                          icon: cityStatus.value.isLoading
+                              ? const CupertinoActivityIndicator()
+                              : const Icon(Icons.keyboard_arrow_down_rounded),
+                          iconSize: 30,
+                          iconDisabledColor: const Color(0xff97949A),
+                          iconEnabledColor: const Color(0xff97949A),
+                          value: modelCityList.value.city!.firstWhereOrNull(
+                            (element) => element.cityName == cityName.value,
+                          ),
+                          style: GoogleFonts.poppins(color: Colors.black, fontSize: 16),
+                          decoration: InputDecoration(
+                            border: InputBorder.none,
+                            filled: true,
+                            fillColor: const Color(0xffE2E2E2).withOpacity(.35),
+                            contentPadding: const EdgeInsets.symmetric(horizontal: 15, vertical: 10).copyWith(right: 8),
+                            focusedErrorBorder: const OutlineInputBorder(
+                                borderRadius: BorderRadius.all(Radius.circular(8)),
+                                borderSide: BorderSide(color: AppTheme.secondaryColor)),
+                            errorBorder: const OutlineInputBorder(
+                                borderRadius: BorderRadius.all(Radius.circular(8)),
+                                borderSide: BorderSide(color: Color(0xffE2E2E2))),
+                            focusedBorder: const OutlineInputBorder(
+                                borderRadius: BorderRadius.all(Radius.circular(8)),
+                                borderSide: BorderSide(color: AppTheme.secondaryColor)),
+                            disabledBorder: const OutlineInputBorder(
+                              borderRadius: BorderRadius.all(Radius.circular(8)),
+                              borderSide: BorderSide(color: AppTheme.secondaryColor),
+                            ),
+                            enabledBorder: const OutlineInputBorder(
+                              borderRadius: BorderRadius.all(Radius.circular(8)),
+                              borderSide: BorderSide(color: AppTheme.secondaryColor),
+                            ),
+                          ),
+                          items: modelCityList.value.city!
+                              .map((e) => DropdownMenuItem(value: e, child: Text(e.cityName.toString().capitalize!)))
+                              .toList(),
+                          hint: Text('Search city to choose'.tr),
+                          onChanged: (value) {
+                            setState(() {
+                              cityId =
+                                  value!.cityId.toString(); // Assuming you want to use the ID as the category value
+                              cityName.value =
+                                  value!.cityName.toString(); // Assuming you want to use the ID as the category value
+                            });
+                            // if (value == null) return;
+                            // if (allSelectedCategory3.isNotEmpty) return;
+                            // allSelectedCategory3[value.cityId.toString()] = value;
+                            // setState(() {});
+                          },
+                          // validator: (value) {
+                          //   if (allSelectedCategory3.isEmpty) {
+                          //     return "Please select city".tr;
+                          //   }
+                          //   return null;
+                          // },
+                        )
                       : const SizedBox.shrink();
                 }),
                 const SizedBox(
@@ -983,7 +994,7 @@ class _JobDetailsScreenState extends State<JobDetailsScreen> {
                     return null; // Return null if validation passes
                   },
                 ),
-                SizedBox(
+                const SizedBox(
                   height: 10,
                 ),
                 Row(
