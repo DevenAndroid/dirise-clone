@@ -401,19 +401,36 @@ class _VarientsProductScreenState extends State<VarientsProductScreen> {
                           height: 30,
                         ),
                         // Center(child: Image.asset("assets/svgs/single.png")),
-                        Container(
+
+                        Obx(() => Container(
                           padding: const EdgeInsets.symmetric(vertical: 8, horizontal: 18),
                           decoration: BoxDecoration(
-                              borderRadius: BorderRadius.circular(30),
-                              // border: Border.all(color: Colors.white),
-                              color: Colors.white,
-                              boxShadow: [const BoxShadow(offset: Offset(1, 1), blurRadius: 2, color: Colors.grey)]),
-                          child: Text(
-                            "1/10",
-                            style: GoogleFonts.poppins(
-                                fontWeight: FontWeight.w500, fontSize: 10, color: const Color(0xFF014E70)),
+                            borderRadius: BorderRadius.circular(30),
+                            color: Colors.white,
+                            boxShadow: [const BoxShadow(offset: Offset(1, 1), blurRadius: 2, color: Colors.grey)],
                           ),
-                        ),
+                          child: Text(
+                            "${currentIndex.value + 1}/${imagesList.length}",
+                            style: GoogleFonts.poppins(
+                              fontWeight: FontWeight.w500,
+                              fontSize: 10,
+                              color: const Color(0xFF014E70),
+                            ),
+                          ),
+                        )),
+                        // Container(
+                        //   padding: const EdgeInsets.symmetric(vertical: 8, horizontal: 18),
+                        //   decoration: BoxDecoration(
+                        //       borderRadius: BorderRadius.circular(30),
+                        //       // border: Border.all(color: Colors.white),
+                        //       color: Colors.white,
+                        //       boxShadow: [const BoxShadow(offset: Offset(1, 1), blurRadius: 2, color: Colors.grey)]),
+                        //   child: Text(
+                        //     "1/10",
+                        //     style: GoogleFonts.poppins(
+                        //         fontWeight: FontWeight.w500, fontSize: 10, color: const Color(0xFF014E70)),
+                        //   ),
+                        // ),
                         const SizedBox(
                           height: 20,
                         ),
