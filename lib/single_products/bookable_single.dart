@@ -1089,7 +1089,7 @@ class _BookableProductScreenState extends State<BookableProductScreen> {
                   Row(
                     children: [
                       Text(
-                        'Standerd Delivery :',
+                        'Standard Delivery :',
                         style: GoogleFonts.poppins(color: Colors.black, fontSize: 16, fontWeight: FontWeight.w500),
                       ),
                       const SizedBox(

@@ -55,7 +55,7 @@ class _DoneServiceScreenState extends State<DoneServiceScreen> {
                 height: 20,
               ),
               Text(
-                'Service have been added  successfully '.tr,
+                'Service have been added successfully '.tr,
                 style: GoogleFonts.poppins(color: Colors.black, fontWeight: FontWeight.w400, fontSize: 16,),
                 textAlign: TextAlign.center,
               ),
