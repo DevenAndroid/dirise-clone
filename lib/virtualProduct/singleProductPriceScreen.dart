@@ -21,6 +21,7 @@ import '../utils/api_constant.dart';
 import '../widgets/common_button.dart';
 import '../widgets/common_colour.dart';
 import '../widgets/common_textfield.dart';
+import 'ReviewandPublishScreen.dart';
 
 class VirtualPriceScreen extends StatefulWidget {
 
@@ -51,7 +52,7 @@ class _VirtualPriceScreenState extends State<VirtualPriceScreen> {
   String productName = "";
   String discountedPrice = "0.0";
   bool isPercentageDiscount = true;
-  RxBool isDelivery = false.obs;
+  bool isDelivery = false;
   double discountAmount12 =0.0;
   double afterCalculation = 0.0;
   double realPrice1 = 0.0;
@@ -104,9 +105,9 @@ class _VirtualPriceScreenState extends State<VirtualPriceScreen> {
     map['discount_percent'] = discountPrecrnt.text.toString();
     map['fixed_discount_price'] = fixedDiscount.text.toString().trim();
     map['p_price'] = priceController.text.toString();
-    map['item_type'] = 'product';
+    map['item_type'] = 'virtual_product';
     map['id'] = addProductController.idProduct.value.toString();
-    map['is_onsale'] = isDelivery.value.toString();
+    map['is_onsale'] = isDelivery.toString();
 
     final Repositories repositories = Repositories();
     FocusManager.instance.primaryFocus!.unfocus();
@@ -118,7 +119,8 @@ class _VirtualPriceScreenState extends State<VirtualPriceScreen> {
         // addProductController.idProduct.value = response.productDetails!.product!.id.toString();
         print(addProductController.idProduct.value.toString());
        if(widget.id != null){
-       Get.back();
+         Get.to( VirtualReviewandPublishScreen());
+       // Get.back();
        }else{
          Get.to( VirtualDiscriptionScreen());
        }
@@ -282,14 +284,14 @@ class _VirtualPriceScreenState extends State<VirtualPriceScreen> {
                           shape: RoundedRectangleBorder(
                             borderRadius: BorderRadius.circular(4),
                           ),
-                          value: isDelivery.value,
+                          value: isDelivery
 
-                          side: const BorderSide(
+                          ,side: const BorderSide(
                             color: AppTheme.buttonColor,
                           ),
                           onChanged: (bool? value) {
                             setState(() {
-                              isDelivery.value = value!;
+                              isDelivery = value!;
                               fixedDiscount.text = "";
                               discountPrecrnt.text = '';
                               sale = '0.0';
@@ -307,7 +309,7 @@ class _VirtualPriceScreenState extends State<VirtualPriceScreen> {
                     ),
                   ],
                 ),
-                if(isDelivery.value ==  true)
+                if(isDelivery ==  true)
                 Column(
                   children: [
                     const SizedBox(height: 10,),

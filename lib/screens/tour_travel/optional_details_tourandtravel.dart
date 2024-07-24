@@ -3,6 +3,7 @@ import 'package:dirise/Services/services_classification.dart';
 import 'package:dirise/controller/service_controller.dart';
 import 'package:dirise/screens/Consultation%20Sessions/sponsors_screen.dart';
 import 'package:dirise/screens/extendedPrograms/sponsors_extended_screen.dart';
+import 'package:dirise/screens/tour_travel/review_publish_screen.dart';
 import 'package:dirise/screens/tour_travel/sponsors_tourandtravel_screen.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
@@ -72,7 +73,11 @@ class _OptionalDetailsTourAndTravelState extends State<OptionalDetailsTourAndTra
         showToast(response.message.toString());
 
         if (formKey1.currentState!.validate()) {
-          Get.to(() =>  SponsorsScreenTourAndTravel());
+          if (widget.id != null) {
+            Get.to(() => const ReviewandPublishTourScreenScreen());
+          } else {
+            Get.to(() =>  SponsorsScreenTourAndTravel());
+          }
         }
       }
     });
@@ -274,7 +279,11 @@ class _OptionalDetailsTourAndTravelState extends State<OptionalDetailsTourAndTra
                 const SizedBox(height: 20),
                 GestureDetector(
                   onTap: () {
-                    Get.to(() =>  SponsorsScreenTourAndTravel());
+                    if (widget.id != null) {
+                      Get.to(() => const ReviewandPublishTourScreenScreen());
+                    } else {
+                      Get.to(() =>  SponsorsScreenTourAndTravel());
+                    }
                   },
                   child: Container(
                     width: Get.width,

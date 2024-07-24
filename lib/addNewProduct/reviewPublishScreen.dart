@@ -663,9 +663,9 @@ class _ReviewPublishScreenState extends State<ReviewPublishScreen> {
                                             SelectTypeOfPackaging: addProductControllerNew.productDetailsModel.value.productDetails!.productDimentions!.typeOfPackages,
                                             SelectTypeMaterial:addProductControllerNew.productDetailsModel.value.productDetails!.productDimentions!.material ,
                                             SelectNumberOfPackages:addProductControllerNew.productDetailsModel.value.productDetails!.productDimentions!.numberOfPackage ,
-                                            Length: "${addProductControllerNew.productDetailsModel.value.productDetails!.productDimentions!.boxLength}X" ,
-                                            Width : "${addProductControllerNew.productDetailsModel.value.productDetails!.productDimentions!.boxWidth ?? ""}X",
-                                            Height : "${addProductControllerNew.productDetailsModel.value.productDetails!.productDimentions!.boxHeight ?? ""}X",
+                                            Length: "${addProductControllerNew.productDetailsModel.value.productDetails!.productDimentions!.boxLength}" ,
+                                            Width : "${addProductControllerNew.productDetailsModel.value.productDetails!.productDimentions!.boxWidth ?? ""}",
+                                            Height : "${addProductControllerNew.productDetailsModel.value.productDetails!.productDimentions!.boxHeight ?? ""}",
                                             selectTypeMaterial:addProductControllerNew.productDetailsModel.value.productDetails!.productDimentions!.material.toString(),
                                             productType : addProductControllerNew.productDetailsModel.value.productDetails!.productDimentions!.typeOfPackages.toString(),
                                           )

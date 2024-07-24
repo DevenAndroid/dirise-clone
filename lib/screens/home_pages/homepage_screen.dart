@@ -691,42 +691,69 @@ class _HomePageState extends State<HomePage> {
 
 
                           Obx(() {
-                            return
-                             profileController.userLoggedIn && locationController.addressListModel.value.status == true &&  locationController.onTapLocation.value == false ?
-                              Row(
+                            return profileController.userLoggedIn &&
+                                locationController.addressListModel.value.status == true &&
+                                locationController.onTapLocation.value == false
+                                ? Row(
+                              crossAxisAlignment: CrossAxisAlignment.center,
+                              mainAxisAlignment: MainAxisAlignment.start,
                               children: [
+                                const SizedBox(width: 10),
+                                SvgPicture.asset(
+                                  'assets/images/location.svg',
+                                  width: 16,
+                                  height: 16,
+                                  color: AppTheme.buttonColor,
+                                ),
+                                const SizedBox(width: 10),
                                 profileController.selectedLAnguage.value == 'English'
-                                    ? Center(
-                                    child: Text(
-                                      "   Deliver to ${locationController.addressListModel.value.defaultAddress!.city
-                                          .toString()}, ${locationController.addressListModel.value.defaultAddress!.zipCode
-                                          .toString()}, ${locationController.addressListModel.value.defaultAddress!.state.toString()}",
-                                    ))
-                                    : Center(
-                                    child: Text(
-                                      "   يسلم إلى ${locationController.addressListModel.value.defaultAddress!.city
-                                          .toString()}, ${locationController.addressListModel.value.defaultAddress!.zipCode
-                                          .toString()}, ${locationController.addressListModel.value.defaultAddress!.state.toString()}",
-                                    ))
+                                    ? Flexible(
+                                  child: Text(
+                                    " Deliver to ${locationController.addressListModel.value.defaultAddress!.city.toString()}, ${locationController.addressListModel.value.defaultAddress!.zipCode.toString()}, ${locationController.addressListModel.value.defaultAddress!.state.toString()}",
+                                    overflow: TextOverflow.visible,
+                                    softWrap: true,
+                                  ),
+                                )
+                                    : Flexible(
+                                  child: Text(
+                                    "يسلم إلى ${locationController.addressListModel.value.defaultAddress!.city.toString()}, ${locationController.addressListModel.value.defaultAddress!.zipCode.toString()}, ${locationController.addressListModel.value.defaultAddress!.state.toString()}",
+                                    overflow: TextOverflow.visible,
+                                    softWrap: true,
+                                  ),
+                                )
                               ],
-                            ):
-                             Row(
-                                children: [
-                                  profileController.selectedLAnguage.value == 'English'
-                                      ? Center(
-                                      child: Text(
-                                        "   Deliver to ${locationController.city.toString()},${locationController.zipcode ??
-                                            ''}",
-                                      ))
-                                      : Center(
-                                      child: Text(
-                                        "   يسلم إلى ${locationController.city.toString()},${locationController.zipcode ?? ''}",
-                                      ))
-                                ],
-                              );
-
+                            )
+                                : Row(
+                              crossAxisAlignment: CrossAxisAlignment.center,
+                              mainAxisAlignment: MainAxisAlignment.start,
+                              children: [
+                                const SizedBox(width: 10),
+                                SvgPicture.asset(
+                                  'assets/images/location.svg',
+                                  width: 16,
+                                  height: 16,
+                                  color: AppTheme.buttonColor,
+                                ),
+                                profileController.selectedLAnguage.value == 'English'
+                                    ? Flexible(
+                                  child: Text(
+                                    " Deliver to ${locationController.city.toString()}, ${locationController.zipcode ?? ''}",
+                                    overflow: TextOverflow.visible,
+                                    softWrap: true,
+                                  ),
+                                )
+                                    : Flexible(
+                                  child: Text(
+                                    "يسلم إلى  ${locationController.city.toString()}, ${locationController.zipcode ?? ''}",
+                                    overflow: TextOverflow.visible,
+                                    softWrap: true,
+                                  ),
+                                )
+                              ],
+                            );
                           })
-                          //     :
+
+                        //     :
                           // Row(
                           //   children: [
                           //     profileController.selectedLAnguage.value == 'English'

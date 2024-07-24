@@ -164,7 +164,7 @@ class _VarientsProductScreenState extends State<VarientsProductScreen> {
     map["quantity"] = map["quantity"] = int.tryParse(_counter.toString());
     map["key"] = 'fedexRate';
     map["country_id"] = profileController.model.user != null ? profileController.model.user!.country_id : '117';
-
+    map["zip_code"] = cartController.zipCode.toString();
     repositories.postApi(url: ApiUrls.buyNowDetailsUrl, mapData: map, context: context).then((value) {
       log("Value>>>>>>>$value");
       print('singleee');
@@ -401,19 +401,36 @@ class _VarientsProductScreenState extends State<VarientsProductScreen> {
                           height: 30,
                         ),
                         // Center(child: Image.asset("assets/svgs/single.png")),
-                        Container(
+
+                        Obx(() => Container(
                           padding: const EdgeInsets.symmetric(vertical: 8, horizontal: 18),
                           decoration: BoxDecoration(
-                              borderRadius: BorderRadius.circular(30),
-                              // border: Border.all(color: Colors.white),
-                              color: Colors.white,
-                              boxShadow: [const BoxShadow(offset: Offset(1, 1), blurRadius: 2, color: Colors.grey)]),
-                          child: Text(
-                            "1/10",
-                            style: GoogleFonts.poppins(
-                                fontWeight: FontWeight.w500, fontSize: 10, color: const Color(0xFF014E70)),
+                            borderRadius: BorderRadius.circular(30),
+                            color: Colors.white,
+                            boxShadow: [const BoxShadow(offset: Offset(1, 1), blurRadius: 2, color: Colors.grey)],
                           ),
-                        ),
+                          child: Text(
+                            "${currentIndex.value + 1}/${imagesList.length}",
+                            style: GoogleFonts.poppins(
+                              fontWeight: FontWeight.w500,
+                              fontSize: 10,
+                              color: const Color(0xFF014E70),
+                            ),
+                          ),
+                        )),
+                        // Container(
+                        //   padding: const EdgeInsets.symmetric(vertical: 8, horizontal: 18),
+                        //   decoration: BoxDecoration(
+                        //       borderRadius: BorderRadius.circular(30),
+                        //       // border: Border.all(color: Colors.white),
+                        //       color: Colors.white,
+                        //       boxShadow: [const BoxShadow(offset: Offset(1, 1), blurRadius: 2, color: Colors.grey)]),
+                        //   child: Text(
+                        //     "1/10",
+                        //     style: GoogleFonts.poppins(
+                        //         fontWeight: FontWeight.w500, fontSize: 10, color: const Color(0xFF014E70)),
+                        //   ),
+                        // ),
                         const SizedBox(
                           height: 20,
                         ),
@@ -813,7 +830,7 @@ class _VarientsProductScreenState extends State<VarientsProductScreen> {
                         Row(
                           children: [
                             Text(
-                              'Standerd Delivery :',
+                              'Standard Delivery :',
                               style:
                                   GoogleFonts.poppins(color: Colors.black, fontSize: 16, fontWeight: FontWeight.w500),
                             ),

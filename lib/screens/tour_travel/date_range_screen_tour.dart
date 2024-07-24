@@ -65,9 +65,9 @@ class _DateRangeScreenTourState extends State<DateRangeScreenTour> {
     if (picked != null && picked != _startDate) {
       setState(() {
         _startDate = picked;
-        addProductController.formattedStartDate = DateFormat('yyyy/MM/dd').format(_startDate);
+        formattedStartDate = DateFormat('yyyy/MM/dd').format(_startDate);
         dateRangeError = null;
-        print('Now Select........${addProductController.formattedStartDate.toString()}');
+        print('Now Select........${formattedStartDate.toString()}');
       });
     }
   }
@@ -94,7 +94,7 @@ class _DateRangeScreenTourState extends State<DateRangeScreenTour> {
   final Repositories repositories = Repositories();
   void updateProfile() {
 
-    if (addProductController.formattedStartDate == null || formattedStartDate1 == null) {
+    if (formattedStartDate == null || formattedStartDate1 == null) {
       setState(() {
         dateRangeError = 'Please select both start and end dates.';
       });
@@ -104,7 +104,7 @@ class _DateRangeScreenTourState extends State<DateRangeScreenTour> {
 
     map["product_type"] = "booking";
     map["id"] = addProductController.idProduct.value.toString();
-    map["from_date"] = addProductController.formattedStartDate.toString();
+    map["from_date"] = formattedStartDate.toString();
     map["to_date"] = formattedStartDate1.toString();
     map["from_location"] = fromController.text.trim().toString();
     map["from_extra_notes"] = notesController.text.trim().toString();
@@ -118,7 +118,7 @@ class _DateRangeScreenTourState extends State<DateRangeScreenTour> {
         profileController.productAvailabilityId = response.productDetails!.productAvailabilityId!.id!;
         showToast(response.message.toString());
         if (widget.id != null) {
-          Get.to(() => ReviewandPublishTourScreenScreen());
+          Get.to(() => const ReviewandPublishTourScreenScreen());
         } else {
           Get.to(() => TimingScreenTour());
         }
@@ -135,7 +135,7 @@ class _DateRangeScreenTourState extends State<DateRangeScreenTour> {
     // TODO: implement initState
     super.initState();
     if (widget.id != null) {
-      addProductController.formattedStartDate = widget.from_date;
+      formattedStartDate = widget.from_date;
       formattedStartDate1 = widget.to_date;
       fromController.text = widget.fromLocation.toString();
       toController.text = widget.toLocation.toString();
@@ -206,7 +206,7 @@ class _DateRangeScreenTourState extends State<DateRangeScreenTour> {
                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
                       children: [
                         Text(
-                          'Start Date: ${addProductController.formattedStartDate ?? ''}',
+                          'Start Date: ${formattedStartDate ?? ''}',
                           style: const TextStyle(fontSize: 17, fontWeight: FontWeight.w500),
                         ),
                         10.spaceY,
@@ -443,8 +443,11 @@ class _DateRangeScreenTourState extends State<DateRangeScreenTour> {
               20.spaceY,
               InkWell(
                 onTap: () {
-                  // updateProfile();
-                  Get.to(() => TimingScreenTour());
+                  if (widget.id != null) {
+                    Get.to(() => const ReviewandPublishTourScreenScreen());
+                  } else {
+                    Get.to(() => TimingScreenTour());
+                  }
                 },
                 child: Container(
                   width: Get.width,

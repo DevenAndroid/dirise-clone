@@ -73,7 +73,7 @@ class _ProductAccountCreatedSuccessfullyScreenState extends State<ProductAccount
                   ),
            if( profileController.thankYouValue == 'Service')
            Text(
-              "Service have been added  successfully".tr,
+              "Service have been added successfully".tr,
                   textAlign: TextAlign.center,
                   style: Theme.of(context)
                       .textTheme
@@ -130,7 +130,8 @@ class _ProductAccountCreatedSuccessfullyScreenState extends State<ProductAccount
                   },
                   child: Text(
                     'FAQs'.tr,
-                    style: GoogleFonts.poppins(color: Colors.black, fontWeight: FontWeight.w400, fontSize: 14),
+                    style: GoogleFonts.poppins(    color: Color(0xff014E70),
+                        decoration: TextDecoration.underline, fontWeight: FontWeight.w400, fontSize: 14),
                   ),
                 ),
                 GestureDetector(
@@ -140,7 +141,8 @@ class _ProductAccountCreatedSuccessfullyScreenState extends State<ProductAccount
                   },
                   child: Text(
                     'Cutomer Support'.tr,
-                    style: GoogleFonts.poppins(color: Colors.black, fontWeight: FontWeight.w400, fontSize: 14),
+                    style: GoogleFonts.poppins(    color: Color(0xff014E70),
+                        decoration: TextDecoration.underline, fontWeight: FontWeight.w400, fontSize: 14),
                   ),
                 ),
                 GestureDetector(
@@ -149,7 +151,8 @@ class _ProductAccountCreatedSuccessfullyScreenState extends State<ProductAccount
                   },
                   child: Text(
                     'call'.tr,
-                    style: GoogleFonts.poppins(color: Colors.black, fontWeight: FontWeight.w400, fontSize: 14),
+                    style: GoogleFonts.poppins(    color: Color(0xff014E70),
+                        decoration: TextDecoration.underline, fontWeight: FontWeight.w400, fontSize: 14),
                   ),
                 ),
                 SizedBox(

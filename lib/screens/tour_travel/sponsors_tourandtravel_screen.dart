@@ -3,6 +3,7 @@ import 'dart:io';
 
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:dirise/screens/Consultation%20Sessions/review_screen.dart';
+import 'package:dirise/screens/tour_travel/review_publish_screen.dart';
 import 'package:dirise/utils/helper.dart';
 import 'package:dirise/widgets/loading_animation.dart';
 import 'package:flutter/material.dart';
@@ -26,8 +27,10 @@ class SponsorsScreenTourAndTravel extends StatefulWidget {
   int? id;
   String? sponsorType;
   String? sponsorName;
+  String? image;
+  dynamic sponsorsID;
 
-  SponsorsScreenTourAndTravel({super.key, this.id, this.sponsorName, this.sponsorType});
+  SponsorsScreenTourAndTravel({super.key, this.id, this.sponsorName, this.sponsorType,this.sponsorsID,this.image});
 
   @override
   State<SponsorsScreenTourAndTravel> createState() => _SponsorsScreenTourAndTravelState();
@@ -109,7 +112,7 @@ class _SponsorsScreenTourAndTravelState extends State<SponsorsScreenTourAndTrave
         showToast(response.message.toString());
         if (formKey1.currentState!.validate()) {
           if (widget.id != null) {
-            Get.to(() => ReviewScreen());
+            Get.to(() => const ReviewandPublishTourScreenScreen());
           } else {
             Get.to(() => EligibleCustomersTourAndTravel());
           }
@@ -127,6 +130,8 @@ class _SponsorsScreenTourAndTravelState extends State<SponsorsScreenTourAndTrave
     if (widget.id != null) {
       sponsorTypeController.text = widget.sponsorType.toString();
       sponsorNameController.text = widget.sponsorName.toString();
+      idProof = File(widget.image.toString());
+      sponsorValue = widget.sponsorsID.toString();
     }
   }
 

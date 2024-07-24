@@ -35,8 +35,7 @@ class ProductInformationScreens extends StatefulWidget {
   String? catid;
   String? name;
 
-
-  ProductInformationScreens({super.key,this.id,this.name,this.catid});
+  ProductInformationScreens({super.key, this.id, this.name, this.catid});
 
   @override
   State<ProductInformationScreens> createState() => _ProductInformationScreensState();
@@ -69,11 +68,10 @@ class _ProductInformationScreensState extends State<ProductInformationScreens> {
       if (response.status == true) {
         addProductController.idProduct.value = response.productDetails!.product!.id.toString();
         print(addProductController.idProduct.value.toString());
-        if(widget.id != null){
-          Get.to( ProductReviewPublicScreen());
-        }else{
+        if (widget.id != null) {
+          Get.to(ProductReviewPublicScreen());
+        } else {
           Get.to(SingleProductPriceScreen());
-
         }
       }
     });
@@ -81,9 +79,7 @@ class _ProductInformationScreensState extends State<ProductInformationScreens> {
 
   ModelVendorCategory modelVendorCategory = ModelVendorCategory(usphone: []);
   Rx<ModelCategoryList> productCategoryModel = ModelCategoryList().obs;
-  Rx<RxStatus> vendorCategoryStatus = RxStatus
-      .empty()
-      .obs;
+  Rx<RxStatus> vendorCategoryStatus = RxStatus.empty().obs;
   final GlobalKey categoryKey = GlobalKey();
   final GlobalKey subcategoryKey = GlobalKey();
   final GlobalKey productsubcategoryKey = GlobalKey();
@@ -157,7 +153,7 @@ class _ProductInformationScreensState extends State<ProductInformationScreens> {
     }
 
     fetchSubCategoryBasedOnId(ProductID);
-    if(widget.id != null){
+    if (widget.id != null) {
       ProductNameController.text = widget.name.toString();
       // productController.modelCategoryList!.vendorCategoryName = widget.catid.toString();
     }
@@ -173,24 +169,24 @@ class _ProductInformationScreensState extends State<ProductInformationScreens> {
         surfaceTintColor: Colors.white,
         elevation: 0,
         leading: GestureDetector(
-          onTap: (){
+          onTap: () {
             Get.back();
           },
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.center,
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
-              profileController.selectedLAnguage.value != 'English' ?
-              Image.asset(
-                'assets/images/forward_icon.png',
-                height: 19,
-                width: 19,
-              ) :
-              Image.asset(
-                'assets/images/back_icon_new.png',
-                height: 19,
-                width: 19,
-              ),
+              profileController.selectedLAnguage.value != 'English'
+                  ? Image.asset(
+                      'assets/images/forward_icon.png',
+                      height: 19,
+                      width: 19,
+                    )
+                  : Image.asset(
+                      'assets/images/back_icon_new.png',
+                      height: 19,
+                      width: 19,
+                    ),
             ],
           ),
         ),
@@ -226,11 +222,11 @@ class _ProductInformationScreensState extends State<ProductInformationScreens> {
               const SizedBox(
                 height: 10,
               ),
-              if(productController.modelCategoryList!=null)
-              Text(
-                productController.modelCategoryList!.vendorCategoryName.toString(),
-                style: GoogleFonts.poppins(color: Colors.black, fontWeight: FontWeight.w500, fontSize: 18),
-              ),
+              if (productController.modelCategoryList != null)
+                Text(
+                  productController.modelCategoryList!.vendorCategoryName.toString(),
+                  style: GoogleFonts.poppins(color: Colors.black, fontWeight: FontWeight.w500, fontSize: 18),
+                ),
               const SizedBox(
                 height: 10,
               ),
@@ -326,8 +322,6 @@ class _ProductInformationScreensState extends State<ProductInformationScreens> {
               //   ],
               // ),
 
-
-
               // Visibility(
               //   visible: isItemDetailsVisible,
               //   child: ListView.builder(
@@ -359,9 +353,11 @@ class _ProductInformationScreensState extends State<ProductInformationScreens> {
               const SizedBox(
                 height: 10,
               ),
-
               Obx(() {
-                return productCategoryModel.value.data != null
+                bool showButton = productCategoryModel.value.data != null &&
+                    productCategoryModel.value.data!.any((value) => value.childCategory != null);
+
+                return showButton
                     ? GestureDetector(
                   onTap: () {
                     setState(() {
@@ -370,130 +366,133 @@ class _ProductInformationScreensState extends State<ProductInformationScreens> {
                   },
                   child: Container(
                     padding: EdgeInsets.all(10),
-                    decoration: BoxDecoration(color: Color(0xff292F45),borderRadius: BorderRadius.circular(11)),
+                    decoration: BoxDecoration(
+                        color: Color(0xff292F45),
+                        borderRadius: BorderRadius.circular(11)),
                     child: Text(
                       'Filters(Optional)'.tr,
-                      style: GoogleFonts.poppins(color: Colors.white, fontWeight: FontWeight.w600, fontSize: 16),
+                      style: GoogleFonts.poppins(
+                          color: Colors.white,
+                          fontWeight: FontWeight.w600,
+                          fontSize: 16),
                     ),
                   ),
                 )
                     : const SizedBox();
               }),
+
               const SizedBox(
                 height: 15,
               ),
-              showFilters ?
-              Obx(() {
-                return
-                  productCategoryModel.value.data != null ?
-                  Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: productCategoryModel.value.data!
-                        .map((e) =>
-                        Column(
-                          crossAxisAlignment: CrossAxisAlignment.start,
-                          children: [
-
-                            Text(
-                              e.title.toString(),
-                              style: normalStyle,
-                            ),
-                            const SizedBox(
-                              height: 4,
-                            ),
-                            DropdownButtonFormField<int>(
-                              isExpanded: true,
-                              icon: const Icon(Icons.keyboard_arrow_down),
-                              iconDisabledColor: const Color(0xff97949A),
-                              iconEnabledColor: const Color(0xff97949A),
-                              decoration: InputDecoration(
-                                border: InputBorder.none,
-                                filled: true,
-                                fillColor: const Color(0xffE2E2E2).withOpacity(.35),
-                                contentPadding: const EdgeInsets.symmetric(horizontal: 15, vertical: 14),
-                                focusedErrorBorder: const OutlineInputBorder(
-                                    borderRadius: BorderRadius.all(Radius.circular(8)),
-                                    borderSide: BorderSide(color: AppTheme.secondaryColor)),
-                                errorBorder: const OutlineInputBorder(
-                                    borderRadius: BorderRadius.all(Radius.circular(8)),
-                                    borderSide: BorderSide(color: Color(0xffE2E2E2))),
-                                focusedBorder: const OutlineInputBorder(
-                                    borderRadius: BorderRadius.all(Radius.circular(8)),
-                                    borderSide: BorderSide(color: AppTheme.secondaryColor)),
-                                disabledBorder: const OutlineInputBorder(
-                                  borderRadius: BorderRadius.all(Radius.circular(8)),
-                                  borderSide: BorderSide(color: AppTheme.secondaryColor),
-                                ),
-                                enabledBorder: const OutlineInputBorder(
-                                  borderRadius: BorderRadius.all(Radius.circular(8)),
-                                  borderSide: BorderSide(color: AppTheme.secondaryColor),
-                                ),
-                              ),
-                              items: e.childCategory!
-                                  .asMap()
-                                  .entries
-                                  .map((ee) =>
-                                  DropdownMenuItem(
-                                    value: ee.key,
-                                    child: Text(
-                                      ee.value.title.toString(),
-                                      overflow: TextOverflow.ellipsis,
-                                      style: GoogleFonts.poppins(
-                                        color: const Color(0xff463B57),
-                                      ),
-                                    ),
-                                  ))
+              showFilters
+                  ? Obx(() {
+                      return productCategoryModel.value.data != null
+                          ? Column(
+                              crossAxisAlignment: CrossAxisAlignment.start,
+                              children: productCategoryModel.value.data!
+                                  .map((e) => Column(
+                                        crossAxisAlignment: CrossAxisAlignment.start,
+                                        children: [
+                                          Text(
+                                            e.title.toString(),
+                                            style: normalStyle,
+                                          ),
+                                          const SizedBox(
+                                            height: 4,
+                                          ),
+                                          DropdownButtonFormField<int>(
+                                            isExpanded: true,
+                                            icon: const Icon(Icons.keyboard_arrow_down),
+                                            iconDisabledColor: const Color(0xff97949A),
+                                            iconEnabledColor: const Color(0xff97949A),
+                                            decoration: InputDecoration(
+                                              border: InputBorder.none,
+                                              filled: true,
+                                              fillColor: const Color(0xffE2E2E2).withOpacity(.35),
+                                              contentPadding: const EdgeInsets.symmetric(horizontal: 15, vertical: 14),
+                                              focusedErrorBorder: const OutlineInputBorder(
+                                                  borderRadius: BorderRadius.all(Radius.circular(8)),
+                                                  borderSide: BorderSide(color: AppTheme.secondaryColor)),
+                                              errorBorder: const OutlineInputBorder(
+                                                  borderRadius: BorderRadius.all(Radius.circular(8)),
+                                                  borderSide: BorderSide(color: Color(0xffE2E2E2))),
+                                              focusedBorder: const OutlineInputBorder(
+                                                  borderRadius: BorderRadius.all(Radius.circular(8)),
+                                                  borderSide: BorderSide(color: AppTheme.secondaryColor)),
+                                              disabledBorder: const OutlineInputBorder(
+                                                borderRadius: BorderRadius.all(Radius.circular(8)),
+                                                borderSide: BorderSide(color: AppTheme.secondaryColor),
+                                              ),
+                                              enabledBorder: const OutlineInputBorder(
+                                                borderRadius: BorderRadius.all(Radius.circular(8)),
+                                                borderSide: BorderSide(color: AppTheme.secondaryColor),
+                                              ),
+                                            ),
+                                            items: e.childCategory!
+                                                .asMap()
+                                                .entries
+                                                .map((ee) => DropdownMenuItem(
+                                                      value: ee.key,
+                                                      child: Text(
+                                                        ee.value.title.toString(),
+                                                        overflow: TextOverflow.ellipsis,
+                                                        style: GoogleFonts.poppins(
+                                                          color: const Color(0xff463B57),
+                                                        ),
+                                                      ),
+                                                    ))
+                                                .toList(),
+                                            validator: (value) {
+                                              if (!e.childCategory!.map((k) => k.selected).toList().contains(true)) {
+                                                return "Please select any one category".tr;
+                                              }
+                                              return null;
+                                            },
+                                            hint: Text('Select Category'.tr),
+                                            onChanged: (value) {
+                                              e.childCategory![value!].selected = true;
+                                              idForChild.add(e.childCategory![value].id);
+                                              idChild = idForChild.join(',');
+                                              print('vafjdfhdjf ${idForChild.toString()}');
+                                              print('vafjdfhdjf ${idChild.toString()}');
+                                              setState(() {});
+                                            },
+                                          ),
+                                          const SizedBox(
+                                            height: 8,
+                                          ),
+                                          Wrap(
+                                            alignment: WrapAlignment.start,
+                                            crossAxisAlignment: WrapCrossAlignment.start,
+                                            runAlignment: WrapAlignment.start,
+                                            spacing: 6,
+                                            children: e.childCategory!
+                                                .where((element) => element.selected == true)
+                                                .map((ee) => Chip(
+                                                    visualDensity: const VisualDensity(vertical: -2, horizontal: -4),
+                                                    label: Text(
+                                                      ee.title.toString(),
+                                                      style: normalStyle,
+                                                    ),
+                                                    onDeleted: () {
+                                                      ee.selected = false;
+                                                      idForChild.remove(ee.id);
+                                                      print('after remove ${idForChild.toString()}');
+                                                      print('after remove ${idChild.toString()}');
+                                                      setState(() {});
+                                                    }))
+                                                .toList(),
+                                          ),
+                                          const SizedBox(
+                                            height: 4,
+                                          ),
+                                        ],
+                                      ))
                                   .toList(),
-                              validator: (value) {
-                                if (!e.childCategory!.map((k) => k.selected).toList().contains(true)) {
-                                  return "Please select any one category".tr;
-                                }
-                                return null;
-                              },
-                              hint: Text('Select Category'.tr),
-                              onChanged: (value) {
-                                e.childCategory![value!].selected = true;
-                                idForChild.add(e.childCategory![value].id);
-                                idChild = idForChild.join(',');
-                                print('vafjdfhdjf ${idForChild.toString()}');
-                                print('vafjdfhdjf ${idChild.toString()}');
-                                setState(() {});
-                              },
-                            ),
-                            const SizedBox(
-                              height: 8,
-                            ),
-                            Wrap(
-                              alignment: WrapAlignment.start,
-                              crossAxisAlignment: WrapCrossAlignment.start,
-                              runAlignment: WrapAlignment.start,
-                              spacing: 6,
-                              children: e.childCategory!
-                                  .where((element) => element.selected == true)
-                                  .map((ee) =>
-                                  Chip(
-                                      visualDensity: const VisualDensity(vertical: -2, horizontal: -4),
-                                      label: Text(
-                                        ee.title.toString(),
-                                        style: normalStyle,
-                                      ),
-                                      onDeleted: () {
-                                        ee.selected = false;
-                                        idForChild.remove(ee.id);
-                                        print('after remove ${idForChild.toString()}');
-                                        print('after remove ${idChild.toString()}');
-                                        setState(() {});
-                                      }))
-                                  .toList(),
-                            ),
-                            const SizedBox(
-                              height: 4,
-                            ),
-                          ],
-                        ))
-                        .toList(),
-                  ) : const SizedBox();
-              }) : SizedBox(),
+                            )
+                          : const SizedBox();
+                    })
+                  : SizedBox(),
               const SizedBox(
                 height: 20,
               ),
@@ -501,9 +500,7 @@ class _ProductInformationScreensState extends State<ProductInformationScreens> {
                 title: 'Confirm',
                 borderRadius: 11,
                 onPressed: () {
-                  if (ProductNameController.text
-                      .trim()
-                      .isEmpty) {
+                  if (ProductNameController.text.trim().isEmpty) {
                     showToast("Please enter product name");
                   }
                   // else if (categoryName.value == "") {

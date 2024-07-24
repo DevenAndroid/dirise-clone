@@ -72,7 +72,7 @@ class _VendorProductScreenState extends State<VendorProductScreen> {
     return Scaffold(
         backgroundColor: const Color(0xffF4F4F4),
         appBar: AppBar(
-          title: Text('All Product'.tr,
+          title: Text('All Pending Product'.tr,
               style: GoogleFonts.poppins(
                 fontSize: 17,
                 fontWeight: FontWeight.w600,
@@ -185,12 +185,13 @@ class _VendorProductScreenState extends State<VendorProductScreen> {
                   width: 200,
                   padding: EdgeInsets.symmetric(horizontal: 12, vertical: 2),
                   decoration: BoxDecoration(
-                    border: Border.all(color: Colors.blueAccent),
+                    color: Color(0xffEBF1F4),
+                    border: Border.all(color: Color(0xff014E70)),
                     borderRadius: BorderRadius.circular(5),
                   ),
                   child: DropdownButton<String>(
                     isExpanded: true,
-                    hint: Text('Select an Type',style: TextStyle(color:  Colors.black),),
+                    hint: Text('',style: TextStyle(color:  Colors.black),),
                     value:productController . selectedValue1,
 
                     onChanged: (String? newValue) {

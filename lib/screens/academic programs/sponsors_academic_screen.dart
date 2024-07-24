@@ -26,8 +26,10 @@ class SponsorsScreenAcademic extends StatefulWidget {
   int? id;
   String? sponsorType;
   String? sponsorName;
+  String? image;
+  dynamic sponsorsID;
 
-  SponsorsScreenAcademic({super.key, this.id, this.sponsorName, this.sponsorType});
+  SponsorsScreenAcademic({super.key, this.id, this.sponsorName, this.sponsorType,this.sponsorsID,this.image});
 
   @override
   State<SponsorsScreenAcademic> createState() => _SponsorsScreenAcademicState();
@@ -109,7 +111,7 @@ class _SponsorsScreenAcademicState extends State<SponsorsScreenAcademic> {
         showToast(response.message.toString());
         if (formKey1.currentState!.validate()) {
           if (widget.id != null) {
-            Get.to(() => ReviewScreen());
+            Get.to(() => const ReviewScreen());
           } else {
             Get.to(() => OptionalDetailsAcademicScreen());
           }
@@ -127,6 +129,8 @@ class _SponsorsScreenAcademicState extends State<SponsorsScreenAcademic> {
     if (widget.id != null) {
       sponsorTypeController.text = widget.sponsorType.toString();
       sponsorNameController.text = widget.sponsorName.toString();
+      idProof = File(widget.image.toString());
+      sponsorValue = widget.sponsorsID.toString();
     }
   }
 
@@ -328,7 +332,11 @@ class _SponsorsScreenAcademicState extends State<SponsorsScreenAcademic> {
                         const SizedBox(height: 20),
                         GestureDetector(
                           onTap: () {
-                            Get.to(() => OptionalDetailsAcademicScreen());
+                            if (widget.id != null) {
+                              Get.to(() => const ReviewScreen());
+                            } else {
+                              Get.to(() => OptionalDetailsAcademicScreen());
+                            }
                           },
                           child: Container(
                             width: Get.width,

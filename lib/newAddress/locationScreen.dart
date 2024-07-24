@@ -249,7 +249,7 @@ class _ChooseAddressState extends State<ChooseAddress> {
             Positioned(
                 bottom: 0,
                 child: Container(
-                  height: AddSize.size200,
+                  height: AddSize.size220,
                   width: MediaQuery.of(context).size.width,
                   decoration: const BoxDecoration(
                       color: Colors.transparent,
@@ -350,6 +350,9 @@ class _ChooseAddressState extends State<ChooseAddress> {
                                 zipcode:controllerMap. zipcode.value,
                               ));
                             },
+                          ),
+                          const SizedBox(
+                            height: 20,
                           ),
                         ],
                       ),

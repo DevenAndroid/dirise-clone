@@ -354,8 +354,12 @@ class _ItemDetailsScreensState extends State<ItemDetailsScreens> {
               const SizedBox(
                 height: 15,
               ),
+
               Obx(() {
-                return productCategoryModel.value.data != null
+                bool showButton = productCategoryModel.value.data != null &&
+                    productCategoryModel.value.data!.any((value) => value.childCategory != null);
+
+                return showButton
                     ? GestureDetector(
                   onTap: () {
                     setState(() {
@@ -364,15 +368,21 @@ class _ItemDetailsScreensState extends State<ItemDetailsScreens> {
                   },
                   child: Container(
                     padding: EdgeInsets.all(10),
-                    decoration: BoxDecoration(color: Color(0xff292F45),borderRadius: BorderRadius.circular(11)),
+                    decoration: BoxDecoration(
+                        color: Color(0xff292F45),
+                        borderRadius: BorderRadius.circular(11)),
                     child: Text(
                       'Filters(Optional)'.tr,
-                      style: GoogleFonts.poppins(color: Colors.white, fontWeight: FontWeight.w600, fontSize: 16),
+                      style: GoogleFonts.poppins(
+                          color: Colors.white,
+                          fontWeight: FontWeight.w600,
+                          fontSize: 16),
                     ),
                   ),
                 )
                     : const SizedBox();
               }),
+
               const SizedBox(
                 height: 5,
               ),

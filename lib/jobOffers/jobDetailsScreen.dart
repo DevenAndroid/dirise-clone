@@ -50,7 +50,7 @@ class JobDetailsScreen extends StatefulWidget {
   File? uploadCv;
   JobDetailsScreen(
       {super.key,
-        this.id,
+      this.id,
       this.jobCity,
       this.catName,
       this.uploadCv,
@@ -67,8 +67,7 @@ class JobDetailsScreen extends StatefulWidget {
       this.jobSubCategory,
       this.jobTitle,
       this.linkedIn,
-        this.tellUsAboutYourSelf
-      });
+      this.tellUsAboutYourSelf});
 
   @override
   State<JobDetailsScreen> createState() => _JobDetailsScreenState();
@@ -82,7 +81,7 @@ class _JobDetailsScreenState extends State<JobDetailsScreen> {
   String linkedIN = "";
   String experince = "";
   String salery = "";
-
+  String searchCategory = 'Agriculture';
   String jobselectedItem = 'full time'; // Default selected item
   String hiringselectedItem = 'Remote'; // Default selected item
   File idProof = File("");
@@ -127,7 +126,7 @@ class _JobDetailsScreenState extends State<JobDetailsScreen> {
   Map<String, CountryState> allSelectedCategory2 = {};
   Map<String, City> allSelectedCategory3 = {};
   Map<String, SubCategory> allSelectedCategory4 = {};
-  String? selectedCategory;
+  String selectedCategory = '';
   String? selectedSubCategory;
   String? cityId;
   String? stateCategory;
@@ -252,7 +251,7 @@ class _JobDetailsScreenState extends State<JobDetailsScreen> {
     map["job_cat"] = selectedSubCategory ?? "";
     map["job_type"] = jobselectedItem;
     map["job_model"] = hiringselectedItem;
-    map["describe_job_role"] = describe_job_roleController.text;
+    map["about_yourself"] = describe_job_roleController.text;
     map["linkdin_url"] = linkdin_urlController.text;
     map["experience"] = experienceController.text;
     map["salary"] = salaryController.text;
@@ -273,7 +272,6 @@ class _JobDetailsScreenState extends State<JobDetailsScreen> {
         .then((value) {
       JobResponceModel response = JobResponceModel.fromJson(jsonDecode(value));
       if (response.status == true && idProof.path.isNotEmpty) {
-
         Get.to(JobReviewPublishScreen(
           category: selectedCategory,
           subCategory: selectedSubCategory,
@@ -283,6 +281,7 @@ class _JobDetailsScreenState extends State<JobDetailsScreen> {
       }
     });
   }
+
   TextEditingController subCeteController = TextEditingController();
   bool isItemDetailsVisible = false;
   @override
@@ -291,14 +290,14 @@ class _JobDetailsScreenState extends State<JobDetailsScreen> {
     super.initState();
     getVendorCategories();
     getCountry();
-    if(widget.id != null){
+    if (widget.id != null) {
       describe_job_roleController.text = widget.tellUsAboutYourSelf.toString();
       linkdin_urlController.text = widget.linkedIn.toString();
-      experienceController.text =widget.experience.toString();
+      experienceController.text = widget.experience.toString();
       salaryController.text = widget.salary.toString();
       jobTitle.text = widget.jobTitle.toString();
       subCategoryName.value = widget.catName.toString();
-      log('select value issss...${ subCategoryName.value.toString()}');
+      log('select value issss...${subCategoryName.value.toString()}');
       subCeteController.text = widget.jobSubCategory.toString();
       idCountry = widget.countryId.toString();
       categoryName.value = widget.jobCategory.toString();
@@ -313,7 +312,66 @@ class _JobDetailsScreenState extends State<JobDetailsScreen> {
         getCityApi();
       });
     }
+  }
 
+  void showBottomSheet({
+    required BuildContext context,
+    required List<String> items,
+    required String selectedItem,
+    required ValueChanged<String> onItemSelected,
+  }) {
+    showModalBottomSheet(
+      context: context,
+      builder: (BuildContext context) {
+        TextEditingController searchController = TextEditingController();
+        List<String> filteredItems = List.from(items);
+
+        return StatefulBuilder(
+          builder: (BuildContext context, StateSetter setState) {
+            return Column(
+              children: [
+                const SizedBox(
+                  height: 20,
+                ),
+                Padding(
+                  padding: const EdgeInsets.all(8.0),
+                  child: TextField(
+                    controller: searchController,
+                    decoration: const InputDecoration(
+                      labelText: 'Search',
+                      prefixIcon: Icon(Icons.search),
+                      border: OutlineInputBorder(),
+                    ),
+                    onChanged: (value) {
+                      setState(() {
+                        filteredItems =
+                            items.where((item) => item.toLowerCase().contains(value.toLowerCase())).toList();
+                      });
+                    },
+                  ),
+                ),
+                Expanded(
+                  child: ListView.builder(
+                    itemCount: filteredItems.length,
+                    itemBuilder: (BuildContext context, int index) {
+                      String item = filteredItems[index];
+                      return ListTile(
+                        title: Text(item),
+                        selected: item == selectedItem,
+                        onTap: () {
+                          onItemSelected(item);
+                          Navigator.pop(context);
+                        },
+                      );
+                    },
+                  ),
+                ),
+              ],
+            );
+          },
+        );
+      },
+    );
   }
 
   final profileController = Get.put(ProfileController());
@@ -324,24 +382,24 @@ class _JobDetailsScreenState extends State<JobDetailsScreen> {
         backgroundColor: Colors.white,
         elevation: 0,
         leading: GestureDetector(
-          onTap: (){
+          onTap: () {
             Get.back();
           },
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.center,
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
-              profileController.selectedLAnguage.value != 'English' ?
-              Image.asset(
-                'assets/images/forward_icon.png',
-                height: 19,
-                width: 19,
-              ) :
-              Image.asset(
-                'assets/images/back_icon_new.png',
-                height: 19,
-                width: 19,
-              ),
+              profileController.selectedLAnguage.value != 'English'
+                  ? Image.asset(
+                      'assets/images/forward_icon.png',
+                      height: 19,
+                      width: 19,
+                    )
+                  : Image.asset(
+                      'assets/images/back_icon_new.png',
+                      height: 19,
+                      width: 19,
+                    ),
             ],
           ),
         ),
@@ -374,72 +432,50 @@ class _JobDetailsScreenState extends State<JobDetailsScreen> {
                 const SizedBox(
                   height: 10,
                 ),
-                Obx(() {
-                  if (kDebugMode) {
-                    print(modelVendorCategory.data!
-                        .map((e) => DropdownMenuItem(value: e, child: Text(e.title.toString().capitalize!)))
-                        .toList());
-                  }
-                  return DropdownButtonFormField<Data>(
-                    key: categoryKey,
-                    autovalidateMode: AutovalidateMode.onUserInteraction,
-                    icon: vendorCategoryStatus.value.isLoading
-                        ? const CupertinoActivityIndicator()
-                        : const Icon(Icons.keyboard_arrow_down_rounded),
-                    iconSize: 30,
-                    iconDisabledColor: const Color(0xff97949A),
-                    iconEnabledColor: const Color(0xff97949A),
-                    value: modelVendorCategory.data!.firstWhereOrNull(
-                          (element) => element.title == categoryName.value,
+                GestureDetector(
+                  onTap: () {
+                    showBottomSheet(
+                      context: context,
+                      items: modelVendorCategory.data!
+                          .map((e) => e.title.toString())
+                          .toList(),
+                      selectedItem: selectedCategory,
+                      onItemSelected: (newValue) {
+                        setState(() {
+                          var selectedCategoryData = modelVendorCategory.data!
+                              .firstWhere((element) => element.title == newValue);
+                          selectedCategory = selectedCategoryData.id.toString();
+                          categoryName.value = selectedCategoryData.title.toString();
+                          getSubCategories(selectedCategory);
+
+                        });
+                      },
+                    );
+                  },
+                  child: Container(
+                    padding: const EdgeInsets.symmetric(
+                        vertical: 16, horizontal: 10),
+                    decoration: BoxDecoration(
+                      border: Border.all(color: Colors.grey),
+                      borderRadius: BorderRadius.circular(8),
                     ),
-                    style: GoogleFonts.poppins(color: Colors.black, fontSize: 16),
-                    decoration: InputDecoration(
-                      border: InputBorder.none,
-                      filled: true,
-                      fillColor: const Color(0xffE2E2E2).withOpacity(.35),
-                      contentPadding: const EdgeInsets.symmetric(horizontal: 15, vertical: 10).copyWith(right: 8),
-                      focusedErrorBorder: const OutlineInputBorder(
-                          borderRadius: BorderRadius.all(Radius.circular(8)),
-                          borderSide: BorderSide(color: AppTheme.secondaryColor)),
-                      errorBorder: const OutlineInputBorder(
-                          borderRadius: BorderRadius.all(Radius.circular(8)),
-                          borderSide: BorderSide(color: Color(0xffE2E2E2))),
-                      focusedBorder: const OutlineInputBorder(
-                          borderRadius: BorderRadius.all(Radius.circular(8)),
-                          borderSide: BorderSide(color: AppTheme.secondaryColor)),
-                      disabledBorder: const OutlineInputBorder(
-                        borderRadius: BorderRadius.all(Radius.circular(8)),
-                        borderSide: BorderSide(color: AppTheme.secondaryColor),
-                      ),
-                      enabledBorder: const OutlineInputBorder(
-                        borderRadius: BorderRadius.all(Radius.circular(8)),
-                        borderSide: BorderSide(color: AppTheme.secondaryColor),
-                      ),
+                    child: Row(
+                      mainAxisAlignment:
+                      MainAxisAlignment.spaceBetween,
+                      children: [
+                        Text(
+                          categoryName.value.isEmpty
+                              ? 'Select job type'
+                              : modelVendorCategory.data!
+                              .firstWhereOrNull((element) => element.title == categoryName.value)
+                              ?.title
+                              .toString() ?? 'Select job type',
+                        ),
+                        const Icon(Icons.arrow_drop_down),
+                      ],
                     ),
-                    items: modelVendorCategory.data!
-                        .map((e) => DropdownMenuItem(value: e, child: Text(e.title.toString().capitalize!)))
-                        .toList(),
-                    hint: Text('Search category to choose'.tr),
-                    onChanged: (value) {
-                      setState(() {
-                        selectedCategory = value!.id.toString();
-                        categoryName.value = value.title.toString();
-                        getSubCategories(
-                            selectedCategory.toString()); // Assuming you want to use the ID as the category value
-                      });
-                      // if (value == null) return;
-                      // if (allSelectedCategory.isNotEmpty) return;
-                      // allSelectedCategory[value.id.toString()] = value;
-                      // setState(() {});
-                    },
-                    // validator: (value) {
-                    //   if (allSelectedCategory.isEmpty) {
-                    //     return "Please select Category".tr;
-                    //   }
-                    //   return null;
-                    // },
-                  );
-                }),
+                  ),
+                ),
                 const SizedBox(
                   height: 7,
                 ),
@@ -458,9 +494,8 @@ class _JobDetailsScreenState extends State<JobDetailsScreen> {
                               selectedValue = '';
                               fetchedDropdownItems = modelSubCategory.subCategory!
                                   .where((element) => element.title!.toLowerCase().contains(value.toLowerCase()))
-                                  .map((vendorCategory) => SubCategory(
-                                      id: vendorCategory.id,
-                                      title: vendorCategory.title))
+                                  .map((vendorCategory) =>
+                                      SubCategory(id: vendorCategory.id, title: vendorCategory.title))
                                   .toList();
                               setState(() {});
                             },
@@ -476,39 +511,38 @@ class _JobDetailsScreenState extends State<JobDetailsScreen> {
                           const SizedBox(height: 5),
                           if (selectedValue.isEmpty)
                             ListView.builder(
-                            padding: EdgeInsets.zero,
-                            itemCount: fetchedDropdownItems.length,
-                            shrinkWrap: true,
-                            physics: const NeverScrollableScrollPhysics(),
-                            itemBuilder: (context, index) {
-                              var data = fetchedDropdownItems[index];
-                              return GestureDetector(
-                                onTap: () {
-                                  // fetchDataBasedOnId(data.id);
-                                  isItemDetailsVisible = !isItemDetailsVisible;
-                                  selectedSubCategory =
-                                      data.id.toString();
-                                  subCategoryName.value = data.title.toString();
-                                  setState(() {
-                                    selectedValue = data.title!;
-                                    tappedIndex = index;
-                                  });
-                                },
-                                child: Container(
-                                  margin: const EdgeInsets.only(bottom: 5),
-                                  padding: const EdgeInsets.all(10),
-                                  height: 50,
-                                  decoration: BoxDecoration(
-                                      color: Colors.grey.shade200,
-                                      borderRadius: BorderRadius.circular(10),
-                                      border: Border.all(
-                                          color: tappedIndex == index ? AppTheme.buttonColor : Colors.grey.shade400,
-                                          width: 2)),
-                                  child: Text(data.title.toString()),
-                                ),
-                              );
-                            },
-                          ),
+                              padding: EdgeInsets.zero,
+                              itemCount: fetchedDropdownItems.length,
+                              shrinkWrap: true,
+                              physics: const NeverScrollableScrollPhysics(),
+                              itemBuilder: (context, index) {
+                                var data = fetchedDropdownItems[index];
+                                return GestureDetector(
+                                  onTap: () {
+                                    // fetchDataBasedOnId(data.id);
+                                    isItemDetailsVisible = !isItemDetailsVisible;
+                                    selectedSubCategory = data.id.toString();
+                                    subCategoryName.value = data.title.toString();
+                                    setState(() {
+                                      selectedValue = data.title!;
+                                      tappedIndex = index;
+                                    });
+                                  },
+                                  child: Container(
+                                    margin: const EdgeInsets.only(bottom: 5),
+                                    padding: const EdgeInsets.all(10),
+                                    height: 50,
+                                    decoration: BoxDecoration(
+                                        color: Colors.grey.shade200,
+                                        borderRadius: BorderRadius.circular(10),
+                                        border: Border.all(
+                                            color: tappedIndex == index ? AppTheme.buttonColor : Colors.grey.shade400,
+                                            width: 2)),
+                                    child: Text(data.title.toString()),
+                                  ),
+                                );
+                              },
+                            ),
                           if (selectedValue.isNotEmpty)
                             Container(
                               padding: const EdgeInsets.all(10),
@@ -605,7 +639,7 @@ class _JobDetailsScreenState extends State<JobDetailsScreen> {
                     iconDisabledColor: const Color(0xff97949A),
                     iconEnabledColor: const Color(0xff97949A),
                     value: modelCountryList.country!.firstWhereOrNull(
-                          (element) => element.name == countryName.value,
+                      (element) => element.name == countryName.value,
                     ),
                     style: GoogleFonts.poppins(color: Colors.black, fontSize: 14),
                     decoration: InputDecoration(
@@ -746,8 +780,8 @@ class _JobDetailsScreenState extends State<JobDetailsScreen> {
                           iconSize: 30,
                           iconDisabledColor: const Color(0xff97949A),
                           iconEnabledColor: const Color(0xff97949A),
-                          value:  modelCityList.value.city!.firstWhereOrNull(
-                                (element) => element.cityName ==  cityName.value,
+                          value: modelCityList.value.city!.firstWhereOrNull(
+                            (element) => element.cityName == cityName.value,
                           ),
                           style: GoogleFonts.poppins(color: Colors.black, fontSize: 16),
                           decoration: InputDecoration(
@@ -960,7 +994,9 @@ class _JobDetailsScreenState extends State<JobDetailsScreen> {
                     return null; // Return null if validation passes
                   },
                 ),
-                SizedBox(height: 10,),
+                const SizedBox(
+                  height: 10,
+                ),
                 Row(
                   children: [
                     Expanded(

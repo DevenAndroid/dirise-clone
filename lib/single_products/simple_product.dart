@@ -285,7 +285,7 @@ class _SimpleProductScreenState extends State<SimpleProductScreen> {
     map["quantity"] = map["quantity"] = int.tryParse(_counter.toString());
     map["key"] = 'fedexRate';
     map["country_id"] = profileController.model.user != null ? profileController.model.user!.country_id : '117';
-
+    map["zip_code"] = cartController.zipCode.toString();
     // if (isBookingProduct) {
     //   map["start_date"] = selectedDate.text.trim();
     //   map["time_sloat"] = selectedSlot.split("--").first;
@@ -1099,7 +1099,7 @@ class _SimpleProductScreenState extends State<SimpleProductScreen> {
                   Row(
                     children: [
                       Text(
-                        'Standerd Delivery :',
+                        'Standard Delivery :',
                         style: GoogleFonts.poppins(color: Colors.black, fontSize: 16, fontWeight: FontWeight.w500),
                       ),
                       const SizedBox(

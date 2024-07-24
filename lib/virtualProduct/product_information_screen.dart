@@ -56,7 +56,7 @@ class _VirtualProductInformationScreensState extends State<VirtualProductInforma
     Map<String, dynamic> map = {};
     map['category_id'] = idForChild.join(',').toString();
     map['product_name'] = ProductNameController.text.toString();
-    map['item_type'] = 'giveaway';
+    map['item_type'] = 'virtual_product';
     map['id'] = addProductController.idProduct.value.toString();
     /////please change this when image ui is done
 
@@ -348,7 +348,10 @@ class _VirtualProductInformationScreensState extends State<VirtualProductInforma
                 height: 10,
               ),
               Obx(() {
-                return productCategoryModel.value.data != null
+                bool showButton = productCategoryModel.value.data != null &&
+                    productCategoryModel.value.data!.any((value) => value.childCategory != null);
+
+                return showButton
                     ? GestureDetector(
                   onTap: () {
                     setState(() {
@@ -357,10 +360,15 @@ class _VirtualProductInformationScreensState extends State<VirtualProductInforma
                   },
                   child: Container(
                     padding: EdgeInsets.all(10),
-                    decoration: BoxDecoration(color: Color(0xff292F45),borderRadius: BorderRadius.circular(11)),
+                    decoration: BoxDecoration(
+                        color: Color(0xff292F45),
+                        borderRadius: BorderRadius.circular(11)),
                     child: Text(
                       'Filters(Optional)'.tr,
-                      style: GoogleFonts.poppins(color: Colors.white, fontWeight: FontWeight.w600, fontSize: 16),
+                      style: GoogleFonts.poppins(
+                          color: Colors.white,
+                          fontWeight: FontWeight.w600,
+                          fontSize: 16),
                     ),
                   ),
                 )

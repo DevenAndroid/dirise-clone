@@ -37,7 +37,7 @@ class _Giveway1ScreenState extends State<Giveway1Screen> {
   List<String> itemTexts = [
     'working',
     'need_maintenance',
-    'scrab',
+    'scrap',
 
   ];
   final Repositories repositories = Repositories();
@@ -60,27 +60,20 @@ class _Giveway1ScreenState extends State<Giveway1Screen> {
   void navigateNext() {
     if (profileController.model.user!.isVendor == true) {
       // If user is a vendor, allow all radio buttons
-      if (selectedRadio == 'working') {
-        Get.to( ItemDetailsScreens());
-      } else if (selectedRadio == 'need_maintenance') {
-        Get.to( ItemDetailsScreens());
-        // Get.to(ProductInformationScreens(fetaureImage: widget.featureImage,));
-      } else if (selectedRadio == 'scrab') {
-        Get.to( ItemDetailsScreens());
-        // Get.to(JobTellusaboutyourselfScreen());
+      if (selectedRadio == 'working' ||
+          selectedRadio == 'need_maintenance' ||
+          selectedRadio == 'scrap') {
+        Get.to(ItemDetailsScreens());
       } else {
         // Handle the case where the selected radio doesn't match any case
-        // For example, show a message or perform a different action
+        showToast('Please select a valid option.');
       }
     } else {
-      // If user is not a vendor, only allow 'Giveaway' option
-      if (selectedRadio == 'Giveaway') {
-        Get.to( ItemDetailsScreens());
-      } else {
-        showToast('Please Register As A Vendor');
-      }
+      // If user is not a vendor, navigate to ItemDetailsScreens regardless of the selected radio
+      Get.to(ItemDetailsScreens());
     }
   }
+
 
 
 
@@ -154,7 +147,7 @@ class _Giveway1ScreenState extends State<Giveway1Screen> {
               20.spaceY,
               GestureDetector(
                   onTap: (){
-                    selectedRadio = 'scrab';
+                    selectedRadio = 'scrap';
                     addProductController.selectedRadio = selectedRadio;
                     addGiveAwayType();
                     setState(() {});

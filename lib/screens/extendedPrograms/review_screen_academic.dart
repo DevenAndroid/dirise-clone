@@ -220,7 +220,7 @@ class _ReviewScreenExtendedProgramsState extends State<ReviewScreenExtendedProgr
                                                         .value.productDetails!.product!.productAvailability!.toDate,
                                                     spot:  productDetailsModel
                                                         .value.productDetails!.product!.spot,
-                                                    formattedStartDateVacation: productDetailsModel.value.productDetails!.product!.productVacation![index].vacationToDate,
+                                                    formattedStartDateVacation: productDetailsModel.value.productDetails!.product!.productVacation![index].vacationFromDate,
                                                     formattedStartDate1Vacation:  productDetailsModel.value.productDetails!.product!.productVacation![index].vacationToDate,
 
                                                   ));
@@ -242,7 +242,7 @@ class _ReviewScreenExtendedProgramsState extends State<ReviewScreenExtendedProgr
                                                       .value.productDetails!.product!.productAvailability!.toDate,
                                                   spot:  productDetailsModel
                                                       .value.productDetails!.product!.spot,
-                                                  formattedStartDateVacation: productDetailsModel.value.productDetails!.product!.productVacation![index].vacationToDate,
+                                                  formattedStartDateVacation: productDetailsModel.value.productDetails!.product!.productVacation![index].vacationFromDate,
                                                   formattedStartDate1Vacation:  productDetailsModel.value.productDetails!.product!.productVacation![index].vacationToDate,
 
                                                 ));
@@ -517,6 +517,9 @@ class _ReviewScreenExtendedProgramsState extends State<ReviewScreenExtendedProgr
                                         id: productDetailsModel.value.productDetails!.product!.id,
                                         sponsorName: productDetailsModel.value.productDetails!.product!.host_name,
                                         sponsorType: productDetailsModel.value.productDetails!.product!.bookable_product_location,
+                                        image : productDetailsModel.value.productDetails!.product!.productSponsors!.sponsorLogo.toString(),
+                                        sponsorsID: productDetailsModel.value.productDetails!.product!.productSponsors!.id.toString(),
+
                                       ));
                                     },
                                     child: const Text(

@@ -93,10 +93,12 @@ class _PickUpAddressServiceState extends State<PickUpAddressService> {
       showToast(response.message.toString());
       if (response.status == true) {
         if (widget.id != null) {
+
           Get.to(const ReviewPublishServiceScreen());
         } else {
           // Get.to(ServiceInternationalShippingService());
           Get.to(()=> ServiceOptionalScreen());
+
         }
       }
     });
@@ -351,7 +353,7 @@ class _PickUpAddressServiceState extends State<PickUpAddressService> {
                     height: 50,
                     decoration: BoxDecoration(
                       border: Border.all(
-                        color: Colors.black, // Border color
+                        color:Color(0xFF014E70), // Border color
                         width: 1.0, // Border width
                       ),
                       borderRadius: BorderRadius.circular(10), // Border radius
@@ -363,7 +365,7 @@ class _PickUpAddressServiceState extends State<PickUpAddressService> {
                         style: TextStyle(
                           fontSize: 16,
                           fontWeight: FontWeight.bold,
-                          color: Colors.black, // Text color
+                          color: Color(0xFF014E70),  // Text color
                         ),
                       ),
                     ),
