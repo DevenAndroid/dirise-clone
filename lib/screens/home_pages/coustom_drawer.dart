@@ -251,6 +251,7 @@ class _CustomDrawerState extends State<CustomDrawer> {
                                           ? profileController.model.user!.name ?? ""
                                           : ""
                                       : AppStrings.guestUser.tr,
+                                  maxLines: 1,
                                   style: GoogleFonts.poppins(
                                       color: AppTheme.buttonColor, fontSize: 24, fontWeight: FontWeight.w600),
                                 ),
