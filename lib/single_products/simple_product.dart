@@ -1095,10 +1095,14 @@ class _SimpleProductScreenState extends State<SimpleProductScreen> {
                       const SizedBox(
                         width: 7,
                       ),
-                      Text(
-                        locationController.city.toString(),
-                        style:
-                        GoogleFonts.poppins(color: const Color(0xFF014E70), fontSize: 14, fontWeight: FontWeight.w500),
+                      Expanded(
+                        child: Text(
+                          maxLines: 1,
+                          overflow: TextOverflow.ellipsis,
+                          locationController.city.toString(),
+                          style:
+                          GoogleFonts.poppins(color: const Color(0xFF014E70), fontSize: 14, fontWeight: FontWeight.w500),
+                        ),
                       ),
                     ],
                   ),
@@ -1125,6 +1129,8 @@ class _SimpleProductScreenState extends State<SimpleProductScreen> {
                       Expanded(
                         child: Text(
                           formattedDate.toString(),
+                          maxLines: 1,
+                          overflow: TextOverflow.ellipsis,
                           style:
                           GoogleFonts.poppins(color: const Color(0xFF014E70), fontSize: 14, fontWeight: FontWeight.w500),
                         ),
@@ -1155,6 +1161,8 @@ class _SimpleProductScreenState extends State<SimpleProductScreen> {
                       ),
                       Expanded(
                         child: Text(
+                          maxLines: 1,
+                          overflow: TextOverflow.ellipsis,
                           modelSingleProduct.value.simpleProduct!.lowestDeliveryPrice == ""
                               ? "0"
                               : modelSingleProduct.value.simpleProduct!.lowestDeliveryPrice.toString(),

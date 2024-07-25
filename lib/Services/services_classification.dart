@@ -131,7 +131,7 @@ class _ServiceClassificationScreenState extends State<ServiceClassificationScree
                     controller: serviceController.productCode1Controller,
                     obSecure: false,
                     hintText: 'Product Code'.tr,
-                    keyboardType: TextInputType.number,
+                    keyboardType: TextInputType.text,
                     validator: MultiValidator([
                       RequiredValidator(errorText: 'Product Code is required'),
                     ])),
@@ -140,7 +140,7 @@ class _ServiceClassificationScreenState extends State<ServiceClassificationScree
                     controller: serviceController.promotionCode1Controller,
                     obSecure: false,
                     hintText: 'Promotion Code'.tr,
-                    keyboardType: TextInputType.number,
+                    keyboardType: TextInputType.text ,
                     validator: MultiValidator([
                       RequiredValidator(errorText: 'Promotion Code is required'),
                     ])),
@@ -155,7 +155,6 @@ class _ServiceClassificationScreenState extends State<ServiceClassificationScree
                       fontSize: 25,
                     ),
                     counter: const Offstage(),
-
                     errorMaxLines: 2,
                     contentPadding: const EdgeInsets.all(15),
                     fillColor: Colors.grey.shade100,

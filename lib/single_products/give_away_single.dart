@@ -1156,10 +1156,14 @@ class _GiveAwayProductState extends State<GiveAwayProduct> {
                             const SizedBox(
                               width: 7,
                             ),
-                            Text(
-                              locationController.city.toString(),
-                              style: GoogleFonts.poppins(
-                                  color: const Color(0xFF014E70), fontSize: 14, fontWeight: FontWeight.w500),
+                            Expanded(
+                              child: Text(
+                                maxLines: 1,
+                                overflow: TextOverflow.ellipsis,
+                                locationController.city.toString(),
+                                style: GoogleFonts.poppins(
+                                    color: const Color(0xFF014E70), fontSize: 14, fontWeight: FontWeight.w500),
+                              ),
                             ),
                           ],
                         ),
@@ -1186,6 +1190,8 @@ class _GiveAwayProductState extends State<GiveAwayProduct> {
                             ),
                             Expanded(
                               child: Text(
+                                maxLines: 1,
+                                overflow: TextOverflow.ellipsis,
                                 formattedDate.toString(),
                                 style: GoogleFonts.poppins(
                                     color: const Color(0xFF014E70), fontSize: 14, fontWeight: FontWeight.w500),
@@ -1221,6 +1227,8 @@ class _GiveAwayProductState extends State<GiveAwayProduct> {
                                 modelSingleProduct.value.singleGiveawayProduct!.lowestDeliveryPrice == ""
                                     ? "0"
                                     : modelSingleProduct.value.singleGiveawayProduct!.lowestDeliveryPrice.toString(),
+                                maxLines: 1,
+                                overflow: TextOverflow.ellipsis,
                                 style: GoogleFonts.poppins(
                                     color: const Color(0xFF014E70), fontSize: 14, fontWeight: FontWeight.w500),
                               ),

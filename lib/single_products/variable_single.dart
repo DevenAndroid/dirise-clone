@@ -828,10 +828,14 @@ class _VarientsProductScreenState extends State<VarientsProductScreen> {
                             const SizedBox(
                               width: 7,
                             ),
-                            Text(
-                              locationController.city.toString(),
-                              style: GoogleFonts.poppins(
-                                  color: const Color(0xFF014E70), fontSize: 14, fontWeight: FontWeight.w500),
+                            Expanded(
+                              child: Text(
+                                maxLines: 1,
+                                overflow: TextOverflow.ellipsis,
+                                locationController.city.toString(),
+                                style: GoogleFonts.poppins(
+                                    color: const Color(0xFF014E70), fontSize: 14, fontWeight: FontWeight.w500),
+                              ),
                             ),
                           ],
                         ),
@@ -859,6 +863,8 @@ class _VarientsProductScreenState extends State<VarientsProductScreen> {
                             Expanded(
                               child: Text(
                                 formattedDate.toString(),
+                                maxLines: 1,
+                                overflow: TextOverflow.ellipsis,
                                 style: GoogleFonts.poppins(
                                     color: const Color(0xFF014E70), fontSize: 14, fontWeight: FontWeight.w500),
                               ),
@@ -893,6 +899,8 @@ class _VarientsProductScreenState extends State<VarientsProductScreen> {
                                 modelSingleProduct.value.variantProduct!.lowestDeliveryPrice == ""
                                     ? "0"
                                     : modelSingleProduct.value.variantProduct!.lowestDeliveryPrice.toString(),
+                                maxLines: 1,
+                                overflow: TextOverflow.ellipsis,
                                 style: GoogleFonts.poppins(
                                     color: const Color(0xFF014E70), fontSize: 14, fontWeight: FontWeight.w500),
                               ),

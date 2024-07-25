@@ -43,7 +43,7 @@ import '../vendor/shipping_policy.dart';
 
 class MyRouters {
   static var route = [
-    GetPage(name: '/', page: () => const BottomNavbar()),
+      GetPage(name: '/', page: () => const BottomNavbar()),
     GetPage(name: LoginScreen.route, page: () => const LoginScreen()),
     GetPage(name: VendorOTPVerification.route, page: () => const VendorOTPVerification()),
     GetPage(name: CreateAccountNewScreen.route, page: () => const CreateAccountNewScreen()),
