@@ -72,7 +72,8 @@ class _VarientsProductScreenState extends State<VarientsProductScreen> {
   }
 
   RxStatus statusSingle = RxStatus.empty();
-
+  String formattedDate = "";
+  String dateTimeString = "";
   getProductDetails() {
     // statusSingle = RxStatus.loading();
     Map<String, dynamic> map = {};
@@ -87,6 +88,14 @@ class _VarientsProductScreenState extends State<VarientsProductScreen> {
         imagesList.addAll(modelSingleProduct.value.variantProduct!.galleryImage ?? []);
         imagesList = imagesList.toSet().toList();
         releatedId = modelSingleProduct.value.variantProduct!.catId!.last.id.toString();
+        dateTimeString = modelSingleProduct.value.variantProduct!.shippingDate.toString();
+
+// Parse the string into a DateTime object
+        DateTime dateTime = DateTime.parse(dateTimeString);
+
+// Format the DateTime object to display only the date part
+        formattedDate = "${dateTime.year}-${dateTime.month.toString().padLeft(2, '0')}-${dateTime.day.toString().padLeft(2, '0')}";
+
         print("releatedId" + releatedId);
         similarProduct();
         // statusSingle = RxStatus.success();
@@ -849,7 +858,7 @@ class _VarientsProductScreenState extends State<VarientsProductScreen> {
                             ),
                             Expanded(
                               child: Text(
-                                modelSingleProduct.value.variantProduct!.shippingDate.toString(),
+                                formattedDate.toString(),
                                 style: GoogleFonts.poppins(
                                     color: const Color(0xFF014E70), fontSize: 14, fontWeight: FontWeight.w500),
                               ),
