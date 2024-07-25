@@ -107,7 +107,7 @@ class _ReviewScreenState extends State<ReviewScreen> {
             padding: const EdgeInsets.only(right: 10),
             child: Text(
               'Skip',
-              style: GoogleFonts.poppins(color: Color(0xff0D5877), fontWeight: FontWeight.w400, fontSize: 18),
+              style: GoogleFonts.poppins(color: const Color(0xff0D5877), fontWeight: FontWeight.w400, fontSize: 18),
             ),
           )
         ],
@@ -184,9 +184,9 @@ class _ReviewScreenState extends State<ReviewScreen> {
                         Stack(
                           children: [
                             Container(
-                              margin: EdgeInsets.only(top: 10),
+                              margin: const EdgeInsets.only(top: 10),
                               width: Get.width,
-                              padding: EdgeInsets.all(10),
+                              padding: const EdgeInsets.all(10),
                               decoration:
                                   BoxDecoration(color: Colors.grey.shade200, borderRadius: BorderRadius.circular(11)),
                               child: Column(
@@ -203,29 +203,58 @@ class _ReviewScreenState extends State<ReviewScreen> {
                                       itemBuilder: (context, index) {
                                         var productVacation =
                                             productDetailsModel.value.productDetails!.product!.productVacation![index];
-                                        return Text(
-                                            'Add vacations : ${productVacation.vacationFromDate ?? ""} to ${productVacation.vacationToDate ?? ""}');
+                                        return Row(
+                                          mainAxisAlignment: MainAxisAlignment.start,
+                                          crossAxisAlignment: CrossAxisAlignment.start,
+                                          children: [
+                                            Flexible(
+                                              child: GestureDetector(
+                                                onTap: (){
+                                                  Get.to(DateRangeScreen(
+                                                    id: productDetailsModel.value.productDetails!.product!.id,
+                                                    from_date: productDetailsModel.value.productDetails!.product!.productAvailability!.fromDate,
+                                                    to_date: productDetailsModel
+                                                        .value.productDetails!.product!.productAvailability!.toDate,
+                                                    spot:  productDetailsModel
+                                                        .value.productDetails!.product!.spot,
+                                                    formattedStartDateVacation: productDetailsModel.value.productDetails!.product!.productVacation![index].vacationToDate,
+                                                    formattedStartDate1Vacation:  productDetailsModel.value.productDetails!.product!.productVacation![index].vacationToDate,
+
+                                                  ));
+                                              
+                                              
+                                                },
+                                                child: Text(
+                                                    'Add vacations : ${productVacation.vacationFromDate ?? ""} to ${productVacation.vacationToDate ?? ""}'),
+                                              ),
+                                            ),
+
+                                            GestureDetector(
+                                              onTap: (){
+                                                Get.to(DateRangeScreen(
+                                                  id: productDetailsModel.value.productDetails!.product!.id,
+                                                  from_date: productDetailsModel
+                                                      .value.productDetails!.product!.productAvailability!.fromDate,
+                                                  to_date: productDetailsModel
+                                                      .value.productDetails!.product!.productAvailability!.toDate,
+                                                  spot:  productDetailsModel
+                                                      .value.productDetails!.product!.spot,
+                                                  formattedStartDateVacation: productDetailsModel.value.productDetails!.product!.productVacation![index].vacationFromDate,
+                                                  formattedStartDate1Vacation:  productDetailsModel.value.productDetails!.product!.productVacation![index].vacationToDate,
+
+                                                ));
+                                              },
+                                              child: const Text(
+                                                'Edit',
+                                                style: TextStyle(color: Colors.red, fontSize: 13),
+                                              ),
+                                            )
+                                          ],
+                                        );
                                       })
                                 ],
                               ),
                             ),
-                            Positioned(
-                                right: 10,
-                                top: 20,
-                                child: GestureDetector(
-                                    onTap: () {
-                                      Get.to(DateRangeScreen(
-                                        id: productDetailsModel.value.productDetails!.product!.id,
-                                        from_date: productDetailsModel
-                                            .value.productDetails!.product!.productAvailability!.fromDate,
-                                        to_date: productDetailsModel
-                                            .value.productDetails!.product!.productAvailability!.toDate,
-                                      ));
-                                    },
-                                    child: const Text(
-                                      'Edit',
-                                      style: TextStyle(color: Colors.red, fontSize: 13),
-                                    )))
                           ],
                         ),
                       const SizedBox(height: 20),
@@ -362,9 +391,9 @@ class _ReviewScreenState extends State<ReviewScreen> {
                         Stack(
                           children: [
                             Container(
-                              margin: EdgeInsets.only(top: 10),
+                              margin: const EdgeInsets.only(top: 10),
                               width: Get.width,
-                              padding: EdgeInsets.all(10),
+                              padding: const EdgeInsets.all(10),
                               decoration:
                                   BoxDecoration(color: Colors.grey.shade200, borderRadius: BorderRadius.circular(11)),
                               child: Column(
@@ -393,6 +422,20 @@ class _ReviewScreenState extends State<ReviewScreen> {
                                             .value.productDetails!.product!.productAvailability!.interval,
                                         recoveryBlockTime: productDetailsModel
                                             .value.productDetails!.product!.productAvailability!.recoveryBlockTime,
+                                       recoveryType: productDetailsModel
+                                           .value.productDetails!.product!.productAvailability!.recoveryBlockTimeType != '' ?
+                                       productDetailsModel
+                                           .value.productDetails!.product!.productAvailability!.recoveryBlockTimeType  : 'min' ,
+                                        preparationType: productDetailsModel
+                                            .value.productDetails!.product!.productAvailability!.preparationBlockTimeType != '' ?
+                                        productDetailsModel
+                                            .value.productDetails!.product!.productAvailability!.preparationBlockTimeType
+                                            :'min',
+                                        serviceSlotType: productDetailsModel
+                                            .value.productDetails!.product!.productAvailability!.intervalType != '' ?
+                                        productDetailsModel
+                                            .value.productDetails!.product!.productAvailability!.intervalType
+                                            :'min',
                                       ));
                                     },
                                     child: const Text(
@@ -450,9 +493,9 @@ class _ReviewScreenState extends State<ReviewScreen> {
                         Stack(
                           children: [
                             Container(
-                              margin: EdgeInsets.only(top: 10),
+                              margin: const EdgeInsets.only(top: 10),
                               width: Get.width,
-                              padding: EdgeInsets.all(10),
+                              padding: const EdgeInsets.all(10),
                               decoration:
                                   BoxDecoration(color: Colors.grey.shade200, borderRadius: BorderRadius.circular(11)),
                               child: Column(
@@ -480,15 +523,15 @@ class _ReviewScreenState extends State<ReviewScreen> {
                                       Get.to(OptionalDetailsScreen(
                                         id: productDetailsModel.value.productDetails!.product!.id,
                                         hostNameController:
-                                            productDetailsModel.value.productDetails!.product!.host_name,
+                                            productDetailsModel.value.productDetails!.product!.host_name ?? '',
                                         locationController: productDetailsModel
-                                            .value.productDetails!.product!.bookable_product_location,
+                                            .value.productDetails!.product!.bookable_product_location ?? '',
                                         programDescription:
-                                            productDetailsModel.value.productDetails!.product!.program_desc,
+                                            productDetailsModel.value.productDetails!.product!.program_desc ?? '',
                                         programGoalController:
-                                            productDetailsModel.value.productDetails!.product!.program_goal,
+                                            productDetailsModel.value.productDetails!.product!.program_goal ?? '',
                                         programNameController:
-                                            productDetailsModel.value.productDetails!.product!.program_name,
+                                            productDetailsModel.value.productDetails!.product!.program_name ?? '',
                                       ));
                                     },
                                     child: const Text(
@@ -546,9 +589,9 @@ class _ReviewScreenState extends State<ReviewScreen> {
                         Stack(
                           children: [
                             Container(
-                              margin: EdgeInsets.only(top: 10),
+                              margin: const EdgeInsets.only(top: 10),
                               width: Get.width,
-                              padding: EdgeInsets.all(10),
+                              padding: const EdgeInsets.all(10),
                               decoration:
                                   BoxDecoration(color: Colors.grey.shade200, borderRadius: BorderRadius.circular(11)),
                               child: Column(
@@ -571,6 +614,9 @@ class _ReviewScreenState extends State<ReviewScreen> {
                                         id: productDetailsModel.value.productDetails!.product!.id,
                                         sponsorName: productDetailsModel.value.productDetails!.product!.host_name,
                                         sponsorType: productDetailsModel.value.productDetails!.product!.bookable_product_location,
+                                        image : productDetailsModel.value.productDetails!.product!.productSponsors!.sponsorLogo.toString(),
+                                        sponsorsID: productDetailsModel.value.productDetails!.product!.productSponsors!.id.toString(),
+
                                       ));
                                     },
                                     child: const Text(
@@ -628,9 +674,9 @@ class _ReviewScreenState extends State<ReviewScreen> {
                         Stack(
                           children: [
                             Container(
-                              margin: EdgeInsets.only(top: 10),
+                              margin: const EdgeInsets.only(top: 10),
                               width: Get.width,
-                              padding: EdgeInsets.all(10),
+                              padding: const EdgeInsets.all(10),
                               decoration:
                               BoxDecoration(color: Colors.grey.shade200, borderRadius: BorderRadius.circular(11)),
                               child:  Column(
@@ -650,10 +696,10 @@ class _ReviewScreenState extends State<ReviewScreen> {
                                 child: GestureDetector(
                                     onTap: () {
                                       Get.to(EligibleCustomers(
-                                        id: productDetailsModel.value.productDetails!.product!.id,
-                                       eligibleGender: productDetailsModel.value.productDetails!.product!.eligible_gender,
-                                        eligibleMaxAge: productDetailsModel.value.productDetails!.product!.eligible_max_age,
-                                        eligibleMinAge: productDetailsModel.value.productDetails!.product!.eligible_min_age,
+                                        id: productDetailsModel.value.productDetails!.product!.id.toString(),
+                                       eligibleGender: productDetailsModel.value.productDetails!.product!.eligible_gender ?? '',
+                                        eligibleMaxAge: productDetailsModel.value.productDetails!.product!.eligible_max_age ?? '',
+                                        eligibleMinAge: productDetailsModel.value.productDetails!.product!.eligible_min_age ?? '',
                                       ));
                                     },
                                     child: const Text(

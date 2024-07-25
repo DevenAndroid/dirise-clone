@@ -42,22 +42,11 @@ class _HiringReviewPublishScreenState extends State<HiringReviewPublishScreen> {
   bool isItemDetailsVisible = false;
   bool isItemDetailsVisible1 = false;
   RxBool isImageProvide = false.obs;
+  final addProductControllerNew = Get.put(ProfileController());
+  RxBool isOtherImageProvide = false.obs;
   final Repositories repositories = Repositories();
-
   final addProductController = Get.put(AddProductController());
-  Rx<ModelProductDetails> productDetailsModel = ModelProductDetails().obs;
   Rx<RxStatus> vendorCategoryStatus = RxStatus.empty().obs;
-
-  getVendorCategories(id) {
-    // vendorCategoryStatus.value = RxStatus.loading();
-    print('callllllll......');
-    repositories.getApi(url: ApiUrls.getProductDetailsUrl + id).then((value) {
-      productDetailsModel.value = ModelProductDetails.fromJson(jsonDecode(value));
-      // vendorCategoryStatus.value = RxStatus.success();
-      log('callllllll......${productDetailsModel.value.toJson()}');
-      setState(() {});
-    });
-  }
   completeApi() {
     Map<String, dynamic> map = {};
 
@@ -75,7 +64,7 @@ class _HiringReviewPublishScreenState extends State<HiringReviewPublishScreen> {
   void initState() {
     // TODO: implement initState
     super.initState();
-    getVendorCategories(addProductController.idProduct.value.toString());
+    addProductControllerNew.getVendorCategories(addProductController.idProduct.value.toString());
   }
   final profileController = Get.put(ProfileController());
   @override
@@ -128,7 +117,7 @@ class _HiringReviewPublishScreenState extends State<HiringReviewPublishScreen> {
         child: Container(
           margin: EdgeInsets.only(left: 15,right: 15),
           child: Obx(() {
-    return productDetailsModel.value.productDetails != null
+    return addProductControllerNew.productDetailsModel.value.productDetails != null
     ?
           Column(
             children: [
@@ -150,7 +139,7 @@ class _HiringReviewPublishScreenState extends State<HiringReviewPublishScreen> {
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
                       Text(
-                        'Features Image',
+                        'Featured Image',
                         style: GoogleFonts.poppins(
                           color: AppTheme.primaryColor,
                           fontSize: 15,
@@ -192,7 +181,7 @@ class _HiringReviewPublishScreenState extends State<HiringReviewPublishScreen> {
                         mainAxisAlignment: MainAxisAlignment.start,
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
-                          Image.network(productDetailsModel.value.productDetails!.product!.featuredImage,height: 200,)
+                          Image.network(addProductControllerNew.productDetailsModel.value.productDetails!.product!.featuredImage,height: 200,)
                         ],
                       ),
                     ),
@@ -201,19 +190,128 @@ class _HiringReviewPublishScreenState extends State<HiringReviewPublishScreen> {
                         top: 20,
                         child: GestureDetector(
                             onTap: () {
-                              File imageFile = File(productDetailsModel.value.productDetails!.product!.featuredImage);
-                              File gallery = File(productDetailsModel.value.productDetails!.product!.galleryImage![0]);
+                              File imageFile = File(addProductControllerNew.productDetailsModel.value.productDetails!.product!.featuredImage);
+                              // File gallery = File(productDetailsModel.value.productDetails!.product!.galleryImage![0]);
 
                               Get.to(AddProductFirstImageScreen(
-                                id: productDetailsModel.value.productDetails!.product!.id,
+                                id: addProductControllerNew.productDetailsModel.value.productDetails!.product!.id,
                                 image: imageFile,
-                                galleryImg: gallery,
+                                // galleryImg: gallery,
                               ));
                             },
                             child: const Text(
                               'Edit',
                               style: TextStyle(color: Colors.red, fontSize: 13),
                             )))
+                  ],
+                ),
+
+              const SizedBox(height: 20),
+              GestureDetector(
+                onTap: () {
+                  setState(() {
+                    isOtherImageProvide.toggle();
+                  });
+                },
+                child: Container(
+                  padding: const EdgeInsets.symmetric(vertical: 12, horizontal: 12),
+                  decoration: BoxDecoration(
+                      color: Colors.grey.shade200,
+                      borderRadius: BorderRadius.circular(8),
+                      border: Border.all(color: AppTheme.secondaryColor)),
+                  child: Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    children: [
+                      Text(
+                        'Other Image',
+                        style: GoogleFonts.poppins(
+                          color: AppTheme.primaryColor,
+                          fontSize: 15,
+                        ),
+                      ),
+                      GestureDetector(
+                        child: isImageProvide.value != true
+                            ? Image.asset(
+                          'assets/images/drop_icon.png',
+                          height: 17,
+                          width: 17,
+                        )
+                            : Image.asset(
+                          'assets/images/up_icon.png',
+                          height: 17,
+                          width: 17,
+                        ),
+                        onTap: () {
+                          setState(() {
+                            isOtherImageProvide.toggle();
+                          });
+                        },
+                      ),
+                    ],
+                  ),
+                ),
+              ),
+
+              if (isOtherImageProvide.value == true)
+                Stack(
+                  children: [
+                    Container(
+                      margin: const EdgeInsets.only(top: 10),
+                      width: Get.width,
+                      padding: const EdgeInsets.all(10),
+                      decoration: BoxDecoration(
+                        color: Colors.grey.shade200,
+                        borderRadius: BorderRadius.circular(11),
+                      ),
+                      child: addProductControllerNew.productDetailsModel.value.productDetails != null &&
+                          addProductControllerNew.productDetailsModel.value.productDetails!.product != null &&
+                          addProductControllerNew.productDetailsModel.value.productDetails!.product!.galleryImage != null &&
+                          addProductControllerNew.productDetailsModel.value.productDetails!.product!.galleryImage!.isNotEmpty
+                          ? GridView.builder(
+                        shrinkWrap: true,
+                        physics: NeverScrollableScrollPhysics(), // Prevent scrolling in the grid
+                        itemCount: addProductControllerNew.productDetailsModel.value.productDetails!.product!.galleryImage!.length,
+                        gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
+                          crossAxisCount: 2, // 2 images per row
+                          crossAxisSpacing: 10,
+                          mainAxisSpacing: 10,
+                          childAspectRatio: 1, // Adjust aspect ratio as needed
+                        ),
+                        itemBuilder: (context, index) {
+                          String imageUrl = addProductControllerNew.productDetailsModel.value.productDetails!.product!.galleryImage![index];
+                          return Image.network(
+                            imageUrl,
+                            height: 200,
+                            width: double.infinity,
+                            fit: BoxFit.cover,
+                          );
+                        },
+                      )
+                          : const Text('No images available'),
+                    ),
+                    Positioned(
+                      right: 10,
+                      top: 20,
+                      child: GestureDetector(
+                        onTap: () {
+                          if (addProductControllerNew.productDetailsModel.value.productDetails != null &&
+                              addProductControllerNew.productDetailsModel.value.productDetails!.product != null &&
+                              addProductControllerNew.productDetailsModel.value.productDetails!.product!.galleryImage != null &&
+                              addProductControllerNew.productDetailsModel.value.productDetails!.product!.galleryImage!.isNotEmpty) {
+                            // Assuming you want to edit the first image for simplicity
+                            File imageFile = File(addProductControllerNew.productDetailsModel.value.productDetails!.product!.galleryImage![0]);
+                            Get.to(AddProductFirstImageScreen(
+                              id: addProductControllerNew.productDetailsModel.value.productDetails!.product!.id,
+                              image: imageFile,
+                            ));
+                          }
+                        },
+                        child: const Text(
+                          'Edit',
+                          style: TextStyle(color: Colors.red, fontSize: 13),
+                        ),
+                      ),
+                    ),
                   ],
                 ),
               const SizedBox(height: 20),
@@ -265,19 +363,19 @@ class _HiringReviewPublishScreenState extends State<HiringReviewPublishScreen> {
                           crossAxisAlignment: CrossAxisAlignment.start,
                           children: [
                             20.spaceY,
-                            Text('Job title: ${productDetailsModel.value.productDetails!.product!.pname ?? ""}'),
-                            Text('Job Category: ${productDetailsModel.value.productDetails!.product!.jobParentCat ?? ""}'),
-                            Text('Job Category: ${productDetailsModel.value.productDetails!.product!.jobCat ?? ""}'),
-                            Text('Job Country: ${productDetailsModel.value.productDetails!.product!.jobCountry ?? ""}'),
-                            Text('Job State: ${productDetailsModel.value.productDetails!.product!.jobState ?? ""}'),
-                            Text('Job City: ${productDetailsModel.value.productDetails!.product!.jobCity ?? ""}'),
-                            Text('product Price: ${productDetailsModel.value.productDetails!.product!.pPrice ?? ""}'),
-                            Text('product Type: ${productDetailsModel.value.productDetails!.product!.productType ?? ""}'),
-                            Text('product ID: ${productDetailsModel.value.productDetails!.product!.id ?? ""}'),
-                            Text('Salary: ${productDetailsModel.value.productDetails!.product!.salary ?? ""}'),
-                            Text('linkedIN : ${productDetailsModel.value.productDetails!.product!.linkdinUrl ?? ""}'),
-                            Text('Experience : ${productDetailsModel.value.productDetails!.product!.experience ?? ""}'),
-                            Text('Hours Per Week :${productDetailsModel.value.productDetails!.product!.jobHours ?? ""}'),
+                            Text('Job title: ${addProductControllerNew.productDetailsModel.value.productDetails!.product!.pname ?? ""}'),
+                            Text('Job Category: ${addProductControllerNew.productDetailsModel.value.productDetails!.product!.jobParentCat ?? ""}'),
+                            Text('Job Category: ${addProductControllerNew.productDetailsModel.value.productDetails!.product!.jobCat ?? ""}'),
+                            Text('Job Country: ${addProductControllerNew.productDetailsModel.value.productDetails!.product!.jobCountryName ?? ""}'),
+                            Text('Job State: ${addProductControllerNew.productDetailsModel.value.productDetails!.product!.jobStateName ?? ""}'),
+                            Text('Job City: ${addProductControllerNew.productDetailsModel.value.productDetails!.product!.jobCityName ?? ""}'),
+                            Text('product Price: ${addProductControllerNew.productDetailsModel.value.productDetails!.product!.pPrice ?? ""}'),
+                            Text('product Type: ${addProductControllerNew.productDetailsModel.value.productDetails!.product!.productType ?? ""}'),
+                            Text('product ID: ${addProductControllerNew.productDetailsModel.value.productDetails!.product!.id ?? ""}'),
+                            Text('Salary: ${addProductControllerNew.productDetailsModel.value.productDetails!.product!.salary ?? ""}'),
+                            Text('linkedIN : ${addProductControllerNew.productDetailsModel.value.productDetails!.product!.linkdinUrl ?? ""}'),
+                            Text('Experience : ${addProductControllerNew.productDetailsModel.value.productDetails!.product!.experience ?? ""}'),
+                            Text('Hours Per Week :${addProductControllerNew.productDetailsModel.value.productDetails!.product!.jobHours ?? ""}'),
 
                           ],
                         ),
@@ -288,21 +386,25 @@ class _HiringReviewPublishScreenState extends State<HiringReviewPublishScreen> {
                           child: GestureDetector(
                               onTap: (){
                                 Get.to(HiringJobDetailsScreen(
-                                  id: productDetailsModel.value.productDetails!.product!.id,
-                                  experience: productDetailsModel.value.productDetails!.product!.experience,
-                                  countryId: productDetailsModel.value.productDetails!.product!.jobCountryId.toString(),
-                                  jobCategory: productDetailsModel.value.productDetails!.product!.jobParentCat,
-                                  jobCity: productDetailsModel.value.productDetails!.product!.jobCity,
-                                  jobCountry: productDetailsModel.value.productDetails!.product!.jobCountry.toString(),
-                                  jobModel:productDetailsModel.value.productDetails!.product!.jobModel ,
-                                  jobState: productDetailsModel.value.productDetails!.product!.jobState,
-                                  jobSubCategory: productDetailsModel.value.productDetails!.product!.jobCat,
-                                  jobTitle: productDetailsModel.value.productDetails!.product!.pname,
-                                  jobType: productDetailsModel.value.productDetails!.product!.jobType,
-                                  linkedIn: productDetailsModel.value.productDetails!.product!.linkdinUrl,
-                                  salary:productDetailsModel.value.productDetails!.product!.salary ,
-                                  tellUsAboutYourSelf: productDetailsModel.value.productDetails!.product!.describeJobRole,
-                                  hoursPerWeek: productDetailsModel.value.productDetails!.product!.jobHours,
+                                  id: addProductControllerNew.productDetailsModel.value.productDetails!.product!.id,
+                                  jobCatIds: addProductControllerNew.productDetailsModel.value.productDetails!.product!.jobCategory!= null ? addProductControllerNew.productDetailsModel.value.productDetails!.product!.jobCategory!.id : '',
+                                  experience: addProductControllerNew.productDetailsModel.value.productDetails!.product!.experience,
+                                  catName: addProductControllerNew.productDetailsModel.value.productDetails!.product!.jobCat,
+                                  countryId: addProductControllerNew.productDetailsModel.value.productDetails!.product!.jobCountryId.toString(),
+                                  stateId: addProductControllerNew.productDetailsModel.value.productDetails!.product!.jobStateId.toString(),
+                                  cityId: addProductControllerNew.productDetailsModel.value.productDetails!.product!.jobCityId.toString(),
+                                  jobCategory: addProductControllerNew.productDetailsModel.value.productDetails!.product!.jobParentCat,
+                                  jobCity: addProductControllerNew.productDetailsModel.value.productDetails!.product!.jobCityName.toString(),
+                                  jobCountry: addProductControllerNew.productDetailsModel.value.productDetails!.product!.jobCountryName.toString(),
+                                  jobModel:addProductControllerNew.productDetailsModel.value.productDetails!.product!.jobModel ,
+                                  jobState: addProductControllerNew.productDetailsModel.value.productDetails!.product!.jobStateName.toString(),
+                                  jobSubCategory: addProductControllerNew.productDetailsModel.value.productDetails!.product!.jobCat,
+                                  jobTitle: addProductControllerNew.productDetailsModel.value.productDetails!.product!.pname,
+                                  jobType: addProductControllerNew.productDetailsModel.value.productDetails!.product!.jobType,
+                                  linkedIn: addProductControllerNew.productDetailsModel.value.productDetails!.product!.linkdinUrl,
+                                  salary:addProductControllerNew.productDetailsModel.value.productDetails!.product!.salary ,
+                                  tellUsAboutYourSelf: addProductControllerNew.productDetailsModel.value.productDetails!.product!.describeJobRole,
+                                  hoursPerWeek: addProductControllerNew.productDetailsModel.value.productDetails!.product!.jobHours,
 
                                 ));
                               },
@@ -360,7 +462,7 @@ class _HiringReviewPublishScreenState extends State<HiringReviewPublishScreen> {
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
                         20.spaceY,
-                        Text('Tell us about yourself: ${productDetailsModel.value.productDetails!.product!.describeJobRole}'),
+                        Text('Tell us about yourself: ${addProductControllerNew.productDetailsModel.value.productDetails!.product!.describeJobRole}'),
 
 
                       ],

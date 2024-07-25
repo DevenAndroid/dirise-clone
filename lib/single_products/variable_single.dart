@@ -70,7 +70,8 @@ class _VarientsProductScreenState extends State<VarientsProductScreen> {
   }
 
   RxStatus statusSingle = RxStatus.empty();
-
+  String formattedDate = "";
+  String dateTimeString = "";
   getProductDetails() {
     // statusSingle = RxStatus.loading();
     Map<String, dynamic> map = {};
@@ -85,6 +86,14 @@ class _VarientsProductScreenState extends State<VarientsProductScreen> {
         imagesList.addAll(modelSingleProduct.value.variantProduct!.galleryImage ?? []);
         imagesList = imagesList.toSet().toList();
         releatedId = modelSingleProduct.value.variantProduct!.catId!.last.id.toString();
+        dateTimeString = modelSingleProduct.value.variantProduct!.shippingDate.toString();
+
+// Parse the string into a DateTime object
+        DateTime dateTime = DateTime.parse(dateTimeString);
+
+// Format the DateTime object to display only the date part
+        formattedDate = "${dateTime.year}-${dateTime.month.toString().padLeft(2, '0')}-${dateTime.day.toString().padLeft(2, '0')}";
+
         print("releatedId" + releatedId);
         similarProduct();
         // statusSingle = RxStatus.success();
@@ -164,7 +173,7 @@ class _VarientsProductScreenState extends State<VarientsProductScreen> {
     map["quantity"] = map["quantity"] = int.tryParse(_counter.toString());
     map["key"] = 'fedexRate';
     map["country_id"] = profileController.model.user != null ? profileController.model.user!.country_id : '117';
-
+    map["zip_code"] = cartController.zipCode.toString();
     repositories.postApi(url: ApiUrls.buyNowDetailsUrl, mapData: map, context: context).then((value) {
       log("Value>>>>>>>$value");
       print('singleee');
@@ -401,19 +410,36 @@ class _VarientsProductScreenState extends State<VarientsProductScreen> {
                           height: 30,
                         ),
                         // Center(child: Image.asset("assets/svgs/single.png")),
-                        Container(
+
+                        Obx(() => Container(
                           padding: const EdgeInsets.symmetric(vertical: 8, horizontal: 18),
                           decoration: BoxDecoration(
-                              borderRadius: BorderRadius.circular(30),
-                              // border: Border.all(color: Colors.white),
-                              color: Colors.white,
-                              boxShadow: [const BoxShadow(offset: Offset(1, 1), blurRadius: 2, color: Colors.grey)]),
-                          child: Text(
-                            "1/10",
-                            style: GoogleFonts.poppins(
-                                fontWeight: FontWeight.w500, fontSize: 10, color: const Color(0xFF014E70)),
+                            borderRadius: BorderRadius.circular(30),
+                            color: Colors.white,
+                            boxShadow: [const BoxShadow(offset: Offset(1, 1), blurRadius: 2, color: Colors.grey)],
                           ),
-                        ),
+                          child: Text(
+                            "${currentIndex.value + 1}/${imagesList.length}",
+                            style: GoogleFonts.poppins(
+                              fontWeight: FontWeight.w500,
+                              fontSize: 10,
+                              color: const Color(0xFF014E70),
+                            ),
+                          ),
+                        )),
+                        // Container(
+                        //   padding: const EdgeInsets.symmetric(vertical: 8, horizontal: 18),
+                        //   decoration: BoxDecoration(
+                        //       borderRadius: BorderRadius.circular(30),
+                        //       // border: Border.all(color: Colors.white),
+                        //       color: Colors.white,
+                        //       boxShadow: [const BoxShadow(offset: Offset(1, 1), blurRadius: 2, color: Colors.grey)]),
+                        //   child: Text(
+                        //     "1/10",
+                        //     style: GoogleFonts.poppins(
+                        //         fontWeight: FontWeight.w500, fontSize: 10, color: const Color(0xFF014E70)),
+                        //   ),
+                        // ),
                         const SizedBox(
                           height: 20,
                         ),
@@ -813,7 +839,7 @@ class _VarientsProductScreenState extends State<VarientsProductScreen> {
                         Row(
                           children: [
                             Text(
-                              'Standerd Delivery :',
+                              'Standard Delivery :',
                               style:
                                   GoogleFonts.poppins(color: Colors.black, fontSize: 16, fontWeight: FontWeight.w500),
                             ),
@@ -830,7 +856,7 @@ class _VarientsProductScreenState extends State<VarientsProductScreen> {
                             ),
                             Expanded(
                               child: Text(
-                                modelSingleProduct.value.variantProduct!.shippingDate.toString(),
+                                formattedDate.toString(),
                                 style: GoogleFonts.poppins(
                                     color: const Color(0xFF014E70), fontSize: 14, fontWeight: FontWeight.w500),
                               ),
@@ -884,15 +910,17 @@ class _VarientsProductScreenState extends State<VarientsProductScreen> {
 
                         Row(
                           children: [
-                            Text(
-                              modelSingleProduct.value.variantProduct!.storemeta!.storeName.toString(),
-                              style:
-                                  GoogleFonts.poppins(color: Colors.black, fontSize: 20, fontWeight: FontWeight.w500),
+                            Flexible(
+                              child: Text(
+                                modelSingleProduct.value.variantProduct!.storemeta!.storeName.toString(),
+                                style:
+                                    GoogleFonts.poppins(color: Colors.black, fontSize: 20, fontWeight: FontWeight.w500),
+                              ),
                             ),
                             const SizedBox(
                               width: 20,
                             ),
-                            Image.asset("assets/svgs/verified.png")
+                            Flexible(child: Image.asset("assets/svgs/verified.png"))
                           ],
                         ),
                         const SizedBox(

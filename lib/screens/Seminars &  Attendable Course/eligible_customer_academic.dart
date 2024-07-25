@@ -54,7 +54,7 @@ class _EligibleCustomersSeminarAndAttendableState extends State<EligibleCustomer
       // showToast(response.message.toString());
       if (response.status == true) {
         showToast(response.message.toString());
-        Get.to(() => const ReviewScreenSeminarAndAttendable());
+        Get.to(()=> const ReviewScreenSeminarAndAttendable());
       }
     });
   }
@@ -231,7 +231,7 @@ class _EligibleCustomersSeminarAndAttendableState extends State<EligibleCustomer
             const SizedBox(height: 20),
             GestureDetector(
               onTap: () {
-                Get.to(() => const ReviewScreenExtendedPrograms());
+                Get.to(()=> const ReviewScreenSeminarAndAttendable());
               },
               child: Container(
                 width: Get.width,

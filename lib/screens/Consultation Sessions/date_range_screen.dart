@@ -1,5 +1,6 @@
 import 'dart:convert';
 import 'dart:math';
+import 'package:dirise/screens/Consultation%20Sessions/review_screen.dart';
 import 'package:dirise/screens/Consultation%20Sessions/set_store_time.dart';
 import 'package:dirise/screens/academic%20programs/set_store_time.dart';
 import 'package:dirise/utils/helper.dart';
@@ -11,6 +12,7 @@ import 'package:intl/intl.dart';
 import '../../controller/profile_controller.dart';
 import '../../controller/vendor_controllers/add_product_controller.dart';
 import '../../model/jobResponceModel.dart';
+import '../../model/product_details.dart';
 import '../../repository/repository.dart';
 import '../../utils/api_constant.dart';
 import '../../widgets/common_colour.dart';
@@ -23,9 +25,19 @@ class DateRangeScreen extends StatefulWidget {
   String? vacation_from_date;
   String? vacation_to_date;
   int? spot;
+  String? formattedStartDateVacation;
+  String? formattedStartDate1Vacation;
 
   DateRangeScreen(
-      {super.key, this.from_date, this.to_date, this.vacation_from_date, this.vacation_to_date, this.id, this.spot});
+      {super.key,
+      this.from_date,
+      this.to_date,
+      this.vacation_from_date,
+      this.vacation_to_date,
+      this.id,
+      this.spot,
+      this.formattedStartDateVacation,
+      this.formattedStartDate1Vacation});
 
   @override
   State<DateRangeScreen> createState() => _DateRangeScreenState();
@@ -37,6 +49,7 @@ class _DateRangeScreenState extends State<DateRangeScreen> {
   final addProductController = Get.put(AddProductController());
   TextEditingController spotsController = TextEditingController();
   String? formattedStartDate1;
+  String? formattedStartDate;
   RxBool isServiceProvide = false.obs;
   String? dateRangeError;
 
@@ -51,9 +64,9 @@ class _DateRangeScreenState extends State<DateRangeScreen> {
     if (picked != null && picked != _startDate) {
       setState(() {
         _startDate = picked;
-        addProductController.formattedStartDate = DateFormat('yyyy/MM/dd').format(_startDate);
+        formattedStartDate = DateFormat('yyyy/MM/dd').format(_startDate);
         dateRangeError = null;
-        print('Now Select........${addProductController.formattedStartDate.toString()}');
+        print('Now Select........${formattedStartDate.toString()}');
       });
     }
   }
@@ -66,14 +79,22 @@ class _DateRangeScreenState extends State<DateRangeScreen> {
       lastDate: DateTime(2101),
     );
     if (picked != null && picked != _endDate) {
-      setState(() {
-        _endDate = picked;
-        formattedStartDate1 = DateFormat('yyyy/MM/dd').format(_endDate);
-        dateRangeError = null;
-        print('Now Select........${formattedStartDate1.toString()}');
-      });
+      if (picked.isBefore(_startDate)) {
+        setState(() {
+          dateRangeError = 'End date cannot be before start date';
+        });
+        print('End date cannot be before start date');
+      } else {
+        setState(() {
+          _endDate = picked;
+          formattedStartDate1 = DateFormat('yyyy/MM/dd').format(_endDate);
+          dateRangeError = null;
+          print('Now Select........${formattedStartDate1.toString()}');
+        });
+      }
     }
   }
+
 
   //Add Vacation
   DateTime startDateVacation = DateTime.now();
@@ -120,8 +141,7 @@ class _DateRangeScreenState extends State<DateRangeScreen> {
   final Repositories repositories = Repositories();
   int index = 0;
   void updateProfile() {
-
-    if (addProductController.formattedStartDate == null || formattedStartDate1 == null) {
+    if (formattedStartDate == null || formattedStartDate1 == null) {
       setState(() {
         dateRangeError = 'Please select both start and end dates.';
       });
@@ -135,11 +155,11 @@ class _DateRangeScreenState extends State<DateRangeScreen> {
     map["product_type"] = "booking";
     map["spot"] = spotsController.text.trim();
     map["id"] = addProductController.idProduct.value.toString();
-    map["group"] = addProductController.formattedStartDate == formattedStartDate1 ? "date" : "range";
-    if (addProductController.formattedStartDate == formattedStartDate1) {
-      map["single_date"] = addProductController.formattedStartDate.toString();
+    map["group"] = formattedStartDate == formattedStartDate1 ? "date" : "range";
+    if (formattedStartDate == formattedStartDate1) {
+      map["single_date"] = formattedStartDate.toString();
     } else {
-      map["from_date"] = addProductController.formattedStartDate.toString();
+      map["from_date"] = formattedStartDate.toString();
       map["to_date"] = formattedStartDate1.toString();
     }
     map['vacation_type'] = map1;
@@ -158,9 +178,13 @@ class _DateRangeScreenState extends State<DateRangeScreen> {
       print('object${value.toString()}');
       JobResponceModel response = JobResponceModel.fromJson(jsonDecode(value));
       if (response.status == true) {
-        showToast(response.message.toString());
-        Get.to(() => SetTimeScreenConsultation());
-        print('value isssss${response.toJson()}');
+        if (widget.id != null) {
+          Get.to(const ReviewScreen());
+        } else {
+          showToast(response.message.toString());
+          Get.to(() => SetTimeScreenConsultation());
+          print('value isssss${response.toJson()}');
+        }
       } else {
         showToast(response.message.toString());
       }
@@ -172,9 +196,13 @@ class _DateRangeScreenState extends State<DateRangeScreen> {
     // TODO: implement initState
     super.initState();
     if (widget.id != null) {
-      addProductController.formattedStartDate = widget.from_date;
+      formattedStartDate = widget.from_date;
       formattedStartDate1 = widget.to_date;
       spotsController.text = widget.spot.toString();
+
+      formattedStartDateVacation = widget.formattedStartDateVacation;
+      formattedStartDate1Vacation = widget.formattedStartDate1Vacation;
+      print('gggggggg${widget.formattedStartDateVacation}');
     }
   }
 
@@ -241,7 +269,7 @@ class _DateRangeScreenState extends State<DateRangeScreen> {
                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
                       children: [
                         Text(
-                          'Start Date: ${addProductController.formattedStartDate ?? ''}',
+                          'Start Date: ${formattedStartDate ?? ''}',
                           style: const TextStyle(fontSize: 17, fontWeight: FontWeight.w500),
                         ),
                         10.spaceY,
@@ -449,10 +477,9 @@ class _DateRangeScreenState extends State<DateRangeScreen> {
               InkWell(
                 onTap: () {
                   // updateProfile();
-                  if(formKey.currentState!.validate()){
+                  if (formKey.currentState!.validate()) {
                     updateProfile();
                   }
-
 
                   // Get.to(()=> const SetTimeScreenConsultation());
                 },

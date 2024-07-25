@@ -31,13 +31,14 @@ class ProfileController extends GetxController {
       selectedLAnguage.value = 'عربي';
     }
   }
+
   Rx<ModelProductDetails> productDetailsModel = ModelProductDetails().obs;
   getVendorCategories(id) {
     repositories.getApi(url: ApiUrls.getProductDetailsUrl + id).then((value) {
       productDetailsModel.value = ModelProductDetails.fromJson(jsonDecode(value));
-
     });
   }
+
 
 
   ProfileModel model = ProfileModel();
@@ -47,7 +48,7 @@ class ProfileController extends GetxController {
   RxInt refreshInt = 0.obs;
   bool userLoggedIn = false;
   RxString selectedLAnguage = "English".obs;
-  String code = 'KW';
+  String code = '';
   String code1 = 'KW';
   ModelCountryList? modelCountryList;
   Country? selectedCountry;

@@ -21,16 +21,18 @@ import '../utils/api_constant.dart';
 import '../widgets/common_button.dart';
 import '../widgets/common_colour.dart';
 import '../widgets/common_textfield.dart';
+import 'ReviewandPublishScreen.dart';
 
 class VirtualPriceScreen extends StatefulWidget {
 
-  int? price;
-  int? fixedPrice;
-  int? percentage;
-  int? id;
+  dynamic price;
+  dynamic fixedPrice;
+  dynamic percentage;
+  dynamic id;
+  dynamic onSale;
 
 
-  VirtualPriceScreen({super.key,this.percentage,this.price,this.fixedPrice,this.id});
+  VirtualPriceScreen({super.key,this.percentage,this.price,this.fixedPrice,this.onSale,this.id});
 
   @override
   State<VirtualPriceScreen> createState() => _VirtualPriceScreenState();
@@ -50,7 +52,7 @@ class _VirtualPriceScreenState extends State<VirtualPriceScreen> {
   String productName = "";
   String discountedPrice = "0.0";
   bool isPercentageDiscount = true;
-  RxBool isDelivery = false.obs;
+  bool isDelivery = false;
   double discountAmount12 =0.0;
   double afterCalculation = 0.0;
   double realPrice1 = 0.0;
@@ -103,8 +105,9 @@ class _VirtualPriceScreenState extends State<VirtualPriceScreen> {
     map['discount_percent'] = discountPrecrnt.text.toString();
     map['fixed_discount_price'] = fixedDiscount.text.toString().trim();
     map['p_price'] = priceController.text.toString();
-    map['item_type'] = 'product';
+    map['item_type'] = 'virtual_product';
     map['id'] = addProductController.idProduct.value.toString();
+    map['is_onsale'] = isDelivery.toString();
 
     final Repositories repositories = Repositories();
     FocusManager.instance.primaryFocus!.unfocus();
@@ -115,7 +118,12 @@ class _VirtualPriceScreenState extends State<VirtualPriceScreen> {
       if (response.status == true) {
         // addProductController.idProduct.value = response.productDetails!.product!.id.toString();
         print(addProductController.idProduct.value.toString());
-        Get.to( VirtualDiscriptionScreen());
+       if(widget.id != null){
+         Get.to( VirtualReviewandPublishScreen());
+       // Get.back();
+       }else{
+         Get.to( VirtualDiscriptionScreen());
+       }
       }
     });
   }
@@ -132,10 +140,12 @@ class _VirtualPriceScreenState extends State<VirtualPriceScreen> {
   void initState() {
     // TODO: implement initState
     super.initState();
+    print(widget.onSale);
     if(widget.id != null){
       priceController.text = widget.price.toString();
+      isDelivery = widget.onSale!;
       discountPrecrnt.text = widget.percentage.toString() ?? "";
-          fixedDiscount.text = widget.fixedPrice.toString() ?? "";
+      fixedDiscount.text = widget.fixedPrice.toString() ?? "";
     }
     getVendorCategories(addProductController.idProduct.value.toString());
   }
@@ -274,14 +284,14 @@ class _VirtualPriceScreenState extends State<VirtualPriceScreen> {
                           shape: RoundedRectangleBorder(
                             borderRadius: BorderRadius.circular(4),
                           ),
-                          value: isDelivery.value,
+                          value: isDelivery
 
-                          side: const BorderSide(
+                          ,side: const BorderSide(
                             color: AppTheme.buttonColor,
                           ),
                           onChanged: (bool? value) {
                             setState(() {
-                              isDelivery.value = value!;
+                              isDelivery = value!;
                               fixedDiscount.text = "";
                               discountPrecrnt.text = '';
                               sale = '0.0';
@@ -299,7 +309,7 @@ class _VirtualPriceScreenState extends State<VirtualPriceScreen> {
                     ),
                   ],
                 ),
-                if(isDelivery.value ==  true)
+                if(isDelivery ==  true)
                 Column(
                   children: [
                     const SizedBox(height: 10,),
@@ -329,21 +339,21 @@ class _VirtualPriceScreenState extends State<VirtualPriceScreen> {
                       validator: (value) {
                         if (discountPrecrnt.text.isEmpty) {
                           if (value!.trim().isEmpty) {
-                            return 'Discount Price is required'.tr;
+                            return 'Discount amount is required'.tr;
                           }
                           double? price = double.tryParse(value);
                           if (price == null || price < 0) {
-                            return 'Price must be a non-negative number'.tr;
+                            return 'Discount amount must be a non-negative number'.tr;
                           }
                           double? discountValue = double.tryParse(value);
                           double? priceValue = double.tryParse(priceController.text);
                           if (discountValue != null && priceValue != null && discountValue > priceValue) {
-                            return 'Discount Price cannot be greater than Price'.tr;
+                            return 'Discount amount cannot be greater than Price'.tr;
                           }
                         }
                         return null; // Return null if validation passes
                       },
-                      hintText: 'Discount Price'.tr,
+                      hintText: 'Discount amount'.tr,
                     ),
                     const SizedBox(height: 10,),
                     Align(
@@ -363,7 +373,7 @@ class _VirtualPriceScreenState extends State<VirtualPriceScreen> {
                       obSecure: false,
                       // hintText: 'Name',
                       keyboardType: TextInputType.number,
-                      hintText: 'Percentage'.tr,
+                      hintText: 'Discount Percentage'.tr,
                       onChanged: (value) {
                         fixedDiscount.text = "";
                         isPercentageDiscount = true;
@@ -374,16 +384,16 @@ class _VirtualPriceScreenState extends State<VirtualPriceScreen> {
                       validator: (value) {
                         if (fixedDiscount.text.isEmpty) {
                           if (value == null || value.trim().isEmpty) {
-                            return 'Percentage is required'.tr;
+                            return 'Discount Percentage is required'.tr;
                           }
                           double? price = double.tryParse(value);
                           if (price == null || price < 0) {
-                            return 'Price must be a non-negative number'.tr;
+                            return 'Discount Percentage must be a non-negative number'.tr;
                           }
                           else {
                             double? percentage = double.tryParse(value);
                             if (percentage == null || percentage > 100) {
-                              return 'Percentage must be between 0 and 100'.tr;
+                              return 'Discount Percentage must be between 0 and 100'.tr;
                             }
                           }
                         }

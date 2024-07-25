@@ -10,6 +10,7 @@ import '../../controller/location_controller.dart';
 import '../../controller/profile_controller.dart';
 import '../../model/common_modal.dart';
 import '../../model/model_address_list.dart';
+import '../../model/myDefaultAddressModel.dart';
 import '../../repository/repository.dart';
 import '../../utils/api_constant.dart';
 import '../../widgets/common_textfield.dart';
@@ -39,7 +40,13 @@ class _HomeAddEditAddressLoginState extends State<HomeAddEditAddressLogin> {
   RxBool isSelect = false.obs;
 
 
+  Rx<MyDefaultAddressModel> addressListModel1 = MyDefaultAddressModel().obs;
 
+  getAddress1() {
+    repositories.getApi(url: ApiUrls.defaultAddressUrl).then((value) {
+      addressListModel1.value = MyDefaultAddressModel.fromJson(jsonDecode(value));
+    });
+  }
   final locationController = Get.put(LocationController());
 
   @override
@@ -65,6 +72,8 @@ class _HomeAddEditAddressLoginState extends State<HomeAddEditAddressLogin> {
       ModelCommonResponse response = ModelCommonResponse.fromJson(jsonDecode(value));
       if (response.status == true) {
         showToast(response.message.toString());
+        locationController.getAddress();
+        locationController.onTapLocation.value = false;
         Get.back();
       }else{
         showToast(response.message.toString());
@@ -238,10 +247,12 @@ class _HomeAddEditAddressLoginState extends State<HomeAddEditAddressLogin> {
                     final address = shippingAddress[index];
                     return GestureDetector(
                       onTap: (){
+
                         locationController.city.value = address.getCity.toString();
                         locationController.zipcode.value = address.state.toString();
-                        print('vava ${locationController.zipcode.toString()}');
+                        print('gvava ${locationController.zipcode.toString()}');
                         cartController.countryId =  address.countryId.toString();
+                        locationController.onTapLocation.value = true;
                         cartController.getCart();
                         Get.back();
                       },
@@ -302,7 +313,10 @@ class _HomeAddEditAddressLoginState extends State<HomeAddEditAddressLogin> {
                                         PopupMenuItem(
                                           onTap: () {
                                             cartController.selectedAddress = address;
+                                            cartController.completeAddress = address.getCompleteAddressInFormat;
+                                            print("complete"+ cartController.completeAddress);
                                             defaultAddressApi();
+                                            locationController.getAddress();
                                             setState(() {
 
                                             });

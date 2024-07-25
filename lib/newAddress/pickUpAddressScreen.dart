@@ -265,7 +265,8 @@ class _PickUpAddressScreenState extends State<PickUpAddressScreen> {
                   hintText: 'Zip Code'.tr,
                   validator: (value) {
                     if (value!.trim().isEmpty) {
-                      return 'Zip Code is required'.tr;
+                      return 'If you dont have any zipcode then write 99999 and make sure write a right zipcode otherwise we cant help in shipping'
+                          .tr;
                     }
                     return null; // Return null if validation passes
                   },
@@ -318,7 +319,7 @@ class _PickUpAddressScreenState extends State<PickUpAddressScreen> {
                     height: 50,
                     decoration: BoxDecoration(
                       border: Border.all(
-                        color: Colors.black, // Border color
+                        color: Color(0xFF014E70), // Border color
                         width: 1.0, // Border width
                       ),
                       borderRadius: BorderRadius.circular(10), // Border radius
@@ -330,7 +331,7 @@ class _PickUpAddressScreenState extends State<PickUpAddressScreen> {
                         style: const TextStyle(
                           fontSize: 16,
                           fontWeight: FontWeight.bold,
-                          color: Colors.black, // Text color
+                          color: Color(0xFF014E70), // Text color
                         ),
                       ),
                     ),

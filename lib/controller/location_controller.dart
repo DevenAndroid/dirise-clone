@@ -6,10 +6,12 @@ import 'package:flutter/material.dart';
 import 'package:geocoding/geocoding.dart';
 import 'package:geolocator/geolocator.dart';
 import 'package:get/get.dart';
+import 'package:get/get_rx/get_rx.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 
 import '../model/add_current_address_model.dart';
 import '../model/common_modal.dart';
+import '../model/myDefaultAddressModel.dart';
 import '../repository/repository.dart';
 import 'cart_controller.dart';
 
@@ -40,7 +42,15 @@ class LocationController extends GetxController {
   RxString zipcode = ''.obs;
   String town = '';
   String countryId = '';
+  RxBool onTapLocation = false.obs;
   RxString cityHome = ''.obs;
+  Rx<MyDefaultAddressModel> addressListModel = MyDefaultAddressModel().obs;
+
+  getAddress() {
+    repositories.getApi(url: ApiUrls.defaultAddressUrl).then((value) {
+      addressListModel.value = MyDefaultAddressModel.fromJson(jsonDecode(value));
+    });
+  }
   checkGps(context) async {
     log('firstttttt callllllll.....');
     servicestatus.value = await Geolocator.isLocationServiceEnabled();
@@ -117,6 +127,7 @@ class LocationController extends GetxController {
       city.value = addCurrentAddress.value.data!.city;
       zipcode.value = addCurrentAddress.value.data!.state;
       cartController.countryId =  addCurrentAddress.value.data!.countryId.toString();
+      print(   "id::::::::::::::::::::::::::::::"+cartController.countryId);
       cartController.getCart();
       zipcodeController.clear();
       Get.back();

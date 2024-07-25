@@ -69,7 +69,7 @@ class _ConsulationThankYouScreenState extends State<ConsulationThankYouScreen> {
                 width: 200,
               ),
               Text(
-                'Service have been added  successfully'.tr,
+                'Service have been added successfully'.tr,
                 style: GoogleFonts.poppins(color: const Color(0xff0D5877), fontWeight: FontWeight.w600, fontSize: 30),
               ),
               const SizedBox(

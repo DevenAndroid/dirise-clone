@@ -28,6 +28,7 @@ import '../../language/app_strings.dart';
 import '../../model/add_current_address.dart';
 import '../../model/common_modal.dart';
 import '../../model/error_log_model.dart';
+import '../../model/myDefaultAddressModel.dart';
 import '../../repository/repository.dart';
 import '../../utils/api_constant.dart';
 import '../../vendor/authentication/vendor_plans_screen.dart';
@@ -64,6 +65,7 @@ class _HomePageState extends State<HomePage> {
   final cartController = Get.put(CartController());
   final Repositories repositories = Repositories();
   Rx<ErrorLogModel> errorLog = ErrorLogModel().obs;
+
   errorApi() {
     Map<String, dynamic> map = {
       "type": "home page location",
@@ -75,7 +77,7 @@ class _HomePageState extends State<HomePage> {
           "country": locationController.countryName.toString(),
           // "country": "Pakistan",
           "zipcode": locationController.zipcode.value.toString(),
-          "town":  locationController.town.toString(),
+          "town": locationController.town.toString(),
 
         }
       ]
@@ -90,12 +92,14 @@ class _HomePageState extends State<HomePage> {
       Get.back();
     });
   }
+
   final Completer<GoogleMapController> googleMapController = Completer();
   GoogleMapController? mapController;
   final bottomController = Get.put(BottomNavBarController());
   String? _address = "";
   Position? _currentPosition;
   LocationPermission? permission;
+
   Future<bool> _handleLocationPermission() async {
     bool serviceEnabled;
 
@@ -178,9 +182,9 @@ class _HomePageState extends State<HomePage> {
       // showToast(locationController.countryName.toString());
       errorApi();
     });
-
-
   }
+
+
 
   Future<void> _getCurrentPosition() async {
     final hasPermission = await _handleLocationPermission();
@@ -197,6 +201,7 @@ class _HomePageState extends State<HomePage> {
       debugPrint(e.toString());
     });
   }
+
   addCurrentAddress() {
     Map<String, dynamic> map = {};
     map['zip_code'] = locationController.zipcode.value.toString();
@@ -209,6 +214,7 @@ class _HomePageState extends State<HomePage> {
       getAllAsync();
     });
   }
+
   Future getAllAsync() async {
     if (!mounted) return;
     homeController.homeData();
@@ -311,19 +317,26 @@ class _HomePageState extends State<HomePage> {
   @override
   void initState() {
     super.initState();
+
+
+
+
     profileController.aboutUsData();
     // locationController.checkGps(context);
     // _getCurrentPosition();
     // locationController.getCurrentPosition();
     _loadSavedAddress();
+
     // showToast(locationController.countryName.toString());
     WidgetsBinding.instance.addPostFrameCallback((timeStamp) {
       if (!hasShownDialog) {
         log('valueee trueee///${hasShownDialog.toString()}');
         _showWelcomeDialog();
+        locationController.getAddress();
       } else {
         log('valueee falseee////${hasShownDialog.toString()}');
         locationController.checkGps(context);
+        locationController.getAddress();
       }
       // Future.delayed(const Duration(seconds: 5), () {
       //
@@ -361,9 +374,10 @@ class _HomePageState extends State<HomePage> {
                 return false;
               },
               child: AlertDialog(
-                title:  Text("Purpose of collecting location".tr),
-                content:  Text(
-                    "This app collects location data to show your current city and zip code, and also for shipping information, even when the app is closed or not in use.".tr),
+                title: Text("Purpose of collecting location".tr),
+                content: Text(
+                    "This app collects location data to show your current city and zip code, and also for shipping information, even when the app is closed or not in use."
+                        .tr),
                 actions: [
                   TextButton(
 
@@ -388,7 +402,7 @@ class _HomePageState extends State<HomePage> {
                       homeController.popularProductsData();
                       log('valueee clickk...${hasShownDialog.toString()}');
                     },
-                    child:  Text("Allow".tr),
+                    child: Text("Allow".tr),
                   ),
                 ],
               ),
@@ -564,9 +578,10 @@ class _HomePageState extends State<HomePage> {
                     style: GoogleFonts.poppins(fontSize: 16),
                     textInputAction: TextInputAction.search,
                     onSubmitted: (vb) {
-                      Get.to(() => SearchProductsScreen(
-                        searchText: vb,
-                      ));
+                      Get.to(() =>
+                          SearchProductsScreen(
+                            searchText: vb,
+                          ));
                     },
                     decoration: InputDecoration(
                         filled: true,
@@ -662,27 +677,100 @@ class _HomePageState extends State<HomePage> {
                         height: 10,
                       ),
                       GestureDetector(
-                        onTap: () {
-                          Get.to(
-                                () => profileController.userLoggedIn ? const HomeAddEditAddressLogin() : HomeAddEditAddress(),
-                            arguments: 'home',
-                          );
-                        },
-                        child: Row(
-                          children: [
-                            profileController.selectedLAnguage.value == 'English'
-                                ? Center(
-                                child: Text(
-                                  "   Deliver to ${locationController.city.toString()},${locationController.zipcode ?? ''}",
-                                ))
-                                : Center(
-                                child: Text(
-                                  "   يسلم إلى ${locationController.city.toString()},${locationController.zipcode ?? ''}",
-                                ))
-                          ],
-                        ),
-                      ),
-                      // if (locationController.zipcode.isNotEmpty)
+                          onTap: () {
+                            Get.to(
+                                  () =>
+                              profileController.userLoggedIn
+                                  ? const HomeAddEditAddressLogin()
+                                  : HomeAddEditAddress(),
+                              arguments: 'home',
+                            );
+                          },
+                          child:
+
+
+
+                          Obx(() {
+                            return profileController.userLoggedIn &&
+                                locationController.addressListModel.value.status == true &&
+                                locationController.onTapLocation.value == false
+                                ? Row(
+                              crossAxisAlignment: CrossAxisAlignment.center,
+                              mainAxisAlignment: MainAxisAlignment.start,
+                              children: [
+                                const SizedBox(width: 10),
+                                SvgPicture.asset(
+                                  'assets/images/location.svg',
+                                  width: 16,
+                                  height: 16,
+                                  color: AppTheme.buttonColor,
+                                ),
+                                const SizedBox(width: 10),
+                                profileController.selectedLAnguage.value == 'English'
+                                    ? Flexible(
+                                  child: Text(
+                                    " Deliver to ${locationController.addressListModel.value.defaultAddress!.city.toString()}, ${locationController.addressListModel.value.defaultAddress!.zipCode.toString()}, ${locationController.addressListModel.value.defaultAddress!.state.toString()}",
+                                    overflow: TextOverflow.visible,
+                                    softWrap: true,
+                                  ),
+                                )
+                                    : Flexible(
+                                  child: Text(
+                                    "يسلم إلى ${locationController.addressListModel.value.defaultAddress!.city.toString()}, ${locationController.addressListModel.value.defaultAddress!.zipCode.toString()}, ${locationController.addressListModel.value.defaultAddress!.state.toString()}",
+                                    overflow: TextOverflow.visible,
+                                    softWrap: true,
+                                  ),
+                                )
+                              ],
+                            )
+                                : Row(
+                              crossAxisAlignment: CrossAxisAlignment.center,
+                              mainAxisAlignment: MainAxisAlignment.start,
+                              children: [
+                                const SizedBox(width: 10),
+                                SvgPicture.asset(
+                                  'assets/images/location.svg',
+                                  width: 16,
+                                  height: 16,
+                                  color: AppTheme.buttonColor,
+                                ),
+                                profileController.selectedLAnguage.value == 'English'
+                                    ? Flexible(
+                                  child: Text(
+                                    " Deliver to ${locationController.city.toString()}, ${locationController.zipcode ?? ''}",
+                                    overflow: TextOverflow.visible,
+                                    softWrap: true,
+                                  ),
+                                )
+                                    : Flexible(
+                                  child: Text(
+                                    "يسلم إلى  ${locationController.city.toString()}, ${locationController.zipcode ?? ''}",
+                                    overflow: TextOverflow.visible,
+                                    softWrap: true,
+                                  ),
+                                )
+                              ],
+                            );
+                          })
+
+                        //     :
+                          // Row(
+                          //   children: [
+                          //     profileController.selectedLAnguage.value == 'English'
+                          //         ? Center(
+                          //         child: Text(
+                          //           "   Deliver to ${locationController.city.toString()},${locationController.zipcode ??
+                          //               ''}",
+                          //         ))
+                          //         : Center(
+                          //         child: Text(
+                          //           "   يسلم إلى ${locationController.city.toString()},${locationController.zipcode ?? ''}",
+                          //         ))
+                          //   ],
+                          // )
+
+
+                        // if (locationController.zipcode.isNotEmpty)
                       //   Padding(
                       //     padding: const EdgeInsets.symmetric(horizontal: 15),
                       //     child: Column(
@@ -742,7 +830,7 @@ class _HomePageState extends State<HomePage> {
                       //   const SizedBox.shrink(),
 
 
-                    ],
+                      )],
                   ),
                 ),
 

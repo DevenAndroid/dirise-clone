@@ -27,7 +27,7 @@ class JobHiringModel {
   }
 }
 
-class JobProduct {
+  class JobProduct {
   dynamic id;
   dynamic vendorId;
   dynamic jobCat;
@@ -52,7 +52,7 @@ class JobProduct {
   dynamic jobStateId;
   dynamic jobCityId;
   dynamic uploadCv;
-  bool? accountStatus;
+  dynamic accountStatus;
   dynamic isComplete;
 
   JobProduct(

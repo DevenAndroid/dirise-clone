@@ -1,5 +1,6 @@
 import 'dart:convert';
 import 'package:dirise/Services/review_publish_service.dart';
+import 'package:dirise/Services/service_discrptions_screen.dart';
 import 'package:dirise/Services/service_international_shipping_details.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
@@ -92,9 +93,12 @@ class _PickUpAddressServiceState extends State<PickUpAddressService> {
       showToast(response.message.toString());
       if (response.status == true) {
         if (widget.id != null) {
+
           Get.to(const ReviewPublishServiceScreen());
         } else {
-          Get.to(ServiceInternationalShippingService());
+          // Get.to(ServiceInternationalShippingService());
+          Get.to(()=> ServiceOptionalScreen());
+
         }
       }
     });
@@ -288,7 +292,8 @@ class _PickUpAddressServiceState extends State<PickUpAddressService> {
                   hintText: 'Zip Code'.tr,
                   validator: (value) {
                     if (value!.trim().isEmpty) {
-                      return 'Zip Code is required'.tr;
+                      return 'If you dont have any zipcode then write 99999 and make sure write a right zipcode otherwise we cant help in shipping'
+                          .tr;
                     }
                     return null; // Return null if validation passes
                   },
@@ -348,7 +353,7 @@ class _PickUpAddressServiceState extends State<PickUpAddressService> {
                     height: 50,
                     decoration: BoxDecoration(
                       border: Border.all(
-                        color: Colors.black, // Border color
+                        color:Color(0xFF014E70), // Border color
                         width: 1.0, // Border width
                       ),
                       borderRadius: BorderRadius.circular(10), // Border radius
@@ -360,7 +365,7 @@ class _PickUpAddressServiceState extends State<PickUpAddressService> {
                         style: TextStyle(
                           fontSize: 16,
                           fontWeight: FontWeight.bold,
-                          color: Colors.black, // Text color
+                          color: Color(0xFF014E70),  // Text color
                         ),
                       ),
                     ),

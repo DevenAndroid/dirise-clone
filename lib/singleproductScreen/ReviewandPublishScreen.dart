@@ -40,7 +40,7 @@ class ProductReviewPublicScreen extends StatefulWidget {
 class _ProductReviewPublicScreenState extends State<ProductReviewPublicScreen> {
   String selectedItem = 'Item 1';
   final serviceController = Get.put(ServiceController());
-
+  final addProductControllerNew = Get.put(ProfileController());
   RxBool isServiceProvide = false.obs;
   RxBool isTellUs = false.obs;
   RxBool isReturnPolicy = false.obs;
@@ -51,6 +51,7 @@ class _ProductReviewPublicScreenState extends State<ProductReviewPublicScreen> {
   RxBool isShippingPolicy = false.obs;
   RxBool isDiscrptionPolicy = false.obs;
   RxBool isImageProvide = false.obs;
+  RxBool isOtherImageProvide = false.obs;
   final Repositories repositories = Repositories();
   RxInt returnPolicyLoaded = 0.obs;
   final addProductController = Get.put(AddProductController());
@@ -97,7 +98,7 @@ class _ProductReviewPublicScreenState extends State<ProductReviewPublicScreen> {
       print('API Response Status Code: ${response.status}');
       showToast(response.message.toString());
       if (response.status == true) {
-        Get.to(ExtraInformation());
+        Get.to(const ExtraInformation());
       }
     });
   }
@@ -174,7 +175,7 @@ class _ProductReviewPublicScreenState extends State<ProductReviewPublicScreen> {
                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
                       children: [
                         Text(
-                          'Features Image',
+                          'Featured Image',
                           style: GoogleFonts.poppins(
                             color: AppTheme.primaryColor,
                             fontSize: 15,
@@ -207,9 +208,9 @@ class _ProductReviewPublicScreenState extends State<ProductReviewPublicScreen> {
                   Stack(
                     children: [
                       Container(
-                        margin: EdgeInsets.only(top: 10),
+                        margin: const EdgeInsets.only(top: 10),
                         width: Get.width,
-                        padding: EdgeInsets.all(10),
+                        padding: const EdgeInsets.all(10),
                         decoration:
                         BoxDecoration(color: Colors.grey.shade200, borderRadius: BorderRadius.circular(11)),
                         child: Obx(() {
@@ -249,7 +250,121 @@ class _ProductReviewPublicScreenState extends State<ProductReviewPublicScreen> {
                               )))
                     ],
                   ),
+                const SizedBox(height: 20),
+                GestureDetector(
+                  onTap: () {
+                    setState(() {
+                      isOtherImageProvide.toggle();
+                    });
+                  },
+                  child: Container(
+                    padding: const EdgeInsets.symmetric(vertical: 12, horizontal: 12),
+                    decoration: BoxDecoration(
+                        color: Colors.white,
+                        borderRadius: BorderRadius.circular(8),
+                        border: Border.all(color: AppTheme.secondaryColor)),
+                    child: Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      children: [
+                        Text(
+                          'Other Image',
+                          style: GoogleFonts.poppins(
+                            color: AppTheme.primaryColor,
+                            fontSize: 15,
+                          ),
+                        ),
+                        GestureDetector(
+                          child: isOtherImageProvide.value != true
+                              ? Image.asset(
+                            'assets/images/drop_icon.png',
+                            height: 17,
+                            width: 17,
+                          )
+                              : Image.asset(
+                            'assets/images/up_icon.png',
+                            height: 17,
+                            width: 17,
+                          ),
+                          onTap: () {
+                            setState(() {
+                              isOtherImageProvide.toggle();
+                            });
+                          },
+                        ),
+                      ],
+                    ),
+                  ),
+                ),
 
+                if (isOtherImageProvide.value == true)
+                  Stack(
+                    children: [
+                      Container(
+                        margin: const EdgeInsets.only(top: 10),
+                        width: Get.width,
+                        padding: const EdgeInsets.all(10),
+                        decoration: BoxDecoration(
+                          color: Colors.grey.shade200,
+                          borderRadius: BorderRadius.circular(11),
+                        ),
+                        child: addProductControllerNew.productDetailsModel.value.productDetails != null &&
+                            addProductControllerNew.productDetailsModel.value.productDetails!.product != null &&
+                            addProductControllerNew.productDetailsModel.value.productDetails!.product!.galleryImage != null &&
+                            addProductControllerNew.productDetailsModel.value.productDetails!.product!.galleryImage!.isNotEmpty
+                            ? GridView.builder(
+                          shrinkWrap: true,
+                          physics: const NeverScrollableScrollPhysics(), // Prevent scrolling in the grid
+                          itemCount: addProductControllerNew.productDetailsModel.value.productDetails!.product!.galleryImage!.length,
+                          gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
+                            crossAxisCount: 2, // 2 images per row
+                            crossAxisSpacing: 10,
+                            mainAxisSpacing: 10,
+                            childAspectRatio: 1, // Adjust aspect ratio as needed
+                          ),
+                          itemBuilder: (context, index) {
+                            String imageUrl = addProductControllerNew.productDetailsModel.value.productDetails!.product!.galleryImage![index];
+                            return Column(
+                              children: [
+                                20.spaceY,
+                                Flexible(
+                                  child: Image.network(
+                                    imageUrl,
+                                    height: 200,
+                                    width: double.infinity,
+                                    fit: BoxFit.cover,
+                                  ),
+                                ),
+                              ],
+                            );
+                          },
+                        )
+                            : const Text('No images available'),
+                      ),
+                      Positioned(
+                        right: 10,
+                        top: 20,
+                        child: GestureDetector(
+                          onTap: () {
+                            if (addProductControllerNew.productDetailsModel.value.productDetails != null &&
+                                addProductControllerNew.productDetailsModel.value.productDetails!.product != null &&
+                                addProductControllerNew.productDetailsModel.value.productDetails!.product!.galleryImage != null &&
+                                addProductControllerNew.productDetailsModel.value.productDetails!.product!.galleryImage!.isNotEmpty) {
+                              // Assuming you want to edit the first image for simplicity
+                              File imageFile = File(addProductControllerNew.productDetailsModel.value.productDetails!.product!.galleryImage![0]);
+                              Get.to(AddProductFirstImageScreen(
+                                id: addProductControllerNew.productDetailsModel.value.productDetails!.product!.id,
+                                image: imageFile,
+                              ));
+                            }
+                          },
+                          child: const Text(
+                            'Edit',
+                            style: TextStyle(color: Colors.red, fontSize: 13),
+                          ),
+                        ),
+                      ),
+                    ],
+                  ),
 
                 const SizedBox(height: 20),
 
@@ -303,7 +418,7 @@ class _ProductReviewPublicScreenState extends State<ProductReviewPublicScreen> {
                     children: [
                       Container(
                         width: Get.width,
-                        padding: EdgeInsets.all(10),
+                        padding: const EdgeInsets.all(10),
                         decoration: BoxDecoration(color: Colors.grey.shade200),
                         child: Column(
                           mainAxisAlignment: MainAxisAlignment.start,
@@ -316,6 +431,8 @@ class _ProductReviewPublicScreenState extends State<ProductReviewPublicScreen> {
                             Text(
                                 'product Type: ${ profileController.productDetailsModel.value.productDetails!.product!
                                     .productType ?? ''}'),
+                           if(profileController.productDetailsModel.value.productDetails!.product!
+                               .catId !="")
                             Text(
                                 'Category ID: ${ profileController.productDetailsModel.value.productDetails!.product!
                                     .catId ?? ''}'),
@@ -395,7 +512,7 @@ class _ProductReviewPublicScreenState extends State<ProductReviewPublicScreen> {
                     children: [
                       Container(
                         width: Get.width,
-                        padding: EdgeInsets.all(10),
+                        padding: const EdgeInsets.all(10),
                         decoration: BoxDecoration(color: Colors.grey.shade200),
                         child: Column(
                           mainAxisAlignment: MainAxisAlignment.start,
@@ -425,6 +542,7 @@ class _ProductReviewPublicScreenState extends State<ProductReviewPublicScreen> {
                                   profileController.productDetailsModel.value.productDetails!.product!.fixedDiscountPrice,
                                   percentage: profileController.productDetailsModel.value.productDetails!.product!
                                       .discountPercent,
+                                  isDelivery:  profileController.productDetailsModel.value.productDetails!.product!.isOnsale,
                                 ));
                               },
                               child: const Text(
@@ -486,7 +604,7 @@ class _ProductReviewPublicScreenState extends State<ProductReviewPublicScreen> {
                     children: [
                       Container(
                         width: Get.width,
-                        padding: EdgeInsets.all(10),
+                        padding: const EdgeInsets.all(10),
                         decoration: BoxDecoration(color: Colors.grey.shade200),
                         child: Column(
                           mainAxisAlignment: MainAxisAlignment.start,
@@ -525,6 +643,7 @@ class _ProductReviewPublicScreenState extends State<ProductReviewPublicScreen> {
                                       .inStock,
                                   setstock: profileController.productDetailsModel.value.productDetails!.product!.stockAlert,
                                   sEOTags: profileController.productDetailsModel.value.productDetails!.product!.seoTags,
+                                  noNeed:   profileController.productDetailsModel.value.productDetails!.product!.noNeedStock,
                                 ));
                               },
                               child: const Text(
@@ -584,7 +703,7 @@ class _ProductReviewPublicScreenState extends State<ProductReviewPublicScreen> {
                     children: [
                       Container(
                         width: Get.width,
-                        padding: EdgeInsets.all(10),
+                        padding: const EdgeInsets.all(10),
                         decoration: BoxDecoration(color: Colors.grey.shade200),
                         child: Column(
                           mainAxisAlignment: MainAxisAlignment.start,
@@ -594,7 +713,7 @@ class _ProductReviewPublicScreenState extends State<ProductReviewPublicScreen> {
                             Text(
                                 'Who will pay the shipping: ${ profileController.productDetailsModel.value.productDetails!
                                     .product!.shippingPay}'),
-                            SizedBox(
+                            const SizedBox(
                               height: 5,
                             ),
                             Text(
@@ -674,7 +793,7 @@ class _ProductReviewPublicScreenState extends State<ProductReviewPublicScreen> {
                     children: [
                       Container(
                         width: Get.width,
-                        padding: EdgeInsets.all(10),
+                        padding: const EdgeInsets.all(10),
                         decoration: BoxDecoration(color: Colors.grey.shade200),
                         child: Column(
                           mainAxisAlignment: MainAxisAlignment.start,
@@ -804,7 +923,7 @@ class _ProductReviewPublicScreenState extends State<ProductReviewPublicScreen> {
                     children: [
                       Container(
                         width: Get.width,
-                        padding: EdgeInsets.all(10),
+                        padding: const EdgeInsets.all(10),
                         decoration: BoxDecoration(color: Colors.grey.shade200),
                         child: Column(
                           mainAxisAlignment: MainAxisAlignment.start,
@@ -855,13 +974,18 @@ class _ProductReviewPublicScreenState extends State<ProductReviewPublicScreen> {
                                       .value.productDetails!.productDimentions!.numberOfPackage,
                                   Length:
                                   "${ profileController.productDetailsModel.value.productDetails!.productDimentions!
-                                      .boxLength}X",
+                                      .boxLength}",
                                   Width:
                                   "${ profileController.productDetailsModel.value.productDetails!.productDimentions!
-                                      .boxWidth ?? ""}X",
+                                      .boxWidth ?? ""}",
                                   Height:
                                   "${ profileController.productDetailsModel.value.productDetails!.productDimentions!
-                                      .boxHeight ?? ""}X",
+                                      .boxHeight ?? ""}",
+                                  selectTypeMaterial:addProductControllerNew.productDetailsModel.value.productDetails!.productDimentions!.material.toString(),
+                                  productType : addProductControllerNew.productDetailsModel.value.productDetails!.productDimentions!.typeOfPackages == 'custom_packaging' ?
+                                  'your packaging' : 'custom packaging',
+                                    unitOfMeasure : addProductControllerNew.productDetailsModel.value.productDetails!.productDimentions!.weightUnit == 'inch/lb' ?
+                                    'Lb/Inch' : 'Cm/Kg',
                                 ));
                               },
                               child: const Text(
@@ -919,7 +1043,7 @@ class _ProductReviewPublicScreenState extends State<ProductReviewPublicScreen> {
                     children: [
                       Container(
                         width: Get.width,
-                        padding: EdgeInsets.all(10),
+                        padding: const EdgeInsets.all(10),
                         decoration: BoxDecoration(color: Colors.grey.shade200),
                         child: Column(
                           mainAxisAlignment: MainAxisAlignment.start,
@@ -959,7 +1083,7 @@ class _ProductReviewPublicScreenState extends State<ProductReviewPublicScreen> {
                               )))
                     ],
                   ),
-                SizedBox(
+                const SizedBox(
                   height: 20,
                 ),
                 GestureDetector(
@@ -1011,7 +1135,7 @@ class _ProductReviewPublicScreenState extends State<ProductReviewPublicScreen> {
                     children: [
                       Container(
                         width: Get.width,
-                        padding: EdgeInsets.all(10),
+                        padding: const EdgeInsets.all(10),
                         decoration: BoxDecoration(color: Colors.grey.shade200),
                         child: Column(
                           mainAxisAlignment: MainAxisAlignment.start,

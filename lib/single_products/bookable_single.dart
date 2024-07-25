@@ -175,7 +175,8 @@ class _BookableProductScreenState extends State<BookableProductScreen> {
   }
 
   RxStatus statusSingle = RxStatus.empty();
-
+  String formattedDate = "";
+  String dateTimeString = "";
   getProductDetails() {
     statusSingle = RxStatus.loading();
     repositories
@@ -186,6 +187,15 @@ class _BookableProductScreenState extends State<BookableProductScreen> {
         imagesList.addAll(modelSingleProduct.value.bookingProduct!.galleryImage ?? []);
         imagesList = imagesList.toSet().toList();
         releatedId = modelSingleProduct.value.bookingProduct!.catId!.last.id.toString();
+
+        dateTimeString = modelSingleProduct.value.bookingProduct!.shippingDate.toString();
+
+// Parse the string into a DateTime object
+        DateTime dateTime = DateTime.parse(dateTimeString);
+
+// Format the DateTime object to display only the date part
+        formattedDate = "${dateTime.year}-${dateTime.month.toString().padLeft(2, '0')}-${dateTime.day.toString().padLeft(2, '0')}";
+
         print("releatedId" + releatedId);
         similarProduct();
         statusSingle = RxStatus.success();
@@ -282,7 +292,7 @@ class _BookableProductScreenState extends State<BookableProductScreen> {
     map["quantity"] = map["quantity"] = int.tryParse(_counter.toString());
     map["key"] = 'fedexRate';
     map["country_id"] = profileController.model.user != null ? profileController.model.user!.country_id : '117';
-
+    map["zip_code"] = cartController.zipCode.toString();
     // if (isBookingProduct) {
     //   map["start_date"] = selectedDate.text.trim();
     //   map["time_sloat"] = selectedSlot.split("--").first;
@@ -1089,7 +1099,7 @@ class _BookableProductScreenState extends State<BookableProductScreen> {
                   Row(
                     children: [
                       Text(
-                        'Standerd Delivery :',
+                        'Standard Delivery :',
                         style: GoogleFonts.poppins(color: Colors.black, fontSize: 16, fontWeight: FontWeight.w500),
                       ),
                       const SizedBox(
@@ -1105,7 +1115,7 @@ class _BookableProductScreenState extends State<BookableProductScreen> {
                       ),
                       Expanded(
                         child: Text(
-                          modelSingleProduct.value.bookingProduct!.shippingDate.toString(),
+                          formattedDate.toString(),
                           style:
                           GoogleFonts.poppins(color: Color(0xFF014E70), fontSize: 14, fontWeight: FontWeight.w500),
                         ),

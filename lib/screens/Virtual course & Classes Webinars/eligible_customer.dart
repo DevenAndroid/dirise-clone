@@ -53,7 +53,11 @@ class _EligibleCustomersWebinarsState extends State<EligibleCustomersWebinars> {
       // showToast(response.message.toString());
       if (response.status == true) {
         showToast(response.message.toString());
-        Get.to(()=> const ReviewScreenWebinars());
+        if (widget.id != null) {
+          Get.to(() => const ReviewScreenWebinars());
+        } else {
+          Get.to(()=> const ReviewScreenWebinars());
+        }
       }
     });
   }
@@ -253,7 +257,11 @@ class _EligibleCustomersWebinarsState extends State<EligibleCustomersWebinars> {
             const SizedBox(height: 20),
             GestureDetector(
               onTap: () {
-                // Get.to(()=> const ReviewScreenSeminars());
+                if (widget.id != null) {
+                  Get.to(() => const ReviewScreenWebinars());
+                } else {
+                  Get.to(()=> const ReviewScreenWebinars());
+                }
               },
               child: Container(
                 width: Get.width,

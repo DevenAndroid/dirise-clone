@@ -2,6 +2,7 @@ import 'dart:convert';
 import 'dart:developer';
 
 import 'package:dirise/controller/profile_controller.dart';
+import 'package:dirise/screens/Virtual%20course%20&%20Classes%20Webinars/review_screen_webinar.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
@@ -15,11 +16,17 @@ import '../../widgets/common_textfield.dart';
 import 'optinal_detail_webinars.dart';
 
 class SeminarScreenScreen extends StatefulWidget {
-  int? id;
-  String? startTime;
-  String? endTime;
-  String? extraNotes;
-  SeminarScreenScreen({super.key, this.id,this.startTime,this.endTime,this.extraNotes});
+  dynamic id;
+  dynamic startTime;
+  dynamic endTime;
+  dynamic extraNotes;
+  dynamic extraNotes1;
+  dynamic meetingPlatform;
+  dynamic meetingPlatform1;
+  dynamic daysDate;
+  SeminarScreenScreen({super.key, this.id,this.startTime,this.endTime,this.extraNotes,this.meetingPlatform,this.meetingPlatform1,this.extraNotes1,
+  this.daysDate
+  });
 
   @override
   State<SeminarScreenScreen> createState() => _SeminarScreenScreenState();
@@ -63,19 +70,26 @@ class _SeminarScreenScreenState extends State<SeminarScreenScreen> {
   final addProductController = Get.put(AddProductController());
   final profileController = Get.put(ProfileController());
   TextEditingController extraNotesController = TextEditingController();
-
+  TextEditingController extraNotesController1 = TextEditingController();
+  TextEditingController dateController = TextEditingController();
+  int index = 0;
   webinarApi() {
     log('fgdsgsdf');
     Map<String, dynamic> map = {};
+    Map<String, dynamic> map1 = {};
     map['meeting_platform'] = meetingWillBe1;
     map['item_type'] = 'product';
     map['product_type'] = 'booking';
     map['booking_product_type'] = 'webinar';
+    map['meeting_platform_2'] = meetingWillBe2;
+    map['timing_extra_notes_2'] = extraNotesController1.text.trim();
     map['product_availability_id'] = profileController.productAvailabilityId;
     map['start_time'] = startTime?.format(context);
     map['end_time'] = endTime?.format(context);
     map['timing_extra_notes'] = extraNotesController.text.trim();
-    map['date'] = selectedDates.map((date) => date.toIso8601String()).toList();
+    // map['date'] = selectedDates.map((date) => date.toIso8601String()).toList();
+    map['date'] = dateController.text.trim();
+    // map1['$index'] = dateArray.toList();
     map['id'] = addProductController.idProduct.value.toString();
     map['additional_start_time'] = '';
     map['additional_end_time'] = '';
@@ -87,7 +101,11 @@ class _SeminarScreenScreenState extends State<SeminarScreenScreen> {
       showToast(response.message.toString());
       if (response.status == true) {
         log('sdgafahsfshdhhjgf');
-        Get.to(() => OptionalDetailsWebiinarsScreen());
+        if(widget.id != null){
+          Get.to(()=> const ReviewScreenWebinars());
+        }else{
+          Get.to(() => OptionalDetailsWebiinarsScreen());
+        }
       }
     });
   }
@@ -108,6 +126,21 @@ class _SeminarScreenScreenState extends State<SeminarScreenScreen> {
 
   String formatDate(DateTime date) {
     return "${date.day.toString().padLeft(2, '0')}/${date.month.toString().padLeft(2, '0')}/${date.year}";
+  }
+  List<String> dateArray = [];
+  @override
+  void initState() {
+    super.initState();
+    addProductController.startDate.text = '';
+    if (widget.id != null) {
+      extraNotesController.text = widget.extraNotes;
+      meetingWillBe1 = widget.meetingPlatform;
+      meetingWillBe2 = widget.meetingPlatform1;
+      extraNotesController1.text = widget.extraNotes1;
+      dateController.text = widget.daysDate;
+      String trimmedDate = dateController.text.trim();
+      dateArray.add(trimmedDate);
+    }
   }
 
   @override
@@ -218,7 +251,7 @@ class _SeminarScreenScreenState extends State<SeminarScreenScreen> {
                     Radio(value: 1, groupValue: 1, onChanged: (value){
 
                     }),
-                    Expanded(
+                    const Expanded(
                       child: Text(
                         'I will set it the location later. I agree to that a full refund will be mandatory in case if the customer request a refund because of the missing information.  ',
                         style: TextStyle(fontSize: 10, fontWeight: FontWeight.w500, color: Colors.red),
@@ -297,7 +330,7 @@ class _SeminarScreenScreenState extends State<SeminarScreenScreen> {
                   style: TextStyle(fontSize: 10, fontWeight: FontWeight.w400, color: Colors.black),
                 ),
                 const Text(
-                  'Write in this format dd/mm/yy example 13/06/25',
+                  'Write in this format yyyy/mm/dd example 13/06/25',
                   style: TextStyle(fontSize: 10, fontWeight: FontWeight.w400, color: Colors.black),
                 ),
                 const SizedBox(
@@ -305,8 +338,9 @@ class _SeminarScreenScreenState extends State<SeminarScreenScreen> {
                 ),
                 CommonTextField(
                   obSecure: false,
-                  hintText: 'dd/mm/yy, dd/mm/yy',
-                  keyboardType: TextInputType.text,
+                  controller: dateController,
+                  hintText: 'yyyy/mm/dd, yyyy/mm/dd',
+                  keyboardType: TextInputType.number,
                   validator: (value) {
                     if (value!.trim().isEmpty) {
                       return 'Product Notes is required'.tr;
@@ -436,6 +470,7 @@ class _SeminarScreenScreenState extends State<SeminarScreenScreen> {
                 CommonTextField(
                   obSecure: false,
                   hintText: 'Notes',
+                  controller: extraNotesController1,
                   keyboardType: TextInputType.text,
                   validator: (value) {
                     if (value!.trim().isEmpty) {

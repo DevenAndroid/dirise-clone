@@ -18,6 +18,7 @@ import '../utils/api_constant.dart';
 import '../widgets/common_button.dart';
 import '../widgets/common_colour.dart';
 import '../widgets/vendor_common_textfield.dart';
+import 'ReviewandPublishScreen.dart';
 
 class SingleProductReturnPolicy extends StatefulWidget {
   String? policyName;
@@ -118,8 +119,15 @@ class _SingleProductReturnPolicyState extends State<SingleProductReturnPolicy> {
       ModelCommonResponse response = ModelCommonResponse.fromJson(jsonDecode(value));
       print('API Response Status Code: ${response.status}');
       showToast(response.message.toString());
+
       if (response.status == true) {
-        Get.to(() =>  SingleProductDeliverySize());
+        if(widget.id != null){
+          Get.to(ProductReviewPublicScreen());
+        }else{
+          Get.to(SingleProductDeliverySize());
+
+        }
+        // Get.to(() =>  SingleProductDeliverySize());
       } else {
         showToast(response.message.toString());
       }
@@ -132,8 +140,10 @@ class _SingleProductReturnPolicyState extends State<SingleProductReturnPolicy> {
     super.initState();
     getReturnPolicyData();
     if (widget.id != null) {
+
       titleController.text = widget.policyName.toString();
       descController.text = widget.policyDescription.toString();
+      selectedReturnDay = widget.returnWithIn.toString();
     }
   }
 
@@ -142,7 +152,7 @@ class _SingleProductReturnPolicyState extends State<SingleProductReturnPolicy> {
     super.dispose();
     getReturnPolicyData();
   }
-
+  String selectedReturnDay = '';
   final profileController = Get.put(ProfileController());
   @override
   Widget build(BuildContext context) {
@@ -286,7 +296,7 @@ class _SingleProductReturnPolicyState extends State<SingleProductReturnPolicy> {
                             height: 5,
                           ),
                           VendorCommonTextfield(
-                              readOnly: singleModelReturnPolicy.value.data != null ? true : false,
+                              readOnly: singleModelReturnPolicy.value.data != null || selectedReturnDay != ''? true : false,
                               controller: titleController,
                               hintText: selectedReturnPolicy != null
                                   ? selectedReturnPolicy!.title.toString()
@@ -311,7 +321,8 @@ class _SingleProductReturnPolicyState extends State<SingleProductReturnPolicy> {
                                 width: 10,
                               ),
                               Expanded(
-                                child: DropdownButtonFormField<String>(
+                                child: singleModelReturnPolicy.value.data == null && selectedReturnDay == '' ?
+                                DropdownButtonFormField<String>(
                                   value: selectedReturnPolicy != null
                                       ? selectedReturnPolicy!.days.toString()
                                       : selectedItem,
@@ -333,7 +344,7 @@ class _SingleProductReturnPolicyState extends State<SingleProductReturnPolicy> {
                                     filled: true,
                                     fillColor: const Color(0xffE2E2E2).withOpacity(.35),
                                     contentPadding:
-                                        const EdgeInsets.symmetric(horizontal: 15, vertical: 10).copyWith(right: 8),
+                                    const EdgeInsets.symmetric(horizontal: 15, vertical: 10).copyWith(right: 8),
                                     focusedErrorBorder: const OutlineInputBorder(
                                         borderRadius: BorderRadius.all(Radius.circular(8)),
                                         borderSide: BorderSide(color: AppTheme.secondaryColor)),
@@ -358,56 +369,29 @@ class _SingleProductReturnPolicyState extends State<SingleProductReturnPolicy> {
                                     }
                                     return null;
                                   },
+                                ) :  Container(
+                                  padding:   const EdgeInsets.symmetric(horizontal: 15, vertical: 13),
+                                  decoration: BoxDecoration(
+                                      color: const Color(0xffE2E2E2).withOpacity(.35),
+                                      border: Border.all(color: AppTheme.secondaryColor),
+                                      borderRadius: BorderRadius.circular(8)
+                                  ),
+                                  child:  Center(child: Text(selectedReturnPolicy != null
+                                      ? selectedReturnPolicy!.days.toString() : selectedReturnDay)),
                                 ),
                               ),
                               const SizedBox(
                                 width: 4,
                               ),
                               Expanded(
-                                child: DropdownButtonFormField<String>(
-                                  value: selectedItemDay,
-                                  onChanged: (String? newValue) {
-                                    setState(() {
-                                      selectedItemDay = newValue!;
-                                    });
-                                  },
-                                  items: <String>['Days', 'Week', 'Month', 'Year']
-                                      .map<DropdownMenuItem<String>>((String value) {
-                                    return DropdownMenuItem<String>(
-                                      value: value,
-                                      child: Text(value),
-                                    );
-                                  }).toList(),
-                                  decoration: InputDecoration(
-                                    border: InputBorder.none,
-                                    filled: true,
-                                    fillColor: const Color(0xffE2E2E2).withOpacity(.35),
-                                    contentPadding:
-                                        const EdgeInsets.symmetric(horizontal: 15, vertical: 10).copyWith(right: 8),
-                                    focusedErrorBorder: const OutlineInputBorder(
-                                        borderRadius: BorderRadius.all(Radius.circular(8)),
-                                        borderSide: BorderSide(color: AppTheme.secondaryColor)),
-                                    errorBorder: const OutlineInputBorder(
-                                        borderRadius: BorderRadius.all(Radius.circular(8)),
-                                        borderSide: BorderSide(color: Color(0xffE2E2E2))),
-                                    focusedBorder: const OutlineInputBorder(
-                                        borderRadius: BorderRadius.all(Radius.circular(8)),
-                                        borderSide: BorderSide(color: AppTheme.secondaryColor)),
-                                    disabledBorder: const OutlineInputBorder(
-                                      borderRadius: BorderRadius.all(Radius.circular(8)),
-                                      borderSide: BorderSide(color: AppTheme.secondaryColor),
-                                    ),
-                                    enabledBorder: const OutlineInputBorder(
-                                      borderRadius: BorderRadius.all(Radius.circular(8)),
-                                      borderSide: BorderSide(color: AppTheme.secondaryColor),
-                                    ),
+                                child: Container(
+                                  padding:   const EdgeInsets.symmetric(horizontal: 15, vertical: 13),
+                                  decoration: BoxDecoration(
+                                      color: const Color(0xffE2E2E2).withOpacity(.35),
+                                      border: Border.all(color: AppTheme.secondaryColor),
+                                      borderRadius: BorderRadius.circular(8)
                                   ),
-                                  validator: (value) {
-                                    if (value == null || value.isEmpty) {
-                                      return 'Please select an item';
-                                    }
-                                    return null;
-                                  },
+                                  child: const Center(child: Text('days')),
                                 ),
                               ),
                             ],
@@ -426,10 +410,10 @@ class _SingleProductReturnPolicyState extends State<SingleProductReturnPolicy> {
                                 value: 'buyer_pays',
                                 groupValue: radioButtonValue,
                                 onChanged: (value) {
-                                  setState(() {
+                                  singleModelReturnPolicy.value.data == null && selectedReturnDay == '' ? setState(() {
                                     radioButtonValue = value!;
                                     updateButtonState();
-                                  });
+                                  }) : null;
                                 },
                               ),
                               Text(
@@ -445,10 +429,10 @@ class _SingleProductReturnPolicyState extends State<SingleProductReturnPolicy> {
                                 value: 'seller_pays',
                                 groupValue: radioButtonValue,
                                 onChanged: (value) {
-                                  setState(() {
+                                  singleModelReturnPolicy.value.data == null && selectedReturnDay == '' ?  setState(() {
                                     radioButtonValue = value!;
                                     updateButtonState();
-                                  });
+                                  }): null;
                                 },
                               ),
                               Text(
@@ -472,7 +456,7 @@ class _SingleProductReturnPolicyState extends State<SingleProductReturnPolicy> {
                           TextFormField(
                             maxLines: 4,
                             minLines: 4,
-                            readOnly: singleModelReturnPolicy.value.data != null ? true : false,
+                            readOnly: singleModelReturnPolicy.value.data != null  || selectedReturnDay != '' ? true : false,
                             validator: (value) {
                               if (value == null || value.isEmpty) {
                                 return 'Please write return policy description';

@@ -58,7 +58,7 @@ class _MyItemISScreenState extends State<MyItemISScreen> {
       } else {}
     } else {
       if (selectedRadio == 'Giveaway') {
-        Get.to(ItemDetailsScreens());
+        Get.to(Giveway1Screen());
       } else if (selectedRadio == 'Job') {
         Get.to(const JobTellusaboutyourselfScreen());
       } else {
@@ -91,24 +91,24 @@ class _MyItemISScreenState extends State<MyItemISScreen> {
         backgroundColor: Colors.white,
         elevation: 0,
         leading: GestureDetector(
-          onTap: (){
+          onTap: () {
             Get.back();
           },
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.center,
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
-              profileController.selectedLAnguage.value != 'English' ?
-              Image.asset(
-                'assets/images/forward_icon.png',
-                height: 19,
-                width: 19,
-              ) :
-              Image.asset(
-                'assets/images/back_icon_new.png',
-                height: 19,
-                width: 19,
-              ),
+              profileController.selectedLAnguage.value != 'English'
+                  ? Image.asset(
+                      'assets/images/forward_icon.png',
+                      height: 19,
+                      width: 19,
+                    )
+                  : Image.asset(
+                      'assets/images/back_icon_new.png',
+                      height: 19,
+                      width: 19,
+                    ),
             ],
           ),
         ),
@@ -149,57 +149,47 @@ class _MyItemISScreenState extends State<MyItemISScreen> {
               ),
               20.spaceY,
               GestureDetector(
-                  onTap: (){
+                  onTap: () {
                     productController.getProductsCategoryList();
                     selectedRadio = 'Giveaway';
                     navigateNext();
-                    setState(() {
-
-                    });
+                    setState(() {});
                   },
                   child: Image.asset('assets/images/giveaway_img.png')),
               15.spaceY,
               GestureDetector(
-                  onTap: (){
+                  onTap: () {
                     productController.getProductsCategoryList();
                     selectedRadio = 'Product';
                     navigateNext();
-                    setState(() {
-
-                    });
+                    setState(() {});
                   },
                   child: Image.asset('assets/images/product_img.png')),
               15.spaceY,
               GestureDetector(
-                  onTap: (){
+                  onTap: () {
                     productController.getProductsCategoryList();
                     selectedRadio = 'Job';
                     navigateNext();
-                    setState(() {
-
-                    });
+                    setState(() {});
                   },
                   child: Image.asset('assets/images/job-img.png')),
               15.spaceY,
               GestureDetector(
-                  onTap: (){
+                  onTap: () {
                     productController.getProductsCategoryList();
                     selectedRadio = 'Service';
                     navigateNext();
-                    setState(() {
-
-                    });
+                    setState(() {});
                   },
                   child: Image.asset('assets/images/service-bg.png')),
               15.spaceY,
               GestureDetector(
-                  onTap: (){
+                  onTap: () {
                     productController.getProductsCategoryList();
                     selectedRadio = 'Virtual';
                     navigateNext();
-                    setState(() {
-
-                    });
+                    setState(() {});
                   },
                   child: Image.asset('assets/images/virtual_bg.png')),
 

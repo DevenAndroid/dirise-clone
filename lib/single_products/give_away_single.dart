@@ -25,11 +25,13 @@ import '../model/common_modal.dart';
 // import '../model/filter_by_price_model.dart';
 import '../model/get_review_model.dart';
 import '../model/giveaway_single_model.dart';
+import '../model/model_category_stores.dart';
 import '../model/model_single_product.dart';
 import '../model/order_models/model_direct_order_details.dart';
 import '../model/product_model/model_product_element.dart';
 import '../model/releated_product_model.dart';
 import '../repository/repository.dart';
+import '../screens/categories/single_category_with_stores/single_store_screen.dart';
 import '../screens/check_out/direct_check_out.dart';
 import '../screens/my_account_screens/contact_us_screen.dart';
 import '../utils/api_constant.dart';
@@ -172,18 +174,31 @@ class _GiveAwayProductState extends State<GiveAwayProduct> {
   }
 
   RxStatus statusSingle = RxStatus.empty();
-
+  String formattedDate = "";
+  String dateTimeString = "";
   getProductDetails() {
     statusSingle = RxStatus.loading();
     repositories.postApi(
-        url: ApiUrls.singleGiveAwayUrl, mapData: {"product_id": id.toString(), "key": 'fedexRate'}).then((value) {
+        url: ApiUrls.singleGiveAwayUrl, mapData: {"product_id": id.toString(),
+      "zip_code" : locationController.zipcode.value.toString(),
+      "state" : locationController.state.toString(),
+      "key": 'fedexRate',  "country_id" : profileController.model.user!= null && cartController.countryId.isEmpty ? profileController.model.user!.country_id : cartController.countryId.toString()}).then((value) {
       modelSingleProduct.value = GiveAwaySingleModel.fromJson(jsonDecode(value));
       if (modelSingleProduct.value.singleGiveawayProduct != null) {
         log("modelSingleProduct.product!.toJson().....${modelSingleProduct.value.singleGiveawayProduct!.toJson()}");
         imagesList.addAll(modelSingleProduct.value.singleGiveawayProduct!.galleryImage ?? []);
         imagesList = imagesList.toSet().toList();
         releatedId = modelSingleProduct.value.singleGiveawayProduct!.catId!.last.id.toString();
+
         print("releatedId" + releatedId);
+        dateTimeString = modelSingleProduct.value.singleGiveawayProduct!.shippingDate.toString();
+
+// Parse the string into a DateTime object
+        DateTime dateTime = DateTime.parse(dateTimeString);
+
+// Format the DateTime object to display only the date part
+        formattedDate = "${dateTime.year}-${dateTime.month.toString().padLeft(2, '0')}-${dateTime.day.toString().padLeft(2, '0')}";
+
         similarProduct();
         statusSingle = RxStatus.success();
       } else {
@@ -280,7 +295,7 @@ class _GiveAwayProductState extends State<GiveAwayProduct> {
     map["quantity"] = map["quantity"] = int.tryParse(productQuantity.value.toString());
     map["key"] = 'fedexRate';
     map["country_id"] = profileController.model.user != null ? profileController.model.user!.country_id : '117';
-
+    map["zip_code"] = cartController.zipCode.toString();
     // if (isBookingProduct) {
     //   map["start_date"] = selectedDate.text.trim();
     //   map["time_sloat"] = selectedSlot.split("--").first;
@@ -622,9 +637,7 @@ class _GiveAwayProductState extends State<GiveAwayProduct> {
                         //     Text("dicoins", style: GoogleFonts.poppins(fontWeight: FontWeight.w600, fontSize: 14, color:Colors.black),),
                         //   ],
                         // ),
-                        const SizedBox(
-                          height: 6,
-                        ),
+
 
                         // Row(
                         //   children: [
@@ -870,50 +883,58 @@ class _GiveAwayProductState extends State<GiveAwayProduct> {
                         //   ],
                         // ),
                         const SizedBox(
+                          height: 10,
+                        ),
+                        Container(
+                          padding: const EdgeInsets.symmetric(vertical: 7, horizontal: 37),
+                          decoration: BoxDecoration(
+                            color: const Color(0xFF014E70).withOpacity(.07),
+                            borderRadius: BorderRadius.circular(20),
+                          ),
+                          child: Text(
+                            modelSingleProduct.value.singleGiveawayProduct!.giveawayItemCondition.toString(),
+                            style: GoogleFonts.poppins(
+                              color: const Color(0xFF014E70),
+                              fontSize: 10,
+                              fontWeight: FontWeight.w400,
+                            ),
+                          ),
+                        ),
+                        const SizedBox(
                           height: 20,
                         ),
-                        Row(
-                          children: [
-                            SizedBox(
-                              height: 28,
-                              child: ListView.builder(
-                                itemCount: modelSingleProduct.value.singleGiveawayProduct!.catId!.length,
-                                shrinkWrap: true,
-                                scrollDirection: Axis.horizontal,
-                                physics: const AlwaysScrollableScrollPhysics(),
-                                itemBuilder: (BuildContext context, int index) {
-                                  return Container(
-                                    padding: const EdgeInsets.symmetric(vertical: 7, horizontal: 37),
-                                    decoration: BoxDecoration(
-                                      color: const Color(0xFF014E70).withOpacity(.07),
-                                      borderRadius: BorderRadius.circular(20),
+                        SizedBox(
+                          height: 28 * (1 + (modelSingleProduct.value.singleGiveawayProduct!.catId!.length / 3).ceil().toDouble()), // Adjust height based on number of items
+                          child: Wrap(
+                            spacing: 2, // Spacing between items horizontally
+                            runSpacing: 13, // Spacing between items vertically
+                            children: List.generate(
+                              modelSingleProduct.value.singleGiveawayProduct!.catId!.length,
+                                  (index) {
+                                return Container(
+                                  padding: const EdgeInsets.symmetric(vertical: 7, horizontal: 37),
+                                  decoration: BoxDecoration(
+                                    color: const Color(0xFF014E70).withOpacity(.07),
+                                    borderRadius: BorderRadius.circular(20),
+                                  ),
+                                  child: Text(
+                                    modelSingleProduct.value.singleGiveawayProduct!.catId![index].title.toString(),
+                                    style: GoogleFonts.poppins(
+                                      color: const Color(0xFF014E70),
+                                      fontSize: 10,
+                                      fontWeight: FontWeight.w400,
                                     ),
-                                    child: Text(
-                                      modelSingleProduct.value.singleGiveawayProduct!.catId![index].title.toString(),
-                                      style: GoogleFonts.poppins(
-                                          color: const Color(0xFF014E70), fontSize: 10, fontWeight: FontWeight.w400),
-                                    ),
-                                  );
-                                },
-                              ),
+                                  ),
+                                );
+                              },
                             ),
-                            const SizedBox(
-                              width: 10,
-                            ),
-                            Container(
-                              padding: const EdgeInsets.symmetric(vertical: 7, horizontal: 37),
-                              decoration: BoxDecoration(
-                                color: const Color(0xFF014E70).withOpacity(.07),
-                                borderRadius: BorderRadius.circular(20),
-                              ),
-                              child: Text(
-                                modelSingleProduct.value.singleGiveawayProduct!.giveawayItemCondition.toString(),
-                                style: GoogleFonts.poppins(
-                                    color: const Color(0xFF014E70), fontSize: 10, fontWeight: FontWeight.w400),
-                              ),
-                            ),
-                          ],
+                          ),
                         ),
+
+                        const SizedBox(
+                          width: 10,
+                        ),
+
                         const SizedBox(
                           height: 20,
                         ),
@@ -1148,7 +1169,7 @@ class _GiveAwayProductState extends State<GiveAwayProduct> {
                         Row(
                           children: [
                             Text(
-                              'Standerd Delivery :',
+                              'Standard Delivery :',
                               style:
                                   GoogleFonts.poppins(color: Colors.black, fontSize: 16, fontWeight: FontWeight.w500),
                             ),
@@ -1165,7 +1186,7 @@ class _GiveAwayProductState extends State<GiveAwayProduct> {
                             ),
                             Expanded(
                               child: Text(
-                                modelSingleProduct.value.singleGiveawayProduct!.shippingDate.toString(),
+                                formattedDate.toString(),
                                 style: GoogleFonts.poppins(
                                     color: const Color(0xFF014E70), fontSize: 14, fontWeight: FontWeight.w500),
                               ),
@@ -1226,7 +1247,7 @@ class _GiveAwayProductState extends State<GiveAwayProduct> {
                         Text(
                           modelSingleProduct.value.singleGiveawayProduct!.longDescription != null
                               ? modelSingleProduct.value.singleGiveawayProduct!.longDescription.toString().capitalize!
-                              : "No discription",
+                              : "No description",
                           style: GoogleFonts.poppins(
                               fontWeight: FontWeight.w400, fontSize: 12, color: const Color(0xFF19313C)),
                         ),
@@ -1251,7 +1272,8 @@ class _GiveAwayProductState extends State<GiveAwayProduct> {
                             const SizedBox(
                               width: 20,
                             ),
-                            Expanded(child: Image.asset("assets/svgs/verified.png",height: 30,))
+                            modelSingleProduct.value.singleGiveawayProduct!.storemeta!.isVendor == true?
+                            Expanded(child: Image.asset("assets/svgs/verified.png",height: 30,)):SizedBox()
                           ],
                         ),
                         const SizedBox(
@@ -1374,19 +1396,28 @@ class _GiveAwayProductState extends State<GiveAwayProduct> {
                                   errorWidget: (_, __, ___) => Image.asset('assets/images/new_logo.png')),
                             ),
 
-                            Align(
-                              alignment: Alignment.centerRight,
-                              child: Container(
-                                width: 130,
-                                padding: const EdgeInsets.all(10),
-                                decoration: BoxDecoration(
-                                    border: Border.all(color: const Color(0xFF014E70), width: 1.5),
-                                    borderRadius: BorderRadius.circular(30)),
-                                child: Center(
-                                  child: Text(
-                                    "Seller profile",
-                                    style: GoogleFonts.poppins(
-                                        color: const Color(0xFF014E70), fontSize: 14, fontWeight: FontWeight.w500),
+                            GestureDetector(
+                              onTap: (){
+                                Get.to(
+                                        () => SingleStoreScreen(storeDetails:  VendorStoreData(id:
+                                    modelSingleProduct.value.singleGiveawayProduct!.vendorInformation!.storeId
+                                    ))
+                                );
+                              },
+                              child: Align(
+                                alignment: Alignment.centerRight,
+                                child: Container(
+                                  width: 130,
+                                  padding: const EdgeInsets.all(10),
+                                  decoration: BoxDecoration(
+                                      border: Border.all(color: const Color(0xFF014E70), width: 1.5),
+                                      borderRadius: BorderRadius.circular(30)),
+                                  child: Center(
+                                    child: Text(
+                                      "Seller profile",
+                                      style: GoogleFonts.poppins(
+                                          color: const Color(0xFF014E70), fontSize: 14, fontWeight: FontWeight.w500),
+                                    ),
                                   ),
                                 ),
                               ),
@@ -1394,19 +1425,28 @@ class _GiveAwayProductState extends State<GiveAwayProduct> {
                             const SizedBox(
                               height: 20,
                             ),
-                            Align(
-                              alignment: Alignment.centerRight,
-                              child: Container(
-                                width: 130,
-                                padding: const EdgeInsets.all(10),
-                                decoration: BoxDecoration(
-                                    border: Border.all(color: const Color(0xFF014E70), width: 1.5),
-                                    borderRadius: BorderRadius.circular(30)),
-                                child: Center(
-                                  child: Text(
-                                    "Take Below",
-                                    style: GoogleFonts.poppins(
-                                        color: const Color(0xFF014E70), fontSize: 14, fontWeight: FontWeight.w500),
+                            GestureDetector(
+                              onTap: (){
+                                Get.to(
+                                        () => SingleStoreScreen(storeDetails:  VendorStoreData(id:
+                                    modelSingleProduct.value.singleGiveawayProduct!.vendorInformation!.storeId
+                                    ))
+                                );
+                              },
+                              child: Align(
+                                alignment: Alignment.centerRight,
+                                child: Container(
+                                  width: 130,
+                                  padding: const EdgeInsets.all(10),
+                                  decoration: BoxDecoration(
+                                      border: Border.all(color: const Color(0xFF014E70), width: 1.5),
+                                      borderRadius: BorderRadius.circular(30)),
+                                  child: Center(
+                                    child: Text(
+                                      "Take Below",
+                                      style: GoogleFonts.poppins(
+                                          color: const Color(0xFF014E70), fontSize: 14, fontWeight: FontWeight.w500),
+                                    ),
                                   ),
                                 ),
                               ),

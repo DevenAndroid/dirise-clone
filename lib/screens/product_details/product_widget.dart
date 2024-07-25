@@ -32,12 +32,14 @@ import '../../single_products/advirtising_single.dart';
 import '../../single_products/bookable_single.dart';
 import '../../single_products/simple_product.dart';
 import '../../single_products/variable_single.dart';
+import '../../single_products/vritual_product_single.dart';
 import '../../utils/api_constant.dart';
 import '../../utils/styles.dart';
 import '../../widgets/common_colour.dart';
 import '../../widgets/like_button.dart';
 import '../check_out/direct_check_out.dart';
 import '../my_account_screens/contact_us_screen.dart';
+import '../service_single_ui.dart';
 import 'single_product.dart';
 
 class ProductUI extends StatefulWidget {
@@ -312,9 +314,9 @@ class _ProductUIState extends State<ProductUI> {
     map["quantity"] = map["quantity"] = int.tryParse(productQuantity.value.toString());
 
     map["key"] = 'fedexRate';
-    map["country_id"] =
-    profileController.model.user!= null ? profileController.model.user!.country_id ?? '117' : '117';
+    map["country_id"] = profileController.model.user!= null && cartController.countryId.isEmpty ? profileController.model.user!.country_id : cartController.countryId.toString();
 
+    map["zip_code"] = cartController.zipCode.toString();
     if (isBookingProduct) {
       map["start_date"] = selectedDate.text.trim();
       map["time_sloat"] = selectedSlot.split("--").first;
@@ -381,8 +383,13 @@ class _ProductUIState extends State<ProductUI> {
           else if (widget.productElement.productType == 'booking'&& widget.productElement.itemType == 'product') {
             Get.to(() => const BookableProductScreen(), arguments: widget.productElement.id.toString());
           }
+          else if (widget.productElement.productType == 'virtual_product'&& widget.productElement.itemType == 'virtual_product') {
+            Get.to(() =>  VritualProductScreen(), arguments:  widget.productElement.id.toString());
+          }
           else if (widget.productElement.itemType == 'product') {
             Get.to(() => const SimpleProductScreen(), arguments: widget.productElement.id.toString());
+          }else if(widget.productElement.itemType =='service'){
+            Get.to(() => const ServiceProductScreen(), arguments: widget.productElement.id.toString());
           }
         },
       child:  widget.productElement.itemType != 'giveaway' &&   widget.productElement.isShowcase != true&&widget.productElement.showcaseProduct != true

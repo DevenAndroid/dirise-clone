@@ -15,6 +15,7 @@ import 'package:geolocator/geolocator.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 import '../controller/google_map_controlleer.dart';
+import '../controller/profile_controller.dart';
 import '../widgets/common_button.dart';
 import '../widgets/common_colour.dart';
 import '../widgets/dimension_screen.dart';
@@ -32,7 +33,7 @@ class ChooseAddress extends StatefulWidget {
 class _ChooseAddressState extends State<ChooseAddress> {
   final Completer<GoogleMapController> googleMapController = Completer();
   GoogleMapController? mapController;
-
+  final profileController = Get.put(ProfileController());
   String? _address = "";
   Position? _currentPosition;
 
@@ -236,25 +237,52 @@ class _ChooseAddressState extends State<ChooseAddress> {
                     child: Padding(
                       padding: const EdgeInsets.all(15),
                       child: Card(
-                        child: Container(
-                            decoration: BoxDecoration(color: Colors.white, borderRadius: BorderRadius.circular(10)),
-                            padding: const EdgeInsets.all(0),
-                            width: MediaQuery.of(context).size.width - 40,
-                            child: ListTile(
-                              leading: Icon(Icons.location_on_outlined, color: AppTheme.primaryColor),
-                              title: Text(
-                                _address.toString(),
-                                style: TextStyle(fontSize: AddSize.font14),
+                        child: Row(
+                          children: [
+                            SizedBox(width: 15,),
+                            GestureDetector(
+                              onTap: (){
+                                Get.back();
+                              },
+                              child: Column(
+                                crossAxisAlignment: CrossAxisAlignment.center,
+                                mainAxisAlignment: MainAxisAlignment.center,
+                                children: [
+                                  profileController.selectedLAnguage.value != 'English' ?
+                                  Image.asset(
+                                    'assets/images/forward_icon.png',
+                                    height: 19,
+                                    width: 19,
+                                  ) :
+                                  Image.asset(
+                                    'assets/images/back_icon_new.png',
+                                    height: 19,
+                                    width: 19,
+                                  ),
+                                ],
                               ),
-                              trailing: const Icon(Icons.search),
-                              dense: true,
-                            )),
+                            ),
+                            Container(
+                                decoration: BoxDecoration(color: Colors.white, borderRadius: BorderRadius.circular(10)),
+                                padding: const EdgeInsets.all(0),
+                                width: MediaQuery.of(context).size.width - 80,
+                                child: ListTile(
+                                  leading: Icon(Icons.location_on_outlined, color: AppTheme.primaryColor),
+                                  title: Text(
+                                    controllerMap.address.value.toString(),
+                                    style: TextStyle(fontSize: AddSize.font14),
+                                  ),
+                                  trailing: const Icon(Icons.search),
+                                  dense: true,
+                                )),
+                          ],
+                        ),
                       ),
                     ))),
             Positioned(
                 bottom: 0,
                 child: Container(
-                  height: AddSize.size200,
+                  height: AddSize.size220,
                   width: MediaQuery.of(context).size.width,
                   decoration: const BoxDecoration(
                       color: Colors.transparent,
@@ -344,6 +372,9 @@ class _ChooseAddressState extends State<ChooseAddress> {
                                 zipcode: zipcode,
                               ));
                             },
+                          ),
+                          const SizedBox(
+                            height: 20,
                           ),
                         ],
                       ),

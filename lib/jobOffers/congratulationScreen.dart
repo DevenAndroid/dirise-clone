@@ -98,7 +98,8 @@ class _CongratulationScreenState extends State<CongratulationScreen> {
                 },
                 child: Text(
                   'FAQs'.tr,
-                  style: GoogleFonts.poppins(color: Colors.black, fontWeight: FontWeight.w400, fontSize: 14),
+                  style: GoogleFonts.poppins(    color: Color(0xff014E70),
+                      decoration: TextDecoration.underline, fontWeight: FontWeight.w400, fontSize: 14),
                 ),
               ),
               GestureDetector(
@@ -108,7 +109,8 @@ class _CongratulationScreenState extends State<CongratulationScreen> {
                 },
                 child: Text(
                   'Cutomer Support'.tr,
-                  style: GoogleFonts.poppins(color: Colors.black, fontWeight: FontWeight.w400, fontSize: 14),
+                  style: GoogleFonts.poppins(    color: Color(0xff014E70),
+                      decoration: TextDecoration.underline, fontWeight: FontWeight.w400, fontSize: 14),
                 ),
               ),
               GestureDetector(
@@ -117,7 +119,8 @@ class _CongratulationScreenState extends State<CongratulationScreen> {
                 },
                 child: Text(
                   'call'.tr,
-                  style: GoogleFonts.poppins(color: Colors.black, fontWeight: FontWeight.w400, fontSize: 14),
+                  style: GoogleFonts.poppins(    color: Color(0xff014E70),
+                      decoration: TextDecoration.underline, fontWeight: FontWeight.w400, fontSize: 14),
                 ),
               ),
               const SizedBox(height: 20,),

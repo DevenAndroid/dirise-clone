@@ -22,6 +22,7 @@ import '../../../model/model_category_stores.dart';
 import '../../../model/product_model/model_product_element.dart';
 import '../../../model/vendor_models/model_category_list.dart';
 import '../../../model/vendor_models/vendor_category_model.dart';
+import '../../../shop_by_product.dart';
 import '../../../utils/api_constant.dart';
 import '../../../vendor/authentication/vendor_plans_screen.dart';
 import '../../../vendor/dashboard/dashboard_screen.dart';
@@ -67,11 +68,14 @@ class _SingleCategoriesState extends State<SingleCategories> {
     });
   }
 
+
   paginateApi() {
     if (_scrollController.offset > _scrollController.position.maxScrollExtent - 40) {
       getCategoryStores(page: paginationPage);
     }
   }
+
+
 
   RxInt refreshInt = 0.obs;
 
@@ -153,78 +157,17 @@ class _SingleCategoriesState extends State<SingleCategories> {
   final RxBool _isValue = false.obs;
   List<Widget> vendorPartner() {
     return [
-      // GestureDetector(
-      //   onTap: () {
-      //     if (profileController.model.user == null) {
-      //       showVendorDialog();
-      //       return;
-      //     }
-      //     if (profileController.model.user!.isVendor != true) {
-      //       Get.to(() => const VendorPlansScreen());
-      //       return;
-      //     }
-      //     if (profileController.model.user!.isVendor == true) {
-      //       Get.to(() => const VendorDashBoardScreen());
-      //       return;
-      //     }
-      //     _isValue.value = !_isValue.value;
-      //     setState(() {});
-      //   },
-      //   child:SvgPicture.asset("assets/svgs/heart.svg"),
-      // ),
 
-      // _isValue.value == true
-      //     ? Obx(() {
-      //   if (profileController.refreshInt.value > 0) {}
-      //`
-      //   return profileController.model.user != null
-      //       ? Column(
-      //     crossAxisAlignment: CrossAxisAlignment.start,
-      //     children:
-      //         ? List.generate(
-      //         vendor.length,
-      //             (index) => Row(
-      //           children: [
-      //             const SizedBox(
-      //               width: 30,
-      //             ),
-      //             // Expanded(
-      //             //   child: TextButton(
-      //             //     onPressed: () {
-      //             //       Get.toNamed(vendorRoutes[index]);
-      //             //     },
-      //             //     style: TextButton.styleFrom(
-      //             //         visualDensity: const VisualDensity(vertical: -3, horizontal: -3),
-      //             //         padding: EdgeInsets.zero.copyWith(left: 16)),
-      //             //     child: Row(
-      //             //       children: [
-      //             //         Expanded(
-      //             //           child: Text(
-      //             //             vendor[index],
-      //             //             style: GoogleFonts.poppins(
-      //             //                 fontSize: 16,
-      //             //                 fontWeight: FontWeight.w400,
-      //             //                 color: Colors.grey.shade500),
-      //             //           ),
-      //             //         ),
-      //             //         const Icon(
-      //             //           Icons.arrow_forward_ios_rounded,
-      //             //           size: 14,
-      //             //         )
-      //             //       ],
-      //             //     ),
-      //             //   ),
-      //             // ),
-      //           ],
-      //         ))
-      //         : [],
-      //   )
-      //       : const SizedBox();
-      // })
-      //     : const SizedBox(),
     ];
   }
+  String? selectedValue1;
 
+
+  final List<String> dropdownItems = [
+    'Shop by Product',
+    'Shop by Vendor',
+
+  ];
   Future getCategoryStores({required int page, String? search, bool? resetAll}) async {
     if (resetAll == true) {
       allLoaded = false;
@@ -593,47 +536,89 @@ class _SingleCategoriesState extends State<SingleCategories> {
                     : const SizedBox(),
               ),
             ),
-            modelCategoryList != null
-                ? SliverToBoxAdapter(
-                    child: Padding(
-                      padding: const EdgeInsets.fromLTRB(15, 10, 0, 20),
-                      child: Column(
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        mainAxisAlignment: MainAxisAlignment.start,
-                        children: [
-                          if (isSelect == true)
-                            GestureDetector(
-                              onTap: () {
-                                modelCategoryList = null;
-                                getCategoryFilter();
-                                getCategoryStores(page: 1, resetAll: true);
-                                isSelect = false;
-                                setState(() {});
-                              },
-                              child: Container(
-                                height: 36,
-                                width: 120,
-                                padding: const EdgeInsets.fromLTRB(10, 0, 10, 0),
-                                decoration: BoxDecoration(
-                                    border: Border.all(color: const Color(0xff014E70)),
-                                    color: const Color(0xffEBF1F4),
-                                    borderRadius: BorderRadius.circular(22)),
-                                child: Center(
-                                  child: Text(
-                                    "Clear",
-                                    style: GoogleFonts.poppins(
-                                        fontSize: 14, fontWeight: FontWeight.w500, color: const Color(0xff014E70)),
+            SliverToBoxAdapter(
+              child:    Align(
+                alignment: Alignment.centerRight,
+                child: Padding(
+                  padding: const EdgeInsets.only(right: 8.0),
+                  child: Container(
+                    width: 200,
+                    padding: EdgeInsets.symmetric(horizontal: 12, vertical: 2),
+                    decoration: BoxDecoration(
+                      color: Color(0xffEBF1F4),
+                      border: Border.all(color: Color(0xff014E70)),
+                      borderRadius: BorderRadius.circular(5),
+                    ),
+                    child: DropdownButton<String>(
+                      isExpanded: true,
+                      hint: Text('Select an Type',style: TextStyle(color:  Colors.black),),
+                      value:selectedValue1,
+
+                      onChanged: (String? newValue) {
+                        setState(() {
+                          selectedValue1 = newValue;
+                          if (selectedValue1 == "Shop by Product") {
+                            Get.to(
+                                  () => ShopProductScreen(vendorCategories: widget.vendorCategories),
+                              arguments: widget.vendorCategories.id.toString(),
+                            );
+                          }
+                          print("Selected value: " + selectedValue1.toString());
+                        });
+                      },
+                      items:dropdownItems.map<DropdownMenuItem<String>>((String value) {
+                        return DropdownMenuItem<String>(
+                          value: value,
+                          child: Text(value),
+                        );
+                      }).toList(),
+                      underline: SizedBox(), // Removes the default underline
+                    ),
+                  ),
+                ),
+              ),),
+
+              modelCategoryList != null
+                  ? SliverToBoxAdapter(
+                      child: Padding(
+                        padding: const EdgeInsets.fromLTRB(15, 10, 0, 20),
+                        child: Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          mainAxisAlignment: MainAxisAlignment.start,
+                          children: [
+                            if (isSelect == true)
+                              GestureDetector(
+                                onTap: () {
+                                  modelCategoryList = null;
+                                  getCategoryFilter();
+                                  getCategoryStores(page: 1, resetAll: true);
+                                  isSelect = false;
+                                  setState(() {});
+                                },
+                                child: Container(
+                                  height: 36,
+                                  width: 120,
+                                  padding: const EdgeInsets.fromLTRB(10, 0, 10, 0),
+                                  decoration: BoxDecoration(
+                                      border: Border.all(color: const Color(0xff014E70)),
+                                      color: const Color(0xffEBF1F4),
+                                      borderRadius: BorderRadius.circular(22)),
+                                  child: Center(
+                                    child: Text(
+                                      "Clear",
+                                      style: GoogleFonts.poppins(
+                                          fontSize: 14, fontWeight: FontWeight.w500, color: const Color(0xff014E70)),
+                                    ),
                                   ),
                                 ),
                               ),
-                            ),
-                        ],
+                          ],
+                        ),
                       ),
+                    )
+                  : const SliverToBoxAdapter(
+                      child: SizedBox(),
                     ),
-                  )
-                : const SliverToBoxAdapter(
-                    child: SizedBox(),
-                  ),
             if (modelCategoryStores != null)
               for (var i = 0; i < modelCategoryStores!.length; i++) ...list(i)
             else

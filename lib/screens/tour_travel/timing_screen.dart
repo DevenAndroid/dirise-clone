@@ -1,3 +1,4 @@
+import 'package:dirise/screens/tour_travel/review_publish_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:google_fonts/google_fonts.dart';
@@ -12,13 +13,13 @@ import '../../utils/api_constant.dart';
 import '../../widgets/common_colour.dart';
 import 'optional_details_tourandtravel.dart';
 class TimingScreenTour extends StatefulWidget {
-  int? id;
-  String? startLocation;
-  String? endLocation;
-  String? startTime;
-  String? endEndTime;
-  String? spot;
-  String? timingExtraNotes;
+  dynamic id;
+  dynamic startLocation;
+  dynamic endLocation;
+  dynamic startTime;
+  dynamic endEndTime;
+  dynamic spot;
+  dynamic timingExtraNotes;
   TimingScreenTour({super.key,this.id,this.endLocation,this.startLocation,this.timingExtraNotes,
   this.spot,this.startTime,this.endEndTime});
 
@@ -70,7 +71,11 @@ class _TimingScreenTourState extends State<TimingScreenTour> {
       if (response.status == true) {
         showToast(response.message.toString());
         if(formKey1.currentState!.validate()){
-          Get.to(()=> OptionalDetailsTourAndTravel());
+          if (widget.id != null) {
+            Get.to(() => const ReviewandPublishTourScreenScreen());
+          } else {
+            Get.to(()=> OptionalDetailsTourAndTravel());
+          }
         }
       }
     });
@@ -330,7 +335,11 @@ class _TimingScreenTourState extends State<TimingScreenTour> {
               ),
               InkWell(
                 onTap: (){
-                  Get.to(()=> OptionalDetailsTourAndTravel());
+                  if (widget.id != null) {
+                    Get.to(() => const ReviewandPublishTourScreenScreen());
+                  } else {
+                    Get.to(()=> OptionalDetailsTourAndTravel());
+                  }
                 },
                 child: Container(
                   width: Get.width,

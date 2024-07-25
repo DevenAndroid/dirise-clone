@@ -3,6 +3,7 @@ import 'dart:io';
 
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:dirise/screens/Consultation%20Sessions/review_screen.dart';
+import 'package:dirise/screens/Seminars%20&%20%20Attendable%20Course/review_screen.dart';
 import 'package:dirise/utils/helper.dart';
 import 'package:dirise/widgets/loading_animation.dart';
 import 'package:flutter/material.dart';
@@ -26,8 +27,9 @@ class SponsorsScreenSeminarAndAttendable extends StatefulWidget {
   int? id;
   String? sponsorType;
   String? sponsorName;
-
-  SponsorsScreenSeminarAndAttendable({super.key, this.id, this.sponsorName, this.sponsorType});
+  String? image;
+  dynamic sponsorsID;
+  SponsorsScreenSeminarAndAttendable({super.key, this.id, this.sponsorName, this.sponsorType,this.image,this.sponsorsID});
 
   @override
   State<SponsorsScreenSeminarAndAttendable> createState() => _SponsorsScreenSeminarAndAttendableState();
@@ -109,7 +111,7 @@ class _SponsorsScreenSeminarAndAttendableState extends State<SponsorsScreenSemin
         showToast(response.message.toString());
         if (formKey1.currentState!.validate()) {
           if (widget.id != null) {
-            Get.to(() => ReviewScreen());
+            Get.to(()=> const ReviewScreenSeminarAndAttendable());
           } else {
             Get.to(() => EligibleCustomersSeminarAndAttendable());
           }
@@ -127,6 +129,8 @@ class _SponsorsScreenSeminarAndAttendableState extends State<SponsorsScreenSemin
     if (widget.id != null) {
       sponsorTypeController.text = widget.sponsorType.toString();
       sponsorNameController.text = widget.sponsorName.toString();
+      idProof = File(widget.image.toString());
+      sponsorValue = widget.sponsorsID.toString();
     }
   }
 
@@ -328,7 +332,11 @@ class _SponsorsScreenSeminarAndAttendableState extends State<SponsorsScreenSemin
                         const SizedBox(height: 20),
                         GestureDetector(
                           onTap: () {
-                            Get.to(() => EligibleCustomersSeminarAndAttendable());
+                            if (widget.id != null) {
+                              Get.to(()=> const ReviewScreenSeminarAndAttendable());
+                            } else {
+                              Get.to(() => EligibleCustomersSeminarAndAttendable());
+                            }
                           },
                           child: Container(
                             width: Get.width,

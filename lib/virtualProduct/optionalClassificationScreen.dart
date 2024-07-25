@@ -35,6 +35,7 @@ class VirtualOptionalClassificationScreen extends StatefulWidget {
 }
 
 class _VirtualOptionalClassificationScreenState extends State<VirtualOptionalClassificationScreen> {
+  final controller1 = Get.put(ProfileController());
   final controller = Get.put(ServiceController());
   RxBool hide = true.obs;
   RxBool hide1 = true.obs;
@@ -58,7 +59,7 @@ class _VirtualOptionalClassificationScreenState extends State<VirtualOptionalCla
     map['product_code'] = productCodeController.text.trim();
     map['promotion_code'] = promotionCodeController.text.trim();
     map['package_detail'] = packageDetailsController.text.trim();
-    map['item_type'] = 'service';
+    map['item_type'] = 'virtual_product';
     map['id'] = addProductController.idProduct.value.toString();
     FocusManager.instance.primaryFocus!.unfocus();
     repositories.postApi(url: ApiUrls.giveawayProductAddress, context: context, mapData: map).then((value) {
@@ -67,7 +68,7 @@ class _VirtualOptionalClassificationScreenState extends State<VirtualOptionalCla
       showToast(response.message.toString());
       if (response.status == true) {
         if(widget.id != null){
-          Get.to(const VirtualReviewandPublishScreen());
+          Get.to( VirtualReviewandPublishScreen());
         }else{
           Get.to(const VirtualReviewandPublishScreen());
         }
@@ -242,7 +243,12 @@ class _VirtualOptionalClassificationScreenState extends State<VirtualOptionalCla
                 const SizedBox(height: 20),
                 GestureDetector(
                   onTap: () {
-                    Get.to(const VirtualReviewandPublishScreen());
+                    if(widget.id != null){
+                      Get.back();
+                      // controller1.getVendorCategories(addProductController.idProduct.value.toString());
+                    }else{
+                      Get.to(const VirtualReviewandPublishScreen());
+                    }
                   },
                   child: Container(
                     width: Get.width,

@@ -49,13 +49,9 @@ class _ReviewScreenWebinarsState extends State<ReviewScreenWebinars> {
   Rx<RxStatus> vendorCategoryStatus = RxStatus.empty().obs;
 
   getVendorCategories(String id) async {
-    try {
       var value = await repositories.getApi(url: ApiUrls.getProductDetailsUrl + id);
       productDetailsModel.value = ModelProductDetails.fromJson(jsonDecode(value));
-      productDetailsModel.refresh(); // Ensure the state is updated
-    } catch (e) {
-      log("Error fetching vendor categories: $e");
-    }
+      productDetailsModel.refresh();
   }
 
   completeApi() {
@@ -228,7 +224,15 @@ class _ReviewScreenWebinarsState extends State<ReviewScreenWebinars> {
                                         id: productDetailsModel.value.productDetails!.product!.id,
                                         from_date: productDetailsModel.value.productDetails!.product!.productAvailability!.fromDate,
                                         to_date: productDetailsModel.value.productDetails!.product!.productAvailability!.toDate,
-
+                                        initialOffDays:  productDetailsModel.value.productDetails!.product!.productWeeklyAvailability!
+                                            .map((availability) {
+                                          if (availability.status == true) {
+                                            return true;
+                                          } else {
+                                            return false;
+                                          }
+                                        })
+                                            .toList(),
                                       ));
                                     },
                                     child: const Text(
@@ -254,7 +258,7 @@ class _ReviewScreenWebinarsState extends State<ReviewScreenWebinars> {
                             mainAxisAlignment: MainAxisAlignment.spaceBetween,
                             children: [
                               Text(
-                                'Date',
+                                'Webinar',
                                 style: GoogleFonts.poppins(
                                   color: AppTheme.primaryColor,
                                   fontSize: 15,
@@ -310,9 +314,13 @@ class _ReviewScreenWebinarsState extends State<ReviewScreenWebinars> {
                                     onTap: () {
                                       Get.to(SeminarScreenScreen(
                                         id: productDetailsModel.value.productDetails!.product!.id,
-                                        startTime: productDetailsModel.value.productDetails!.product!.productAvailability!.fromDate,
-                                        endTime: productDetailsModel.value.productDetails!.product!.productAvailability!.toDate,
-                                        extraNotes: productDetailsModel.value.productDetails!.product!.productAvailability!.toDate,
+                                        startTime: productDetailsModel.value.productDetails!.product!.productAvailability!.fromDate ?? '',
+                                        endTime: productDetailsModel.value.productDetails!.product!.productAvailability!.toDate ?? '',
+                                        extraNotes: productDetailsModel.value.productDetails!.product!.timingExtraNotes ?? '',
+                                        meetingPlatform: productDetailsModel.value.productDetails!.product!.meetingPlatform ?? 'zoom' ,
+                                        meetingPlatform1: productDetailsModel.value.productDetails!.product!.meetingPlatform2 ?? 'zoom' ,
+                                        extraNotes1: productDetailsModel.value.productDetails!.product!.timingExtraNotes2 ?? '',
+                                        daysDate:  productDetailsModel.value.productDetails!.product!.additionalDate ?? '',
 
                                       ));
                                     },
@@ -323,69 +331,69 @@ class _ReviewScreenWebinarsState extends State<ReviewScreenWebinars> {
                           ],
                         ),
                       const SizedBox(height: 20),
-                      GestureDetector(
-                        onTap: () {
-                          setState(() {
-                            isTime.toggle();
-                          });
-                        },
-                        child: Container(
-                          padding: const EdgeInsets.symmetric(vertical: 12, horizontal: 12),
-                          decoration: BoxDecoration(
-                              color: Colors.white,
-                              borderRadius: BorderRadius.circular(8),
-                              border: Border.all(color: AppTheme.secondaryColor)),
-                          child: Row(
-                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                            children: [
-                              Text(
-                                'Webinar',
-                                style: GoogleFonts.poppins(
-                                  color: AppTheme.primaryColor,
-                                  fontSize: 15,
-                                ),
-                              ),
-                              GestureDetector(
-                                child: isTime.value != true
-                                    ? Image.asset(
-                                  'assets/images/drop_icon.png',
-                                  height: 17,
-                                  width: 17,
-                                )
-                                    : Image.asset(
-                                  'assets/images/up_icon.png',
-                                  height: 17,
-                                  width: 17,
-                                ),
-                                onTap: () {
-                                  setState(() {
-                                    isTime.toggle();
-                                  });
-                                },
-                              ),
-                            ],
-                          ),
-                        ),
-                      ),
-                      if (isTime.value == true)
-                        Container(
-                          child: Column(
-                            mainAxisAlignment: MainAxisAlignment.start,
-                            crossAxisAlignment: CrossAxisAlignment.start,
-                            children: [
-                              Text(
-                                  'Meeting will be at : ${productDetailsModel.value.productDetails!.product!.meeting_platform ?? ""} '),
-                              Text(
-                                  'Start  Time : ${productDetailsModel.value.productDetails!.product!.serviceTimeSloat!.timeSloat ?? ""}'),
-                              Text(
-                                  'End time : ${productDetailsModel.value.productDetails!.product!.serviceTimeSloat!.timeSloatEnd ?? ""}'),
-                              Text(
-                                  'Extra Notes : ${productDetailsModel.value.productDetails!.product!.timingExtraNotes ?? ""}'),
-                              Text('Spots : ${productDetailsModel.value.productDetails!.product!.spot ?? ""}'),
-                            ],
-                          ),
-                        ),
-                      const SizedBox(height: 20),
+                      // GestureDetector(
+                      //   onTap: () {
+                      //     setState(() {
+                      //       isTime.toggle();
+                      //     });
+                      //   },
+                      //   child: Container(
+                      //     padding: const EdgeInsets.symmetric(vertical: 12, horizontal: 12),
+                      //     decoration: BoxDecoration(
+                      //         color: Colors.white,
+                      //         borderRadius: BorderRadius.circular(8),
+                      //         border: Border.all(color: AppTheme.secondaryColor)),
+                      //     child: Row(
+                      //       mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      //       children: [
+                      //         Text(
+                      //           'Webinar',
+                      //           style: GoogleFonts.poppins(
+                      //             color: AppTheme.primaryColor,
+                      //             fontSize: 15,
+                      //           ),
+                      //         ),
+                      //         GestureDetector(
+                      //           child: isTime.value != true
+                      //               ? Image.asset(
+                      //             'assets/images/drop_icon.png',
+                      //             height: 17,
+                      //             width: 17,
+                      //           )
+                      //               : Image.asset(
+                      //             'assets/images/up_icon.png',
+                      //             height: 17,
+                      //             width: 17,
+                      //           ),
+                      //           onTap: () {
+                      //             setState(() {
+                      //               isTime.toggle();
+                      //             });
+                      //           },
+                      //         ),
+                      //       ],
+                      //     ),
+                      //   ),
+                      // ),
+                      // if (isTime.value == true)
+                      //   Container(
+                      //     child: Column(
+                      //       mainAxisAlignment: MainAxisAlignment.start,
+                      //       crossAxisAlignment: CrossAxisAlignment.start,
+                      //       children: [
+                      //         Text(
+                      //             'Meeting will be at : ${productDetailsModel.value.productDetails!.product!.meeting_platform ?? ""} '),
+                      //         Text(
+                      //             'Start  Time : ${productDetailsModel.value.productDetails!.product!.serviceTimeSloat!.timeSloat ?? ""}'),
+                      //         Text(
+                      //             'End time : ${productDetailsModel.value.productDetails!.product!.serviceTimeSloat!.timeSloatEnd ?? ""}'),
+                      //         Text(
+                      //             'Extra Notes : ${productDetailsModel.value.productDetails!.product!.timingExtraNotes ?? ""}'),
+                      //         Text('Spots : ${productDetailsModel.value.productDetails!.product!.spot ?? ""}'),
+                      //       ],
+                      //     ),
+                      //   ),
+                      // const SizedBox(height: 20),
                       GestureDetector(
                         onTap: () {
                           setState(() {
@@ -553,8 +561,10 @@ class _ReviewScreenWebinarsState extends State<ReviewScreenWebinars> {
                                     onTap: () {
                                       Get.to(SponsorswebinarScreen(
                                         id: productDetailsModel.value.productDetails!.product!.id,
-                                        sponsorName: productDetailsModel.value.productDetails!.product!.host_name,
-                                        sponsorType: productDetailsModel.value.productDetails!.product!.bookable_product_location,
+                                        sponsorName: productDetailsModel.value.productDetails!.product!.host_name ?? '',
+                                        sponsorType: productDetailsModel.value.productDetails!.product!.bookable_product_location ?? '',
+                                        image : productDetailsModel.value.productDetails!.product!.productSponsors!.sponsorLogo.toString(),
+                                        sponsorsID: productDetailsModel.value.productDetails!.product!.productSponsors!.id.toString(),
                                       ));
                                     },
                                     child: const Text(

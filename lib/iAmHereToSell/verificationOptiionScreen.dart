@@ -118,32 +118,38 @@ class _VerificationOptionScreenState extends State<VerificationOptionScreen> {
                           Text(
                             'Credit card'.tr,
                             style: GoogleFonts.poppins(fontWeight: FontWeight.w500, fontSize: 24, color: Colors.black),
-                          )
+                          ),
                         ],
                       ),
                       const SizedBox(
                         height: 10,
                       ),
+                      Flexible(
+                        child: Text(
+                          'We ask you for your credit card to make sure that you are not a robot, helps us reduce fraud and theft.  Any charges, will be refunded. No auto-charge after free trial ends'.tr,
+                          style: GoogleFonts.poppins(fontWeight: FontWeight.w400, fontSize: 14, color: Colors.black),
+                        ),
+                      ),
                       Text(
-                        'We ask you for your credit card to make sure that you are not a robot, helps us reduce fraud and theft.  Any charges, will be refunded. No auto-charge after free trial ends'.tr,
-                        style: GoogleFonts.poppins(fontWeight: FontWeight.w400, fontSize: 14, color: Colors.black),
+                        'Not available in your region'.tr,
+                        style: GoogleFonts.poppins(fontWeight: FontWeight.w600, fontSize: 16, color: Colors.black),
                       )
                     ],
                   ),
                 ),
-                 Positioned(
-                  right: 20,
-                  top: 20,
-                  child:  Radio(
-                    value: 'creditCard',
-                    groupValue: selectedRadio,
-                    onChanged: (value) {
-                      setState(() {
-                        selectedRadio = value.toString();
-                      });
-                    },
-                  ),
-                ),
+                //  Positioned(
+                //   right: 20,
+                //   top: 20,
+                //   child:  Radio(
+                //     value: 'creditCard',
+                //     groupValue: selectedRadio,
+                //     onChanged: (value) {
+                //       setState(() {
+                //         selectedRadio = value.toString();
+                //       });
+                //     },
+                //   ),
+                // ),
               ],
             ),
             Stack(
