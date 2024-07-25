@@ -125,7 +125,7 @@ class _AddProductFirstImageScreenState extends State<AddProductFirstImageScreen>
               Get.back();
             }
             else {
-              Get.to(MyItemISScreen());
+              Get.back();
             }
           },
           child: Column(
