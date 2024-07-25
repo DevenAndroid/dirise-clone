@@ -127,6 +127,9 @@ class _JobDetailsScreenState extends State<JobDetailsScreen> {
   Map<String, City> allSelectedCategory3 = {};
   Map<String, SubCategory> allSelectedCategory4 = {};
   String selectedCategory = '';
+  String selectedCountry = '';
+  String selectedState = '';
+  String selectedCity = '';
   String? selectedSubCategory;
   String? cityId;
   String? stateCategory;
@@ -556,282 +559,151 @@ class _JobDetailsScreenState extends State<JobDetailsScreen> {
                             ),
                         ],
                       ),
-                // Obx(() {
-                //   if (kDebugMode) {
-                //     print(modelSubCategory.subCategory!
-                //         .map((e) => DropdownMenuItem(value: e, child: Text(e.title.toString().capitalize!)))
-                //         .toList());
-                //   }
-                //   return DropdownButtonFormField<SubCategory>(
-                //     isExpanded: true,
-                //     key: categoryKey4,
-                //     autovalidateMode: AutovalidateMode.onUserInteraction,
-                //     icon: subCategoryStatus.value.isLoading
-                //         ? const CupertinoActivityIndicator()
-                //         : const Icon(Icons.keyboard_arrow_down_rounded),
-                //     iconSize: 30,
-                //     iconDisabledColor: const Color(0xff97949A),
-                //     iconEnabledColor: const Color(0xff97949A),
-                //     value: null,
-                //     style: GoogleFonts.poppins(color: Colors.black, fontSize: 14),
-                //     decoration: InputDecoration(
-                //       border: InputBorder.none,
-                //       filled: true,
-                //       fillColor: const Color(0xffE2E2E2).withOpacity(.35),
-                //       contentPadding: const EdgeInsets.symmetric(horizontal: 15, vertical: 10).copyWith(right: 8),
-                //       focusedErrorBorder: const OutlineInputBorder(
-                //           borderRadius: BorderRadius.all(Radius.circular(8)),
-                //           borderSide: BorderSide(color: AppTheme.secondaryColor)),
-                //       errorBorder: const OutlineInputBorder(
-                //           borderRadius: BorderRadius.all(Radius.circular(8)),
-                //           borderSide: BorderSide(color: Color(0xffE2E2E2))),
-                //       focusedBorder: const OutlineInputBorder(
-                //           borderRadius: BorderRadius.all(Radius.circular(8)),
-                //           borderSide: BorderSide(color: AppTheme.secondaryColor)),
-                //       disabledBorder: const OutlineInputBorder(
-                //         borderRadius: BorderRadius.all(Radius.circular(8)),
-                //         borderSide: BorderSide(color: AppTheme.secondaryColor),
-                //       ),
-                //       enabledBorder: const OutlineInputBorder(
-                //         borderRadius: BorderRadius.all(Radius.circular(8)),
-                //         borderSide: BorderSide(color: AppTheme.secondaryColor),
-                //       ),
-                //     ),
-                //     items: modelSubCategory.subCategory!
-                //         .map((e) => DropdownMenuItem(value: e, child: Text(e.title.toString().capitalize!)))
-                //         .toList(),
-                //     hint: Text('sub category'.tr),
-                //     onChanged: (value) {
-                //       setState(() {
-                //         selectedSubCategory = value!.id.toString(); // Assuming you want to use the ID as the category value
-                //         subCategoryName.value = value!.title.toString(); // Assuming you want to use the ID as the category value
-                //       });
-                //       // if (value == null) return;
-                //       // if (allSelectedCategory.isNotEmpty) return;
-                //       // allSelectedCategory[value.id.toString()] = value;
-                //       // setState(() {});
-                //     },
-                //     // validator: (value) {
-                //     //   if (allSelectedCategory.isEmpty) {
-                //     //     return "Please select Category".tr;
-                //     //   }
-                //     //   return null;
-                //     // },
-                //   );
-                // }),
                 const SizedBox(
                   height: 10,
                 ),
-                Obx(() {
-                  if (kDebugMode) {
-                    print(modelCountryList.country!
-                        .map((e) => DropdownMenuItem(value: e, child: Text(e.name.toString().capitalize!)))
-                        .toList());
-                  }
-                  return DropdownButtonFormField<Country>(
-                    key: categoryKey1,
-                    isExpanded: true,
-                    autovalidateMode: AutovalidateMode.onUserInteraction,
-                    icon: countryStatus.value.isLoading
-                        ? const CupertinoActivityIndicator()
-                        : const Icon(Icons.keyboard_arrow_down_rounded),
-                    iconSize: 30,
-                    iconDisabledColor: const Color(0xff97949A),
-                    iconEnabledColor: const Color(0xff97949A),
-                    value: modelCountryList.country!.firstWhereOrNull(
-                      (element) => element.name == countryName.value,
-                    ),
-                    style: GoogleFonts.poppins(color: Colors.black, fontSize: 14),
-                    decoration: InputDecoration(
-                      border: InputBorder.none,
-                      filled: true,
-                      fillColor: const Color(0xffE2E2E2).withOpacity(.35),
-                      contentPadding: const EdgeInsets.symmetric(horizontal: 15, vertical: 10).copyWith(right: 8),
-                      focusedErrorBorder: const OutlineInputBorder(
-                          borderRadius: BorderRadius.all(Radius.circular(8)),
-                          borderSide: BorderSide(color: AppTheme.secondaryColor)),
-                      errorBorder: const OutlineInputBorder(
-                          borderRadius: BorderRadius.all(Radius.circular(8)),
-                          borderSide: BorderSide(color: Color(0xffE2E2E2))),
-                      focusedBorder: const OutlineInputBorder(
-                          borderRadius: BorderRadius.all(Radius.circular(8)),
-                          borderSide: BorderSide(color: AppTheme.secondaryColor)),
-                      disabledBorder: const OutlineInputBorder(
-                        borderRadius: BorderRadius.all(Radius.circular(8)),
-                        borderSide: BorderSide(color: AppTheme.secondaryColor),
-                      ),
-                      enabledBorder: const OutlineInputBorder(
-                        borderRadius: BorderRadius.all(Radius.circular(8)),
-                        borderSide: BorderSide(color: AppTheme.secondaryColor),
-                      ),
-                    ),
-                    items: modelCountryList.country!
-                        .map((e) => DropdownMenuItem(value: e, child: Text(e.name.toString().capitalize!)))
-                        .toList(),
-                    hint: Text('Search country '.tr),
-                    onChanged: (value) {
-                      setState(() {
-                        idCountry = value!.id.toString();
-                        countryName.value = value!.name.toString();
+                GestureDetector(
+                  onTap: () {
+                    showBottomSheet(
+                      context: context,
+                      items: modelCountryList.country!
+                          .map((e) => e.name.toString())
+                          .toList(),
+                      selectedItem: selectedCountry,
+                      onItemSelected: (newValue) {
+                        setState(() {
+                          var selectedCountryData = modelCountryList.country!
+                              .firstWhere((element) => element.name == newValue);
+                          idCountry = selectedCountryData.id.toString();
+                          countryName.value = selectedCountryData.name.toString();
+                          getStateApi();
 
-                        getStateApi(); // Assuming you want to use the ID as the category value
-                      });
-                      modelStateList = ModelStateList();
-                      // if (value == null) return;
-                      // if (allSelectedCategory1.isNotEmpty) return;
-                      // allSelectedCategory1[value.id.toString()] = value;
-                      // setState(() {});
-                    },
-                    // validator: (value) {
-                    //   if (allSelectedCategory1.isEmpty) {
-                    //     return "Please select country".tr;
-                    //   }
-                    //   return null;
-                    // },
-                  );
-                }),
+                        });
+                      },
+                    );
+                  },
+                  child: Container(
+                    padding: const EdgeInsets.symmetric(
+                        vertical: 16, horizontal: 10),
+                    decoration: BoxDecoration(
+                      border: Border.all(color: Colors.grey),
+                      borderRadius: BorderRadius.circular(8),
+                    ),
+                    child: Row(
+                      mainAxisAlignment:
+                      MainAxisAlignment.spaceBetween,
+                      children: [
+                        Text(
+                          countryName.value.isEmpty
+                              ? 'Select country'
+                              : modelCountryList.country!
+                              .firstWhereOrNull((element) => element.name == countryName.value)
+                              ?.name
+                              .toString() ?? 'Select country',
+                        ),
+                        const Icon(Icons.arrow_drop_down),
+                      ],
+                    ),
+                  ),
+                ),
+
                 const SizedBox(
                   height: 20,
                 ),
-                Obx(() {
-                  // if (kDebugMode) {
-                  //   print(modelStateList.state!
-                  //       .map((e) => DropdownMenuItem(value: e, child: Text(e.stateName.toString().capitalize!)))
-                  //       .toList());
-                  // }
-                  return modelStateList.state != null
-                      ? DropdownButtonFormField<CountryState>(
-                          key: categoryKey2,
-                          autovalidateMode: AutovalidateMode.onUserInteraction,
-                          icon: stateStatus.value.isLoading
-                              ? const CupertinoActivityIndicator()
-                              : const Icon(Icons.keyboard_arrow_down_rounded),
-                          iconSize: 30,
-                          iconDisabledColor: const Color(0xff97949A),
-                          iconEnabledColor: const Color(0xff97949A),
-                          value: modelStateList.state!.firstWhereOrNull(
-                            (element) => element.stateName == stateName.value,
-                          ),
-                          style: GoogleFonts.poppins(color: Colors.black, fontSize: 16),
-                          decoration: InputDecoration(
-                            border: InputBorder.none,
-                            filled: true,
-                            fillColor: const Color(0xffE2E2E2).withOpacity(.35),
-                            contentPadding: const EdgeInsets.symmetric(horizontal: 15, vertical: 10).copyWith(right: 8),
-                            focusedErrorBorder: const OutlineInputBorder(
-                                borderRadius: BorderRadius.all(Radius.circular(8)),
-                                borderSide: BorderSide(color: AppTheme.secondaryColor)),
-                            errorBorder: const OutlineInputBorder(
-                                borderRadius: BorderRadius.all(Radius.circular(8)),
-                                borderSide: BorderSide(color: Color(0xffE2E2E2))),
-                            focusedBorder: const OutlineInputBorder(
-                                borderRadius: BorderRadius.all(Radius.circular(8)),
-                                borderSide: BorderSide(color: AppTheme.secondaryColor)),
-                            disabledBorder: const OutlineInputBorder(
-                              borderRadius: BorderRadius.all(Radius.circular(8)),
-                              borderSide: BorderSide(color: AppTheme.secondaryColor),
-                            ),
-                            enabledBorder: const OutlineInputBorder(
-                              borderRadius: BorderRadius.all(Radius.circular(8)),
-                              borderSide: BorderSide(color: AppTheme.secondaryColor),
-                            ),
-                          ),
-                          items: modelStateList.state!
-                              .map((e) => DropdownMenuItem(value: e, child: Text(e.stateName.toString().capitalize!)))
-                              .toList(),
-                          hint: Text('Search state to choose'.tr),
-                          onChanged: (value) {
-                            setState(() {
-                              stateCategory = value!.stateId.toString();
-                              stateName.value = value.stateName.toString();
-                              getCityApi(); // Assuming you want to use the ID as the category value
-                            });
-                            // modelCityList = ModelCityList();
-                            // if (value == null) return;
-                            // if (allSelectedCategory2.isNotEmpty) return;
-                            // allSelectedCategory2[value.stateId.toString()] = value;
-                            // setState(() {});
-                          },
-                          // validator: (value) {
-                          //   if (allSelectedCategory2.isEmpty) {
-                          //     return "Please select state".tr;
-                          //   }
-                          //   return null;
-                          // },
-                        )
-                      : const SizedBox.shrink();
-                }),
+                GestureDetector(
+                  onTap: () {
+                    showBottomSheet(
+                      context: context,
+                      items: modelStateList.state!
+                          .map((e) => e.stateName.toString())
+                          .toList(),
+                      selectedItem: selectedState,
+                      onItemSelected: (newValue) {
+                        setState(() {
+                          var selectedStateData = modelStateList.state!
+                              .firstWhere((element) => element.stateName == newValue);
+                          stateCategory = selectedStateData.stateId.toString();
+                          stateName.value = selectedStateData.stateName.toString();
+                          getCityApi();
+
+
+                        });
+                      },
+                    );
+                  },
+                  child: Container(
+                    padding: const EdgeInsets.symmetric(
+                        vertical: 16, horizontal: 10),
+                    decoration: BoxDecoration(
+                      border: Border.all(color: Colors.grey),
+                      borderRadius: BorderRadius.circular(8),
+                    ),
+                    child: Row(
+                      mainAxisAlignment:
+                      MainAxisAlignment.spaceBetween,
+                      children: [
+                        Text(
+                          stateName.value.isEmpty
+                              ? 'Select state'
+                              : modelStateList.state!
+                              .firstWhereOrNull((element) => element.stateName == stateName.value)
+                              ?.stateName
+                              .toString() ?? 'Select state',
+                        ),
+                        const Icon(Icons.arrow_drop_down),
+                      ],
+                    ),
+                  ),
+                ),
+
                 const SizedBox(
                   height: 20,
                 ),
-                Obx(() {
-                  // if (kDebugMode) {
-                  //   print(modelCityList.city!
-                  //       .map((e) => DropdownMenuItem(value: e, child: Text(e.cityName.toString().capitalize!)))
-                  //       .toList());
-                  // }
-                  return modelCityList.value.city!.isNotEmpty
-                      ? DropdownButtonFormField<City>(
-                          key: categoryKey3,
-                          autovalidateMode: AutovalidateMode.onUserInteraction,
-                          icon: cityStatus.value.isLoading
-                              ? const CupertinoActivityIndicator()
-                              : const Icon(Icons.keyboard_arrow_down_rounded),
-                          iconSize: 30,
-                          iconDisabledColor: const Color(0xff97949A),
-                          iconEnabledColor: const Color(0xff97949A),
-                          value: modelCityList.value.city!.firstWhereOrNull(
-                            (element) => element.cityName == cityName.value,
-                          ),
-                          style: GoogleFonts.poppins(color: Colors.black, fontSize: 16),
-                          decoration: InputDecoration(
-                            border: InputBorder.none,
-                            filled: true,
-                            fillColor: const Color(0xffE2E2E2).withOpacity(.35),
-                            contentPadding: const EdgeInsets.symmetric(horizontal: 15, vertical: 10).copyWith(right: 8),
-                            focusedErrorBorder: const OutlineInputBorder(
-                                borderRadius: BorderRadius.all(Radius.circular(8)),
-                                borderSide: BorderSide(color: AppTheme.secondaryColor)),
-                            errorBorder: const OutlineInputBorder(
-                                borderRadius: BorderRadius.all(Radius.circular(8)),
-                                borderSide: BorderSide(color: Color(0xffE2E2E2))),
-                            focusedBorder: const OutlineInputBorder(
-                                borderRadius: BorderRadius.all(Radius.circular(8)),
-                                borderSide: BorderSide(color: AppTheme.secondaryColor)),
-                            disabledBorder: const OutlineInputBorder(
-                              borderRadius: BorderRadius.all(Radius.circular(8)),
-                              borderSide: BorderSide(color: AppTheme.secondaryColor),
-                            ),
-                            enabledBorder: const OutlineInputBorder(
-                              borderRadius: BorderRadius.all(Radius.circular(8)),
-                              borderSide: BorderSide(color: AppTheme.secondaryColor),
-                            ),
-                          ),
-                          items: modelCityList.value.city!
-                              .map((e) => DropdownMenuItem(value: e, child: Text(e.cityName.toString().capitalize!)))
-                              .toList(),
-                          hint: Text('Search city to choose'.tr),
-                          onChanged: (value) {
-                            setState(() {
-                              cityId =
-                                  value!.cityId.toString(); // Assuming you want to use the ID as the category value
-                              cityName.value =
-                                  value!.cityName.toString(); // Assuming you want to use the ID as the category value
-                            });
-                            // if (value == null) return;
-                            // if (allSelectedCategory3.isNotEmpty) return;
-                            // allSelectedCategory3[value.cityId.toString()] = value;
-                            // setState(() {});
-                          },
-                          // validator: (value) {
-                          //   if (allSelectedCategory3.isEmpty) {
-                          //     return "Please select city".tr;
-                          //   }
-                          //   return null;
-                          // },
-                        )
-                      : const SizedBox.shrink();
-                }),
+                GestureDetector(
+                  onTap: () {
+                    showBottomSheet(
+                      context: context,
+                      items: modelCityList.value.city!
+                          .map((e) => e.cityName.toString())
+                          .toList(),
+                      selectedItem: selectedCity,
+                      onItemSelected: (newValue) {
+                        setState(() {
+                          var selectedCityData = modelCityList.value.city!
+                              .firstWhere((element) => element.cityName == newValue);
+                          cityId = selectedCityData.cityId.toString();
+                          cityName.value = selectedCityData.cityName.toString();
+
+
+                        });
+                      },
+                    );
+                  },
+                  child: Container(
+                    padding: const EdgeInsets.symmetric(
+                        vertical: 16, horizontal: 10),
+                    decoration: BoxDecoration(
+                      border: Border.all(color: Colors.grey),
+                      borderRadius: BorderRadius.circular(8),
+                    ),
+                    child: Row(
+                      mainAxisAlignment:
+                      MainAxisAlignment.spaceBetween,
+                      children: [
+                        Text(
+                          modelCityList.value.city!.isEmpty
+                              ? 'Select city'
+                              :  modelCityList.value.city!
+                              .firstWhereOrNull((element) => element.cityName == cityName.value)
+                              ?.cityName
+                              .toString() ?? 'Select city',
+                        ),
+                        const Icon(Icons.arrow_drop_down),
+                      ],
+                    ),
+                  ),
+                ),
+
                 const SizedBox(
                   height: 17,
                 ),
