@@ -27,12 +27,14 @@ import '../model/common_modal.dart';
 // import '../model/filter_by_price_model.dart';
 import '../model/get_review_model.dart';
 import '../model/giveaway_single_model.dart';
+import '../model/model_category_stores.dart';
 import '../model/model_single_product.dart';
 import '../model/order_models/model_direct_order_details.dart';
 import '../model/product_model/model_product_element.dart';
 import '../model/releated_product_model.dart';
 import '../model/simple_product_model.dart';
 import '../repository/repository.dart';
+import '../screens/categories/single_category_with_stores/single_store_screen.dart';
 import '../screens/check_out/direct_check_out.dart';
 import '../screens/my_account_screens/contact_us_screen.dart';
 import '../utils/api_constant.dart';
@@ -175,7 +177,8 @@ class _BookableProductScreenState extends State<BookableProductScreen> {
   }
 
   RxStatus statusSingle = RxStatus.empty();
-
+  String formattedDate = "";
+  String dateTimeString = "";
   getProductDetails() {
     statusSingle = RxStatus.loading();
     repositories
@@ -186,6 +189,15 @@ class _BookableProductScreenState extends State<BookableProductScreen> {
         imagesList.addAll(modelSingleProduct.value.bookingProduct!.galleryImage ?? []);
         imagesList = imagesList.toSet().toList();
         releatedId = modelSingleProduct.value.bookingProduct!.catId!.last.id.toString();
+
+        dateTimeString = modelSingleProduct.value.bookingProduct!.shippingDate.toString();
+
+// Parse the string into a DateTime object
+        DateTime dateTime = DateTime.parse(dateTimeString);
+
+// Format the DateTime object to display only the date part
+        formattedDate = "${dateTime.year}-${dateTime.month.toString().padLeft(2, '0')}-${dateTime.day.toString().padLeft(2, '0')}";
+
         print("releatedId" + releatedId);
         similarProduct();
         statusSingle = RxStatus.success();
@@ -1076,10 +1088,14 @@ class _BookableProductScreenState extends State<BookableProductScreen> {
                       const SizedBox(
                         width: 7,
                       ),
-                      Text(
-                        locationController.city.toString(),
-                        style:
-                        GoogleFonts.poppins(color: Color(0xFF014E70), fontSize: 14, fontWeight: FontWeight.w500),
+                      Expanded(
+                        child: Text(
+                          maxLines: 1,
+                          overflow: TextOverflow.ellipsis,
+                          locationController.city.toString(),
+                          style:
+                          GoogleFonts.poppins(color: Color(0xFF014E70), fontSize: 14, fontWeight: FontWeight.w500),
+                        ),
                       ),
                     ],
                   ),
@@ -1105,7 +1121,9 @@ class _BookableProductScreenState extends State<BookableProductScreen> {
                       ),
                       Expanded(
                         child: Text(
-                          modelSingleProduct.value.bookingProduct!.shippingDate.toString(),
+                          maxLines: 1,
+                          overflow: TextOverflow.ellipsis,
+                          formattedDate.toString(),
                           style:
                           GoogleFonts.poppins(color: Color(0xFF014E70), fontSize: 14, fontWeight: FontWeight.w500),
                         ),
@@ -1136,6 +1154,8 @@ class _BookableProductScreenState extends State<BookableProductScreen> {
                       ),
                       Expanded(
                         child: Text(
+                          maxLines: 1,
+                          overflow: TextOverflow.ellipsis,
                           modelSingleProduct.value.bookingProduct!.lowestDeliveryPrice == ""
                               ? "0"
                               : modelSingleProduct.value.bookingProduct!.lowestDeliveryPrice.toString(),
@@ -1158,14 +1178,16 @@ class _BookableProductScreenState extends State<BookableProductScreen> {
 
                   Row(
                     children: [
-                      Text(
-                        modelSingleProduct.value.bookingProduct!.storemeta!.storeName.toString(),
-                        style: GoogleFonts.poppins(color: Colors.black, fontSize: 20, fontWeight: FontWeight.w500),
+                      Flexible(
+                        child: Text(
+                          modelSingleProduct.value.bookingProduct!.storemeta!.storeName.toString(),
+                          style: GoogleFonts.poppins(color: Colors.black, fontSize: 20, fontWeight: FontWeight.w500),
+                        ),
                       ),
                       SizedBox(
                         width: 20,
                       ),
-                      Image.asset("assets/svgs/verified.png")
+                      Flexible(child: Image.asset("assets/svgs/verified.png"))
                     ],
                   ),
                   SizedBox(
@@ -1278,19 +1300,28 @@ class _BookableProductScreenState extends State<BookableProductScreen> {
                   ),
                   Center(child: Image.asset("assets/svgs/licence.png")),
 
-                  Align(
-                    alignment: Alignment.centerRight,
-                    child: Container(
-                      width: 130,
-                      padding: EdgeInsets.all(10),
-                      decoration: BoxDecoration(
-                          border: Border.all(color: Color(0xFF014E70), width: 1.5),
-                          borderRadius: BorderRadius.circular(30)),
-                      child: Center(
-                        child: Text(
-                          "Seller profile",
-                          style:
-                          GoogleFonts.poppins(color: Color(0xFF014E70), fontSize: 14, fontWeight: FontWeight.w500),
+                  GestureDetector(
+                    onTap: (){
+                      Get.to(
+                              () => SingleStoreScreen(storeDetails:  VendorStoreData(id:
+                          modelSingleProduct.value.bookingProduct!.vendorInformation!.storeId
+                          ))
+                      );
+                    },
+                    child: Align(
+                      alignment: Alignment.centerRight,
+                      child: Container(
+                        width: 130,
+                        padding: EdgeInsets.all(10),
+                        decoration: BoxDecoration(
+                            border: Border.all(color: Color(0xFF014E70), width: 1.5),
+                            borderRadius: BorderRadius.circular(30)),
+                        child: Center(
+                          child: Text(
+                            "Seller profile",
+                            style:
+                            GoogleFonts.poppins(color: Color(0xFF014E70), fontSize: 14, fontWeight: FontWeight.w500),
+                          ),
                         ),
                       ),
                     ),
@@ -1298,19 +1329,28 @@ class _BookableProductScreenState extends State<BookableProductScreen> {
                   SizedBox(
                     height: 20,
                   ),
-                  Align(
-                    alignment: Alignment.centerRight,
-                    child: Container(
-                      width: 130,
-                      padding: EdgeInsets.all(10),
-                      decoration: BoxDecoration(
-                          border: Border.all(color: Color(0xFF014E70), width: 1.5),
-                          borderRadius: BorderRadius.circular(30)),
-                      child: Center(
-                        child: Text(
-                          "Take Below",
-                          style:
-                          GoogleFonts.poppins(color: Color(0xFF014E70), fontSize: 14, fontWeight: FontWeight.w500),
+                  GestureDetector(
+                    onTap: (){
+                      Get.to(
+                              () => SingleStoreScreen(storeDetails:  VendorStoreData(id:
+                          modelSingleProduct.value.bookingProduct!.vendorInformation!.storeId
+                          ))
+                      );
+                    },
+                    child: Align(
+                      alignment: Alignment.centerRight,
+                      child: Container(
+                        width: 130,
+                        padding: EdgeInsets.all(10),
+                        decoration: BoxDecoration(
+                            border: Border.all(color: Color(0xFF014E70), width: 1.5),
+                            borderRadius: BorderRadius.circular(30)),
+                        child: Center(
+                          child: Text(
+                            "Take Below",
+                            style:
+                            GoogleFonts.poppins(color: Color(0xFF014E70), fontSize: 14, fontWeight: FontWeight.w500),
+                          ),
                         ),
                       ),
                     ),

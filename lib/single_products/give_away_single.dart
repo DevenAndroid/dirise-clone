@@ -174,7 +174,8 @@ class _GiveAwayProductState extends State<GiveAwayProduct> {
   }
 
   RxStatus statusSingle = RxStatus.empty();
-
+  String formattedDate = "";
+  String dateTimeString = "";
   getProductDetails() {
     statusSingle = RxStatus.loading();
     repositories.postApi(
@@ -188,7 +189,16 @@ class _GiveAwayProductState extends State<GiveAwayProduct> {
         imagesList.addAll(modelSingleProduct.value.singleGiveawayProduct!.galleryImage ?? []);
         imagesList = imagesList.toSet().toList();
         releatedId = modelSingleProduct.value.singleGiveawayProduct!.catId!.last.id.toString();
+
         print("releatedId" + releatedId);
+        dateTimeString = modelSingleProduct.value.singleGiveawayProduct!.shippingDate.toString();
+
+// Parse the string into a DateTime object
+        DateTime dateTime = DateTime.parse(dateTimeString);
+
+// Format the DateTime object to display only the date part
+        formattedDate = "${dateTime.year}-${dateTime.month.toString().padLeft(2, '0')}-${dateTime.day.toString().padLeft(2, '0')}";
+
         similarProduct();
         statusSingle = RxStatus.success();
       } else {
@@ -1146,10 +1156,14 @@ class _GiveAwayProductState extends State<GiveAwayProduct> {
                             const SizedBox(
                               width: 7,
                             ),
-                            Text(
-                              locationController.city.toString(),
-                              style: GoogleFonts.poppins(
-                                  color: const Color(0xFF014E70), fontSize: 14, fontWeight: FontWeight.w500),
+                            Expanded(
+                              child: Text(
+                                maxLines: 1,
+                                overflow: TextOverflow.ellipsis,
+                                locationController.city.toString(),
+                                style: GoogleFonts.poppins(
+                                    color: const Color(0xFF014E70), fontSize: 14, fontWeight: FontWeight.w500),
+                              ),
                             ),
                           ],
                         ),
@@ -1176,7 +1190,9 @@ class _GiveAwayProductState extends State<GiveAwayProduct> {
                             ),
                             Expanded(
                               child: Text(
-                                modelSingleProduct.value.singleGiveawayProduct!.shippingDate.toString(),
+                                maxLines: 1,
+                                overflow: TextOverflow.ellipsis,
+                                formattedDate.toString(),
                                 style: GoogleFonts.poppins(
                                     color: const Color(0xFF014E70), fontSize: 14, fontWeight: FontWeight.w500),
                               ),
@@ -1211,6 +1227,8 @@ class _GiveAwayProductState extends State<GiveAwayProduct> {
                                 modelSingleProduct.value.singleGiveawayProduct!.lowestDeliveryPrice == ""
                                     ? "0"
                                     : modelSingleProduct.value.singleGiveawayProduct!.lowestDeliveryPrice.toString(),
+                                maxLines: 1,
+                                overflow: TextOverflow.ellipsis,
                                 style: GoogleFonts.poppins(
                                     color: const Color(0xFF014E70), fontSize: 14, fontWeight: FontWeight.w500),
                               ),
@@ -1237,7 +1255,7 @@ class _GiveAwayProductState extends State<GiveAwayProduct> {
                         Text(
                           modelSingleProduct.value.singleGiveawayProduct!.longDescription != null
                               ? modelSingleProduct.value.singleGiveawayProduct!.longDescription.toString().capitalize!
-                              : "No discription",
+                              : "No description",
                           style: GoogleFonts.poppins(
                               fontWeight: FontWeight.w400, fontSize: 12, color: const Color(0xFF19313C)),
                         ),

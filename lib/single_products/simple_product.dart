@@ -176,7 +176,8 @@ class _SimpleProductScreenState extends State<SimpleProductScreen> {
   }
 
   RxStatus statusSingle = RxStatus.empty();
-
+  String formattedDate = "";
+  String dateTimeString = "";
   getProductDetails() {
     statusSingle = RxStatus.loading();
     repositories
@@ -187,6 +188,14 @@ class _SimpleProductScreenState extends State<SimpleProductScreen> {
         imagesList.addAll(modelSingleProduct.value.simpleProduct!.galleryImage ?? []);
         imagesList = imagesList.toSet().toList();
         releatedId = modelSingleProduct.value.simpleProduct!.catId!.last.id.toString();
+        dateTimeString = modelSingleProduct.value.simpleProduct!.shippingDate.toString();
+
+// Parse the string into a DateTime object
+        DateTime dateTime = DateTime.parse(dateTimeString);
+
+// Format the DateTime object to display only the date part
+        formattedDate = "${dateTime.year}-${dateTime.month.toString().padLeft(2, '0')}-${dateTime.day.toString().padLeft(2, '0')}";
+
         print("releatedId" + releatedId);
         similarProduct();
         statusSingle = RxStatus.success();
@@ -1086,10 +1095,14 @@ class _SimpleProductScreenState extends State<SimpleProductScreen> {
                       const SizedBox(
                         width: 7,
                       ),
-                      Text(
-                        locationController.city.toString(),
-                        style:
-                        GoogleFonts.poppins(color: const Color(0xFF014E70), fontSize: 14, fontWeight: FontWeight.w500),
+                      Expanded(
+                        child: Text(
+                          maxLines: 1,
+                          overflow: TextOverflow.ellipsis,
+                          locationController.city.toString(),
+                          style:
+                          GoogleFonts.poppins(color: const Color(0xFF014E70), fontSize: 14, fontWeight: FontWeight.w500),
+                        ),
                       ),
                     ],
                   ),
@@ -1115,7 +1128,9 @@ class _SimpleProductScreenState extends State<SimpleProductScreen> {
                       ),
                       Expanded(
                         child: Text(
-                          modelSingleProduct.value.simpleProduct!.shippingDate.toString(),
+                          formattedDate.toString(),
+                          maxLines: 1,
+                          overflow: TextOverflow.ellipsis,
                           style:
                           GoogleFonts.poppins(color: const Color(0xFF014E70), fontSize: 14, fontWeight: FontWeight.w500),
                         ),
@@ -1146,6 +1161,8 @@ class _SimpleProductScreenState extends State<SimpleProductScreen> {
                       ),
                       Expanded(
                         child: Text(
+                          maxLines: 1,
+                          overflow: TextOverflow.ellipsis,
                           modelSingleProduct.value.simpleProduct!.lowestDeliveryPrice == ""
                               ? "0"
                               : modelSingleProduct.value.simpleProduct!.lowestDeliveryPrice.toString(),

@@ -912,15 +912,9 @@ class _SingleStoreScreenState extends State<SingleStoreScreen> {
                   },
                 )
                     : SliverToBoxAdapter(
-                    child:Column(
-                      children: [
-                        Center(
-                          child: Text(AppStrings.storeDontHaveAnyProduct.tr),
-                        ),
-                        Text('User id is ${ getCategoryStoresModel.value.user!.loginUserId.toString()}'),
-                        Text('Vendor id is ${vendorId.toString()}'),
-                      ],
-                    )),
+                    child:  Center(
+                      child: Text(AppStrings.storeDontHaveAnyProduct.tr),
+                    ),),
               if (modelProductsList.data != null && controller.isFilter.value == false )
                 modelProductsList.data!.isNotEmpty
                     ? SliverGrid.builder(
