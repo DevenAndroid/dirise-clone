@@ -313,41 +313,39 @@ class _SingleCategoriesState extends State<SingleCategories> {
           ),
         ),
         leadingWidth: 100,
-        title: Expanded(
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.center,
-            mainAxisAlignment: MainAxisAlignment.center,
-            children: [
-              ClipRRect(
-                  borderRadius: BorderRadius.circular(10),
-                  child: SizedBox(
-                      // width: double.maxFinite,
-                      height: context.getSize.width * .1,
-                      child: Hero(
-                        tag: mainCategory.bannerProfile.toString(),
-                        child: Material(
-                          color: Colors.transparent,
-                          surfaceTintColor: Colors.transparent,
-                          child: CachedNetworkImage(
-                              imageUrl: mainCategory.bannerProfile.toString(),
-                              errorWidget: (_, __, ___) => Image.asset('assets/images/new_logo.png')),
-                        ),
-                      ))),
-              SizedBox(
-                width: 130,
-                child: Text(
-                  profileController.selectedLAnguage.value == 'English' ?    mainCategory.name.toString() :
-                  mainCategory.arabName.toString(),
-                  textAlign: TextAlign.center,
-                  style: const TextStyle(
-                  fontSize: 13
-                ),
-                  maxLines: 2,
-                ),
+        title: Column(
+          crossAxisAlignment: CrossAxisAlignment.center,
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: [
+            ClipRRect(
+                borderRadius: BorderRadius.circular(10),
+                child: SizedBox(
+                    // width: double.maxFinite,
+                    height: context.getSize.width * .1,
+                    child: Hero(
+                      tag: mainCategory.bannerProfile.toString(),
+                      child: Material(
+                        color: Colors.transparent,
+                        surfaceTintColor: Colors.transparent,
+                        child: CachedNetworkImage(
+                            imageUrl: mainCategory.bannerProfile.toString(),
+                            errorWidget: (_, __, ___) => Image.asset('assets/images/new_logo.png')),
+                      ),
+                    ))),
+            SizedBox(
+              width: 130,
+              child: Text(
+                profileController.selectedLAnguage.value == 'English' ?    mainCategory.name.toString() :
+                mainCategory.arabName.toString(),
+                textAlign: TextAlign.center,
+                style: const TextStyle(
+                fontSize: 13
               ),
-              3.spaceY
-            ],
-          ),
+                maxLines: 2,
+              ),
+            ),
+            3.spaceY
+          ],
         ),
         centerTitle: true,
         actions: [

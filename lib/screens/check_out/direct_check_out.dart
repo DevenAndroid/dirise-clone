@@ -1436,10 +1436,12 @@ class _DirectCheckOutScreenState extends State<DirectCheckOutScreen> {
               showToast("Select delivery address to complete order".tr);
               return;
             }
-            if (cartController.directOrderResponse.value.fedexShippingOption.isEmpty &&
-                cartController.countryName.value != 'Kuwait') {
-              showToast("Please select shipping Method".tr);
-              return;
+            if(cartController.directOrderResponse.value.prodcutData!.itemType != 'service' && cartController.directOrderResponse.value.prodcutData!.itemType != 'virtual_product') {
+              if (cartController.directOrderResponse.value.fedexShippingOption.isEmpty &&
+                  cartController.countryName.value != 'Kuwait') {
+                showToast("Please select shipping Method".tr);
+                return;
+              }
             }
             cartController.dialogOpened = false;
             print("type" + shippingType.value);
@@ -1456,7 +1458,7 @@ class _DirectCheckOutScreenState extends State<DirectCheckOutScreen> {
               deliveryOption: 'delivery',
               productID: cartController.directOrderResponse.value.prodcutData!.id.toString(),
               subTotalPrice: cartController.directOrderResponse.value.subtotal.toString(),
-              totalPrice: cartController.formattedTotal.toString(),
+              totalPrice: cartController.formattedTotal != '' ? cartController.formattedTotal.toString() : cartController.directOrderResponse.value.subtotal.toString() ,
               quantity: cartController.directOrderResponse.value.prodcutData!.inStock.toString(),
               purchaseType1: shippingType.value.toString(),
               address: selectedAddress.toJson(),);

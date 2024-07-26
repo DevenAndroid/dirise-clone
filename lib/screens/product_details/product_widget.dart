@@ -602,6 +602,7 @@ class _ProductUIState extends State<ProductUI> {
                           height: 7,
                         ),
                         if(Platform.isAndroid)
+                          widget.productElement.itemType != 'service' && widget.productElement.itemType != 'virtual_product' ?
                           widget.productElement.shippingDate != "No Internation Shipping Available"
                               ? Column(
                             crossAxisAlignment: CrossAxisAlignment.start,
@@ -650,7 +651,7 @@ class _ProductUIState extends State<ProductUI> {
                                             fontWeight: FontWeight.w500)),
                                   ]),
                             ),
-                          ),
+                          ) : const SizedBox.shrink(),
                         // Text("vendor doesn't ship internationally, contact us for the soloution",  style: GoogleFonts.poppins(
                         //     color: const Color(0xff858484),
                         //     fontSize: 13,
