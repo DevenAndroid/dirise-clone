@@ -13,7 +13,7 @@
 	<key>CFBundleIconName</key>
 	<string>AppIcon</string>
 	<key>CFBundleName</key>
-    <string>DIRISE</string>
+	<string>DIRISE</string>
 	<key>CFBundleExecutable</key>
 	<string>$(EXECUTABLE_NAME)</string>
 	<key>CFBundleIdentifier</key>
@@ -41,7 +41,7 @@
 		<dict>
 			<key>CFBundleURLSchemes</key>
 			<array>
-				<string>com.googleusercontent.apps.1034755606968-4l8jcigfqlfqfpcvg2cqnlfrhc6vhi59</string>
+				<string>com.googleusercontent.apps.1034755606968-5fedfdq3894di4k8ugehtb02bde4e8bs</string>
 				<string>Dirise</string>
 			</array>
 		</dict>
