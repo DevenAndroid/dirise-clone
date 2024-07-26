@@ -114,6 +114,7 @@ class _VarientsProductScreenState extends State<VarientsProductScreen> {
     map["product_id"] = id.toString();
     map["quantity"] = map["quantity"] = int.tryParse(_counter.toString());
     map["key"] = 'fedexRate';
+    map["variation"] = selectedVariant!.id.toString();
     map["country_id"] = profileController.model.user != null && cartController.countryId.isEmpty
         ? profileController.model.user!.country_id
         : cartController.countryId.toString();
@@ -176,6 +177,7 @@ class _VarientsProductScreenState extends State<VarientsProductScreen> {
     map["key"] = 'fedexRate';
     map["country_id"] = profileController.model.user != null ? profileController.model.user!.country_id : '117';
     map["zip_code"] = cartController.zipCode.toString();
+    map["variation"] = selectedVariant!.id.toString();
     repositories.postApi(url: ApiUrls.buyNowDetailsUrl, mapData: map, context: context).then((value) {
       log("Value>>>>>>>$value");
       print('singleee');

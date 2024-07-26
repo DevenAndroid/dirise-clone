@@ -99,11 +99,12 @@ class _GetJobTypeScreenState extends State<GetJobTypeScreen> {
               20.spaceY,
               GestureDetector(
                   onTap: (){
-                    if (  profileController.userLoggedIn == true) {
-                      Get.to(const GetHireJob());
-                    } else {
-                      Get.to(const LoginScreen());
-                    }
+                    // if (  profileController.userLoggedIn == true) {
+                    //   Get.to(const GetHireJob());
+                    // } else {
+                    //   Get.to(const LoginScreen());
+                    // }
+                    Get.to(const GetHireJob()); 
                     setState(() {
 
                     });
