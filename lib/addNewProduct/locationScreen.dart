@@ -85,6 +85,7 @@ class _ChooseAddressState extends State<ChooseAddress> {
    String? country;
    String? zipcode;
    String? town;
+   String? shortCode;
 
   Future<void> _getAddressFromLatLng(Position position) async {
     List<Placemark> placemarks = await placemarkFromCoordinates(position.latitude, position.longitude);
@@ -99,6 +100,7 @@ class _ChooseAddressState extends State<ChooseAddress> {
         country = placemark.country ?? '';
         zipcode = placemark.postalCode ?? '';
         town = placemark.subAdministrativeArea ?? '';
+        shortCode = placemark.isoCountryCode ?? '';
 
       });
     }
@@ -366,6 +368,7 @@ class _ChooseAddressState extends State<ChooseAddress> {
                               Get.to( PickUpAddressScreen(
                                     street: street,
                                     city: city,
+                                shortCode: shortCode,
                                 state: state,
                                 country: country,
                                 town: town,

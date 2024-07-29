@@ -6,6 +6,7 @@ import 'dart:math';
 
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:dirise/repository/repository.dart';
+import 'package:dirise/screens/categories/single_category_with_stores/single_categorie.dart';
 import 'package:dirise/screens/categories/single_category_with_stores/single_store_screen.dart';
 import 'package:dirise/screens/check_out/direct_check_out.dart';
 import 'package:dirise/screens/my_account_screens/contact_us_screen.dart';
@@ -265,6 +266,7 @@ class _ShopProductScreenState extends State<ShopProductScreen> {
             ? profileController.model.user!.country_id
             : cartController.countryId.toString()}&zip_code=${locationController.zipcode.value.toString()}",
         showResponse: true).then((value) {
+          print("id:::::::::"+categoryID);
       // apiLoaded = true;
       modelCategoryStores.value = ShopByProductModel.fromJson(jsonDecode(value));
       // updateUI;
@@ -762,13 +764,18 @@ RxString id = "".obs;
                     ),
                     child: DropdownButton<String>(
                       isExpanded: true,
-                      hint: Text('Select an Type',style: TextStyle(color:  Colors.black),),
+                      hint: Text('Shop by product',style: TextStyle(color:  Colors.black),),
                       value:selectedValue1,
 
                       onChanged: (String? newValue) {
                         setState(() {
                           selectedValue1 = newValue;
-                          selectedValue1 == "Shop by Vendor"?Get.back():Get.back();
+                          if (selectedValue1 == "Shop by Vendor") {
+                            Get.to(
+                                  () => SingleCategories(vendorCategories: widget.vendorCategories), // arguments: widget.vendorCategories.id.toString(),
+                            );
+                          }
+                          // selectedValue1 == "Shop by Vendor"?Get.back():Get.back();
                           print("value"+selectedValue1.toString());
 
                           // getProductList1(context: context);
@@ -835,13 +842,17 @@ RxString id = "".obs;
             SliverToBoxAdapter(
               child: Obx(() {
                 return modelCategoryStores.value.status == true
-                    ? SizedBox(
+                    ?
+                
+                SizedBox(
 
                   width:MediaQuery
                       .of(context)
                       .size
                       .width ,
-                  child: ListView.builder(
+                  child:
+                  modelCategoryStores.value.product!.data!.isNotEmpty?
+                  ListView.builder(
                     shrinkWrap: true,
                     physics: const NeverScrollableScrollPhysics(),
                     itemCount: modelCategoryStores.value.product!.data!.length,
@@ -2040,6 +2051,10 @@ RxString id = "".obs;
                         ),
                       );
                     },
+                  ):Center(
+                    child: Text("Product not found",style: GoogleFonts.poppins(
+                        fontSize: 18, fontWeight: FontWeight.w600, color: const Color(0xFF19313C)),
+                                    ),
                   ),
                 )  : Center(child: CircularProgressIndicator());
               }),
