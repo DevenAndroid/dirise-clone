@@ -12,6 +12,7 @@ import 'package:get/get.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:intl_phone_field/intl_phone_field.dart';
 import '../../controller/cart_controller.dart';
+import '../../controller/google_map_controlleer.dart';
 import '../../controller/profile_controller.dart';
 import '../../model/common_modal.dart';
 import '../../model/customer_profile/model_city_list.dart';
@@ -42,6 +43,7 @@ class DirectCheckOutScreen extends StatefulWidget {
 
 class _DirectCheckOutScreenState extends State<DirectCheckOutScreen> {
   final cartController = Get.put(CartController());
+  final controllerMap = Get.put(ControllerMap());
   final profileController = Get.put(ProfileController());
   final TextEditingController deliveryInstructions = TextEditingController();
   AddressData selectedAddress = AddressData();
@@ -2278,7 +2280,7 @@ class _DirectCheckOutScreenState extends State<DirectCheckOutScreen> {
                                 zipCode: zipCodeController.text.trim(),
                                 phoneCountryCode: profileController.code.toString(),
                                 type: 'checkout',
-                                id: addressData.id);
+                                id: addressData.id, shortCode: controllerMap.countryCode.toString());
                           }
                         },
                         child: Container(

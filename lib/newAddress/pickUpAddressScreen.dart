@@ -26,6 +26,7 @@ class PickUpAddressScreen extends StatefulWidget {
   final String? country;
   final String? zipcode;
   final String? town;
+  final String? shortCode;
 
 
 
@@ -38,6 +39,7 @@ class PickUpAddressScreen extends StatefulWidget {
     this.country,
     this.zipcode,
     this.town,
+    this.shortCode,
 
   }) : super(key: key);
 
@@ -47,6 +49,7 @@ class PickUpAddressScreen extends StatefulWidget {
 
 class _PickUpAddressScreenState extends State<PickUpAddressScreen> {
   final TextEditingController streetController = TextEditingController();
+  final TextEditingController shortCodeController = TextEditingController();
   final TextEditingController cityController = TextEditingController();
   final TextEditingController stateController = TextEditingController();
   final TextEditingController countryController = TextEditingController();
@@ -75,6 +78,7 @@ class _PickUpAddressScreenState extends State<PickUpAddressScreen> {
       map['town'] = widget.town;
       map['street'] = widget.street;
       map['special_instruction'] = specialInstructionController.text.trim();
+      map['country_sort_name'] = widget.shortCode.toString();
     }else{
       map['address_type'] = 'Both';
       map['city'] = cityController.text.trim();
@@ -83,6 +87,7 @@ class _PickUpAddressScreenState extends State<PickUpAddressScreen> {
       map['zip_code'] = zipcodeController.text.trim();
       map['town'] = townController.text.trim();
       map['street'] = streetController.text.trim();
+      map['country_sort_name'] = shortCodeController.text.trim();
       map['special_instruction'] = specialInstructionController.text.trim();
     }
 
@@ -107,6 +112,7 @@ class _PickUpAddressScreenState extends State<PickUpAddressScreen> {
       countryController.text = widget.country ?? '';
       zipcodeController.text = widget.zipcode ?? '';
       townController.text = widget.town ?? '';
+      shortCodeController.text = widget.shortCode ?? '';
     }
   }
   final profileController = Get.put(ProfileController());
