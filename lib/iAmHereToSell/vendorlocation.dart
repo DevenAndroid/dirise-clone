@@ -458,6 +458,7 @@ class _VendorLocationState extends State<VendorLocation> {
                                                       country: country,
                                                       town: town,
                                                       zipcode: zipcode,
+                                                      shortCode: shortCode,
                                                     ));
                                                   sellingPickupAddressApi();
 
@@ -490,6 +491,7 @@ class _VendorLocationState extends State<VendorLocation> {
                                     country: country,
                                     town: town,
                                     zipcode: zipcode,
+                                    shortCode: shortCode,
                                   ));
                                 },
                               ),
