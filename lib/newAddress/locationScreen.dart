@@ -314,6 +314,7 @@ class _ChooseAddressState extends State<ChooseAddress> {
                                                   country: controllerMap.country.value,
                                                   town: controllerMap.town.value,
                                                   zipcode:controllerMap. zipcode.value,
+                                                  shortCode:controllerMap.countryCode.value ,
                                                 ));
                                                 // Get.back();
                                                 // controllerMap.sellingPickupAddressApi(context);
@@ -348,6 +349,7 @@ class _ChooseAddressState extends State<ChooseAddress> {
                                 country: controllerMap.country.value,
                                 town: controllerMap.town.value,
                                 zipcode:controllerMap. zipcode.value,
+                                shortCode:controllerMap.countryCode.value ,
                               ));
                             },
                           ),
