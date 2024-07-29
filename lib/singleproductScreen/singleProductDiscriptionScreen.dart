@@ -25,9 +25,10 @@ class SingleProductDiscriptionScreen extends StatefulWidget {
   String? stockquantity;
   String? setstock;
   String? sEOTags;
+  String? longDescription;
   int? id;
   dynamic noNeed;
-  SingleProductDiscriptionScreen({super.key,this.description,this.sEOTags,this.setstock,this.stockquantity,this.id,this.noNeed});
+  SingleProductDiscriptionScreen({super.key,this.description,this.sEOTags,this.setstock,this.stockquantity,this.id,this.noNeed,this.longDescription});
 
   @override
   State<SingleProductDiscriptionScreen> createState() => _SingleProductDiscriptionScreenState();
@@ -40,10 +41,12 @@ class _SingleProductDiscriptionScreenState extends State<SingleProductDiscriptio
   TextEditingController shortController   = TextEditingController();
   TextEditingController alertDiscount    = TextEditingController();
   TextEditingController tagDiscount      = TextEditingController();
+  TextEditingController longDesController      = TextEditingController();
   RxBool isDelivery = false.obs;
   deliverySizeApi() {
     Map<String, dynamic> map = {};
     map['short_description'] = shortController.text.trim();
+    map['long_description'] = longDesController.text.trim();
     map['item_type'] = 'product';
     map['seo_tags'] = tagDiscount.text.trim();
     map['id'] = addProductController.idProduct.value.toString();
@@ -86,6 +89,7 @@ class _SingleProductDiscriptionScreenState extends State<SingleProductDiscriptio
       shortController.text=widget.description.toString();
       // alertDiscount.text=widget.setstock.toString();
       tagDiscount.text=widget.sEOTags.toString();
+      longDesController.text = widget.longDescription.toString();
       isDelivery.value  = widget.noNeed!;
     }
   }
@@ -170,6 +174,61 @@ class _SingleProductDiscriptionScreenState extends State<SingleProductDiscriptio
                     contentPadding: const EdgeInsets.all(15),
                     fillColor: Colors.grey.shade100,
                     hintText: 'short description',
+                    hintStyle: GoogleFonts.poppins(
+                      color: AppTheme.primaryColor,
+                      fontSize: 15,
+                    ),
+                    border: InputBorder.none,
+                    focusedErrorBorder: const OutlineInputBorder(
+                        borderRadius: BorderRadius.all(Radius.circular(8)),
+                        borderSide: BorderSide(color: AppTheme.secondaryColor)),
+                    errorBorder: const OutlineInputBorder(
+                        borderRadius: BorderRadius.all(Radius.circular(8)),
+                        borderSide: BorderSide(color: AppTheme.secondaryColor)),
+                    focusedBorder: const OutlineInputBorder(
+                        borderRadius: BorderRadius.all(Radius.circular(8)),
+                        borderSide: BorderSide(color: AppTheme.secondaryColor)),
+                    disabledBorder: const OutlineInputBorder(
+                      borderRadius: BorderRadius.all(Radius.circular(8)),
+                      borderSide: BorderSide(color: AppTheme.secondaryColor),
+                    ),
+                    enabledBorder: const OutlineInputBorder(
+                      borderRadius: BorderRadius.all(Radius.circular(8)),
+                      borderSide: BorderSide(color: AppTheme.secondaryColor),
+                    ),
+                  ),
+
+                ),
+                Text(
+                  'long description '.tr,
+                  style: GoogleFonts.poppins(color: Colors.black, fontWeight: FontWeight.w600, fontSize: 18),
+                ),
+                const SizedBox(
+                  height: 5,
+                ),
+                TextFormField(
+                  validator: (value) {
+                    if (value!.trim().isEmpty) {
+                      return 'long description is required'.tr;
+                    }
+                    if (value.trim().length < 15) {
+                      return 'Description must be at least 15 characters long'.tr;
+                    }
+                    return null;
+                  },
+                  controller: longDesController,
+                  maxLines: 2,
+                  minLines: 2,
+                  decoration: InputDecoration(
+                    counterStyle: GoogleFonts.poppins(
+                      color: AppTheme.primaryColor,
+                      fontSize: 25,
+                    ),
+                    counter: const Offstage(),
+                    errorMaxLines: 2,
+                    contentPadding: const EdgeInsets.all(15),
+                    fillColor: Colors.grey.shade100,
+                    hintText: 'long description',
                     hintStyle: GoogleFonts.poppins(
                       color: AppTheme.primaryColor,
                       fontSize: 15,

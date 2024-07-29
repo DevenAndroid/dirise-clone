@@ -1104,35 +1104,35 @@ class _VarientsProductScreenState extends State<VarientsProductScreen> {
                             ),
                           ),
                         ),
-                        const SizedBox(
-                          height: 20,
-                        ),
-                        GestureDetector(
-                          onTap: (){
-                            Get.to(
-                                    () => SingleStoreScreen(storeDetails:  VendorStoreData(id:
-                                modelSingleProduct.value.variantProduct!.vendorInformation!.storeId
-                                ))
-                            );
-                          },
-                          child: Align(
-                            alignment: Alignment.centerRight,
-                            child: Container(
-                              width: 130,
-                              padding: const EdgeInsets.all(10),
-                              decoration: BoxDecoration(
-                                  border: Border.all(color: const Color(0xFF014E70), width: 1.5),
-                                  borderRadius: BorderRadius.circular(30)),
-                              child: Center(
-                                child: Text(
-                                  "Take Below",
-                                  style: GoogleFonts.poppins(
-                                      color: const Color(0xFF014E70), fontSize: 14, fontWeight: FontWeight.w500),
-                                ),
-                              ),
-                            ),
-                          ),
-                        ),
+                        // const SizedBox(
+                        //   height: 20,
+                        // ),
+                        // GestureDetector(
+                        //   onTap: (){
+                        //     Get.to(
+                        //             () => SingleStoreScreen(storeDetails:  VendorStoreData(id:
+                        //         modelSingleProduct.value.variantProduct!.vendorInformation!.storeId
+                        //         ))
+                        //     );
+                        //   },
+                        //   child: Align(
+                        //     alignment: Alignment.centerRight,
+                        //     child: Container(
+                        //       width: 130,
+                        //       padding: const EdgeInsets.all(10),
+                        //       decoration: BoxDecoration(
+                        //           border: Border.all(color: const Color(0xFF014E70), width: 1.5),
+                        //           borderRadius: BorderRadius.circular(30)),
+                        //       child: Center(
+                        //         child: Text(
+                        //           "Take Below",
+                        //           style: GoogleFonts.poppins(
+                        //               color: const Color(0xFF014E70), fontSize: 14, fontWeight: FontWeight.w500),
+                        //         ),
+                        //       ),
+                        //     ),
+                        //   ),
+                        // ),
 
                         const SizedBox(
                           height: 10,

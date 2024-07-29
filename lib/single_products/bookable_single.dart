@@ -844,14 +844,16 @@ class _BookableProductScreenState extends State<BookableProductScreen> {
                         const SizedBox(
                           width: 7,
                         ),
-                        Text(
-                          modelSingleProduct.value.bookingProduct!
-                              .longDescription ?? '',
-                          style: GoogleFonts.poppins(
+                        Expanded(
+                          child: Text(
+                            modelSingleProduct.value.bookingProduct!
+                                .longDescription ?? '',
+                            style: GoogleFonts.poppins(
 
-                              color:  Colors.grey,
-                              fontSize: 14,
-                              fontWeight: FontWeight.w500),
+                                color:  Colors.grey,
+                                fontSize: 14,
+                                fontWeight: FontWeight.w500),
+                          ),
                         ),
                       ],
                     ),
@@ -1331,36 +1333,36 @@ class _BookableProductScreenState extends State<BookableProductScreen> {
                   SizedBox(
                     height: 20,
                   ),
-                  GestureDetector(
-                    onTap: (){
-                      Get.to(
-                              () => SingleStoreScreen(storeDetails:  VendorStoreData(id:
-                          modelSingleProduct.value.bookingProduct!.vendorInformation!.storeId
-                          ))
-                      );
-                    },
-                    child: Align(
-                      alignment: Alignment.centerRight,
-                      child: Container(
-                        width: 130,
-                        padding: EdgeInsets.all(10),
-                        decoration: BoxDecoration(
-                            border: Border.all(color: Color(0xFF014E70), width: 1.5),
-                            borderRadius: BorderRadius.circular(30)),
-                        child: Center(
-                          child: Text(
-                            "Take Below",
-                            style:
-                            GoogleFonts.poppins(color: Color(0xFF014E70), fontSize: 14, fontWeight: FontWeight.w500),
-                          ),
-                        ),
-                      ),
-                    ),
-                  ),
-
-                  SizedBox(
-                    height: 10,
-                  ),
+                  // GestureDetector(
+                  //   onTap: (){
+                  //     Get.to(
+                  //             () => SingleStoreScreen(storeDetails:  VendorStoreData(id:
+                  //         modelSingleProduct.value.bookingProduct!.vendorInformation!.storeId
+                  //         ))
+                  //     );
+                  //   },
+                  //   child: Align(
+                  //     alignment: Alignment.centerRight,
+                  //     child: Container(
+                  //       width: 130,
+                  //       padding: EdgeInsets.all(10),
+                  //       decoration: BoxDecoration(
+                  //           border: Border.all(color: Color(0xFF014E70), width: 1.5),
+                  //           borderRadius: BorderRadius.circular(30)),
+                  //       child: Center(
+                  //         child: Text(
+                  //           "Take Below",
+                  //           style:
+                  //           GoogleFonts.poppins(color: Color(0xFF014E70), fontSize: 14, fontWeight: FontWeight.w500),
+                  //         ),
+                  //       ),
+                  //     ),
+                  //   ),
+                  // ),
+                  //
+                  // SizedBox(
+                  //   height: 10,
+                  // ),
                   Divider(
                     color: Colors.grey.withOpacity(.5),
                     thickness: 1,
