@@ -247,17 +247,17 @@ class VendorInformation {
 
   Map<String, dynamic> toJson() {
     final Map<String, dynamic> data = new Map<String, dynamic>();
-    data['store_id'] = this.storeId;
-    data['store_name'] = this.storeName;
-    data['store_email'] = this.storeEmail;
-    data['store_phone'] = this.storePhone;
-    data['store_logo'] = this.storeLogo;
-    data['store_image'] = this.storeImage;
-    data['store_logo_app'] = this.storeLogoApp;
-    data['store_logo_web'] = this.storeLogoWeb;
-    data['banner_profile'] = this.bannerProfile;
-    data['banner_profile_app'] = this.bannerProfileApp;
-    data['banner_profile_web'] = this.bannerProfileWeb;
+    data['store_id'] = storeId;
+    data['store_name'] = storeName;
+    data['store_email'] = storeEmail;
+    data['store_phone'] = storePhone;
+    data['store_logo'] = storeLogo;
+    data['store_image'] = storeImage;
+    data['store_logo_app'] = storeLogoApp;
+    data['store_logo_web'] = storeLogoWeb;
+    data['banner_profile'] = bannerProfile;
+    data['banner_profile_app'] = bannerProfileApp;
+    data['banner_profile_web'] = bannerProfileWeb;
     return data;
   }
 }
@@ -364,14 +364,19 @@ class Variants {
   dynamic comb;
   dynamic price;
   dynamic image;
+  dynamic variantShortDescription;
+  dynamic variantLongDescription;
 
-  Variants({this.id, this.comb, this.price, this.image});
+  Variants({this.id, this.comb, this.price, this.image,this.variantShortDescription,
+    this.variantLongDescription});
 
   Variants.fromJson(Map<String, dynamic> json) {
     id = json['id'];
     comb = json['comb'];
     price = json['price'];
     image = json['image'];
+    variantShortDescription = json['variant_short_description'];
+    variantLongDescription = json['variant_long_description'];
   }
 
   Map<String, dynamic> toJson() {
@@ -380,6 +385,8 @@ class Variants {
     data['comb'] = comb;
     data['price'] = price;
     data['image'] = image;
+    data['variant_short_description'] = variantShortDescription;
+    data['variant_long_description'] = variantLongDescription;
     return data;
   }
 }

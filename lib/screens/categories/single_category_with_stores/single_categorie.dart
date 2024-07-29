@@ -549,7 +549,7 @@ class _SingleCategoriesState extends State<SingleCategories> {
                     ),
                     child: DropdownButton<String>(
                       isExpanded: true,
-                      hint: Text('Select an Type',style: TextStyle(color:  Colors.black),),
+                      hint: Text('Shop by',style: TextStyle(color:  Colors.black),),
                       value:selectedValue1,
 
                       onChanged: (String? newValue) {

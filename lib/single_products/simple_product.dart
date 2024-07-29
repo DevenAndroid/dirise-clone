@@ -833,19 +833,23 @@ class _SimpleProductScreenState extends State<SimpleProductScreen> {
                   ),
                   const SizedBox(height: 20,),
       Text(
-        "Dirise Welcome deal  ",
+        "Description",
         style: GoogleFonts.poppins(fontWeight: FontWeight.w500, fontSize: 18, color:const Color(0xFF014E70)),
 
       ),
       const SizedBox(height: 10,),
+      if(modelSingleProduct.value.simpleProduct!.longDescription != '' &&
+          modelSingleProduct.value.simpleProduct!.longDescription != null)
       Row(
+        crossAxisAlignment: CrossAxisAlignment.center,
         children: [
           const Icon(Icons.circle,color: Colors.grey,size: 10,),
           const SizedBox(
             width: 7,
           ),
           Text(
-            'Up to 70% off. Free shipping on 1st order',
+        modelSingleProduct.value.simpleProduct!
+            .longDescription ?? '',
             style: GoogleFonts.poppins(
 
                 color:  Colors.grey,
@@ -859,7 +863,7 @@ class _SimpleProductScreenState extends State<SimpleProductScreen> {
       ),
       const SizedBox(height: 10,),
       Row(
-        crossAxisAlignment: CrossAxisAlignment.start,
+        crossAxisAlignment: CrossAxisAlignment.center,
         children: [
           const Icon(Icons.circle,color: Colors.grey,size: 10,),
           const SizedBox(
@@ -1001,7 +1005,7 @@ class _SimpleProductScreenState extends State<SimpleProductScreen> {
                          width: 7,
                        ),
                        Text(
-        modelSingleProduct.value.simpleProduct!.serialNumber.toString(),
+                          modelSingleProduct.value.simpleProduct!.serialNumber ?? '',
                          style: GoogleFonts.poppins(
 
                              color: Colors.grey,
@@ -1128,7 +1132,8 @@ class _SimpleProductScreenState extends State<SimpleProductScreen> {
                       ),
                       Expanded(
                         child: Text(
-                          formattedDate.toString(),
+                          // formattedDate.toString(),
+                          modelSingleProduct.value.simpleProduct!.shippingDate.toString(),
                           maxLines: 1,
                           overflow: TextOverflow.ellipsis,
                           style:
@@ -1281,7 +1286,7 @@ class _SimpleProductScreenState extends State<SimpleProductScreen> {
                     height: 10,
                   ),
                   Text(
-                    'Seller Commercial Licence',
+                    'Seller documents',
                     style: GoogleFonts.poppins(color: Colors.black, fontSize: 20, fontWeight: FontWeight.w600),
                   ),
                   const SizedBox(
@@ -1301,7 +1306,7 @@ class _SimpleProductScreenState extends State<SimpleProductScreen> {
                     height: 25,
                   ),
                   Text(
-                    'Translated Commercial Licence',
+                    'Seller translated documents',
                     style: GoogleFonts.poppins(color: Colors.black, fontSize: 20, fontWeight: FontWeight.w600),
                   ),
                   const SizedBox(

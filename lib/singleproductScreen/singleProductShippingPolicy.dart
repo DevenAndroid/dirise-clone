@@ -316,10 +316,10 @@ class _SingleProductShippingPolicyScreenState extends State<SingleProductShippin
                   controller: titleController,
                   hintText: selectedReturnPolicy != null
                       ? selectedReturnPolicy!.title.toString()
-                      : 'DIRISE Standard Policy',
+                      : 'Policy name',
                   validator: (value) {
                     if (value!.trim().isEmpty) {
-                      return "DIRISE standard Policy".tr;
+                      return "Policy name".tr;
                     }
                     return null;
                   }),

@@ -1252,7 +1252,7 @@ class _AdvirtismentProductScreenState extends State<AdvirtismentProductScreen> {
                     height: 10,
                   ),
                   Text(
-                    'Seller Commercial Licence',
+                    'Seller documents',
                     style: GoogleFonts.poppins(color: Colors.black, fontSize: 20, fontWeight: FontWeight.w600),
                   ),
                   SizedBox(
@@ -1272,7 +1272,7 @@ class _AdvirtismentProductScreenState extends State<AdvirtismentProductScreen> {
                     height: 25,
                   ),
                   Text(
-                    'Translated Commercial Licence',
+                    'Seller translated documents',
                     style: GoogleFonts.poppins(color: Colors.black, fontSize: 20, fontWeight: FontWeight.w600),
                   ),
                   SizedBox(

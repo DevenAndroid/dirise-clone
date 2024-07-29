@@ -220,7 +220,7 @@ class _EditAddresssState extends State<EditAddresss> {
                   obSecure: false,
                   hintText: 'Apt, suite, unit, building, floor, etc.',
                   validator: MultiValidator([
-                    RequiredValidator(errorText: 'DIRISE standard Policy is required'.tr),
+                    RequiredValidator(errorText: 'Policy name is required'.tr),
                   ])),
               // Flexible(flex: 1,
               //   child: Row(mainAxisAlignment: MainAxisAlignment.spaceBetween,

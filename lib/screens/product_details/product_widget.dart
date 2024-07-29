@@ -489,6 +489,15 @@ class _ProductUIState extends State<ProductUI> {
               const SizedBox(
                 height: 3,
               ),
+              Text(
+                  widget.productElement.shortDescription != null ?
+                  widget.productElement.shortDescription ?? '' :   widget.productElement.longDescription ?? '',
+                maxLines: 2,
+                style: GoogleFonts.poppins(fontSize: 12, fontWeight: FontWeight.w400, color: const Color(0xFF19313C)),
+              ),
+              const SizedBox(
+                height: 3,
+              ),
 
               widget.productElement.itemType != 'giveaway'
                   ? Row(
