@@ -941,6 +941,8 @@ class _SimpleProductScreenState extends State<SimpleProductScreen> {
                     children: [
                       InkWell(
                         onTap: () {
+                          cartController.productElementId =  id.toString();
+                          cartController.productQuantity = productQuantity.value.toString();
                           directBuyProduct();
                         },
                         child: Container(
@@ -1647,6 +1649,8 @@ class _SimpleProductScreenState extends State<SimpleProductScreen> {
                                           children: [
                                             ElevatedButton(
                                               onPressed: () {
+                                                cartController.productElementId =  id.toString();
+                                                cartController.productQuantity = productQuantity.value.toString();
                                                 directBuyProduct();
                                               },
                                               style: ElevatedButton.styleFrom(

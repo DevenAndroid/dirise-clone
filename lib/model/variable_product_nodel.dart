@@ -363,17 +363,20 @@ class Variants {
   dynamic id;
   dynamic comb;
   dynamic price;
+  dynamic variantStock;
   dynamic image;
   dynamic variantShortDescription;
   dynamic variantLongDescription;
 
   Variants({this.id, this.comb, this.price, this.image,this.variantShortDescription,
+    this.variantStock,
     this.variantLongDescription});
 
   Variants.fromJson(Map<String, dynamic> json) {
     id = json['id'];
     comb = json['comb'];
     price = json['price'];
+    variantStock = json['variant_stock'];
     image = json['image'];
     variantShortDescription = json['variant_short_description'];
     variantLongDescription = json['variant_long_description'];
@@ -385,6 +388,7 @@ class Variants {
     data['comb'] = comb;
     data['price'] = price;
     data['image'] = image;
+    data['variant_stock'] = variantStock;
     data['variant_short_description'] = variantShortDescription;
     data['variant_long_description'] = variantLongDescription;
     return data;

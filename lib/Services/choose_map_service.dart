@@ -368,6 +368,7 @@ class _ChooseAddressServiceState extends State<ChooseAddressService> {
                                 country:   controllerMap.country.value,
                                 town:   controllerMap.town.value,
                                 zipcode:   controllerMap.zipcode.value,
+                                countryCode: controllerMap.countryCode.value,
                               ));
                             },
                           ),
