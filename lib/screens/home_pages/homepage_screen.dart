@@ -670,7 +670,7 @@ class _HomePageState extends State<HomePage> {
             child: Column(
               children: [
                 Container(
-                  color: Colors.white,
+                  color: const Color(0xFFEBF3F6),
                   child: Column(
                     children: [
                       const SizedBox(
@@ -687,9 +687,6 @@ class _HomePageState extends State<HomePage> {
                             );
                           },
                           child:
-
-
-
                           Obx(() {
                             return profileController.userLoggedIn &&
                                 locationController.addressListModel.value.status == true &&
@@ -830,7 +827,11 @@ class _HomePageState extends State<HomePage> {
                       //   const SizedBox.shrink(),
 
 
-                      )],
+                      ),
+                      const SizedBox(
+                        height: 10,
+                      ),
+                    ],
                   ),
                 ),
 
@@ -849,7 +850,8 @@ class _HomePageState extends State<HomePage> {
                 // ),
                 Expanded(
                   child: Container(
-                    color: Color(0xFFF2F2F2).withOpacity(0.6),
+                    // color: Color(0xFFF2F2F2).withOpacity(0.6),
+                    color: Colors.white,
                     child: const SingleChildScrollView(
                         child: Column(children: [
                           SliderWidget(),

@@ -644,6 +644,7 @@ class _ProductReviewPublicScreenState extends State<ProductReviewPublicScreen> {
                                   setstock: profileController.productDetailsModel.value.productDetails!.product!.stockAlert,
                                   sEOTags: profileController.productDetailsModel.value.productDetails!.product!.seoTags,
                                   noNeed:   profileController.productDetailsModel.value.productDetails!.product!.noNeedStock,
+                                  longDescription:  profileController.productDetailsModel.value.productDetails!.product!.longDescription,
                                 ));
                               },
                               child: const Text(

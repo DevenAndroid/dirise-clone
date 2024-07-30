@@ -197,7 +197,7 @@ class _OptionalDetailsAcademicScreenState extends State<OptionalDetailsAcademicS
                   controller: programNameController,
                   obSecure: false,
                   hintText: 'Program name'.tr,
-                  keyboardType: TextInputType.number,
+                  keyboardType: TextInputType.text,
                   validator: (value) {
                     if (value!.trim().isEmpty) {
                       return "Program name is required".tr;

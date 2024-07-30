@@ -177,9 +177,9 @@ class _ShippingPolicyScreenState extends State<ShippingPolicyScreen> {
                   contentPadding: const EdgeInsets.all(5),
                   controller: policyNameController,
                   obSecure: false,
-                  hintText: 'DIRISE standard Policy'.tr,
+                  hintText: 'Policy name'.tr,
                   validator: MultiValidator([
-                    RequiredValidator(errorText: 'Dirise standard policy must be required'.tr),
+                    RequiredValidator(errorText: 'Policy name must be required'.tr),
                   ])
               ),
               const SizedBox(

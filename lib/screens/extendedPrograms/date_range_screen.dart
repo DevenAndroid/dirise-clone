@@ -492,7 +492,7 @@ class _ExtendedProgramsScreenDateScreenState extends State<ExtendedProgramsScree
               ),
               InkWell(
                 onTap: () {
-                  Get.to(() => SetTimeScreenAcademic());
+                  Get.to(() => SetTimeScreenExtendedPrograms());
                 },
                 child: Container(
                   width: Get.width,

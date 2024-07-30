@@ -26,8 +26,8 @@ class AcademicDurationScreen extends StatefulWidget {
   dynamic preparation_block_time_type;
   dynamic recovery_block_time_type;
 
-  AcademicDurationScreen({super.key,this.recoveryBlockTime,this.preparationBlockTime,this.interval,this.id,
-  this.interval_type,this.preparation_block_time_type,this.recovery_block_time_type
+  AcademicDurationScreen({super.key, this.recoveryBlockTime, this.preparationBlockTime, this.interval, this.id,
+    this.interval_type, this.preparation_block_time_type, this.recovery_block_time_type
   });
 
 
@@ -47,6 +47,7 @@ class _AcademicDurationScreenState extends State<AcademicDurationScreen> {
   Rx<CreateSlotsModel> createSlotsModel = CreateSlotsModel().obs;
   final addProductController = Get.put(AddProductController());
   final formKey = GlobalKey<FormState>();
+
   createDuration() {
     Map<String, dynamic> map = {};
     map['recovery_block_time'] = timeControllerRecovery.text.trim().toString();
@@ -65,20 +66,21 @@ class _AcademicDurationScreenState extends State<AcademicDurationScreen> {
       if (response.status == true) {
         addProductController.idProduct.value = response.productDetails!.product!.id.toString();
         print(addProductController.idProduct.value.toString());
-        if(widget.id != null){
+        if (widget.id != null) {
           Get.to(const ReviewScreenAcademic());
         }
-        else{
-          Get.to(()=> SponsorsScreenAcademic());
+        else {
+          Get.to(() => SponsorsScreenAcademic());
         }
       }
     });
   }
+
   createSlots() {
     Map<String, dynamic> map = {};
 
     // map["product_id"] = addProductController.productId.toString();
-    map["product_id"] =  addProductController.idProduct.value.toString();
+    map["product_id"] = addProductController.idProduct.value.toString();
     map["todayDate"] = addProductController.formattedStartDate.toString();
     map['recovery_block_time'] = timeControllerRecovery.text.trim().toString();
     map['preparation_block_time'] = timeControllerPreparation.text.trim().toString();
@@ -97,7 +99,7 @@ class _AcademicDurationScreenState extends State<AcademicDurationScreen> {
   void initState() {
     // TODO: implement initState
     super.initState();
-    if(widget.id != null){
+    if (widget.id != null) {
       timeControllerRecovery.text = widget.recoveryBlockTime.toString();
       timeControllerPreparation.text = widget.preparationBlockTime.toString();
       timeController.text = widget.interval.toString();
@@ -105,9 +107,10 @@ class _AcademicDurationScreenState extends State<AcademicDurationScreen> {
       preparationTime = widget.preparation_block_time_type.toString();
       recoveryTime = widget.recovery_block_time_type.toString();
     }
-
   }
+
   final profileController = Get.put(ProfileController());
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -127,7 +130,7 @@ class _AcademicDurationScreenState extends State<AcademicDurationScreen> {
           },
           child: Padding(
             padding: const EdgeInsets.all(15),
-            child:    profileController.selectedLAnguage.value != 'English' ?
+            child: profileController.selectedLAnguage.value != 'English' ?
             Image.asset(
               'assets/images/forward_icon.png',
               height: 19,
@@ -142,7 +145,7 @@ class _AcademicDurationScreenState extends State<AcademicDurationScreen> {
         ),
       ),
       body: SingleChildScrollView(
-        padding: const EdgeInsets.symmetric(horizontal: 10,vertical: 18),
+        padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 18),
         child: Form(
           key: formKey,
           child: Column(
@@ -163,15 +166,15 @@ class _AcademicDurationScreenState extends State<AcademicDurationScreen> {
                       ),
                     ),
                   ),
-                   Expanded(
+                  Expanded(
                       child: SizedBox(
                         height: 56,
                         child: CommonTextField(
                           keyboardType: TextInputType.number,
                           hintText: 'Time',
                           controller: timeController,
-                          validator: (value){
-                            if(value!.trim().isEmpty){
+                          validator: (value) {
+                            if (value!.trim().isEmpty) {
                               return 'Enter time';
                             }
                             return null;
@@ -257,13 +260,15 @@ class _AcademicDurationScreenState extends State<AcademicDurationScreen> {
                 padding: const EdgeInsets.all(9),
                 width: Get.width,
                 decoration: BoxDecoration(
-                  color: const Color(0xFFF9F9F9),
-                  borderRadius: BorderRadius.circular(8),
-                  border: Border.all(
-                    color: const Color(0xFFE3E3E3),
-                  )
+                    color: const Color(0xFFF9F9F9),
+                    borderRadius: BorderRadius.circular(8),
+                    border: Border.all(
+                      color: const Color(0xFFE3E3E3),
+                    )
                 ),
-                child: Text('This is the time you need to prepare for the service. EXP. Preparation time set for two hours Customer at 10 O’clock will be able to book from 12 O’clock the at the earliest. '.tr,
+                child: Text(
+                    'This is the time you need to prepare for the service. EXP. Preparation time set for two hours Customer at 10 O’clock will be able to book from 12 O’clock the at the earliest. '
+                        .tr,
                     style: GoogleFonts.poppins(
                       fontSize: 11,
                       fontWeight: FontWeight.w500,
@@ -295,8 +300,8 @@ class _AcademicDurationScreenState extends State<AcademicDurationScreen> {
                             keyboardType: TextInputType.number,
                             hintText: 'Time',
                             controller: timeControllerPreparation,
-                            validator: (value){
-                              if(value!.trim().isEmpty){
+                            validator: (value) {
+                              if (value!.trim().isEmpty) {
                                 return 'Enter time';
                               }
                               return null;
@@ -386,7 +391,9 @@ class _AcademicDurationScreenState extends State<AcademicDurationScreen> {
                       color: const Color(0xFFE3E3E3),
                     )
                 ),
-                child: Text('This time you need to rest or organize for the next available.EXP. Recovery time set for 15 minutes. If your service is blocked from 1000 till 1030, customer will be able to book the 1045 for the slot earlier.'.tr,
+                child: Text(
+                    'This time you need to rest or organize for the next available.EXP. Recovery time set for 15 minutes. If your service is blocked from 1000 till 1030, customer will be able to book the 1045 for the slot earlier.'
+                        .tr,
                     style: GoogleFonts.poppins(
                       fontSize: 11,
                       fontWeight: FontWeight.w500,
@@ -418,8 +425,8 @@ class _AcademicDurationScreenState extends State<AcademicDurationScreen> {
                             keyboardType: TextInputType.number,
                             hintText: 'Time',
                             controller: timeControllerRecovery,
-                            validator: (value){
-                              if(value!.trim().isEmpty){
+                            validator: (value) {
+                              if (value!.trim().isEmpty) {
                                 return 'Enter time';
                               }
                               return null;
@@ -501,12 +508,11 @@ class _AcademicDurationScreenState extends State<AcademicDurationScreen> {
               30.spaceY,
               Align(
                 alignment: Alignment.bottomRight,
-                child:  InkWell(
-                  onTap: (){
-                    if(formKey.currentState!.validate()){
+                child: InkWell(
+                  onTap: () {
+                    if (formKey.currentState!.validate()) {
                       createSlots();
                     }
-
                   },
                   child: Container(
                     width: 140,
@@ -535,48 +541,51 @@ class _AcademicDurationScreenState extends State<AcademicDurationScreen> {
                     fontWeight: FontWeight.w500,
                     color: const Color(0xff423E5E),
                   )),
-              createSlotsModel.value.data!=null ?
-              ListView.builder(
+
+              Obx(() {
+                return    createSlotsModel.value.data!=null ?
+                ListView.builder(
                   shrinkWrap: true,
-                  itemCount: createSlotsModel.value.data!.length,
+                  itemCount: createSlotsModel.value.data!.length.clamp(0, 3),
                   physics: const NeverScrollableScrollPhysics(),
-                  padding: const EdgeInsets.symmetric(horizontal: 0,vertical: 30),
+                  padding: const EdgeInsets.symmetric(horizontal: 0, vertical: 30),
                   itemBuilder: (context, index) {
                     var item = createSlotsModel.value.data![index];
                     return Column(
                       children: [
-                         Row(
-                           mainAxisAlignment: MainAxisAlignment.start,
-                           crossAxisAlignment: CrossAxisAlignment.start,
-                           children: [
-                             Expanded(
-                               child: Text(item.timeSloat.toString(),
-                                 textAlign: TextAlign.start,
-                                 style: const TextStyle(
-                                 color: Colors.black,
-                                 fontWeight: FontWeight.w500,
-                                 fontSize: 16
-                               ),),
-                             ),
-                             Expanded(
-                               child: Text(item.timeSloatEnd.toString(),
-                                 textAlign: TextAlign.start,
-                                 style: const TextStyle(
-                                 color: Colors.black,
-                                 fontWeight: FontWeight.w500,
-                                 fontSize: 16
-                               ),),
-                             ),
-                           ],
-                         ),
+                        Row(
+                          mainAxisAlignment: MainAxisAlignment.start,
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
+                            Expanded(
+                              child: Text(item.timeSloat.toString(),
+                                textAlign: TextAlign.start,
+                                style: const TextStyle(
+                                    color: Colors.black,
+                                    fontWeight: FontWeight.w500,
+                                    fontSize: 16
+                                ),),
+                            ),
+                            Expanded(
+                              child: Text(item.timeSloatEnd.toString(),
+                                textAlign: TextAlign.start,
+                                style: const TextStyle(
+                                    color: Colors.black,
+                                    fontWeight: FontWeight.w500,
+                                    fontSize: 16
+                                ),),
+                            ),
+                          ],
+                        ),
                         20.spaceY
                       ],
                     );
                   },
-              ): const SizedBox.shrink(),
+                ) : const SizedBox.shrink();
+              }),
               40.spaceY,
               InkWell(
-                onTap: (){
+                onTap: () {
                   createDuration();
                 },
                 child: Container(
@@ -586,7 +595,8 @@ class _AcademicDurationScreenState extends State<AcademicDurationScreen> {
                     color: const Color(0xffF5F2F2),
                     borderRadius: BorderRadius.circular(2), // Border radius
                   ),
-                  padding: const EdgeInsets.all(10), // Padding inside the container
+                  padding: const EdgeInsets.all(10),
+                  // Padding inside the container
                   child: const Center(
                     child: Text(
                       'Save',
@@ -603,12 +613,12 @@ class _AcademicDurationScreenState extends State<AcademicDurationScreen> {
                 height: 20,
               ),
               InkWell(
-                onTap: (){
-                  if(widget.id != null){
+                onTap: () {
+                  if (widget.id != null) {
                     Get.to(const ReviewScreenAcademic());
                   }
-                  else{
-                    Get.to(()=> SponsorsScreenAcademic());
+                  else {
+                    Get.to(() => SponsorsScreenAcademic());
                   }
                 },
                 child: Container(
@@ -618,7 +628,8 @@ class _AcademicDurationScreenState extends State<AcademicDurationScreen> {
                     color: AppTheme.buttonColor,
                     borderRadius: BorderRadius.circular(2), // Border radius
                   ),
-                  padding: const EdgeInsets.all(10), // Padding inside the container
+                  padding: const EdgeInsets.all(10),
+                  // Padding inside the container
                   child: const Column(
                     crossAxisAlignment: CrossAxisAlignment.center,
                     mainAxisAlignment: MainAxisAlignment.center,

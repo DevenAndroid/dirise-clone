@@ -826,30 +826,34 @@ class _VritualProductScreenState extends State<VritualProductScreen> {
                   ):SizedBox.shrink(),
                   const SizedBox(height: 20,),
                   Text(
-                    "Dirise Welcome deal  ",
+                    "Description",
                     style: GoogleFonts.poppins(fontWeight: FontWeight.w500, fontSize: 18, color:const Color(0xFF014E70)),
 
                   ),
                   const SizedBox(height: 10,),
-                  Row(
-                    children: [
-                      const Icon(Icons.circle,color: Colors.grey,size: 10,),
-                      const SizedBox(
-                        width: 7,
-                      ),
-                      Text(
-                        'Up to 70% off. Free shipping on 1st order',
-                        style: GoogleFonts.poppins(
+                  if(modelSingleProduct.value.singleVirtualProduct!.longDescription != '' &&
+                      modelSingleProduct.value.singleVirtualProduct!.longDescription != null)
+                    Row(
+                      crossAxisAlignment: CrossAxisAlignment.center,
+                      children: [
+                        const Icon(Icons.circle,color: Colors.grey,size: 10,),
+                        const SizedBox(
+                          width: 7,
+                        ),
+                        Expanded(
+                          child: Text(
+                            modelSingleProduct.value.singleVirtualProduct!
+                                .longDescription ?? '',
+                            style: GoogleFonts.poppins(
+                          
+                                color:  Colors.grey,
+                                fontSize: 14,
+                                fontWeight: FontWeight.w500),
+                          ),
+                        ),
 
-                            color:  Colors.grey,
-                            fontSize: 14,
-                            fontWeight: FontWeight.w500),
-                      ),
-
-
-
-                    ],
-                  ),
+                      ],
+                    ),
                   const SizedBox(height: 10,),
                   // Row(
                   //   crossAxisAlignment: CrossAxisAlignment.start,
@@ -928,6 +932,8 @@ class _VritualProductScreenState extends State<VritualProductScreen> {
                     children: [
                       InkWell(
                         onTap: () {
+                          cartController.productElementId =  id.toString();
+                          cartController.productQuantity = productQuantity.value.toString();
                           directBuyProduct();
                         },
                         child: Container(
@@ -1270,7 +1276,7 @@ class _VritualProductScreenState extends State<VritualProductScreen> {
                     height: 10,
                   ),
                   Text(
-                    'Seller Commercial Licence',
+                    'Seller documents',
                     style: GoogleFonts.poppins(color: Colors.black, fontSize: 20, fontWeight: FontWeight.w600),
                   ),
                   const SizedBox(
@@ -1291,7 +1297,7 @@ class _VritualProductScreenState extends State<VritualProductScreen> {
                   ),
                   modelSingleProduct.value.singleVirtualProduct!.storemeta!.document2 !=""?
                   Text(
-                    'Translated Commercial Licence',
+                    'Seller translated documents',
                     style: GoogleFonts.poppins(color: Colors.black, fontSize: 20, fontWeight: FontWeight.w600),
                   ):SizedBox.shrink(),
                   const SizedBox(
@@ -1336,36 +1342,36 @@ class _VritualProductScreenState extends State<VritualProductScreen> {
                   const SizedBox(
                     height: 20,
                   ),
-                  Align(
-                    alignment: Alignment.centerRight,
-                    child: InkWell(
-                      onTap: (){
-                        Get.to(
-                                () => SingleStoreScreen(storeDetails:  VendorStoreData(id:
-                                modelSingleProduct.value.singleVirtualProduct!.storemeta!.storeId.toString()
-                            ))
-                        );
-                      },
-                      child: Container(
-                        width: 130,
-                        padding: const EdgeInsets.all(10),
-                        decoration: BoxDecoration(
-                            border: Border.all(color: const Color(0xFF014E70), width: 1.5),
-                            borderRadius: BorderRadius.circular(30)),
-                        child: Center(
-                          child: Text(
-                            "Take Below",
-                            style:
-                            GoogleFonts.poppins(color: const Color(0xFF014E70), fontSize: 14, fontWeight: FontWeight.w500),
-                          ),
-                        ),
-                      ),
-                    ),
-                  ),
-
-                  const SizedBox(
-                    height: 10,
-                  ),
+                  // Align(
+                  //   alignment: Alignment.centerRight,
+                  //   child: InkWell(
+                  //     onTap: (){
+                  //       Get.to(
+                  //               () => SingleStoreScreen(storeDetails:  VendorStoreData(id:
+                  //               modelSingleProduct.value.singleVirtualProduct!.storemeta!.storeId.toString()
+                  //           ))
+                  //       );
+                  //     },
+                  //     child: Container(
+                  //       width: 130,
+                  //       padding: const EdgeInsets.all(10),
+                  //       decoration: BoxDecoration(
+                  //           border: Border.all(color: const Color(0xFF014E70), width: 1.5),
+                  //           borderRadius: BorderRadius.circular(30)),
+                  //       child: Center(
+                  //         child: Text(
+                  //           "Take Below",
+                  //           style:
+                  //           GoogleFonts.poppins(color: const Color(0xFF014E70), fontSize: 14, fontWeight: FontWeight.w500),
+                  //         ),
+                  //       ),
+                  //     ),
+                  //   ),
+                  // ),
+                  //
+                  // const SizedBox(
+                  //   height: 10,
+                  // ),
                   Divider(
                     color: Colors.grey.withOpacity(.5),
                     thickness: 1,
@@ -1637,7 +1643,9 @@ class _VritualProductScreenState extends State<VritualProductScreen> {
                                         child: Column(
                                           children: [
                                             ElevatedButton(
-                                              onPressed: () {
+                                              onPressed: () {   cartController.productElementId =  id.toString();
+                                              cartController.productQuantity = productQuantity.value.toString();
+
                                                 directBuyProduct();
                                               },
                                               style: ElevatedButton.styleFrom(

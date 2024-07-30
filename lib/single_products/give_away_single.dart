@@ -180,9 +180,11 @@ class _GiveAwayProductState extends State<GiveAwayProduct> {
     statusSingle = RxStatus.loading();
     repositories.postApi(
         url: ApiUrls.singleGiveAwayUrl, mapData: {"product_id": id.toString(),
-      "zip_code" : locationController.zipcode.value.toString(),
-      "state" : locationController.state.toString(),
-      "key": 'fedexRate',  "country_id" : profileController.model.user!= null && cartController.countryId.isEmpty ? profileController.model.user!.country_id : cartController.countryId.toString()}).then((value) {
+      // "zip_code" : locationController.zipcode.value.toString(),
+      // "state" : locationController.state.toString(),
+      "key": 'fedexRate',
+      // "country_id" : profileController.model.user!= null && cartController.countryId.isEmpty ? profileController.model.user!.country_id : cartController.countryId.toString()
+        }).then((value) {
       modelSingleProduct.value = GiveAwaySingleModel.fromJson(jsonDecode(value));
       if (modelSingleProduct.value.singleGiveawayProduct != null) {
         log("modelSingleProduct.product!.toJson().....${modelSingleProduct.value.singleGiveawayProduct!.toJson()}");
@@ -943,6 +945,8 @@ class _GiveAwayProductState extends State<GiveAwayProduct> {
                           children: [
                             InkWell(
                               onTap: () {
+                                cartController.productElementId =  id.toString();
+                                cartController.productQuantity = productQuantity.value.toString();
                                 directBuyProduct();
                               },
                               child: Container(
@@ -1192,7 +1196,8 @@ class _GiveAwayProductState extends State<GiveAwayProduct> {
                               child: Text(
                                 maxLines: 1,
                                 overflow: TextOverflow.ellipsis,
-                                formattedDate.toString(),
+                                // formattedDate.toString(),
+                                modelSingleProduct.value.singleGiveawayProduct!.shippingDate.toString(),
                                 style: GoogleFonts.poppins(
                                     color: const Color(0xFF014E70), fontSize: 14, fontWeight: FontWeight.w500),
                               ),
@@ -1370,7 +1375,7 @@ class _GiveAwayProductState extends State<GiveAwayProduct> {
                               height: 10,
                             ),
                             Text(
-                              'Seller Commercial Licence',
+                              'Seller documents',
                               style: GoogleFonts.poppins(color: Colors.black, fontSize: 20, fontWeight: FontWeight.w600),
                             ),
                             const SizedBox(
@@ -1390,7 +1395,7 @@ class _GiveAwayProductState extends State<GiveAwayProduct> {
                               height: 25,
                             ),
                             Text(
-                              'Translated Commercial Licence',
+                              'Seller translated documents',
                               style: GoogleFonts.poppins(color: Colors.black, fontSize: 20, fontWeight: FontWeight.w600),
                             ),
                             const SizedBox(
@@ -1433,36 +1438,36 @@ class _GiveAwayProductState extends State<GiveAwayProduct> {
                             const SizedBox(
                               height: 20,
                             ),
-                            GestureDetector(
-                              onTap: (){
-                                Get.to(
-                                        () => SingleStoreScreen(storeDetails:  VendorStoreData(id:
-                                    modelSingleProduct.value.singleGiveawayProduct!.vendorInformation!.storeId
-                                    ))
-                                );
-                              },
-                              child: Align(
-                                alignment: Alignment.centerRight,
-                                child: Container(
-                                  width: 130,
-                                  padding: const EdgeInsets.all(10),
-                                  decoration: BoxDecoration(
-                                      border: Border.all(color: const Color(0xFF014E70), width: 1.5),
-                                      borderRadius: BorderRadius.circular(30)),
-                                  child: Center(
-                                    child: Text(
-                                      "Take Below",
-                                      style: GoogleFonts.poppins(
-                                          color: const Color(0xFF014E70), fontSize: 14, fontWeight: FontWeight.w500),
-                                    ),
-                                  ),
-                                ),
-                              ),
-                            ),
-
-                            const SizedBox(
-                              height: 10,
-                            ),
+                            // GestureDetector(
+                            //   onTap: (){
+                            //     Get.to(
+                            //             () => SingleStoreScreen(storeDetails:  VendorStoreData(id:
+                            //         modelSingleProduct.value.singleGiveawayProduct!.vendorInformation!.storeId
+                            //         ))
+                            //     );
+                            //   },
+                            //   child: Align(
+                            //     alignment: Alignment.centerRight,
+                            //     child: Container(
+                            //       width: 130,
+                            //       padding: const EdgeInsets.all(10),
+                            //       decoration: BoxDecoration(
+                            //           border: Border.all(color: const Color(0xFF014E70), width: 1.5),
+                            //           borderRadius: BorderRadius.circular(30)),
+                            //       child: Center(
+                            //         child: Text(
+                            //           "Take Below",
+                            //           style: GoogleFonts.poppins(
+                            //               color: const Color(0xFF014E70), fontSize: 14, fontWeight: FontWeight.w500),
+                            //         ),
+                            //       ),
+                            //     ),
+                            //   ),
+                            // ),
+                            //
+                            // const SizedBox(
+                            //   height: 10,
+                            // ),
                             Divider(
                               color: Colors.grey.withOpacity(.5),
                               thickness: 1,
@@ -1744,6 +1749,8 @@ class _GiveAwayProductState extends State<GiveAwayProduct> {
                                                       children: [
                                                         ElevatedButton(
                                                           onPressed: () {
+                                                            cartController.productElementId =  id.toString();
+                                                            cartController.productQuantity = productQuantity.value.toString();
                                                             directBuyProduct();
                                                           },
                                                           style: ElevatedButton.styleFrom(

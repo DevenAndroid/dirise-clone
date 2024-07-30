@@ -1324,6 +1324,7 @@ class Products {
   dynamic views;
   dynamic code;
   dynamic bookingProductType;
+  dynamic itemType;
   dynamic prodectPrice;
   dynamic prodectMinQty;
   dynamic prodectMixQty;
@@ -1403,6 +1404,7 @@ class Products {
         this.catId3,
         this.brandSlug,
         this.slug,
+        this.itemType,
         this.pname,
         this.prodectImage,
         this.prodectName,
@@ -1502,6 +1504,7 @@ class Products {
     prodectDescription = json['prodect_description'];
     image = json['image'];
     arabPname = json['arab_pname'];
+    itemType = json['item_type'];
     productType = json['product_type'];
     virtualProductType = json['virtual_product_type'];
     skuId = json['sku_id'];
@@ -1597,6 +1600,7 @@ class Products {
     data['prodect_name'] = prodectName;
     data['prodect_sku'] = prodectSku;
     data['views'] = views;
+    data['item_type'] = itemType;
     data['code'] = code;
     data['booking_product_type'] = bookingProductType;
     data['prodect_price'] = prodectPrice;

@@ -830,30 +830,33 @@ class _BookableProductScreenState extends State<BookableProductScreen> {
                   ),
                   SizedBox(height: 20,),
                   Text(
-                    "Dirise Welcome deal  ",
+                    "Description",
                     style: GoogleFonts.poppins(fontWeight: FontWeight.w500, fontSize: 18, color:Color(0xFF014E70)),
 
                   ),
                   SizedBox(height: 10,),
-                  Row(
-                    children: [
-                      Icon(Icons.circle,color: Colors.grey,size: 10,),
-                      const SizedBox(
-                        width: 7,
-                      ),
-                      Text(
-                        'Up to 70% off. Free shipping on 1st order',
-                        style: GoogleFonts.poppins(
+                  if(modelSingleProduct.value.bookingProduct!.longDescription != '' &&
+                      modelSingleProduct.value.bookingProduct!.longDescription != null)
+                    Row(
+                      crossAxisAlignment: CrossAxisAlignment.center,
+                      children: [
+                        const Icon(Icons.circle,color: Colors.grey,size: 10,),
+                        const SizedBox(
+                          width: 7,
+                        ),
+                        Expanded(
+                          child: Text(
+                            modelSingleProduct.value.bookingProduct!
+                                .longDescription ?? '',
+                            style: GoogleFonts.poppins(
 
-                            color:  Colors.grey,
-                            fontSize: 14,
-                            fontWeight: FontWeight.w500),
-                      ),
-
-
-
-                    ],
-                  ),
+                                color:  Colors.grey,
+                                fontSize: 14,
+                                fontWeight: FontWeight.w500),
+                          ),
+                        ),
+                      ],
+                    ),
                   SizedBox(height: 10,),
                   Row(
                     children: [
@@ -928,6 +931,8 @@ class _BookableProductScreenState extends State<BookableProductScreen> {
                     children: [
                       InkWell(
                         onTap: () {
+                          cartController.productElementId =  id.toString();
+                          cartController.productQuantity = productQuantity.value.toString();
                           directBuyProduct();
                         },
                         child: Container(
@@ -1123,7 +1128,8 @@ class _BookableProductScreenState extends State<BookableProductScreen> {
                         child: Text(
                           maxLines: 1,
                           overflow: TextOverflow.ellipsis,
-                          formattedDate.toString(),
+                          // formattedDate.toString(),
+                          modelSingleProduct.value.bookingProduct!.shippingDate.toString(),
                           style:
                           GoogleFonts.poppins(color: Color(0xFF014E70), fontSize: 14, fontWeight: FontWeight.w500),
                         ),
@@ -1272,7 +1278,7 @@ class _BookableProductScreenState extends State<BookableProductScreen> {
                     height: 10,
                   ),
                   Text(
-                    'Seller Commercial Licence',
+                    'Seller documents',
                     style: GoogleFonts.poppins(color: Colors.black, fontSize: 20, fontWeight: FontWeight.w600),
                   ),
                   SizedBox(
@@ -1292,7 +1298,7 @@ class _BookableProductScreenState extends State<BookableProductScreen> {
                     height: 25,
                   ),
                   Text(
-                    'Translated Commercial Licence',
+                    'Seller translated documents',
                     style: GoogleFonts.poppins(color: Colors.black, fontSize: 20, fontWeight: FontWeight.w600),
                   ),
                   SizedBox(
@@ -1329,36 +1335,36 @@ class _BookableProductScreenState extends State<BookableProductScreen> {
                   SizedBox(
                     height: 20,
                   ),
-                  GestureDetector(
-                    onTap: (){
-                      Get.to(
-                              () => SingleStoreScreen(storeDetails:  VendorStoreData(id:
-                          modelSingleProduct.value.bookingProduct!.vendorInformation!.storeId
-                          ))
-                      );
-                    },
-                    child: Align(
-                      alignment: Alignment.centerRight,
-                      child: Container(
-                        width: 130,
-                        padding: EdgeInsets.all(10),
-                        decoration: BoxDecoration(
-                            border: Border.all(color: Color(0xFF014E70), width: 1.5),
-                            borderRadius: BorderRadius.circular(30)),
-                        child: Center(
-                          child: Text(
-                            "Take Below",
-                            style:
-                            GoogleFonts.poppins(color: Color(0xFF014E70), fontSize: 14, fontWeight: FontWeight.w500),
-                          ),
-                        ),
-                      ),
-                    ),
-                  ),
-
-                  SizedBox(
-                    height: 10,
-                  ),
+                  // GestureDetector(
+                  //   onTap: (){
+                  //     Get.to(
+                  //             () => SingleStoreScreen(storeDetails:  VendorStoreData(id:
+                  //         modelSingleProduct.value.bookingProduct!.vendorInformation!.storeId
+                  //         ))
+                  //     );
+                  //   },
+                  //   child: Align(
+                  //     alignment: Alignment.centerRight,
+                  //     child: Container(
+                  //       width: 130,
+                  //       padding: EdgeInsets.all(10),
+                  //       decoration: BoxDecoration(
+                  //           border: Border.all(color: Color(0xFF014E70), width: 1.5),
+                  //           borderRadius: BorderRadius.circular(30)),
+                  //       child: Center(
+                  //         child: Text(
+                  //           "Take Below",
+                  //           style:
+                  //           GoogleFonts.poppins(color: Color(0xFF014E70), fontSize: 14, fontWeight: FontWeight.w500),
+                  //         ),
+                  //       ),
+                  //     ),
+                  //   ),
+                  // ),
+                  //
+                  // SizedBox(
+                  //   height: 10,
+                  // ),
                   Divider(
                     color: Colors.grey.withOpacity(.5),
                     thickness: 1,
@@ -1631,6 +1637,8 @@ class _BookableProductScreenState extends State<BookableProductScreen> {
                                           children: [
                                             ElevatedButton(
                                               onPressed: () {
+                                                cartController.productElementId =  id.toString();
+                                                cartController.productQuantity = productQuantity.value.toString();
                                                 directBuyProduct();
                                               },
                                               style: ElevatedButton.styleFrom(

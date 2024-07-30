@@ -12,6 +12,7 @@ import 'package:get/get.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:intl_phone_field/intl_phone_field.dart';
 import '../../controller/cart_controller.dart';
+import '../../controller/google_map_controlleer.dart';
 import '../../controller/profile_controller.dart';
 import '../../model/common_modal.dart';
 import '../../model/customer_profile/model_city_list.dart';
@@ -42,6 +43,7 @@ class DirectCheckOutScreen extends StatefulWidget {
 
 class _DirectCheckOutScreenState extends State<DirectCheckOutScreen> {
   final cartController = Get.put(CartController());
+  final controllerMap = Get.put(ControllerMap());
   final profileController = Get.put(ProfileController());
   final TextEditingController deliveryInstructions = TextEditingController();
   AddressData selectedAddress = AddressData();
@@ -455,10 +457,12 @@ class _DirectCheckOutScreenState extends State<DirectCheckOutScreen> {
                                                       cartController.directOrderResponse.value.subtotal.toString());
                                                   double shipping = double.parse(product.value.toString());
                                                   shippingPrice = product.value.toString();
+                                                  commisionShipping = double.tryParse(product.value.toString())!;
                                                   total = total + shipping;
                                                   cartController.formattedTotal = total.toString();
                                                   cartController.shippingTitle = product.name.toString();
                                                   cartController.shippingPrices1 = product.value.toString();
+                                                  commisionShipping = double.tryParse(product.value.toString())!;
                                                   print('total isss${cartController.formattedTotal.toString()}');
                                                   cartController.shipping_new_api = product.value.toString();
                                                   print('fdfdff${cartController.shipping_new_api.toString()}');
@@ -1436,10 +1440,12 @@ class _DirectCheckOutScreenState extends State<DirectCheckOutScreen> {
               showToast("Select delivery address to complete order".tr);
               return;
             }
-            if (cartController.directOrderResponse.value.fedexShippingOption.isEmpty &&
-                cartController.countryName.value != 'Kuwait') {
-              showToast("Please select shipping Method".tr);
-              return;
+            if(cartController.directOrderResponse.value.prodcutData!.itemType != 'service' && cartController.directOrderResponse.value.prodcutData!.itemType != 'virtual_product') {
+              if (cartController.directOrderResponse.value.fedexShippingOption.isEmpty &&
+                  cartController.countryName.value != 'Kuwait') {
+                showToast("Please select shipping Method".tr);
+                return;
+              }
             }
             cartController.dialogOpened = false;
             print("type" + shippingType.value);
@@ -1456,7 +1462,7 @@ class _DirectCheckOutScreenState extends State<DirectCheckOutScreen> {
               deliveryOption: 'delivery',
               productID: cartController.directOrderResponse.value.prodcutData!.id.toString(),
               subTotalPrice: cartController.directOrderResponse.value.subtotal.toString(),
-              totalPrice: cartController.formattedTotal.toString(),
+              totalPrice: cartController.formattedTotal != '' ? cartController.formattedTotal.toString() : cartController.directOrderResponse.value.subtotal.toString() ,
               quantity: cartController.directOrderResponse.value.prodcutData!.inStock.toString(),
               purchaseType1: shippingType.value.toString(),
               address: selectedAddress.toJson(),);
@@ -2276,7 +2282,7 @@ class _DirectCheckOutScreenState extends State<DirectCheckOutScreen> {
                                 zipCode: zipCodeController.text.trim(),
                                 phoneCountryCode: profileController.code.toString(),
                                 type: 'checkout',
-                                id: addressData.id);
+                                id: addressData.id, shortCode: controllerMap.countryCode.toString());
                           }
                         },
                         child: Container(

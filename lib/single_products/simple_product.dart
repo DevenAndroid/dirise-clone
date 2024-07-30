@@ -833,24 +833,30 @@ class _SimpleProductScreenState extends State<SimpleProductScreen> {
                   ),
                   const SizedBox(height: 20,),
       Text(
-        "Dirise Welcome deal  ",
+        "Description",
         style: GoogleFonts.poppins(fontWeight: FontWeight.w500, fontSize: 18, color:const Color(0xFF014E70)),
 
       ),
       const SizedBox(height: 10,),
+      if(modelSingleProduct.value.simpleProduct!.longDescription != '' &&
+          modelSingleProduct.value.simpleProduct!.longDescription != null)
       Row(
+        crossAxisAlignment: CrossAxisAlignment.center,
         children: [
           const Icon(Icons.circle,color: Colors.grey,size: 10,),
           const SizedBox(
             width: 7,
           ),
-          Text(
-            'Up to 70% off. Free shipping on 1st order',
-            style: GoogleFonts.poppins(
-
-                color:  Colors.grey,
-                fontSize: 14,
-                fontWeight: FontWeight.w500),
+          Expanded(
+            child: Text(
+                    modelSingleProduct.value.simpleProduct!
+              .longDescription ?? '',
+              style: GoogleFonts.poppins(
+            
+                  color:  Colors.grey,
+                  fontSize: 14,
+                  fontWeight: FontWeight.w500),
+            ),
           ),
 
 
@@ -859,7 +865,7 @@ class _SimpleProductScreenState extends State<SimpleProductScreen> {
       ),
       const SizedBox(height: 10,),
       Row(
-        crossAxisAlignment: CrossAxisAlignment.start,
+        crossAxisAlignment: CrossAxisAlignment.center,
         children: [
           const Icon(Icons.circle,color: Colors.grey,size: 10,),
           const SizedBox(
@@ -935,6 +941,8 @@ class _SimpleProductScreenState extends State<SimpleProductScreen> {
                     children: [
                       InkWell(
                         onTap: () {
+                          cartController.productElementId =  id.toString();
+                          cartController.productQuantity = productQuantity.value.toString();
                           directBuyProduct();
                         },
                         child: Container(
@@ -1001,7 +1009,7 @@ class _SimpleProductScreenState extends State<SimpleProductScreen> {
                          width: 7,
                        ),
                        Text(
-        modelSingleProduct.value.simpleProduct!.serialNumber.toString(),
+                          modelSingleProduct.value.simpleProduct!.serialNumber ?? '',
                          style: GoogleFonts.poppins(
 
                              color: Colors.grey,
@@ -1128,7 +1136,8 @@ class _SimpleProductScreenState extends State<SimpleProductScreen> {
                       ),
                       Expanded(
                         child: Text(
-                          formattedDate.toString(),
+                          // formattedDate.toString(),
+                          modelSingleProduct.value.simpleProduct!.shippingDate.toString(),
                           maxLines: 1,
                           overflow: TextOverflow.ellipsis,
                           style:
@@ -1281,7 +1290,7 @@ class _SimpleProductScreenState extends State<SimpleProductScreen> {
                     height: 10,
                   ),
                   Text(
-                    'Seller Commercial Licence',
+                    'Seller documents',
                     style: GoogleFonts.poppins(color: Colors.black, fontSize: 20, fontWeight: FontWeight.w600),
                   ),
                   const SizedBox(
@@ -1301,7 +1310,7 @@ class _SimpleProductScreenState extends State<SimpleProductScreen> {
                     height: 25,
                   ),
                   Text(
-                    'Translated Commercial Licence',
+                    'Seller translated documents',
                     style: GoogleFonts.poppins(color: Colors.black, fontSize: 20, fontWeight: FontWeight.w600),
                   ),
                   const SizedBox(
@@ -1338,36 +1347,36 @@ class _SimpleProductScreenState extends State<SimpleProductScreen> {
                   const SizedBox(
                     height: 20,
                   ),
-                  GestureDetector(
-                    onTap: (){
-                      Get.to(
-                              () => SingleStoreScreen(storeDetails:  VendorStoreData(id:
-                          modelSingleProduct.value.simpleProduct!.vendorInformation!.storeId
-                          ))
-                      );
-                    },
-                    child: Align(
-                      alignment: Alignment.centerRight,
-                      child: Container(
-                        width: 130,
-                        padding: const EdgeInsets.all(10),
-                        decoration: BoxDecoration(
-                            border: Border.all(color: const Color(0xFF014E70), width: 1.5),
-                            borderRadius: BorderRadius.circular(30)),
-                        child: Center(
-                          child: Text(
-                            "Take Below",
-                            style:
-                            GoogleFonts.poppins(color: const Color(0xFF014E70), fontSize: 14, fontWeight: FontWeight.w500),
-                          ),
-                        ),
-                      ),
-                    ),
-                  ),
-
-                  const SizedBox(
-                    height: 10,
-                  ),
+                  // GestureDetector(
+                  //   onTap: (){
+                  //     Get.to(
+                  //             () => SingleStoreScreen(storeDetails:  VendorStoreData(id:
+                  //         modelSingleProduct.value.simpleProduct!.vendorInformation!.storeId
+                  //         ))
+                  //     );
+                  //   },
+                  //   child: Align(
+                  //     alignment: Alignment.centerRight,
+                  //     child: Container(
+                  //       width: 130,
+                  //       padding: const EdgeInsets.all(10),
+                  //       decoration: BoxDecoration(
+                  //           border: Border.all(color: const Color(0xFF014E70), width: 1.5),
+                  //           borderRadius: BorderRadius.circular(30)),
+                  //       child: Center(
+                  //         child: Text(
+                  //           "Take Below",
+                  //           style:
+                  //           GoogleFonts.poppins(color: const Color(0xFF014E70), fontSize: 14, fontWeight: FontWeight.w500),
+                  //         ),
+                  //       ),
+                  //     ),
+                  //   ),
+                  // ),
+                  //
+                  // const SizedBox(
+                  //   height: 10,
+                  // ),
                   Divider(
                     color: Colors.grey.withOpacity(.5),
                     thickness: 1,
@@ -1640,6 +1649,8 @@ class _SimpleProductScreenState extends State<SimpleProductScreen> {
                                           children: [
                                             ElevatedButton(
                                               onPressed: () {
+                                                cartController.productElementId =  id.toString();
+                                                cartController.productQuantity = productQuantity.value.toString();
                                                 directBuyProduct();
                                               },
                                               style: ElevatedButton.styleFrom(

@@ -29,6 +29,7 @@ class SellingPickupAddress extends StatefulWidget {
   final String? country;
   final String? zipcode;
   final String? town;
+  final String? shortCode;
 
 
   SellingPickupAddress({
@@ -38,6 +39,7 @@ class SellingPickupAddress extends StatefulWidget {
     this.state,
     this.country,
     this.zipcode,
+    this.shortCode,
     this.town,
   }) : super(key: key);
 
@@ -47,6 +49,7 @@ class SellingPickupAddress extends StatefulWidget {
 
 class _SellingPickupAddressState extends State<SellingPickupAddress> {
   final TextEditingController streetController = TextEditingController();
+  final TextEditingController shortCodeController = TextEditingController();
   final TextEditingController cityController = TextEditingController();
   final TextEditingController stateController = TextEditingController();
   final TextEditingController countryController = TextEditingController();
@@ -66,6 +69,7 @@ class _SellingPickupAddressState extends State<SellingPickupAddress> {
         widget.state != null &&
         widget.country != null &&
         widget.zipcode != null &&
+        widget.shortCode != null &&
         widget.town != null) {
       print('now true call');
       map['address_type'] = 'Both';
@@ -76,6 +80,7 @@ class _SellingPickupAddressState extends State<SellingPickupAddress> {
       map['town'] = widget.town;
       map['street'] = widget.street;
       map['special_instruction'] = specialInstructionController.text.trim();
+      map['country_sort_name'] = widget.shortCode;
     }else{
       print('now else call');
       map['address_type'] = 'Both';
@@ -86,6 +91,7 @@ class _SellingPickupAddressState extends State<SellingPickupAddress> {
       map['town'] = townController.text.trim();
       map['street'] = streetController.text.trim();
       map['special_instruction'] = specialInstructionController.text.trim();
+      map['country_sort_name'] = widget.shortCode;
     }
 
     FocusManager.instance.primaryFocus!.unfocus();

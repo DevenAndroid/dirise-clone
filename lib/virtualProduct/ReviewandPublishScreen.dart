@@ -667,6 +667,7 @@ class _VirtualReviewandPublishScreenState extends State<VirtualReviewandPublishS
                                         setstock: controller.productDetailsModel.value.productDetails!.product!.stockAlert,
                                         sEOTags: controller.productDetailsModel.value.productDetails!.product!.seoTags,
                                         noNeed:   controller.productDetailsModel.value.productDetails!.product!.noNeedStock,
+                                        longDesc:  controller.productDetailsModel.value.productDetails!.product!.longDescription,
                                       ));
                                     },
                                     child: const Text(

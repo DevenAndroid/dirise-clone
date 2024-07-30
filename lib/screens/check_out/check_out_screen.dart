@@ -276,11 +276,12 @@ RxString shipId = "".obs;
             // if (cartController.deliveryOption1.value == "delivery") {
             for (var item in cartController.cartModel.cart!.carsShowroom!.entries) {
               var showroom = item.value;
-              if (showroom.shippingOption.isEmpty) {
-                showToast("Please select shipping Method".tr);
-                return;
+              if(showroom.products!.every((element) => element.itemType != 'service' && element.itemType != 'virtual_product')) {
+                if (showroom.shippingOption.isEmpty) {
+                  showToast("Please select shipping Method".tr);
+                  return;
+                }
               }
-
             }
 
 
@@ -336,8 +337,7 @@ RxString shipId = "".obs;
               // purchaseType: PurchaseType.cart,
               purchaseType: PurchaseType.cart,
               subTotalPrice: cartController.cartModel.subtotal.toString(),
-              totalPrice: cartController.formattedTotal.toString(),
-
+              totalPrice: cartController.formattedTotal != '' ? cartController.formattedTotal.toString() : cartController.cartModel.total.toString(),
               couponCode: couponApplied.isNotEmpty ? appliedCode : null,
               purchaseType1:   shippingType.value.toString(),
               address: cartController.selectedAddress.id != null
