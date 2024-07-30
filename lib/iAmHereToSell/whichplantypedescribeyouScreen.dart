@@ -118,7 +118,7 @@ class _WhichplantypedescribeyouScreenState extends State<Whichplantypedescribeyo
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: [
             Text(
-              'Which Cloud type suits you?'.tr,
+              'Which cloud type suits you?'.tr,
               style: GoogleFonts.poppins(color: const Color(0xff292F45), fontWeight: FontWeight.w600, fontSize: 18),
             ),
           ],

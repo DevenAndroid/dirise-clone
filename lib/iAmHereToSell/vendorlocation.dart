@@ -101,6 +101,7 @@ class _VendorLocationState extends State<VendorLocation> {
   String? country;
   String? zipcode;
   String? town;
+  String? shortCode;
   final Repositories repositories = Repositories();
 
   sellingPickupAddressApi() {
@@ -113,6 +114,7 @@ class _VendorLocationState extends State<VendorLocation> {
     map['zip_code'] = zipcode.toString();
     map['town'] = town.toString();
     map['street'] = street.toString();
+    map['country_sort_name'] = shortCode.toString();
 
 
 
@@ -170,6 +172,7 @@ class _VendorLocationState extends State<VendorLocation> {
         country = placemark.country;
         zipcode = placemark.postalCode;
         town = placemark.subLocality;
+        shortCode = placemark.isoCountryCode;
 
         log('House No: $houseNo');
         log('Street No: $streetNo');
@@ -455,6 +458,7 @@ class _VendorLocationState extends State<VendorLocation> {
                                                       country: country,
                                                       town: town,
                                                       zipcode: zipcode,
+                                                      shortCode: shortCode,
                                                     ));
                                                   sellingPickupAddressApi();
 
@@ -487,6 +491,7 @@ class _VendorLocationState extends State<VendorLocation> {
                                     country: country,
                                     town: town,
                                     zipcode: zipcode,
+                                    shortCode: shortCode,
                                   ));
                                 },
                               ),

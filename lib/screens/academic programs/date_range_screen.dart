@@ -56,6 +56,7 @@ class _AcademicDateScreenState extends State<AcademicDateScreen> {
     if (picked != null && picked != _startDate) {
       setState(() {
         _startDate = picked;
+        addProductController.formattedStartDate = DateFormat('yyyy/MM/dd').format(_startDate);
         formattedStartDate = DateFormat('yyyy/MM/dd').format(_startDate);
         dateRangeError = null;
         print('Now Select........${formattedStartDate.toString()}');

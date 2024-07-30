@@ -1252,7 +1252,7 @@ class _AdvirtismentProductScreenState extends State<AdvirtismentProductScreen> {
                     height: 10,
                   ),
                   Text(
-                    'Seller Commercial Licence',
+                    'Seller documents',
                     style: GoogleFonts.poppins(color: Colors.black, fontSize: 20, fontWeight: FontWeight.w600),
                   ),
                   SizedBox(
@@ -1272,7 +1272,7 @@ class _AdvirtismentProductScreenState extends State<AdvirtismentProductScreen> {
                     height: 25,
                   ),
                   Text(
-                    'Translated Commercial Licence',
+                    'Seller translated documents',
                     style: GoogleFonts.poppins(color: Colors.black, fontSize: 20, fontWeight: FontWeight.w600),
                   ),
                   SizedBox(
@@ -1297,26 +1297,26 @@ class _AdvirtismentProductScreenState extends State<AdvirtismentProductScreen> {
                       ),
                     ),
                   ),
-                  SizedBox(
-                    height: 20,
-                  ),
-                  Align(
-                    alignment: Alignment.centerRight,
-                    child: Container(
-                      width: 130,
-                      padding: EdgeInsets.all(10),
-                      decoration: BoxDecoration(
-                          border: Border.all(color: Color(0xFF014E70), width: 1.5),
-                          borderRadius: BorderRadius.circular(30)),
-                      child: Center(
-                        child: Text(
-                          "Take Below",
-                          style:
-                          GoogleFonts.poppins(color: Color(0xFF014E70), fontSize: 14, fontWeight: FontWeight.w500),
-                        ),
-                      ),
-                    ),
-                  ),
+                  // SizedBox(
+                  //   height: 20,
+                  // ),
+                  // Align(
+                  //   alignment: Alignment.centerRight,
+                  //   child: Container(
+                  //     width: 130,
+                  //     padding: EdgeInsets.all(10),
+                  //     decoration: BoxDecoration(
+                  //         border: Border.all(color: Color(0xFF014E70), width: 1.5),
+                  //         borderRadius: BorderRadius.circular(30)),
+                  //     child: Center(
+                  //       child: Text(
+                  //         "Take Below",
+                  //         style:
+                  //         GoogleFonts.poppins(color: Color(0xFF014E70), fontSize: 14, fontWeight: FontWeight.w500),
+                  //       ),
+                  //     ),
+                  //   ),
+                  // ),
 
                   SizedBox(
                     height: 10,

@@ -23,10 +23,11 @@ class VirtualDiscriptionScreen extends StatefulWidget {
   String? stockquantity;
   String? setstock;
   String? sEOTags;
+  String? longDesc;
   int? id;
   dynamic noNeed;
 
-  VirtualDiscriptionScreen({super.key,this.description,this.sEOTags,this.setstock,this.stockquantity,this.id,this.noNeed});
+  VirtualDiscriptionScreen({super.key,this.description,this.sEOTags,this.setstock,this.stockquantity,this.id,this.noNeed,this.longDesc});
 
   @override
   State<VirtualDiscriptionScreen> createState() => _VirtualDiscriptionScreenState();
@@ -37,6 +38,7 @@ class _VirtualDiscriptionScreenState extends State<VirtualDiscriptionScreen> {
   final formKey1 = GlobalKey<FormState>();
   TextEditingController inStockController = TextEditingController();
   TextEditingController shortController = TextEditingController();
+  TextEditingController longController = TextEditingController();
   TextEditingController alertDiscount = TextEditingController();
   TextEditingController tagDiscount = TextEditingController();
   RxBool isDelivery = false.obs;
@@ -44,6 +46,7 @@ class _VirtualDiscriptionScreenState extends State<VirtualDiscriptionScreen> {
     Map<String, dynamic> map = {};
 
     map['short_description'] = shortController.text.trim();
+    map['long_description'] = longController.text.trim();
     map['item_type'] = 'virtual_product';
     map['seo_tags'] = tagDiscount.text.trim();
     map['id'] = addProductController.idProduct.value.toString();
@@ -84,6 +87,7 @@ class _VirtualDiscriptionScreenState extends State<VirtualDiscriptionScreen> {
       alertDiscount.text= widget.setstock == 'null' ? '0' : widget.setstock.toString();
       tagDiscount.text = widget.sEOTags.toString();
       isDelivery.value  = widget.noNeed!;
+      longController.text = widget.longDesc.toString();
     }
   }
 
@@ -144,18 +148,78 @@ class _VirtualDiscriptionScreenState extends State<VirtualDiscriptionScreen> {
                   height: 5,
                 ),
                 TextFormField(
+                  controller: longController,
+                  maxLines: 2,
+                  minLines: 2,
+                  // validator: (value) {
+                  //   if (value!.trim().isEmpty) {
+                  //     return 'description is required'.tr;
+                  //   }
+                  //   if (value.trim().length < 15) {
+                  //     return 'description must be at least 15 characters long'.tr;
+                  //   }
+                  //   return null;
+                  // },
+                  decoration: InputDecoration(
+
+                    counterStyle: GoogleFonts.poppins(
+                      color: AppTheme.primaryColor,
+                      fontSize: 25,
+                    ),
+                    counter: const Offstage(),
+
+                    errorMaxLines: 2,
+                    contentPadding: const EdgeInsets.all(15),
+                    fillColor: Colors.grey.shade100,
+                    hintText: 'Long Description(optional)',
+                    hintStyle: GoogleFonts.poppins(
+                      color: AppTheme.primaryColor,
+                      fontSize: 15,
+                    ),
+                    border: InputBorder.none,
+                    focusedErrorBorder: const OutlineInputBorder(
+                        borderRadius: BorderRadius.all(Radius.circular(8)),
+                        borderSide: BorderSide(color: AppTheme.secondaryColor)),
+                    errorBorder: const OutlineInputBorder(
+                        borderRadius: BorderRadius.all(Radius.circular(8)),
+                        borderSide: BorderSide(color: AppTheme.secondaryColor)),
+                    focusedBorder: const OutlineInputBorder(
+                        borderRadius: BorderRadius.all(Radius.circular(8)),
+                        borderSide: BorderSide(color: AppTheme.secondaryColor)),
+                    disabledBorder: const OutlineInputBorder(
+                      borderRadius: BorderRadius.all(Radius.circular(8)),
+                      borderSide: BorderSide(color: AppTheme.secondaryColor),
+                    ),
+                    enabledBorder: const OutlineInputBorder(
+                      borderRadius: BorderRadius.all(Radius.circular(8)),
+                      borderSide: BorderSide(color: AppTheme.secondaryColor),
+                    ),
+                  ),
+
+                ),
+                const SizedBox(
+                  height: 5,
+                ),
+                Text(
+                  'Short Description'.tr,
+                  style: GoogleFonts.poppins(color: Colors.black, fontWeight: FontWeight.w600, fontSize: 18),
+                ),
+                const SizedBox(
+                  height: 5,
+                ),
+                TextFormField(
                   controller: shortController,
                   maxLines: 2,
                   minLines: 2,
-                  validator: (value) {
-                    if (value!.trim().isEmpty) {
-                      return 'description is required'.tr;
-                    }
-                    if (value.trim().length < 15) {
-                      return 'description must be at least 15 characters long'.tr;
-                    }
-                    return null;
-                  },
+                  // validator: (value) {
+                  //   if (value!.trim().isEmpty) {
+                  //     return 'description is required'.tr;
+                  //   }
+                  //   if (value.trim().length < 15) {
+                  //     return 'description must be at least 15 characters long'.tr;
+                  //   }
+                  //   return null;
+                  // },
                   decoration: InputDecoration(
 
                     counterStyle: GoogleFonts.poppins(

@@ -166,12 +166,13 @@ class _WhatdoyousellScreenState extends State<WhatdoyousellScreen> {
       showToast(response.message);
       if (response.status == true) {
         otpVerify = "done";
-        if (check == true) {
-          repositories.saveLoginDetails(jsonEncode(response));
-          Get.offAllNamed(BottomNavbar.route);
-        } else {
-          Get.offNamed(NewPasswordScreen.route, arguments: [emailAddress]);
-        }
+        Get.to(SellingPickupAddress());
+        // if (check == true) {
+        //   repositories.saveLoginDetails(jsonEncode(response));
+        //   Get.offAllNamed(BottomNavbar.route);
+        // } else {
+        //   Get.offNamed(NewPasswordScreen.route, arguments: [emailAddress]);
+        // }
       }
     });
   }
@@ -553,26 +554,30 @@ class _WhatdoyousellScreenState extends State<WhatdoyousellScreen> {
                   ),
                   onComplete: (output) {},
                 ),
-                GestureDetector(
-                  onTap: () {
-                    verifyOtp();
-                  },
-                  child: Align(
-                    alignment: Alignment.centerRight,
-                    child: Container(
-                      padding: const EdgeInsets.only(left: 10, right: 10, top: 5, bottom: 5),
-                      decoration: BoxDecoration(
-                          color: const Color(
-                            0xff1D2C3D,
-                          ),
-                          borderRadius: BorderRadius.circular(5)),
-                      child: Text(
-                        'Verify Otp'.tr,
-                        style: GoogleFonts.poppins(color: Colors.white, fontWeight: FontWeight.w400, fontSize: 14),
-                      ),
-                    ),
-                  ),
-                ),
+                // GestureDetector(
+                //   onTap: () {
+                //     if (_isValue == true) {
+                //       verifyOtp();
+                //     } else {
+                //       showToast('please accept Terms and Condition'.tr);
+                //     }
+                //   },
+                //   child: Align(
+                //     alignment: Alignment.centerRight,
+                //     child: Container(
+                //       padding: const EdgeInsets.only(left: 10, right: 10, top: 5, bottom: 5),
+                //       decoration: BoxDecoration(
+                //           color: const Color(
+                //             0xff1D2C3D,
+                //           ),
+                //           borderRadius: BorderRadius.circular(5)),
+                //       child: Text(
+                //         'Click here to verify the Otp'.tr,
+                //         style: GoogleFonts.poppins(color: Colors.white, fontWeight: FontWeight.w400, fontSize: 14),
+                //       ),
+                //     ),
+                //   ),
+                // ),
                 const SizedBox(
                   height: 10,
                 ),
@@ -602,12 +607,17 @@ class _WhatdoyousellScreenState extends State<WhatdoyousellScreen> {
                 ),
                 GestureDetector(
                   onTap: () {
-                    if (vendorRegister == 'done' && otpVerify == 'done') {
-                      if (_isValue == true) {
-                        Get.to(SellingPickupAddress());
-                      } else {
-                        showToast('please accept Terms and Condition'.tr);
-                      }
+                    // if (vendorRegister == 'done' && otpVerify == 'done') {
+                    //   if (_isValue == true) {
+                    //     verifyOtp();
+                    //   } else {
+                    //     showToast('please accept Terms and Condition'.tr);
+                    //   }
+                    // }
+                    if (_isValue == true) {
+                      verifyOtp();
+                    } else {
+                      showToast('please accept Terms and Condition'.tr);
                     }
                   },
                   child: vendorRegister == 'done' && otpVerify == 'done'
@@ -623,7 +633,7 @@ class _WhatdoyousellScreenState extends State<WhatdoyousellScreen> {
                           // Padding inside the container
                           child:  Center(
                             child: Text(
-                              'Next'.tr,
+                              'Click here to verify the Otp'.tr,
                               style: const TextStyle(
                                 fontSize: 16,
                                 fontWeight: FontWeight.bold,
@@ -646,7 +656,7 @@ class _WhatdoyousellScreenState extends State<WhatdoyousellScreen> {
                           // Padding inside the container
                           child:  Center(
                             child: Text(
-                              'Next'.tr,
+                              'Click here to verify the Otp'.tr,
                               style: const TextStyle(
                                 fontSize: 16,
                                 fontWeight: FontWeight.bold,

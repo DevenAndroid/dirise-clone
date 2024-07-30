@@ -253,10 +253,10 @@ class _ReturnPolicyScreensState extends State<ReturnPolicyScreens> {
                           ),
                           VendorCommonTextfield(
                               controller: titleController,
-                              hintText: "DIRISE standard Policy".tr,
+                              hintText: "Policy name".tr,
                               validator: (value) {
                                 if (value!.trim().isEmpty) {
-                                  return "DIRISE standard Policy".tr;
+                                  return "Policy name".tr;
                                 }
                                 return null;
                               }),

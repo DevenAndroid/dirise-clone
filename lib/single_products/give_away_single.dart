@@ -1156,10 +1156,14 @@ class _GiveAwayProductState extends State<GiveAwayProduct> {
                             const SizedBox(
                               width: 7,
                             ),
-                            Text(
-                              locationController.city.toString(),
-                              style: GoogleFonts.poppins(
-                                  color: const Color(0xFF014E70), fontSize: 14, fontWeight: FontWeight.w500),
+                            Expanded(
+                              child: Text(
+                                maxLines: 1,
+                                overflow: TextOverflow.ellipsis,
+                                locationController.city.toString(),
+                                style: GoogleFonts.poppins(
+                                    color: const Color(0xFF014E70), fontSize: 14, fontWeight: FontWeight.w500),
+                              ),
                             ),
                           ],
                         ),
@@ -1186,7 +1190,10 @@ class _GiveAwayProductState extends State<GiveAwayProduct> {
                             ),
                             Expanded(
                               child: Text(
-                                formattedDate.toString(),
+                                maxLines: 1,
+                                overflow: TextOverflow.ellipsis,
+                                // formattedDate.toString(),
+                                modelSingleProduct.value.singleGiveawayProduct!.shippingDate.toString(),
                                 style: GoogleFonts.poppins(
                                     color: const Color(0xFF014E70), fontSize: 14, fontWeight: FontWeight.w500),
                               ),
@@ -1221,6 +1228,8 @@ class _GiveAwayProductState extends State<GiveAwayProduct> {
                                 modelSingleProduct.value.singleGiveawayProduct!.lowestDeliveryPrice == ""
                                     ? "0"
                                     : modelSingleProduct.value.singleGiveawayProduct!.lowestDeliveryPrice.toString(),
+                                maxLines: 1,
+                                overflow: TextOverflow.ellipsis,
                                 style: GoogleFonts.poppins(
                                     color: const Color(0xFF014E70), fontSize: 14, fontWeight: FontWeight.w500),
                               ),
@@ -1362,7 +1371,7 @@ class _GiveAwayProductState extends State<GiveAwayProduct> {
                               height: 10,
                             ),
                             Text(
-                              'Seller Commercial Licence',
+                              'Seller documents',
                               style: GoogleFonts.poppins(color: Colors.black, fontSize: 20, fontWeight: FontWeight.w600),
                             ),
                             const SizedBox(
@@ -1382,7 +1391,7 @@ class _GiveAwayProductState extends State<GiveAwayProduct> {
                               height: 25,
                             ),
                             Text(
-                              'Translated Commercial Licence',
+                              'Seller translated documents',
                               style: GoogleFonts.poppins(color: Colors.black, fontSize: 20, fontWeight: FontWeight.w600),
                             ),
                             const SizedBox(
@@ -1425,36 +1434,36 @@ class _GiveAwayProductState extends State<GiveAwayProduct> {
                             const SizedBox(
                               height: 20,
                             ),
-                            GestureDetector(
-                              onTap: (){
-                                Get.to(
-                                        () => SingleStoreScreen(storeDetails:  VendorStoreData(id:
-                                    modelSingleProduct.value.singleGiveawayProduct!.vendorInformation!.storeId
-                                    ))
-                                );
-                              },
-                              child: Align(
-                                alignment: Alignment.centerRight,
-                                child: Container(
-                                  width: 130,
-                                  padding: const EdgeInsets.all(10),
-                                  decoration: BoxDecoration(
-                                      border: Border.all(color: const Color(0xFF014E70), width: 1.5),
-                                      borderRadius: BorderRadius.circular(30)),
-                                  child: Center(
-                                    child: Text(
-                                      "Take Below",
-                                      style: GoogleFonts.poppins(
-                                          color: const Color(0xFF014E70), fontSize: 14, fontWeight: FontWeight.w500),
-                                    ),
-                                  ),
-                                ),
-                              ),
-                            ),
-
-                            const SizedBox(
-                              height: 10,
-                            ),
+                            // GestureDetector(
+                            //   onTap: (){
+                            //     Get.to(
+                            //             () => SingleStoreScreen(storeDetails:  VendorStoreData(id:
+                            //         modelSingleProduct.value.singleGiveawayProduct!.vendorInformation!.storeId
+                            //         ))
+                            //     );
+                            //   },
+                            //   child: Align(
+                            //     alignment: Alignment.centerRight,
+                            //     child: Container(
+                            //       width: 130,
+                            //       padding: const EdgeInsets.all(10),
+                            //       decoration: BoxDecoration(
+                            //           border: Border.all(color: const Color(0xFF014E70), width: 1.5),
+                            //           borderRadius: BorderRadius.circular(30)),
+                            //       child: Center(
+                            //         child: Text(
+                            //           "Take Below",
+                            //           style: GoogleFonts.poppins(
+                            //               color: const Color(0xFF014E70), fontSize: 14, fontWeight: FontWeight.w500),
+                            //         ),
+                            //       ),
+                            //     ),
+                            //   ),
+                            // ),
+                            //
+                            // const SizedBox(
+                            //   height: 10,
+                            // ),
                             Divider(
                               color: Colors.grey.withOpacity(.5),
                               thickness: 1,

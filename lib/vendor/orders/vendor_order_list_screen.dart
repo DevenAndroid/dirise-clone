@@ -180,7 +180,7 @@ class _VendorOrderListState extends State<VendorOrderList> {
                                       
                                             return Text(
                                               vendorProfileController.model.user != null
-                                                  ? "kwd${vendorProfileController.model.user!.earnedBalance ?? ' 0'}"
+                                                  ? "kwd${vendorProfileController.model.user!.earnedBalance ?? ' 0'}".tr
                                                   : "",
                                               style: Theme.of(context).textTheme.headlineSmall!.copyWith(
                                                   fontWeight: FontWeight.w600, fontSize: 28, color: Colors.black),

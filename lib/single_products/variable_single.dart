@@ -24,12 +24,14 @@ import '../model/common_modal.dart';
 
 import '../model/get_review_model.dart';
 import '../model/giveaway_single_model.dart';
+import '../model/model_category_stores.dart';
 import '../model/model_single_product.dart';
 import '../model/order_models/model_direct_order_details.dart';
 import '../model/releated_product_model.dart';
 import '../model/simple_product_model.dart';
 import '../model/variable_product_nodel.dart';
 import '../repository/repository.dart';
+import '../screens/categories/single_category_with_stores/single_store_screen.dart';
 import '../screens/check_out/direct_check_out.dart';
 import '../screens/my_account_screens/contact_us_screen.dart';
 import '../utils/api_constant.dart';
@@ -112,6 +114,7 @@ class _VarientsProductScreenState extends State<VarientsProductScreen> {
     map["product_id"] = id.toString();
     map["quantity"] = map["quantity"] = int.tryParse(_counter.toString());
     map["key"] = 'fedexRate';
+    map["variation"] = selectedVariant!.id.toString();
     map["country_id"] = profileController.model.user != null && cartController.countryId.isEmpty
         ? profileController.model.user!.country_id
         : cartController.countryId.toString();
@@ -174,6 +177,7 @@ class _VarientsProductScreenState extends State<VarientsProductScreen> {
     map["key"] = 'fedexRate';
     map["country_id"] = profileController.model.user != null ? profileController.model.user!.country_id : '117';
     map["zip_code"] = cartController.zipCode.toString();
+    map["variation"] = selectedVariant!.id.toString();
     repositories.postApi(url: ApiUrls.buyNowDetailsUrl, mapData: map, context: context).then((value) {
       log("Value>>>>>>>$value");
       print('singleee');
@@ -236,7 +240,9 @@ class _VarientsProductScreenState extends State<VarientsProductScreen> {
   }
 
   Size size = Size.zero;
-
+  String pricess = '';
+  String descriptionn = '';
+  String longDescription = '';
   void decrementCounter() {
     setState(() {
       if (_counter > 0) {
@@ -448,6 +454,13 @@ class _VarientsProductScreenState extends State<VarientsProductScreen> {
                           style: GoogleFonts.poppins(
                               fontWeight: FontWeight.w500, fontSize: 18, color: const Color(0xFF19313C)),
                         ),
+                        if(descriptionn != '')
+                        Text(
+                          descriptionn.toString(),
+                          style: GoogleFonts.poppins(
+                              fontWeight: FontWeight.w400, fontSize: 12, color: const Color(0xFF19313C)),
+                        ),
+                        if(descriptionn == '')
                         Text(
                           modelSingleProduct.value.variantProduct!.shortDescription.toString().capitalize!,
                           style: GoogleFonts.poppins(
@@ -474,6 +487,13 @@ class _VarientsProductScreenState extends State<VarientsProductScreen> {
                                 ),
                               ),
                             const SizedBox(width: 7),
+                            if(pricess != '')
+                               Text(
+                                'KWD ${pricess.toString()}',
+                                style: const TextStyle(
+                                    fontSize: 20, fontWeight: FontWeight.w500, color: Color(0xFF19313B)),
+                              ),
+                            if(pricess == '')
                             Expanded(
                               child: Text.rich(
                                 TextSpan(
@@ -613,8 +633,12 @@ class _VarientsProductScreenState extends State<VarientsProductScreen> {
                             onChanged: (newValue) {
                               if (newValue == null) return;
                               selectedVariant = newValue;
+                              pricess = newValue.price.toString();
+                              descriptionn = newValue.variantShortDescription.toString();
+                              longDescription = newValue.variantLongDescription.toString();
                               carouselController.animateToPage(imagesList
                                   .indexWhere((element) => element.toString() == selectedVariant!.image.toString()));
+
                               setState(() {});
                             },
                           ),
@@ -623,29 +647,54 @@ class _VarientsProductScreenState extends State<VarientsProductScreen> {
                           height: 20,
                         ),
                         Text(
-                          "Dirise Welcome deal  ",
+                          "Description",
                           style: GoogleFonts.poppins(
                               fontWeight: FontWeight.w500, fontSize: 18, color: const Color(0xFF014E70)),
                         ),
                         const SizedBox(
                           height: 10,
                         ),
-                        Row(
-                          children: [
-                            const Icon(
-                              Icons.circle,
-                              color: Colors.grey,
-                              size: 10,
-                            ),
-                            const SizedBox(
-                              width: 7,
-                            ),
-                            Text(
-                              'Up to 70% off. Free shipping on 1st order',
-                              style: GoogleFonts.poppins(color: Colors.grey, fontSize: 14, fontWeight: FontWeight.w500),
-                            ),
-                          ],
-                        ),
+                        if(modelSingleProduct.value.variantProduct!.longDescription != '' &&
+                            modelSingleProduct.value.variantProduct!.longDescription != null && longDescription == '')
+                          Row(
+                            crossAxisAlignment: CrossAxisAlignment.center,
+                            children: [
+                              const Icon(
+                                Icons.circle,
+                                color: Colors.grey,
+                                size: 10,
+                              ),
+                              const SizedBox(
+                                width: 7,
+                              ),
+                              Expanded(
+                                child: Text(
+                                  modelSingleProduct.value.variantProduct!.longDescription ?? '',
+                                  style: GoogleFonts.poppins(color: Colors.grey, fontSize: 14, fontWeight: FontWeight.w500),
+                                ),
+                              ),
+                            ],
+                          ),
+                        if(longDescription != '')
+                          Row(
+                            crossAxisAlignment: CrossAxisAlignment.center,
+                            children: [
+                              const Icon(
+                                Icons.circle,
+                                color: Colors.grey,
+                                size: 10,
+                              ),
+                              const SizedBox(
+                                width: 7,
+                              ),
+                              Expanded(
+                                child: Text(
+                                  longDescription.toString(),
+                                  style: GoogleFonts.poppins(color: Colors.grey, fontSize: 14, fontWeight: FontWeight.w500),
+                                ),
+                              ),
+                            ],
+                          ),
                         const SizedBox(
                           height: 10,
                         ),
@@ -716,7 +765,11 @@ class _VarientsProductScreenState extends State<VarientsProductScreen> {
                           children: [
                             InkWell(
                               onTap: () {
-                                directBuyProduct();
+                                if(selectedVariant != null) {
+                                  directBuyProduct();
+                                }else{
+                                  showToastCenter('Please select variation');
+                                }
                               },
                               child: Container(
                                 padding: const EdgeInsets.symmetric(vertical: 10, horizontal: 40),
@@ -733,7 +786,11 @@ class _VarientsProductScreenState extends State<VarientsProductScreen> {
                             ),
                             InkWell(
                               onTap: () {
-                                addToCartProduct();
+                                if(selectedVariant != null) {
+                                  addToCartProduct();
+                                }else{
+                                  showToastCenter('Please select variation');
+                                }
                               },
                               child: Container(
                                 padding: const EdgeInsets.symmetric(vertical: 10, horizontal: 40),
@@ -826,10 +883,14 @@ class _VarientsProductScreenState extends State<VarientsProductScreen> {
                             const SizedBox(
                               width: 7,
                             ),
-                            Text(
-                              locationController.city.toString(),
-                              style: GoogleFonts.poppins(
-                                  color: const Color(0xFF014E70), fontSize: 14, fontWeight: FontWeight.w500),
+                            Expanded(
+                              child: Text(
+                                maxLines: 1,
+                                overflow: TextOverflow.ellipsis,
+                                locationController.city.toString(),
+                                style: GoogleFonts.poppins(
+                                    color: const Color(0xFF014E70), fontSize: 14, fontWeight: FontWeight.w500),
+                              ),
                             ),
                           ],
                         ),
@@ -856,7 +917,10 @@ class _VarientsProductScreenState extends State<VarientsProductScreen> {
                             ),
                             Expanded(
                               child: Text(
-                                formattedDate.toString(),
+                               //  formattedDate.toString(),
+                                modelSingleProduct.value.variantProduct!.shippingDate.toString(),
+                                maxLines: 1,
+                                overflow: TextOverflow.ellipsis,
                                 style: GoogleFonts.poppins(
                                     color: const Color(0xFF014E70), fontSize: 14, fontWeight: FontWeight.w500),
                               ),
@@ -891,6 +955,8 @@ class _VarientsProductScreenState extends State<VarientsProductScreen> {
                                 modelSingleProduct.value.variantProduct!.lowestDeliveryPrice == ""
                                     ? "0"
                                     : modelSingleProduct.value.variantProduct!.lowestDeliveryPrice.toString(),
+                                maxLines: 1,
+                                overflow: TextOverflow.ellipsis,
                                 style: GoogleFonts.poppins(
                                     color: const Color(0xFF014E70), fontSize: 14, fontWeight: FontWeight.w500),
                               ),
@@ -984,7 +1050,7 @@ class _VarientsProductScreenState extends State<VarientsProductScreen> {
                           height: 10,
                         ),
                         Text(
-                          'Seller Commercial Licence',
+                          'Seller documents',
                           style: GoogleFonts.poppins(color: Colors.black, fontSize: 20, fontWeight: FontWeight.w600),
                         ),
                         const SizedBox(
@@ -1004,7 +1070,7 @@ class _VarientsProductScreenState extends State<VarientsProductScreen> {
                           height: 25,
                         ),
                         Text(
-                          'Translated Commercial Licence',
+                          'Seller translated documents',
                           style: GoogleFonts.poppins(color: Colors.black, fontSize: 20, fontWeight: FontWeight.w600),
                         ),
                         const SizedBox(
@@ -1012,43 +1078,61 @@ class _VarientsProductScreenState extends State<VarientsProductScreen> {
                         ),
                         Center(child: Image.asset("assets/svgs/licence.png")),
 
-                        Align(
-                          alignment: Alignment.centerRight,
-                          child: Container(
-                            width: 130,
-                            padding: const EdgeInsets.all(10),
-                            decoration: BoxDecoration(
-                                border: Border.all(color: const Color(0xFF014E70), width: 1.5),
-                                borderRadius: BorderRadius.circular(30)),
-                            child: Center(
-                              child: Text(
-                                "Seller profile",
-                                style: GoogleFonts.poppins(
-                                    color: const Color(0xFF014E70), fontSize: 14, fontWeight: FontWeight.w500),
+                        GestureDetector(
+                          onTap: (){
+                            Get.to(
+                                    () => SingleStoreScreen(storeDetails:  VendorStoreData(id:
+                                modelSingleProduct.value.variantProduct!.vendorInformation!.storeId
+                                ))
+                            );
+                          },
+                          child: Align(
+                            alignment: Alignment.centerRight,
+                            child: Container(
+                              width: 130,
+                              padding: const EdgeInsets.all(10),
+                              decoration: BoxDecoration(
+                                  border: Border.all(color: const Color(0xFF014E70), width: 1.5),
+                                  borderRadius: BorderRadius.circular(30)),
+                              child: Center(
+                                child: Text(
+                                  "Seller profile",
+                                  style: GoogleFonts.poppins(
+                                      color: const Color(0xFF014E70), fontSize: 14, fontWeight: FontWeight.w500),
+                                ),
                               ),
                             ),
                           ),
                         ),
-                        const SizedBox(
-                          height: 20,
-                        ),
-                        Align(
-                          alignment: Alignment.centerRight,
-                          child: Container(
-                            width: 130,
-                            padding: const EdgeInsets.all(10),
-                            decoration: BoxDecoration(
-                                border: Border.all(color: const Color(0xFF014E70), width: 1.5),
-                                borderRadius: BorderRadius.circular(30)),
-                            child: Center(
-                              child: Text(
-                                "Take Below",
-                                style: GoogleFonts.poppins(
-                                    color: const Color(0xFF014E70), fontSize: 14, fontWeight: FontWeight.w500),
-                              ),
-                            ),
-                          ),
-                        ),
+                        // const SizedBox(
+                        //   height: 20,
+                        // ),
+                        // GestureDetector(
+                        //   onTap: (){
+                        //     Get.to(
+                        //             () => SingleStoreScreen(storeDetails:  VendorStoreData(id:
+                        //         modelSingleProduct.value.variantProduct!.vendorInformation!.storeId
+                        //         ))
+                        //     );
+                        //   },
+                        //   child: Align(
+                        //     alignment: Alignment.centerRight,
+                        //     child: Container(
+                        //       width: 130,
+                        //       padding: const EdgeInsets.all(10),
+                        //       decoration: BoxDecoration(
+                        //           border: Border.all(color: const Color(0xFF014E70), width: 1.5),
+                        //           borderRadius: BorderRadius.circular(30)),
+                        //       child: Center(
+                        //         child: Text(
+                        //           "Take Below",
+                        //           style: GoogleFonts.poppins(
+                        //               color: const Color(0xFF014E70), fontSize: 14, fontWeight: FontWeight.w500),
+                        //         ),
+                        //       ),
+                        //     ),
+                        //   ),
+                        // ),
 
                         const SizedBox(
                           height: 10,

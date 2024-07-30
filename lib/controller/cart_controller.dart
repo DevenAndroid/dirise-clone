@@ -150,12 +150,8 @@ class CartController extends GetxController {
       'callback_url': 'https://diriseapp.com/home/$navigationBackUrl',
       'failure_url': 'https://diriseapp.com/home/$failureUrl',
       "shipping": [
-        {"title":title,
 
-          "type":purchaseType1,
-          "shipment_provider": shipmentProvider,
-          "store_id":  storeIdShipping.toString(), "store_name": storeNameShipping.toString(),"ship_price": shipping_new_api.toString() , "shipping_type_id": shippingId,
-        'shipping_date' :  shippingDates.toString()}
+
       ],
       "cart_id": ["2"],
       'billing_address' : {
@@ -392,6 +388,7 @@ class CartController extends GetxController {
       required String email,
       required String phone,
       required String countryName,
+      required String shortCode,
       required String alternatePhone,
       required String address,
       required String address2,
@@ -423,6 +420,7 @@ class CartController extends GetxController {
       'title': title,
       'country_id': country,
       'country' : countryName,
+      'country_sort_name' : shortCode,
       'state_id': stateId,
       'city_id': cityId,
       'state': state,

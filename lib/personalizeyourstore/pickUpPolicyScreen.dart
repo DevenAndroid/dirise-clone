@@ -138,11 +138,10 @@ class _PickUpPolicyPolicyScreenState extends State<PickUpPolicyPolicyScreen> {
                     contentPadding: const EdgeInsets.all(5),
                     controller: policyNameController,
                     obSecure: false,
-                    hintText: 'DIRISE standard Policy',
+                    hintText: 'Policy name',
                     validator: MultiValidator([
                       RequiredValidator(
-                          errorText: ''
-                                  'Dirise standard policy must be required'
+                          errorText: 'Policy name must be required'
                               .tr),
                     ])),
                 const SizedBox(

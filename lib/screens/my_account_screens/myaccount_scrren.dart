@@ -113,6 +113,7 @@ class _MyAccountScreenState extends State<MyAccountScreen> {
   final RxBool _isValue = false.obs;
 
   var vendor = ['Dashboard', 'Order', 'Pending Products', 'Approved Products','Operating Hours','Social Media','Bank Details', 'Earnings'];
+  var vendorArab = ['لوحة القيادة', 'طلب', 'المنتجات المعلقة', 'المنتجات المعتمدة','ساعات العمل','وسائل التواصل الاجتماعي','التفاصيل المصرفية', 'الأرباح'];
   var vendor1 = ['Become a vendor', 'Pending Products', 'Approved Products'];
 
   var vendorRoutes = [
@@ -317,7 +318,7 @@ class _MyAccountScreenState extends State<MyAccountScreen> {
                         Text(
                           profileController.userLoggedIn
                               ? profileController.apiLoaded && profileController.model.user != null
-                                  ? profileController.model.user!.name ?? ""
+                                  ? profileController.model.user!.name ?? ''
                                   : ""
                               : AppStrings.guestUser.tr,
                           style: GoogleFonts.poppins(color: AppTheme.buttonColor, fontSize: 24, fontWeight: FontWeight.w600),
@@ -2209,32 +2210,29 @@ class _MyAccountScreenState extends State<MyAccountScreen> {
                                       Expanded(
                                         child: TextButton(
                                           onPressed: () {
-
-
-
-
-                                           if (vendor[index] == 'Dashboard') {
+                                            print("Index---:${vendor[index]}");
+                                           if (vendor[index] == 'Dashboard' && vendorArab[index] == 'لوحة القيادة') {
                                                Get.toNamed( VendorDashBoardScreen.route);
                                             }
-                                           else if(vendor[index] == 'Order'){
+                                           else if(vendor[index] == 'Order' && vendorArab[index] == 'طلب'){
                                              Get.to(const VendorOrderList());
                                            }
-                                           else if(vendor[index] == 'Pending Products'){
+                                           else if(vendor[index] == 'Pending Products' && vendorArab[index] == 'المنتجات المعلقة'){
                                              Get.to(const VendorProductScreen());
                                            }
-                                           else if(vendor[index] == 'Approved Products'){
+                                           else if(vendor[index] == 'Approved Products' && vendorArab[index] == 'المنتجات المعتمدة'){
                                              Get.to(const ApproveProductScreen());
                                            }
-                                           else if(vendor[index] == 'Operating Hours'){
+                                           else if(vendor[index] == 'Operating Hours' && vendorArab[index] == 'ساعات العمل'){
                                              Get.to(const SetTimeScreen());
                                            }
-                                           else if(vendor[index] == 'Bank Details'){
+                                           else if(vendor[index] == 'Bank Details' && vendorArab[index] == 'التفاصيل المصرفية'){
                                              Get.to(const BankDetailsScreen());
                                            }
-                                           else if(vendor[index] == 'Earnings'){
+                                           else if(vendor[index] == 'Earnings' && vendorArab[index] == 'الأرباح'){
                                              Get.to(const WithdrawMoney());
                                            }
-                                           else if(vendor[index] == 'Social Media'){
+                                           else if(vendor[index] == 'Social Media' && vendorArab[index] == 'وسائل التواصل الاجتماعي'){
                                              Get.to(const SocialMediaStoreAccount());
                                            }
                                            else {
@@ -2246,6 +2244,7 @@ class _MyAccountScreenState extends State<MyAccountScreen> {
                                               padding: EdgeInsets.zero.copyWith(left: 16)),
                                           child: Row(
                                             children: [
+                                              if( profileController.selectedLAnguage.value == 'English')
                                               Expanded(
                                                 child: Text(
                                                   vendor[index],
@@ -2255,6 +2254,16 @@ class _MyAccountScreenState extends State<MyAccountScreen> {
                                                       color: Colors.grey.shade500),
                                                 ),
                                               ),
+                                              if( profileController.selectedLAnguage.value != 'English')
+                                                Expanded(
+                                                  child: Text(
+                                                    vendorArab[index],
+                                                    style: GoogleFonts.poppins(
+                                                        fontSize: 16,
+                                                        fontWeight: FontWeight.w400,
+                                                        color: Colors.grey.shade500),
+                                                  ),
+                                                ),
                                               profileController.selectedLAnguage.value == 'English' ?
                                               Image.asset(
                                                 'assets/images/forward_icon.png',
