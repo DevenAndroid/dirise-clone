@@ -288,23 +288,23 @@ class _ApproveProductScreenState extends State<ApproveProductScreen> {
                                                  onTap: () {
                                                    // log('dadad${item.itemType.toString()}');
                                                    log(item.itemType);
-                                                   if (item.itemType == "giveaway") {
+                                                   if (item.itemType == "giveaway".tr) {
                                                      addProductController.idProduct.value = item.id.toString();
                                                      Get.to(ReviewPublishScreen());
                                                    }
-                                                   if (item.itemType == "product") {
+                                                   if (item.itemType == "product".tr) {
                                                      addProductController.idProduct.value = item.id.toString();
                                                      Get.to(ProductReviewPublicScreen());
                                                    }
-                                                   if (item.itemType == "job") {
+                                                   if (item.itemType == "job".tr) {
                                                      addProductController.idProduct.value = item.id.toString();
                                                      Get.to(JobReviewPublishScreen());
                                                    }
-                                                   if (item.itemType == "service") {
+                                                   if (item.itemType == "service".tr) {
                                                      addProductController.idProduct.value = item.id.toString();
                                                      Get.to(ReviewPublishServiceScreen());
                                                    }
-                                                   if (item.itemType == "virtual_product") {
+                                                   if (item.itemType == "virtual_product".tr) {
                                                      addProductController.idProduct.value = item.id.toString();
                                                      Get.to(VirtualReviewandPublishScreen());
                                                    }
