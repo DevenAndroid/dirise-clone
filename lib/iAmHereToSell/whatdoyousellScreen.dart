@@ -469,7 +469,7 @@ class _WhatdoyousellScreenState extends State<WhatdoyousellScreen> {
                               ? const SizedBox()
                               : vendorregister();
                         } else {
-                          showToast('Please Accept Terms of Service'.tr);
+                          showToast('Please accept terms of service'.tr);
                         }
                       }
                     },
@@ -529,7 +529,7 @@ class _WhatdoyousellScreenState extends State<WhatdoyousellScreen> {
                   style: GoogleFonts.poppins(color: const Color(0xff292F45), fontWeight: FontWeight.w600, fontSize: 20),
                 ),
                 Text(
-                  'Enter Verification'.tr,
+                  'Enter verification code'.tr,
                   style: GoogleFonts.poppins(color: const Color(0xff1D2C3D), fontWeight: FontWeight.w400, fontSize: 14),
                 ),
                 PinCodeFields(
@@ -617,7 +617,7 @@ class _WhatdoyousellScreenState extends State<WhatdoyousellScreen> {
                     if (_isValue == true) {
                       verifyOtp();
                     } else {
-                      showToast('please accept Terms and Condition'.tr);
+                      showToast('Please accept terms and condition'.tr);
                     }
                   },
                   child: vendorRegister == 'done' && otpVerify == 'done'

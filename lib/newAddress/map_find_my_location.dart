@@ -20,6 +20,7 @@ import '../../controller/location_controller.dart';
 import '../../widgets/common_button.dart';
 import '../../widgets/common_colour.dart';
 import '../../widgets/dimension_screen.dart';
+import '../controller/cart_controller.dart';
 import '../controller/profile_controller.dart';
 import '../controller/service_controller.dart';
 import '../model/common_modal.dart';
@@ -79,7 +80,7 @@ class _FindMyLocationAddressState extends State<FindMyLocationAddress> {
     }
     return true;
   }
-
+  final cartController = Get.put(CartController());
   Future<void> _getCurrentPosition() async {
     final hasPermission = await _handleLocationPermission();
 
@@ -458,6 +459,7 @@ class _FindMyLocationAddressState extends State<FindMyLocationAddress> {
                                   serviceController.addressController.text = controllerMap.street.value.toString();
                                   serviceController.address2Controller.text = controllerMap.town.value.toString();
                                   serviceController.zipCodeController.text = controllerMap.zipcode.value.toString();
+                                  cartController.countryCode = controllerMap.countryCode.value.toString();
                                   Get.back();
                                   bottomSheet(addressData: AddressData());
 

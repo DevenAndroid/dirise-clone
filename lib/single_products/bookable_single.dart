@@ -931,6 +931,8 @@ class _BookableProductScreenState extends State<BookableProductScreen> {
                     children: [
                       InkWell(
                         onTap: () {
+                          cartController.productElementId =  id.toString();
+                          cartController.productQuantity = productQuantity.value.toString();
                           directBuyProduct();
                         },
                         child: Container(
@@ -1635,6 +1637,8 @@ class _BookableProductScreenState extends State<BookableProductScreen> {
                                           children: [
                                             ElevatedButton(
                                               onPressed: () {
+                                                cartController.productElementId =  id.toString();
+                                                cartController.productQuantity = productQuantity.value.toString();
                                                 directBuyProduct();
                                               },
                                               style: ElevatedButton.styleFrom(
