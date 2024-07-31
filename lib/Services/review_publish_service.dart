@@ -359,7 +359,7 @@ class _ReviewPublishServiceScreenState extends State<ReviewPublishServiceScreen>
                             mainAxisAlignment: MainAxisAlignment.spaceBetween,
                             children: [
                               Text(
-                                'Make it on sale',
+                                'Price',
                                 style: GoogleFonts.poppins(
                                   color: AppTheme.primaryColor,
                                   fontSize: 15,

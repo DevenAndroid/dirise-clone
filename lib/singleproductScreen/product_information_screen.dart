@@ -109,7 +109,7 @@ class _ProductInformationScreensState extends State<ProductInformationScreens> {
   List<SubProductData> subProductData = [];
 
   void fetchDataBasedOnId(int id) async {
-    String apiUrl = 'https://dirise.virtualdemo.tech/api/product-category?id=$id';
+    String apiUrl = 'https://admin.diriseapp.com/api/product-category?id=$id';
     await repositories.getApi(url: apiUrl).then((value) {
       productCategoryModel.value = ModelCategoryList.fromJson(jsonDecode(value));
       // setState(() {
@@ -121,7 +121,7 @@ class _ProductInformationScreensState extends State<ProductInformationScreens> {
   SubCategoryModel subProductCategoryModel = SubCategoryModel();
 
   void fetchSubCategoryBasedOnId(int id1) async {
-    String apiUrl1 = 'https://dirise.virtualdemo.tech/api/product-subcategory?category_id=$id1';
+    String apiUrl1 = 'https://admin.diriseapp.com/api/product-subcategory?category_id=$id1';
     await repositories.getApi(url: apiUrl1).then((value) {
       subProductCategoryModel = SubCategoryModel.fromJson(jsonDecode(value));
       setState(() {

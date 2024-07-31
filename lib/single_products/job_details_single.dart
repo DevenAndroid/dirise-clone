@@ -68,7 +68,7 @@ class _JobDetailsSingleScreenState extends State<JobDetailsSingleScreen> {
 
       body: SingleChildScrollView(
         child: Obx(() {
-          return  getJobModel.value.status ==true
+          return  getJobModel.value.singleJobProduct != null
               ? Column(
             children: [
               SizedBox(height: 30,),
@@ -273,6 +273,7 @@ class _JobDetailsSingleScreenState extends State<JobDetailsSingleScreen> {
                                       child: SvgPicture.asset("assets/svgs/linkin.svg")),
                                 ],
                               ),
+                              if(getJobModel.value.singleJobProduct!.stoerAddress != null)
                               Text(
                                 "${getJobModel.value.singleJobProduct!.stoerAddress!.city.toString()} ,"+   " ${getJobModel.value.singleJobProduct!.stoerAddress!.state.toString()}",
                                 style: GoogleFonts.poppins(color: Color(0xFF545454), fontWeight: FontWeight.w400, fontSize: 12),),

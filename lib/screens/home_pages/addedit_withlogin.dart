@@ -81,6 +81,7 @@ class _HomeAddEditAddressLoginState extends State<HomeAddEditAddressLogin> {
           cartController.countryId = locationController.addressListModel.value.defaultAddress!.countryId.toString();
           locationController.zipcode.value = locationController.addressListModel.value.defaultAddress!.zipCode.toString();
           locationController.state = locationController.addressListModel.value.defaultAddress!.state.toString();
+          locationController.city.value = locationController.addressListModel.value.defaultAddress!.city.toString();
           homeController.trendingData();
           homeController.popularProductsData();
           Get.back();
