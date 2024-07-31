@@ -17,6 +17,7 @@ import 'package:intl/intl.dart';
 import 'package:smooth_page_indicator/smooth_page_indicator.dart';
 
 import '../controller/cart_controller.dart';
+import '../controller/home_controller.dart';
 import '../controller/location_controller.dart';
 import '../controller/profile_controller.dart';
 import '../controller/wish_list_controller.dart';
@@ -76,11 +77,13 @@ class _VarientsProductScreenState extends State<VarientsProductScreen> {
   String formattedDate = "";
   String dateTimeString = "";
   String imageSelect = '';
+  final homeController = Get.put(TrendingProductsController());
   getProductDetails() {
     // statusSingle = RxStatus.loading();
     Map<String, dynamic> map = {};
     map['product_id'] = id.toString();
     map['key'] = 'fedexRate';
+    map["is_def_address"] = homeController.defaultAddressId.toString();
     repositories.postApi(url: ApiUrls.varientsUrl, mapData: map).then((value) {
       log('modelSingleProduct.value1 ${modelSingleProduct.value.toJson()}');
       modelSingleProduct.value = VariableProductModel.fromJson(jsonDecode(value));

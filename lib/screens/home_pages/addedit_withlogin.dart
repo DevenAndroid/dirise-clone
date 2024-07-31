@@ -6,6 +6,7 @@ import 'package:flutter/widgets.dart';
 import 'package:get/get.dart';
 import 'package:google_fonts/google_fonts.dart';
 import '../../controller/cart_controller.dart';
+import '../../controller/home_controller.dart';
 import '../../controller/location_controller.dart';
 import '../../controller/profile_controller.dart';
 import '../../model/common_modal.dart';
@@ -65,6 +66,7 @@ class _HomeAddEditAddressLoginState extends State<HomeAddEditAddressLogin> {
     });
   }
 
+  final homeController = Get.put(TrendingProductsController());
   defaultAddressApi() async {
     Map<String, dynamic> map = {};
     map['address_id'] = cartController.selectedAddress.id.toString();
@@ -74,7 +76,15 @@ class _HomeAddEditAddressLoginState extends State<HomeAddEditAddressLogin> {
         showToast(response.message.toString());
         locationController.getAddress();
         locationController.onTapLocation.value = false;
-        Get.back();
+        Future.delayed(const Duration(seconds: 1), () {
+          homeController.defaultAddressId = locationController.addressListModel.value.defaultAddress!.id.toString();
+          cartController.countryId = locationController.addressListModel.value.defaultAddress!.countryId.toString();
+          locationController.zipcode.value = locationController.addressListModel.value.defaultAddress!.zipCode.toString();
+          locationController.state = locationController.addressListModel.value.defaultAddress!.state.toString();
+          homeController.trendingData();
+          homeController.popularProductsData();
+          Get.back();
+        });
       }else{
         showToast(response.message.toString());
       }

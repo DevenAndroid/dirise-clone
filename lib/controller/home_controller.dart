@@ -15,6 +15,7 @@ import 'cart_controller.dart';
 import 'location_controller.dart';
 
 class TrendingProductsController extends GetxController {
+  String defaultAddressId = '';
   Rx<HomeModal> homeModal = HomeModal().obs;
   final cartController = Get.put(CartController());
   Rx<PopularProductsModal> popularProdModal = PopularProductsModal().obs;
@@ -34,6 +35,7 @@ class TrendingProductsController extends GetxController {
     // map["country_id"]= cartController.countryId.toString();
       map["zip_code"]= locationController.zipcode.value.toString();
       map["state"]= locationController.state.toString();
+      map["is_def_address"]= defaultAddressId.toString();
       log('Tranding Api ${map}');
     await repositories.postApi(url: ApiUrls.trendingProductsUrl, mapData:map,showResponse: true).then((value) {
       trendingModel.value = TendingModel.fromJson(jsonDecode(value));
@@ -58,6 +60,7 @@ class TrendingProductsController extends GetxController {
     // map["country_id"]= cartController.countryId.isNotEmpty ? cartController.countryId.toString() : '117';
     map["zip_code"]= locationController.zipcode.value.toString();
     map["state"]= locationController.state.toString();
+    map["is_def_address"]= defaultAddressId.toString();
     log('this is calll........${map.toString()}');
     await repositories.postApi(url: ApiUrls.popularProductUrl, mapData: map).then((value) {
       popularProdModal.value = PopularProductsModal.fromJson(jsonDecode(value));

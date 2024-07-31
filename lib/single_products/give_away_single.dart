@@ -16,6 +16,7 @@ import 'package:intl/intl.dart';
 import 'package:smooth_page_indicator/smooth_page_indicator.dart';
 
 import '../controller/cart_controller.dart';
+import '../controller/home_controller.dart';
 import '../controller/location_controller.dart';
 import '../controller/profile_controller.dart';
 import '../controller/wish_list_controller.dart';
@@ -54,7 +55,7 @@ class _GiveAwayProductState extends State<GiveAwayProduct> {
   // SingleGiveawayProduct productElement = SingleGiveawayProduct();
   TextEditingController reviewController = TextEditingController();
   final profileController = Get.put(ProfileController());
-
+  final homeController = Get.put(TrendingProductsController());
   // ProductElement get productDetails => productElement;
   Rx<GiveAwaySingleModel> modelSingleProduct = GiveAwaySingleModel().obs;
   ModelAddReview modelAddReview = ModelAddReview();
@@ -183,6 +184,7 @@ class _GiveAwayProductState extends State<GiveAwayProduct> {
       // "zip_code" : locationController.zipcode.value.toString(),
       // "state" : locationController.state.toString(),
       "key": 'fedexRate',
+      "is_def_address" : homeController.defaultAddressId.toString()
       // "country_id" : profileController.model.user!= null && cartController.countryId.isEmpty ? profileController.model.user!.country_id : cartController.countryId.toString()
         }).then((value) {
       modelSingleProduct.value = GiveAwaySingleModel.fromJson(jsonDecode(value));
