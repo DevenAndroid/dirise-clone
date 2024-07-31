@@ -328,6 +328,8 @@ class _FindMyLocationState extends State<FindMyLocation> {
                                 onPressed: () {
                                   locationController.city.value = controllerMap.city.value.toString();
                                   locationController.zipcode.value = controllerMap.state.value.toString();
+                                  controllerMap.sellingPickupAddressApi(context);
+                                  // Get.back();
                                   Get.back();
                                 },
                               ),
