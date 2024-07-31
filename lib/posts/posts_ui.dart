@@ -87,7 +87,7 @@ class _PublishPostScreenState extends State<PublishPostScreen> {
         showToast('Nothing To Post');
       }
     } else {
-      showToast('LogIN YourSelf First');
+      showToast('Login YourSelf First');
     }
   }
 
@@ -127,8 +127,8 @@ class _PublishPostScreenState extends State<PublishPostScreen> {
     showCupertinoModalPopup<void>(
       context: context,
       builder: (BuildContext context) => CupertinoActionSheet(
-        title: const Text(
-          'Select Picture from',
+        title:  Text(
+          'Select Picture from'.tr,
           style: TextStyle(color: Colors.black, fontSize: 18, fontWeight: FontWeight.w600),
         ),
         actions: <CupertinoActionSheetAction>[
@@ -168,7 +168,7 @@ class _PublishPostScreenState extends State<PublishPostScreen> {
                 Get.back();
               });
             },
-            child: const Text("Camera"),
+            child:  Text("Camera".tr),
           ),
           CupertinoActionSheetAction(
             onPressed: () {
@@ -206,14 +206,14 @@ class _PublishPostScreenState extends State<PublishPostScreen> {
                 Get.back();
               });
             },
-            child: const Text('Gallery'),
+            child:  Text('Gallery'.tr),
           ),
           CupertinoActionSheetAction(
             isDestructiveAction: true,
             onPressed: () {
               Get.back();
             },
-            child: const Text('Cancel'),
+            child:  Text('Cancel'.tr),
           ),
         ],
       ),
@@ -298,20 +298,20 @@ class _PublishPostScreenState extends State<PublishPostScreen> {
                                       ],
                                       validator: (value) {
                                         if (value!.isEmpty) {
-                                          return 'Please Post Something';
+                                          return 'Please Post Something'.tr;
                                         }
                                         return null;
                                       },
                                       onChanged: (value){
                                         if(value.length == 5000){
-                                          showToastCenter('Maximum characters allowed only 5000');
+                                          showToastCenter('Maximum characters allowed only 5000'.tr);
                                         }
                                         setState(() {
                                           postController.text = value;
                                         });
                                       },
                                       decoration: InputDecoration(
-                                        hintText: 'What’s Happening?',
+                                        hintText: 'What’s Happening?'.tr,
                                         border: InputBorder.none,
                                         hintStyle: GoogleFonts.poppins(
                                             color: const Color(0xFF5B5B5B), fontWeight: FontWeight.w500, fontSize: 16),
@@ -376,8 +376,8 @@ class _PublishPostScreenState extends State<PublishPostScreen> {
                                               borderRadius: BorderRadius.circular(40),
                                             ),
                                             padding: const EdgeInsets.symmetric(horizontal: 18, vertical: 8),
-                                            child: const Text(
-                                              'Publish Post ',
+                                            child:  Text(
+                                              'Publish Post '.tr,
                                               style: TextStyle(fontSize: 16, fontWeight: FontWeight.w500, color: Colors.white),
                                             ),
                                           ),
@@ -664,19 +664,19 @@ class _PublishPostScreenState extends State<PublishPostScreen> {
                                                         showDialog<String>(
                                                           context: context,
                                                           builder: (BuildContext context) => AlertDialog(
-                                                            title: const Text('Delete Post'),
-                                                            content: const Text('Do you want to delete your post'),
+                                                            title:  Text('Delete Post'.tr),
+                                                            content:  Text('Do you want to delete your post'.tr),
                                                             actions: <Widget>[
                                                               TextButton(
                                                                 onPressed: () => Get.back(),
-                                                                child: const Text('Cancel'),
+                                                                child:  Text('Cancel'.tr),
                                                               ),
                                                               TextButton(
                                                                 onPressed: () async {
                                                                   deleteNewsApi(item.id.toString());
                                                                   Get.back();
                                                                 },
-                                                                child: const Text('OK'),
+                                                                child:  Text('OK'.tr),
                                                               ),
                                                             ],
                                                           ),

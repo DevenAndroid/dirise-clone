@@ -211,12 +211,12 @@ class _PickUpAddressServiceState extends State<PickUpAddressService> {
                   controller: streetController,
                   obSecure: false,
                   hintText: 'Street'.tr,
-                  validator: (value) {
-                    if (value!.trim().isEmpty) {
-                      return 'Street is required'.tr;
-                    }
-                    return null; // Return null if validation passes
-                  },
+                  // validator: (value) {
+                  //   if (value!.trim().isEmpty) {
+                  //     return 'Street is required'.tr;
+                  //   }
+                  //   return null; // Return null if validation passes
+                  // },
                 ),
                 const SizedBox(
                   height: 10,
@@ -317,12 +317,12 @@ class _PickUpAddressServiceState extends State<PickUpAddressService> {
                   controller: townController,
                   obSecure: false,
                   hintText: 'Town'.tr,
-                  validator: (value) {
-                    if (value!.trim().isEmpty) {
-                      return 'Town is required'.tr;
-                    }
-                    return null; // Return null if validation passes
-                  },
+                  // validator: (value) {
+                  //   if (value!.trim().isEmpty) {
+                  //     return 'Town is required'.tr;
+                  //   }
+                  //   return null; // Return null if validation passes
+                  // },
                 ),
                 const SizedBox(
                   height: 10,

@@ -236,12 +236,12 @@ class _AddProductPickUpAddressScreenState extends State<AddProductPickUpAddressS
                   controller: streetController,
                   obSecure: false,
                   hintText: 'Street'.tr,
-                  validator: (value) {
-                    if (value!.trim().isEmpty) {
-                      return 'Street is required'.tr;
-                    }
-                    return null; // Return null if validation passes
-                  },
+                  // validator: (value) {
+                  //   if (value!.trim().isEmpty) {
+                  //     return 'Street is required'.tr;
+                  //   }
+                  //   return null; // Return null if validation passes
+                  // },
                 ),
                 SizedBox(
                   height: 20,
@@ -342,12 +342,12 @@ class _AddProductPickUpAddressScreenState extends State<AddProductPickUpAddressS
                   controller: townController,
                   obSecure: false,
                   hintText: 'Town'.tr,
-                  validator: (value) {
-                    if (value!.trim().isEmpty) {
-                      return 'Town is required'.tr;
-                    }
-                    return null; // Return null if validation passes
-                  },
+                  // validator: (value) {
+                  //   if (value!.trim().isEmpty) {
+                  //     return 'Town is required'.tr;
+                  //   }
+                  //   return null; // Return null if validation passes
+                  // },
                 ),
                 SizedBox(
                   height: 10,
