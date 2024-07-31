@@ -320,16 +320,16 @@ class _ImageWidget1State extends State<ImageWidget1> {
                 ? Column(
                     mainAxisAlignment: MainAxisAlignment.center,
                     children: [
-                      Text(
-                        "${'Select'} ${widget.title}",
-                        style: GoogleFonts.poppins(
-                            fontWeight: FontWeight.w500,
-                            color: validation ? Theme.of(context).colorScheme.error : const Color(0xff463B57),
-                            fontSize: 15),
-                      ),
-                      SizedBox(
-                        height: AddSize.size10,
-                      ),
+                      // Text(
+                      //   "${'Select'} ${widget.title}",
+                      //   style: GoogleFonts.poppins(
+                      //       fontWeight: FontWeight.w500,
+                      //       color: validation ? Theme.of(context).colorScheme.error : const Color(0xff463B57),
+                      //       fontSize: 15),
+                      // ),
+                      // SizedBox(
+                      //   height: AddSize.size10,
+                      // ),
                       Container(
                         decoration: BoxDecoration(
                             shape: BoxShape.circle,
@@ -340,7 +340,7 @@ class _ImageWidget1State extends State<ImageWidget1> {
                         padding: const EdgeInsets.all(6),
                         child: Icon(
                           Icons.upload_file_outlined,
-                          size: 24,
+                          size: 40,
                           color: validation ? Theme.of(context).colorScheme.error : Colors.grey,
                         ),
                       )
@@ -496,17 +496,17 @@ class _ProductImageWidgetState extends State<ProductImageWidget> {
                 ? Column(
                     mainAxisAlignment: MainAxisAlignment.center,
                     children: [
-                      Text(
-                        "${'Select'.tr} ${widget.title}",
-                        style: GoogleFonts.poppins(
-                          fontWeight: FontWeight.w500,
-                          color: validation ? Theme.of(context).colorScheme.error : const Color(0xff463B57),
-                          fontSize: 15,
-                        ),
-                      ),
-                      SizedBox(
-                        height: AddSize.size10,
-                      ),
+                      // Text(
+                      //   "${'Select'.tr} ${widget.title}",
+                      //   style: GoogleFonts.poppins(
+                      //     fontWeight: FontWeight.w500,
+                      //     color: validation ? Theme.of(context).colorScheme.error : const Color(0xff463B57),
+                      //     fontSize: 15,
+                      //   ),
+                      // ),
+                      // SizedBox(
+                      //   height: AddSize.size10,
+                      // ),
                       Container(
                         decoration: BoxDecoration(
                           shape: BoxShape.circle,
@@ -518,7 +518,7 @@ class _ProductImageWidgetState extends State<ProductImageWidget> {
                         padding: const EdgeInsets.all(6),
                         child: Icon(
                           Icons.upload_file_outlined,
-                          size: 24,
+                          size: 40,
                           color: validation ? Theme.of(context).colorScheme.error : Colors.grey,
                         ),
                       )

@@ -247,7 +247,7 @@ class _VirtualReviewandPublishScreenState extends State<VirtualReviewandPublishS
                         child: Container(
                           padding: const EdgeInsets.symmetric(vertical: 12, horizontal: 12),
                           decoration: BoxDecoration(
-                              color: Colors.grey.shade200,
+                              color: Colors.white,
                               borderRadius: BorderRadius.circular(8),
                               border: Border.all(color: AppTheme.secondaryColor)),
                           child: Row(

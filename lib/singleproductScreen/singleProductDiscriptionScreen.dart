@@ -145,7 +145,7 @@ class _SingleProductDiscriptionScreenState extends State<SingleProductDiscriptio
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 Text(
-                  'short description '.tr,
+                  'Intro'.tr,
                   style: GoogleFonts.poppins(color: Colors.black, fontWeight: FontWeight.w600, fontSize: 18),
                 ),
                 const SizedBox(
@@ -154,10 +154,10 @@ class _SingleProductDiscriptionScreenState extends State<SingleProductDiscriptio
                 TextFormField(
                   validator: (value) {
                     if (value!.trim().isEmpty) {
-                      return 'Short description is required'.tr;
+                      return 'Intro is required'.tr;
                     }
                     if (value.trim().length < 15) {
-                      return 'Description must be at least 15 characters long'.tr;
+                      return 'Intro must be at least 15 characters long'.tr;
                     }
                     return null;
                   },
@@ -173,7 +173,7 @@ class _SingleProductDiscriptionScreenState extends State<SingleProductDiscriptio
                     errorMaxLines: 2,
                     contentPadding: const EdgeInsets.all(15),
                     fillColor: Colors.grey.shade100,
-                    hintText: 'short description',
+                    hintText: 'Intro',
                     hintStyle: GoogleFonts.poppins(
                       color: AppTheme.primaryColor,
                       fontSize: 15,
@@ -200,22 +200,22 @@ class _SingleProductDiscriptionScreenState extends State<SingleProductDiscriptio
 
                 ),
                 Text(
-                  'long description '.tr,
+                  'Description'.tr,
                   style: GoogleFonts.poppins(color: Colors.black, fontWeight: FontWeight.w600, fontSize: 18),
                 ),
                 const SizedBox(
                   height: 5,
                 ),
                 TextFormField(
-                  validator: (value) {
-                    if (value!.trim().isEmpty) {
-                      return 'long description is required'.tr;
-                    }
-                    if (value.trim().length < 15) {
-                      return 'Description must be at least 15 characters long'.tr;
-                    }
-                    return null;
-                  },
+                  // validator: (value) {
+                  //   if (value!.trim().isEmpty) {
+                  //     return 'long description is required'.tr;
+                  //   }
+                  //   if (value.trim().length < 15) {
+                  //     return 'Description must be at least 15 characters long'.tr;
+                  //   }
+                  //   return null;
+                  // },
                   controller: longDesController,
                   maxLines: 2,
                   minLines: 2,
@@ -228,7 +228,7 @@ class _SingleProductDiscriptionScreenState extends State<SingleProductDiscriptio
                     errorMaxLines: 2,
                     contentPadding: const EdgeInsets.all(15),
                     fillColor: Colors.grey.shade100,
-                    hintText: 'long description',
+                    hintText: 'Description',
                     hintStyle: GoogleFonts.poppins(
                       color: AppTheme.primaryColor,
                       fontSize: 15,

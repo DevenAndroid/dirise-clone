@@ -141,27 +141,26 @@ class _VirtualDiscriptionScreenState extends State<VirtualDiscriptionScreen> {
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 Text(
-                  'Long Description'.tr,
+                  'Intro'.tr,
                   style: GoogleFonts.poppins(color: Colors.black, fontWeight: FontWeight.w600, fontSize: 18),
                 ),
                 const SizedBox(
                   height: 5,
                 ),
                 TextFormField(
-                  controller: longController,
+                  controller: shortController,
                   maxLines: 2,
                   minLines: 2,
-                  // validator: (value) {
-                  //   if (value!.trim().isEmpty) {
-                  //     return 'description is required'.tr;
-                  //   }
-                  //   if (value.trim().length < 15) {
-                  //     return 'description must be at least 15 characters long'.tr;
-                  //   }
-                  //   return null;
-                  // },
+                  validator: (value) {
+                    if (value!.trim().isEmpty) {
+                      return 'Intro is required'.tr;
+                    }
+                    if (value.trim().length < 15) {
+                      return 'Intro must be at least 15 characters long'.tr;
+                    }
+                    return null;
+                  },
                   decoration: InputDecoration(
-
                     counterStyle: GoogleFonts.poppins(
                       color: AppTheme.primaryColor,
                       fontSize: 25,
@@ -171,7 +170,7 @@ class _VirtualDiscriptionScreenState extends State<VirtualDiscriptionScreen> {
                     errorMaxLines: 2,
                     contentPadding: const EdgeInsets.all(15),
                     fillColor: Colors.grey.shade100,
-                    hintText: 'Long Description(optional)',
+                    hintText: 'Intro',
                     hintStyle: GoogleFonts.poppins(
                       color: AppTheme.primaryColor,
                       fontSize: 15,
@@ -201,14 +200,14 @@ class _VirtualDiscriptionScreenState extends State<VirtualDiscriptionScreen> {
                   height: 5,
                 ),
                 Text(
-                  'Short Description'.tr,
+                  'Description'.tr,
                   style: GoogleFonts.poppins(color: Colors.black, fontWeight: FontWeight.w600, fontSize: 18),
                 ),
                 const SizedBox(
                   height: 5,
                 ),
                 TextFormField(
-                  controller: shortController,
+                  controller: longController,
                   maxLines: 2,
                   minLines: 2,
                   // validator: (value) {
@@ -231,7 +230,7 @@ class _VirtualDiscriptionScreenState extends State<VirtualDiscriptionScreen> {
                     errorMaxLines: 2,
                     contentPadding: const EdgeInsets.all(15),
                     fillColor: Colors.grey.shade100,
-                    hintText: 'Long Description(optional)',
+                    hintText: 'Description',
                     hintStyle: GoogleFonts.poppins(
                       color: AppTheme.primaryColor,
                       fontSize: 15,
