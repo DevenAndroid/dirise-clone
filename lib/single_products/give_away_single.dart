@@ -180,9 +180,11 @@ class _GiveAwayProductState extends State<GiveAwayProduct> {
     statusSingle = RxStatus.loading();
     repositories.postApi(
         url: ApiUrls.singleGiveAwayUrl, mapData: {"product_id": id.toString(),
-      "zip_code" : locationController.zipcode.value.toString(),
-      "state" : locationController.state.toString(),
-      "key": 'fedexRate',  "country_id" : profileController.model.user!= null && cartController.countryId.isEmpty ? profileController.model.user!.country_id : cartController.countryId.toString()}).then((value) {
+      // "zip_code" : locationController.zipcode.value.toString(),
+      // "state" : locationController.state.toString(),
+      "key": 'fedexRate',
+      // "country_id" : profileController.model.user!= null && cartController.countryId.isEmpty ? profileController.model.user!.country_id : cartController.countryId.toString()
+        }).then((value) {
       modelSingleProduct.value = GiveAwaySingleModel.fromJson(jsonDecode(value));
       if (modelSingleProduct.value.singleGiveawayProduct != null) {
         log("modelSingleProduct.product!.toJson().....${modelSingleProduct.value.singleGiveawayProduct!.toJson()}");
@@ -943,6 +945,8 @@ class _GiveAwayProductState extends State<GiveAwayProduct> {
                           children: [
                             InkWell(
                               onTap: () {
+                                cartController.productElementId =  id.toString();
+                                cartController.productQuantity = productQuantity.value.toString();
                                 directBuyProduct();
                               },
                               child: Container(
@@ -1745,6 +1749,8 @@ class _GiveAwayProductState extends State<GiveAwayProduct> {
                                                       children: [
                                                         ElevatedButton(
                                                           onPressed: () {
+                                                            cartController.productElementId =  id.toString();
+                                                            cartController.productQuantity = productQuantity.value.toString();
                                                             directBuyProduct();
                                                           },
                                                           style: ElevatedButton.styleFrom(

@@ -457,10 +457,12 @@ class _DirectCheckOutScreenState extends State<DirectCheckOutScreen> {
                                                       cartController.directOrderResponse.value.subtotal.toString());
                                                   double shipping = double.parse(product.value.toString());
                                                   shippingPrice = product.value.toString();
+                                                  commisionShipping = double.tryParse(product.value.toString())!;
                                                   total = total + shipping;
                                                   cartController.formattedTotal = total.toString();
                                                   cartController.shippingTitle = product.name.toString();
                                                   cartController.shippingPrices1 = product.value.toString();
+                                                  commisionShipping = double.tryParse(product.value.toString())!;
                                                   print('total isss${cartController.formattedTotal.toString()}');
                                                   cartController.shipping_new_api = product.value.toString();
                                                   print('fdfdff${cartController.shipping_new_api.toString()}');

@@ -208,7 +208,7 @@ class _AddProductImageAndVirtualFileState extends State<AddProductImageAndVirtua
                                 8.spaceY,
                                 VendorCommonTextfield(
                                     controller: controller.languageController,
-                                    //key: controller.stockController.getKey,
+                                    key: controller.stockController.getKey,
                                     keyboardType: TextInputType.text,
                                     hintText: "Language".tr,
                                     validator: (value) {

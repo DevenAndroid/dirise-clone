@@ -426,7 +426,7 @@ class CartController extends GetxController {
       'state': state,
       'city': city,
       'type' : type,
-      'phone_country_code' : phoneCountryCode
+      'phone_country_code' : phoneCountryCode,
     };
 
     // Map<String, dynamic> map = {};

@@ -72,6 +72,7 @@ class ServiceController extends GetxController {
   final TextEditingController addressController= TextEditingController();
   final TextEditingController address2Controller= TextEditingController();
   final TextEditingController zipCodeController= TextEditingController();
+  String countryShortID = '';
   final TextEditingController landmarkController= TextEditingController();
   final TextEditingController titleController1= TextEditingController();
   TextEditingController countryController1 = TextEditingController();
