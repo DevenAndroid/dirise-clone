@@ -729,6 +729,11 @@ class LocaleString extends Translations {
           'Approved Products' : 'Approved Products',
           'Operating Hours' : 'Operating Hours',
           'Bank Detail' : 'Bank Detail',
+          'Upload cover photo' : 'Upload cover photo',
+          'Upload extra photos' : 'Upload extra photos',
+          'Please select Image' : 'Please select Image',
+          'Files' : 'Files',
+          'Camera' : 'Camera',
 
        },
 
@@ -1486,6 +1491,23 @@ class LocaleString extends Translations {
           'Pending Products' : 'المنتجات المعلقة',
           'Approved Products' : 'المنتجات المعتمدة',
           'Operating Hours' : 'ساعات العمل',
+          'Upload cover photo' : 'تحميل صورة الغلاف',
+          'Upload extra photos' : 'تحميل صور اضافية',
+          'Please select Image' : 'الرجاء تحديد الصورة',
+          'Files' : 'ملفات',
+          'Camera' : 'آلة تصوير',
+          'Add Product Image successfully' : 'تمت إضافة صورة المنتج بنجاح',
+          'Multiple Products' : 'منتجات متعددة',
+          'Kindly download the following templates to conveniently upload all your products at once\nCopy and paste your products accordingly Upload it in the next step.'
+              : 'برجاء تنزيل النماذج التالية لتحميل جميع منتجاتك مرة واحدة بسهولة\nانسخ منتجاتك والصقها وفقًا لذلك، ثم قم بتحميلها في الخطوة التالية.',
+          'Upload Multiple Product' : 'تحميل منتج متعدد',
+          'Download Demo file' : 'تحميل الملف التجريبي',
+          'Please upload file' : 'يرجى تحميل الملف',
+          'Select Picture from' : 'حدد صورة من',
+          'Gallery' : 'صالة عرض',
+          'Publish Post ' : 'نشر المنشور',
+          'Do you want to delete your post' : 'هل تريد حذف مشاركتك',
+          'Job\'s not found' : 'لم يتم العثور على الوظيفة',
 
         },
 
