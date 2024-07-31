@@ -238,7 +238,7 @@ class _ItemDetailsScreensState extends State<ItemDetailsScreens> {
               CommonTextField(
                   controller: ProductNameController,
                   obSecure: false,
-                  hintText: 'Name',
+                  hintText: 'Name'.tr,
                   validator: MultiValidator([
                     RequiredValidator(errorText: 'Product Name is required'.tr),
                   ])),
@@ -278,8 +278,8 @@ class _ItemDetailsScreensState extends State<ItemDetailsScreens> {
               Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  const Text(
-                    'Search Vendor Category',
+                   Text(
+                    'Search Vendor Category'.tr,
                     style: TextStyle(fontWeight: FontWeight.bold),
                   ),
                   const SizedBox(height: 5),
@@ -297,7 +297,7 @@ class _ItemDetailsScreensState extends State<ItemDetailsScreens> {
                     },
                     controller: searchController,
                     decoration: InputDecoration(
-                      hintText: 'Search',
+                      hintText: 'Search'.tr,
                       prefixIcon: const Icon(Icons.search),
                       border: OutlineInputBorder(
                         borderRadius: BorderRadius.circular(10),
@@ -534,22 +534,22 @@ class _ItemDetailsScreensState extends State<ItemDetailsScreens> {
                 height: 20,
               ),
               CustomOutlineButton(
-                title: 'Confirm',
+                title: 'Confirm'.tr,
                 borderRadius: 11,
                 onPressed: () {
                   if (ProductNameController.text
                       .trim()
                       .isEmpty) {
-                    showToast("Please enter product name");
+                    showToast("Please enter product name".tr);
                   }
                   else if (categoryName.value == "") {
-                    showToast("Please Select Vendor Category");
+                    showToast("Please Select Vendor Category".tr);
                   }
                   else if (categoryName.value == "") {
-                    showToast("Please Select Vendor Category");
+                    showToast("Please Select Vendor Category".tr);
                   }
                   else if (categoryName.value == "") {
-                    showToast("Please Select Vendor Category");
+                    showToast("Please Select Vendor Category".tr);
                   }
                   else {
                     deliverySizeApi();

@@ -116,7 +116,7 @@ class _AddProductFirstImageScreenState extends State<AddProductFirstImageScreen>
     return Scaffold(
       appBar: AppBar(
         automaticallyImplyLeading: false,
-        title: const Text('Add Product'),
+        title:  Text('Add Product'.tr),
         centerTitle: true,
         leading: GestureDetector(
           onTap: (){
@@ -164,7 +164,7 @@ class _AddProductFirstImageScreenState extends State<AddProductFirstImageScreen>
               const SizedBox(height: 20,),
               MultiImageWidget(
                 files: selectedFiles,
-                title: 'Files',
+                title: 'Files'.tr,
                 validation: true,
                 imageOnly: true,
                 filesPicked: (List<File> pickedFiles) {
@@ -177,7 +177,7 @@ class _AddProductFirstImageScreenState extends State<AddProductFirstImageScreen>
               SizedBox(height: 50,),
 
               CustomOutlineButton(
-                title: 'Next',
+                title: 'Next'.tr,
                 onPressed: () {
                   if(featuredImage.path.isNotEmpty && selectedFiles.isNotEmpty){
                     productController.getProductsCategoryList();

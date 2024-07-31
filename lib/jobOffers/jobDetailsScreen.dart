@@ -468,11 +468,11 @@ class _JobDetailsScreenState extends State<JobDetailsScreen> {
                       children: [
                         Text(
                           categoryName.value.isEmpty
-                              ? 'Select job type'
+                              ? 'Select job type'.tr
                               : modelVendorCategory.data!
                               .firstWhereOrNull((element) => element.title == categoryName.value)
                               ?.title
-                              .toString() ?? 'Select job type',
+                              .toString() ?? 'Select job type'.tr,
                         ),
                         const Icon(Icons.arrow_drop_down),
                       ],
