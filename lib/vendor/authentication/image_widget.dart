@@ -416,7 +416,7 @@ class _ProductImageWidgetState extends State<ProductImageWidget> {
             children: <Widget>[
               ListTile(
                 leading: const Icon(Icons.photo_library),
-                title: const Text('Files'),
+                title:  Text('Files'.tr),
                 onTap: () async {
                   Get.back();
                   final pickedFile = await ImagePicker().pickImage(
@@ -430,7 +430,7 @@ class _ProductImageWidgetState extends State<ProductImageWidget> {
               ),
               ListTile(
                 leading: Icon(Icons.camera_alt),
-                title: Text('Camera'),
+                title: Text('Camera'.tr),
                 onTap: () async {
                   Get.back();
                   final pickedFile = await ImagePicker().pickImage(
@@ -445,7 +445,7 @@ class _ProductImageWidgetState extends State<ProductImageWidget> {
 
               ListTile(
                 leading: Icon(Icons.cancel),
-                title: Text('Cancel'),
+                title: Text('Cancel'.tr),
                 onTap: () {
                   Get.back();
                 },

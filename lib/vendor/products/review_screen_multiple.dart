@@ -53,7 +53,7 @@ class _RewardScreenMultipleState extends State<RewardScreenMultiple> {
                 height: 20,
               ),
               Text(
-                'Multiple items uploaded successfully '.tr,
+                'Multiple items uploaded successfully'.tr,
                 style: GoogleFonts.poppins(color: Colors.black, fontWeight: FontWeight.w600, fontSize: 24,),
                 textAlign: TextAlign.center,
               ),
@@ -97,7 +97,7 @@ class _RewardScreenMultipleState extends State<RewardScreenMultiple> {
                 height: 20,
               ),
               CustomOutlineButton(
-                title: 'Continue',
+                title: 'Continue'.tr,
                 borderRadius: 11,
                 onPressed: () {
                   Get.to(()=>const BottomNavbar());
