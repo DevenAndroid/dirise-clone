@@ -183,7 +183,7 @@ class _JobDetailsSingleScreenState extends State<JobDetailsSingleScreen> {
                       ),
                       SizedBox(height: 20,),
                   
-                      Text("Job Description",
+                      Text("Job Description".tr,
                         style: GoogleFonts.poppins(color: Color(0xFF1F1F1F), fontWeight: FontWeight.w500, fontSize: 14),),
                       SizedBox(height: 20,),
                   

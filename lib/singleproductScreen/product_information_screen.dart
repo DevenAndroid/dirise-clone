@@ -215,7 +215,7 @@ class _ProductInformationScreensState extends State<ProductInformationScreens> {
               CommonTextField(
                   controller: ProductNameController,
                   obSecure: false,
-                  hintText: 'Name',
+                  hintText: 'Name'.tr,
                   validator: MultiValidator([
                     RequiredValidator(errorText: 'Product Name is required'.tr),
                   ])),
@@ -497,11 +497,11 @@ class _ProductInformationScreensState extends State<ProductInformationScreens> {
                 height: 20,
               ),
               CustomOutlineButton(
-                title: 'Confirm',
+                title: 'Confirm'.tr,
                 borderRadius: 11,
                 onPressed: () {
                   if (ProductNameController.text.trim().isEmpty) {
-                    showToast("Please enter product name");
+                    showToast("Please enter product name".tr);
                   }
                   // else if (categoryName.value == "") {
                   //   showToast("Please Select Vendor Category");
