@@ -142,7 +142,6 @@ class _AddMultipleProductScreenState extends State<AddMultipleProductScreen> {
                   }else{
                     showToast('Please upload file'.tr);
                   }
-
                 },
               ),
               SizedBox(height: 30,),

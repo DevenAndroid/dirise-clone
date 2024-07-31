@@ -442,6 +442,7 @@ class _ProductImageWidgetState extends State<ProductImageWidget> {
                   }
                 },
               ),
+
               ListTile(
                 leading: Icon(Icons.cancel),
                 title: Text('Cancel'.tr),
