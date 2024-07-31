@@ -321,7 +321,7 @@ class _ImageWidget1State extends State<ImageWidget1> {
                     mainAxisAlignment: MainAxisAlignment.center,
                     children: [
                       Text(
-                        "${'Select'} ${widget.title}",
+                        "${'Select'.tr} ${widget.title}",
                         style: GoogleFonts.poppins(
                             fontWeight: FontWeight.w500,
                             color: validation ? Theme.of(context).colorScheme.error : const Color(0xff463B57),
@@ -416,7 +416,7 @@ class _ProductImageWidgetState extends State<ProductImageWidget> {
             children: <Widget>[
               ListTile(
                 leading: const Icon(Icons.photo_library),
-                title: const Text('Files'),
+                title:  Text('Files'.tr),
                 onTap: () async {
                   Get.back();
                   final pickedFile = await ImagePicker().pickImage(
@@ -430,7 +430,7 @@ class _ProductImageWidgetState extends State<ProductImageWidget> {
               ),
               ListTile(
                 leading: Icon(Icons.camera_alt),
-                title: Text('Camera'),
+                title: Text('Camera'.tr),
                 onTap: () async {
                   Get.back();
                   final pickedFile = await ImagePicker().pickImage(
@@ -444,7 +444,7 @@ class _ProductImageWidgetState extends State<ProductImageWidget> {
               ),
               ListTile(
                 leading: Icon(Icons.cancel),
-                title: Text('Cancel'),
+                title: Text('Cancel'.tr),
                 onTap: () {
                   Get.back();
                 },

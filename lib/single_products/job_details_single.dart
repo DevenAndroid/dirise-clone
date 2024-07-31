@@ -68,8 +68,8 @@ class _JobDetailsSingleScreenState extends State<JobDetailsSingleScreen> {
 
       body: SingleChildScrollView(
         child: Obx(() {
-          return  getJobModel.value.status ==true ?
-          Column(
+          return  getJobModel.value.status ==true
+              ? Column(
             children: [
               SizedBox(height: 30,),
               Container(
@@ -234,8 +234,6 @@ class _JobDetailsSingleScreenState extends State<JobDetailsSingleScreen> {
                         thickness: 1,
                       ),
                       SizedBox(height: 20,),
-                  
-                  
                       Center(
                         child: Container(
                          padding: EdgeInsets.all(12),

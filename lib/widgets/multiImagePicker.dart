@@ -62,7 +62,7 @@ class _MultiImageWidgetState extends State<MultiImageWidget> {
 
               ListTile(
                 leading: Icon(Icons.photo_library),
-                title: Text('Files'),
+                title: Text('Files'.tr),
                 onTap: () async {
                 Get.back();
                   if (widget.imageOnly == true) {
@@ -84,7 +84,7 @@ class _MultiImageWidgetState extends State<MultiImageWidget> {
               ),
               ListTile(
                 leading: Icon(Icons.camera_alt),
-                title: Text('Camera'),
+                title: Text('Camera'.tr),
                 onTap: () async {
                   Get.back();
                   final pickedFile = await ImagePicker().pickImage(
@@ -101,7 +101,7 @@ class _MultiImageWidgetState extends State<MultiImageWidget> {
               ),
               ListTile(
                 leading: Icon(Icons.cancel),
-                title: Text('Cancel'),
+                title: Text('Cancel'.tr),
                 onTap: () {
                   Get.back();                },
               ),
@@ -148,7 +148,8 @@ class _MultiImageWidgetState extends State<MultiImageWidget> {
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
                 Text(
-                  "Select ${widget.title}",
+                  "${'Select'.tr} ${widget.title}",
+
                   style: GoogleFonts.poppins(
                       fontWeight: FontWeight.w500,
                       color: validation ? Theme.of(context).colorScheme.error : const Color(0xff463B57),
