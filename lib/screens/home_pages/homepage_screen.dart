@@ -706,14 +706,18 @@ class _HomePageState extends State<HomePage> {
                                 profileController.selectedLAnguage.value == 'English'
                                     ? Flexible(
                                   child: Text(
-                                    " Deliver to ${locationController.addressListModel.value.defaultAddress!.city.toString()}, ${locationController.addressListModel.value.defaultAddress!.zipCode.toString()}, ${locationController.addressListModel.value.defaultAddress!.state.toString()}",
+                                    " Deliver to ${locationController.addressListModel.value.defaultAddress!.city ?? ''}, "
+                                        "${locationController.addressListModel.value.defaultAddress!.zipCode ?? ''},"
+                                        " ${locationController.addressListModel.value.defaultAddress!.state ?? ''}",
                                     overflow: TextOverflow.visible,
                                     softWrap: true,
                                   ),
                                 )
                                     : Flexible(
                                   child: Text(
-                                    "يسلم إلى ${locationController.addressListModel.value.defaultAddress!.city.toString()}, ${locationController.addressListModel.value.defaultAddress!.zipCode.toString()}, ${locationController.addressListModel.value.defaultAddress!.state.toString()}",
+                                    "يسلم إلى ${locationController.addressListModel.value.defaultAddress!.city ?? ''},"
+                                        " ${locationController.addressListModel.value.defaultAddress!.zipCode ?? ''}, "
+                                        "${locationController.addressListModel.value.defaultAddress!.state ?? ' '}",
                                     overflow: TextOverflow.visible,
                                     softWrap: true,
                                   ),

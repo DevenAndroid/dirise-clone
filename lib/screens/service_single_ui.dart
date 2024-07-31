@@ -17,6 +17,7 @@ import 'package:intl/intl.dart';
 import 'package:smooth_page_indicator/smooth_page_indicator.dart';
 
 import '../controller/cart_controller.dart';
+import '../controller/home_controller.dart';
 import '../controller/location_controller.dart';
 import '../controller/profile_controller.dart';
 import '../controller/wish_list_controller.dart';
@@ -68,11 +69,11 @@ class _ServiceProductScreenState extends State<ServiceProductScreen> {
   }
 
   RxStatus statusSingle = RxStatus.empty();
-
+  final homeController = Get.put(TrendingProductsController());
   getProductDetails() {
     statusSingle = RxStatus.loading();
     repositories
-        .postApi(url: ApiUrls.simpleProductUrl, mapData: {"product_id": id.toString(), "key": 'fedexRate'}).then((value) {
+        .postApi(url: ApiUrls.simpleProductUrl, mapData: {"product_id": id.toString(), "key": 'fedexRate', "is_def_address" : homeController.defaultAddressId.toString()}).then((value) {
       modelSingleProduct.value = SimpleProductModel.fromJson(jsonDecode(value));
       if (modelSingleProduct.value.simpleProduct != null) {
         log("modelSingleProduct.product!.toJson().....${modelSingleProduct.value.simpleProduct!.toJson()}");

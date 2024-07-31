@@ -17,6 +17,7 @@ import 'package:intl/intl.dart';
 import 'package:smooth_page_indicator/smooth_page_indicator.dart';
 
 import '../controller/cart_controller.dart';
+import '../controller/home_controller.dart';
 import '../controller/location_controller.dart';
 import '../controller/profile_controller.dart';
 import '../controller/wish_list_controller.dart';
@@ -62,7 +63,7 @@ class _BookableProductScreenState extends State<BookableProductScreen> {
   Rx<BookableProductModel> modelSingleProduct = BookableProductModel().obs;
   ModelAddReview modelAddReview = ModelAddReview();
   final locationController = Get.put(LocationController());
-
+  final homeController = Get.put(TrendingProductsController());
   // bool get isBookingProduct =>  modelSingleProduct.singleGiveawayProduct!.productType == "booking";
   //
   // bool get isVirtualProduct =>  modelSingleProduct.singleGiveawayProduct!.productType == "virtual_product";
@@ -182,7 +183,7 @@ class _BookableProductScreenState extends State<BookableProductScreen> {
   getProductDetails() {
     statusSingle = RxStatus.loading();
     repositories
-        .postApi(url: ApiUrls.bookableProductUrl, mapData: {"product_id": id.toString(), "key": 'fedexRate'}).then((value) {
+        .postApi(url: ApiUrls.bookableProductUrl, mapData: {"product_id": id.toString(), "key": 'fedexRate', "is_def_address" : homeController.defaultAddressId.toString()}).then((value) {
       modelSingleProduct.value = BookableProductModel.fromJson(jsonDecode(value));
       if (modelSingleProduct.value.bookingProduct != null) {
         log("modelSingleProduct.product!.toJson().....${modelSingleProduct.value.bookingProduct!.toJson()}");

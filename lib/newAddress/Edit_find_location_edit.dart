@@ -532,10 +532,11 @@ class _FindMyLocationEditAddressSheetState extends State<FindMyLocationEditAddre
                           phoneCountryCode: profileController.code.toString(),
                           // id: addressData.id
                       );
-                    }
-                    Get.back();
+                      Get.back();
 
-                    cartController.getCart();
+                      cartController.getCart();
+                    }
+
 
                   },
                   child: Container(

@@ -373,7 +373,6 @@ class _ProductUIState extends State<ProductUI> {
     return InkWell(
         onTap: () {
           print(widget.productElement.id);
-
           if (widget.productElement.itemType == 'giveaway') {
             Get.to(() => const GiveAwayProduct(), arguments: widget.productElement.id.toString());
           }

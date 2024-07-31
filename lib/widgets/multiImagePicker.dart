@@ -141,34 +141,37 @@ class _MultiImageWidgetState extends State<MultiImageWidget> {
                 color: const Color(0xffE2E2E2).withOpacity(.4),
                 borderRadius: BorderRadius.circular(10),
                 border: Border.all(
-                  color: !validation ? Colors.grey.shade300 : Colors.red,
+                  // color: !validation ? Colors.grey.shade300 : Colors.red,
+                  color:  Colors.grey.shade300
                 )),
             child: files.isEmpty
                 ? Column(
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
-                Text(
-                  "Select ${widget.title}",
-                  style: GoogleFonts.poppins(
-                      fontWeight: FontWeight.w500,
-                      color: validation ? Theme.of(context).colorScheme.error : const Color(0xff463B57),
-                      fontSize: 15),
-                ),
-                SizedBox(
-                  height: AddSize.size10,
-                ),
+                // Text(
+                //   "Select ${widget.title}",
+                //   style: GoogleFonts.poppins(
+                //       fontWeight: FontWeight.w500,
+                //       color: validation ? Theme.of(context).colorScheme.error : const Color(0xff463B57),
+                //       fontSize: 15),
+                // ),
+                // SizedBox(
+                //   height: AddSize.size10,
+                // ),
                 Container(
                   decoration: BoxDecoration(
                       shape: BoxShape.circle,
                       border: Border.all(
-                        color: validation ? Theme.of(context).colorScheme.error : Colors.grey,
+                        // color: validation ? Theme.of(context).colorScheme.error : Colors.grey,
                         width: 1.8,
+                        color: Colors.grey,
                       )),
                   padding: const EdgeInsets.all(6),
-                  child: Icon(
+                  child: const Icon(
                     Icons.upload_file_outlined,
-                    size: 24,
-                    color: validation ? Theme.of(context).colorScheme.error : Colors.grey,
+                    size: 40,
+                    // color: validation ? Theme.of(context).colorScheme.error : Colors.grey,
+                    color: Colors.grey,
                   ),
                 )
               ],
