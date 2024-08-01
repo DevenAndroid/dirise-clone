@@ -154,7 +154,7 @@ class _AddProductFirstImageScreenState extends State<AddProductFirstImageScreen>
             children: [
               ProductImageWidget(
                 // key: paymentReceiptCertificateKey,
-                title: "Photo album".tr,
+                title: "Upload Cover Photo".tr,
                 file: featuredImage,
                 validation: checkValidation(showValidation.value, featuredImage.path.isEmpty),
                 filePicked: (File g) {
@@ -164,7 +164,7 @@ class _AddProductFirstImageScreenState extends State<AddProductFirstImageScreen>
               const SizedBox(height: 20,),
               MultiImageWidget(
                 files: selectedFiles,
-                title: 'Files'.tr,
+                title: 'Upload Extra Photos'.tr,
                 validation: true,
                 imageOnly: true,
                 filesPicked: (List<File> pickedFiles) {

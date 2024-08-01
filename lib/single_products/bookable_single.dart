@@ -560,7 +560,7 @@ class _BookableProductScreenState extends State<BookableProductScreen> {
                                   .network(i)
                                   .image,
                                   doubleTapZoomable: true,
-                                  backgroundColor: AppTheme.buttonColor,
+                                  backgroundColor:Colors.white,
                                   useSafeArea: true,
                                   swipeDismissible: false);
                             },
@@ -866,7 +866,7 @@ class _BookableProductScreenState extends State<BookableProductScreen> {
                         width: 7,
                       ),
                       Text(
-                        'Fedex Fast delivery by ',
+                        'Shipping type',
                         style: GoogleFonts.poppins(
 
                             color:  Colors.grey,

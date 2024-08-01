@@ -730,7 +730,7 @@ class _VarientsProductScreenState extends State<VarientsProductScreen> {
                               width: 7,
                             ),
                             Text(
-                              'Fedex Fast delivery by : ',
+                              'Shipping Type : ',
                               style: GoogleFonts.poppins(color: Colors.grey, fontSize: 14, fontWeight: FontWeight.w500),
                             ),
                             Expanded(

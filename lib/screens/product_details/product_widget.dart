@@ -583,6 +583,7 @@ class _ProductUIState extends State<ProductUI> {
                       mainAxisAlignment: MainAxisAlignment.start,
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
+                        widget.productElement.rating !=0?
                         RatingBar.builder(
                           initialRating: double.parse(widget.productElement.rating.toString()),
                           minRating: 1,
@@ -601,7 +602,7 @@ class _ProductUIState extends State<ProductUI> {
                           onRatingUpdate: (rating) {
                             print(rating);
                           },
-                        ),
+                        ):Text("No Review"),
                         // ,Text(
                         //   '${widget.productElement.inStock.toString()} ${'pieces'.tr}',
                         //   style: GoogleFonts.poppins(color: Colors.grey.shade700, fontSize: 15,fontWeight: FontWeight.w500),

@@ -471,7 +471,7 @@ class _PublishPostScreenState extends State<PublishPostScreen> {
                                                         width: 45,
                                                         fit: BoxFit.cover,
                                                         errorWidget: (context, url, error) =>
-                                                            Image.asset('assets/images/post_img.png'),
+                                                            Image.asset('assets/images/profile-icon.png',),
                                                       ),
                                                     ),
                                                     const SizedBox(
