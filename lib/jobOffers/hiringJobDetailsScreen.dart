@@ -397,7 +397,7 @@ class _HiringJobDetailsScreenState extends State<HiringJobDetailsScreen> {
                     hintText: 'Job Title'.tr,
                     validator: (value) {
                       if (value!.trim().isEmpty) {
-                        return 'Job Title';
+                        return 'Job Title'.tr;
                       }
                       return null; // Return null if validation passes
                     },
@@ -439,11 +439,11 @@ class _HiringJobDetailsScreenState extends State<HiringJobDetailsScreen> {
                         children: [
                           Text(
                             categoryName.value.isEmpty
-                                ? 'Select job type'
+                                ? 'Select job type'.tr
                                 : modelVendorCategory.data!
                                 .firstWhereOrNull((element) => element.title == categoryName.value)
                                 ?.title
-                                .toString() ?? 'Select job type',
+                                .toString() ?? 'Select job type'.tr,
                           ),
                           const Icon(Icons.arrow_drop_down),
                         ],
@@ -475,7 +475,7 @@ class _HiringJobDetailsScreenState extends State<HiringJobDetailsScreen> {
                         },
                         controller: subCeteController,
                         decoration: InputDecoration(
-                          hintText: 'Search',
+                          hintText: 'Search'.tr,
                           prefixIcon: const Icon(Icons.search),
                           border: OutlineInputBorder(
                             borderRadius: BorderRadius.circular(10),
@@ -566,11 +566,11 @@ class _HiringJobDetailsScreenState extends State<HiringJobDetailsScreen> {
                         children: [
                           Text(
                             countryName.value.isEmpty
-                                ? 'Select country'
+                                ? 'Select country'.tr
                                 : modelCountryList.country!
                                 .firstWhereOrNull((element) => element.name == countryName.value)
                                 ?.name
-                                .toString() ?? 'Select country',
+                                .toString() ?? 'Select country'.tr,
                           ),
                           const Icon(Icons.arrow_drop_down),
                         ],
@@ -615,11 +615,11 @@ class _HiringJobDetailsScreenState extends State<HiringJobDetailsScreen> {
                         children: [
                           Text(
                             stateName.value.isEmpty
-                                ? 'Select state'
+                                ? 'Select state'.tr
                                 : modelStateList.state!
                                 .firstWhereOrNull((element) => element.stateName == stateName.value)
                                 ?.stateName
-                                .toString() ?? 'Select state',
+                                .toString() ?? 'Select state'.tr,
                           ),
                           const Icon(Icons.arrow_drop_down),
                         ],
@@ -663,11 +663,11 @@ class _HiringJobDetailsScreenState extends State<HiringJobDetailsScreen> {
                         children: [
                           Text(
                             modelCityList.value.city!.isEmpty
-                                ? 'Select city'
+                                ? 'Select city'.tr
                                 :  modelCityList.value.city!
                                 .firstWhereOrNull((element) => element.cityName == cityName.value)
                                 ?.cityName
-                                .toString() ?? 'Select city',
+                                .toString() ?? 'Select city'.tr,
                           ),
                           const Icon(Icons.arrow_drop_down),
                         ],
@@ -717,7 +717,7 @@ class _HiringJobDetailsScreenState extends State<HiringJobDetailsScreen> {
                     ),
                     validator: (value) {
                       if (value == null || value.isEmpty) {
-                        return 'Please select an item';
+                        return 'Please select an item'.tr;
                       }
                       return null;
                     },
@@ -761,7 +761,7 @@ class _HiringJobDetailsScreenState extends State<HiringJobDetailsScreen> {
                     ),
                     validator: (value) {
                       if (value == null || value.isEmpty) {
-                        return 'Please select an item';
+                        return 'Please select an item'.tr;
                       }
                       return null;
                     },
@@ -773,7 +773,7 @@ class _HiringJobDetailsScreenState extends State<HiringJobDetailsScreen> {
                     controller: linkdin_urlController,
                     validator: (value) {
                       if (value!.trim().isEmpty) {
-                        return 'Add your LinkedIn profile link is required';
+                        return 'Add your LinkedIn profile link is required'.tr;
                       }
                       return null; // Return null if validation passes
                     },
@@ -788,7 +788,7 @@ class _HiringJobDetailsScreenState extends State<HiringJobDetailsScreen> {
                       contentPadding: const EdgeInsets.all(15),
                       fillColor: Colors.grey.shade100,
                       filled: true,
-                      hintText: 'Add LinkedIn Profile link',
+                      hintText: 'Add LinkedIn Profile link'.tr,
                       hintStyle: GoogleFonts.poppins(
                         color: AppTheme.primaryColor,
                         fontSize: 15,
@@ -821,7 +821,7 @@ class _HiringJobDetailsScreenState extends State<HiringJobDetailsScreen> {
                     controller: describe_job_roleController,
                     validator: (value) {
                       if (value!.trim().isEmpty) {
-                        return 'Describe the role is required';
+                        return 'Describe the role is required'.tr;
                       }
                       return null; // Return null if validation passes
                     },
@@ -836,7 +836,7 @@ class _HiringJobDetailsScreenState extends State<HiringJobDetailsScreen> {
                       contentPadding: const EdgeInsets.all(15),
                       fillColor: Colors.grey.shade100,
                       filled: true,
-                      hintText: 'Describe the role',
+                      hintText: 'Describe the role'.tr,
                       hintStyle: GoogleFonts.poppins(
                         color: AppTheme.primaryColor,
                         fontSize: 15,
@@ -872,7 +872,7 @@ class _HiringJobDetailsScreenState extends State<HiringJobDetailsScreen> {
                           controller: experienceController,
                           validator: (value) {
                             if (value!.trim().isEmpty) {
-                              return 'Minimum Experience is required';
+                              return 'Minimum Experience is required'.tr;
                             }
                             return null; // Return null if validation passes
                           },
@@ -887,7 +887,7 @@ class _HiringJobDetailsScreenState extends State<HiringJobDetailsScreen> {
                             contentPadding: const EdgeInsets.all(15),
                             fillColor: Colors.grey.shade100,
                             filled: true,
-                            hintText: 'Minimum Experience',
+                            hintText: 'Minimum Experience'.tr,
                             hintStyle: GoogleFonts.poppins(
                               color: AppTheme.primaryColor,
                               fontSize: 15,
@@ -923,7 +923,7 @@ class _HiringJobDetailsScreenState extends State<HiringJobDetailsScreen> {
                           controller: hoursperweekController,
                           validator: (value) {
                             if (value!.trim().isEmpty) {
-                              return 'Hours per week is required';
+                              return 'Hours per week is required'.tr;
                             }
                             return null; // Return null if validation passes
                           },
@@ -938,7 +938,7 @@ class _HiringJobDetailsScreenState extends State<HiringJobDetailsScreen> {
                             contentPadding: const EdgeInsets.all(15),
                             fillColor: Colors.grey.shade100,
                             filled: true,
-                            hintText: 'Hours per week',
+                            hintText: 'Hours per week'.tr,
                             hintStyle: GoogleFonts.poppins(
                               color: AppTheme.primaryColor,
                               fontSize: 15,
@@ -975,7 +975,7 @@ class _HiringJobDetailsScreenState extends State<HiringJobDetailsScreen> {
                     controller: salaryController,
                     validator: (value) {
                       if (value!.trim().isEmpty) {
-                        return 'Salary range';
+                        return 'Salary range'.tr;
                       }
                       return null; // Return null if validation passes
                     },
@@ -990,7 +990,7 @@ class _HiringJobDetailsScreenState extends State<HiringJobDetailsScreen> {
                       contentPadding: const EdgeInsets.all(15),
                       fillColor: Colors.grey.shade100,
                       filled: true,
-                      hintText: 'Salary range',
+                      hintText: 'Salary range'.tr,
                       hintStyle: GoogleFonts.poppins(
                         color: AppTheme.primaryColor,
                         fontSize: 15,
@@ -1019,14 +1019,14 @@ class _HiringJobDetailsScreenState extends State<HiringJobDetailsScreen> {
                   SizedBox(height: 20,),
 
                   CustomOutlineButton(
-                    title: 'Confirm',
+                    title: 'Confirm'.tr,
                     borderRadius: 11,
                     onPressed: () {
                       if(formKey1.currentState!.validate()){
-                         if (categoryName.value =="") {showToast("Please select category");}
-                        else if (subCategoryName.value =="") {showToast("Please select sub category");}
-                        else  if(countryName.value ==""){showToast("Please select country");}
-                        else if (stateName.value =="") {showToast("Please select state");}
+                         if (categoryName.value =="") {showToast("Please select category".tr);}
+                        else if (subCategoryName.value =="") {showToast("Please select sub category".tr);}
+                        else  if(countryName.value ==""){showToast("Please select country".tr);}
+                        else if (stateName.value =="") {showToast("Please select state".tr);}
                         // else if (cityName.value =="") {showToast("Please select city");}
                         else {
                            updateProfile();
