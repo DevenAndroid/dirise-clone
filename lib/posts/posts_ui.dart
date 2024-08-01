@@ -15,6 +15,7 @@ import 'package:full_screen_image/full_screen_image.dart';
 import 'package:get/get.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:image_picker/image_picker.dart';
+import 'package:lottie/lottie.dart';
 import '../controller/profile_controller.dart';
 import '../language/app_strings.dart';
 import '../model/create_news_model.dart';
@@ -272,7 +273,7 @@ class _PublishPostScreenState extends State<PublishPostScreen> {
             physics: const NeverScrollableScrollPhysics(),
                 child: SizedBox(
                   height: Get.height,
-                  child: Padding(
+                  child:  Padding(
                       padding: const EdgeInsets.symmetric(vertical: 30, horizontal: 10).copyWith(bottom: 0),
                       child: Column(
                         children: [
@@ -426,7 +427,8 @@ class _PublishPostScreenState extends State<PublishPostScreen> {
                           ),
                         ],
                       ) : const SizedBox(),
-                          Expanded(
+                          if(getPublishModel.value.allNews != null && getPublishModel.value.allNews!.isNotEmpty)
+                        Expanded(
                             child: ListView.builder(
                               shrinkWrap: true,
                               controller: _scrollController,
@@ -696,6 +698,23 @@ class _PublishPostScreenState extends State<PublishPostScreen> {
                                 );
                               },
                             ),
+                          ),
+                          if(getPublishModel.value.allNews == null || getPublishModel.value.allNews!.isEmpty)
+                          Column(
+                            crossAxisAlignment: CrossAxisAlignment.center,
+                            mainAxisAlignment: MainAxisAlignment.center,
+                            children: [
+                              Lottie.asset("assets/loti/wishlist.json"),
+                              Center(
+                                child: Text(
+                                 'News not found'.tr,
+                                  style: GoogleFonts.poppins(fontWeight: FontWeight.w500, fontSize: 22),
+                                ),
+                              ),
+                              const SizedBox(
+                                height: 20,
+                              ),
+                            ],
                           ),
                         ],
                       ),

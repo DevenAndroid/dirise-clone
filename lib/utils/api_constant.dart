@@ -8,8 +8,8 @@ import '../widgets/common_colour.dart';
 
 class ApiUrls {
 
-  // static const String baseUrl = 'https://admin.diriseapp.com/api/';
-  static const String baseUrl = 'https://dirise.virtualdemo.tech/api/';
+  static const String baseUrl = 'https://admin.diriseapp.com/api/';
+  // static const String baseUrl = 'https://dirise.virtualdemo.tech/api/';
   // static const String baseUrl = 'https://backend.diriseapp.com/api/';
   // static const String baseUrl = 'https://beta-dirise.eoxyslive.com/api/';
   static const String signInUrl = "${baseUrl}register";
@@ -151,6 +151,7 @@ class ApiUrls {
   static const String singleJobList = "${baseUrl}single-job-product?product_id=";
   static const String releatedProduct = "${baseUrl}related-product";
   static const String returnRequest = "${baseUrl}add-order-return-request";
+  static const String subCategory = "${baseUrl}sub-category";
 
 
 

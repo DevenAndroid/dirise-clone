@@ -734,12 +734,14 @@ class LocaleString extends Translations {
           'Please select Image' : 'Please select Image',
           'Files' : 'Files',
           'Camera' : 'Camera',
+          'News not found' : 'News not found',
 
        },
 
 
 
      'ar_AR': {
+       'News not found' : 'لم يتم العثور على الأخبار',
        '+ Add Address'  : '+ إضافة عنوان',
        'Search' : 'يبحث',
        'You don\'t have any audio book in your collection' : 'ليس لديك أي كتاب صوتي في مجموعتك',
