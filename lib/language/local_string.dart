@@ -1563,6 +1563,7 @@ class LocaleString extends Translations {
           'Link: ' : 'وصلة: ',
           'Multiple items uploaded successfully ' : 'تم تحميل عناصر متعددة بنجاح',
           'Cutomer Support' : 'دعم العملاء',
+          'Shop by vendor' : 'تسوق حسب البائع',
 
         },
 
