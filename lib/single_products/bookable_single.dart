@@ -1285,13 +1285,19 @@ class _BookableProductScreenState extends State<BookableProductScreen> {
                   SizedBox(
                     height: 20,
                   ),
-                  Center(
-                    child: CachedNetworkImage(
-                        imageUrl:
-                        modelSingleProduct.value.bookingProduct!.storemeta!.commercialLicense.toString(),
-                        height: 180,
-                        fit: BoxFit.cover,
-                        errorWidget: (_, __, ___) => Image.asset('assets/images/new_logo.png')),
+                  modelSingleProduct.value.bookingProduct!.storemeta!.commercialLicense !=""?
+                  Center(child: CachedNetworkImage(
+                    imageUrl:
+                    modelSingleProduct.value.bookingProduct!.storemeta!.commercialLicense.toString(),
+                    height: 180,
+                    fit: BoxFit.cover,
+                    // errorWidget: (_, __, ___) => Image.asset('assets/images/new_logo.png')
+                  ),
+                  ):Center(
+                    child: Text(
+                      'No documents were uploaded by vendor ',
+                      style: GoogleFonts.poppins(color: Colors.black, fontSize: 16, fontWeight: FontWeight.w600),
+                    ),
                   ),
                   // Center(child: Image.asset("assets/svgs/licence.png")),
 
@@ -1305,8 +1311,21 @@ class _BookableProductScreenState extends State<BookableProductScreen> {
                   SizedBox(
                     height: 20,
                   ),
-                  Center(child: Image.asset("assets/svgs/licence.png")),
-
+                  modelSingleProduct.value.bookingProduct!.storemeta!.document2 != ""?
+                  Center(
+                    child: CachedNetworkImage(
+                      imageUrl:
+                      modelSingleProduct.value.bookingProduct!.storemeta!.document2.toString(),
+                      height: 180,
+                      fit: BoxFit.cover,
+                      // errorWidget: (_, __, ___) => Image.asset('assets/images/new_logo.png')
+                    ),
+                  ):  Center(
+                    child: Text(
+                      'No documents were uploaded by vendor ',
+                      style: GoogleFonts.poppins(color: Colors.black, fontSize: 16, fontWeight: FontWeight.w600),
+                    ),
+                  ),
                   GestureDetector(
                     onTap: (){
                       Get.to(

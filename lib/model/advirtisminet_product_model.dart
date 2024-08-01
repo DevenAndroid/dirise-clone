@@ -234,6 +234,7 @@ class Storemeta {
   dynamic firstName;
   dynamic lastName;
   dynamic storeId;
+  dynamic document2;
   dynamic storeName;
   dynamic storeLocation;
   dynamic profileImg;
@@ -246,6 +247,7 @@ class Storemeta {
         this.lastName,
         this.storeId,
         this.storeName,
+        this.document2,
         this.storeLocation,
         this.profileImg,
         this.bannerProfile,
@@ -257,6 +259,7 @@ class Storemeta {
     lastName = json['last_name'];
     storeId = json['store_id'];
     storeName = json['store_name'];
+    document2 = json['document_2'];
     storeLocation = json['store_location'];
     profileImg = json['profile_img'];
     bannerProfile = json['banner_profile'];
@@ -270,6 +273,7 @@ class Storemeta {
     data['last_name'] = this.lastName;
     data['store_id'] = this.storeId;
     data['store_name'] = this.storeName;
+    data['document_2'] = this.document2;
     data['store_location'] = this.storeLocation;
     data['profile_img'] = this.profileImg;
     data['banner_profile'] = this.bannerProfile;

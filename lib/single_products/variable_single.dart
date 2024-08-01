@@ -1079,13 +1079,19 @@ class _VarientsProductScreenState extends State<VarientsProductScreen> {
                         const SizedBox(
                           height: 20,
                         ),
-                        Center(
-                          child: CachedNetworkImage(
-                              imageUrl:
-                                  modelSingleProduct.value.variantProduct!.storemeta!.commercialLicense.toString(),
-                              height: 180,
-                              fit: BoxFit.cover,
-                              errorWidget: (_, __, ___) => Image.asset('assets/images/new_logo.png')),
+                        modelSingleProduct.value.variantProduct!.storemeta!.commercialLicense !=""?
+                        Center(child: CachedNetworkImage(
+                          imageUrl:
+                          modelSingleProduct.value.variantProduct!.storemeta!.commercialLicense.toString(),
+                          height: 180,
+                          fit: BoxFit.cover,
+                          // errorWidget: (_, __, ___) => Image.asset('assets/images/new_logo.png')
+                        ),
+                        ):Center(
+                          child: Text(
+                            'No documents were uploaded by vendor ',
+                            style: GoogleFonts.poppins(color: Colors.black, fontSize: 16, fontWeight: FontWeight.w600),
+                          ),
                         ),
                         // Center(child: Image.asset("assets/svgs/licence.png")),
 
@@ -1099,9 +1105,21 @@ class _VarientsProductScreenState extends State<VarientsProductScreen> {
                         const SizedBox(
                           height: 20,
                         ),
-                        Center(child: Image.asset("assets/svgs/licence.png")),
-
-                        GestureDetector(
+                        modelSingleProduct.value.variantProduct!.storemeta!.document2 != ""?
+                        Center(
+                          child: CachedNetworkImage(
+                            imageUrl:
+                            modelSingleProduct.value.variantProduct!.storemeta!.document2.toString(),
+                            height: 180,
+                            fit: BoxFit.cover,
+                            // errorWidget: (_, __, ___) => Image.asset('assets/images/new_logo.png')
+                          ),
+                        ):  Center(
+                          child: Text(
+                            'No documents were uploaded by vendor ',
+                            style: GoogleFonts.poppins(color: Colors.black, fontSize: 16, fontWeight: FontWeight.w600),
+                          ),
+                        ),GestureDetector(
                           onTap: (){
                             Get.to(
                                     () => SingleStoreScreen(storeDetails:  VendorStoreData(id:
