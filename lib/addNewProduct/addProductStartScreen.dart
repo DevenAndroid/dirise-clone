@@ -85,7 +85,8 @@ class _AddProductOptionScreenState extends State<AddProductOptionScreen> {
               onTap: (){
                 Get.to(AddProductFirstImageScreen());
               },
-              child: Image.asset('assets/images/single.png'),
+              child:     profileController.selectedLAnguage.value != 'English' ?
+              Image.asset('assets/images/single_arab.png')  : Image.asset('assets/images/single.png'),
             ),
             const SizedBox(
               height: 40,
@@ -121,7 +122,8 @@ class _AddProductOptionScreenState extends State<AddProductOptionScreen> {
               onTap: (){
                 Get.to(()=> const AddMultipleProductScreen());
               },
-              child: Image.asset('assets/images/multiple.png'),
+              child:    profileController.selectedLAnguage.value != 'English' ?
+              Image.asset('assets/images/multiple_arab.png')  :  Image.asset('assets/images/multiple.png'),
             ),
           ],
         ),

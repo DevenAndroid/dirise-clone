@@ -264,8 +264,7 @@ class _ShopProductScreenState extends State<ShopProductScreen> {
     await repositories.getApi(
         url: "${url}page=1&pagination=10&category_id=$categoryID&key=fedexRate&country_id=${profileController.model.user != null && cartController.countryId.isEmpty
             ? profileController.model.user!.country_id
-            : cartController.countryId.toString()}&zip_code=${locationController.zipcode.value.toString()}",
-        showResponse: true).then((value) {
+            : cartController.countryId.toString()}&zip_code=${locationController.zipcode.value.toString()}").then((value) {
           print("id:::::::::"+categoryID);
       // apiLoaded = true;
       modelCategoryStores.value = ShopByProductModel.fromJson(jsonDecode(value));
@@ -636,7 +635,7 @@ RxString id = "".obs;
                     // color: Colors.white,
                   ),
                 ),
-                SizedBox(
+                const SizedBox(
                   width: 13,
                 ),
                 InkWell(
@@ -656,41 +655,39 @@ RxString id = "".obs;
             ),
           ),
           leadingWidth: 100,
-          title: Expanded(
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.center,
-              mainAxisAlignment: MainAxisAlignment.center,
-              children: [
-                ClipRRect(
-                    borderRadius: BorderRadius.circular(10),
-                    child: SizedBox(
-                      // width: double.maxFinite,
-                        height: context.getSize.width * .1,
-                        child: Hero(
-                          tag: mainCategory.bannerProfile.toString(),
-                          child: Material(
-                            color: Colors.transparent,
-                            surfaceTintColor: Colors.transparent,
-                            child: CachedNetworkImage(
-                                imageUrl: mainCategory.bannerProfile.toString(),
-                                errorWidget: (_, __, ___) => Image.asset('assets/images/new_logo.png')),
-                          ),
-                        ))),
-                SizedBox(
-                  width: 130,
-                  child: Text(
-                    profileController.selectedLAnguage.value == 'English' ?    mainCategory.name.toString() :
-                    mainCategory.arabName.toString(),
-                    textAlign: TextAlign.center,
-                    style: const TextStyle(
-                        fontSize: 13
-                    ),
-                    maxLines: 2,
+          title: Column(
+            crossAxisAlignment: CrossAxisAlignment.center,
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: [
+              ClipRRect(
+                  borderRadius: BorderRadius.circular(10),
+                  child: SizedBox(
+                    // width: double.maxFinite,
+                      height: context.getSize.width * .1,
+                      child: Hero(
+                        tag: mainCategory.bannerProfile.toString(),
+                        child: Material(
+                          color: Colors.transparent,
+                          surfaceTintColor: Colors.transparent,
+                          child: CachedNetworkImage(
+                              imageUrl: mainCategory.bannerProfile.toString(),
+                              errorWidget: (_, __, ___) => Image.asset('assets/images/new_logo.png')),
+                        ),
+                      ))),
+              SizedBox(
+                width: 130,
+                child: Text(
+                  profileController.selectedLAnguage.value == 'English' ?    mainCategory.name.toString() :
+                  mainCategory.arabName.toString(),
+                  textAlign: TextAlign.center,
+                  style: const TextStyle(
+                      fontSize: 13
                   ),
+                  maxLines: 2,
                 ),
-                3.spaceY
-              ],
-            ),
+              ),
+              3.spaceY
+            ],
           ),
           centerTitle: true,
           actions: [
