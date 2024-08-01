@@ -278,11 +278,29 @@ class _SingleCategoriesState extends State<SingleCategories> {
 
   Rx<SubCategoryModel> subCategoryModel = SubCategoryModel().obs;
 
+  // Future getSubCategory() async {
+  //   Map<String, dynamic> map = {};
+  //   map['category_id'] = subCategory.toString();
+  //   repositories.postApi(url: ApiUrls.subCategory, mapData: map, showResponse: true).then((value) {
+  //     subCategoryModel.value = SubCategoryModel.fromJson(jsonDecode(value));
+  //   });
+  // }
+
   Future getSubCategory() async {
     Map<String, dynamic> map = {};
     map['category_id'] = subCategory.toString();
     repositories.postApi(url: ApiUrls.subCategory, mapData: map, showResponse: true).then((value) {
-      subCategoryModel.value = SubCategoryModel.fromJson(jsonDecode(value));
+      SubCategoryModel newSubCategoryModel = SubCategoryModel.fromJson(jsonDecode(value));
+
+      // Append new data to the existing list
+      if (subCategoryModel.value.data != null) {
+        subCategoryModel.value.data!.addAll(newSubCategoryModel.data!);
+      } else {
+        subCategoryModel.value = newSubCategoryModel;
+      }
+
+      // Trigger UI update
+      subCategoryModel.refresh();
     });
   }
 
@@ -578,14 +596,12 @@ class _SingleCategoriesState extends State<SingleCategories> {
                       Padding(
                         padding: const EdgeInsets.only(right: 10),
                         child: StatefulBuilder(builder: (c, newState) {
-                          return SizedBox(
-                            height: 40,
-                            child: Obx(() {
-                              return subCategoryModel.value.data != null ?
-                                ListView.builder(
+                          return Obx(() {
+                            return SizedBox(
+                              height: 40,
+                              child: ListView.builder(
                                 itemCount: subCategoryModel.value.data!.length,
                                 shrinkWrap: true,
-                                // physics: const AlwaysScrollableScrollPhysics(),
                                 scrollDirection: Axis.horizontal,
                                 itemBuilder: (context, index) {
                                   final subCategorys = subCategoryModel.value.data![index];
@@ -625,9 +641,6 @@ class _SingleCategoriesState extends State<SingleCategories> {
                                           PopupMenuItem(
                                             child: Text(ee.title.toString()),
                                             onTap: () {
-                                              // modelCategoryList!.selectedVendorSubCategory = ee;
-                                              // getCategoryStores(page: 1, resetAll: true);
-                                              // isSelect = true;
                                               subCategory = ee.id.toString();
                                               getSubCategory();
                                               newState(() {});
@@ -636,9 +649,9 @@ class _SingleCategoriesState extends State<SingleCategories> {
                                     },
                                   );
                                 },
-                              ) : const SizedBox.shrink();
-                            }),
-                          );
+                              ),
+                            );
+                          });
                         }),
                       ),
                     // Row(
@@ -702,45 +715,44 @@ class _SingleCategoriesState extends State<SingleCategories> {
             SliverToBoxAdapter(
               child: Row(
                 children: [
-                  modelCategoryList != null
-                      ? Expanded(
-                    child: Padding(
-                      padding: const EdgeInsets.fromLTRB(15, 10, 0, 20),
-                      child: Column(
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        mainAxisAlignment: MainAxisAlignment.start,
-                        children: [
-                          if (isSelect == true)
-                            GestureDetector(
-                              onTap: () {
-                                modelCategoryList = null;
-                                getCategoryFilter();
-                                getCategoryStores(page: 1, resetAll: true);
-                                isSelect = false;
-                                setState(() {});
-                              },
-                              child: Container(
-                                height: 36,
-                                width: 120,
-                                padding: const EdgeInsets.fromLTRB(10, 0, 10, 0),
-                                decoration: BoxDecoration(
-                                    border: Border.all(color: const Color(0xff014E70)),
-                                    color: const Color(0xffEBF1F4),
-                                    borderRadius: BorderRadius.circular(22)),
-                                child: Center(
-                                  child: Text(
-                                    "Clear",
-                                    style: GoogleFonts.poppins(
-                                        fontSize: 14, fontWeight: FontWeight.w500, color: const Color(0xff014E70)),
+                  Expanded(
+                      child: modelCategoryList != null
+                          ? Padding(
+                        padding: const EdgeInsets.fromLTRB(15, 10, 0, 20),
+                        child: Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          mainAxisAlignment: MainAxisAlignment.start,
+                          children: [
+                            if (isSelect == true)
+                              GestureDetector(
+                                onTap: () {
+                                  modelCategoryList = null;
+                                  getCategoryFilter();
+                                  getCategoryStores(page: 1, resetAll: true);
+                                  isSelect = false;
+                                  setState(() {});
+                                },
+                                child: Container(
+                                  height: 36,
+                                  width: 120,
+                                  padding: const EdgeInsets.fromLTRB(10, 0, 10, 0),
+                                  decoration: BoxDecoration(
+                                      border: Border.all(color: const Color(0xff014E70)),
+                                      color: const Color(0xffEBF1F4),
+                                      borderRadius: BorderRadius.circular(22)),
+                                  child: Center(
+                                    child: Text(
+                                      "Clear",
+                                      style: GoogleFonts.poppins(
+                                          fontSize: 14, fontWeight: FontWeight.w500, color: const Color(0xff014E70)),
+                                    ),
                                   ),
                                 ),
                               ),
-                            ),
-                        ],
-                      ),
-                    ),
-                  )
-                      : const SizedBox(),
+                          ],
+                        ),
+                      ) : const SizedBox()
+                  ),
                   Expanded(
                     child: Padding(
                       padding: const EdgeInsets.only(right: 8.0),
