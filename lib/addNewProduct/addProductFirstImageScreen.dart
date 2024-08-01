@@ -184,7 +184,7 @@ class _AddProductFirstImageScreenState extends State<AddProductFirstImageScreen>
                     addProduct();
                   }
                   else{
-                    showToast('Please select Image');
+                    showToast('Please select Image'.tr);
                   }
                 },
               ),
