@@ -222,7 +222,7 @@ class _whatServiceDoYouProvideState extends State<whatServiceDoYouProvide> {
                   },
                   validator: (value) {
                     if (value!.trim().isEmpty) {
-                      return 'Service Name is required';
+                      return 'Service Name is required'.tr;
                     }
                     return null; // Return null if validation passes
                   },
@@ -751,7 +751,7 @@ class _whatServiceDoYouProvideState extends State<whatServiceDoYouProvide> {
                   height: 20,
                 ),
                 CustomOutlineButton(
-                  title: 'Next',
+                  title: 'Next'.tr,
                   borderRadius: 11,
                   onPressed: () {
                     if (formKey.currentState!.validate()) {

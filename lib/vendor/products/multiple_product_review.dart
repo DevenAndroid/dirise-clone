@@ -177,7 +177,7 @@ class _MultipleReviewAndPublishScreenState extends State<MultipleReviewAndPublis
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
                       Text(
-                        'Multiple Products',
+                        'Multiple Products'.tr,
                         style: GoogleFonts.poppins(
                           color: AppTheme.primaryColor,
                           fontSize: 15,
@@ -215,7 +215,7 @@ class _MultipleReviewAndPublishScreenState extends State<MultipleReviewAndPublis
                     Row(
                       children: [
 
-                        Text('Link: '),
+                        Text('Link: '.tr),
                         Expanded(child: Text(link,style: TextStyle(
                           color: Colors.black,decoration: TextDecoration.underline
                         ),)),
@@ -234,7 +234,7 @@ class _MultipleReviewAndPublishScreenState extends State<MultipleReviewAndPublis
               ),
 
               CustomOutlineButton(
-                title: 'Confirm',
+                title: 'Confirm'.tr,
                 borderRadius: 11,
                 onPressed: () {
                   completeApi();
