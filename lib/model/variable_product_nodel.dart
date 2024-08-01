@@ -399,7 +399,9 @@ class Storemeta {
   dynamic firstName;
   dynamic lastName;
   dynamic storeId;
+  dynamic document2;
   dynamic storeName;
+
   dynamic storeLocation;
   dynamic profileImg;
   dynamic bannerProfile;
@@ -412,6 +414,7 @@ class Storemeta {
         this.storeId,
         this.storeName,
         this.storeLocation,
+        this.document2,
         this.profileImg,
         this.bannerProfile,
         this.commercialLicense,
@@ -422,6 +425,7 @@ class Storemeta {
     lastName = json['last_name'];
     storeId = json['store_id'];
     storeName = json['store_name'];
+    document2 = json['document_2'];
     storeLocation = json['store_location'];
     profileImg = json['profile_img'];
     bannerProfile = json['banner_profile'];
@@ -433,6 +437,7 @@ class Storemeta {
     final Map<String, dynamic> data = new Map<String, dynamic>();
     data['first_name'] = firstName;
     data['last_name'] = lastName;
+    data['document_2'] = this.document2;
     data['store_id'] = storeId;
     data['store_name'] = storeName;
     data['store_location'] = storeLocation;

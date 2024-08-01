@@ -1383,13 +1383,19 @@ class _GiveAwayProductState extends State<GiveAwayProduct> {
                             const SizedBox(
                               height: 20,
                             ),
-                            Center(
-                              child: CachedNetworkImage(
-                                  imageUrl: modelSingleProduct.value.singleGiveawayProduct!.storemeta!.commercialLicense
-                                      .toString(),
-                                  height: 180,
-                                  fit: BoxFit.cover,
-                                  errorWidget: (_, __, ___) => Image.asset('assets/images/new_logo.png')),
+                            modelSingleProduct.value.singleGiveawayProduct!.storemeta!.commercialLicense !=""?
+                            Center(child: CachedNetworkImage(
+                              imageUrl:
+                              modelSingleProduct.value.singleGiveawayProduct!.storemeta!.commercialLicense.toString(),
+                              height: 180,
+                              fit: BoxFit.cover,
+                              // errorWidget: (_, __, ___) => Image.asset('assets/images/new_logo.png')
+                            ),
+                            ):Center(
+                              child: Text(
+                                'No documents were uploaded by vendor ',
+                                style: GoogleFonts.poppins(color: Colors.black, fontSize: 16, fontWeight: FontWeight.w600),
+                              ),
                             ),
                             // Center(child: Image.asset("assets/svgs/licence.png")),
 
@@ -1403,14 +1409,21 @@ class _GiveAwayProductState extends State<GiveAwayProduct> {
                             const SizedBox(
                               height: 20,
                             ),
+                            modelSingleProduct.value.singleGiveawayProduct!.storemeta!.document2 != ""?
                             Center(
                               child: CachedNetworkImage(
-                                  imageUrl: modelSingleProduct.value.singleGiveawayProduct!.storemeta!.document2.toString(),
-                                  height: 180,
-                                  fit: BoxFit.cover,
-                                  errorWidget: (_, __, ___) => Image.asset('assets/images/new_logo.png')),
+                                imageUrl:
+                                modelSingleProduct.value.singleGiveawayProduct!.storemeta!.document2.toString(),
+                                height: 180,
+                                fit: BoxFit.cover,
+                                // errorWidget: (_, __, ___) => Image.asset('assets/images/new_logo.png')
+                              ),
+                            ):  Center(
+                              child: Text(
+                                'No documents were uploaded by vendor ',
+                                style: GoogleFonts.poppins(color: Colors.black, fontSize: 16, fontWeight: FontWeight.w600),
+                              ),
                             ),
-
                             GestureDetector(
                               onTap: (){
                                 Get.to(

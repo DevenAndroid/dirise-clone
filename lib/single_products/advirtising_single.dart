@@ -1258,13 +1258,20 @@ class _AdvirtismentProductScreenState extends State<AdvirtismentProductScreen> {
                   SizedBox(
                     height: 20,
                   ),
-                  Center(
-                    child: CachedNetworkImage(
-                        imageUrl:
-                        modelSingleProduct.value.advertisingProduct!.storemeta!.commercialLicense.toString(),
-                        height: 180,
-                        fit: BoxFit.cover,
-                        errorWidget: (_, __, ___) => Image.asset('assets/images/new_logo.png')),
+
+                  modelSingleProduct.value.advertisingProduct!.storemeta!.commercialLicense !=""?
+                  Center(child: CachedNetworkImage(
+                    imageUrl:
+                    modelSingleProduct.value.advertisingProduct!.storemeta!.commercialLicense.toString(),
+                    height: 180,
+                    fit: BoxFit.cover,
+                    // errorWidget: (_, __, ___) => Image.asset('assets/images/new_logo.png')
+                  ),
+                  ):Center(
+                    child: Text(
+                      'No documents were uploaded by vendor ',
+                      style: GoogleFonts.poppins(color: Colors.black, fontSize: 16, fontWeight: FontWeight.w600),
+                    ),
                   ),
                   // Center(child: Image.asset("assets/svgs/licence.png")),
 
@@ -1278,8 +1285,21 @@ class _AdvirtismentProductScreenState extends State<AdvirtismentProductScreen> {
                   SizedBox(
                     height: 20,
                   ),
-                  Center(child: Image.asset("assets/svgs/licence.png")),
-
+                  modelSingleProduct.value.advertisingProduct!.storemeta!.document2 != ""?
+                  Center(
+                    child: CachedNetworkImage(
+                      imageUrl:
+                      modelSingleProduct.value.advertisingProduct!.storemeta!.document2.toString(),
+                      height: 180,
+                      fit: BoxFit.cover,
+                      // errorWidget: (_, __, ___) => Image.asset('assets/images/new_logo.png')
+                    ),
+                  ):  Center(
+                    child: Text(
+                      'No documents were uploaded by vendor ',
+                      style: GoogleFonts.poppins(color: Colors.black, fontSize: 16, fontWeight: FontWeight.w600),
+                    ),
+                  ),
                   Align(
                     alignment: Alignment.centerRight,
                     child: Container(
