@@ -167,16 +167,6 @@ class _SocialMediaStoreAccountState extends State<SocialMediaStoreAccount> {
                       if (value == null || value.isEmpty) {
                         return 'Instagram link is required';
                       }
-
-                      final regex = RegExp(
-                        r'^(https?:\/\/)?(www\.)?(([\w-]+\.)*(facebook|twitter|instagram|linkedin)\.com)(\/[\w-]*)*\/?$',
-                        caseSensitive: false,
-                      );
-
-                      if (!regex.hasMatch(value)) {
-                        return 'Please enter a valid instagram link';
-                      }
-
                       return null;
                     }
                     ,),
@@ -194,16 +184,6 @@ class _SocialMediaStoreAccountState extends State<SocialMediaStoreAccount> {
                         if (value == null || value.isEmpty) {
                           return 'Youtube link is required';
                         }
-
-                        final regex = RegExp(
-                          r'^(https?:\/\/)?(www\.)?(([\w-]+\.)*(facebook|twitter|instagram|linkedin|youtube)\.com)(\/[\w-]*)*\/?$',
-                          caseSensitive: false,
-                        );
-
-                        if (!regex.hasMatch(value)) {
-                          return 'Please enter a valid youtube link';
-                        }
-
                         return null;
                       }),
                   const SizedBox(height: 10,),
@@ -220,16 +200,6 @@ class _SocialMediaStoreAccountState extends State<SocialMediaStoreAccount> {
                         if (value == null || value.isEmpty) {
                           return 'Twitter link is required';
                         }
-
-                        final regex = RegExp(
-                          r'^(https?:\/\/)?(www\.)?(([\w-]+\.)*(facebook|twitter|instagram|linkedin|snapchat|pinterest|tiktok|threads)\.com)(\/[\w-]*)*\/?$',
-                          caseSensitive: false,
-                        );
-
-                        if (!regex.hasMatch(value)) {
-                          return 'Please enter a valid twitter link';
-                        }
-
                         return null;
                       }
                   ),
@@ -247,16 +217,6 @@ class _SocialMediaStoreAccountState extends State<SocialMediaStoreAccount> {
                         if (value == null || value.isEmpty) {
                           return 'Linkedin link is required';
                         }
-
-                        final regex = RegExp(
-                          r'^(https?:\/\/)?(www\.)?(([\w-]+\.)*(facebook|twitter|instagram|linkedin|snapchat|pinterest|tiktok|threads)\.com)(\/[\w-]*)*\/?$',
-                          caseSensitive: false,
-                        );
-
-                        if (!regex.hasMatch(value)) {
-                          return 'Please enter a valid linkedin link';
-                        }
-
                         return null;
                       }
                   ),
@@ -274,16 +234,6 @@ class _SocialMediaStoreAccountState extends State<SocialMediaStoreAccount> {
                         if (value == null || value.isEmpty) {
                           return 'Facebook link is required';
                         }
-
-                        final regex = RegExp(
-                          r'^(https?:\/\/)?(www\.)?(([\w-]+\.)*(facebook|twitter|instagram|linkedin|snapchat|pinterest|tiktok|threads)\.com)(\/[\w-]*)*\/?$',
-                          caseSensitive: false,
-                        );
-
-                        if (!regex.hasMatch(value)) {
-                          return 'Please enter a valid facebook link';
-                        }
-
                         return null;
                       }
                   ),
@@ -301,16 +251,6 @@ class _SocialMediaStoreAccountState extends State<SocialMediaStoreAccount> {
                         if (value == null || value.isEmpty) {
                           return 'Snapchat link is required';
                         }
-
-                        final regex = RegExp(
-                          r'^(https?:\/\/)?(www\.)?(([\w-]+\.)*(facebook|twitter|instagram|linkedin|snapchat|pinterest|tiktok|threads)\.com)(\/[\w-]*)*\/?$',
-                          caseSensitive: false,
-                        );
-
-                        if (!regex.hasMatch(value)) {
-                          return 'Please enter a valid snapchat link';
-                        }
-
                         return null;
                       }
                   ),
@@ -328,16 +268,6 @@ class _SocialMediaStoreAccountState extends State<SocialMediaStoreAccount> {
                         if (value == null || value.isEmpty) {
                           return 'Pinterest link is required';
                         }
-
-                        final regex = RegExp(
-                          r'^(https?:\/\/)?(www\.)?(([\w-]+\.)*(facebook|twitter|instagram|linkedin|snapchat|pinterest|tiktok|threads)\.com)(\/[\w-]*)*\/?$',
-                          caseSensitive: false,
-                        );
-
-                        if (!regex.hasMatch(value)) {
-                          return 'Please enter a valid pinterest link';
-                        }
-
                         return null;
                       }
                   ),
@@ -355,16 +285,6 @@ class _SocialMediaStoreAccountState extends State<SocialMediaStoreAccount> {
                         if (value == null || value.isEmpty) {
                           return 'Tiktok link is required';
                         }
-
-                        final regex = RegExp(
-                          r'^(https?:\/\/)?(www\.)?(([\w-]+\.)*(facebook|twitter|instagram|linkedin|snapchat|pinterest|tiktok|threads)\.com)(\/[\w-]*)*\/?$',
-                          caseSensitive: false,
-                        );
-
-                        if (!regex.hasMatch(value)) {
-                          return 'Please enter a valid tiktok link';
-                        }
-
                         return null;
                       }
                   ),
@@ -382,16 +302,6 @@ class _SocialMediaStoreAccountState extends State<SocialMediaStoreAccount> {
                         if (value == null || value.isEmpty) {
                           return 'Threads link is required';
                         }
-
-                        final regex = RegExp(
-                          r'^(https?:\/\/)?(www\.)?(([\w-]+\.)*(facebook|twitter|instagram|linkedin|snapchat|pinterest|tiktok|threads)\.com)(\/[\w-]*)*\/?$',
-                          caseSensitive: false,
-                        );
-
-                        if (!regex.hasMatch(value)) {
-                          return 'Please enter a valid threads link';
-                        }
-
                         return null;
                       }
                   ),
