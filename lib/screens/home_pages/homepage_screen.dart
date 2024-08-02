@@ -390,7 +390,7 @@ class _HomePageState extends State<HomePage> {
                           // FlutterExitApp.exitApp(iosForceExit: true);
                         }
                       },
-                      child: Platform.isAndroid ? Text("Exit App".tr) : Text("Not now".tr)
+                      child: Platform.isAndroid ? Text("Exit App".tr) : Text("Don't allow".tr)
                   ),
                   TextButton(
                     onPressed: () async {

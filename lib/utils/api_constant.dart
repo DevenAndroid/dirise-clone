@@ -1,5 +1,6 @@
 import 'dart:convert';
 import 'dart:ui';
+import 'package:flutter/material.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:get/get.dart';
 import 'package:shared_preferences/shared_preferences.dart';
@@ -175,8 +176,8 @@ showToastCenter(message, {ToastGravity? gravity, bool? center}) {
       toastLength: Toast.LENGTH_LONG,
       gravity: center == true ? ToastGravity.CENTER :  gravity ?? ToastGravity.CENTER,
       timeInSecForIosWeb: 4,
-      backgroundColor: AppTheme.buttonColor,
-      textColor: const Color(0xffffffff),
+      backgroundColor: const Color(0xffffffff),
+      textColor:  Colors.grey,
       fontSize: 15);
 }
 
