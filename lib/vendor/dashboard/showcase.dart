@@ -98,7 +98,7 @@ class _ShowCaseProductsState extends State<ShowCaseProducts> {
         ),
         const SizedBox(height: 20,),
         SizedBox(
-          height: 250,
+          height: 260,
           // margin: const EdgeInsets.fromLTRB(15, 20, 15, 0),
           child: Obx(() {
             return  homeController.getShowModal.value.showcaseProduct != null ?
@@ -165,9 +165,9 @@ class _ShowCaseProductsState extends State<ShowCaseProducts> {
                                           const SizedBox(height: 15,),
                                           Row(
                                             children: [
-                                              Image.asset('assets/svgs/flagk.png'),
-                                              const SizedBox(width: 5,),
-                                              Text("Kuwait City", style: GoogleFonts.poppins(
+                                              // Image.asset('assets/svgs/flagk.png'),
+                                              // const SizedBox(width: 5,),
+                                              Text(item.countryName.toString(), style: GoogleFonts.poppins(
                                                   fontSize: 14, fontWeight: FontWeight.w400, color: const Color(0xFF19313C)),
                                               ),
                                               const SizedBox(width: 5,),
@@ -220,14 +220,21 @@ class _ShowCaseProductsState extends State<ShowCaseProducts> {
                                               }),
                                             ],
                                           ),
-                                          const SizedBox(height: 10,),
+                                          const SizedBox(height: 5,),
                                           Text(item.pname.toString(),
                                             maxLines: 1,
                                             overflow: TextOverflow.ellipsis,
                                             style: GoogleFonts.poppins(
                                               fontSize: 16, fontWeight: FontWeight.w400, color: const Color(0xFF19313C)),
                                           ),
-                                          const SizedBox(height: 15,),
+                                          const SizedBox(height: 5,),
+                                          Text(item.catId.toString(),
+                                            maxLines: 1,
+                                            overflow: TextOverflow.ellipsis,
+                                            style: GoogleFonts.poppins(
+                                              fontSize: 12, fontWeight: FontWeight.w400, color: const Color(0xFF19313C)),
+                                          ),
+                                          // const SizedBox(height: 5,),
                                           Row(
                                             children: [
                                               Text("yokun", style: GoogleFonts.poppins(
