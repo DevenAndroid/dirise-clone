@@ -143,7 +143,6 @@ class _ShowCaseProductsState extends State<ShowCaseProducts> {
                             // margin: const EdgeInsets.only(right: 9,left: 10),
                             child: Column(
                               crossAxisAlignment: CrossAxisAlignment.start,
-
                               children: [
                                 SizedBox(height: 20,),
                                 Row(

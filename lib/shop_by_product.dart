@@ -2049,7 +2049,7 @@ RxString id = "".obs;
                       );
                     },
                   ):Center(
-                    child: Text("Product not found",style: GoogleFonts.poppins(
+                    child: Text("Product not found".tr,style: GoogleFonts.poppins(
                         fontSize: 18, fontWeight: FontWeight.w600, color: const Color(0xFF19313C)),
                                     ),
                   ),
