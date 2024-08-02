@@ -18,6 +18,7 @@ import 'package:google_fonts/google_fonts.dart';
 
 import '../../../controller/homepage_controller.dart';
 import '../../../controller/profile_controller.dart';
+import '../../../model/CarsSubCateGoryModel.dart';
 import '../../../model/getSubCategoryModel.dart';
 import '../../../model/model_category_list.dart';
 import '../../../model/model_category_stores.dart';
@@ -276,33 +277,42 @@ class _SingleCategoriesState extends State<SingleCategories> {
     }
   }
 
-  Rx<SubCategoryModel> subCategoryModel = SubCategoryModel().obs;
-
-  // Future getSubCategory() async {
-  //   Map<String, dynamic> map = {};
-  //   map['category_id'] = subCategory.toString();
-  //   repositories.postApi(url: ApiUrls.subCategory, mapData: map, showResponse: true).then((value) {
-  //     subCategoryModel.value = SubCategoryModel.fromJson(jsonDecode(value));
-  //   });
-  // }
+  Rx<CarsSubCateGoryModel> carsSubCateGoryModel =  CarsSubCateGoryModel().obs;
 
   Future getSubCategory() async {
     Map<String, dynamic> map = {};
     map['category_id'] = subCategory.toString();
     repositories.postApi(url: ApiUrls.subCategory, mapData: map, showResponse: true).then((value) {
-      SubCategoryModel newSubCategoryModel = SubCategoryModel.fromJson(jsonDecode(value));
-
-      // Append new data to the existing list
-      if (subCategoryModel.value.data != null) {
-        subCategoryModel.value.data!.addAll(newSubCategoryModel.data!);
-      } else {
-        subCategoryModel.value = newSubCategoryModel;
+      var responseJson = jsonDecode(value);
+      if (responseJson['data']['sub_categories'].isNotEmpty) {
+        carsSubCateGoryModel.value = CarsSubCateGoryModel.fromJson(responseJson);
+        model.add(carsSubCateGoryModel.value);
       }
-
-      // Trigger UI update
-      subCategoryModel.refresh();
+      if (responseJson['data']['sub_categories'].isEmpty) {
+         showToastCenter('No category found');
+      }
+      setState(() {});
     });
   }
+
+   List<CarsSubCateGoryModel> model = <CarsSubCateGoryModel>[];
+  // Future getSubCategory() async {
+  //   Map<String, dynamic> map = {};
+  //   map['category_id'] = subCategory.toString();
+  //   repositories.postApi(url: ApiUrls.subCategory, mapData: map, showResponse: true).then((value) {
+  //     SubCategoryModel newSubCategoryModel = SubCategoryModel.fromJson(jsonDecode(value));
+  //
+  //     // Append new data to the existing list
+  //     if (carsSubCateGoryModel.value.data != null) {
+  //       carsSubCateGoryModel.value.data!.subCategories!.addAll(newSubCategoryModel.data!.subc);
+  //     } else {
+  //       carsSubCateGoryModel.value = newSubCategoryModel;
+  //     }
+  //
+  //     // Trigger UI update
+  //     subCategoryModel.refresh();
+  //   });
+  // }
 
   final RxBool search = false.obs;
   final ScrollController _scrollController = ScrollController();
@@ -589,69 +599,75 @@ class _SingleCategoriesState extends State<SingleCategories> {
             SliverToBoxAdapter(
               child: SingleChildScrollView(
                 scrollDirection: Axis.horizontal,
-                child: subCategoryModel.value.data != null
+                child: carsSubCateGoryModel.value.data != null
                     ? Row(
                   children: [
-                    if ( subCategoryModel.value.data!.isNotEmpty)
+                    if ( carsSubCateGoryModel.value.data!.subCategories!.isNotEmpty)
                       Padding(
                         padding: const EdgeInsets.only(right: 10),
                         child: StatefulBuilder(builder: (c, newState) {
-                          return Obx(() {
-                            return SizedBox(
-                              height: 40,
-                              child: ListView.builder(
-                                itemCount: subCategoryModel.value.data!.length,
+                          return  SizedBox(
+                            height: 40,
+                            child: ListView.builder(
+                                itemCount: model.length,
                                 shrinkWrap: true,
                                 scrollDirection: Axis.horizontal,
-                                itemBuilder: (context, index) {
-                                  final subCategorys = subCategoryModel.value.data![index];
-                                  return PopupMenuButton(
-                                    position: PopupMenuPosition.under,
-                                    child: Container(
-                                      height: 36,
-                                      constraints: BoxConstraints(maxWidth: context.getSize.width * .75),
-                                      padding: const EdgeInsets.fromLTRB(10, 0, 10, 0),
-                                      decoration: BoxDecoration(
-                                        border: Border.all(color: const Color(0xff014E70)),
-                                        color: const Color(0xffEBF1F4),
-                                        borderRadius: BorderRadius.circular(22),
-                                      ),
-                                      child: Row(
-                                        mainAxisSize: MainAxisSize.min,
-                                        children: [
-                                          Flexible(
-                                            child: Padding(
-                                              padding: const EdgeInsets.only(left: 8, right: 10),
-                                              child: Text(
-                                                subCategorys.title,
-                                                style: GoogleFonts.poppins(
-                                                  fontSize: 14,
-                                                  fontWeight: FontWeight.w500,
-                                                  color: const Color(0xff014E70),
+                                itemBuilder: (c,i){
+                                  return ListView.builder(
+                                    itemCount: 1,
+                                    shrinkWrap: true,
+                                    scrollDirection: Axis.horizontal,
+                                    itemBuilder: (context, index) {
+                                      //   final subCategorys = carsSubCateGoryModel.value.data!.subCategories![index];
+                                      return PopupMenuButton(
+                                        position: PopupMenuPosition.under,
+                                        child: Container(
+                                          height: 36,
+                                          constraints: BoxConstraints(maxWidth: context.getSize.width * .75),
+                                          padding: const EdgeInsets.fromLTRB(10, 0, 10, 0),
+                                          decoration: BoxDecoration(
+                                            border: Border.all(color: const Color(0xff014E70)),
+                                            color: const Color(0xffEBF1F4),
+                                            borderRadius: BorderRadius.circular(22),
+                                          ),
+                                          child: Row(
+                                            mainAxisSize: MainAxisSize.min,
+                                            children: [
+                                              Flexible(
+                                                child: Padding(
+                                                  padding: const EdgeInsets.only(left: 8, right: 10),
+                                                  child: Text(
+
+                                                    model[i].data!.subCategories![index].title.toString(),
+                                                    //     carsSubCateGoryModel.value.data!.subCategories![index].title.toString(),
+                                                    style: GoogleFonts.poppins(
+                                                      fontSize: 14,
+                                                      fontWeight: FontWeight.w500,
+                                                      color: const Color(0xff014E70),
+                                                    ),
+                                                  ),
                                                 ),
                                               ),
-                                            ),
+                                              const Icon(Icons.keyboard_arrow_down_outlined, color: Color(0xff014E70)),
+                                            ],
                                           ),
-                                          const Icon(Icons.keyboard_arrow_down_outlined, color: Color(0xff014E70)),
-                                        ],
-                                      ),
-                                    ),
-                                    itemBuilder: (c) {
-                                      return subCategoryModel.value.data!.map((ee) =>
-                                          PopupMenuItem(
-                                            child: Text(ee.title.toString()),
-                                            onTap: () {
-                                              subCategory = ee.id.toString();
-                                              getSubCategory();
-                                              newState(() {});
-                                            },
-                                          )).toList();
+                                        ),
+                                        itemBuilder: (c) {
+                                          return  model[i].data!.subCategories!.map((ee) =>
+                                              PopupMenuItem(
+                                                child: Text(ee.title.toString()),
+                                                onTap: () {
+                                                  subCategory = ee.id.toString();
+                                                  getSubCategory();
+                                                  newState(() {});
+                                                },
+                                              )).toList();
+                                        },
+                                      );
                                     },
                                   );
-                                },
-                              ),
-                            );
-                          });
+                                }),
+                          );
                         }),
                       ),
                     // Row(
@@ -727,6 +743,7 @@ class _SingleCategoriesState extends State<SingleCategories> {
                               GestureDetector(
                                 onTap: () {
                                   modelCategoryList = null;
+                                  model.clear();
                                   getCategoryFilter();
                                   getCategoryStores(page: 1, resetAll: true);
                                   isSelect = false;
@@ -793,7 +810,13 @@ class _SingleCategoriesState extends State<SingleCategories> {
                     ),
                   ),
                 ],
-              ),),
+              ),
+            ),
+            const SliverToBoxAdapter(
+             child: SizedBox(
+               height: 20,
+             ),
+            ),
             if (modelCategoryStores != null)
               for (var i = 0; i < modelCategoryStores!.length; i++) ...list(i)
             else
