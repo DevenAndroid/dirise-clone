@@ -111,6 +111,28 @@ class _ServicesReturnPolicyState extends State<ServicesReturnPolicy> {
     });
   }
 
+  nextPageApi1() {
+    Map<String, dynamic> map = {};
+    map['id'] = addProductController.idProduct.value.toString();
+    map['no_return'] = noReturnSelected;
+
+    FocusManager.instance.primaryFocus!.unfocus();
+    repositories.postApi(url: ApiUrls.giveawayProductAddress, context: context, mapData: map).then((value) {
+      ModelCommonResponse response = ModelCommonResponse.fromJson(jsonDecode(value));
+      print('API Response Status Code: ${response.status}');
+      showToast(response.message.toString());
+      if (response.status == true) {
+        log("gfgfgfgfg${response.toJson()}");
+        if(widget.id != null){
+          Get.back();
+        }else{
+          Get.to(() => const Locationwherecustomerwilljoin());
+        }
+      } else {
+        showToast(response.message.toString());
+      }
+    });
+  }
   nextPageApi() {
     Map<String, dynamic> map = {};
     map['return_policy_desc'] = selectedReturnPolicy!.id.toString();
@@ -529,7 +551,7 @@ class _ServicesReturnPolicyState extends State<ServicesReturnPolicy> {
                           if(widget.id !=null){
                             Get.back();
                           }else{
-                            Get.to(() => const Locationwherecustomerwilljoin());
+                            nextPageApi1();
                           }
                       }
                     } // Disable button if no radio button is selected
