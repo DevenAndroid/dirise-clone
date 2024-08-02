@@ -43,7 +43,7 @@ class AdvertisingProduct {
   dynamic promotionCode;
   dynamic inStock;
   dynamic pPrice;
-  ReturnPolicyDesc? returnPolicyDesc;
+  dynamic returnPolicyDesc;
   dynamic shortDescription;
   dynamic longDescription;
   dynamic isComplete;
@@ -53,6 +53,7 @@ class AdvertisingProduct {
   bool? alreadyReview;
   bool? inWishlist;
   Storemeta? storemeta;
+  VendorInformation? vendorInformation;
   dynamic discountPrice;
   dynamic discountOff;
   dynamic address;
@@ -85,6 +86,7 @@ class AdvertisingProduct {
         this.alreadyReview,
         this.inWishlist,
         this.storemeta,
+        this.vendorInformation,
         this.discountPrice,
         this.discountOff,
         this.address});
@@ -112,9 +114,7 @@ class AdvertisingProduct {
     promotionCode = json['promotion_code'];
     inStock = json['in_stock'];
     pPrice = json['p_price'];
-    returnPolicyDesc = json['return_policy_desc'] != null
-        ? new ReturnPolicyDesc.fromJson(json['return_policy_desc'])
-        : null;
+    returnPolicyDesc = json['return_policy_desc'];
     shortDescription = json['short_description'];
     longDescription = json['long_description'];
     isComplete = json['is_complete'];
@@ -125,6 +125,9 @@ class AdvertisingProduct {
     inWishlist = json['in_wishlist'];
     storemeta = json['storemeta'] != null
         ? new Storemeta.fromJson(json['storemeta'])
+        : null;
+    vendorInformation = json['vendor_information'] != null
+        ? new VendorInformation.fromJson(json['vendor_information'])
         : null;
     discountPrice = json['discount_price'];
     discountOff = json['discount_off'];
@@ -138,7 +141,7 @@ class AdvertisingProduct {
     data['address_id'] = this.addressId;
     if (this.catId != null) {
       data['cat_id'] = this.catId!.map((v) => v.toJson()).toList();
-    } 
+    }
     data['pname'] = this.pname;
     data['product_type'] = this.productType;
     data['item_type'] = this.itemType;
@@ -152,9 +155,7 @@ class AdvertisingProduct {
     data['promotion_code'] = this.promotionCode;
     data['in_stock'] = this.inStock;
     data['p_price'] = this.pPrice;
-    if (this.returnPolicyDesc != null) {
-      data['return_policy_desc'] = this.returnPolicyDesc!.toJson();
-    }
+    data['return_policy_desc'] = this.returnPolicyDesc;
     data['short_description'] = this.shortDescription;
     data['long_description'] = this.longDescription;
     data['is_complete'] = this.isComplete;
@@ -166,6 +167,9 @@ class AdvertisingProduct {
     if (this.storemeta != null) {
       data['storemeta'] = this.storemeta!.toJson();
     }
+    if (this.vendorInformation != null) {
+      data['vendor_information'] = this.vendorInformation!.toJson();
+    }
     data['discount_price'] = this.discountPrice;
     data['discount_off'] = this.discountOff;
     data['address'] = this.address;
@@ -173,115 +177,6 @@ class AdvertisingProduct {
   }
 }
 
-class ReturnPolicyDesc {
-  dynamic id;
-  dynamic userId;
-  dynamic title;
-  dynamic days;
-  dynamic policyDiscreption;
-  dynamic returnShippingFees;
-  dynamic unit;
-  dynamic noReturn;
-  dynamic isDefault;
-  dynamic createdAt;
-  dynamic updatedAt;
-
-  ReturnPolicyDesc(
-      {this.id,
-        this.userId,
-        this.title,
-        this.days,
-        this.policyDiscreption,
-        this.returnShippingFees,
-        this.unit,
-        this.noReturn,
-        this.isDefault,
-        this.createdAt,
-        this.updatedAt});
-
-  ReturnPolicyDesc.fromJson(Map<String, dynamic> json) {
-    id = json['id'];
-    userId = json['user_id'];
-    title = json['title'];
-    days = json['days'];
-    policyDiscreption = json['policy_discreption'];
-    returnShippingFees = json['return_shipping_fees'];
-    unit = json['unit'];
-    noReturn = json['no_return'];
-    isDefault = json['is_default'];
-    createdAt = json['created_at'];
-    updatedAt = json['updated_at'];
-  }
-
-  Map<String, dynamic> toJson() {
-    final Map<String, dynamic> data = new Map<String, dynamic>();
-    data['id'] = this.id;
-    data['user_id'] = this.userId;
-    data['title'] = this.title;
-    data['days'] = this.days;
-    data['policy_discreption'] = this.policyDiscreption;
-    data['return_shipping_fees'] = this.returnShippingFees;
-    data['unit'] = this.unit;
-    data['no_return'] = this.noReturn;
-    data['is_default'] = this.isDefault;
-    data['created_at'] = this.createdAt;
-    data['updated_at'] = this.updatedAt;
-    return data;
-  }
-}
-
-class Storemeta {
-  dynamic firstName;
-  dynamic lastName;
-  dynamic storeId;
-  dynamic document2;
-  dynamic storeName;
-  dynamic storeLocation;
-  dynamic profileImg;
-  dynamic bannerProfile;
-  dynamic commercialLicense;
-  dynamic storeCategory;
-
-  Storemeta(
-      {this.firstName,
-        this.lastName,
-        this.storeId,
-        this.storeName,
-        this.document2,
-        this.storeLocation,
-        this.profileImg,
-        this.bannerProfile,
-        this.commercialLicense,
-        this.storeCategory});
-
-  Storemeta.fromJson(Map<String, dynamic> json) {
-    firstName = json['first_name'];
-    lastName = json['last_name'];
-    storeId = json['store_id'];
-    storeName = json['store_name'];
-    document2 = json['document_2'];
-    storeLocation = json['store_location'];
-    profileImg = json['profile_img'];
-    bannerProfile = json['banner_profile'];
-    commercialLicense = json['commercial_license'];
-    storeCategory = json['store_category'];
-  }
-
-  Map<String, dynamic> toJson() {
-    final Map<String, dynamic> data = new Map<String, dynamic>();
-    data['first_name'] = this.firstName;
-    data['last_name'] = this.lastName;
-    data['store_id'] = this.storeId;
-    data['store_name'] = this.storeName;
-    data['document_2'] = this.document2;
-    data['store_location'] = this.storeLocation;
-    data['profile_img'] = this.profileImg;
-    data['banner_profile'] = this.bannerProfile;
-    data['commercial_license'] = this.commercialLicense;
-    data['store_category'] = this.storeCategory;
-    return data;
-  }
-}
 class CatId {
   dynamic id;
   dynamic title;
@@ -297,6 +192,116 @@ class CatId {
     final Map<String, dynamic> data = new Map<String, dynamic>();
     data['id'] = this.id;
     data['title'] = this.title;
+    return data;
+  }
+}
+
+class Storemeta {
+  dynamic firstName;
+  dynamic lastName;
+  dynamic storeId;
+  dynamic storeName;
+  dynamic storeLocation;
+  dynamic profileImg;
+  dynamic bannerProfile;
+  dynamic commercialLicense;
+  dynamic document2;
+  dynamic storeCategory;
+
+  Storemeta(
+      {this.firstName,
+        this.lastName,
+        this.storeId,
+        this.storeName,
+        this.storeLocation,
+        this.profileImg,
+        this.bannerProfile,
+        this.commercialLicense,
+        this.document2,
+        this.storeCategory});
+
+  Storemeta.fromJson(Map<String, dynamic> json) {
+    firstName = json['first_name'];
+    lastName = json['last_name'];
+    storeId = json['store_id'];
+    storeName = json['store_name'];
+    storeLocation = json['store_location'];
+    profileImg = json['profile_img'];
+    bannerProfile = json['banner_profile'];
+    commercialLicense = json['commercial_license'];
+    document2 = json['document_2'];
+    storeCategory = json['store_category'];
+  }
+
+  Map<String, dynamic> toJson() {
+    final Map<String, dynamic> data = new Map<String, dynamic>();
+    data['first_name'] = this.firstName;
+    data['last_name'] = this.lastName;
+    data['store_id'] = this.storeId;
+    data['store_name'] = this.storeName;
+    data['store_location'] = this.storeLocation;
+    data['profile_img'] = this.profileImg;
+    data['banner_profile'] = this.bannerProfile;
+    data['commercial_license'] = this.commercialLicense;
+    data['document_2'] = this.document2;
+    data['store_category'] = this.storeCategory;
+    return data;
+  }
+}
+
+class VendorInformation {
+  dynamic storeId;
+  dynamic storeName;
+  dynamic storeEmail;
+  dynamic storePhone;
+  dynamic storeLogo;
+  dynamic storeImage;
+  dynamic storeLogoApp;
+  dynamic storeLogoWeb;
+  dynamic bannerProfile;
+  dynamic bannerProfileApp;
+  dynamic bannerProfileWeb;
+
+  VendorInformation(
+      {this.storeId,
+        this.storeName,
+        this.storeEmail,
+        this.storePhone,
+        this.storeLogo,
+        this.storeImage,
+        this.storeLogoApp,
+        this.storeLogoWeb,
+        this.bannerProfile,
+        this.bannerProfileApp,
+        this.bannerProfileWeb});
+
+  VendorInformation.fromJson(Map<String, dynamic> json) {
+    storeId = json['store_id'];
+    storeName = json['store_name'];
+    storeEmail = json['store_email'];
+    storePhone = json['store_phone'];
+    storeLogo = json['store_logo'];
+    storeImage = json['store_image'];
+    storeLogoApp = json['store_logo_app'];
+    storeLogoWeb = json['store_logo_web'];
+    bannerProfile = json['banner_profile'];
+    bannerProfileApp = json['banner_profile_app'];
+    bannerProfileWeb = json['banner_profile_web'];
+  }
+
+  Map<String, dynamic> toJson() {
+    final Map<String, dynamic> data = new Map<String, dynamic>();
+    data['store_id'] = this.storeId;
+    data['store_name'] = this.storeName;
+    data['store_email'] = this.storeEmail;
+    data['store_phone'] = this.storePhone;
+    data['store_logo'] = this.storeLogo;
+    data['store_image'] = this.storeImage;
+    data['store_logo_app'] = this.storeLogoApp;
+    data['store_logo_web'] = this.storeLogoWeb;
+    data['banner_profile'] = this.bannerProfile;
+    data['banner_profile_app'] = this.bannerProfileApp;
+    data['banner_profile_web'] = this.bannerProfileWeb;
     return data;
   }
 }
