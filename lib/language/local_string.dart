@@ -734,12 +734,15 @@ class LocaleString extends Translations {
           'Please select Image' : 'Please select Image',
           'Files' : 'Files',
           'Camera' : 'Camera',
-
+          'News not found' : 'News not found',
+          'Store is empty' : 'Store is empty',
        },
 
 
 
      'ar_AR': {
+       'Store is empty' : 'المتجر فارغ',
+       'News not found' : 'لم يتم العثور على الأخبار',
        '+ Add Address'  : '+ إضافة عنوان',
        'Search' : 'يبحث',
        'You don\'t have any audio book in your collection' : 'ليس لديك أي كتاب صوتي في مجموعتك',
@@ -1563,6 +1566,25 @@ class LocaleString extends Translations {
           'Link: ' : 'وصلة: ',
           'Multiple items uploaded successfully ' : 'تم تحميل عناصر متعددة بنجاح',
           'Cutomer Support' : 'دعم العملاء',
+          'Shop by vendor' : 'تسوق حسب البائع',
+          'Product not found' : 'الصنف غير موجود',
+          'No Review' : 'لا مراجعة',
+          'shipping' : 'شحن',
+          'international shipping not available' : 'الشحن الدولي غير متوفر',
+          ' contact us' : 'اتصل بنا ',
+          ' for the solution' : 'للحل ',
+          'Shipping: ' : ' شحن: ',
+          ' & Estimated arrival by ' : ' & الوصول المتوقع بحلول ',
+          'Location services are disabled. Please enable the services' : 'تم تعطيل خدمات الموقع. الرجاء تفعيل الخدمات',
+          'Location permissions are denied' : 'تم رفض أذونات الموقع',
+          'Location permissions are permanently denied, we cannot request permissions.' : 'تم رفض أذونات الموقع بشكل دائم، ولا يمكننا طلب الأذونات.',
+          'Please wait loading available slots' : 'يرجى الانتظار لتحميل الخانات المتاحة',
+          'Slots are not available' : 'فتحات غير متوفرة',
+          'Please select slot' : 'الرجاء تحديد الفتحة',
+          'Please select Variation' : 'الرجاء تحديد الاختلاف',
+          ' allow location' : 'السماح بالموقع ',
+          'Out Of Stock' : 'إنتهى من المخزن',
+          'Out Of Stock' : 'إنتهى من المخزن',
 
         },
 

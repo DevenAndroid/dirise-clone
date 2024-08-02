@@ -18,11 +18,11 @@ class GetShowCaseProductModel {
 
   Map<String, dynamic> toJson() {
     final Map<String, dynamic> data = new Map<String, dynamic>();
-    data['status'] = this.status;
-    data['message'] = this.message;
-    if (this.showcaseProduct != null) {
+    data['status'] = status;
+    data['message'] = message;
+    if (showcaseProduct != null) {
       data['showcase_product'] =
-          this.showcaseProduct!.map((v) => v.toJson()).toList();
+          showcaseProduct!.map((v) => v.toJson()).toList();
     }
     return data;
   }
@@ -37,6 +37,7 @@ class ShowcaseProduct {
   dynamic featuredImage;
   dynamic addressId;
   dynamic countryName;
+  dynamic catId;
   VendorDetails? vendorDetails;
   dynamic discountPrice;
   dynamic discountOff;
@@ -47,6 +48,7 @@ class ShowcaseProduct {
         this.vendorId,
         this.pname,
         this.pPrice,
+        this.catId,
         this.shortDescription,
         this.featuredImage,
         this.addressId,
@@ -71,24 +73,26 @@ class ShowcaseProduct {
     discountPrice = json['discount_price'];
     discountOff = json['discount_off'];
     address = json['address'];
+    catId = json['cat_id'];
   }
 
   Map<String, dynamic> toJson() {
     final Map<String, dynamic> data = new Map<String, dynamic>();
-    data['id'] = this.id;
-    data['vendor_id'] = this.vendorId;
-    data['pname'] = this.pname;
-    data['p_price'] = this.pPrice;
-    data['short_description'] = this.shortDescription;
-    data['featured_image'] = this.featuredImage;
-    data['address_id'] = this.addressId;
-    data['country_name'] = this.countryName;
-    if (this.vendorDetails != null) {
-      data['Vendor_details'] = this.vendorDetails!.toJson();
+    data['id'] = id;
+    data['vendor_id'] = vendorId;
+    data['pname'] = pname;
+    data['p_price'] = pPrice;
+    data['short_description'] = shortDescription;
+    data['cat_id'] = catId;
+    data['featured_image'] = featuredImage;
+    data['address_id'] = addressId;
+    data['country_name'] = countryName;
+    if (vendorDetails != null) {
+      data['Vendor_details'] = vendorDetails!.toJson();
     }
-    data['discount_price'] = this.discountPrice;
-    data['discount_off'] = this.discountOff;
-    data['address'] = this.address;
+    data['discount_price'] = discountPrice;
+    data['discount_off'] = discountOff;
+    data['address'] = address;
     return data;
   }
 }
@@ -111,10 +115,10 @@ class VendorDetails {
 
   Map<String, dynamic> toJson() {
     final Map<String, dynamic> data = new Map<String, dynamic>();
-    data['phone_country_code'] = this.phoneCountryCode;
-    data['phone'] = this.phone;
-    data['email'] = this.email;
-    data['phone_number'] = this.phoneNumber;
+    data['phone_country_code'] = phoneCountryCode;
+    data['phone'] = phone;
+    data['email'] = email;
+    data['phone_number'] = phoneNumber;
     return data;
   }
 }

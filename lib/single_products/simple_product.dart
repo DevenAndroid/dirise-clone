@@ -562,10 +562,11 @@ class _SimpleProductScreenState extends State<SimpleProductScreen> {
                               showImageViewer(context, Image
                                   .network(i)
                                   .image,
+closeButtonColor: Colors.black,
                                   doubleTapZoomable: true,
-                                  backgroundColor: AppTheme.buttonColor,
+                                  backgroundColor: Colors.white,
                                   useSafeArea: true,
-                                  swipeDismissible: false);
+                                  swipeDismissible: true);
                             },
                             child: CachedNetworkImage(
                                 imageUrl: i,
@@ -874,7 +875,7 @@ class _SimpleProductScreenState extends State<SimpleProductScreen> {
             width: 7,
           ),
           Text(
-            'Fedex Fast delivery by ',
+            'Shipping Type',
             style: GoogleFonts.poppins(
 
                 color:  Colors.grey,
@@ -1298,27 +1299,54 @@ class _SimpleProductScreenState extends State<SimpleProductScreen> {
                   const SizedBox(
                     height: 20,
                   ),
-                  Center(
-                    child: CachedNetworkImage(
+                  modelSingleProduct.value.simpleProduct!.storemeta!.commercialLicense !=""?
+                  Center(child: CachedNetworkImage(
                         imageUrl:
                         modelSingleProduct.value.simpleProduct!.storemeta!.commercialLicense.toString(),
                         height: 180,
                         fit: BoxFit.cover,
-                        errorWidget: (_, __, ___) => Image.asset('assets/images/new_logo.png')),
-                  ),
+                        // errorWidget: (_, __, ___) => Image.asset('assets/images/new_logo.png')
+       ),
+                  ):Center(
+        child: Text(
+        'No documents were uploaded by vendor ',
+        style: GoogleFonts.poppins(color: Colors.black, fontSize: 16, fontWeight: FontWeight.w600),
+        ),
+        ),
                   // Center(child: Image.asset("assets/svgs/licence.png")),
 
                   const SizedBox(
                     height: 25,
                   ),
+                  // modelSingleProduct.value.simpleProduct!.storemeta!.document2 != ""?
                   Text(
-                    'Seller translated documents',
+                    'Seller Translated documents',
                     style: GoogleFonts.poppins(color: Colors.black, fontSize: 20, fontWeight: FontWeight.w600),
                   ),
                   const SizedBox(
                     height: 20,
                   ),
-                  Center(child: Image.asset("assets/svgs/licence.png")),
+
+
+                  modelSingleProduct.value.simpleProduct!.storemeta!.document2 != ""?
+                  Center(
+                    child: CachedNetworkImage(
+                        imageUrl:
+                        modelSingleProduct.value.simpleProduct!.storemeta!.document2.toString(),
+                        height: 180,
+                        fit: BoxFit.cover,
+                       // errorWidget: (_, __, ___) => Image.asset('assets/images/new_logo.png')
+                      ),
+                  ):  Center(
+                    child: Text(
+                            'No documents were uploaded by vendor ',
+                            style: GoogleFonts.poppins(color: Colors.black, fontSize: 16, fontWeight: FontWeight.w600),
+                            ),
+                  ),
+                  const SizedBox(
+                    height: 20,
+                  ),
+                  // Center(child: Image.asset("assets/svgs/licence.png")),
 
                   GestureDetector(
                     onTap: (){

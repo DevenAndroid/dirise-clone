@@ -14,7 +14,7 @@ class ImageWidget extends StatefulWidget {
       {super.key,
       required this.file,
       required this.title,
-      required this.validation,
+     required this.validation,
       required this.filePicked,
       this.imageOnly});
   final File file;

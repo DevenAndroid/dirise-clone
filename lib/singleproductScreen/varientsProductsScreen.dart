@@ -339,12 +339,13 @@ class _VarientProductsScreenState extends State<VarientProductsScreen> {
                                         controller: variant_skuController,
                                         // key: e.variantSku.getKey,
                                         hintText: "Variant SKU",
-                                        validator: (value) {
-                                          if (value!.trim().isEmpty) {
-                                            return "Variant sku is required";
-                                          }
-                                          return null;
-                                        }),
+                                        // validator: (value) {
+                                        //   if (value!.trim().isEmpty) {
+                                        //     return "Variant sku is required";
+                                        //   }
+                                        //   return null;
+                                        // }
+                                        ),
                                     18.spaceY,
                                     VendorCommonTextfield(
                                         controller: variant_priceController,
@@ -352,12 +353,13 @@ class _VarientProductsScreenState extends State<VarientProductsScreen> {
                                         hintText: "Variant Price",
                                         keyboardType:
                                         const TextInputType.numberWithOptions(decimal: true),
-                                        validator: (value) {
-                                          if (value!.trim().isEmpty) {
-                                            return "Variant price is required";
-                                          }
-                                          return null;
-                                        }),
+                                        // validator: (value) {
+                                        //   if (value!.trim().isEmpty) {
+                                        //     return "Variant price is required";
+                                        //   }
+                                        //   return null;
+                                        // }
+                                        ),
                                     18.spaceY,
                                     VendorCommonTextfield(
                                         controller: variant_stockController,
@@ -365,12 +367,13 @@ class _VarientProductsScreenState extends State<VarientProductsScreen> {
                                         keyboardType:
                                         const TextInputType.numberWithOptions(decimal: true),
                                         hintText: "Variant Stock",
-                                        validator: (value) {
-                                          if (value!.trim().isEmpty) {
-                                            return "Variant stock is required";
-                                          }
-                                          return null;
-                                        }),
+                                        // validator: (value) {
+                                        //   if (value!.trim().isEmpty) {
+                                        //     return "Variant stock is required";
+                                        //   }
+                                        //   return null;
+                                        // }
+                                        ),
                                     18.spaceY,
                                     VendorCommonTextfield(
                                         controller: shortDescriptionController,
@@ -378,12 +381,13 @@ class _VarientProductsScreenState extends State<VarientProductsScreen> {
                                         keyboardType:
                                         const TextInputType.numberWithOptions(decimal: true),
                                         hintText: "Short Description",
-                                        validator: (value) {
-                                          if (value!.trim().isEmpty) {
-                                            return "Short Description is required";
-                                          }
-                                          return null;
-                                        }),
+                                        // validator: (value) {
+                                        //   if (value!.trim().isEmpty) {
+                                        //     return "Short Description is required";
+                                        //   }
+                                        //   return null;
+                                        // }
+                                        ),
                                     18.spaceY,
                                     VendorCommonTextfield(
                                         controller: longDescriptionController,
@@ -391,12 +395,13 @@ class _VarientProductsScreenState extends State<VarientProductsScreen> {
                                         keyboardType:
                                         const TextInputType.numberWithOptions(decimal: true),
                                         hintText: "Long Description",
-                                        validator: (value) {
-                                          if (value!.trim().isEmpty) {
-                                            return "Long Description is required";
-                                          }
-                                          return null;
-                                        }),
+                                        // validator: (value) {
+                                        //   if (value!.trim().isEmpty) {
+                                        //     return "Long Description is required";
+                                        //   }
+                                        //   return null;
+                                        // }
+                                        ),
                                   ],
                                 ))
                                     .toList(),

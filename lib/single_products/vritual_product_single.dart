@@ -553,8 +553,9 @@ class _VritualProductScreenState extends State<VritualProductScreen> {
                               showImageViewer(context, Image
                                   .network(i)
                                   .image,
+                                  closeButtonColor: Colors.black,
                                   doubleTapZoomable: true,
-                                  backgroundColor: AppTheme.buttonColor,
+                                  backgroundColor: Colors.white,
                                   useSafeArea: true,
                                   swipeDismissible: false);
                             },
@@ -1283,13 +1284,19 @@ class _VritualProductScreenState extends State<VritualProductScreen> {
                   const SizedBox(
                     height: 20,
                   ),
-                  Center(
-                    child: CachedNetworkImage(
-                        imageUrl:
-                        modelSingleProduct.value.singleVirtualProduct!.storemeta!.commercialLicense.toString(),
-                        height: 180,
-                        fit: BoxFit.cover,
-                        errorWidget: (_, __, ___) => Image.asset('assets/images/new_logo.png')),
+                  modelSingleProduct.value.singleVirtualProduct!.storemeta!.commercialLicense !=""?
+                  Center(child: CachedNetworkImage(
+                    imageUrl:
+                    modelSingleProduct.value.singleVirtualProduct!.storemeta!.commercialLicense.toString(),
+                    height: 180,
+                    fit: BoxFit.cover,
+                    // errorWidget: (_, __, ___) => Image.asset('assets/images/new_logo.png')
+                  ),
+                  ):Center(
+                    child: Text(
+                      'No documents were uploaded by vendor ',
+                      style: GoogleFonts.poppins(color: Colors.black, fontSize: 16, fontWeight: FontWeight.w600),
+                    ),
                   ),
                   // Center(child: Image.asset("assets/svgs/licence.png")),
 

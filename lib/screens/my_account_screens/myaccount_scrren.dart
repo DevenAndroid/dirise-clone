@@ -739,7 +739,8 @@ class _MyAccountScreenState extends State<MyAccountScreen> {
                                 ? bottomSheetChangeAddress()
                                 : const CircularProgressIndicator();
                           } else {
-                            addAddressWithoutLogin(addressData: cartController.selectedAddress);
+                            // addAddressWithoutLogin(addressData: cartController.selectedAddress);
+                            Get.toNamed(LoginScreen.route);
                           }
                         },
                         child: Row(

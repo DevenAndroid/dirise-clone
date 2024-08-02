@@ -453,8 +453,7 @@ class _DirectCheckOutScreenState extends State<DirectCheckOutScreen> {
                                                   //   return e.value.toString();
                                                   // });
                                                   shippingType.value = "local_shipping";
-                                                  double subtotal = double.parse(
-                                                      cartController.directOrderResponse.value.subtotal.toString());
+                                                  double subtotal = double.parse(cartController.directOrderResponse.value.subtotal.toString().replaceAll(',', ''));
                                                   double shipping = double.parse(product.value.toString());
                                                   shippingPrice = product.value.toString();
                                                   commisionShipping = double.tryParse(product.value.toString())!;

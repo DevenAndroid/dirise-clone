@@ -268,67 +268,67 @@ class _ProductVarientState extends State<ProductVarient> {
                                     filePicked: (File gg) {
                                       e.variantImages = gg;
                                     },
-                                    validation: e.variantImages.path.isEmpty,
+                                     validation: e.variantImages.path.isEmpty,
                                   ),
                                   2.spaceY,
                                   VendorCommonTextfield(
                                       controller: e.variantSku,
                                       key: e.variantSku.getKey,
                                       hintText: "Variant SKU",
-                                      validator: (value) {
-                                        if (value!.trim().isEmpty) {
-                                          return "Variant sku is required";
-                                        }
-                                        return null;
-                                      }),
+                                      // validator: (value) {
+                                      //   if (value!.trim().isEmpty) {
+                                      //     return "Variant sku is required";
+                                      //   }
+                                      //   return null;
+                                      // }
+                                      ),
                                   18.spaceY,
                                   VendorCommonTextfield(
                                       controller: e.variantPrice,
                                       key: e.variantPrice.getKey,
                                       hintText: "Variant Price",
                                       keyboardType: const TextInputType.numberWithOptions(decimal: true),
-                                      validator: (value) {
-                                        if (value!.trim().isEmpty) {
-                                          return "Variant price is required";
-                                        }
-                                        return null;
-                                      }),
+
+                                  ),
                                   18.spaceY,
                                   VendorCommonTextfield(
                                       controller: e.variantStock,
                                       key: e.variantStock.getKey,
                                       keyboardType: const TextInputType.numberWithOptions(decimal: true),
                                       hintText: "Variant Stock",
-                                      validator: (value) {
-                                        if (value!.trim().isEmpty) {
-                                          return "Variant stock is required";
-                                        }
-                                        return null;
-                                      }),
+                                      // validator: (value) {
+                                      //   if (value!.trim().isEmpty) {
+                                      //     return "Variant stock is required";
+                                      //   }
+                                      //   return null;
+                                      // }
+                                      ),
                                   18.spaceY,
                                   VendorCommonTextfield(
                                       controller: e.shortDescription,
                                       key: e.shortDescription.getKey,
                                       keyboardType: TextInputType.text,
                                       hintText: "short Description",
-                                      validator: (value) {
-                                        if (value!.trim().isEmpty) {
-                                          return "short Description is required";
-                                        }
-                                        return null;
-                                      }),
+                                      // validator: (value) {
+                                      //   if (value!.trim().isEmpty) {
+                                      //     return "short Description is required";
+                                      //   }
+                                      //   return null;
+                                      // }
+                                      ),
                                   18.spaceY,
                                   VendorCommonTextfield(
                                       controller: e.longDescription,
                                       key: e.longDescription.getKey,
                                       keyboardType: TextInputType.text,
                                       hintText: "long Description",
-                                      validator: (value) {
-                                        if (value!.trim().isEmpty) {
-                                          return "long Description is required";
-                                        }
-                                        return null;
-                                      }),
+                                      // validator: (value) {
+                                      //   if (value!.trim().isEmpty) {
+                                      //     return "long Description is required";
+                                      //   }
+                                      //   return null;
+                                      // }
+                                      ),
                                 ],
                               ))
                           .toList(),

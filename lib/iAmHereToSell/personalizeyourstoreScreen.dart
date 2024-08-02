@@ -80,6 +80,7 @@ class _PersonalizeyourstoreScreenState extends State<PersonalizeyourstoreScreen>
   Map<String, File> picture = {};
   void updateProfile() {
     Map<String, String> map = {};
+    map['store_banner_desccription'] =  controller.detailsController.text;
     picture["banner_profile"] = controller.image;
 
     repositories
