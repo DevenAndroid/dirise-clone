@@ -735,12 +735,13 @@ class LocaleString extends Translations {
           'Files' : 'Files',
           'Camera' : 'Camera',
           'News not found' : 'News not found',
-
+          'Store is empty' : 'Store is empty',
        },
 
 
 
      'ar_AR': {
+       'Store is empty' : 'المتجر فارغ',
        'News not found' : 'لم يتم العثور على الأخبار',
        '+ Add Address'  : '+ إضافة عنوان',
        'Search' : 'يبحث',

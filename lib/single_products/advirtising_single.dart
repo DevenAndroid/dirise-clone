@@ -405,7 +405,7 @@ class _AdvirtismentProductScreenState extends State<AdvirtismentProductScreen> {
         leadingWidth: 120,
         leading: Row(
           children: [
-            SizedBox(
+            const SizedBox(
               width: 20,
             ),
             GestureDetector(
@@ -430,7 +430,7 @@ class _AdvirtismentProductScreenState extends State<AdvirtismentProductScreen> {
                 ],
               ),
             ),
-            SizedBox(
+            const SizedBox(
               width: 20,
             ),
             InkWell(
@@ -452,11 +452,11 @@ class _AdvirtismentProductScreenState extends State<AdvirtismentProductScreen> {
         actions: [
           // ...vendorPartner(),
           const CartBagCard(),
-          Icon(
+          const Icon(
             Icons.more_vert,
             color: Color(0xFF014E70),
           ),
-          SizedBox(
+          const SizedBox(
             width: 10,
           )
         ],
@@ -506,7 +506,7 @@ class _AdvirtismentProductScreenState extends State<AdvirtismentProductScreen> {
                       //     style: GoogleFonts.poppins(fontWeight: FontWeight.w700, fontSize: 11, color: Colors.black),
                       //   ),
                       // ),
-                      Spacer(),
+                      const Spacer(),
                       // Text(
                       //   "512 ",
                       //   style: GoogleFonts.poppins(fontWeight: FontWeight.w500, fontSize: 12, color: Color(0xFf000000)
@@ -529,7 +529,7 @@ class _AdvirtismentProductScreenState extends State<AdvirtismentProductScreen> {
                       // Icon(Icons.favorite_border, color: Colors.red,),
                     ],
                   ),
-                  SizedBox(
+                  const SizedBox(
                     height: 20,
                   ),
                   CarouselSlider(
@@ -586,18 +586,18 @@ class _AdvirtismentProductScreenState extends State<AdvirtismentProductScreen> {
                   ),
                   // Center(child: Image.asset("assets/svgs/single.png")),
                   Obx(() => Container(
-                    padding: EdgeInsets.symmetric(vertical: 8, horizontal: 18),
+                    padding: const EdgeInsets.symmetric(vertical: 8, horizontal: 18),
                     decoration: BoxDecoration(
                       borderRadius: BorderRadius.circular(30),
                       color: Colors.white,
-                      boxShadow: [BoxShadow(offset: Offset(1, 1), blurRadius: 2, color: Colors.grey)],
+                      boxShadow: [const BoxShadow(offset: Offset(1, 1), blurRadius: 2, color: Colors.grey)],
                     ),
                     child: Text(
                       "${currentIndex.value + 1}/${imagesList.length}",
                       style: GoogleFonts.poppins(
                         fontWeight: FontWeight.w500,
                         fontSize: 10,
-                        color: Color(0xFF014E70),
+                        color: const Color(0xFF014E70),
                       ),
                     ),
                   )),
@@ -615,7 +615,7 @@ class _AdvirtismentProductScreenState extends State<AdvirtismentProductScreen> {
                   //
                   //   ),
                   // ),
-                  SizedBox(
+                  const SizedBox(
                     height: 20,
                   ),
                   Text(
@@ -623,14 +623,14 @@ class _AdvirtismentProductScreenState extends State<AdvirtismentProductScreen> {
                         .pname
                         .toString()
                         .capitalize!,
-                    style: GoogleFonts.poppins(fontWeight: FontWeight.w500, fontSize: 18, color: Color(0xFF19313C)),
+                    style: GoogleFonts.poppins(fontWeight: FontWeight.w500, fontSize: 18, color: const Color(0xFF19313C)),
                   ),
                   Text(
                     modelSingleProduct.value.advertisingProduct!
                         .shortDescription
                         .toString()
                         .capitalize!,
-                    style: GoogleFonts.poppins(fontWeight: FontWeight.w400, fontSize: 12, color: Color(0xFF19313C)),
+                    style: GoogleFonts.poppins(fontWeight: FontWeight.w400, fontSize: 12, color: const Color(0xFF19313C)),
                   ),
 
                   // Row(
@@ -641,7 +641,7 @@ class _AdvirtismentProductScreenState extends State<AdvirtismentProductScreen> {
                   //     Text("dicoins", style: GoogleFonts.poppins(fontWeight: FontWeight.w600, fontSize: 14, color:Colors.black),),
                   //   ],
                   // ),
-                  SizedBox(
+                  const SizedBox(
                     height: 6,
                   ),
 
@@ -786,49 +786,49 @@ class _AdvirtismentProductScreenState extends State<AdvirtismentProductScreen> {
                           print(rating);
                         },
                       ),
-                      SizedBox(width: 10,),
+                      const SizedBox(width: 10,),
                       Image.asset("assets/svgs/rils.png"),
                     ],
                   ),
-                  SizedBox(height: 20,),
+                  const SizedBox(height: 20,),
                   SizedBox(
                     height: 28,
                     child: ListView.builder(
                       itemCount: modelSingleProduct.value.advertisingProduct!.catId!.length,
                       shrinkWrap: true,
                       scrollDirection: Axis.horizontal,
-                      physics: AlwaysScrollableScrollPhysics(),
+                      physics: const AlwaysScrollableScrollPhysics(),
                       itemBuilder: (BuildContext context, int index) {
                         return Row(
                           children: [
                             Container(
-                              padding: EdgeInsets.symmetric(vertical: 7, horizontal: 37),
+                              padding: const EdgeInsets.symmetric(vertical: 7, horizontal: 37),
                               decoration: BoxDecoration(
-                                color: Color(0xFF014E70).withOpacity(.07),
+                                color: const Color(0xFF014E70).withOpacity(.07),
                                 borderRadius: BorderRadius.circular(20),
                               ),
                               child: Text(
                                 modelSingleProduct.value.advertisingProduct!.catId![index].title.toString(),
                                 style: GoogleFonts.poppins(
-                                    color: Color(0xFF014E70), fontSize: 10, fontWeight: FontWeight.w400),
+                                    color: const Color(0xFF014E70), fontSize: 10, fontWeight: FontWeight.w400),
                               ),
                             ),
-                            SizedBox(width: 10,)
+                            const SizedBox(width: 10,)
                           ],
                         );
                       },
                     ),
                   ),
-                  SizedBox(height: 20,),
+                  const SizedBox(height: 20,),
                   Text(
                     "Dirise Welcome deal  ",
-                    style: GoogleFonts.poppins(fontWeight: FontWeight.w500, fontSize: 18, color:Color(0xFF014E70)),
+                    style: GoogleFonts.poppins(fontWeight: FontWeight.w500, fontSize: 18, color:const Color(0xFF014E70)),
 
                   ),
-                  SizedBox(height: 10,),
+                  const SizedBox(height: 10,),
                   Row(
                     children: [
-                      Icon(Icons.circle,color: Colors.grey,size: 10,),
+                      const Icon(Icons.circle,color: Colors.grey,size: 10,),
                       const SizedBox(
                         width: 7,
                       ),
@@ -845,7 +845,7 @@ class _AdvirtismentProductScreenState extends State<AdvirtismentProductScreen> {
 
                     ],
                   ),
-                  SizedBox(height: 10,),
+                  const SizedBox(height: 10,),
                   // Row(
                   //   children: [
                   //     Icon(Icons.circle,color: Colors.grey,size: 10,),
@@ -873,7 +873,7 @@ class _AdvirtismentProductScreenState extends State<AdvirtismentProductScreen> {
                   //
                   //   ],
                   // ),
-                  SizedBox(height: 20,),
+                  const SizedBox(height: 20,),
                   // Row(
                   //   children: [
                   //
@@ -907,7 +907,7 @@ class _AdvirtismentProductScreenState extends State<AdvirtismentProductScreen> {
                   //
                   //   ],
                   // ),
-                  SizedBox(
+                  const SizedBox(
                     height: 20,
                   ),
 
@@ -955,7 +955,7 @@ class _AdvirtismentProductScreenState extends State<AdvirtismentProductScreen> {
                   //   ],
                   // ),
 
-                  SizedBox(height: 10,),
+                  const SizedBox(height: 10,),
                   Text(
                     'Specifications',
                     style: GoogleFonts.poppins(
@@ -964,7 +964,7 @@ class _AdvirtismentProductScreenState extends State<AdvirtismentProductScreen> {
                         fontSize: 20,
                         fontWeight: FontWeight.w500),
                   ),
-                  SizedBox(height: 16,),
+                  const SizedBox(height: 16,),
 
                   Row(
                     children: [
@@ -980,7 +980,7 @@ class _AdvirtismentProductScreenState extends State<AdvirtismentProductScreen> {
                       const SizedBox(
                         width: 20,
                       ),
-                      Icon(Icons.circle, color: Colors.grey, size: 6,),
+                      const Icon(Icons.circle, color: Colors.grey, size: 6,),
                       const SizedBox(
                         width: 7,
                       ),
@@ -1045,13 +1045,13 @@ class _AdvirtismentProductScreenState extends State<AdvirtismentProductScreen> {
                   //
                   //   ],
                   // ),
-                  SizedBox(height: 10,),
+                  const SizedBox(height: 10,),
                   Divider(
                     color: Colors.grey.withOpacity(.5),
                     thickness: 1,
                   ),
 
-                  SizedBox(
+                  const SizedBox(
                     height: 20,
                   ),
 
@@ -1059,7 +1059,7 @@ class _AdvirtismentProductScreenState extends State<AdvirtismentProductScreen> {
                     'Delivery',
                     style: GoogleFonts.poppins(color: Colors.black, fontSize: 20, fontWeight: FontWeight.w500),
                   ),
-                  SizedBox(
+                  const SizedBox(
                     height: 16,
                   ),
                   Row(
@@ -1071,7 +1071,7 @@ class _AdvirtismentProductScreenState extends State<AdvirtismentProductScreen> {
                       const SizedBox(
                         width: 20,
                       ),
-                      Icon(
+                      const Icon(
                         Icons.circle,
                         color: Color(0xFF014E70),
                         size: 6,
@@ -1082,11 +1082,11 @@ class _AdvirtismentProductScreenState extends State<AdvirtismentProductScreen> {
                       Text(
                         locationController.city.toString(),
                         style:
-                        GoogleFonts.poppins(color: Color(0xFF014E70), fontSize: 14, fontWeight: FontWeight.w500),
+                        GoogleFonts.poppins(color: const Color(0xFF014E70), fontSize: 14, fontWeight: FontWeight.w500),
                       ),
                     ],
                   ),
-                  SizedBox(
+                  const SizedBox(
                     height: 10,
                   ),
                   // Row(
@@ -1115,7 +1115,7 @@ class _AdvirtismentProductScreenState extends State<AdvirtismentProductScreen> {
                   //     ),
                   //   ],
                   // ),
-                  SizedBox(
+                  const SizedBox(
                     height: 10,
                   ),
                   // Row(
@@ -1148,30 +1148,32 @@ class _AdvirtismentProductScreenState extends State<AdvirtismentProductScreen> {
                   //     ),
                   //   ],
                   // ),
-                  SizedBox(
+                  const SizedBox(
                     height: 10,
                   ),
                   Divider(
                     color: Colors.grey.withOpacity(.5),
                     thickness: 1,
                   ),
-                  SizedBox(
+                  const SizedBox(
                     height: 10,
                   ),
 
                   Row(
                     children: [
-                      Text(
-                        modelSingleProduct.value.advertisingProduct!.storemeta!.storeName.toString(),
-                        style: GoogleFonts.poppins(color: Colors.black, fontSize: 20, fontWeight: FontWeight.w500),
+                      Flexible(
+                        child: Text(
+                          modelSingleProduct.value.advertisingProduct!.storemeta!.storeName.toString(),
+                          style: GoogleFonts.poppins(color: Colors.black, fontSize: 20, fontWeight: FontWeight.w500),
+                        ),
                       ),
-                      SizedBox(
+                      const SizedBox(
                         width: 20,
                       ),
-                      Image.asset("assets/svgs/verified.png")
+                      Flexible(child: Image.asset("assets/svgs/verified.png"))
                     ],
                   ),
-                  SizedBox(
+                  const SizedBox(
                     height: 10,
                   ),
 
@@ -1190,13 +1192,13 @@ class _AdvirtismentProductScreenState extends State<AdvirtismentProductScreen> {
                         child: Text(
                           modelSingleProduct.value.advertisingProduct!.storemeta!.storeId.toString(),
                           style:
-                          GoogleFonts.poppins(color: Color(0xFF014E70), fontSize: 14, fontWeight: FontWeight.w500),
+                          GoogleFonts.poppins(color: const Color(0xFF014E70), fontSize: 14, fontWeight: FontWeight.w500),
                         ),
                       ),
                     ],
                   ),
 
-                  SizedBox(
+                  const SizedBox(
                     height: 15,
                   ),
                   Row(
@@ -1207,7 +1209,7 @@ class _AdvirtismentProductScreenState extends State<AdvirtismentProductScreen> {
                         modelSingleProduct.value.advertisingProduct!.storemeta!.storeLocation.toString(),
                         style: GoogleFonts.poppins(color: Colors.grey, fontSize: 14, fontWeight: FontWeight.w600),
                       ),
-                      SizedBox(
+                      const SizedBox(
                         width: 30,
                       ),
                       Text(
@@ -1216,7 +1218,7 @@ class _AdvirtismentProductScreenState extends State<AdvirtismentProductScreen> {
                       ),
                     ],
                   ),
-                  SizedBox(
+                  const SizedBox(
                     height: 13,
                   ),
                   // Row(
@@ -1242,21 +1244,21 @@ class _AdvirtismentProductScreenState extends State<AdvirtismentProductScreen> {
                   //   ],
                   // ),
 
-                  SizedBox(
+                  const SizedBox(
                     height: 10,
                   ),
                   Divider(
                     color: Colors.grey.withOpacity(.5),
                     thickness: 1,
                   ),
-                  SizedBox(
+                  const SizedBox(
                     height: 10,
                   ),
                   Text(
                     'Seller documents',
                     style: GoogleFonts.poppins(color: Colors.black, fontSize: 20, fontWeight: FontWeight.w600),
                   ),
-                  SizedBox(
+                  const SizedBox(
                     height: 20,
                   ),
 
@@ -1276,14 +1278,14 @@ class _AdvirtismentProductScreenState extends State<AdvirtismentProductScreen> {
                   ),
                   // Center(child: Image.asset("assets/svgs/licence.png")),
 
-                  SizedBox(
+                  const SizedBox(
                     height: 25,
                   ),
                   Text(
                     'Seller translated documents',
                     style: GoogleFonts.poppins(color: Colors.black, fontSize: 20, fontWeight: FontWeight.w600),
                   ),
-                  SizedBox(
+                  const SizedBox(
                     height: 20,
                   ),
                   modelSingleProduct.value.advertisingProduct!.storemeta!.document2 != ""?
@@ -1305,15 +1307,15 @@ class _AdvirtismentProductScreenState extends State<AdvirtismentProductScreen> {
                     alignment: Alignment.centerRight,
                     child: Container(
                       width: 130,
-                      padding: EdgeInsets.all(10),
+                      padding: const EdgeInsets.all(10),
                       decoration: BoxDecoration(
-                          border: Border.all(color: Color(0xFF014E70), width: 1.5),
+                          border: Border.all(color: const Color(0xFF014E70), width: 1.5),
                           borderRadius: BorderRadius.circular(30)),
                       child: Center(
                         child: Text(
                           "Seller profile",
                           style:
-                          GoogleFonts.poppins(color: Color(0xFF014E70), fontSize: 14, fontWeight: FontWeight.w500),
+                          GoogleFonts.poppins(color: const Color(0xFF014E70), fontSize: 14, fontWeight: FontWeight.w500),
                         ),
                       ),
                     ),
@@ -1339,21 +1341,21 @@ class _AdvirtismentProductScreenState extends State<AdvirtismentProductScreen> {
                   //   ),
                   // ),
 
-                  SizedBox(
+                  const SizedBox(
                     height: 10,
                   ),
                   Divider(
                     color: Colors.grey.withOpacity(.5),
                     thickness: 1,
                   ),
-                  SizedBox(
+                  const SizedBox(
                     height: 30,
                   ),
                   modelRelated.value.relatedProduct != null?
                   Text(
                     'Similar products',
                     style: GoogleFonts.poppins(color: Colors.black, fontSize: 20, fontWeight: FontWeight.w600),
-                  ):SizedBox(),
+                  ):const SizedBox(),
 
                   Obx(() {
                     return modelRelated.value.relatedProduct != null?
@@ -1365,7 +1367,7 @@ class _AdvirtismentProductScreenState extends State<AdvirtismentProductScreen> {
                           .height,
                       child: ListView.builder(
                         shrinkWrap: true,
-                        physics: NeverScrollableScrollPhysics(),
+                        physics: const NeverScrollableScrollPhysics(),
                         itemCount: modelRelated.value.relatedProduct!.product!.length,
                         itemBuilder: (BuildContext context, int index) {
                           var item = modelRelated.value.relatedProduct!.product![index];
@@ -2017,7 +2019,7 @@ class _AdvirtismentProductScreenState extends State<AdvirtismentProductScreen> {
                 ],
               )),
         )
-            : Center(child: CircularProgressIndicator());
+            : const Center(child: CircularProgressIndicator());
       }),
     );
   }
