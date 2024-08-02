@@ -615,7 +615,7 @@ RxString id = "".obs;
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: const Color(0xffF4F4F4),
+        backgroundColor: Colors.white,
         appBar: AppBar(
           toolbarHeight: kToolbarHeight + 20,
           backgroundColor: Color(0xFFF2F2F2),
@@ -751,7 +751,7 @@ RxString id = "".obs;
               child:    Align(
                 alignment: Alignment.centerRight,
                 child: Padding(
-                  padding: const EdgeInsets.only(right: 8.0),
+                  padding: const EdgeInsets.only(right: 8.0,top: 10),
                   child: Container(
                     width: 200,
                     padding: EdgeInsets.symmetric(horizontal: 12, vertical: 2),
@@ -2050,8 +2050,7 @@ RxString id = "".obs;
                       );
                     },
                   ):Center(
-                    child: Text("Product not found".tr,style: GoogleFonts.poppins(
-                        fontSize: 18, fontWeight: FontWeight.w600, color: const Color(0xFF19313C)),
+                    child: Text("Product not found".tr,style: GoogleFonts.poppins(),
                                     ),
                   ),
                 )  : Center(child: CircularProgressIndicator());
