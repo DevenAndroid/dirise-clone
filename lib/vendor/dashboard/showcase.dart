@@ -235,25 +235,25 @@ class _ShowCaseProductsState extends State<ShowCaseProducts> {
                                               fontSize: 12, fontWeight: FontWeight.w400, color: const Color(0xFF19313C)),
                                           ),
                                           // const SizedBox(height: 5,),
-                                          Row(
-                                            children: [
-                                              Text("yokun", style: GoogleFonts.poppins(
-                                                  fontSize: 10, fontWeight: FontWeight.w400, color: const Color(0xFF19313C)),
-                                              ),
-                                              const SizedBox(width: 6,),
-                                              Text("gmc", style: GoogleFonts.poppins(
-                                                  fontSize: 10, fontWeight: FontWeight.w400, color: const Color(0xFF19313C)),
-                                              ),
-                                              const SizedBox(width: 6,),
-                                              Text("used", style: GoogleFonts.poppins(
-                                                  fontSize: 10, fontWeight: FontWeight.w400, color: const Color(0xFF19313C)),
-                                              ),
-                                              const SizedBox(width: 6,),
-                                              Text("2024", style: GoogleFonts.poppins(
-                                                  fontSize: 10, fontWeight: FontWeight.w400, color: const Color(0xFF19313C)),
-                                              ),
-                                            ],
-                                          ),
+                                          // Row(
+                                          //   children: [
+                                          //     Text("yokun", style: GoogleFonts.poppins(
+                                          //         fontSize: 10, fontWeight: FontWeight.w400, color: const Color(0xFF19313C)),
+                                          //     ),
+                                          //     const SizedBox(width: 6,),
+                                          //     Text("gmc", style: GoogleFonts.poppins(
+                                          //         fontSize: 10, fontWeight: FontWeight.w400, color: const Color(0xFF19313C)),
+                                          //     ),
+                                          //     const SizedBox(width: 6,),
+                                          //     Text("used", style: GoogleFonts.poppins(
+                                          //         fontSize: 10, fontWeight: FontWeight.w400, color: const Color(0xFF19313C)),
+                                          //     ),
+                                          //     const SizedBox(width: 6,),
+                                          //     Text("2024", style: GoogleFonts.poppins(
+                                          //         fontSize: 10, fontWeight: FontWeight.w400, color: const Color(0xFF19313C)),
+                                          //     ),
+                                          //   ],
+                                          // ),
                                           const SizedBox(height: 15,),
                                           Text.rich(
                                             TextSpan(
