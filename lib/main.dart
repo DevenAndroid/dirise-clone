@@ -17,12 +17,7 @@ Future<void> main() async {
   await Firebase.initializeApp();
   SystemChrome.setPreferredOrientations([DeviceOrientation.portraitUp, DeviceOrientation.portraitDown]);
   SystemChrome.setSystemUIOverlayStyle(
-    const SystemUiOverlayStyle(
-      statusBarColor: Color(0xFFEBF3F6),
-      statusBarIconBrightness: Brightness.dark
-
-    )
-  );
+      const SystemUiOverlayStyle(statusBarColor: Color(0xFFEBF3F6), statusBarIconBrightness: Brightness.dark));
   NotificationService().initializeNotification();
   await Hive.initFlutter();
   runApp(const MyApp());
@@ -36,13 +31,12 @@ class MyApp extends StatefulWidget {
 }
 
 class _MyAppState extends State<MyApp> {
-
   @override
   Widget build(BuildContext context) {
     return GetMaterialApp(
       title: 'DIRISE',
       translations: LocaleString(),
-      locale: const Locale('en','US'),
+      locale: const Locale('en', 'US'),
       builder: (c, child) => GestureDetector(
         onTap: () {
           FocusManager.instance.primaryFocus!.unfocus();
