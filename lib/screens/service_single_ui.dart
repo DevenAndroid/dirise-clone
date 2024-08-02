@@ -381,7 +381,8 @@ class _ServiceProductScreenState extends State<ServiceProductScreen> {
                                   .network(i)
                                   .image,
                                   doubleTapZoomable: true,
-                                  backgroundColor: AppTheme.buttonColor,
+                                  closeButtonColor: Colors.black,
+                                  backgroundColor: Colors.white,
                                   useSafeArea: true,
                                   swipeDismissible: false);
                             },
@@ -689,7 +690,7 @@ class _ServiceProductScreenState extends State<ServiceProductScreen> {
                         width: 7,
                       ),
                       Text(
-                        'Fedex Fast delivery by ',
+                        'Shipping type',
                         style: GoogleFonts.poppins(
 
                             color:  Colors.grey,

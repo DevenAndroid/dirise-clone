@@ -549,7 +549,8 @@ class _AdvirtismentProductScreenState extends State<AdvirtismentProductScreen> {
                                   .network(i)
                                   .image,
                                   doubleTapZoomable: true,
-                                  backgroundColor: AppTheme.buttonColor,
+                                  closeButtonColor: Colors.black,
+                                  backgroundColor: Colors.white,
                                   useSafeArea: true,
                                   swipeDismissible: false);
                             },

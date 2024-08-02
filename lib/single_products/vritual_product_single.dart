@@ -553,8 +553,9 @@ class _VritualProductScreenState extends State<VritualProductScreen> {
                               showImageViewer(context, Image
                                   .network(i)
                                   .image,
+                                  closeButtonColor: Colors.black,
                                   doubleTapZoomable: true,
-                                  backgroundColor: AppTheme.buttonColor,
+                                  backgroundColor: Colors.white,
                                   useSafeArea: true,
                                   swipeDismissible: false);
                             },

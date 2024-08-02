@@ -562,10 +562,11 @@ class _SimpleProductScreenState extends State<SimpleProductScreen> {
                               showImageViewer(context, Image
                                   .network(i)
                                   .image,
+closeButtonColor: Colors.black,
                                   doubleTapZoomable: true,
-                                  backgroundColor: AppTheme.buttonColor,
+                                  backgroundColor: Colors.white,
                                   useSafeArea: true,
-                                  swipeDismissible: false);
+                                  swipeDismissible: true);
                             },
                             child: CachedNetworkImage(
                                 imageUrl: i,
@@ -874,7 +875,7 @@ class _SimpleProductScreenState extends State<SimpleProductScreen> {
             width: 7,
           ),
           Text(
-            'Fedex Fast delivery by ',
+            'Shipping Type',
             style: GoogleFonts.poppins(
 
                 color:  Colors.grey,
