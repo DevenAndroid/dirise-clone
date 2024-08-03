@@ -9,7 +9,7 @@
 /* Begin PBXBuildFile section */
 		103AB9DA477FD101B43D4F2A /* Pods_Runner.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = D5DCC612F2C0971664F2E4EB /* Pods_Runner.framework */; };
 		1322A7672C4E240600C77E00 /* AdSupport.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 1322A7662C4E240600C77E00 /* AdSupport.framework */; };
-		13B153F52C512DC100B7DF60 /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = 13B153F42C512DC100B7DF60 /* GoogleService-Info.plist */; };
+		13FA40312C5DF135004BA8AB /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = 13FA40302C5DF135004BA8AB /* GoogleService-Info.plist */; };
 		1498D2341E8E89220040F4C2 /* GeneratedPluginRegistrant.m in Sources */ = {isa = PBXBuildFile; fileRef = 1498D2331E8E89220040F4C2 /* GeneratedPluginRegistrant.m */; };
 		331C808B294A63AB00263BE5 /* RunnerTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 331C807B294A618700263BE5 /* RunnerTests.swift */; };
 		3B3967161E833CAA004F5970 /* AppFrameworkInfo.plist in Resources */ = {isa = PBXBuildFile; fileRef = 3B3967151E833CAA004F5970 /* AppFrameworkInfo.plist */; };
@@ -45,7 +45,7 @@
 
 /* Begin PBXFileReference section */
 		1322A7662C4E240600C77E00 /* AdSupport.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AdSupport.framework; path = System/Library/Frameworks/AdSupport.framework; sourceTree = SDKROOT; };
-		13B153F42C512DC100B7DF60 /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; name = "GoogleService-Info.plist"; path = "../../../Downloads/GoogleService-Info.plist"; sourceTree = "<group>"; };
+		13FA40302C5DF135004BA8AB /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; name = "GoogleService-Info.plist"; path = "../../../Downloads/GoogleService-Info.plist"; sourceTree = "<group>"; };
 		1498D2321E8E86230040F4C2 /* GeneratedPluginRegistrant.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = GeneratedPluginRegistrant.h; sourceTree = "<group>"; };
 		1498D2331E8E89220040F4C2 /* GeneratedPluginRegistrant.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = GeneratedPluginRegistrant.m; sourceTree = "<group>"; };
 		331C807B294A618700263BE5 /* RunnerTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RunnerTests.swift; sourceTree = "<group>"; };
@@ -143,7 +143,7 @@
 		97C146F01CF9000F007C117D /* Runner */ = {
 			isa = PBXGroup;
 			children = (
-				13B153F42C512DC100B7DF60 /* GoogleService-Info.plist */,
+				13FA40302C5DF135004BA8AB /* GoogleService-Info.plist */,
 				87B04CCA2BA1761900F61EDB /* Runner.entitlements */,
 				97C146FA1CF9000F007C117D /* Main.storyboard */,
 				97C146FD1CF9000F007C117D /* Assets.xcassets */,
@@ -268,7 +268,7 @@
 				3B3967161E833CAA004F5970 /* AppFrameworkInfo.plist in Resources */,
 				97C146FE1CF9000F007C117D /* Assets.xcassets in Resources */,
 				97C146FC1CF9000F007C117D /* Main.storyboard in Resources */,
-				13B153F52C512DC100B7DF60 /* GoogleService-Info.plist in Resources */,
+				13FA40312C5DF135004BA8AB /* GoogleService-Info.plist in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -474,13 +474,13 @@
 				CURRENT_PROJECT_VERSION = 24;
 				DEVELOPMENT_TEAM = D6SQXA68UF;
 				ENABLE_BITCODE = NO;
-				FLUTTER_BUILD_NAME = 1.0.22;
+				FLUTTER_BUILD_NAME = 1.0.26;
 				INFOPLIST_FILE = Runner/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
-				MARKETING_VERSION = 1.0.22;
+				MARKETING_VERSION = 1.0.26;
 				PRODUCT_BUNDLE_IDENTIFIER = com.dirise.diris;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE_SPECIFIER = "";
@@ -659,13 +659,13 @@
 				CURRENT_PROJECT_VERSION = 24;
 				DEVELOPMENT_TEAM = D6SQXA68UF;
 				ENABLE_BITCODE = NO;
-				FLUTTER_BUILD_NAME = 1.0.22;
+				FLUTTER_BUILD_NAME = 1.0.26;
 				INFOPLIST_FILE = Runner/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
-				MARKETING_VERSION = 1.0.22;
+				MARKETING_VERSION = 1.0.26;
 				PRODUCT_BUNDLE_IDENTIFIER = com.dirise.diris;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE_SPECIFIER = "";
@@ -691,13 +691,13 @@
 				CURRENT_PROJECT_VERSION = 24;
 				DEVELOPMENT_TEAM = D6SQXA68UF;
 				ENABLE_BITCODE = NO;
-				FLUTTER_BUILD_NAME = 1.0.22;
+				FLUTTER_BUILD_NAME = 1.0.26;
 				INFOPLIST_FILE = Runner/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
-				MARKETING_VERSION = 1.0.22;
+				MARKETING_VERSION = 1.0.26;
 				PRODUCT_BUNDLE_IDENTIFIER = com.dirise.diris;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE_SPECIFIER = "";
