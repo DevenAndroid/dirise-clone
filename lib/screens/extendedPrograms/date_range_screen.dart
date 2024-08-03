@@ -55,6 +55,7 @@ class _ExtendedProgramsScreenDateScreenState extends State<ExtendedProgramsScree
     if (picked != null && picked != _startDate) {
       setState(() {
         _startDate = picked;
+        addProductController.formattedStartDate = DateFormat('yyyy/MM/dd').format(_startDate);
         formattedStartDate = DateFormat('yyyy/MM/dd').format(_startDate);
         print('Now Select........${formattedStartDate.toString()}');
       });
@@ -491,7 +492,7 @@ class _ExtendedProgramsScreenDateScreenState extends State<ExtendedProgramsScree
               ),
               InkWell(
                 onTap: () {
-                  Get.to(() => SetTimeScreenAcademic());
+                  Get.to(() => SetTimeScreenExtendedPrograms());
                 },
                 child: Container(
                   width: Get.width,

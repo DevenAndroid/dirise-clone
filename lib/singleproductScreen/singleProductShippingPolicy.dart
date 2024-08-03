@@ -282,7 +282,7 @@ class _SingleProductShippingPolicyScreenState extends State<SingleProductShippin
                      getSingleReturnPolicyData(selectedReturnPolicy!.id.toString());
                       returnSelectId = selectedReturnPolicy!.id.toString();
                       policyId = selectedReturnPolicy!.id.toString();
-                      nextPageApi();
+
                     });
                   },
                   // validator: (value){
@@ -316,10 +316,10 @@ class _SingleProductShippingPolicyScreenState extends State<SingleProductShippin
                   controller: titleController,
                   hintText: selectedReturnPolicy != null
                       ? selectedReturnPolicy!.title.toString()
-                      : 'DIRISE Standard Policy',
+                      : 'Policy name',
                   validator: (value) {
                     if (value!.trim().isEmpty) {
-                      return "DIRISE standard Policy".tr;
+                      return "Policy name".tr;
                     }
                     return null;
                   }),
@@ -667,14 +667,19 @@ class _SingleProductShippingPolicyScreenState extends State<SingleProductShippin
                   borderRadius: 11,
                   onPressed: () {
                     if (formKey1.currentState!.validate()) {
-                      if (selectedRadio == 'free_shipping' ||
-                          selectedRadio == 'partial_shipping' ||
-                          selectedRadio == 'charge_my_customer') {
-                        shippingPolicyApi();
-                      } else {
+                      // if (selectedRadio == 'free_shipping' || selectedRadio == 'partial_shipping' || selectedRadio == 'charge_my_customer') {
+                        if(returnSelectId.isEmpty){
+                          shippingPolicyApi();
+                        }
+                       else{
+                         nextPageApi();
+                        }
+                      }
+                    else {
                         showToast('Please select Shipping Shipping Fees');
                       }
-                    }
+
+                    // }
                     // Get.to(()=> const SinglePInternationalshippingdetailsScreen());
                   }),
               const SizedBox(

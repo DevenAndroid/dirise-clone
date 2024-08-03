@@ -1,5 +1,6 @@
 import 'dart:convert';
 import 'dart:ui';
+import 'package:flutter/material.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:get/get.dart';
 import 'package:shared_preferences/shared_preferences.dart';
@@ -8,10 +9,9 @@ import '../widgets/common_colour.dart';
 
 class ApiUrls {
 
-  // static const String baseUrl = 'https://admin.diriseapp.com/api/';
-  static const String baseUrl = 'https://dirise.virtualdemo.tech/api/';
+  static const String baseUrl = 'https://admin.diriseapp.com/api/';
+  // static const String baseUrl = 'https://dirise.virtualdemo.tech/api/';
   // static const String baseUrl = 'https://backend.diriseapp.com/api/';
-  //
   // static const String baseUrl = 'https://beta-dirise.eoxyslive.com/api/';
   static const String signInUrl = "${baseUrl}register";
   static const String vendorShippingPolicy = "${baseUrl}vendor-shipping-policy";
@@ -152,6 +152,7 @@ class ApiUrls {
   static const String singleJobList = "${baseUrl}single-job-product?product_id=";
   static const String releatedProduct = "${baseUrl}related-product";
   static const String returnRequest = "${baseUrl}add-order-return-request";
+  static const String subCategory = "${baseUrl}sub-category";
 
 
 
@@ -175,8 +176,8 @@ showToastCenter(message, {ToastGravity? gravity, bool? center}) {
       toastLength: Toast.LENGTH_LONG,
       gravity: center == true ? ToastGravity.CENTER :  gravity ?? ToastGravity.CENTER,
       timeInSecForIosWeb: 4,
-      backgroundColor: AppTheme.buttonColor,
-      textColor: const Color(0xffffffff),
+      backgroundColor: const Color(0xffffffff),
+      textColor:  Colors.grey,
       fontSize: 15);
 }
 

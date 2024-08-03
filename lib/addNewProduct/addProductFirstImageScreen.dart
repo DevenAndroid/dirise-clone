@@ -116,7 +116,7 @@ class _AddProductFirstImageScreenState extends State<AddProductFirstImageScreen>
     return Scaffold(
       appBar: AppBar(
         automaticallyImplyLeading: false,
-        title: const Text('Add Product'),
+        title:  Text('Add Product'.tr),
         centerTitle: true,
         leading: GestureDetector(
           onTap: (){
@@ -154,7 +154,7 @@ class _AddProductFirstImageScreenState extends State<AddProductFirstImageScreen>
             children: [
               ProductImageWidget(
                 // key: paymentReceiptCertificateKey,
-                title: "Upload cover photo".tr,
+                title: "Upload Cover Photo".tr,
                 file: featuredImage,
                 validation: checkValidation(showValidation.value, featuredImage.path.isEmpty),
                 filePicked: (File g) {
@@ -164,7 +164,7 @@ class _AddProductFirstImageScreenState extends State<AddProductFirstImageScreen>
               const SizedBox(height: 20,),
               MultiImageWidget(
                 files: selectedFiles,
-                title: 'Upload extra photos',
+                title: 'Upload Extra Photos'.tr,
                 validation: true,
                 imageOnly: true,
                 filesPicked: (List<File> pickedFiles) {
@@ -177,14 +177,14 @@ class _AddProductFirstImageScreenState extends State<AddProductFirstImageScreen>
               SizedBox(height: 50,),
 
               CustomOutlineButton(
-                title: 'Next',
+                title: 'Next'.tr,
                 onPressed: () {
                   if(featuredImage.path.isNotEmpty && selectedFiles.isNotEmpty){
                     productController.getProductsCategoryList();
                     addProduct();
                   }
                   else{
-                    showToast('Please select Image');
+                    showToast('Please select Image'.tr);
                   }
                 },
               ),

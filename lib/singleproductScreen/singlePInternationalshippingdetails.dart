@@ -77,8 +77,9 @@ class _SinglePInternationalshippingdetailsScreenState extends State<SinglePInter
   String selectNumberOfPackages = '1';
   List<String> selectNumberOfPackagesList = List.generate(30, (index) => (index + 1).toString());
 
-  String selectTypeMaterial = 'Paper';
+  String selectTypeMaterial = 'Select Material';
   List<String> selectTypeMaterialList = [
+    'Select Material',
     'Paper',
     'Plastic',
     'Glass',
@@ -384,6 +385,7 @@ class _SinglePInternationalshippingdetailsScreenState extends State<SinglePInter
                 ),
               const SizedBox(height: 5),
                 DropdownButtonFormField<String>(
+
                   value: selectTypeMaterial,
                   onChanged: (String? newValue) {
                     setState(() {
@@ -419,6 +421,7 @@ class _SinglePInternationalshippingdetailsScreenState extends State<SinglePInter
                       borderSide: BorderSide(color: AppTheme.secondaryColor),
                     ),
                   ),
+                  hint: Text("Select Material"),
                   validator: (value) {
                     if (value == null || value.isEmpty) {
                       return 'Please select an item';

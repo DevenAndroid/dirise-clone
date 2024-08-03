@@ -109,7 +109,7 @@ class _ProductInformationScreensState extends State<ProductInformationScreens> {
   List<SubProductData> subProductData = [];
 
   void fetchDataBasedOnId(int id) async {
-    String apiUrl = 'https://dirise.virtualdemo.tech/api/product-category?id=$id';
+    String apiUrl = 'https://admin.diriseapp.com/api/product-category?id=$id';
     await repositories.getApi(url: apiUrl).then((value) {
       productCategoryModel.value = ModelCategoryList.fromJson(jsonDecode(value));
       // setState(() {
@@ -121,7 +121,7 @@ class _ProductInformationScreensState extends State<ProductInformationScreens> {
   SubCategoryModel subProductCategoryModel = SubCategoryModel();
 
   void fetchSubCategoryBasedOnId(int id1) async {
-    String apiUrl1 = 'https://dirise.virtualdemo.tech/api/product-subcategory?category_id=$id1';
+    String apiUrl1 = 'https://admin.diriseapp.com/api/product-subcategory?category_id=$id1';
     await repositories.getApi(url: apiUrl1).then((value) {
       subProductCategoryModel = SubCategoryModel.fromJson(jsonDecode(value));
       setState(() {
@@ -215,7 +215,7 @@ class _ProductInformationScreensState extends State<ProductInformationScreens> {
               CommonTextField(
                   controller: ProductNameController,
                   obSecure: false,
-                  hintText: 'Name',
+                  hintText: 'Name'.tr,
                   validator: MultiValidator([
                     RequiredValidator(errorText: 'Product Name is required'.tr),
                   ])),
@@ -497,11 +497,11 @@ class _ProductInformationScreensState extends State<ProductInformationScreens> {
                 height: 20,
               ),
               CustomOutlineButton(
-                title: 'Confirm',
+                title: 'Confirm'.tr,
                 borderRadius: 11,
                 onPressed: () {
                   if (ProductNameController.text.trim().isEmpty) {
-                    showToast("Please enter product name");
+                    showToast("Please enter product name".tr);
                   }
                   // else if (categoryName.value == "") {
                   //   showToast("Please Select Vendor Category");

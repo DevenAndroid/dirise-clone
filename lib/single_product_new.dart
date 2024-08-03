@@ -268,7 +268,7 @@ class _SingleProductNewState extends State<SingleProductNew> {
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
                     Text(
-                      "Dirise Welcome deal  ",
+                      "Description",
                       style: GoogleFonts.poppins(fontSize: 18, fontWeight: FontWeight.w500, color:  const Color(0xFF014E70)),
                     ),
                     const SizedBox(height: 8,),
@@ -288,7 +288,7 @@ class _SingleProductNewState extends State<SingleProductNew> {
                         const Icon(Icons.circle,size: 10,color: Colors.grey,),
                         const SizedBox(width: 14,),
                         Text(
-                          "Fedex Fast delivery by ",
+                          "Shipping Type",
                           style: GoogleFonts.poppins(fontSize: 14, fontWeight: FontWeight.w500, color:  const Color(0xFF000000).withOpacity(0.5)),
                         ),
                         Text(

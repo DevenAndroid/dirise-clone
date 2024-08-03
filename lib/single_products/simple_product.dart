@@ -17,6 +17,7 @@ import 'package:intl/intl.dart';
 import 'package:smooth_page_indicator/smooth_page_indicator.dart';
 
 import '../controller/cart_controller.dart';
+import '../controller/home_controller.dart';
 import '../controller/location_controller.dart';
 import '../controller/profile_controller.dart';
 import '../controller/wish_list_controller.dart';
@@ -36,6 +37,7 @@ import '../repository/repository.dart';
 import '../screens/categories/single_category_with_stores/single_store_screen.dart';
 import '../screens/check_out/direct_check_out.dart';
 import '../screens/my_account_screens/contact_us_screen.dart';
+import '../screens/product_details/fullScreenImageViewer.dart';
 import '../utils/api_constant.dart';
 import '../utils/styles.dart';
 import '../widgets/cart_widget.dart';
@@ -174,31 +176,35 @@ class _SimpleProductScreenState extends State<SimpleProductScreen> {
     // }
     return map;
   }
-
+  final homeController = Get.put(TrendingProductsController());
   RxStatus statusSingle = RxStatus.empty();
   String formattedDate = "";
   String dateTimeString = "";
+  double ratingRills = 0.0;
+  int ratingRill = 20;
   getProductDetails() {
     statusSingle = RxStatus.loading();
     repositories
-        .postApi(url: ApiUrls.simpleProductUrl, mapData: {"product_id": id.toString(), "key": 'fedexRate'}).then((value) {
+        .postApi(url: ApiUrls.simpleProductUrl, mapData: {"product_id": id.toString(), "key": 'fedexRate', "is_def_address" : homeController.defaultAddressId.toString()
+    }).then((value) {
       modelSingleProduct.value = SimpleProductModel.fromJson(jsonDecode(value));
       if (modelSingleProduct.value.simpleProduct != null) {
         log("modelSingleProduct.product!.toJson().....${modelSingleProduct.value.simpleProduct!.toJson()}");
         imagesList.addAll(modelSingleProduct.value.simpleProduct!.galleryImage ?? []);
         imagesList = imagesList.toSet().toList();
         releatedId = modelSingleProduct.value.simpleProduct!.catId!.last.id.toString();
-        dateTimeString = modelSingleProduct.value.simpleProduct!.shippingDate.toString();
+        // dateTimeString = modelSingleProduct.value.simpleProduct!.shippingDate.toString();
 
 // Parse the string into a DateTime object
-        DateTime dateTime = DateTime.parse(dateTimeString);
+//         DateTime dateTime = DateTime.parse(dateTimeString);
 
 // Format the DateTime object to display only the date part
-        formattedDate = "${dateTime.year}-${dateTime.month.toString().padLeft(2, '0')}-${dateTime.day.toString().padLeft(2, '0')}";
+//         formattedDate = "${dateTime.year}-${dateTime.month.toString().padLeft(2, '0')}-${dateTime.day.toString().padLeft(2, '0')}";
 
         print("releatedId" + releatedId);
         similarProduct();
         statusSingle = RxStatus.success();
+        ratingRills = ratingRill * double.parse(modelSingleProduct.value.simpleProduct!.rating.toString());
       } else {
         statusSingle = RxStatus.empty();
       }
@@ -322,6 +328,7 @@ class _SimpleProductScreenState extends State<SimpleProductScreen> {
   Rx<ReleatedProductModel> modelRelated = ReleatedProductModel().obs;
 
   similarProduct() {
+    print(releatedId);
     // if (!validateSlots()) return;
     Map<String, dynamic> map = {};
 
@@ -557,13 +564,14 @@ class _SimpleProductScreenState extends State<SimpleProductScreen> {
                         builder: (BuildContext context) {
                           return GestureDetector(
                             onTap: () {
-                              showImageViewer(context, Image
-                                  .network(i)
-                                  .image,
-                                  doubleTapZoomable: true,
-                                  backgroundColor: AppTheme.buttonColor,
-                                  useSafeArea: true,
-                                  swipeDismissible: false);
+                              Navigator.of(context).push(
+                                MaterialPageRoute(
+                                  builder: (context) => FullScreenImageViewer(
+                                    images: imagesList,
+                                    initialIndex: imagesList.indexOf(i),
+                                  ),
+                                ),
+                              );
                             },
                             child: CachedNetworkImage(
                                 imageUrl: i,
@@ -779,27 +787,42 @@ class _SimpleProductScreenState extends State<SimpleProductScreen> {
                  Row(
                    mainAxisAlignment: MainAxisAlignment.end,
                    children: [
-                     RatingBar.builder(
-                       initialRating: double.parse(modelSingleProduct.value.simpleProduct!.rating.toString()),
-                       minRating: 1,
-                       direction: Axis.horizontal,
-                       updateOnDrag: true,
-                       tapOnlyMode: false,
-                       ignoreGestures: true,
-                       allowHalfRating: true,
-                       itemSize: 20,
-                       itemCount: 5,
-                       itemBuilder: (context, _) => const Icon(
-                         Icons.star,
-                         size: 8,
-                         color: Colors.amber,
-                       ),
-                       onRatingUpdate: (rating) {
-                         print(rating);
-                       },
-                     ),
-                     const SizedBox(width: 10,),
-                     Image.asset("assets/svgs/rils.png"),
+                            modelSingleProduct.value.simpleProduct!.rating != '0'
+                                ? RatingBar.builder(
+                                    initialRating: double.parse(modelSingleProduct.value.simpleProduct!.rating.toString()),
+                                    minRating: 1,
+                                    direction: Axis.horizontal,
+                                    updateOnDrag: true,
+                                    tapOnlyMode: false,
+                                    ignoreGestures: true,
+                                    allowHalfRating: true,
+                                    itemSize: 20,
+                                    itemCount: 5,
+                                    itemBuilder: (context, _) => const Icon(
+                                      Icons.star,
+                                      size: 8,
+                                      color: Colors.amber,
+                                    ),
+                                    onRatingUpdate: (rating) {
+                                      print(rating);
+                                    },
+                                  )
+                                : const SizedBox.shrink(),
+                            const SizedBox(width: 10,),
+                     // Image.asset("assets/svgs/rils.png"),
+                     modelSingleProduct.value.simpleProduct!.rating != '0'
+                         ?  Column(
+                       crossAxisAlignment: CrossAxisAlignment.start,
+                       mainAxisAlignment: MainAxisAlignment.center,
+                       children: [
+                         const Text('RILS',
+                             style: TextStyle(
+                               color: AppTheme.buttonColor,
+                               fontWeight: FontWeight.w500
+                             ),),
+                         Text(ratingRills.toString())
+                       ],
+                     ) : const SizedBox.shrink()
                    ],
                  ),
                   const SizedBox(height: 20,),
@@ -833,24 +856,30 @@ class _SimpleProductScreenState extends State<SimpleProductScreen> {
                   ),
                   const SizedBox(height: 20,),
       Text(
-        "Dirise Welcome deal  ",
+        "Description",
         style: GoogleFonts.poppins(fontWeight: FontWeight.w500, fontSize: 18, color:const Color(0xFF014E70)),
 
       ),
       const SizedBox(height: 10,),
+      if(modelSingleProduct.value.simpleProduct!.longDescription != '' &&
+          modelSingleProduct.value.simpleProduct!.longDescription != null)
       Row(
+        crossAxisAlignment: CrossAxisAlignment.center,
         children: [
           const Icon(Icons.circle,color: Colors.grey,size: 10,),
           const SizedBox(
             width: 7,
           ),
-          Text(
-            'Up to 70% off. Free shipping on 1st order',
-            style: GoogleFonts.poppins(
-
-                color:  Colors.grey,
-                fontSize: 14,
-                fontWeight: FontWeight.w500),
+          Expanded(
+            child: Text(
+                    modelSingleProduct.value.simpleProduct!
+              .longDescription ?? '',
+              style: GoogleFonts.poppins(
+            
+                  color:  Colors.grey,
+                  fontSize: 14,
+                  fontWeight: FontWeight.w500),
+            ),
           ),
 
 
@@ -859,14 +888,14 @@ class _SimpleProductScreenState extends State<SimpleProductScreen> {
       ),
       const SizedBox(height: 10,),
       Row(
-        crossAxisAlignment: CrossAxisAlignment.start,
+        crossAxisAlignment: CrossAxisAlignment.center,
         children: [
           const Icon(Icons.circle,color: Colors.grey,size: 10,),
           const SizedBox(
             width: 7,
           ),
           Text(
-            'Fedex Fast delivery by ',
+            'Shipping Type',
             style: GoogleFonts.poppins(
 
                 color:  Colors.grey,
@@ -935,6 +964,8 @@ class _SimpleProductScreenState extends State<SimpleProductScreen> {
                     children: [
                       InkWell(
                         onTap: () {
+                          cartController.productElementId =  id.toString();
+                          cartController.productQuantity = productQuantity.value.toString();
                           directBuyProduct();
                         },
                         child: Container(
@@ -1001,7 +1032,7 @@ class _SimpleProductScreenState extends State<SimpleProductScreen> {
                          width: 7,
                        ),
                        Text(
-        modelSingleProduct.value.simpleProduct!.serialNumber.toString(),
+                          modelSingleProduct.value.simpleProduct!.serialNumber ?? '',
                          style: GoogleFonts.poppins(
 
                              color: Colors.grey,
@@ -1095,10 +1126,14 @@ class _SimpleProductScreenState extends State<SimpleProductScreen> {
                       const SizedBox(
                         width: 7,
                       ),
-                      Text(
-                        locationController.city.toString(),
-                        style:
-                        GoogleFonts.poppins(color: const Color(0xFF014E70), fontSize: 14, fontWeight: FontWeight.w500),
+                      Expanded(
+                        child: Text(
+                          maxLines: 1,
+                          overflow: TextOverflow.ellipsis,
+                          locationController.city.toString(),
+                          style:
+                          GoogleFonts.poppins(color: const Color(0xFF014E70), fontSize: 14, fontWeight: FontWeight.w500),
+                        ),
                       ),
                     ],
                   ),
@@ -1124,7 +1159,10 @@ class _SimpleProductScreenState extends State<SimpleProductScreen> {
                       ),
                       Expanded(
                         child: Text(
-                          formattedDate.toString(),
+                          // formattedDate.toString(),
+                          modelSingleProduct.value.simpleProduct!.shippingDate.toString(),
+                          maxLines: 1,
+                          overflow: TextOverflow.ellipsis,
                           style:
                           GoogleFonts.poppins(color: const Color(0xFF014E70), fontSize: 14, fontWeight: FontWeight.w500),
                         ),
@@ -1155,6 +1193,8 @@ class _SimpleProductScreenState extends State<SimpleProductScreen> {
                       ),
                       Expanded(
                         child: Text(
+                          maxLines: 1,
+                          overflow: TextOverflow.ellipsis,
                           modelSingleProduct.value.simpleProduct!.lowestDeliveryPrice == ""
                               ? "0"
                               : modelSingleProduct.value.simpleProduct!.lowestDeliveryPrice.toString(),
@@ -1273,33 +1313,60 @@ class _SimpleProductScreenState extends State<SimpleProductScreen> {
                     height: 10,
                   ),
                   Text(
-                    'Seller Commercial Licence',
+                    'Seller documents',
                     style: GoogleFonts.poppins(color: Colors.black, fontSize: 20, fontWeight: FontWeight.w600),
                   ),
                   const SizedBox(
                     height: 20,
                   ),
-                  Center(
-                    child: CachedNetworkImage(
+                  modelSingleProduct.value.simpleProduct!.storemeta!.commercialLicense !=""?
+                  Center(child: CachedNetworkImage(
                         imageUrl:
                         modelSingleProduct.value.simpleProduct!.storemeta!.commercialLicense.toString(),
                         height: 180,
                         fit: BoxFit.cover,
-                        errorWidget: (_, __, ___) => Image.asset('assets/images/new_logo.png')),
-                  ),
+                        // errorWidget: (_, __, ___) => Image.asset('assets/images/new_logo.png')
+       ),
+                  ):Center(
+        child: Text(
+        'No documents were uploaded by vendor ',
+        style: GoogleFonts.poppins(color: Colors.black, fontSize: 16, fontWeight: FontWeight.w600),
+        ),
+        ),
                   // Center(child: Image.asset("assets/svgs/licence.png")),
 
                   const SizedBox(
                     height: 25,
                   ),
+                  // modelSingleProduct.value.simpleProduct!.storemeta!.document2 != ""?
                   Text(
-                    'Translated Commercial Licence',
+                    'Seller Translated documents',
                     style: GoogleFonts.poppins(color: Colors.black, fontSize: 20, fontWeight: FontWeight.w600),
                   ),
                   const SizedBox(
                     height: 20,
                   ),
-                  Center(child: Image.asset("assets/svgs/licence.png")),
+
+
+                  modelSingleProduct.value.simpleProduct!.storemeta!.document2 != ""?
+                  Center(
+                    child: CachedNetworkImage(
+                        imageUrl:
+                        modelSingleProduct.value.simpleProduct!.storemeta!.document2.toString(),
+                        height: 180,
+                        fit: BoxFit.cover,
+                       // errorWidget: (_, __, ___) => Image.asset('assets/images/new_logo.png')
+                      ),
+                  ):  Center(
+                    child: Text(
+                            'No documents were uploaded by vendor ',
+                            style: GoogleFonts.poppins(color: Colors.black, fontSize: 16, fontWeight: FontWeight.w600),
+                            ),
+                  ),
+                  const SizedBox(
+                    height: 20,
+                  ),
+                  // Center(child: Image.asset("assets/svgs/licence.png")),
 
                   GestureDetector(
                     onTap: (){
@@ -1330,36 +1397,36 @@ class _SimpleProductScreenState extends State<SimpleProductScreen> {
                   const SizedBox(
                     height: 20,
                   ),
-                  GestureDetector(
-                    onTap: (){
-                      Get.to(
-                              () => SingleStoreScreen(storeDetails:  VendorStoreData(id:
-                          modelSingleProduct.value.simpleProduct!.vendorInformation!.storeId
-                          ))
-                      );
-                    },
-                    child: Align(
-                      alignment: Alignment.centerRight,
-                      child: Container(
-                        width: 130,
-                        padding: const EdgeInsets.all(10),
-                        decoration: BoxDecoration(
-                            border: Border.all(color: const Color(0xFF014E70), width: 1.5),
-                            borderRadius: BorderRadius.circular(30)),
-                        child: Center(
-                          child: Text(
-                            "Take Below",
-                            style:
-                            GoogleFonts.poppins(color: const Color(0xFF014E70), fontSize: 14, fontWeight: FontWeight.w500),
-                          ),
-                        ),
-                      ),
-                    ),
-                  ),
-
-                  const SizedBox(
-                    height: 10,
-                  ),
+                  // GestureDetector(
+                  //   onTap: (){
+                  //     Get.to(
+                  //             () => SingleStoreScreen(storeDetails:  VendorStoreData(id:
+                  //         modelSingleProduct.value.simpleProduct!.vendorInformation!.storeId
+                  //         ))
+                  //     );
+                  //   },
+                  //   child: Align(
+                  //     alignment: Alignment.centerRight,
+                  //     child: Container(
+                  //       width: 130,
+                  //       padding: const EdgeInsets.all(10),
+                  //       decoration: BoxDecoration(
+                  //           border: Border.all(color: const Color(0xFF014E70), width: 1.5),
+                  //           borderRadius: BorderRadius.circular(30)),
+                  //       child: Center(
+                  //         child: Text(
+                  //           "Take Below",
+                  //           style:
+                  //           GoogleFonts.poppins(color: const Color(0xFF014E70), fontSize: 14, fontWeight: FontWeight.w500),
+                  //         ),
+                  //       ),
+                  //     ),
+                  //   ),
+                  // ),
+                  //
+                  // const SizedBox(
+                  //   height: 10,
+                  // ),
                   Divider(
                     color: Colors.grey.withOpacity(.5),
                     thickness: 1,
@@ -1632,6 +1699,8 @@ class _SimpleProductScreenState extends State<SimpleProductScreen> {
                                           children: [
                                             ElevatedButton(
                                               onPressed: () {
+                                                cartController.productElementId =  id.toString();
+                                                cartController.productQuantity = productQuantity.value.toString();
                                                 directBuyProduct();
                                               },
                                               style: ElevatedButton.styleFrom(

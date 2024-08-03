@@ -6,6 +6,7 @@ import 'dart:math';
 
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:dirise/repository/repository.dart';
+import 'package:dirise/screens/categories/single_category_with_stores/single_categorie.dart';
 import 'package:dirise/screens/categories/single_category_with_stores/single_store_screen.dart';
 import 'package:dirise/screens/check_out/direct_check_out.dart';
 import 'package:dirise/screens/my_account_screens/contact_us_screen.dart';
@@ -261,10 +262,10 @@ class _ShopProductScreenState extends State<ShopProductScreen> {
     // }
 
     await repositories.getApi(
-        url: "${url}page=1&pagination=10&category_id=$categoryID&key=fedexRate&country_id=${profileController.model.user != null && cartController.countryId.isEmpty
+        url: "${url}page=1&pagination=50000&category_id=$categoryID&key=fedexRate&country_id=${profileController.model.user != null && cartController.countryId.isEmpty
             ? profileController.model.user!.country_id
-            : cartController.countryId.toString()}&zip_code=${locationController.zipcode.value.toString()}",
-        showResponse: true).then((value) {
+            : cartController.countryId.toString()}&zip_code=${locationController.zipcode.value.toString()}").then((value) {
+          print("id:::::::::"+categoryID);
       // apiLoaded = true;
       modelCategoryStores.value = ShopByProductModel.fromJson(jsonDecode(value));
       // updateUI;
@@ -614,7 +615,7 @@ RxString id = "".obs;
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: const Color(0xffF4F4F4),
+        backgroundColor: Colors.white,
         appBar: AppBar(
           toolbarHeight: kToolbarHeight + 20,
           backgroundColor: Color(0xFFF2F2F2),
@@ -634,7 +635,7 @@ RxString id = "".obs;
                     // color: Colors.white,
                   ),
                 ),
-                SizedBox(
+                const SizedBox(
                   width: 13,
                 ),
                 InkWell(
@@ -654,41 +655,39 @@ RxString id = "".obs;
             ),
           ),
           leadingWidth: 100,
-          title: Expanded(
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.center,
-              mainAxisAlignment: MainAxisAlignment.center,
-              children: [
-                ClipRRect(
-                    borderRadius: BorderRadius.circular(10),
-                    child: SizedBox(
-                      // width: double.maxFinite,
-                        height: context.getSize.width * .1,
-                        child: Hero(
-                          tag: mainCategory.bannerProfile.toString(),
-                          child: Material(
-                            color: Colors.transparent,
-                            surfaceTintColor: Colors.transparent,
-                            child: CachedNetworkImage(
-                                imageUrl: mainCategory.bannerProfile.toString(),
-                                errorWidget: (_, __, ___) => Image.asset('assets/images/new_logo.png')),
-                          ),
-                        ))),
-                SizedBox(
-                  width: 130,
-                  child: Text(
-                    profileController.selectedLAnguage.value == 'English' ?    mainCategory.name.toString() :
-                    mainCategory.arabName.toString(),
-                    textAlign: TextAlign.center,
-                    style: const TextStyle(
-                        fontSize: 13
-                    ),
-                    maxLines: 2,
+          title: Column(
+            crossAxisAlignment: CrossAxisAlignment.center,
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: [
+              ClipRRect(
+                  borderRadius: BorderRadius.circular(10),
+                  child: SizedBox(
+                    // width: double.maxFinite,
+                      height: context.getSize.width * .1,
+                      child: Hero(
+                        tag: mainCategory.bannerProfile.toString(),
+                        child: Material(
+                          color: Colors.transparent,
+                          surfaceTintColor: Colors.transparent,
+                          child: CachedNetworkImage(
+                              imageUrl: mainCategory.bannerProfile.toString(),
+                              errorWidget: (_, __, ___) => Image.asset('assets/images/new_logo.png')),
+                        ),
+                      ))),
+              SizedBox(
+                width: 130,
+                child: Text(
+                  profileController.selectedLAnguage.value == 'English' ?    mainCategory.name.toString() :
+                  mainCategory.arabName.toString(),
+                  textAlign: TextAlign.center,
+                  style: const TextStyle(
+                      fontSize: 13
                   ),
+                  maxLines: 2,
                 ),
-                3.spaceY
-              ],
-            ),
+              ),
+              3.spaceY
+            ],
           ),
           centerTitle: true,
           actions: [
@@ -752,23 +751,29 @@ RxString id = "".obs;
               child:    Align(
                 alignment: Alignment.centerRight,
                 child: Padding(
-                  padding: const EdgeInsets.only(right: 8.0),
+                  padding: const EdgeInsets.only(right: 8.0,top: 10),
                   child: Container(
                     width: 200,
                     padding: EdgeInsets.symmetric(horizontal: 12, vertical: 2),
                     decoration: BoxDecoration(
-                      border: Border.all(color: Colors.blueAccent),
+                      color: Color(0xffEBF1F4),
+                      border: Border.all(color: Color(0xff014E70)),
                       borderRadius: BorderRadius.circular(5),
                     ),
                     child: DropdownButton<String>(
                       isExpanded: true,
-                      hint: Text('Select an Type',style: TextStyle(color:  Colors.black),),
+                      hint: Text('Shop by product',style: TextStyle(color:  Colors.black),),
                       value:selectedValue1,
 
                       onChanged: (String? newValue) {
                         setState(() {
                           selectedValue1 = newValue;
-                          selectedValue1 == "Shop by Vendor"?Get.back():Get.back();
+                          if (selectedValue1 == "Shop by Vendor") {
+                            Get.to(
+                                  () => SingleCategories(vendorCategories: widget.vendorCategories), // arguments: widget.vendorCategories.id.toString(),
+                            );
+                          }
+                          // selectedValue1 == "Shop by Vendor"?Get.back():Get.back();
                           print("value"+selectedValue1.toString());
 
                           // getProductList1(context: context);
@@ -830,18 +835,22 @@ RxString id = "".obs;
               for (var i = 0; i < modelCategoryStores1!.length; i++) ...list(i)
             else
               const SliverToBoxAdapter(
-                child: LoadingAnimation(),
+                child: SizedBox(),
               ),
             SliverToBoxAdapter(
               child: Obx(() {
                 return modelCategoryStores.value.status == true
-                    ? SizedBox(
+                    ?
+                
+                SizedBox(
 
                   width:MediaQuery
                       .of(context)
                       .size
                       .width ,
-                  child: ListView.builder(
+                  child:
+                  modelCategoryStores.value.product!.data!.isNotEmpty?
+                  ListView.builder(
                     shrinkWrap: true,
                     physics: const NeverScrollableScrollPhysics(),
                     itemCount: modelCategoryStores.value.product!.data!.length,
@@ -2040,6 +2049,9 @@ RxString id = "".obs;
                         ),
                       );
                     },
+                  ):Center(
+                    child: Text("Product not found".tr,style: GoogleFonts.poppins(),
+                                    ),
                   ),
                 )  : Center(child: CircularProgressIndicator());
               }),

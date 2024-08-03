@@ -249,9 +249,7 @@ class _VirtualOptionalDiscrptionsScreenState extends State<VirtualOptionalDiscrp
                 const SizedBox(height: 20),
                 GestureDetector(
                   onTap: () {
-                    if (formKey1.currentState!.validate()) {
-                      optionalApi();
-                    }
+                    Get.to(() => VirtualOptionalClassificationScreen());
 
                   },
                   child: Container(

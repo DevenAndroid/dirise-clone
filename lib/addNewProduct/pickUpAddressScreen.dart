@@ -38,6 +38,7 @@ class AddProductPickUpAddressScreen extends StatefulWidget {
   final String? locationcountry;
   final String? locationzipcode;
   final String? locationtown;
+  final String? countryCode;
   AddProductPickUpAddressScreen(
       {Key? key,
       this.street,
@@ -52,6 +53,7 @@ class AddProductPickUpAddressScreen extends StatefulWidget {
       this.locationstate,
       this.locationstreet,
       this.locationtown,
+       this.countryCode,
       this.locationzipcode})
       : super(key: key);
 
@@ -75,6 +77,7 @@ class _AddProductPickUpAddressScreenState extends State<AddProductPickUpAddressS
   final Repositories repositories = Repositories();
   final formKey1 = GlobalKey<FormState>();
   String code = "+91";
+  String countryCode = '';
   editAddressApi() {
     Map<String, dynamic> map = {};
     if (widget.street != null &&
@@ -88,6 +91,7 @@ class _AddProductPickUpAddressScreenState extends State<AddProductPickUpAddressS
       map['zip_code'] = zipcodeController.text.trim();
       map['town'] = townController.text.trim();
       map['country'] = countryController.text.trim();
+      map['country_sort_name'] = countryCode.toString();
       map['id'] = addProductController.idProduct.value.toString();
       map['street'] = streetController.text.trim();
       map['special_instruction'] = specialInstructionController.text.trim();
@@ -99,6 +103,7 @@ class _AddProductPickUpAddressScreenState extends State<AddProductPickUpAddressS
       map['town'] = townController.text.trim();
       map['country'] = countryController.text.trim();
       map['street'] = streetController.text.trim();
+      map['country_sort_name'] = countryCode.toString();
       map['id'] = addProductController.idProduct.value.toString();
       map['special_instruction'] = specialInstructionController.text.trim();
     }
@@ -129,6 +134,7 @@ class _AddProductPickUpAddressScreenState extends State<AddProductPickUpAddressS
       countryController.text = widget.country ?? '';
       zipcodeController.text = widget.zipcode ?? '';
       townController.text = widget.town ?? '';
+      countryCode = widget.countryCode ?? '';
     }
 
     if (widget.locationzipcode != null) {
@@ -138,6 +144,7 @@ class _AddProductPickUpAddressScreenState extends State<AddProductPickUpAddressS
       countryController.text = widget.locationcountry ?? '';
       zipcodeController.text = widget.locationzipcode ?? '';
       townController.text = widget.locationtown ?? '';
+      countryCode = widget.countryCode ?? '';
     }
   }
 
@@ -229,12 +236,12 @@ class _AddProductPickUpAddressScreenState extends State<AddProductPickUpAddressS
                   controller: streetController,
                   obSecure: false,
                   hintText: 'Street'.tr,
-                  validator: (value) {
-                    if (value!.trim().isEmpty) {
-                      return 'Street is required'.tr;
-                    }
-                    return null; // Return null if validation passes
-                  },
+                  // validator: (value) {
+                  //   if (value!.trim().isEmpty) {
+                  //     return 'Street is required'.tr;
+                  //   }
+                  //   return null; // Return null if validation passes
+                  // },
                 ),
                 SizedBox(
                   height: 20,
@@ -335,12 +342,12 @@ class _AddProductPickUpAddressScreenState extends State<AddProductPickUpAddressS
                   controller: townController,
                   obSecure: false,
                   hintText: 'Town'.tr,
-                  validator: (value) {
-                    if (value!.trim().isEmpty) {
-                      return 'Town is required'.tr;
-                    }
-                    return null; // Return null if validation passes
-                  },
+                  // validator: (value) {
+                  //   if (value!.trim().isEmpty) {
+                  //     return 'Town is required'.tr;
+                  //   }
+                  //   return null; // Return null if validation passes
+                  // },
                 ),
                 SizedBox(
                   height: 10,

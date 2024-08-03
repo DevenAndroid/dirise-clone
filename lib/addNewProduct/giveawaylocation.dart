@@ -365,6 +365,7 @@ class _ChooseAddressForGiveawayState extends State<ChooseAddressForGiveaway> {
                                     locationcountry:controllerMap.country.value,
                                     locationtown:controllerMap.town.value,
                                     locationzipcode:controllerMap.zipcode.value,
+                                    countryCode: controllerMap.countryCode.value,
                                   ));
                                 },
                               ),

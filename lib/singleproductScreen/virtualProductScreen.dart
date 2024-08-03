@@ -61,7 +61,7 @@ class _VirtualProductScreenState extends State<VirtualProductScreen> {
     if (featuredImage.path.isEmpty) {
 
       if (featuredImage.path.isEmpty) {
-        showToastCenter('Please select an file');
+        showToastCenter('Please Select File');
       }
 
       showValidation.value = true;

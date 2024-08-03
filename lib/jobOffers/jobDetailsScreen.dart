@@ -280,7 +280,7 @@ class _JobDetailsScreenState extends State<JobDetailsScreen> {
           subCategory: selectedSubCategory,
         ));
       } else {
-        showToast('Please Upload CV');
+        showToast('Please Upload CV'.tr);
       }
     });
   }
@@ -340,8 +340,8 @@ class _JobDetailsScreenState extends State<JobDetailsScreen> {
                   padding: const EdgeInsets.all(8.0),
                   child: TextField(
                     controller: searchController,
-                    decoration: const InputDecoration(
-                      labelText: 'Search',
+                    decoration:  InputDecoration(
+                      labelText: 'Search'.tr,
                       prefixIcon: Icon(Icons.search),
                       border: OutlineInputBorder(),
                     ),
@@ -427,7 +427,7 @@ class _JobDetailsScreenState extends State<JobDetailsScreen> {
                   hintText: 'Job Title'.tr,
                   validator: (value) {
                     if (value!.trim().isEmpty) {
-                      return 'Job Title';
+                      return 'Job Title'.tr;
                     }
                     return null; // Return null if validation passes
                   },
@@ -468,11 +468,11 @@ class _JobDetailsScreenState extends State<JobDetailsScreen> {
                       children: [
                         Text(
                           categoryName.value.isEmpty
-                              ? 'Select job type'
+                              ? 'Select job type'.tr
                               : modelVendorCategory.data!
                               .firstWhereOrNull((element) => element.title == categoryName.value)
                               ?.title
-                              .toString() ?? 'Select job type',
+                              .toString() ?? 'Select job type'.tr,
                         ),
                         const Icon(Icons.arrow_drop_down),
                       ],
@@ -504,7 +504,7 @@ class _JobDetailsScreenState extends State<JobDetailsScreen> {
                             },
                             controller: subCeteController,
                             decoration: InputDecoration(
-                              hintText: 'Search',
+                              hintText: 'Search'.tr,
                               prefixIcon: const Icon(Icons.search),
                               border: OutlineInputBorder(
                                 borderRadius: BorderRadius.circular(10),
@@ -595,11 +595,11 @@ class _JobDetailsScreenState extends State<JobDetailsScreen> {
                       children: [
                         Text(
                           countryName.value.isEmpty
-                              ? 'Select country'
+                              ? 'Select country'.tr
                               : modelCountryList.country!
                               .firstWhereOrNull((element) => element.name == countryName.value)
                               ?.name
-                              .toString() ?? 'Select country',
+                              .toString() ?? 'Select country'.tr,
                         ),
                         const Icon(Icons.arrow_drop_down),
                       ],
@@ -644,11 +644,11 @@ class _JobDetailsScreenState extends State<JobDetailsScreen> {
                       children: [
                         Text(
                           stateName.value.isEmpty
-                              ? 'Select state'
+                              ? 'Select state'.tr
                               : modelStateList.state!
                               .firstWhereOrNull((element) => element.stateName == stateName.value)
                               ?.stateName
-                              .toString() ?? 'Select state',
+                              .toString() ?? 'Select state'.tr,
                         ),
                         const Icon(Icons.arrow_drop_down),
                       ],
@@ -692,11 +692,11 @@ class _JobDetailsScreenState extends State<JobDetailsScreen> {
                       children: [
                         Text(
                           modelCityList.value.city!.isEmpty
-                              ? 'Select city'
+                              ? 'Select city'.tr
                               :  modelCityList.value.city!
                               .firstWhereOrNull((element) => element.cityName == cityName.value)
                               ?.cityName
-                              .toString() ?? 'Select city',
+                              .toString() ?? 'Select city'.tr,
                         ),
                         const Icon(Icons.arrow_drop_down),
                       ],
@@ -749,7 +749,7 @@ class _JobDetailsScreenState extends State<JobDetailsScreen> {
                   ),
                   validator: (value) {
                     if (value == null || value.isEmpty) {
-                      return 'Please select an item';
+                      return 'Please select an item'.tr;
                     }
                     return null;
                   },
@@ -798,7 +798,7 @@ class _JobDetailsScreenState extends State<JobDetailsScreen> {
                   ),
                   validator: (value) {
                     if (value == null || value.isEmpty) {
-                      return 'Please select an item';
+                      return 'Please select an item'.tr;
                     }
                     return null;
                   },
@@ -812,7 +812,7 @@ class _JobDetailsScreenState extends State<JobDetailsScreen> {
                   controller: describe_job_roleController,
                   validator: (value) {
                     if (value!.trim().isEmpty) {
-                      return 'Tell Us About Yourself';
+                      return 'Tell Us About Yourself'.tr;
                     }
                     return null; // Return null if validation passes
                   },
@@ -826,7 +826,7 @@ class _JobDetailsScreenState extends State<JobDetailsScreen> {
                     contentPadding: const EdgeInsets.all(15),
                     fillColor: Colors.grey.shade100,
                     filled: true,
-                    hintText: 'Tell Us About Yourself',
+                    hintText: 'Tell Us About Yourself'.tr,
                     hintStyle: GoogleFonts.poppins(
                       color: AppTheme.primaryColor,
                       fontSize: 15,
@@ -861,7 +861,7 @@ class _JobDetailsScreenState extends State<JobDetailsScreen> {
                   hintText: 'Add your LinkedIn profile link'.tr,
                   validator: (value) {
                     if (value!.trim().isEmpty) {
-                      return 'Add your LinkedIn profile link is required';
+                      return 'Add your LinkedIn profile link is required'.tr;
                     }
                     return null; // Return null if validation passes
                   },
@@ -878,7 +878,7 @@ class _JobDetailsScreenState extends State<JobDetailsScreen> {
                         controller: experienceController,
                         validator: (value) {
                           if (value!.trim().isEmpty) {
-                            return 'Experience period is required';
+                            return 'Experience period is required'.tr;
                           }
                           return null; // Return null if validation passes
                         },
@@ -892,7 +892,7 @@ class _JobDetailsScreenState extends State<JobDetailsScreen> {
                           contentPadding: const EdgeInsets.all(15),
                           fillColor: Colors.grey.shade100,
                           filled: true,
-                          hintText: 'Experience Period',
+                          hintText: 'Experience Period'.tr,
                           hintStyle: GoogleFonts.poppins(
                             color: AppTheme.primaryColor,
                             fontSize: 15,
@@ -928,7 +928,7 @@ class _JobDetailsScreenState extends State<JobDetailsScreen> {
                         controller: salaryController,
                         validator: (value) {
                           if (value!.trim().isEmpty) {
-                            return 'Asking salary is required';
+                            return 'Asking salary is required'.tr;
                           }
                           return null; // Return null if validation passes
                         },
@@ -942,7 +942,7 @@ class _JobDetailsScreenState extends State<JobDetailsScreen> {
                           contentPadding: const EdgeInsets.all(15),
                           fillColor: Colors.grey.shade100,
                           filled: true,
-                          hintText: 'Asking Salary',
+                          hintText: 'Asking Salary'.tr,
                           hintStyle: GoogleFonts.poppins(
                             color: AppTheme.primaryColor,
                             fontSize: 15,
@@ -980,7 +980,7 @@ class _JobDetailsScreenState extends State<JobDetailsScreen> {
                   },
                 ),
                 CustomOutlineButton(
-                  title: 'Confirm',
+                  title: 'Confirm'.tr,
                   borderRadius: 11,
                   onPressed: () {
                     if (formKey2.currentState!.validate()) {

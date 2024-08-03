@@ -276,11 +276,12 @@ RxString shipId = "".obs;
             // if (cartController.deliveryOption1.value == "delivery") {
             for (var item in cartController.cartModel.cart!.carsShowroom!.entries) {
               var showroom = item.value;
-              if (showroom.shippingOption.isEmpty) {
-                showToast("Please select shipping Method".tr);
-                return;
+              if(showroom.products!.every((element) => element.itemType != 'service' && element.itemType != 'virtual_product')) {
+                if (showroom.shippingOption.isEmpty) {
+                  showToast("Please select shipping Method".tr);
+                  return;
+                }
               }
-
             }
 
 
@@ -336,8 +337,7 @@ RxString shipId = "".obs;
               // purchaseType: PurchaseType.cart,
               purchaseType: PurchaseType.cart,
               subTotalPrice: cartController.cartModel.subtotal.toString(),
-              totalPrice: cartController.formattedTotal.toString(),
-
+              totalPrice: cartController.formattedTotal != '' ? cartController.formattedTotal.toString() : cartController.cartModel.total.toString(),
               couponCode: couponApplied.isNotEmpty ? appliedCode : null,
               purchaseType1:   shippingType.value.toString(),
               address: cartController.selectedAddress.id != null
@@ -778,6 +778,7 @@ RxString shipId = "".obs;
                                               cartController.shippingTitle = product.name.toString();
                                               cartController.shippingPrices1 = product.value.toString();
                                               cartController.shipping_new_api = product.value.toString();
+                                              commisionShipping = double.tryParse(product.value.toString())!;
                                               print('fdfdff${cartController.shipping_new_api.toString()}');
                                               double shipping = double.parse(shippingPrice);
                                               double subtotal = double.parse(cartController.cartModel.subtotal.toString());

@@ -82,7 +82,7 @@ class _AddMultipleProductScreenState extends State<AddMultipleProductScreen> {
     return Scaffold(
       appBar: AppBar(
         automaticallyImplyLeading: false,
-        title: const Text('Multiple Products'),
+        title:  Text('Multiple Products'.tr),
         centerTitle: true,
         leading: GestureDetector(
           onTap: (){
@@ -111,9 +111,8 @@ class _AddMultipleProductScreenState extends State<AddMultipleProductScreen> {
         child: Container(
           margin: const EdgeInsets.only(left: 30,right: 30,top: 30),
           child: Column(
-
             children: [
-              const Text("Kindly download the following templates to conveniently upload all your products at once\nCopy and paste your products accordingly Upload it in the next step."),
+               Text("Kindly download the following templates to conveniently upload all your products at once\nCopy and paste your products accordingly Upload it in the next step.".tr),
               const SizedBox(height: 10,),
               ImageWidget1(
                 // key: paymentReceiptCertificateKey,
@@ -136,20 +135,19 @@ class _AddMultipleProductScreenState extends State<AddMultipleProductScreen> {
               // ),
               SizedBox(height: 50,),
               CustomOutlineButton(
-                title: 'Next',
+                title: 'Next'.tr,
                 onPressed: () {
                   if(featuredImage.path.isNotEmpty){
                     addProduct();
                   }else{
-                    showToast('Please upload file');
+                    showToast('Please upload file'.tr);
                   }
-
                 },
               ),
               SizedBox(height: 30,),
               CustomOutlineButton(
                 backgroundColor: Colors.red,
-                title: 'Download Demo file',
+                title: 'Download Demo file'.tr,
                 onPressed: () async {
     final csvUrl = sampleCsvModel.value.data!.csvFile.toString();
     if (await canLaunch(csvUrl)) {

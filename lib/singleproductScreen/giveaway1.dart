@@ -111,7 +111,7 @@ class _Giveway1ScreenState extends State<Giveway1Screen> {
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: [
             Text(
-              'My Item is  a'.tr,
+              'My Item is a'.tr,
               style: GoogleFonts.poppins(
                   color: Colors.black,
                   fontWeight: FontWeight.w600,

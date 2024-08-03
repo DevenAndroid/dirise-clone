@@ -24,6 +24,7 @@ class PickUpAddressService extends StatefulWidget {
   final String? country;
   final String? zipcode;
   final String? town;
+  final String? countryCode;
   static String route = "/PickUpAddressService";
 
   PickUpAddressService({
@@ -34,6 +35,7 @@ class PickUpAddressService extends StatefulWidget {
     this.state,
     this.country,
     this.zipcode,
+    this.countryCode,
     this.town,
   }) : super(key: key);
 
@@ -73,6 +75,7 @@ class _PickUpAddressServiceState extends State<PickUpAddressService> {
       map['town'] = townController.text.trim();
       map['id'] = addProductController.idProduct.value.toString();
       map['street'] = streetController.text.trim();
+      map['country_sort_name'] = countryCode.toString();
       map['special_instruction'] = specialInstructionController.text.trim();
     } else {
       map['city'] = cityController.text.trim();
@@ -82,6 +85,7 @@ class _PickUpAddressServiceState extends State<PickUpAddressService> {
       map['zip_code'] = zipcodeController.text.trim();
       map['town'] = townController.text.trim();
       map['street'] = streetController.text.trim();
+      map['country_sort_name'] = countryCode.toString();
       map['id'] = addProductController.idProduct.value.toString();
       map['special_instruction'] = specialInstructionController.text.trim();
     }
@@ -103,7 +107,7 @@ class _PickUpAddressServiceState extends State<PickUpAddressService> {
       }
     });
   }
-
+ String countryCode = '';
   @override
   void initState() {
     // TODO: implement initState
@@ -115,6 +119,7 @@ class _PickUpAddressServiceState extends State<PickUpAddressService> {
       countryController.text = widget.country ?? '';
       zipcodeController.text = widget.zipcode ?? '';
       townController.text = widget.town ?? '';
+      countryCode = widget.countryCode ?? '';
     }
   }
 
@@ -206,12 +211,12 @@ class _PickUpAddressServiceState extends State<PickUpAddressService> {
                   controller: streetController,
                   obSecure: false,
                   hintText: 'Street'.tr,
-                  validator: (value) {
-                    if (value!.trim().isEmpty) {
-                      return 'Street is required'.tr;
-                    }
-                    return null; // Return null if validation passes
-                  },
+                  // validator: (value) {
+                  //   if (value!.trim().isEmpty) {
+                  //     return 'Street is required'.tr;
+                  //   }
+                  //   return null; // Return null if validation passes
+                  // },
                 ),
                 const SizedBox(
                   height: 10,
@@ -312,12 +317,12 @@ class _PickUpAddressServiceState extends State<PickUpAddressService> {
                   controller: townController,
                   obSecure: false,
                   hintText: 'Town'.tr,
-                  validator: (value) {
-                    if (value!.trim().isEmpty) {
-                      return 'Town is required'.tr;
-                    }
-                    return null; // Return null if validation passes
-                  },
+                  // validator: (value) {
+                  //   if (value!.trim().isEmpty) {
+                  //     return 'Town is required'.tr;
+                  //   }
+                  //   return null; // Return null if validation passes
+                  // },
                 ),
                 const SizedBox(
                   height: 10,

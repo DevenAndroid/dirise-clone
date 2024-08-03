@@ -1,4 +1,5 @@
 import 'dart:convert';
+import 'dart:developer';
 
 import 'package:dirise/screens/Consultation%20Sessions/review_screen.dart';
 import 'package:dirise/utils/helper.dart';
@@ -24,7 +25,8 @@ class DurationScreen extends StatefulWidget {
   dynamic preparationType;
   dynamic recoveryType;
 
-  DurationScreen({super.key, this.recoveryBlockTime, this.preparationBlockTime, this.interval, this.id,this.recoveryType,this.preparationType,this.serviceSlotType});
+  DurationScreen(
+      {super.key, this.recoveryBlockTime, this.preparationBlockTime, this.interval, this.id, this.recoveryType, this.preparationType, this.serviceSlotType});
 
   @override
   State<DurationScreen> createState() => _DurationScreenState();
@@ -41,6 +43,7 @@ class _DurationScreenState extends State<DurationScreen> {
   Rx<CreateSlotsModel> createSlotsModel = CreateSlotsModel().obs;
   final addProductController = Get.put(AddProductController());
   final formKey = GlobalKey<FormState>();
+
   createDuration() {
     Map<String, dynamic> map = {};
     map['recovery_block_time'] = timeControllerRecovery.text.trim().toString();
@@ -83,6 +86,7 @@ class _DurationScreenState extends State<DurationScreen> {
     repositories.postApi(url: ApiUrls.productCreateSlots, mapData: map, context: context).then((value) {
       createSlotsModel.value = CreateSlotsModel.fromJson(jsonDecode(value));
       showToast(createSlotsModel.value.message.toString());
+      log('dadadadadadadd${createSlotsModel.value.toJson()}');
     });
   }
 
@@ -101,6 +105,7 @@ class _DurationScreenState extends State<DurationScreen> {
   }
 
   final profileController = Get.put(ProfileController());
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -122,15 +127,15 @@ class _DurationScreenState extends State<DurationScreen> {
             padding: const EdgeInsets.all(15),
             child: profileController.selectedLAnguage.value != 'English'
                 ? Image.asset(
-                    'assets/images/forward_icon.png',
-                    height: 19,
-                    width: 19,
-                  )
+              'assets/images/forward_icon.png',
+              height: 19,
+              width: 19,
+            )
                 : Image.asset(
-                    'assets/images/back_icon_new.png',
-                    height: 19,
-                    width: 19,
-                  ),
+              'assets/images/back_icon_new.png',
+              height: 19,
+              width: 19,
+            ),
           ),
         ),
       ),
@@ -158,19 +163,19 @@ class _DurationScreenState extends State<DurationScreen> {
                   ),
                   Expanded(
                       child: SizedBox(
-                    height: 56,
-                    child: CommonTextField(
-                      keyboardType: TextInputType.number,
-                      hintText: 'Time',
-                      controller: timeController,
-                      validator: (value) {
-                        if (value!.trim().isEmpty) {
-                          return 'Enter time';
-                        }
-                        return null;
-                      },
-                    ),
-                  )),
+                        height: 56,
+                        child: CommonTextField(
+                          keyboardType: TextInputType.number,
+                          hintText: 'Time',
+                          controller: timeController,
+                          validator: (value) {
+                            if (value!.trim().isEmpty) {
+                              return 'Enter time';
+                            }
+                            return null;
+                          },
+                        ),
+                      )),
                   6.spaceX,
                   Expanded(
                     child: DropdownButtonFormField<String>(
@@ -280,22 +285,22 @@ class _DurationScreenState extends State<DurationScreen> {
                   ),
                   Expanded(
                       child: Padding(
-                    padding: const EdgeInsets.only(top: 8.0),
-                    child: SizedBox(
-                      height: 56,
-                      child: CommonTextField(
-                        keyboardType: TextInputType.number,
-                        hintText: 'Time',
-                        controller: timeControllerPreparation,
-                        validator: (value) {
-                          if (value!.trim().isEmpty) {
-                            return 'Enter time';
-                          }
-                          return null;
-                        },
-                      ),
-                    ),
-                  )),
+                        padding: const EdgeInsets.only(top: 8.0),
+                        child: SizedBox(
+                          height: 56,
+                          child: CommonTextField(
+                            keyboardType: TextInputType.number,
+                            hintText: 'Time',
+                            controller: timeControllerPreparation,
+                            validator: (value) {
+                              if (value!.trim().isEmpty) {
+                                return 'Enter time';
+                              }
+                              return null;
+                            },
+                          ),
+                        ),
+                      )),
                   6.spaceX,
                   Expanded(
                     child: DropdownButtonFormField<String>(
@@ -402,22 +407,22 @@ class _DurationScreenState extends State<DurationScreen> {
                   ),
                   Expanded(
                       child: Padding(
-                    padding: const EdgeInsets.only(top: 8.0),
-                    child: SizedBox(
-                      height: 56,
-                      child: CommonTextField(
-                        keyboardType: TextInputType.number,
-                        hintText: 'Time',
-                        controller: timeControllerRecovery,
-                        validator: (value) {
-                          if (value!.trim().isEmpty) {
-                            return 'Enter time';
-                          }
-                          return null;
-                        },
-                      ),
-                    ),
-                  )),
+                        padding: const EdgeInsets.only(top: 8.0),
+                        child: SizedBox(
+                          height: 56,
+                          child: CommonTextField(
+                            keyboardType: TextInputType.number,
+                            hintText: 'Time',
+                            controller: timeControllerRecovery,
+                            validator: (value) {
+                              if (value!.trim().isEmpty) {
+                                return 'Enter time';
+                              }
+                              return null;
+                            },
+                          ),
+                        ),
+                      )),
                   6.spaceX,
                   Expanded(
                     child: DropdownButtonFormField<String>(
@@ -523,44 +528,45 @@ class _DurationScreenState extends State<DurationScreen> {
                     fontWeight: FontWeight.w500,
                     color: const Color(0xff423E5E),
                   )),
-              createSlotsModel.value.data != null
-                  ? ListView.builder(
-                      shrinkWrap: true,
-                      itemCount: createSlotsModel.value.data!.length,
-                      physics: const NeverScrollableScrollPhysics(),
-                      padding: const EdgeInsets.symmetric(horizontal: 0, vertical: 30),
-                      itemBuilder: (context, index) {
-                        var item = createSlotsModel.value.data![index];
-                        return Column(
+            Obx(() {
+                return   createSlotsModel.value.data != null ?
+                ListView.builder(
+                  shrinkWrap: true,
+                  itemCount: createSlotsModel.value.data!.length.clamp(0, 3),
+                  physics: const NeverScrollableScrollPhysics(),
+                  padding: const EdgeInsets.symmetric(horizontal: 0, vertical: 30),
+                  itemBuilder: (context, index) {
+                    var item = createSlotsModel.value.data![index];
+                    return Column(
+                      children: [
+                        Row(
+                          mainAxisAlignment: MainAxisAlignment.start,
+                          crossAxisAlignment: CrossAxisAlignment.start,
                           children: [
-                            Row(
-                              mainAxisAlignment: MainAxisAlignment.start,
-                              crossAxisAlignment: CrossAxisAlignment.start,
-                              children: [
-                                Expanded(
-                                  child: Text(
-                                    item.timeSloat.toString(),
-                                    textAlign: TextAlign.start,
-                                    style:
-                                        const TextStyle(color: Colors.black, fontWeight: FontWeight.w500, fontSize: 16),
-                                  ),
-                                ),
-                                Expanded(
-                                  child: Text(
-                                    item.timeSloatEnd.toString(),
-                                    textAlign: TextAlign.start,
-                                    style:
-                                        const TextStyle(color: Colors.black, fontWeight: FontWeight.w500, fontSize: 16),
-                                  ),
-                                ),
-                              ],
+                            Expanded(
+                              child: Text(
+                                item.timeSloat.toString(),
+                                textAlign: TextAlign.start,
+                                style:
+                                const TextStyle(color: Colors.black, fontWeight: FontWeight.w500, fontSize: 16),
+                              ),
                             ),
-                            20.spaceY
+                            Expanded(
+                              child: Text(
+                                item.timeSloatEnd.toString(),
+                                textAlign: TextAlign.start,
+                                style:
+                                const TextStyle(color: Colors.black, fontWeight: FontWeight.w500, fontSize: 16),
+                              ),
+                            ),
                           ],
-                        );
-                      },
-                    )
-                  : const SizedBox.shrink(),
+                        ),
+                        20.spaceY
+                      ],
+                    );
+                  },
+                ) : const SizedBox.shrink();
+              }),
               40.spaceY,
               InkWell(
                 onTap: () {
@@ -573,7 +579,8 @@ class _DurationScreenState extends State<DurationScreen> {
                     color: const Color(0xffF5F2F2),
                     borderRadius: BorderRadius.circular(2), // Border radius
                   ),
-                  padding: const EdgeInsets.all(10), // Padding inside the container
+                  padding: const EdgeInsets.all(10),
+                  // Padding inside the container
                   child: const Center(
                     child: Text(
                       'Save',
@@ -600,7 +607,8 @@ class _DurationScreenState extends State<DurationScreen> {
                     color: AppTheme.buttonColor,
                     borderRadius: BorderRadius.circular(2), // Border radius
                   ),
-                  padding: const EdgeInsets.all(10), // Padding inside the container
+                  padding: const EdgeInsets.all(10),
+                  // Padding inside the container
                   child: const Column(
                     crossAxisAlignment: CrossAxisAlignment.center,
                     mainAxisAlignment: MainAxisAlignment.center,

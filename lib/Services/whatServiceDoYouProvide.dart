@@ -69,7 +69,7 @@ class _whatServiceDoYouProvideState extends State<whatServiceDoYouProvide> {
       // double finalPrice = realPrice - additionalDiscountAmount;
       double finalPrice1 = discountedPriceValue + fees;
       setState(() {
-        discountedPrice = finalPrice1.toStringAsFixed(2);
+        discountedPrice = finalPrice1.toStringAsFixed(3);
       });
     } else if (!isPercentageDiscount && realPrice > 0 && fixedPrice > 0) {
       log('this is call....2');
@@ -81,7 +81,7 @@ class _whatServiceDoYouProvideState extends State<whatServiceDoYouProvide> {
       // double discountedPriceValue1 = afterCalculation - discountDouble;
       double discountedPriceValue1 = discountedPriceValue + fees;
       setState(() {
-        discountedPrice = discountedPriceValue1.toStringAsFixed(2);
+        discountedPrice = discountedPriceValue1.toStringAsFixed(3);
       });
     } else {
       setState(() {
@@ -222,7 +222,7 @@ class _whatServiceDoYouProvideState extends State<whatServiceDoYouProvide> {
                   },
                   validator: (value) {
                     if (value!.trim().isEmpty) {
-                      return 'Service Name is required';
+                      return 'Service Name is required'.tr;
                     }
                     return null; // Return null if validation passes
                   },
@@ -751,7 +751,7 @@ class _whatServiceDoYouProvideState extends State<whatServiceDoYouProvide> {
                   height: 20,
                 ),
                 CustomOutlineButton(
-                  title: 'Next',
+                  title: 'Next'.tr,
                   borderRadius: 11,
                   onPressed: () {
                     if (formKey.currentState!.validate()) {

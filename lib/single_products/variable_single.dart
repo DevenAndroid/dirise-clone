@@ -5,6 +5,7 @@ import 'package:cached_network_image/cached_network_image.dart';
 import 'package:carousel_slider/carousel_controller.dart';
 import 'package:carousel_slider/carousel_options.dart';
 import 'package:carousel_slider/carousel_slider.dart';
+import 'package:dirise/utils/helper.dart';
 import 'package:easy_image_viewer/easy_image_viewer.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
@@ -16,6 +17,7 @@ import 'package:intl/intl.dart';
 import 'package:smooth_page_indicator/smooth_page_indicator.dart';
 
 import '../controller/cart_controller.dart';
+import '../controller/home_controller.dart';
 import '../controller/location_controller.dart';
 import '../controller/profile_controller.dart';
 import '../controller/wish_list_controller.dart';
@@ -24,12 +26,14 @@ import '../model/common_modal.dart';
 
 import '../model/get_review_model.dart';
 import '../model/giveaway_single_model.dart';
+import '../model/model_category_stores.dart';
 import '../model/model_single_product.dart';
 import '../model/order_models/model_direct_order_details.dart';
 import '../model/releated_product_model.dart';
 import '../model/simple_product_model.dart';
 import '../model/variable_product_nodel.dart';
 import '../repository/repository.dart';
+import '../screens/categories/single_category_with_stores/single_store_screen.dart';
 import '../screens/check_out/direct_check_out.dart';
 import '../screens/my_account_screens/contact_us_screen.dart';
 import '../utils/api_constant.dart';
@@ -72,17 +76,23 @@ class _VarientsProductScreenState extends State<VarientsProductScreen> {
   RxStatus statusSingle = RxStatus.empty();
   String formattedDate = "";
   String dateTimeString = "";
+  String imageSelect = '';
+  final homeController = Get.put(TrendingProductsController());
+  double ratingRills = 0.0;
+  int ratingRill = 20;
   getProductDetails() {
     // statusSingle = RxStatus.loading();
     Map<String, dynamic> map = {};
     map['product_id'] = id.toString();
     map['key'] = 'fedexRate';
+    map["is_def_address"] = homeController.defaultAddressId.toString();
     repositories.postApi(url: ApiUrls.varientsUrl, mapData: map).then((value) {
       log('modelSingleProduct.value1 ${modelSingleProduct.value.toJson()}');
       modelSingleProduct.value = VariableProductModel.fromJson(jsonDecode(value));
       log('modelSingleProduct.value ${modelSingleProduct.value.toJson()}');
       if (modelSingleProduct.value.variantProduct != null) {
         log("modelSingleProduct.product!.toJson().....${modelSingleProduct.value.variantProduct!.toJson()}");
+        ratingRills = ratingRill * double.parse(modelSingleProduct.value.variantProduct!.rating.toString());
         imagesList.addAll(modelSingleProduct.value.variantProduct!.galleryImage ?? []);
         imagesList = imagesList.toSet().toList();
         releatedId = modelSingleProduct.value.variantProduct!.catId!.last.id.toString();
@@ -112,6 +122,7 @@ class _VarientsProductScreenState extends State<VarientsProductScreen> {
     map["product_id"] = id.toString();
     map["quantity"] = map["quantity"] = int.tryParse(_counter.toString());
     map["key"] = 'fedexRate';
+    map["variation"] = selectedVariant!.id.toString();
     map["country_id"] = profileController.model.user != null && cartController.countryId.isEmpty
         ? profileController.model.user!.country_id
         : cartController.countryId.toString();
@@ -174,6 +185,7 @@ class _VarientsProductScreenState extends State<VarientsProductScreen> {
     map["key"] = 'fedexRate';
     map["country_id"] = profileController.model.user != null ? profileController.model.user!.country_id : '117';
     map["zip_code"] = cartController.zipCode.toString();
+    map["variation"] = selectedVariant!.id.toString();
     repositories.postApi(url: ApiUrls.buyNowDetailsUrl, mapData: map, context: context).then((value) {
       log("Value>>>>>>>$value");
       print('singleee');
@@ -236,7 +248,9 @@ class _VarientsProductScreenState extends State<VarientsProductScreen> {
   }
 
   Size size = Size.zero;
-
+  String pricess = '';
+  String descriptionn = '';
+  String longDescription = '';
   void decrementCounter() {
     setState(() {
       if (_counter > 0) {
@@ -360,6 +374,7 @@ class _VarientsProductScreenState extends State<VarientsProductScreen> {
                         const SizedBox(
                           height: 20,
                         ),
+                        if(imageSelect == '')
                         CarouselSlider(
                           options: CarouselOptions(
                               height: 180.0,
@@ -389,9 +404,11 @@ class _VarientsProductScreenState extends State<VarientsProductScreen> {
                             );
                           }).toList(),
                         ),
+                        if(imageSelect == '')
                         const SizedBox(
                           height: 6,
                         ),
+                        if(imageSelect == '')
                         Align(
                           alignment: Alignment.center,
                           child: Obx(() {
@@ -406,11 +423,12 @@ class _VarientsProductScreenState extends State<VarientsProductScreen> {
                             );
                           }),
                         ),
+                        if(imageSelect == '')
                         const SizedBox(
                           height: 30,
                         ),
                         // Center(child: Image.asset("assets/svgs/single.png")),
-
+                        if(imageSelect == '')
                         Obx(() => Container(
                           padding: const EdgeInsets.symmetric(vertical: 8, horizontal: 18),
                           decoration: BoxDecoration(
@@ -427,6 +445,14 @@ class _VarientsProductScreenState extends State<VarientsProductScreen> {
                             ),
                           ),
                         )),
+                        if(imageSelect != '')
+                          Center(
+                            child: CachedNetworkImage(
+                                imageUrl: imageSelect.toString(),
+                                height: 180,
+                                fit: BoxFit.cover,
+                                errorWidget: (_, __, ___) => Image.asset('assets/images/new_logo.png')),
+                          ),
                         // Container(
                         //   padding: const EdgeInsets.symmetric(vertical: 8, horizontal: 18),
                         //   decoration: BoxDecoration(
@@ -448,6 +474,13 @@ class _VarientsProductScreenState extends State<VarientsProductScreen> {
                           style: GoogleFonts.poppins(
                               fontWeight: FontWeight.w500, fontSize: 18, color: const Color(0xFF19313C)),
                         ),
+                        if(descriptionn != '')
+                        Text(
+                          descriptionn.toString(),
+                          style: GoogleFonts.poppins(
+                              fontWeight: FontWeight.w400, fontSize: 12, color: const Color(0xFF19313C)),
+                        ),
+                        if(descriptionn == '')
                         Text(
                           modelSingleProduct.value.variantProduct!.shortDescription.toString().capitalize!,
                           style: GoogleFonts.poppins(
@@ -474,6 +507,13 @@ class _VarientsProductScreenState extends State<VarientsProductScreen> {
                                 ),
                               ),
                             const SizedBox(width: 7),
+                            if(pricess != '')
+                               Text(
+                                'KWD ${pricess.toString()}',
+                                style: const TextStyle(
+                                    fontSize: 20, fontWeight: FontWeight.w500, color: Color(0xFF19313B)),
+                              ),
+                            if(pricess == '')
                             Expanded(
                               child: Text.rich(
                                 TextSpan(
@@ -515,6 +555,7 @@ class _VarientsProductScreenState extends State<VarientsProductScreen> {
                         Row(
                           mainAxisAlignment: MainAxisAlignment.end,
                           children: [
+                            modelSingleProduct.value.variantProduct!.rating != '0' ?
                             RatingBar.builder(
                               initialRating: double.parse(modelSingleProduct.value.variantProduct!.rating.toString()),
                               minRating: 1,
@@ -533,11 +574,24 @@ class _VarientsProductScreenState extends State<VarientsProductScreen> {
                               onRatingUpdate: (rating) {
                                 print(rating);
                               },
-                            ),
+                            ) : const SizedBox.shrink(),
                             const SizedBox(
                               width: 10,
                             ),
-                            Image.asset("assets/svgs/rils.png"),
+                            // Image.asset("assets/svgs/rils.png"),
+                            modelSingleProduct.value.variantProduct!.rating != '0' ?
+                            Column(
+                              crossAxisAlignment: CrossAxisAlignment.start,
+                              mainAxisAlignment: MainAxisAlignment.center,
+                              children: [
+                                const Text('RILS',
+                                  style: TextStyle(
+                                      color: AppTheme.buttonColor,
+                                      fontWeight: FontWeight.w500
+                                  ),),
+                                Text(ratingRills.toString())
+                              ],
+                            ) : const SizedBox.shrink()
                           ],
                         ),
                         const SizedBox(
@@ -602,8 +656,11 @@ class _VarientsProductScreenState extends State<VarientsProductScreen> {
                                     value: e,
                                     child: Row(
                                       children: [
+                                        Flexible(child: Image.network(e.image.toString(),width: 50,)),
+                                        5.spaceX,
                                         Expanded(child: Text(e.comb.toString().capitalize!)),
-                                        Text("kwd ${e.price}"),
+                                        Expanded(child: Text("kwd ${e.price}")),
+                                        Expanded(child: Text("Stock ${e.variantStock}")),
                                         const SizedBox(
                                           width: 4,
                                         )
@@ -613,8 +670,13 @@ class _VarientsProductScreenState extends State<VarientsProductScreen> {
                             onChanged: (newValue) {
                               if (newValue == null) return;
                               selectedVariant = newValue;
+                              pricess = newValue.price.toString();
+                              descriptionn = newValue.variantShortDescription.toString();
+                              imageSelect = newValue.image.toString();
+                              longDescription = newValue.variantLongDescription.toString();
                               carouselController.animateToPage(imagesList
                                   .indexWhere((element) => element.toString() == selectedVariant!.image.toString()));
+
                               setState(() {});
                             },
                           ),
@@ -623,29 +685,54 @@ class _VarientsProductScreenState extends State<VarientsProductScreen> {
                           height: 20,
                         ),
                         Text(
-                          "Dirise Welcome deal  ",
+                          "Description",
                           style: GoogleFonts.poppins(
                               fontWeight: FontWeight.w500, fontSize: 18, color: const Color(0xFF014E70)),
                         ),
                         const SizedBox(
                           height: 10,
                         ),
-                        Row(
-                          children: [
-                            const Icon(
-                              Icons.circle,
-                              color: Colors.grey,
-                              size: 10,
-                            ),
-                            const SizedBox(
-                              width: 7,
-                            ),
-                            Text(
-                              'Up to 70% off. Free shipping on 1st order',
-                              style: GoogleFonts.poppins(color: Colors.grey, fontSize: 14, fontWeight: FontWeight.w500),
-                            ),
-                          ],
-                        ),
+                        if(modelSingleProduct.value.variantProduct!.longDescription != '' &&
+                            modelSingleProduct.value.variantProduct!.longDescription != null && longDescription == '')
+                          Row(
+                            crossAxisAlignment: CrossAxisAlignment.center,
+                            children: [
+                              const Icon(
+                                Icons.circle,
+                                color: Colors.grey,
+                                size: 10,
+                              ),
+                              const SizedBox(
+                                width: 7,
+                              ),
+                              Expanded(
+                                child: Text(
+                                  modelSingleProduct.value.variantProduct!.longDescription ?? '',
+                                  style: GoogleFonts.poppins(color: Colors.grey, fontSize: 14, fontWeight: FontWeight.w500),
+                                ),
+                              ),
+                            ],
+                          ),
+                        if(longDescription != '')
+                          Row(
+                            crossAxisAlignment: CrossAxisAlignment.center,
+                            children: [
+                              const Icon(
+                                Icons.circle,
+                                color: Colors.grey,
+                                size: 10,
+                              ),
+                              const SizedBox(
+                                width: 7,
+                              ),
+                              Expanded(
+                                child: Text(
+                                  longDescription.toString(),
+                                  style: GoogleFonts.poppins(color: Colors.grey, fontSize: 14, fontWeight: FontWeight.w500),
+                                ),
+                              ),
+                            ],
+                          ),
                         const SizedBox(
                           height: 10,
                         ),
@@ -660,7 +747,7 @@ class _VarientsProductScreenState extends State<VarientsProductScreen> {
                               width: 7,
                             ),
                             Text(
-                              'Fedex Fast delivery by : ',
+                              'Shipping Type : ',
                               style: GoogleFonts.poppins(color: Colors.grey, fontSize: 14, fontWeight: FontWeight.w500),
                             ),
                             Expanded(
@@ -716,7 +803,13 @@ class _VarientsProductScreenState extends State<VarientsProductScreen> {
                           children: [
                             InkWell(
                               onTap: () {
-                                directBuyProduct();
+                                if(selectedVariant != null) {
+                                  cartController.productElementId =  id.toString();
+                                  cartController.productQuantity = productQuantity.value.toString();
+                                  directBuyProduct();
+                                }else{
+                                  showToastCenter('Please select variation');
+                                }
                               },
                               child: Container(
                                 padding: const EdgeInsets.symmetric(vertical: 10, horizontal: 40),
@@ -733,7 +826,11 @@ class _VarientsProductScreenState extends State<VarientsProductScreen> {
                             ),
                             InkWell(
                               onTap: () {
-                                addToCartProduct();
+                                if(selectedVariant != null) {
+                                  addToCartProduct();
+                                }else{
+                                  showToastCenter('Please select variation');
+                                }
                               },
                               child: Container(
                                 padding: const EdgeInsets.symmetric(vertical: 10, horizontal: 40),
@@ -826,10 +923,14 @@ class _VarientsProductScreenState extends State<VarientsProductScreen> {
                             const SizedBox(
                               width: 7,
                             ),
-                            Text(
-                              locationController.city.toString(),
-                              style: GoogleFonts.poppins(
-                                  color: const Color(0xFF014E70), fontSize: 14, fontWeight: FontWeight.w500),
+                            Expanded(
+                              child: Text(
+                                maxLines: 1,
+                                overflow: TextOverflow.ellipsis,
+                                locationController.city.toString(),
+                                style: GoogleFonts.poppins(
+                                    color: const Color(0xFF014E70), fontSize: 14, fontWeight: FontWeight.w500),
+                              ),
                             ),
                           ],
                         ),
@@ -856,7 +957,10 @@ class _VarientsProductScreenState extends State<VarientsProductScreen> {
                             ),
                             Expanded(
                               child: Text(
-                                formattedDate.toString(),
+                               //  formattedDate.toString(),
+                                modelSingleProduct.value.variantProduct!.shippingDate.toString(),
+                                maxLines: 1,
+                                overflow: TextOverflow.ellipsis,
                                 style: GoogleFonts.poppins(
                                     color: const Color(0xFF014E70), fontSize: 14, fontWeight: FontWeight.w500),
                               ),
@@ -891,6 +995,8 @@ class _VarientsProductScreenState extends State<VarientsProductScreen> {
                                 modelSingleProduct.value.variantProduct!.lowestDeliveryPrice == ""
                                     ? "0"
                                     : modelSingleProduct.value.variantProduct!.lowestDeliveryPrice.toString(),
+                                maxLines: 1,
+                                overflow: TextOverflow.ellipsis,
                                 style: GoogleFonts.poppins(
                                     color: const Color(0xFF014E70), fontSize: 14, fontWeight: FontWeight.w500),
                               ),
@@ -984,19 +1090,25 @@ class _VarientsProductScreenState extends State<VarientsProductScreen> {
                           height: 10,
                         ),
                         Text(
-                          'Seller Commercial Licence',
+                          'Seller documents',
                           style: GoogleFonts.poppins(color: Colors.black, fontSize: 20, fontWeight: FontWeight.w600),
                         ),
                         const SizedBox(
                           height: 20,
                         ),
-                        Center(
-                          child: CachedNetworkImage(
-                              imageUrl:
-                                  modelSingleProduct.value.variantProduct!.storemeta!.commercialLicense.toString(),
-                              height: 180,
-                              fit: BoxFit.cover,
-                              errorWidget: (_, __, ___) => Image.asset('assets/images/new_logo.png')),
+                        modelSingleProduct.value.variantProduct!.storemeta!.commercialLicense !=""?
+                        Center(child: CachedNetworkImage(
+                          imageUrl:
+                          modelSingleProduct.value.variantProduct!.storemeta!.commercialLicense.toString(),
+                          height: 180,
+                          fit: BoxFit.cover,
+                          // errorWidget: (_, __, ___) => Image.asset('assets/images/new_logo.png')
+                        ),
+                        ):Center(
+                          child: Text(
+                            'No documents were uploaded by vendor ',
+                            style: GoogleFonts.poppins(color: Colors.black, fontSize: 16, fontWeight: FontWeight.w600),
+                          ),
                         ),
                         // Center(child: Image.asset("assets/svgs/licence.png")),
 
@@ -1004,51 +1116,81 @@ class _VarientsProductScreenState extends State<VarientsProductScreen> {
                           height: 25,
                         ),
                         Text(
-                          'Translated Commercial Licence',
+                          'Seller translated documents',
                           style: GoogleFonts.poppins(color: Colors.black, fontSize: 20, fontWeight: FontWeight.w600),
                         ),
                         const SizedBox(
                           height: 20,
                         ),
-                        Center(child: Image.asset("assets/svgs/licence.png")),
-
-                        Align(
-                          alignment: Alignment.centerRight,
-                          child: Container(
-                            width: 130,
-                            padding: const EdgeInsets.all(10),
-                            decoration: BoxDecoration(
-                                border: Border.all(color: const Color(0xFF014E70), width: 1.5),
-                                borderRadius: BorderRadius.circular(30)),
-                            child: Center(
-                              child: Text(
-                                "Seller profile",
-                                style: GoogleFonts.poppins(
-                                    color: const Color(0xFF014E70), fontSize: 14, fontWeight: FontWeight.w500),
+                        modelSingleProduct.value.variantProduct!.storemeta!.document2 != ""?
+                        Center(
+                          child: CachedNetworkImage(
+                            imageUrl:
+                            modelSingleProduct.value.variantProduct!.storemeta!.document2.toString(),
+                            height: 180,
+                            fit: BoxFit.cover,
+                            // errorWidget: (_, __, ___) => Image.asset('assets/images/new_logo.png')
+                          ),
+                        ):  Center(
+                          child: Text(
+                            'No documents were uploaded by vendor ',
+                            style: GoogleFonts.poppins(color: Colors.black, fontSize: 16, fontWeight: FontWeight.w600),
+                          ),
+                        ),GestureDetector(
+                          onTap: (){
+                            Get.to(
+                                    () => SingleStoreScreen(storeDetails:  VendorStoreData(id:
+                                modelSingleProduct.value.variantProduct!.vendorInformation!.storeId
+                                ))
+                            );
+                          },
+                          child: Align(
+                            alignment: Alignment.centerRight,
+                            child: Container(
+                              width: 130,
+                              padding: const EdgeInsets.all(10),
+                              decoration: BoxDecoration(
+                                  border: Border.all(color: const Color(0xFF014E70), width: 1.5),
+                                  borderRadius: BorderRadius.circular(30)),
+                              child: Center(
+                                child: Text(
+                                  "Seller profile",
+                                  style: GoogleFonts.poppins(
+                                      color: const Color(0xFF014E70), fontSize: 14, fontWeight: FontWeight.w500),
+                                ),
                               ),
                             ),
                           ),
                         ),
-                        const SizedBox(
-                          height: 20,
-                        ),
-                        Align(
-                          alignment: Alignment.centerRight,
-                          child: Container(
-                            width: 130,
-                            padding: const EdgeInsets.all(10),
-                            decoration: BoxDecoration(
-                                border: Border.all(color: const Color(0xFF014E70), width: 1.5),
-                                borderRadius: BorderRadius.circular(30)),
-                            child: Center(
-                              child: Text(
-                                "Take Below",
-                                style: GoogleFonts.poppins(
-                                    color: const Color(0xFF014E70), fontSize: 14, fontWeight: FontWeight.w500),
-                              ),
-                            ),
-                          ),
-                        ),
+                        // const SizedBox(
+                        //   height: 20,
+                        // ),
+                        // GestureDetector(
+                        //   onTap: (){
+                        //     Get.to(
+                        //             () => SingleStoreScreen(storeDetails:  VendorStoreData(id:
+                        //         modelSingleProduct.value.variantProduct!.vendorInformation!.storeId
+                        //         ))
+                        //     );
+                        //   },
+                        //   child: Align(
+                        //     alignment: Alignment.centerRight,
+                        //     child: Container(
+                        //       width: 130,
+                        //       padding: const EdgeInsets.all(10),
+                        //       decoration: BoxDecoration(
+                        //           border: Border.all(color: const Color(0xFF014E70), width: 1.5),
+                        //           borderRadius: BorderRadius.circular(30)),
+                        //       child: Center(
+                        //         child: Text(
+                        //           "Take Below",
+                        //           style: GoogleFonts.poppins(
+                        //               color: const Color(0xFF014E70), fontSize: 14, fontWeight: FontWeight.w500),
+                        //         ),
+                        //       ),
+                        //     ),
+                        //   ),
+                        // ),
 
                         const SizedBox(
                           height: 10,
@@ -1330,6 +1472,8 @@ class _VarientsProductScreenState extends State<VarientsProductScreen> {
                                                       children: [
                                                         ElevatedButton(
                                                           onPressed: () {
+                                                            cartController.productElementId =  id.toString();
+                                                            cartController.productQuantity = productQuantity.value.toString();
                                                             directBuyProduct();
                                                           },
                                                           style: ElevatedButton.styleFrom(

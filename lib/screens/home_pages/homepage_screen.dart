@@ -20,6 +20,7 @@ import 'package:google_fonts/google_fonts.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import '../../controller/cart_controller.dart';
+import '../../controller/google_map_controlleer.dart';
 import '../../controller/home_controller.dart';
 import '../../controller/homepage_controller.dart';
 import '../../controller/location_controller.dart';
@@ -136,10 +137,20 @@ class _HomePageState extends State<HomePage> {
       setState(() {
         locationController.zipcode.value = placemark.postalCode ?? '';
         locationController.street = placemark.street ?? '';
+        locationController.shortCode.value = placemark.isoCountryCode ?? '';
         locationController.city.value = placemark.locality ?? '';
         locationController.state = placemark.administrativeArea ?? '';
         locationController.countryName = placemark.country ?? '';
         locationController.town = placemark.subAdministrativeArea ?? '';
+
+        //
+        controllerMap.street.value = placemark.street ?? '';
+        controllerMap.countryCode.value = placemark.isoCountryCode ?? '';
+        controllerMap.city.value = placemark.locality ?? '';
+        controllerMap.zipcode.value = placemark.postalCode ?? '';
+        controllerMap.state.value = placemark.administrativeArea ?? '';
+        controllerMap.country.value = placemark.country ?? '';
+        controllerMap.town.value = placemark.subAdministrativeArea ?? '';
         // showToast(locationController.countryName.toString());
         errorApi();
       });
@@ -150,6 +161,7 @@ class _HomePageState extends State<HomePage> {
       await prefs.setString('state', placemark.administrativeArea ?? '');
       await prefs.setString('country', placemark.country ?? '');
       await prefs.setString('zipcode', placemark.postalCode ?? '');
+      await prefs.setString('shortCode', placemark.isoCountryCode ?? '');
       await prefs.setString('town', placemark.subAdministrativeArea ?? '');
     }
     // errorApi();
@@ -173,6 +185,7 @@ class _HomePageState extends State<HomePage> {
       locationController.city.value = prefs.getString('city') ?? '';
       locationController.state = prefs.getString('state') ?? '';
       locationController.countryName = prefs.getString('country') ?? '';
+      locationController.shortCode.value = prefs.getString('shortCode') ?? '';
       locationController.zipcode.value = prefs.getString('zipcode') ?? '';
       locationController.town = prefs.getString('town') ?? '';
       _address = prefs.getString('address') ?? '';
@@ -314,6 +327,7 @@ class _HomePageState extends State<HomePage> {
   final locationController = Get.put(LocationController());
 
 
+  final controllerMap = Get.put(ControllerMap());
   @override
   void initState() {
     super.initState();
@@ -356,6 +370,9 @@ class _HomePageState extends State<HomePage> {
         getAllAsync();
       });
     });
+    Future.delayed(const Duration(minutes: 1),(){
+      controllerMap.sellingPickupAddressApi(context);
+    });
   }
 
   Future<void> _showWelcomeDialog() async {
@@ -390,7 +407,7 @@ class _HomePageState extends State<HomePage> {
                           // FlutterExitApp.exitApp(iosForceExit: true);
                         }
                       },
-                      child: Platform.isAndroid ? Text("Exit App".tr) : Text("Not now".tr)
+                      child: Platform.isAndroid ? Text("Exit App".tr) : Text("Don't allow".tr)
                   ),
                   TextButton(
                     onPressed: () async {
@@ -401,6 +418,7 @@ class _HomePageState extends State<HomePage> {
                       homeController.trendingData();
                       homeController.popularProductsData();
                       log('valueee clickk...${hasShownDialog.toString()}');
+
                     },
                     child: Text("Allow".tr),
                   ),
@@ -670,7 +688,7 @@ class _HomePageState extends State<HomePage> {
             child: Column(
               children: [
                 Container(
-                  color: Colors.white,
+                  color: const Color(0xFFEBF3F6),
                   child: Column(
                     children: [
                       const SizedBox(
@@ -687,9 +705,6 @@ class _HomePageState extends State<HomePage> {
                             );
                           },
                           child:
-
-
-
                           Obx(() {
                             return profileController.userLoggedIn &&
                                 locationController.addressListModel.value.status == true &&
@@ -709,14 +724,18 @@ class _HomePageState extends State<HomePage> {
                                 profileController.selectedLAnguage.value == 'English'
                                     ? Flexible(
                                   child: Text(
-                                    " Deliver to ${locationController.addressListModel.value.defaultAddress!.city.toString()}, ${locationController.addressListModel.value.defaultAddress!.zipCode.toString()}, ${locationController.addressListModel.value.defaultAddress!.state.toString()}",
+                                    " Deliver to ${locationController.addressListModel.value.defaultAddress!.city ?? ''}, "
+                                        "${locationController.addressListModel.value.defaultAddress!.zipCode ?? ''},"
+                                        " ${locationController.addressListModel.value.defaultAddress!.state ?? ''}",
                                     overflow: TextOverflow.visible,
                                     softWrap: true,
                                   ),
                                 )
                                     : Flexible(
                                   child: Text(
-                                    "يسلم إلى ${locationController.addressListModel.value.defaultAddress!.city.toString()}, ${locationController.addressListModel.value.defaultAddress!.zipCode.toString()}, ${locationController.addressListModel.value.defaultAddress!.state.toString()}",
+                                    "يسلم إلى ${locationController.addressListModel.value.defaultAddress!.city ?? ''},"
+                                        " ${locationController.addressListModel.value.defaultAddress!.zipCode ?? ''}, "
+                                        "${locationController.addressListModel.value.defaultAddress!.state ?? ' '}",
                                     overflow: TextOverflow.visible,
                                     softWrap: true,
                                   ),
@@ -830,7 +849,11 @@ class _HomePageState extends State<HomePage> {
                       //   const SizedBox.shrink(),
 
 
-                      )],
+                      ),
+                      const SizedBox(
+                        height: 10,
+                      ),
+                    ],
                   ),
                 ),
 
@@ -849,7 +872,8 @@ class _HomePageState extends State<HomePage> {
                 // ),
                 Expanded(
                   child: Container(
-                    color: Color(0xFFF2F2F2).withOpacity(0.6),
+                    // color: Color(0xFFF2F2F2).withOpacity(0.6),
+                    color: Colors.white,
                     child: const SingleChildScrollView(
                         child: Column(children: [
                           SliderWidget(),

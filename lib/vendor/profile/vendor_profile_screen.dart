@@ -512,7 +512,7 @@ class _VendorProfileScreenState extends State<VendorProfileScreen> {
       };
     }
 
-    map["vendor_type"] = selectedPlan.name;
+    // map["vendor_type"] = selectedPlan.name;
     map["store_phone"] = storePhone.text.trim();
     if (modelCategoryList != null) {
       map["sub_category_id"] = modelCategoryList!.vendorSubCategory!.map((e) => e.selectedSubChildCategory!.id.toString()).toList().join(",");

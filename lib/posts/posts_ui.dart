@@ -15,6 +15,7 @@ import 'package:full_screen_image/full_screen_image.dart';
 import 'package:get/get.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:image_picker/image_picker.dart';
+import 'package:lottie/lottie.dart';
 import '../controller/profile_controller.dart';
 import '../language/app_strings.dart';
 import '../model/create_news_model.dart';
@@ -87,7 +88,7 @@ class _PublishPostScreenState extends State<PublishPostScreen> {
         showToast('Nothing To Post');
       }
     } else {
-      showToast('LogIN YourSelf First');
+      showToast('Login YourSelf First');
     }
   }
 
@@ -127,8 +128,8 @@ class _PublishPostScreenState extends State<PublishPostScreen> {
     showCupertinoModalPopup<void>(
       context: context,
       builder: (BuildContext context) => CupertinoActionSheet(
-        title: const Text(
-          'Select Picture from',
+        title:  Text(
+          'Select Picture from'.tr,
           style: TextStyle(color: Colors.black, fontSize: 18, fontWeight: FontWeight.w600),
         ),
         actions: <CupertinoActionSheetAction>[
@@ -168,7 +169,7 @@ class _PublishPostScreenState extends State<PublishPostScreen> {
                 Get.back();
               });
             },
-            child: const Text("Camera"),
+            child:  Text("Camera".tr),
           ),
           CupertinoActionSheetAction(
             onPressed: () {
@@ -206,14 +207,14 @@ class _PublishPostScreenState extends State<PublishPostScreen> {
                 Get.back();
               });
             },
-            child: const Text('Gallery'),
+            child:  Text('Gallery'.tr),
           ),
           CupertinoActionSheetAction(
             isDestructiveAction: true,
             onPressed: () {
               Get.back();
             },
-            child: const Text('Cancel'),
+            child:  Text('Cancel'.tr),
           ),
         ],
       ),
@@ -272,7 +273,7 @@ class _PublishPostScreenState extends State<PublishPostScreen> {
             physics: const NeverScrollableScrollPhysics(),
                 child: SizedBox(
                   height: Get.height,
-                  child: Padding(
+                  child:  Padding(
                       padding: const EdgeInsets.symmetric(vertical: 30, horizontal: 10).copyWith(bottom: 0),
                       child: Column(
                         children: [
@@ -298,20 +299,20 @@ class _PublishPostScreenState extends State<PublishPostScreen> {
                                       ],
                                       validator: (value) {
                                         if (value!.isEmpty) {
-                                          return 'Please Post Something';
+                                          return 'Please Post Something'.tr;
                                         }
                                         return null;
                                       },
                                       onChanged: (value){
                                         if(value.length == 5000){
-                                          showToastCenter('Maximum characters allowed only 5000');
+                                          showToastCenter('Maximum characters allowed only 5000'.tr);
                                         }
                                         setState(() {
                                           postController.text = value;
                                         });
                                       },
                                       decoration: InputDecoration(
-                                        hintText: 'What’s Happening?',
+                                        hintText: 'What’s Happening?'.tr,
                                         border: InputBorder.none,
                                         hintStyle: GoogleFonts.poppins(
                                             color: const Color(0xFF5B5B5B), fontWeight: FontWeight.w500, fontSize: 16),
@@ -376,8 +377,8 @@ class _PublishPostScreenState extends State<PublishPostScreen> {
                                               borderRadius: BorderRadius.circular(40),
                                             ),
                                             padding: const EdgeInsets.symmetric(horizontal: 18, vertical: 8),
-                                            child: const Text(
-                                              'Publish Post ',
+                                            child:  Text(
+                                              'Publish Post '.tr,
                                               style: TextStyle(fontSize: 16, fontWeight: FontWeight.w500, color: Colors.white),
                                             ),
                                           ),
@@ -426,7 +427,8 @@ class _PublishPostScreenState extends State<PublishPostScreen> {
                           ),
                         ],
                       ) : const SizedBox(),
-                          Expanded(
+                          if(getPublishModel.value.allNews != null && getPublishModel.value.allNews!.isNotEmpty)
+                        Expanded(
                             child: ListView.builder(
                               shrinkWrap: true,
                               controller: _scrollController,
@@ -469,7 +471,7 @@ class _PublishPostScreenState extends State<PublishPostScreen> {
                                                         width: 45,
                                                         fit: BoxFit.cover,
                                                         errorWidget: (context, url, error) =>
-                                                            Image.asset('assets/images/post_img.png'),
+                                                            Image.asset('assets/images/profile-icon.png',),
                                                       ),
                                                     ),
                                                     const SizedBox(
@@ -664,19 +666,19 @@ class _PublishPostScreenState extends State<PublishPostScreen> {
                                                         showDialog<String>(
                                                           context: context,
                                                           builder: (BuildContext context) => AlertDialog(
-                                                            title: const Text('Delete Post'),
-                                                            content: const Text('Do you want to delete your post'),
+                                                            title:  Text('Delete Post'.tr),
+                                                            content:  Text('Do you want to delete your post'.tr),
                                                             actions: <Widget>[
                                                               TextButton(
                                                                 onPressed: () => Get.back(),
-                                                                child: const Text('Cancel'),
+                                                                child:  Text('Cancel'.tr),
                                                               ),
                                                               TextButton(
                                                                 onPressed: () async {
                                                                   deleteNewsApi(item.id.toString());
                                                                   Get.back();
                                                                 },
-                                                                child: const Text('OK'),
+                                                                child:  Text('OK'.tr),
                                                               ),
                                                             ],
                                                           ),
@@ -696,6 +698,23 @@ class _PublishPostScreenState extends State<PublishPostScreen> {
                                 );
                               },
                             ),
+                          ),
+                          if(getPublishModel.value.allNews == null || getPublishModel.value.allNews!.isEmpty)
+                          Column(
+                            crossAxisAlignment: CrossAxisAlignment.center,
+                            mainAxisAlignment: MainAxisAlignment.center,
+                            children: [
+                              Lottie.asset("assets/loti/wishlist.json"),
+                              Center(
+                                child: Text(
+                                 'News not found'.tr,
+                                  style: GoogleFonts.poppins(fontWeight: FontWeight.w500, fontSize: 22),
+                                ),
+                              ),
+                              const SizedBox(
+                                height: 20,
+                              ),
+                            ],
                           ),
                         ],
                       ),

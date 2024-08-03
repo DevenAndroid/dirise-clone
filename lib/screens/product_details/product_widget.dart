@@ -176,20 +176,20 @@ class _ProductUIState extends State<ProductUI> {
     serviceEnabled = await Geolocator.isLocationServiceEnabled();
     if (!serviceEnabled) {
       ScaffoldMessenger.of(context)
-          .showSnackBar(const SnackBar(content: Text('Location services are disabled. Please enable the services')));
+          .showSnackBar( SnackBar(content: Text('Location services are disabled. Please enable the services'.tr)));
       return false;
     }
     permission = await Geolocator.checkPermission();
     if (permission == LocationPermission.denied) {
       permission = await Geolocator.requestPermission();
       if (permission == LocationPermission.denied) {
-        ScaffoldMessenger.of(context).showSnackBar(const SnackBar(content: Text('Location permissions are denied')));
+        ScaffoldMessenger.of(context).showSnackBar( SnackBar(content: Text('Location permissions are denied'.tr)));
         return false;
       }
     }
     if (permission == LocationPermission.deniedForever) {
       ScaffoldMessenger.of(context).showSnackBar(
-          const SnackBar(content: Text('Location permissions are permanently denied, we cannot request permissions.')));
+           SnackBar(content: Text('Location permissions are permanently denied, we cannot request permissions.'.tr)));
       return false;
     }
     return true;
@@ -255,23 +255,23 @@ class _ProductUIState extends State<ProductUI> {
 
     if (isBookingProduct) {
       if (modelSingleProduct.product == null) {
-        showToast("Please wait loading available slots");
+        showToast("Please wait loading available slots".tr);
         return false;
       }
       if (modelSingleProduct.product!.serviceTimeSloat == null) {
-        showToast("Slots are not available");
+        showToast("Slots are not available".tr);
         return false;
       }
       if (selectedSlot.isEmpty) {
         slotKey.currentContext!.navigate;
-        showToast("Please select slot");
+        showToast("Please select slot".tr);
         return false;
       }
       return true;
     }
     if (isVariantType) {
       if (selectedVariant == null) {
-        showToast("Please select Variation");
+        showToast("Please select Variation".tr);
         return false;
       }
     }
@@ -373,7 +373,6 @@ class _ProductUIState extends State<ProductUI> {
     return InkWell(
         onTap: () {
           print(widget.productElement.id);
-
           if (widget.productElement.itemType == 'giveaway') {
             Get.to(() => const GiveAwayProduct(), arguments: widget.productElement.id.toString());
           }
@@ -457,7 +456,8 @@ class _ProductUIState extends State<ProductUI> {
               const SizedBox(
                 height: 10,
               ),
-              Expanded(
+              SizedBox(
+                height: 100,
                 child: Row(
                   children: [
                     Expanded(
@@ -485,6 +485,15 @@ class _ProductUIState extends State<ProductUI> {
                 widget.productElement.pName.toString(),
                 maxLines: 2,
                 style: GoogleFonts.poppins(fontSize: 12, fontWeight: FontWeight.w500, color: const Color(0xFF19313C)),
+              ),
+              const SizedBox(
+                height: 3,
+              ),
+              Text(
+                  widget.productElement.shortDescription != null ?
+                  widget.productElement.shortDescription ?? '' :   widget.productElement.longDescription ?? '',
+                maxLines: 2,
+                style: GoogleFonts.poppins(fontSize: 12, fontWeight: FontWeight.w400, color: const Color(0xFF19313C)),
               ),
               const SizedBox(
                 height: 3,
@@ -562,7 +571,7 @@ class _ProductUIState extends State<ProductUI> {
               widget.productElement.inStock == "-1"?const SizedBox.shrink():
               Text(
 
-                '${'QTY'}: ${widget.productElement.inStock} ${'piece'}',
+                '${'QTY'.tr}: ${widget.productElement.inStock} ${'piece'.tr}',
                 style: normalStyle,
               ),
               // if (canBuyProduct)
@@ -575,6 +584,7 @@ class _ProductUIState extends State<ProductUI> {
                       mainAxisAlignment: MainAxisAlignment.start,
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
+                        widget.productElement.rating !=0?
                         RatingBar.builder(
                           initialRating: double.parse(widget.productElement.rating.toString()),
                           minRating: 1,
@@ -593,7 +603,7 @@ class _ProductUIState extends State<ProductUI> {
                           onRatingUpdate: (rating) {
                             print(rating);
                           },
-                        ),
+                        ):Text("No Review".tr),
                         // ,Text(
                         //   '${widget.productElement.inStock.toString()} ${'pieces'.tr}',
                         //   style: GoogleFonts.poppins(color: Colors.grey.shade700, fontSize: 15,fontWeight: FontWeight.w500),
@@ -602,12 +612,13 @@ class _ProductUIState extends State<ProductUI> {
                           height: 7,
                         ),
                         if(Platform.isAndroid)
+                          widget.productElement.itemType != 'service' && widget.productElement.itemType != 'virtual_product' ?
                           widget.productElement.shippingDate != "No Internation Shipping Available"
                               ? Column(
                             crossAxisAlignment: CrossAxisAlignment.start,
                             children: [
                               Text(
-                                'shipping',
+                                'shipping'.tr,
                                 style: GoogleFonts.poppins(
                                     color: const Color(0xff858484), fontSize: 13, fontWeight: FontWeight.w500),
                               ),
@@ -631,27 +642,27 @@ class _ProductUIState extends State<ProductUI> {
                             },
                             child: RichText(
                               text: TextSpan(
-                                  text: 'international shipping not available',
+                                  text: 'international shipping not available'.tr,
                                   style: GoogleFonts.poppins(
                                       color: const Color(0xff858484), fontSize: 13, fontWeight: FontWeight.w500),
                                   children: [
                                     TextSpan(
-                                        text: ' contact us',
+                                        text: ' contact us'.tr,
                                         style: GoogleFonts.poppins(
                                             decoration: TextDecoration.underline,
                                             color: AppTheme.buttonColor,
                                             fontSize: 13,
                                             fontWeight: FontWeight.w500)),
                                     TextSpan(
-                                        text: ' for the soloution',
+                                        text: ' for the solution'.tr,
                                         style: GoogleFonts.poppins(
                                             color: const Color(0xff858484),
                                             fontSize: 13,
                                             fontWeight: FontWeight.w500)),
                                   ]),
                             ),
-                          ),
-                        // Text("vendor doesn't ship internationally, contact us for the soloution",  style: GoogleFonts.poppins(
+                          ) : const SizedBox.shrink(),
+                        // Text("vendor doesn't ship internationally, contact us for the solution",  style: GoogleFonts.poppins(
                         //     color: const Color(0xff858484),
                         //     fontSize: 13,
                         //     fontWeight: FontWeight.w500),),
@@ -660,7 +671,7 @@ class _ProductUIState extends State<ProductUI> {
                               ?  Expanded(
                             child: Text.rich(
                               TextSpan(
-                                text: 'Shipping: ',
+                                text: 'Shipping: '.tr,
                                 style: const TextStyle(
                                   fontSize: 14,
                                   fontWeight: FontWeight.w600,
@@ -731,19 +742,19 @@ class _ProductUIState extends State<ProductUI> {
                             },
                             child: RichText(
                               text: TextSpan(
-                                  text: 'international shipping not available',
+                                  text: 'international shipping not available'.tr,
                                   style: GoogleFonts.poppins(
                                       color: const Color(0xff858484), fontSize: 13, fontWeight: FontWeight.w500),
                                   children: [
                                     TextSpan(
-                                        text: ' allow location',
+                                        text: ' allow location'.tr,
                                         style: GoogleFonts.poppins(
                                             decoration: TextDecoration.underline,
                                             color: AppTheme.buttonColor,
                                             fontSize: 13,
                                             fontWeight: FontWeight.w500)),
                                     TextSpan(
-                                        text: ' for the soloution',
+                                        text: ' for the solution'.tr,
                                         style: GoogleFonts.poppins(
                                             color: const Color(0xff858484),
                                             fontSize: 13,
@@ -1068,7 +1079,7 @@ class _ProductUIState extends State<ProductUI> {
                           ?  Expanded(
                         child: Text.rich(
                           TextSpan(
-                            text: 'Shipping: ',
+                            text: 'Shipping: '.tr,
                             style: const TextStyle(
                               fontSize: 14,
                               fontWeight: FontWeight.w600,
@@ -1098,10 +1109,10 @@ class _ProductUIState extends State<ProductUI> {
                                   ),
                                 ),
                               ),
-                              const WidgetSpan(
+                               WidgetSpan(
                                 alignment: PlaceholderAlignment.middle,
                                 child: Text(
-                                  ' & Estimated arrival by ',
+                                  ' & Estimated arrival by '.tr,
                                   style: TextStyle(
                                     fontSize: 9,
                                     fontWeight: FontWeight.w500,
@@ -1132,19 +1143,19 @@ class _ProductUIState extends State<ProductUI> {
                         },
                         child: RichText(
                           text: TextSpan(
-                              text: 'international shipping not available',
+                              text: 'international shipping not available'.tr,
                               style: GoogleFonts.poppins(
                                   color: const Color(0xff858484), fontSize: 13, fontWeight: FontWeight.w500),
                               children: [
                                 TextSpan(
-                                    text: ' contact us',
+                                    text: ' contact us'.tr,
                                     style: GoogleFonts.poppins(
                                         decoration: TextDecoration.underline,
                                         color: AppTheme.buttonColor,
                                         fontSize: 13,
                                         fontWeight: FontWeight.w500)),
                                 TextSpan(
-                                    text: ' for the soloution',
+                                    text: ' for the solution'.tr,
                                     style: GoogleFonts.poppins(
                                         color: const Color(0xff858484),
                                         fontSize: 13,
@@ -1236,7 +1247,7 @@ class _ProductUIState extends State<ProductUI> {
                                         fontSize: 13,
                                         fontWeight: FontWeight.w500)),
                                 TextSpan(
-                                    text: ' for the soloution',
+                                    text: ' for the solution',
                                     style: GoogleFonts.poppins(
                                         color: const Color(0xff858484),
                                         fontSize: 13,

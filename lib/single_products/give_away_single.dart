@@ -16,6 +16,7 @@ import 'package:intl/intl.dart';
 import 'package:smooth_page_indicator/smooth_page_indicator.dart';
 
 import '../controller/cart_controller.dart';
+import '../controller/home_controller.dart';
 import '../controller/location_controller.dart';
 import '../controller/profile_controller.dart';
 import '../controller/wish_list_controller.dart';
@@ -54,7 +55,7 @@ class _GiveAwayProductState extends State<GiveAwayProduct> {
   // SingleGiveawayProduct productElement = SingleGiveawayProduct();
   TextEditingController reviewController = TextEditingController();
   final profileController = Get.put(ProfileController());
-
+  final homeController = Get.put(TrendingProductsController());
   // ProductElement get productDetails => productElement;
   Rx<GiveAwaySingleModel> modelSingleProduct = GiveAwaySingleModel().obs;
   ModelAddReview modelAddReview = ModelAddReview();
@@ -180,9 +181,12 @@ class _GiveAwayProductState extends State<GiveAwayProduct> {
     statusSingle = RxStatus.loading();
     repositories.postApi(
         url: ApiUrls.singleGiveAwayUrl, mapData: {"product_id": id.toString(),
-      "zip_code" : locationController.zipcode.value.toString(),
-      "state" : locationController.state.toString(),
-      "key": 'fedexRate',  "country_id" : profileController.model.user!= null && cartController.countryId.isEmpty ? profileController.model.user!.country_id : cartController.countryId.toString()}).then((value) {
+      // "zip_code" : locationController.zipcode.value.toString(),
+      // "state" : locationController.state.toString(),
+      "key": 'fedexRate',
+      "is_def_address" : homeController.defaultAddressId.toString()
+      // "country_id" : profileController.model.user!= null && cartController.countryId.isEmpty ? profileController.model.user!.country_id : cartController.countryId.toString()
+        }).then((value) {
       modelSingleProduct.value = GiveAwaySingleModel.fromJson(jsonDecode(value));
       if (modelSingleProduct.value.singleGiveawayProduct != null) {
         log("modelSingleProduct.product!.toJson().....${modelSingleProduct.value.singleGiveawayProduct!.toJson()}");
@@ -943,6 +947,8 @@ class _GiveAwayProductState extends State<GiveAwayProduct> {
                           children: [
                             InkWell(
                               onTap: () {
+                                cartController.productElementId =  id.toString();
+                                cartController.productQuantity = productQuantity.value.toString();
                                 directBuyProduct();
                               },
                               child: Container(
@@ -1156,10 +1162,14 @@ class _GiveAwayProductState extends State<GiveAwayProduct> {
                             const SizedBox(
                               width: 7,
                             ),
-                            Text(
-                              locationController.city.toString(),
-                              style: GoogleFonts.poppins(
-                                  color: const Color(0xFF014E70), fontSize: 14, fontWeight: FontWeight.w500),
+                            Expanded(
+                              child: Text(
+                                maxLines: 1,
+                                overflow: TextOverflow.ellipsis,
+                                locationController.city.toString(),
+                                style: GoogleFonts.poppins(
+                                    color: const Color(0xFF014E70), fontSize: 14, fontWeight: FontWeight.w500),
+                              ),
                             ),
                           ],
                         ),
@@ -1186,7 +1196,10 @@ class _GiveAwayProductState extends State<GiveAwayProduct> {
                             ),
                             Expanded(
                               child: Text(
-                                formattedDate.toString(),
+                                maxLines: 1,
+                                overflow: TextOverflow.ellipsis,
+                                // formattedDate.toString(),
+                                modelSingleProduct.value.singleGiveawayProduct!.shippingDate.toString(),
                                 style: GoogleFonts.poppins(
                                     color: const Color(0xFF014E70), fontSize: 14, fontWeight: FontWeight.w500),
                               ),
@@ -1221,6 +1234,8 @@ class _GiveAwayProductState extends State<GiveAwayProduct> {
                                 modelSingleProduct.value.singleGiveawayProduct!.lowestDeliveryPrice == ""
                                     ? "0"
                                     : modelSingleProduct.value.singleGiveawayProduct!.lowestDeliveryPrice.toString(),
+                                maxLines: 1,
+                                overflow: TextOverflow.ellipsis,
                                 style: GoogleFonts.poppins(
                                     color: const Color(0xFF014E70), fontSize: 14, fontWeight: FontWeight.w500),
                               ),
@@ -1362,19 +1377,25 @@ class _GiveAwayProductState extends State<GiveAwayProduct> {
                               height: 10,
                             ),
                             Text(
-                              'Seller Commercial Licence',
+                              'Seller documents',
                               style: GoogleFonts.poppins(color: Colors.black, fontSize: 20, fontWeight: FontWeight.w600),
                             ),
                             const SizedBox(
                               height: 20,
                             ),
-                            Center(
-                              child: CachedNetworkImage(
-                                  imageUrl: modelSingleProduct.value.singleGiveawayProduct!.storemeta!.commercialLicense
-                                      .toString(),
-                                  height: 180,
-                                  fit: BoxFit.cover,
-                                  errorWidget: (_, __, ___) => Image.asset('assets/images/new_logo.png')),
+                            modelSingleProduct.value.singleGiveawayProduct!.storemeta!.commercialLicense !=""?
+                            Center(child: CachedNetworkImage(
+                              imageUrl:
+                              modelSingleProduct.value.singleGiveawayProduct!.storemeta!.commercialLicense.toString(),
+                              height: 180,
+                              fit: BoxFit.cover,
+                              // errorWidget: (_, __, ___) => Image.asset('assets/images/new_logo.png')
+                            ),
+                            ):Center(
+                              child: Text(
+                                'No documents were uploaded by vendor ',
+                                style: GoogleFonts.poppins(color: Colors.black, fontSize: 16, fontWeight: FontWeight.w600),
+                              ),
                             ),
                             // Center(child: Image.asset("assets/svgs/licence.png")),
 
@@ -1382,20 +1403,27 @@ class _GiveAwayProductState extends State<GiveAwayProduct> {
                               height: 25,
                             ),
                             Text(
-                              'Translated Commercial Licence',
+                              'Seller translated documents',
                               style: GoogleFonts.poppins(color: Colors.black, fontSize: 20, fontWeight: FontWeight.w600),
                             ),
                             const SizedBox(
                               height: 20,
                             ),
+                            modelSingleProduct.value.singleGiveawayProduct!.storemeta!.document2 != ""?
                             Center(
                               child: CachedNetworkImage(
-                                  imageUrl: modelSingleProduct.value.singleGiveawayProduct!.storemeta!.document2.toString(),
-                                  height: 180,
-                                  fit: BoxFit.cover,
-                                  errorWidget: (_, __, ___) => Image.asset('assets/images/new_logo.png')),
+                                imageUrl:
+                                modelSingleProduct.value.singleGiveawayProduct!.storemeta!.document2.toString(),
+                                height: 180,
+                                fit: BoxFit.cover,
+                                // errorWidget: (_, __, ___) => Image.asset('assets/images/new_logo.png')
+                              ),
+                            ):  Center(
+                              child: Text(
+                                'No documents were uploaded by vendor ',
+                                style: GoogleFonts.poppins(color: Colors.black, fontSize: 16, fontWeight: FontWeight.w600),
+                              ),
                             ),
-
                             GestureDetector(
                               onTap: (){
                                 Get.to(
@@ -1425,36 +1453,36 @@ class _GiveAwayProductState extends State<GiveAwayProduct> {
                             const SizedBox(
                               height: 20,
                             ),
-                            GestureDetector(
-                              onTap: (){
-                                Get.to(
-                                        () => SingleStoreScreen(storeDetails:  VendorStoreData(id:
-                                    modelSingleProduct.value.singleGiveawayProduct!.vendorInformation!.storeId
-                                    ))
-                                );
-                              },
-                              child: Align(
-                                alignment: Alignment.centerRight,
-                                child: Container(
-                                  width: 130,
-                                  padding: const EdgeInsets.all(10),
-                                  decoration: BoxDecoration(
-                                      border: Border.all(color: const Color(0xFF014E70), width: 1.5),
-                                      borderRadius: BorderRadius.circular(30)),
-                                  child: Center(
-                                    child: Text(
-                                      "Take Below",
-                                      style: GoogleFonts.poppins(
-                                          color: const Color(0xFF014E70), fontSize: 14, fontWeight: FontWeight.w500),
-                                    ),
-                                  ),
-                                ),
-                              ),
-                            ),
-
-                            const SizedBox(
-                              height: 10,
-                            ),
+                            // GestureDetector(
+                            //   onTap: (){
+                            //     Get.to(
+                            //             () => SingleStoreScreen(storeDetails:  VendorStoreData(id:
+                            //         modelSingleProduct.value.singleGiveawayProduct!.vendorInformation!.storeId
+                            //         ))
+                            //     );
+                            //   },
+                            //   child: Align(
+                            //     alignment: Alignment.centerRight,
+                            //     child: Container(
+                            //       width: 130,
+                            //       padding: const EdgeInsets.all(10),
+                            //       decoration: BoxDecoration(
+                            //           border: Border.all(color: const Color(0xFF014E70), width: 1.5),
+                            //           borderRadius: BorderRadius.circular(30)),
+                            //       child: Center(
+                            //         child: Text(
+                            //           "Take Below",
+                            //           style: GoogleFonts.poppins(
+                            //               color: const Color(0xFF014E70), fontSize: 14, fontWeight: FontWeight.w500),
+                            //         ),
+                            //       ),
+                            //     ),
+                            //   ),
+                            // ),
+                            //
+                            // const SizedBox(
+                            //   height: 10,
+                            // ),
                             Divider(
                               color: Colors.grey.withOpacity(.5),
                               thickness: 1,
@@ -1736,6 +1764,8 @@ class _GiveAwayProductState extends State<GiveAwayProduct> {
                                                       children: [
                                                         ElevatedButton(
                                                           onPressed: () {
+                                                            cartController.productElementId =  id.toString();
+                                                            cartController.productQuantity = productQuantity.value.toString();
                                                             directBuyProduct();
                                                           },
                                                           style: ElevatedButton.styleFrom(

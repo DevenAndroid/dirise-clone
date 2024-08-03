@@ -71,7 +71,7 @@ class _LatestSalesAppBarState extends State<LatestSalesAppBar> {
                 Expanded(
                   flex: 5,
                   child: Text(
-                    "${'Order No'}.".tr,
+                    "${'Order No'}".tr,
                     style: GoogleFonts.poppins(fontWeight: FontWeight.w600, fontSize: 14, color: const Color(0xFF52AC1A)),
                   ),
                 ),

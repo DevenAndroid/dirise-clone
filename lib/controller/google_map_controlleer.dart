@@ -24,6 +24,8 @@ class ControllerMap extends GetxController {
   RxString country = ''.obs;
   RxString zipcode = ''.obs;
   RxString town = ''.obs;
+  RxString countryCode = ''.obs;
+  RxString shortCode = ''.obs;
   var redPinMarker = Marker(markerId: MarkerId('redPin')).obs;
   var isMarkerDraggable = true.obs;
   final Repositories repositories = Repositories();
@@ -41,10 +43,12 @@ class ControllerMap extends GetxController {
     map['town'] = town.toString();
     map['street'] = street.toString();
 
+    map['country_sort_name'] = countryCode.toString();
+
 
 
     FocusManager.instance.primaryFocus!.unfocus();
-    repositories.postApi(url: ApiUrls.editAddressUrl, context: context, mapData: map).then((value) {
+    repositories.postApi(url: ApiUrls.editAddressUrl, context: context, mapData: map,showMap: true).then((value) {
       ModelCommonResponse response = ModelCommonResponse.fromJson(jsonDecode(value));
       showToast(response.message.toString());
       if (response.status == true) {
@@ -64,7 +68,7 @@ class ControllerMap extends GetxController {
     map['town'] = town.toString();
     map['street'] = street.toString();
 
-
+    map['country_sort_name'] = countryCode.toString();
 
     FocusManager.instance.primaryFocus!.unfocus();
     repositories.postApi(url: ApiUrls.editAddressUrl, context: context, mapData: map).then((value) {
@@ -129,6 +133,7 @@ class ControllerMap extends GetxController {
       country.value = placemark.country ?? '';
       zipcode.value = placemark.postalCode ?? '';
       town.value = placemark.subLocality ?? '';
+      countryCode.value = placemark.isoCountryCode ?? '';
 
       log('House No: $houseNo');
       log('Street No: $streetNo');
@@ -145,7 +150,7 @@ class ControllerMap extends GetxController {
       log(placemark.thoroughfare.toString());
       log(placemark.subAdministrativeArea.toString());
       log(placemark.postalCode.toString());
-      log(placemark.isoCountryCode.toString());
+      log("code"+placemark.isoCountryCode.toString());
     }
 
     redPinMarker.value = Marker(

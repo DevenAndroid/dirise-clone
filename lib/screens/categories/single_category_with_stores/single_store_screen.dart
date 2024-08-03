@@ -191,7 +191,7 @@ class _SingleStoreScreenState extends State<SingleStoreScreen> {
     repositories.getApi(url: ApiUrls.getVendorInfoUrl + vendorId).then((value) {
       ModelSingleVendor response = ModelSingleVendor.fromJson(jsonDecode(value));
       productCount = response.productCount.toString();
-       description = response.user!.storeBannerDesccription ?? 'store description not found';
+       description = response.user!.storeBannerDesccription ?? 'Description wasn\'t submitted'.tr;
       bannerString = response.user!.bannerProfileApp.toString();
       storeLogo = response.user!.storeLogo.toString();
       storeUrl = response.user!.storeUrl.toString();
@@ -478,7 +478,7 @@ class _SingleStoreScreenState extends State<SingleStoreScreen> {
                               height: 10,
                             ),
                             Text(
-                              description.isNotEmpty ? description : 'store description not found'.tr,
+                              description.isNotEmpty ? description : 'Description wasn\'t submitted'.tr,
                               style: GoogleFonts.poppins(
                                   color: const Color(0xFF014E70), fontSize: 14, fontWeight: FontWeight.w500),
                             ),
@@ -698,7 +698,7 @@ class _SingleStoreScreenState extends State<SingleStoreScreen> {
                                     crossAxisAlignment: CrossAxisAlignment.start,
                                     mainAxisAlignment: MainAxisAlignment.start,
                                     children: [
-                                      Text('Store Break Time'.tr, style: normalStyle.copyWith(
+                                      Text('Break Period'.tr, style: normalStyle.copyWith(
                                         color: Colors.black,
                                       ),),
                                       10.spaceY,
@@ -912,15 +912,9 @@ class _SingleStoreScreenState extends State<SingleStoreScreen> {
                   },
                 )
                     : SliverToBoxAdapter(
-                    child:Column(
-                      children: [
-                        Center(
-                          child: Text(AppStrings.storeDontHaveAnyProduct.tr),
-                        ),
-                        Text('User id is ${ getCategoryStoresModel.value.user!.loginUserId.toString()}'),
-                        Text('Vendor id is ${vendorId.toString()}'),
-                      ],
-                    )),
+                    child:  Center(
+                      child:Text('Store is empty'.tr),
+                    ),),
               if (modelProductsList.data != null && controller.isFilter.value == false )
                 modelProductsList.data!.isNotEmpty
                     ? SliverGrid.builder(
@@ -948,7 +942,7 @@ class _SingleStoreScreenState extends State<SingleStoreScreen> {
 
                     : SliverToBoxAdapter(
                     child:  Center(
-                      child: Text(AppStrings.storeDontHaveAnyProduct.tr),
+                      child: Text('Store is empty'.tr),
                     ),)
               else
                 SliverToBoxAdapter(child: controller.isFilter.value == false ? const LoadingAnimation() : const SizedBox()),

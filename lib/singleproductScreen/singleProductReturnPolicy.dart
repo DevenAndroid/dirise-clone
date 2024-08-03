@@ -107,7 +107,30 @@ class _SingleProductReturnPolicyState extends State<SingleProductReturnPolicy> {
       }
     });
   }
+  nextPageApi1() {
+    Map<String, dynamic> map = {};
+    map['no_return'] = noReturnSelected;
+    map['id'] = addProductController.idProduct.value.toString();
 
+    FocusManager.instance.primaryFocus!.unfocus();
+    repositories.postApi(url: ApiUrls.giveawayProductAddress, context: context, mapData: map).then((value) {
+      ModelCommonResponse response = ModelCommonResponse.fromJson(jsonDecode(value));
+      print('API Response Status Code: ${response.status}');
+      showToast(response.message.toString());
+
+      if (response.status == true) {
+        if(widget.id != null){
+          Get.to(ProductReviewPublicScreen());
+        }else{
+          Get.to(SingleProductDeliverySize());
+
+        }
+        // Get.to(() =>  SingleProductDeliverySize());
+      } else {
+        showToast(response.message.toString());
+      }
+    });
+  }
   nextPageApi() {
     Map<String, dynamic> map = {};
     map['return_policy_desc'] = selectedReturnPolicy!.id.toString();
@@ -300,10 +323,10 @@ class _SingleProductReturnPolicyState extends State<SingleProductReturnPolicy> {
                               controller: titleController,
                               hintText: selectedReturnPolicy != null
                                   ? selectedReturnPolicy!.title.toString()
-                                  : 'DIRISE Standard Policy',
+                                  : 'Policy name',
                               validator: (value) {
                                 if (value!.trim().isEmpty) {
-                                  return "DIRISE standard Policy".tr;
+                                  return "Policy name".tr;
                                 }
                                 return null;
                               }),
@@ -512,7 +535,6 @@ class _SingleProductReturnPolicyState extends State<SingleProductReturnPolicy> {
                     onPressed: () {
                       if (noReturnSelected == false) {
                         if (formKey1.currentState!.validate()) {
-
                           if (radioButtonValue != '') {
                             if (returnSelectId.isEmpty) {
                             returnPolicyApi();
@@ -524,7 +546,7 @@ class _SingleProductReturnPolicyState extends State<SingleProductReturnPolicy> {
                           }
                         }
                       } else {
-                        Get.to(SingleProductDeliverySize());
+                        nextPageApi1();
                       }
                     } // Disable button if no radio button is selected
                     ),

@@ -17,6 +17,7 @@ import 'package:intl/intl.dart';
 import 'package:smooth_page_indicator/smooth_page_indicator.dart';
 
 import '../controller/cart_controller.dart';
+import '../controller/home_controller.dart';
 import '../controller/location_controller.dart';
 import '../controller/profile_controller.dart';
 import '../controller/wish_list_controller.dart';
@@ -27,12 +28,14 @@ import '../model/common_modal.dart';
 // import '../model/filter_by_price_model.dart';
 import '../model/get_review_model.dart';
 import '../model/giveaway_single_model.dart';
+import '../model/model_category_stores.dart';
 import '../model/model_single_product.dart';
 import '../model/order_models/model_direct_order_details.dart';
 import '../model/product_model/model_product_element.dart';
 import '../model/releated_product_model.dart';
 import '../model/simple_product_model.dart';
 import '../repository/repository.dart';
+import '../screens/categories/single_category_with_stores/single_store_screen.dart';
 import '../screens/check_out/direct_check_out.dart';
 import '../screens/my_account_screens/contact_us_screen.dart';
 import '../utils/api_constant.dart';
@@ -60,7 +63,7 @@ class _BookableProductScreenState extends State<BookableProductScreen> {
   Rx<BookableProductModel> modelSingleProduct = BookableProductModel().obs;
   ModelAddReview modelAddReview = ModelAddReview();
   final locationController = Get.put(LocationController());
-
+  final homeController = Get.put(TrendingProductsController());
   // bool get isBookingProduct =>  modelSingleProduct.singleGiveawayProduct!.productType == "booking";
   //
   // bool get isVirtualProduct =>  modelSingleProduct.singleGiveawayProduct!.productType == "virtual_product";
@@ -180,10 +183,11 @@ class _BookableProductScreenState extends State<BookableProductScreen> {
   getProductDetails() {
     statusSingle = RxStatus.loading();
     repositories
-        .postApi(url: ApiUrls.bookableProductUrl, mapData: {"product_id": id.toString(), "key": 'fedexRate'}).then((value) {
+        .postApi(url: ApiUrls.bookableProductUrl, mapData: {"product_id": id.toString(), "key": 'fedexRate', "is_def_address" : homeController.defaultAddressId.toString()}).then((value) {
       modelSingleProduct.value = BookableProductModel.fromJson(jsonDecode(value));
       if (modelSingleProduct.value.bookingProduct != null) {
         log("modelSingleProduct.product!.toJson().....${modelSingleProduct.value.bookingProduct!.toJson()}");
+        ratingRills = ratingRill * double.parse(modelSingleProduct.value.bookingProduct!.rating.toString());
         imagesList.addAll(modelSingleProduct.value.bookingProduct!.galleryImage ?? []);
         imagesList = imagesList.toSet().toList();
         releatedId = modelSingleProduct.value.bookingProduct!.catId!.last.id.toString();
@@ -350,7 +354,8 @@ class _BookableProductScreenState extends State<BookableProductScreen> {
       if (modelRelated.value.status == true) {}
     });
   }
-
+  double ratingRills = 0.0;
+  int ratingRill = 20;
   List<String> imagesList = [];
   RxInt currentIndex = 0.obs;
   Variants? selectedVariant;
@@ -557,7 +562,7 @@ class _BookableProductScreenState extends State<BookableProductScreen> {
                                   .network(i)
                                   .image,
                                   doubleTapZoomable: true,
-                                  backgroundColor: AppTheme.buttonColor,
+                                  backgroundColor:Colors.white,
                                   useSafeArea: true,
                                   swipeDismissible: false);
                             },
@@ -774,6 +779,7 @@ class _BookableProductScreenState extends State<BookableProductScreen> {
                   Row(
                     mainAxisAlignment: MainAxisAlignment.end,
                     children: [
+                      modelSingleProduct.value.bookingProduct!.rating != '0' ?
                       RatingBar.builder(
                         initialRating: double.parse(modelSingleProduct.value.bookingProduct!.rating.toString()),
                         minRating: 1,
@@ -792,9 +798,22 @@ class _BookableProductScreenState extends State<BookableProductScreen> {
                         onRatingUpdate: (rating) {
                           print(rating);
                         },
-                      ),
+                      ) : const SizedBox.shrink(),
                       SizedBox(width: 10,),
-                      Image.asset("assets/svgs/rils.png"),
+                      // Image.asset("assets/svgs/rils.png"),
+                      modelSingleProduct.value.bookingProduct!.rating != '0' ?
+                      Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        children: [
+                          const Text('RILS',
+                            style: TextStyle(
+                                color: AppTheme.buttonColor,
+                                fontWeight: FontWeight.w500
+                            ),),
+                          Text(ratingRills.toString())
+                        ],
+                      ) : const SizedBox.shrink()
                     ],
                   ),
                   SizedBox(height: 20,),
@@ -828,30 +847,33 @@ class _BookableProductScreenState extends State<BookableProductScreen> {
                   ),
                   SizedBox(height: 20,),
                   Text(
-                    "Dirise Welcome deal  ",
+                    "Description",
                     style: GoogleFonts.poppins(fontWeight: FontWeight.w500, fontSize: 18, color:Color(0xFF014E70)),
 
                   ),
                   SizedBox(height: 10,),
-                  Row(
-                    children: [
-                      Icon(Icons.circle,color: Colors.grey,size: 10,),
-                      const SizedBox(
-                        width: 7,
-                      ),
-                      Text(
-                        'Up to 70% off. Free shipping on 1st order',
-                        style: GoogleFonts.poppins(
+                  if(modelSingleProduct.value.bookingProduct!.longDescription != '' &&
+                      modelSingleProduct.value.bookingProduct!.longDescription != null)
+                    Row(
+                      crossAxisAlignment: CrossAxisAlignment.center,
+                      children: [
+                        const Icon(Icons.circle,color: Colors.grey,size: 10,),
+                        const SizedBox(
+                          width: 7,
+                        ),
+                        Expanded(
+                          child: Text(
+                            modelSingleProduct.value.bookingProduct!
+                                .longDescription ?? '',
+                            style: GoogleFonts.poppins(
 
-                            color:  Colors.grey,
-                            fontSize: 14,
-                            fontWeight: FontWeight.w500),
-                      ),
-
-
-
-                    ],
-                  ),
+                                color:  Colors.grey,
+                                fontSize: 14,
+                                fontWeight: FontWeight.w500),
+                          ),
+                        ),
+                      ],
+                    ),
                   SizedBox(height: 10,),
                   Row(
                     children: [
@@ -860,7 +882,7 @@ class _BookableProductScreenState extends State<BookableProductScreen> {
                         width: 7,
                       ),
                       Text(
-                        'Fedex Fast delivery by ',
+                        'Shipping type',
                         style: GoogleFonts.poppins(
 
                             color:  Colors.grey,
@@ -926,6 +948,8 @@ class _BookableProductScreenState extends State<BookableProductScreen> {
                     children: [
                       InkWell(
                         onTap: () {
+                          cartController.productElementId =  id.toString();
+                          cartController.productQuantity = productQuantity.value.toString();
                           directBuyProduct();
                         },
                         child: Container(
@@ -1086,10 +1110,14 @@ class _BookableProductScreenState extends State<BookableProductScreen> {
                       const SizedBox(
                         width: 7,
                       ),
-                      Text(
-                        locationController.city.toString(),
-                        style:
-                        GoogleFonts.poppins(color: Color(0xFF014E70), fontSize: 14, fontWeight: FontWeight.w500),
+                      Expanded(
+                        child: Text(
+                          maxLines: 1,
+                          overflow: TextOverflow.ellipsis,
+                          locationController.city.toString(),
+                          style:
+                          GoogleFonts.poppins(color: Color(0xFF014E70), fontSize: 14, fontWeight: FontWeight.w500),
+                        ),
                       ),
                     ],
                   ),
@@ -1115,7 +1143,10 @@ class _BookableProductScreenState extends State<BookableProductScreen> {
                       ),
                       Expanded(
                         child: Text(
-                          formattedDate.toString(),
+                          maxLines: 1,
+                          overflow: TextOverflow.ellipsis,
+                          // formattedDate.toString(),
+                          modelSingleProduct.value.bookingProduct!.shippingDate.toString(),
                           style:
                           GoogleFonts.poppins(color: Color(0xFF014E70), fontSize: 14, fontWeight: FontWeight.w500),
                         ),
@@ -1146,6 +1177,8 @@ class _BookableProductScreenState extends State<BookableProductScreen> {
                       ),
                       Expanded(
                         child: Text(
+                          maxLines: 1,
+                          overflow: TextOverflow.ellipsis,
                           modelSingleProduct.value.bookingProduct!.lowestDeliveryPrice == ""
                               ? "0"
                               : modelSingleProduct.value.bookingProduct!.lowestDeliveryPrice.toString(),
@@ -1168,14 +1201,16 @@ class _BookableProductScreenState extends State<BookableProductScreen> {
 
                   Row(
                     children: [
-                      Text(
-                        modelSingleProduct.value.bookingProduct!.storemeta!.storeName.toString(),
-                        style: GoogleFonts.poppins(color: Colors.black, fontSize: 20, fontWeight: FontWeight.w500),
+                      Flexible(
+                        child: Text(
+                          modelSingleProduct.value.bookingProduct!.storemeta!.storeName.toString(),
+                          style: GoogleFonts.poppins(color: Colors.black, fontSize: 20, fontWeight: FontWeight.w500),
+                        ),
                       ),
                       SizedBox(
                         width: 20,
                       ),
-                      Image.asset("assets/svgs/verified.png")
+                      Flexible(child: Image.asset("assets/svgs/verified.png"))
                     ],
                   ),
                   SizedBox(
@@ -1260,19 +1295,25 @@ class _BookableProductScreenState extends State<BookableProductScreen> {
                     height: 10,
                   ),
                   Text(
-                    'Seller Commercial Licence',
+                    'Seller documents',
                     style: GoogleFonts.poppins(color: Colors.black, fontSize: 20, fontWeight: FontWeight.w600),
                   ),
                   SizedBox(
                     height: 20,
                   ),
-                  Center(
-                    child: CachedNetworkImage(
-                        imageUrl:
-                        modelSingleProduct.value.bookingProduct!.storemeta!.commercialLicense.toString(),
-                        height: 180,
-                        fit: BoxFit.cover,
-                        errorWidget: (_, __, ___) => Image.asset('assets/images/new_logo.png')),
+                  modelSingleProduct.value.bookingProduct!.storemeta!.commercialLicense !=""?
+                  Center(child: CachedNetworkImage(
+                    imageUrl:
+                    modelSingleProduct.value.bookingProduct!.storemeta!.commercialLicense.toString(),
+                    height: 180,
+                    fit: BoxFit.cover,
+                    // errorWidget: (_, __, ___) => Image.asset('assets/images/new_logo.png')
+                  ),
+                  ):Center(
+                    child: Text(
+                      'No documents were uploaded by vendor ',
+                      style: GoogleFonts.poppins(color: Colors.black, fontSize: 16, fontWeight: FontWeight.w600),
+                    ),
                   ),
                   // Center(child: Image.asset("assets/svgs/licence.png")),
 
@@ -1280,27 +1321,49 @@ class _BookableProductScreenState extends State<BookableProductScreen> {
                     height: 25,
                   ),
                   Text(
-                    'Translated Commercial Licence',
+                    'Seller translated documents',
                     style: GoogleFonts.poppins(color: Colors.black, fontSize: 20, fontWeight: FontWeight.w600),
                   ),
                   SizedBox(
                     height: 20,
                   ),
-                  Center(child: Image.asset("assets/svgs/licence.png")),
-
-                  Align(
-                    alignment: Alignment.centerRight,
-                    child: Container(
-                      width: 130,
-                      padding: EdgeInsets.all(10),
-                      decoration: BoxDecoration(
-                          border: Border.all(color: Color(0xFF014E70), width: 1.5),
-                          borderRadius: BorderRadius.circular(30)),
-                      child: Center(
-                        child: Text(
-                          "Seller profile",
-                          style:
-                          GoogleFonts.poppins(color: Color(0xFF014E70), fontSize: 14, fontWeight: FontWeight.w500),
+                  modelSingleProduct.value.bookingProduct!.storemeta!.document2 != ""?
+                  Center(
+                    child: CachedNetworkImage(
+                      imageUrl:
+                      modelSingleProduct.value.bookingProduct!.storemeta!.document2.toString(),
+                      height: 180,
+                      fit: BoxFit.cover,
+                      // errorWidget: (_, __, ___) => Image.asset('assets/images/new_logo.png')
+                    ),
+                  ):  Center(
+                    child: Text(
+                      'No documents were uploaded by vendor ',
+                      style: GoogleFonts.poppins(color: Colors.black, fontSize: 16, fontWeight: FontWeight.w600),
+                    ),
+                  ),
+                  GestureDetector(
+                    onTap: (){
+                      Get.to(
+                              () => SingleStoreScreen(storeDetails:  VendorStoreData(id:
+                          modelSingleProduct.value.bookingProduct!.vendorInformation!.storeId
+                          ))
+                      );
+                    },
+                    child: Align(
+                      alignment: Alignment.centerRight,
+                      child: Container(
+                        width: 130,
+                        padding: EdgeInsets.all(10),
+                        decoration: BoxDecoration(
+                            border: Border.all(color: Color(0xFF014E70), width: 1.5),
+                            borderRadius: BorderRadius.circular(30)),
+                        child: Center(
+                          child: Text(
+                            "Seller profile",
+                            style:
+                            GoogleFonts.poppins(color: Color(0xFF014E70), fontSize: 14, fontWeight: FontWeight.w500),
+                          ),
                         ),
                       ),
                     ),
@@ -1308,27 +1371,36 @@ class _BookableProductScreenState extends State<BookableProductScreen> {
                   SizedBox(
                     height: 20,
                   ),
-                  Align(
-                    alignment: Alignment.centerRight,
-                    child: Container(
-                      width: 130,
-                      padding: EdgeInsets.all(10),
-                      decoration: BoxDecoration(
-                          border: Border.all(color: Color(0xFF014E70), width: 1.5),
-                          borderRadius: BorderRadius.circular(30)),
-                      child: Center(
-                        child: Text(
-                          "Take Below",
-                          style:
-                          GoogleFonts.poppins(color: Color(0xFF014E70), fontSize: 14, fontWeight: FontWeight.w500),
-                        ),
-                      ),
-                    ),
-                  ),
-
-                  SizedBox(
-                    height: 10,
-                  ),
+                  // GestureDetector(
+                  //   onTap: (){
+                  //     Get.to(
+                  //             () => SingleStoreScreen(storeDetails:  VendorStoreData(id:
+                  //         modelSingleProduct.value.bookingProduct!.vendorInformation!.storeId
+                  //         ))
+                  //     );
+                  //   },
+                  //   child: Align(
+                  //     alignment: Alignment.centerRight,
+                  //     child: Container(
+                  //       width: 130,
+                  //       padding: EdgeInsets.all(10),
+                  //       decoration: BoxDecoration(
+                  //           border: Border.all(color: Color(0xFF014E70), width: 1.5),
+                  //           borderRadius: BorderRadius.circular(30)),
+                  //       child: Center(
+                  //         child: Text(
+                  //           "Take Below",
+                  //           style:
+                  //           GoogleFonts.poppins(color: Color(0xFF014E70), fontSize: 14, fontWeight: FontWeight.w500),
+                  //         ),
+                  //       ),
+                  //     ),
+                  //   ),
+                  // ),
+                  //
+                  // SizedBox(
+                  //   height: 10,
+                  // ),
                   Divider(
                     color: Colors.grey.withOpacity(.5),
                     thickness: 1,
@@ -1601,6 +1673,8 @@ class _BookableProductScreenState extends State<BookableProductScreen> {
                                           children: [
                                             ElevatedButton(
                                               onPressed: () {
+                                                cartController.productElementId =  id.toString();
+                                                cartController.productQuantity = productQuantity.value.toString();
                                                 directBuyProduct();
                                               },
                                               style: ElevatedButton.styleFrom(
