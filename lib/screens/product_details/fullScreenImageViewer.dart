@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
 import 'package:photo_view/photo_view.dart';
 import 'package:photo_view/photo_view_gallery.dart';
 
@@ -11,7 +12,7 @@ class FullScreenImageViewer extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: Colors.black,
+      backgroundColor: Colors.white,
       body: Stack(
         children: [
           PhotoViewGallery.builder(
@@ -25,8 +26,8 @@ class FullScreenImageViewer extends StatelessWidget {
               );
             },
             scrollPhysics: BouncingScrollPhysics(),
-            backgroundDecoration: BoxDecoration(
-              color: Colors.black,
+            backgroundDecoration: const BoxDecoration(
+              color: Colors.white,
             ),
             pageController: PageController(initialPage: initialIndex),
             onPageChanged: (index) {
@@ -35,11 +36,11 @@ class FullScreenImageViewer extends StatelessWidget {
           ),
           Positioned(
             top: 40,
-            right: 20,
+            right: 10,
             child: IconButton(
-              icon: Icon(Icons.close, color: Colors.white),
+              icon: Icon(Icons.close, color: Colors.black),
               onPressed: () {
-                Navigator.of(context).pop();
+              Get.back();
               },
             ),
           ),

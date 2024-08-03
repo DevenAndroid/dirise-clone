@@ -35,6 +35,7 @@ import '../repository/repository.dart';
 import '../screens/categories/single_category_with_stores/single_store_screen.dart';
 import '../screens/check_out/direct_check_out.dart';
 import '../screens/my_account_screens/contact_us_screen.dart';
+import '../screens/product_details/fullScreenImageViewer.dart';
 import '../utils/api_constant.dart';
 import '../utils/styles.dart';
 import '../widgets/cart_widget.dart';
@@ -540,11 +541,14 @@ class _GiveAwayProductState extends State<GiveAwayProduct> {
                               builder: (BuildContext context) {
                                 return GestureDetector(
                                   onTap: () {
-                                    showImageViewer(context, Image.network(i).image,
-                                        doubleTapZoomable: true,
-                                        backgroundColor: AppTheme.buttonColor,
-                                        useSafeArea: true,
-                                        swipeDismissible: false);
+                                    Navigator.of(context).push(
+                                      MaterialPageRoute(
+                                        builder: (context) => FullScreenImageViewer(
+                                          images: imagesList,
+                                          initialIndex: imagesList.indexOf(i),
+                                        ),
+                                      ),
+                                    );
                                   },
                                   child: CachedNetworkImage(
                                       imageUrl: i,

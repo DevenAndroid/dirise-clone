@@ -5,6 +5,7 @@ import 'package:cached_network_image/cached_network_image.dart';
 import 'package:carousel_slider/carousel_controller.dart';
 import 'package:carousel_slider/carousel_options.dart';
 import 'package:carousel_slider/carousel_slider.dart';
+import 'package:dirise/screens/product_details/fullScreenImageViewer.dart';
 import 'package:dirise/utils/helper.dart';
 import 'package:easy_image_viewer/easy_image_viewer.dart';
 import 'package:flutter/foundation.dart';
@@ -379,14 +380,14 @@ class _ServiceProductScreenState extends State<ServiceProductScreen> {
                         builder: (BuildContext context) {
                           return GestureDetector(
                             onTap: () {
-                              showImageViewer(context, Image
-                                  .network(i)
-                                  .image,
-                                  doubleTapZoomable: true,
-                                  closeButtonColor: Colors.black,
-                                  backgroundColor: Colors.white,
-                                  useSafeArea: true,
-                                  swipeDismissible: false);
+                              Navigator.of(context).push(
+                                MaterialPageRoute(
+                                  builder: (context) => FullScreenImageViewer(
+                                    images: imagesList,
+                                    initialIndex: imagesList.indexOf(i),
+                                  ),
+                                ),
+                              );
                             },
                             child: CachedNetworkImage(
                                 imageUrl: i,
