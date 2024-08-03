@@ -137,10 +137,20 @@ class _HomePageState extends State<HomePage> {
       setState(() {
         locationController.zipcode.value = placemark.postalCode ?? '';
         locationController.street = placemark.street ?? '';
+        locationController.shortCode.value = placemark.isoCountryCode ?? '';
         locationController.city.value = placemark.locality ?? '';
         locationController.state = placemark.administrativeArea ?? '';
         locationController.countryName = placemark.country ?? '';
         locationController.town = placemark.subAdministrativeArea ?? '';
+
+        //
+        controllerMap.street.value = placemark.street ?? '';
+        controllerMap.countryCode.value = placemark.isoCountryCode ?? '';
+        controllerMap.city.value = placemark.locality ?? '';
+        controllerMap.zipcode.value = placemark.postalCode ?? '';
+        controllerMap.state.value = placemark.administrativeArea ?? '';
+        controllerMap.country.value = placemark.country ?? '';
+        controllerMap.town.value = placemark.subAdministrativeArea ?? '';
         // showToast(locationController.countryName.toString());
         errorApi();
       });
@@ -151,6 +161,7 @@ class _HomePageState extends State<HomePage> {
       await prefs.setString('state', placemark.administrativeArea ?? '');
       await prefs.setString('country', placemark.country ?? '');
       await prefs.setString('zipcode', placemark.postalCode ?? '');
+      await prefs.setString('shortCode', placemark.isoCountryCode ?? '');
       await prefs.setString('town', placemark.subAdministrativeArea ?? '');
     }
     // errorApi();
@@ -174,6 +185,7 @@ class _HomePageState extends State<HomePage> {
       locationController.city.value = prefs.getString('city') ?? '';
       locationController.state = prefs.getString('state') ?? '';
       locationController.countryName = prefs.getString('country') ?? '';
+      locationController.shortCode.value = prefs.getString('shortCode') ?? '';
       locationController.zipcode.value = prefs.getString('zipcode') ?? '';
       locationController.town = prefs.getString('town') ?? '';
       _address = prefs.getString('address') ?? '';
@@ -358,6 +370,9 @@ class _HomePageState extends State<HomePage> {
         getAllAsync();
       });
     });
+    Future.delayed(const Duration(minutes: 1),(){
+      controllerMap.sellingPickupAddressApi(context);
+    });
   }
 
   Future<void> _showWelcomeDialog() async {
@@ -403,7 +418,7 @@ class _HomePageState extends State<HomePage> {
                       homeController.trendingData();
                       homeController.popularProductsData();
                       log('valueee clickk...${hasShownDialog.toString()}');
-                      controllerMap.sellingPickupAddressApi(context);
+
                     },
                     child: Text("Allow".tr),
                   ),

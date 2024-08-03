@@ -25,6 +25,7 @@ class ControllerMap extends GetxController {
   RxString zipcode = ''.obs;
   RxString town = ''.obs;
   RxString countryCode = ''.obs;
+  RxString shortCode = ''.obs;
   var redPinMarker = Marker(markerId: MarkerId('redPin')).obs;
   var isMarkerDraggable = true.obs;
   final Repositories repositories = Repositories();
@@ -41,6 +42,7 @@ class ControllerMap extends GetxController {
     map['zip_code'] = zipcode.toString();
     map['town'] = town.toString();
     map['street'] = street.toString();
+
     map['country_sort_name'] = countryCode.toString();
 
 
