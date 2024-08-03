@@ -482,6 +482,7 @@ class _SimpleProductScreenState extends State<SimpleProductScreen> {
       body: Obx(() {
         return modelSingleProduct.value.simpleProduct != null
             ? SingleChildScrollView(
+          physics: AlwaysScrollableScrollPhysics(),
           child: Padding(
               padding: const EdgeInsets.all(12.0),
               child: Column(

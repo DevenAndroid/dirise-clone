@@ -318,7 +318,7 @@ class _MyAccountScreenState extends State<MyAccountScreen> {
                         Text(
                           profileController.userLoggedIn
                               ? profileController.apiLoaded && profileController.model.user != null
-                                  ? profileController.model.user!.name ?? ''
+                                  ? "${profileController.model.user!.firstName.toString().capitalize} " + "${profileController.model.user!.lastName.toString().capitalize}" ?? ''
                                   : ""
                               : AppStrings.guestUser.tr,
                           style: GoogleFonts.poppins(color: AppTheme.buttonColor, fontSize: 24, fontWeight: FontWeight.w600),
