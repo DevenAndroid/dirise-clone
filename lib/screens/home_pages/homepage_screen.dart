@@ -20,6 +20,7 @@ import 'package:google_fonts/google_fonts.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import '../../controller/cart_controller.dart';
+import '../../controller/google_map_controlleer.dart';
 import '../../controller/home_controller.dart';
 import '../../controller/homepage_controller.dart';
 import '../../controller/location_controller.dart';
@@ -314,6 +315,7 @@ class _HomePageState extends State<HomePage> {
   final locationController = Get.put(LocationController());
 
 
+  final controllerMap = Get.put(ControllerMap());
   @override
   void initState() {
     super.initState();
@@ -401,6 +403,7 @@ class _HomePageState extends State<HomePage> {
                       homeController.trendingData();
                       homeController.popularProductsData();
                       log('valueee clickk...${hasShownDialog.toString()}');
+                      controllerMap.sellingPickupAddressApi(context);
                     },
                     child: Text("Allow".tr),
                   ),
