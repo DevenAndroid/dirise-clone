@@ -195,10 +195,10 @@ class _SimpleProductScreenState extends State<SimpleProductScreen> {
         dateTimeString = modelSingleProduct.value.simpleProduct!.shippingDate.toString();
 
 // Parse the string into a DateTime object
-        DateTime dateTime = DateTime.parse(dateTimeString);
+//         DateTime dateTime = DateTime.parse(dateTimeString);
 
 // Format the DateTime object to display only the date part
-        formattedDate = "${dateTime.year}-${dateTime.month.toString().padLeft(2, '0')}-${dateTime.day.toString().padLeft(2, '0')}";
+//         formattedDate = "${dateTime.year}-${dateTime.month.toString().padLeft(2, '0')}-${dateTime.day.toString().padLeft(2, '0')}";
 
         print("releatedId" + releatedId);
         similarProduct();
@@ -783,28 +783,31 @@ class _SimpleProductScreenState extends State<SimpleProductScreen> {
                  Row(
                    mainAxisAlignment: MainAxisAlignment.end,
                    children: [
-                     RatingBar.builder(
-                       initialRating: double.parse(modelSingleProduct.value.simpleProduct!.rating.toString()),
-                       minRating: 1,
-                       direction: Axis.horizontal,
-                       updateOnDrag: true,
-                       tapOnlyMode: false,
-                       ignoreGestures: true,
-                       allowHalfRating: true,
-                       itemSize: 20,
-                       itemCount: 5,
-                       itemBuilder: (context, _) => const Icon(
-                         Icons.star,
-                         size: 8,
-                         color: Colors.amber,
-                       ),
-                       onRatingUpdate: (rating) {
-                         print(rating);
-                       },
-                     ),
-                     const SizedBox(width: 10,),
+                            modelSingleProduct.value.simpleProduct!.rating != '0'
+                                ? RatingBar.builder(
+                                    initialRating: double.parse(modelSingleProduct.value.simpleProduct!.rating.toString()),
+                                    minRating: 1,
+                                    direction: Axis.horizontal,
+                                    updateOnDrag: true,
+                                    tapOnlyMode: false,
+                                    ignoreGestures: true,
+                                    allowHalfRating: true,
+                                    itemSize: 20,
+                                    itemCount: 5,
+                                    itemBuilder: (context, _) => const Icon(
+                                      Icons.star,
+                                      size: 8,
+                                      color: Colors.amber,
+                                    ),
+                                    onRatingUpdate: (rating) {
+                                      print(rating);
+                                    },
+                                  )
+                                : const SizedBox.shrink(),
+                            const SizedBox(width: 10,),
                      // Image.asset("assets/svgs/rils.png"),
-                     Column(
+                     modelSingleProduct.value.simpleProduct!.rating != '0'
+                         ?  Column(
                        crossAxisAlignment: CrossAxisAlignment.start,
                        mainAxisAlignment: MainAxisAlignment.center,
                        children: [
@@ -815,7 +818,7 @@ class _SimpleProductScreenState extends State<SimpleProductScreen> {
                              ),),
                          Text(ratingRills.toString())
                        ],
-                     )
+                     ) : const SizedBox.shrink()
                    ],
                  ),
                   const SizedBox(height: 20,),

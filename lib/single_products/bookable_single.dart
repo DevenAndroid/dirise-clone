@@ -187,6 +187,7 @@ class _BookableProductScreenState extends State<BookableProductScreen> {
       modelSingleProduct.value = BookableProductModel.fromJson(jsonDecode(value));
       if (modelSingleProduct.value.bookingProduct != null) {
         log("modelSingleProduct.product!.toJson().....${modelSingleProduct.value.bookingProduct!.toJson()}");
+        ratingRills = ratingRill * double.parse(modelSingleProduct.value.bookingProduct!.rating.toString());
         imagesList.addAll(modelSingleProduct.value.bookingProduct!.galleryImage ?? []);
         imagesList = imagesList.toSet().toList();
         releatedId = modelSingleProduct.value.bookingProduct!.catId!.last.id.toString();
@@ -353,7 +354,8 @@ class _BookableProductScreenState extends State<BookableProductScreen> {
       if (modelRelated.value.status == true) {}
     });
   }
-
+  double ratingRills = 0.0;
+  int ratingRill = 20;
   List<String> imagesList = [];
   RxInt currentIndex = 0.obs;
   Variants? selectedVariant;
@@ -777,6 +779,7 @@ class _BookableProductScreenState extends State<BookableProductScreen> {
                   Row(
                     mainAxisAlignment: MainAxisAlignment.end,
                     children: [
+                      modelSingleProduct.value.bookingProduct!.rating != '0' ?
                       RatingBar.builder(
                         initialRating: double.parse(modelSingleProduct.value.bookingProduct!.rating.toString()),
                         minRating: 1,
@@ -795,9 +798,22 @@ class _BookableProductScreenState extends State<BookableProductScreen> {
                         onRatingUpdate: (rating) {
                           print(rating);
                         },
-                      ),
+                      ) : const SizedBox.shrink(),
                       SizedBox(width: 10,),
-                      Image.asset("assets/svgs/rils.png"),
+                      // Image.asset("assets/svgs/rils.png"),
+                      modelSingleProduct.value.bookingProduct!.rating != '0' ?
+                      Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        children: [
+                          const Text('RILS',
+                            style: TextStyle(
+                                color: AppTheme.buttonColor,
+                                fontWeight: FontWeight.w500
+                            ),),
+                          Text(ratingRills.toString())
+                        ],
+                      ) : const SizedBox.shrink()
                     ],
                   ),
                   SizedBox(height: 20,),

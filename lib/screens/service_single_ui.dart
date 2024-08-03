@@ -78,6 +78,7 @@ class _ServiceProductScreenState extends State<ServiceProductScreen> {
       if (modelSingleProduct.value.simpleProduct != null) {
         log("modelSingleProduct.product!.toJson().....${modelSingleProduct.value.simpleProduct!.toJson()}");
         imagesList.addAll(modelSingleProduct.value.simpleProduct!.galleryImage ?? []);
+        ratingRills = ratingRill * double.parse(modelSingleProduct.value.simpleProduct!.rating.toString());
         imagesList = imagesList.toSet().toList();
         releatedId = modelSingleProduct.value.simpleProduct!.catId!.last.id.toString();
         print("releatedId" + releatedId);
@@ -225,7 +226,8 @@ class _ServiceProductScreenState extends State<ServiceProductScreen> {
       }
     });
   }
-
+  double ratingRills = 0.0;
+  int ratingRill = 20;
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -600,6 +602,7 @@ class _ServiceProductScreenState extends State<ServiceProductScreen> {
                   Row(
                     mainAxisAlignment: MainAxisAlignment.end,
                     children: [
+                      modelSingleProduct.value.simpleProduct!.rating != '0' ?
                       RatingBar.builder(
                         initialRating: double.parse(modelSingleProduct.value.simpleProduct!.rating.toString()),
                         minRating: 1,
@@ -618,9 +621,22 @@ class _ServiceProductScreenState extends State<ServiceProductScreen> {
                         onRatingUpdate: (rating) {
                           print(rating);
                         },
-                      ),
+                      ) : const SizedBox.shrink(),
                       const SizedBox(width: 10,),
-                      Image.asset("assets/svgs/rils.png"),
+                      // Image.asset("assets/svgs/rils.png"),
+                      modelSingleProduct.value.simpleProduct!.rating != '0'
+                          ?  Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        children: [
+                          const Text('RILS',
+                            style: TextStyle(
+                                color: AppTheme.buttonColor,
+                                fontWeight: FontWeight.w500
+                            ),),
+                          Text(ratingRills.toString())
+                        ],
+                      ) : const SizedBox.shrink()
                     ],
                   ),
                   const SizedBox(height: 20,),

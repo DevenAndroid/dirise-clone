@@ -78,6 +78,8 @@ class _VarientsProductScreenState extends State<VarientsProductScreen> {
   String dateTimeString = "";
   String imageSelect = '';
   final homeController = Get.put(TrendingProductsController());
+  double ratingRills = 0.0;
+  int ratingRill = 20;
   getProductDetails() {
     // statusSingle = RxStatus.loading();
     Map<String, dynamic> map = {};
@@ -90,6 +92,7 @@ class _VarientsProductScreenState extends State<VarientsProductScreen> {
       log('modelSingleProduct.value ${modelSingleProduct.value.toJson()}');
       if (modelSingleProduct.value.variantProduct != null) {
         log("modelSingleProduct.product!.toJson().....${modelSingleProduct.value.variantProduct!.toJson()}");
+        ratingRills = ratingRill * double.parse(modelSingleProduct.value.variantProduct!.rating.toString());
         imagesList.addAll(modelSingleProduct.value.variantProduct!.galleryImage ?? []);
         imagesList = imagesList.toSet().toList();
         releatedId = modelSingleProduct.value.variantProduct!.catId!.last.id.toString();
@@ -552,6 +555,7 @@ class _VarientsProductScreenState extends State<VarientsProductScreen> {
                         Row(
                           mainAxisAlignment: MainAxisAlignment.end,
                           children: [
+                            modelSingleProduct.value.variantProduct!.rating != '0' ?
                             RatingBar.builder(
                               initialRating: double.parse(modelSingleProduct.value.variantProduct!.rating.toString()),
                               minRating: 1,
@@ -570,11 +574,24 @@ class _VarientsProductScreenState extends State<VarientsProductScreen> {
                               onRatingUpdate: (rating) {
                                 print(rating);
                               },
-                            ),
+                            ) : const SizedBox.shrink(),
                             const SizedBox(
                               width: 10,
                             ),
-                            Image.asset("assets/svgs/rils.png"),
+                            // Image.asset("assets/svgs/rils.png"),
+                            modelSingleProduct.value.variantProduct!.rating != '0' ?
+                            Column(
+                              crossAxisAlignment: CrossAxisAlignment.start,
+                              mainAxisAlignment: MainAxisAlignment.center,
+                              children: [
+                                const Text('RILS',
+                                  style: TextStyle(
+                                      color: AppTheme.buttonColor,
+                                      fontWeight: FontWeight.w500
+                                  ),),
+                                Text(ratingRills.toString())
+                              ],
+                            ) : const SizedBox.shrink()
                           ],
                         ),
                         const SizedBox(
