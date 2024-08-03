@@ -262,7 +262,7 @@ class _ShopProductScreenState extends State<ShopProductScreen> {
     // }
 
     await repositories.getApi(
-        url: "${url}page=1&pagination=10&category_id=$categoryID&key=fedexRate&country_id=${profileController.model.user != null && cartController.countryId.isEmpty
+        url: "${url}page=1&pagination=50000&category_id=$categoryID&key=fedexRate&country_id=${profileController.model.user != null && cartController.countryId.isEmpty
             ? profileController.model.user!.country_id
             : cartController.countryId.toString()}&zip_code=${locationController.zipcode.value.toString()}").then((value) {
           print("id:::::::::"+categoryID);
@@ -835,7 +835,7 @@ RxString id = "".obs;
               for (var i = 0; i < modelCategoryStores1!.length; i++) ...list(i)
             else
               const SliverToBoxAdapter(
-                child: LoadingAnimation(),
+                child: SizedBox(),
               ),
             SliverToBoxAdapter(
               child: Obx(() {

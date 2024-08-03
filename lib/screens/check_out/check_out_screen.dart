@@ -778,6 +778,7 @@ RxString shipId = "".obs;
                                               cartController.shippingTitle = product.name.toString();
                                               cartController.shippingPrices1 = product.value.toString();
                                               cartController.shipping_new_api = product.value.toString();
+                                              commisionShipping = double.tryParse(product.value.toString())!;
                                               print('fdfdff${cartController.shipping_new_api.toString()}');
                                               double shipping = double.parse(shippingPrice);
                                               double subtotal = double.parse(cartController.cartModel.subtotal.toString());

@@ -456,7 +456,8 @@ class _ProductUIState extends State<ProductUI> {
               const SizedBox(
                 height: 10,
               ),
-              Expanded(
+              SizedBox(
+                height: 100,
                 child: Row(
                   children: [
                     Expanded(

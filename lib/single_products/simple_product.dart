@@ -180,6 +180,8 @@ class _SimpleProductScreenState extends State<SimpleProductScreen> {
   RxStatus statusSingle = RxStatus.empty();
   String formattedDate = "";
   String dateTimeString = "";
+  double ratingRills = 0.0;
+  int ratingRill = 20;
   getProductDetails() {
     statusSingle = RxStatus.loading();
     repositories
@@ -191,17 +193,18 @@ class _SimpleProductScreenState extends State<SimpleProductScreen> {
         imagesList.addAll(modelSingleProduct.value.simpleProduct!.galleryImage ?? []);
         imagesList = imagesList.toSet().toList();
         releatedId = modelSingleProduct.value.simpleProduct!.catId!.last.id.toString();
-        dateTimeString = modelSingleProduct.value.simpleProduct!.shippingDate.toString();
+        // dateTimeString = modelSingleProduct.value.simpleProduct!.shippingDate.toString();
 
 // Parse the string into a DateTime object
-        DateTime dateTime = DateTime.parse(dateTimeString);
+//         DateTime dateTime = DateTime.parse(dateTimeString);
 
 // Format the DateTime object to display only the date part
-        formattedDate = "${dateTime.year}-${dateTime.month.toString().padLeft(2, '0')}-${dateTime.day.toString().padLeft(2, '0')}";
+//         formattedDate = "${dateTime.year}-${dateTime.month.toString().padLeft(2, '0')}-${dateTime.day.toString().padLeft(2, '0')}";
 
         print("releatedId" + releatedId);
         similarProduct();
         statusSingle = RxStatus.success();
+        ratingRills = ratingRill * double.parse(modelSingleProduct.value.simpleProduct!.rating.toString());
       } else {
         statusSingle = RxStatus.empty();
       }
@@ -325,6 +328,7 @@ class _SimpleProductScreenState extends State<SimpleProductScreen> {
   Rx<ReleatedProductModel> modelRelated = ReleatedProductModel().obs;
 
   similarProduct() {
+    print(releatedId);
     // if (!validateSlots()) return;
     Map<String, dynamic> map = {};
 
@@ -783,27 +787,42 @@ class _SimpleProductScreenState extends State<SimpleProductScreen> {
                  Row(
                    mainAxisAlignment: MainAxisAlignment.end,
                    children: [
-                     RatingBar.builder(
-                       initialRating: double.parse(modelSingleProduct.value.simpleProduct!.rating.toString()),
-                       minRating: 1,
-                       direction: Axis.horizontal,
-                       updateOnDrag: true,
-                       tapOnlyMode: false,
-                       ignoreGestures: true,
-                       allowHalfRating: true,
-                       itemSize: 20,
-                       itemCount: 5,
-                       itemBuilder: (context, _) => const Icon(
-                         Icons.star,
-                         size: 8,
-                         color: Colors.amber,
-                       ),
-                       onRatingUpdate: (rating) {
-                         print(rating);
-                       },
-                     ),
-                     const SizedBox(width: 10,),
-                     Image.asset("assets/svgs/rils.png"),
+                            modelSingleProduct.value.simpleProduct!.rating != '0'
+                                ? RatingBar.builder(
+                                    initialRating: double.parse(modelSingleProduct.value.simpleProduct!.rating.toString()),
+                                    minRating: 1,
+                                    direction: Axis.horizontal,
+                                    updateOnDrag: true,
+                                    tapOnlyMode: false,
+                                    ignoreGestures: true,
+                                    allowHalfRating: true,
+                                    itemSize: 20,
+                                    itemCount: 5,
+                                    itemBuilder: (context, _) => const Icon(
+                                      Icons.star,
+                                      size: 8,
+                                      color: Colors.amber,
+                                    ),
+                                    onRatingUpdate: (rating) {
+                                      print(rating);
+                                    },
+                                  )
+                                : const SizedBox.shrink(),
+                            const SizedBox(width: 10,),
+                     // Image.asset("assets/svgs/rils.png"),
+                     modelSingleProduct.value.simpleProduct!.rating != '0'
+                         ?  Column(
+                       crossAxisAlignment: CrossAxisAlignment.start,
+                       mainAxisAlignment: MainAxisAlignment.center,
+                       children: [
+                         const Text('RILS',
+                             style: TextStyle(
+                               color: AppTheme.buttonColor,
+                               fontWeight: FontWeight.w500
+                             ),),
+                         Text(ratingRills.toString())
+                       ],
+                     ) : const SizedBox.shrink()
                    ],
                  ),
                   const SizedBox(height: 20,),

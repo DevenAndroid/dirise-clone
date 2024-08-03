@@ -46,7 +46,7 @@ class ControllerMap extends GetxController {
 
 
     FocusManager.instance.primaryFocus!.unfocus();
-    repositories.postApi(url: ApiUrls.editAddressUrl, context: context, mapData: map).then((value) {
+    repositories.postApi(url: ApiUrls.editAddressUrl, context: context, mapData: map,showMap: true).then((value) {
       ModelCommonResponse response = ModelCommonResponse.fromJson(jsonDecode(value));
       showToast(response.message.toString());
       if (response.status == true) {
