@@ -729,87 +729,92 @@ class _SingleCategoriesState extends State<SingleCategories> {
                     : const SizedBox(),
               ),),
             SliverToBoxAdapter(
-              child: Row(
-                children: [
-                  Expanded(
-                      child: modelCategoryList != null
-                          ? Padding(
-                        padding: const EdgeInsets.fromLTRB(15, 10, 0, 20),
-                        child: Column(
-                          crossAxisAlignment: CrossAxisAlignment.start,
-                          mainAxisAlignment: MainAxisAlignment.start,
-                          children: [
-                            if (isSelect == true)
-                              GestureDetector(
-                                onTap: () {
-                                  modelCategoryList = null;
-                                  model.clear();
-                                  getCategoryFilter();
-                                  getCategoryStores(page: 1, resetAll: true);
-                                  isSelect = false;
-                                  setState(() {});
-                                },
-                                child: Container(
-                                  height: 36,
-                                  width: 120,
-                                  padding: const EdgeInsets.fromLTRB(10, 0, 10, 0),
-                                  decoration: BoxDecoration(
-                                      border: Border.all(color: const Color(0xff014E70)),
-                                      color: const Color(0xffEBF1F4),
-                                      borderRadius: BorderRadius.circular(22)),
-                                  child: Center(
-                                    child: Text(
-                                      "Clear",
-                                      style: GoogleFonts.poppins(
-                                          fontSize: 14, fontWeight: FontWeight.w500, color: const Color(0xff014E70)),
+              child: Padding(
+                padding: const EdgeInsets.symmetric(vertical: 28.0),
+                child: Row(
+                  crossAxisAlignment: CrossAxisAlignment.center,
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    Expanded(
+                        child: modelCategoryList != null
+                            ? Column(
+                              crossAxisAlignment: CrossAxisAlignment.start,
+                              mainAxisAlignment: MainAxisAlignment.start,
+                              children: [
+                                if (isSelect == true)
+                                  GestureDetector(
+                                    onTap: () {
+                                      modelCategoryList = null;
+                                      model.clear();
+                                      getCategoryFilter();
+                                      getCategoryStores(page: 1, resetAll: true);
+                                      isSelect = false;
+                                      setState(() {});
+                                    },
+                                    child: Container(
+                                      height: 36,
+                                      width: 120,
+                                      padding: const EdgeInsets.fromLTRB(10, 0, 10, 0),
+                                      decoration: BoxDecoration(
+                                          border: Border.all(color: const Color(0xff014E70)),
+                                          color: const Color(0xffEBF1F4),
+                                          borderRadius: BorderRadius.circular(22)),
+                                      child: Center(
+                                        child: Text(
+                                          "Clear",
+                                          style: GoogleFonts.poppins(
+                                              fontSize: 14, fontWeight: FontWeight.w500, color: const Color(0xff014E70)),
+                                        ),
+                                      ),
                                     ),
                                   ),
-                                ),
-                              ),
-                          ],
-                        ),
-                      ) : const SizedBox()
-                  ),
-                  Expanded(
-                    child: Padding(
-                      padding: const EdgeInsets.only(right: 8.0),
-                      child: Container(
-                        width: 200,
-                        padding: EdgeInsets.symmetric(horizontal: 12, vertical: 2),
-                        decoration: BoxDecoration(
-                          color: Color(0xffEBF1F4),
-                          border: Border.all(color: Color(0xff014E70)),
-                          borderRadius: BorderRadius.circular(5),
-                        ),
-                        child: DropdownButton<String>(
-                          isExpanded: true,
-                          hint: Text('Shop by vendor', style: TextStyle(color: Colors.black),),
-                          value: selectedValue1,
+                              ],
+                            ) : const SizedBox()
+                    ),
+                    10.spaceX,
+                    Expanded(
+                      flex: 2,
+                      child: Padding(
+                        padding: const EdgeInsets.only(right: 8.0),
+                        child: Container(
+                          width: 200,
+                          height: 40,
+                          padding: EdgeInsets.symmetric(horizontal: 12, vertical: 2),
+                          decoration: BoxDecoration(
+                            color: Color(0xffEBF1F4),
+                            border: Border.all(color: Color(0xff014E70)),
+                              borderRadius: BorderRadius.circular(50)
+                          ),
+                          child: DropdownButton<String>(
+                            isExpanded: true,
+                            hint: Text('Shop by vendor', style: TextStyle(color: Colors.black),),
+                            value: selectedValue1,
 
-                          onChanged: (String? newValue) {
-                            setState(() {
-                              selectedValue1 = newValue;
-                              if (selectedValue1 == "Shop by Product") {
-                                Get.to(
-                                      () => ShopProductScreen(vendorCategories: widget.vendorCategories),
-                                  arguments: widget.vendorCategories.id.toString(),
-                                );
-                              }
-                              print("Selected value: " + selectedValue1.toString());
-                            });
-                          },
-                          items: dropdownItems.map<DropdownMenuItem<String>>((String value) {
-                            return DropdownMenuItem<String>(
-                              value: value,
-                              child: Text(value),
-                            );
-                          }).toList(),
-                          underline: SizedBox(), // Removes the default underline
+                            onChanged: (String? newValue) {
+                              setState(() {
+                                selectedValue1 = newValue;
+                                if (selectedValue1 == "Shop by Product") {
+                                  Get.to(
+                                        () => ShopProductScreen(vendorCategories: widget.vendorCategories),
+                                    arguments: widget.vendorCategories.id.toString(),
+                                  );
+                                }
+                                print("Selected value: " + selectedValue1.toString());
+                              });
+                            },
+                            items: dropdownItems.map<DropdownMenuItem<String>>((String value) {
+                              return DropdownMenuItem<String>(
+                                value: value,
+                                child: Text(value),
+                              );
+                            }).toList(),
+                            underline: SizedBox(), // Removes the default underline
+                          ),
                         ),
                       ),
                     ),
-                  ),
-                ],
+                  ],
+                ),
               ),
             ),
             const SliverToBoxAdapter(

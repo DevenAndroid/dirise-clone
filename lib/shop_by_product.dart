@@ -618,8 +618,8 @@ RxString id = "".obs;
         backgroundColor: Colors.white,
         appBar: AppBar(
           toolbarHeight: kToolbarHeight + 20,
-          backgroundColor: Color(0xFFF2F2F2),
-          surfaceTintColor: Color(0xFFF2F2F2),
+          backgroundColor: const Color(0xFFF2F2F2),
+          surfaceTintColor: const Color(0xFFF2F2F2),
           leading: Padding(
             padding: const EdgeInsets.only(left: 8.0),
             child: Row(
@@ -695,7 +695,7 @@ RxString id = "".obs;
             const CartBagCard(),
           ],
           bottom: PreferredSize(
-            preferredSize: search.value == true ? Size.fromHeight(50.0) : Size.fromHeight(0.0),
+            preferredSize: search.value == true ? const Size.fromHeight(50.0) : const Size.fromHeight(0.0),
             child: search.value == true
                 ? Hero(
               tag: "search_tag",
@@ -740,7 +740,7 @@ RxString id = "".obs;
                 ),
               ),
             )
-                : SizedBox.shrink(),
+                : const SizedBox.shrink(),
           ),
         ),
       body: CustomScrollView(
@@ -754,15 +754,16 @@ RxString id = "".obs;
                   padding: const EdgeInsets.only(right: 8.0,top: 10),
                   child: Container(
                     width: 200,
-                    padding: EdgeInsets.symmetric(horizontal: 12, vertical: 2),
+                    height: 40,
+                    padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 2),
                     decoration: BoxDecoration(
-                      color: Color(0xffEBF1F4),
-                      border: Border.all(color: Color(0xff014E70)),
-                      borderRadius: BorderRadius.circular(5),
+                      color: const Color(0xffEBF1F4),
+                      border: Border.all(color: const Color(0xff014E70)),
+                      borderRadius: BorderRadius.circular(50),
                     ),
                     child: DropdownButton<String>(
                       isExpanded: true,
-                      hint: Text('Shop by product',style: TextStyle(color:  Colors.black),),
+                      hint: const Text('Shop by product',style: TextStyle(color:  Colors.black),),
                       value:selectedValue1,
 
                       onChanged: (String? newValue) {
@@ -785,7 +786,7 @@ RxString id = "".obs;
                           child: Text(value),
                         );
                       }).toList(),
-                      underline: SizedBox(), // Removes the default underline
+                      underline: const SizedBox(), // Removes the default underline
                     ),
                   ),
                 ),
@@ -2049,14 +2050,17 @@ RxString id = "".obs;
                         ),
                       );
                     },
-                  ):Center(
-                    child: Text("Product not found".tr,style: GoogleFonts.poppins(),
-                                    ),
+                  ):Padding(
+                    padding: const EdgeInsets.symmetric(vertical: 38.0),
+                    child: Center(
+                      child: Text("Product not found".tr,style: GoogleFonts.poppins(),
+                                      ),
+                    ),
                   ),
-                )  : Center(child: CircularProgressIndicator());
+                )  : const Center(child: CircularProgressIndicator());
               }),
             ),
-            SliverToBoxAdapter(
+            const SliverToBoxAdapter(
               child: SizedBox(height: 100,),
             ),
           ])
