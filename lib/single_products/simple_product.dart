@@ -192,7 +192,7 @@ class _SimpleProductScreenState extends State<SimpleProductScreen> {
         imagesList.addAll(modelSingleProduct.value.simpleProduct!.galleryImage ?? []);
         imagesList = imagesList.toSet().toList();
         releatedId = modelSingleProduct.value.simpleProduct!.catId!.last.id.toString();
-        dateTimeString = modelSingleProduct.value.simpleProduct!.shippingDate.toString();
+        // dateTimeString = modelSingleProduct.value.simpleProduct!.shippingDate.toString();
 
 // Parse the string into a DateTime object
 //         DateTime dateTime = DateTime.parse(dateTimeString);
@@ -327,6 +327,7 @@ class _SimpleProductScreenState extends State<SimpleProductScreen> {
   Rx<ReleatedProductModel> modelRelated = ReleatedProductModel().obs;
 
   similarProduct() {
+    print(releatedId);
     // if (!validateSlots()) return;
     Map<String, dynamic> map = {};
 
