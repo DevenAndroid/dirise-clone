@@ -164,6 +164,7 @@ class _ShowCaseProductsState extends State<ShowCaseProducts> {
                                         children: [
                                           const SizedBox(height: 15,),
                                           Row(
+                                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
                                             children: [
                                               // Image.asset('assets/svgs/flagk.png'),
                                               // const SizedBox(width: 5,),
