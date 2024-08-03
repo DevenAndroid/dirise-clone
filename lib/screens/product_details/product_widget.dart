@@ -456,8 +456,8 @@ class _ProductUIState extends State<ProductUI> {
               const SizedBox(
                 height: 10,
               ),
-              Flexible(
-                fit: FlexFit.tight,
+              Expanded(
+                flex: 1,
                 child: Align(
                   alignment: Alignment.center,
                   child: Center(
