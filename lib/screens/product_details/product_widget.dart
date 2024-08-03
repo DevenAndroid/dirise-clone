@@ -456,22 +456,17 @@ class _ProductUIState extends State<ProductUI> {
               const SizedBox(
                 height: 10,
               ),
-              Expanded(
-                child: Row(
-                  children: [
-                    Expanded(
-                      child: Align(
-                        alignment: Alignment.center,
-                        child: Center(
-                          child: CachedNetworkImage(
-                              imageUrl: widget.productElement.featuredImage.toString(),
-                              height: 150,
-                              fit: BoxFit.fill,
-                              errorWidget: (_, __, ___) => Image.asset('assets/images/new_logo.png')),
-                        ),
-                      ),
-                    ),
-                  ],
+              Flexible(
+                fit: FlexFit.tight,
+                child: Align(
+                  alignment: Alignment.center,
+                  child: Center(
+                    child: CachedNetworkImage(
+                        imageUrl: widget.productElement.featuredImage.toString(),
+                        height: 150,
+                        fit: BoxFit.fill,
+                        errorWidget: (_, __, ___) => Image.asset('assets/images/new_logo.png')),
+                  ),
                 ),
               ),
               const SizedBox(
@@ -482,7 +477,7 @@ class _ProductUIState extends State<ProductUI> {
               ),
               Text(
                 widget.productElement.pName.toString(),
-                maxLines: 2,
+                maxLines: 1,
                 style: GoogleFonts.poppins(fontSize: 12, fontWeight: FontWeight.w500, color: const Color(0xFF19313C)),
               ),
               const SizedBox(
@@ -572,6 +567,7 @@ class _ProductUIState extends State<ProductUI> {
 
                 '${'QTY'.tr}: ${widget.productElement.inStock} ${'piece'.tr}',
                 style: normalStyle,
+                maxLines: 1,
               ),
               // if (canBuyProduct)
               Row(
@@ -624,12 +620,14 @@ class _ProductUIState extends State<ProductUI> {
                               if (widget.productElement.lowestDeliveryPrice != null)
                                 Text(
                                   'KWD${widget.productElement.lowestDeliveryPrice.toString()}',
+                                  maxLines: 1,
                                   style: GoogleFonts.poppins(
                                       color: const Color(0xff858484), fontSize: 13, fontWeight: FontWeight.w500),
                                 ),
                               if (widget.productElement.shippingDate != null)
                                 Text(
                                   widget.productElement.shippingDate.toString(),
+                                  maxLines: 1,
                                   style: GoogleFonts.poppins(
                                       color: const Color(0xff858484), fontSize: 13, fontWeight: FontWeight.w500),
                                 ),
@@ -682,6 +680,7 @@ class _ProductUIState extends State<ProductUI> {
                                       alignment: PlaceholderAlignment.middle,
                                       child:  Text(
                                         widget.productElement.lowestDeliveryPrice.toString(),
+                                        maxLines: 1,
                                         style:  GoogleFonts.poppins(
                                           fontSize: 14,
                                           fontWeight: FontWeight.w500,
@@ -715,6 +714,7 @@ class _ProductUIState extends State<ProductUI> {
                                     alignment: PlaceholderAlignment.middle,
                                     child:  Text(
                                       widget.productElement.shippingDate ?? '',
+                                      maxLines: 1,
                                       style:  GoogleFonts.poppins(
                                         fontSize: 14,
                                         letterSpacing: 0.5,
