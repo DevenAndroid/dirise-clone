@@ -175,6 +175,8 @@ class _DirectCheckOutScreenState extends State<DirectCheckOutScreen> {
       if (value == false) return;
     });
     cartController.getAddress();
+    cartController.getAddress();
+    cartController.myDefaultAddressData();
     cartController.myDefaultAddressData();
   }
   RxString shippingType = "".obs;
@@ -2511,7 +2513,7 @@ class _DirectCheckOutScreenState extends State<DirectCheckOutScreen> {
                                               width: 10,
                                             ),
                                             Expanded(
-                                              child: Text(
+                                              child:  Text(
                                                 address.getCompleteAddressInFormat,
                                                 style: GoogleFonts.poppins(
                                                     fontWeight: FontWeight.w500,
