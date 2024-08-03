@@ -827,18 +827,20 @@ class _AdvirtismentProductScreenState extends State<AdvirtismentProductScreen> {
                   ),
                   const SizedBox(height: 10,),
                   Row(
+                    crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
                       const Icon(Icons.circle,color: Colors.grey,size: 10,),
                       const SizedBox(
                         width: 7,
                       ),
-                      Text(
-                        'Up to 70% off. Free shipping on 1st order',
-                        style: GoogleFonts.poppins(
-
-                            color:  Colors.grey,
-                            fontSize: 14,
-                            fontWeight: FontWeight.w500),
+                      Expanded(
+                        child: Text(
+                          modelSingleProduct.value.advertisingProduct!.longDescription ?? '',
+                          style: GoogleFonts.poppins(
+                              color:  Colors.grey,
+                              fontSize: 14,
+                              fontWeight: FontWeight.w500),
+                        ),
                       ),
 
 
@@ -985,7 +987,7 @@ class _AdvirtismentProductScreenState extends State<AdvirtismentProductScreen> {
                         width: 7,
                       ),
                       Text(
-                        modelSingleProduct.value.advertisingProduct!.serialNumber.toString(),
+                        modelSingleProduct.value.advertisingProduct!.serialNumber ?? '',
                         style: GoogleFonts.poppins(
 
                             color: Colors.grey,

@@ -191,7 +191,7 @@ class _SingleStoreScreenState extends State<SingleStoreScreen> {
     repositories.getApi(url: ApiUrls.getVendorInfoUrl + vendorId).then((value) {
       ModelSingleVendor response = ModelSingleVendor.fromJson(jsonDecode(value));
       productCount = response.productCount.toString();
-       description = response.user!.storeBannerDesccription ?? 'store description not found';
+       description = response.user!.storeBannerDesccription ?? 'Description wasn\'t submitted'.tr;
       bannerString = response.user!.bannerProfileApp.toString();
       storeLogo = response.user!.storeLogo.toString();
       storeUrl = response.user!.storeUrl.toString();
