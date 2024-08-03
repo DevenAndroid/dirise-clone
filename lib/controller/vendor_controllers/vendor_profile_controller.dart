@@ -13,7 +13,7 @@ class VendorProfileController extends GetxController {
   get updateUI => refreshInt.value = DateTime.now().millisecondsSinceEpoch;
 
   Future getVendorDetails() async {
-    await repositories.getApi(url: ApiUrls.getVendorDetailUrl).then((value) {
+    await repositories.getApi(url: ApiUrls.getVendorDetailUrl,showResponse: true).then((value) {
       model = ModelVendorDetails.fromJson(jsonDecode(value));
       if (model.user != null) {
         apiLoaded = true;

@@ -591,7 +591,7 @@ class _VendorProfileScreenState extends State<VendorProfileScreen> {
 
   void getVendorCategories() {
     vendorCategoryStatus.value = RxStatus.loading();
-    repositories.getApi(url: ApiUrls.vendorCategoryListUrl, showResponse: false).then((value) {
+    repositories.getApi(url: ApiUrls.vendorCategoryListUrl, showResponse: true).then((value) {
       modelVendorCategory = ModelVendorCategory.fromJson(jsonDecode(value));
       vendorCategoryStatus.value = RxStatus.success();
 

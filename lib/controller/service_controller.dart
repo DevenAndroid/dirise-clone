@@ -92,4 +92,5 @@ class ServiceController extends GetxController {
    TextEditingController detailsController = TextEditingController();
 
   File image = File("");
+  File image1 = File("");
 }
