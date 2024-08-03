@@ -79,7 +79,7 @@ class _VirtualPriceScreenState extends State<VirtualPriceScreen> {
       // double finalPrice = realPrice - additionalDiscountAmount;
       double finalPrice1 = discountedPriceValue + fees;
       setState(() {
-        discountedPrice = finalPrice1.toStringAsFixed(2);
+        discountedPrice = finalPrice1.toStringAsFixed(3);
       });
     } else if (!isPercentageDiscount && realPrice > 0 && fixedPrice > 0) {
       log('this is call....2');
@@ -91,7 +91,7 @@ class _VirtualPriceScreenState extends State<VirtualPriceScreen> {
       // double discountedPriceValue1 = afterCalculation - discountDouble;
       double discountedPriceValue1 = discountedPriceValue + fees;
       setState(() {
-        discountedPrice = discountedPriceValue1.toStringAsFixed(2);
+        discountedPrice = discountedPriceValue1.toStringAsFixed(3);
       });
     } else {
       setState(() {

@@ -179,6 +179,8 @@ class _SimpleProductScreenState extends State<SimpleProductScreen> {
   RxStatus statusSingle = RxStatus.empty();
   String formattedDate = "";
   String dateTimeString = "";
+  double ratingRills = 0.0;
+  int ratingRill = 20;
   getProductDetails() {
     statusSingle = RxStatus.loading();
     repositories
@@ -201,6 +203,7 @@ class _SimpleProductScreenState extends State<SimpleProductScreen> {
         print("releatedId" + releatedId);
         similarProduct();
         statusSingle = RxStatus.success();
+        ratingRills = ratingRill * double.parse(modelSingleProduct.value.simpleProduct!.rating.toString());
       } else {
         statusSingle = RxStatus.empty();
       }
@@ -555,30 +558,28 @@ class _SimpleProductScreenState extends State<SimpleProductScreen> {
                           currentIndex1.value = daf + 1;
                         }),
                     carouselController: carouselController,
-                    items: imagesList.map((i) {
-                      return Builder(
-                        builder: (BuildContext context) {
-                          return GestureDetector(
-                            onTap: () {
-                              showImageViewer(context, Image
-                                  .network(i)
-                                  .image,
-closeButtonColor: Colors.black,
-                                  doubleTapZoomable: true,
-                                  backgroundColor: Colors.white,
-                                  useSafeArea: true,
-                                  swipeDismissible: true);
-                            },
-                            child: CachedNetworkImage(
-                                imageUrl: i,
-                                height: 180,
-                                fit: BoxFit.cover,
-                                errorWidget: (_, __, ___) => Image.asset('assets/images/new_logo.png')),
-                          );
-                        },
-                      );
-                    }).toList(),
-                  ),
+                          items: imagesList.map((i) {
+                            return Builder(
+                              builder: (BuildContext context) {
+                                return GestureDetector(
+                                  onTap: () {
+                                    showImageViewer(context, Image.network(i).image,
+                                        closeButtonColor: Colors.black,
+                                        doubleTapZoomable: true,
+                                        backgroundColor: Colors.white,
+                                        useSafeArea: true,
+                                        swipeDismissible: true);
+                                  },
+                                  child: CachedNetworkImage(
+                                      imageUrl: i,
+                                      height: 180,
+                                      fit: BoxFit.cover,
+                                      errorWidget: (_, __, ___) => Image.asset('assets/images/new_logo.png')),
+                                );
+                              },
+                            );
+                          }).toList(),
+                        ),
                   const SizedBox(
                     height: 6,
                   ),
@@ -783,27 +784,42 @@ closeButtonColor: Colors.black,
                  Row(
                    mainAxisAlignment: MainAxisAlignment.end,
                    children: [
-                     RatingBar.builder(
-                       initialRating: double.parse(modelSingleProduct.value.simpleProduct!.rating.toString()),
-                       minRating: 1,
-                       direction: Axis.horizontal,
-                       updateOnDrag: true,
-                       tapOnlyMode: false,
-                       ignoreGestures: true,
-                       allowHalfRating: true,
-                       itemSize: 20,
-                       itemCount: 5,
-                       itemBuilder: (context, _) => const Icon(
-                         Icons.star,
-                         size: 8,
-                         color: Colors.amber,
-                       ),
-                       onRatingUpdate: (rating) {
-                         print(rating);
-                       },
-                     ),
-                     const SizedBox(width: 10,),
-                     Image.asset("assets/svgs/rils.png"),
+                            modelSingleProduct.value.simpleProduct!.rating != '0'
+                                ? RatingBar.builder(
+                                    initialRating: double.parse(modelSingleProduct.value.simpleProduct!.rating.toString()),
+                                    minRating: 1,
+                                    direction: Axis.horizontal,
+                                    updateOnDrag: true,
+                                    tapOnlyMode: false,
+                                    ignoreGestures: true,
+                                    allowHalfRating: true,
+                                    itemSize: 20,
+                                    itemCount: 5,
+                                    itemBuilder: (context, _) => const Icon(
+                                      Icons.star,
+                                      size: 8,
+                                      color: Colors.amber,
+                                    ),
+                                    onRatingUpdate: (rating) {
+                                      print(rating);
+                                    },
+                                  )
+                                : const SizedBox.shrink(),
+                            const SizedBox(width: 10,),
+                     // Image.asset("assets/svgs/rils.png"),
+                     modelSingleProduct.value.simpleProduct!.rating != '0'
+                         ?  Column(
+                       crossAxisAlignment: CrossAxisAlignment.start,
+                       mainAxisAlignment: MainAxisAlignment.center,
+                       children: [
+                         const Text('RILS',
+                             style: TextStyle(
+                               color: AppTheme.buttonColor,
+                               fontWeight: FontWeight.w500
+                             ),),
+                         Text(ratingRills.toString())
+                       ],
+                     ) : const SizedBox.shrink()
                    ],
                  ),
                   const SizedBox(height: 20,),

@@ -179,6 +179,8 @@ class _VritualProductScreenState extends State<VritualProductScreen> {
 
   RxStatus statusSingle = RxStatus.empty();
   final homeController = Get.put(TrendingProductsController());
+  double ratingRills = 0.0;
+  int ratingRill = 20;
   getProductDetails() {
     statusSingle = RxStatus.loading();
     repositories
@@ -187,6 +189,7 @@ class _VritualProductScreenState extends State<VritualProductScreen> {
       if (modelSingleProduct.value.singleVirtualProduct != null) {
         log("modelSingleProduct.product!.toJson().....${modelSingleProduct.value.singleVirtualProduct!.toJson()}");
         imagesList.addAll(modelSingleProduct.value.singleVirtualProduct!.galleryImage ?? []);
+        ratingRills = ratingRill * double.parse(modelSingleProduct.value.singleVirtualProduct!.rating.toString());
         imagesList = imagesList.toSet().toList();
         releatedId = modelSingleProduct.value.singleVirtualProduct!.catId!.last.id.toString();
         print("releatedId" + releatedId);
@@ -773,7 +776,7 @@ class _VritualProductScreenState extends State<VritualProductScreen> {
                   Row(
                     mainAxisAlignment: MainAxisAlignment.end,
                     children: [
-                      RatingBar.builder(
+                      modelSingleProduct.value.singleVirtualProduct!.rating != '0' ? RatingBar.builder(
                         initialRating: double.parse(modelSingleProduct.value.singleVirtualProduct!.rating.toString()),
                         minRating: 1,
                         direction: Axis.horizontal,
@@ -791,9 +794,23 @@ class _VritualProductScreenState extends State<VritualProductScreen> {
                         onRatingUpdate: (rating) {
                           print(rating);
                         },
-                      ),
+                      ) : const SizedBox.shrink(),
                       const SizedBox(width: 10,),
-                      Image.asset("assets/svgs/rils.png"),
+                      // Image.asset("assets/svgs/rils.png"),
+                      modelSingleProduct.value.singleVirtualProduct!.rating != '0'
+                          ?  Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        children: [
+                          const Text('RILS',
+                            style: TextStyle(
+                                color: AppTheme.buttonColor,
+                                fontWeight: FontWeight.w500
+                            ),),
+                          Text(ratingRills.toString())
+                        ],
+                      ) : const SizedBox.shrink()
+
                     ],
                   ),
                   const SizedBox(height: 20,),
