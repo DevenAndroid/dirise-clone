@@ -736,11 +736,13 @@ class LocaleString extends Translations {
           'Camera' : 'Camera',
           'News not found' : 'News not found',
           'Store is empty' : 'Store is empty',
+          'not found' :'not found',
        },
 
 
 
      'ar_AR': {
+       'not found' : 'غير معثور عليه',
        'Store is empty' : 'المتجر فارغ',
        'News not found' : 'لم يتم العثور على الأخبار',
        '+ Add Address'  : '+ إضافة عنوان',

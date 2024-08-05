@@ -815,6 +815,7 @@ class ProdcutData {
   dynamic jobCat;
   dynamic brandSlug;
   dynamic slug;
+  dynamic storeName;
   dynamic pname;
   dynamic prodectImage;
   dynamic prodectName;
@@ -938,6 +939,7 @@ class ProdcutData {
       this.prodectImage,
       this.prodectName,
       this.prodectSku,
+      this.storeName,
       this.views,
       this.code,
       this.bookingProductType,
@@ -1059,6 +1061,7 @@ class ProdcutData {
     prodectImage = json['prodect_image'];
     prodectName = json['prodect_name'];
     prodectSku = json['prodect_sku'];
+    storeName = json['store_name'];
     views = json['views'];
     code = json['code'];
     bookingProductType = json['booking_product_type'];
@@ -1185,6 +1188,7 @@ class ProdcutData {
     data['code'] = this.code;
     data['booking_product_type'] = this.bookingProductType;
     data['prodect_price'] = this.prodectPrice;
+    data['store_name'] = this.storeName;
     data['prodect_min_qty'] = this.prodectMinQty;
     data['prodect_mix_qty'] = this.prodectMixQty;
     data['prodect_description'] = this.prodectDescription;

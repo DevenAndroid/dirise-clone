@@ -823,13 +823,17 @@ class _AddressScreenState extends State<AddressScreen> {
                                     return GestureDetector(
                                       behavior: HitTestBehavior.translucent,
                                       onTap: () {
+                                        log('address get is ${address.toJson()}');
                                         cartController.selectedAddress = address;
                                         cartController.countryId = address.getCountryId.toString();
-                                        cartController.getCart();
                                         cartController.countryName.value = address.country.toString();
                                         cartController.address.value = address.address.toString();
                                         cartController.city.value = address.city.toString();
+                                        cartController.city21 = address.city.toString();
+                                        log(' cartController.city21 ${ cartController.city21}');
+                                        log(' cartController.city21 ${ cartController.city.value}');
                                         cartController.zipCode = address.zipCode.toString();
+                                        cartController.getCart();
                                         print('onTap is....${cartController.countryName.value}');
                                         if (cartController.isDelivery.value == true) {
                                           cartController.addressDeliFirstName.text =

@@ -14,6 +14,7 @@ import '../../model/model_address_list.dart';
 import '../../model/myDefaultAddressModel.dart';
 import '../../repository/repository.dart';
 import '../../utils/api_constant.dart';
+import '../../widgets/common_colour.dart';
 import '../../widgets/common_textfield.dart';
 import '../check_out/address/edit_address.dart';
 import 'find_my_location.dart';
@@ -218,8 +219,8 @@ class _HomeAddEditAddressLoginState extends State<HomeAddEditAddressLogin> {
                     height: 50,
                     decoration: BoxDecoration(
                       border: Border.all(
-                        color: Colors.black, // Border color
-                        width: 1.0, // Border width
+                        color: AppTheme.buttonColor,
+                        width: 2.0, // Border width
                       ),
                       borderRadius: BorderRadius.circular(10), // Border radius
                     ),
@@ -231,7 +232,7 @@ class _HomeAddEditAddressLoginState extends State<HomeAddEditAddressLogin> {
                         style: TextStyle(
                           fontSize: 16,
                           fontWeight: FontWeight.bold,
-                          color: Colors.black, // Text color
+                          color: AppTheme.buttonColor, // Text color
                         ),
                       ),
                     ),

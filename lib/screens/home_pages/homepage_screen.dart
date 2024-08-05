@@ -152,7 +152,7 @@ class _HomePageState extends State<HomePage> {
         controllerMap.country.value = placemark.country ?? '';
         controllerMap.town.value = placemark.subAdministrativeArea ?? '';
         // showToast(locationController.countryName.toString());
-        errorApi();
+        // errorApi();
       });
 
       SharedPreferences prefs = await SharedPreferences.getInstance();
@@ -181,19 +181,27 @@ class _HomePageState extends State<HomePage> {
     SharedPreferences prefs = await SharedPreferences.getInstance();
 
     setState(() {
-      locationController.street = prefs.getString('street') ?? '';
-      locationController.city.value = prefs.getString('city') ?? '';
-      locationController.state = prefs.getString('state') ?? '';
-      locationController.countryName = prefs.getString('country') ?? '';
+      locationController.street =          prefs.getString('street') ?? '';
+      locationController.city.value =      prefs.getString('city') ?? '';
+      locationController.state =           prefs.getString('state') ?? '';
+      locationController.countryName =     prefs.getString('country') ?? '';
       locationController.shortCode.value = prefs.getString('shortCode') ?? '';
-      locationController.zipcode.value = prefs.getString('zipcode') ?? '';
-      locationController.town = prefs.getString('town') ?? '';
+      locationController.zipcode.value =   prefs.getString('zipcode') ?? '';
+      locationController.town =            prefs.getString('town') ?? '';
       _address = prefs.getString('address') ?? '';
       cartController.zipCode = prefs.getString('zipcode') ?? '';
       cartController.city.value = prefs.getString('city') ?? '';
       cartController.address.value = prefs.getString('town') ?? '';
+
+      controllerMap.street.value =      prefs.getString('street') ?? '';
+      controllerMap.countryCode.value =  prefs.getString('shortCode') ?? '';
+      controllerMap.city.value =      prefs.getString('city') ?? '';
+      controllerMap.zipcode.value =     prefs.getString('zipcode') ?? '';
+      controllerMap.state.value =    prefs.getString('state') ?? '';
+      controllerMap.country.value =     prefs.getString('country') ?? '';
+      controllerMap.town.value =        prefs.getString('town') ?? '';
       // showToast(locationController.countryName.toString());
-      errorApi();
+      // errorApi();
     });
   }
 
@@ -352,6 +360,12 @@ class _HomePageState extends State<HomePage> {
         locationController.checkGps(context);
         locationController.getAddress();
       }
+      // if(!hasShownDialog){
+      //   Future.delayed(const Duration(minutes: 1),(){
+      //     controllerMap.sellingPickupAddressApiHome();
+      //     errorApi();
+      //   });
+      // }
       // Future.delayed(const Duration(seconds: 5), () {
       //
       //   SchedulerBinding.instance.addPostFrameCallback((timeStamp) {
@@ -370,15 +384,12 @@ class _HomePageState extends State<HomePage> {
         getAllAsync();
       });
     });
-    Future.delayed(const Duration(minutes: 1),(){
-      controllerMap.sellingPickupAddressApi(context);
-    });
   }
 
   Future<void> _showWelcomeDialog() async {
     SharedPreferences preferences = await SharedPreferences.getInstance();
     hasShownDialog = preferences.getBool('hasShownDialog') ?? false;
-    log('valueee${hasShownDialog.toString()}');
+    log('valueee show model${hasShownDialog.toString()}');
     if (!hasShownDialog) {
       WidgetsBinding.instance.addPostFrameCallback((_) async {
         await showDialog(
@@ -417,6 +428,10 @@ class _HomePageState extends State<HomePage> {
                       addCurrentAddress();
                       homeController.trendingData();
                       homeController.popularProductsData();
+                      Future.delayed(const Duration(minutes: 1),(){
+                        controllerMap.sellingPickupAddressApiHome();
+                        errorApi();
+                      });
                       log('valueee clickk...${hasShownDialog.toString()}');
 
                     },

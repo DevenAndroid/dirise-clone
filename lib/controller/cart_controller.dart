@@ -27,6 +27,7 @@ class CartController extends GetxController {
   RxInt refreshInt = 0.obs;
   RxInt refreshInt11 = 0.obs;
   String countryCode = '';
+  String city21 = '';
   String stateCode = '';
   String cityCode = '';
   RxString countryName = ''.obs;
@@ -536,7 +537,7 @@ class CartController extends GetxController {
 
     log("mappppppp::::::$map");
     log("mappppppp::::::$countryId");
-    await repositories.postApi(url: ApiUrls.cartListUrl,mapData: map ).then((value) {
+    await repositories.postApi(url: ApiUrls.cartListUrl,mapData: map ,showResponse: true).then((value) {
      cartModel = ModelCartResponse.fromJson(jsonDecode(value));
       log('cart model is ${cartModel.toJson()}');
       print("zip:::::::::::"+zipCode1);

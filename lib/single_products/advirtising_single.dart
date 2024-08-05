@@ -33,6 +33,7 @@ import '../model/simple_product_model.dart';
 import '../repository/repository.dart';
 import '../screens/check_out/direct_check_out.dart';
 import '../screens/my_account_screens/contact_us_screen.dart';
+import '../screens/product_details/fullScreenImageViewer.dart';
 import '../utils/api_constant.dart';
 import '../utils/styles.dart';
 import '../widgets/cart_widget.dart';
@@ -545,14 +546,14 @@ class _AdvirtismentProductScreenState extends State<AdvirtismentProductScreen> {
                         builder: (BuildContext context) {
                           return GestureDetector(
                             onTap: () {
-                              showImageViewer(context, Image
-                                  .network(i)
-                                  .image,
-                                  doubleTapZoomable: true,
-                                  closeButtonColor: Colors.black,
-                                  backgroundColor: Colors.white,
-                                  useSafeArea: true,
-                                  swipeDismissible: false);
+                              Navigator.of(context).push(
+                                MaterialPageRoute(
+                                  builder: (context) => FullScreenImageViewer(
+                                    images: imagesList,
+                                    initialIndex: imagesList.indexOf(i),
+                                  ),
+                                ),
+                              );
                             },
                             child: CachedNetworkImage(
                                 imageUrl: i,
@@ -1275,7 +1276,7 @@ class _AdvirtismentProductScreenState extends State<AdvirtismentProductScreen> {
                   ):Center(
                     child: Text(
                       'No documents were uploaded by vendor ',
-                      style: GoogleFonts.poppins(color: Colors.black, fontSize: 16, fontWeight: FontWeight.w600),
+                      style: GoogleFonts.poppins(color: Colors.black, fontSize: 15, fontWeight: FontWeight.w400),
                     ),
                   ),
                   // Center(child: Image.asset("assets/svgs/licence.png")),
@@ -1302,7 +1303,7 @@ class _AdvirtismentProductScreenState extends State<AdvirtismentProductScreen> {
                   ):  Center(
                     child: Text(
                       'No documents were uploaded by vendor ',
-                      style: GoogleFonts.poppins(color: Colors.black, fontSize: 16, fontWeight: FontWeight.w600),
+                      style: GoogleFonts.poppins(color: Colors.black, fontSize: 15, fontWeight: FontWeight.w400),
                     ),
                   ),
                   Align(

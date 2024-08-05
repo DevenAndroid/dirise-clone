@@ -385,10 +385,12 @@ class _ProductUIState extends State<ProductUI> {
           else if (widget.productElement.productType == 'virtual_product'&& widget.productElement.itemType == 'virtual_product') {
             Get.to(() =>  VritualProductScreen(), arguments:  widget.productElement.id.toString());
           }
-          else if (widget.productElement.itemType == 'product') {
+          else if (widget.productElement.itemType == 'product' && widget.productElement.isShowcase != true) {
             Get.to(() => const SimpleProductScreen(), arguments: widget.productElement.id.toString());
           }else if(widget.productElement.itemType =='service'){
             Get.to(() => const ServiceProductScreen(), arguments: widget.productElement.id.toString());
+          }else if(widget.productElement.isShowcase == true){
+            Get.to(()=>const AdvirtismentProductScreen(),arguments: widget.productElement.id.toString());
           }
         },
       child:  widget.productElement.itemType != 'giveaway' &&   widget.productElement.isShowcase != true&&widget.productElement.showcaseProduct != true
@@ -874,7 +876,7 @@ class _ProductUIState extends State<ProductUI> {
         ),
       )
           :
-      widget.productElement.isShowcase != true&&widget.productElement.showcaseProduct != true ?
+      widget.productElement.isShowcase != true && widget.productElement.showcaseProduct != true ?
       Padding(
         padding: const EdgeInsets.all(5.0),
         child: Container(

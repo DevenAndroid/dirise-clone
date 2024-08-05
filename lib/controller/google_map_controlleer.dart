@@ -42,13 +42,12 @@ class ControllerMap extends GetxController {
     map['zip_code'] = zipcode.toString();
     map['town'] = town.toString();
     map['street'] = street.toString();
-
     map['country_sort_name'] = countryCode.toString();
 
 
 
     FocusManager.instance.primaryFocus!.unfocus();
-    repositories.postApi(url: ApiUrls.editAddressUrl, context: context, mapData: map,showMap: true).then((value) {
+    repositories.postApi(url: ApiUrls.editAddressUrl, context: context, mapData: map,showMap: true,showResponse: true).then((value) {
       ModelCommonResponse response = ModelCommonResponse.fromJson(jsonDecode(value));
       showToast(response.message.toString());
       if (response.status == true) {
@@ -57,11 +56,35 @@ class ControllerMap extends GetxController {
       }
     });
   }
-  sellingPickupAddressApi1(context) {
+  sellingPickupAddressApiHome() {
     Map<String, dynamic> map = {};
 
     map['address_type'] = 'shipping';
     map['city'] =city.toString();
+    map['country'] = country.toString();
+    map['state'] = state.toString();
+    map['zip_code'] = zipcode.toString();
+    map['town'] = town.toString();
+    map['street'] = street.toString();
+    map['country_sort_name'] = countryCode.toString();
+
+
+
+    FocusManager.instance.primaryFocus!.unfocus();
+    repositories.postApi(url: ApiUrls.editAddressUrl, mapData: map,showMap: true,showResponse: true).then((value) {
+      ModelCommonResponse response = ModelCommonResponse.fromJson(jsonDecode(value));
+      // showToast(response.message.toString());
+      // if (response.status == true) {
+      //   // showToast(response.message.toString());
+      //   // Get.back();
+      // }
+    });
+  }
+  sellingPickupAddressApi1(context) {
+    Map<String, dynamic> map = {};
+
+    map['address_type'] = 'shipping';
+    map['city'] = city.toString();
     map['country'] = country.toString();
     map['state'] = state.toString();
     map['zip_code'] = zipcode.toString();

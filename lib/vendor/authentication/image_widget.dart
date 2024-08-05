@@ -177,7 +177,7 @@ class _ImageWidgetState extends State<ImageWidget> {
                 color: const Color(0xffE2E2E2).withOpacity(.4),
                 borderRadius: BorderRadius.circular(10),
                 border: Border.all(
-                  color: !validation ? Colors.grey.shade300 : Colors.red,
+                color: Colors.grey,
                 )),
             child: file.path == ""
                 ? Column(
@@ -187,7 +187,7 @@ class _ImageWidgetState extends State<ImageWidget> {
                         "${'Select'.tr} ${widget.title}",
                         style: GoogleFonts.poppins(
                             fontWeight: FontWeight.w500,
-                            color: validation ? Theme.of(context).colorScheme.error : const Color(0xff463B57),
+                            color: Colors.grey,
                             fontSize: 15),
                       ),
                       SizedBox(
@@ -197,14 +197,15 @@ class _ImageWidgetState extends State<ImageWidget> {
                         decoration: BoxDecoration(
                             shape: BoxShape.circle,
                             border: Border.all(
-                              color: validation ? Theme.of(context).colorScheme.error : Colors.grey,
+                              // color: validation ? Theme.of(context).colorScheme.error : Colors.grey,
+                              color: Colors.grey,
                               width: 1.8,
                             )),
                         padding: const EdgeInsets.all(6),
-                        child: Icon(
+                        child: const Icon(
                           Icons.upload_file_outlined,
                           size: 24,
-                          color: validation ? Theme.of(context).colorScheme.error : Colors.grey,
+                          color: Colors.grey,
                         ),
                       )
                     ],

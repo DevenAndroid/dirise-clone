@@ -13,6 +13,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/scheduler.dart';
 import 'package:get/get.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:lottie/lottie.dart';
 import '../model/model_virtual_assets.dart';
 import '../model/product_model/model_product_element.dart';
 import '../model/search_model.dart';
@@ -184,6 +185,42 @@ class _SearchProductsScreenState extends State<SearchProductsScreen> {
                       ],
                     ),
                   ),
+                  if(modelSearch.value.data!.items == null || modelSearch.value.data!.items!.isEmpty)
+                     Column(
+                       crossAxisAlignment: CrossAxisAlignment.center,
+                       mainAxisAlignment: MainAxisAlignment.center,
+                       children: [
+                         // Image(
+                         //     height: context.getSize.height * .24,
+                         //     image: const AssetImage(
+                         //       'assets/images/bucket.png',
+                         //     )),
+                         Lottie.asset("assets/loti/wishlist.json"),
+                         Center(
+                           child: Text(
+                             '${textEditingController.text} ${'not found'}'.tr,
+                             style: GoogleFonts.poppins(fontWeight: FontWeight.w500, fontSize: 22),
+                           ),
+                         ),
+                         const SizedBox(
+                           height: 20,
+                         ),
+                         // ElevatedButton(
+                         //     onPressed: () {
+                         //       // Get.toNamed(editprofileScreen);
+                         //     },
+                         //     style: ButtonStyle(
+                         //       backgroundColor: MaterialStateProperty.all(AppTheme.buttonColor),
+                         //       padding: MaterialStateProperty.all(
+                         //           const EdgeInsets.symmetric(horizontal: 35, vertical: 13)),
+                         //     ),
+                         //     child: Text(
+                         //       'Shop now!',
+                         //       style: GoogleFonts.poppins(
+                         //           color: Colors.white, fontSize: 18, fontWeight: FontWeight.w500),
+                         //     ))
+                       ],
+                     ),
                   Expanded(
                     child: Container(
                       color: Colors.white,

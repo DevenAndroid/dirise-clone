@@ -253,7 +253,7 @@ class _DirectCheckOutScreenState extends State<DirectCheckOutScreen> {
                           crossAxisAlignment: CrossAxisAlignment.start,
                           children: [
                             Text(
-                              "${'Sold By'.tr} ${cartController.directOrderResponse.value.prodcutData!.slug.toString()}",
+                              "${'Sold By'.tr} ${cartController.directOrderResponse.value.prodcutData!.storeName.toString()}",
                               style: titleStyle,
                             ),
                             addHeight(20),

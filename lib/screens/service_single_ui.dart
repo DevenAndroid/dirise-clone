@@ -1149,7 +1149,7 @@ class _ServiceProductScreenState extends State<ServiceProductScreen> {
                   ):Center(
                     child: Text(
                       'No documents were uploaded by vendor ',
-                      style: GoogleFonts.poppins(color: Colors.black, fontSize: 16, fontWeight: FontWeight.w600),
+                      style: GoogleFonts.poppins(color: Colors.black, fontSize: 15, fontWeight: FontWeight.w400),
                     ),
                   ),
                   // Center(
@@ -1184,7 +1184,7 @@ class _ServiceProductScreenState extends State<ServiceProductScreen> {
                   ):  Center(
                     child: Text(
                       'No documents were uploaded by vendor ',
-                      style: GoogleFonts.poppins(color: Colors.black, fontSize: 16, fontWeight: FontWeight.w600),
+                      style: GoogleFonts.poppins(color: Colors.black, fontSize: 15, fontWeight: FontWeight.w400),
                     ),
                   ),
 
