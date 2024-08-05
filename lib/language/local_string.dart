@@ -1494,8 +1494,8 @@ class LocaleString extends Translations {
           'Pending Products' : 'المنتجات المعلقة',
           'Approved Products' : 'المنتجات المعتمدة',
           'Operating Hours' : 'ساعات العمل',
-          'Upload cover photo' : 'تحميل صورة الغلاف',
-          'Upload extra photos' : 'تحميل صور اضافية',
+          'Upload Cover Photo' : 'تحميل صورة الغلاف',
+          'Upload Extra Photos' : 'تحميل صور إضافية',
           'Please select Image' : 'الرجاء تحديد الصورة',
           'Files' : 'ملفات',
           'Camera' : 'آلة تصوير',
@@ -1584,7 +1584,9 @@ class LocaleString extends Translations {
           'Please select Variation' : 'الرجاء تحديد الاختلاف',
           ' allow location' : 'السماح بالموقع ',
           'Out Of Stock' : 'إنتهى من المخزن',
-          'Out Of Stock' : 'إنتهى من المخزن',
+          'full time' : 'وقت كامل',
+          'part time' : 'دوام جزئى',
+          'freelancing' : 'مستقل',
 
         },
 

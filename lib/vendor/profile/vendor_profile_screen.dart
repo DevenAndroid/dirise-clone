@@ -776,7 +776,7 @@ class _VendorProfileScreenState extends State<VendorProfileScreen> {
               },
               child: Padding(
                 padding: const EdgeInsets.all(15),
-                child:    profileController.selectedLAnguage.value != 'English' ?
+                child: profileController.selectedLAnguage.value != 'English' ?
                 Image.asset(
                   'assets/images/forward_icon.png',
                   height: 19,
