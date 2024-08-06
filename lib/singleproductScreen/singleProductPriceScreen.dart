@@ -383,7 +383,7 @@ class _SingleProductPriceScreenState extends State<SingleProductPriceScreen> {
                         obSecure: false,
                         // hintText: 'Name',
                         keyboardType: TextInputType.number,
-                        hintText: ' Discount percentage'.tr,
+                        hintText: 'Discount percentage'.tr,
                         onChanged: (value) {
                           fixedDiscount.text = "";
                           isPercentageDiscount = true;
@@ -566,7 +566,7 @@ class _SingleProductPriceScreenState extends State<SingleProductPriceScreen> {
                   height: 20,
                 ),
                 CustomOutlineButton(
-                  title: 'Next',
+                  title: 'Next'.tr,
                   borderRadius: 11,
                   onPressed: () {
                     if (formKey1.currentState!.validate()) {

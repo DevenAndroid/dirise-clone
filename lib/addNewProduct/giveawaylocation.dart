@@ -324,7 +324,7 @@ class _ChooseAddressForGiveawayState extends State<ChooseAddressForGiveaway> {
                                             context: context,
                                             builder: (BuildContext context) => AlertDialog(
                                               title: Text('Save Location'.tr),
-                                              content: Text('Do you want to save your location.'.tr),
+                                              content: Text('Do you want to save your location'.tr),
                                               actions: <Widget>[
                                                 TextButton(
                                                   onPressed: () => Get.back(),
@@ -341,7 +341,7 @@ class _ChooseAddressForGiveawayState extends State<ChooseAddressForGiveaway> {
                                             ));
                                       },
                                       child: Text(
-                                        'Save Location',
+                                        'Save Location'.tr,
                                         style: Theme.of(context).textTheme.headlineSmall!.copyWith(
                                             fontWeight: FontWeight.w600,
                                             fontSize: AddSize.font16,

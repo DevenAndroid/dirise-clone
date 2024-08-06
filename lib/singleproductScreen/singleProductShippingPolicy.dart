@@ -57,7 +57,7 @@ class _SingleProductShippingPolicyScreenState extends State<SingleProductShippin
   final formKey1 = GlobalKey<FormState>();
   final Repositories repositories = Repositories();
 
-  String hintText = 'Enter values to calculate percentage';
+  String hintText = 'Enter values to calculate percentage'.tr;
 
   List<String> selectZoneList = [
     'zone_1',
@@ -206,7 +206,7 @@ class _SingleProductShippingPolicyScreenState extends State<SingleProductShippin
     return Scaffold(
       appBar: AppBar(
         title: Text(
-          "Shipping Policy",
+          "Shipping Policy".tr,
           style: GoogleFonts.poppins(fontSize: 20, fontWeight: FontWeight.w600),
         ),
         leading: Column(
@@ -243,7 +243,7 @@ class _SingleProductShippingPolicyScreenState extends State<SingleProductShippin
             children: [
               Padding(
                 padding: const EdgeInsets.symmetric(horizontal: 16),
-                child: Text("Select Your Shipping Policy*", style: GoogleFonts.poppins(fontSize: 18, fontWeight: FontWeight.w600)),
+                child: Text("Select Your Shipping Policy*".tr, style: GoogleFonts.poppins(fontSize: 18, fontWeight: FontWeight.w600)),
               ),
               const SizedBox(
                 height: 8,
@@ -251,7 +251,7 @@ class _SingleProductShippingPolicyScreenState extends State<SingleProductShippin
               if (modelShippingPolicy.value.shippingPolicy != null)
                 DropdownButtonFormField<ShippingPolicy>(
                   value: selectedReturnPolicy,
-                  hint: const Text("Select a Shipping Policy"),
+                  hint:  Text("Select a Shipping Policy".tr),
                   decoration: InputDecoration(
                     border: InputBorder.none,
                     filled: true,
@@ -316,7 +316,7 @@ class _SingleProductShippingPolicyScreenState extends State<SingleProductShippin
                   controller: titleController,
                   hintText: selectedReturnPolicy != null
                       ? selectedReturnPolicy!.title.toString()
-                      : 'Policy name',
+                      : 'Policy name'.tr,
                   validator: (value) {
                     if (value!.trim().isEmpty) {
                       return "Policy name".tr;
@@ -328,7 +328,7 @@ class _SingleProductShippingPolicyScreenState extends State<SingleProductShippin
               ),
               Padding(
                 padding: const EdgeInsets.symmetric(horizontal: 16),
-                child: Text("Policy Description (Optional)",
+                child: Text("Policy Description (Optional)".tr,
                     style: GoogleFonts.poppins(fontSize: 18, fontWeight: FontWeight.w600)),
               ),
               const SizedBox(
@@ -347,12 +347,12 @@ class _SingleProductShippingPolicyScreenState extends State<SingleProductShippin
               ),
               Padding(
                 padding: const EdgeInsets.symmetric(horizontal: 16),
-                child: Text("Shipping Discounts & Charges",
+                child: Text("Shipping Discounts & Charges".tr,
                     style: GoogleFonts.poppins(fontSize: 18, fontWeight: FontWeight.w600)),
               ),
               Padding(
                 padding: const EdgeInsets.symmetric(horizontal: 16),
-                child: Text("The amount you want to charge or offer your customers.",
+                child: Text("The amount you want to charge or offer your customers.".tr,
                     style: GoogleFonts.poppins(fontSize: 14)),
               ),
               Column(
@@ -371,7 +371,7 @@ class _SingleProductShippingPolicyScreenState extends State<SingleProductShippin
                         },
                       ),
                       Expanded(
-                        child: Text("I want to offer free shipping",
+                        child: Text("I want to offer free shipping".tr,
                             style: GoogleFonts.poppins(fontSize: 14, fontWeight: FontWeight.w400)),
                       )
                     ],
@@ -390,7 +390,7 @@ class _SingleProductShippingPolicyScreenState extends State<SingleProductShippin
                         },
                       ),
                       Expanded(
-                        child: Text("Pay partial of the shipping",
+                        child: Text("Pay partial of the shipping".tr,
                             style: GoogleFonts.poppins(fontSize: 14, fontWeight: FontWeight.w400)),
                       )
                     ],
@@ -409,7 +409,7 @@ class _SingleProductShippingPolicyScreenState extends State<SingleProductShippin
                         },
                       ),
                       Expanded(
-                        child: Text("Charge my customer for shipping",
+                        child: Text("Charge my customer for shipping".tr,
                             style: GoogleFonts.poppins(fontSize: 16, fontWeight: FontWeight.w400)),
                       )
                     ],
@@ -428,7 +428,7 @@ class _SingleProductShippingPolicyScreenState extends State<SingleProductShippin
                           readOnly: true,
                           controller: freeController,
                           obSecure: false,
-                          hintText: 'Free for',
+                          hintText: 'Free for'.tr,
                         ),
                       ),
                       const SizedBox(
@@ -477,7 +477,7 @@ class _SingleProductShippingPolicyScreenState extends State<SingleProductShippin
                           ),
                           validator: (value) {
                             if (value == null || value.isEmpty) {
-                              return 'Please select an item';
+                              return 'Please select an item'.tr;
                             }
                             return null;
                           },
@@ -496,7 +496,7 @@ class _SingleProductShippingPolicyScreenState extends State<SingleProductShippin
                             border: Border.all(color: Colors.grey.shade400),
                             borderRadius: BorderRadius.circular(8),
                           ),
-                          child: const Text('Shipping'),
+                          child:  Text('Shipping'.tr),
                         ),
                       ),
                       const SizedBox(
@@ -508,7 +508,7 @@ class _SingleProductShippingPolicyScreenState extends State<SingleProductShippin
                           controller: policyPriceController,
                           keyboardType: TextInputType.number,
                           obSecure: false,
-                          hintText: 'Enter Price limit',
+                          hintText: 'Enter Price limit'.tr,
                           validator: (value) {
                             if (value!.trim().isEmpty) {
                               return "Enter Price limit".tr;
@@ -538,7 +538,7 @@ class _SingleProductShippingPolicyScreenState extends State<SingleProductShippin
                             controller: iPayController,
                             keyboardType: TextInputType.number,
                             obSecure: false,
-                            hintText: 'I pay 15%',
+                            hintText: 'I pay 15%'.tr,
                             validator: (value) {
                               if (value!.trim().isEmpty) {
                                 return "Enter Value".tr;
@@ -553,7 +553,7 @@ class _SingleProductShippingPolicyScreenState extends State<SingleProductShippin
                             controller: from1KWDController,
                             keyboardType: TextInputType.number,
                             obSecure: false,
-                            hintText: 'From 01kwd',
+                            hintText: 'From 01kwd'.tr,
                             validator: (value) {
                               if (value!.trim().isEmpty) {
                                 return "Enter Value".tr;
@@ -571,7 +571,7 @@ class _SingleProductShippingPolicyScreenState extends State<SingleProductShippin
                             controller: upTo20Controller,
                             keyboardType: TextInputType.number,
                             obSecure: false,
-                            hintText: 'Up to 20 KWD',
+                            hintText: 'Up to 20 KWD'.tr,
                             validator: (value) {
                               if (value!.trim().isEmpty) {
                                 return "Enter Value".tr;
@@ -591,7 +591,7 @@ class _SingleProductShippingPolicyScreenState extends State<SingleProductShippin
                             controller: thenController,
                             keyboardType: TextInputType.number,
                             obSecure: false,
-                            hintText: 'Then  10%',
+                            hintText: 'Then  10%'.tr,
                             validator: (value) {
                               if (value!.trim().isEmpty) {
                                 return "Enter Value".tr;
@@ -606,7 +606,7 @@ class _SingleProductShippingPolicyScreenState extends State<SingleProductShippin
                             controller: from2KWDController,
                             keyboardType: TextInputType.number,
                             obSecure: false,
-                            hintText: 'From  20 kwd',
+                            hintText: 'From  20 kwd'.tr,
                             validator: (value) {
                               if (value!.trim().isEmpty) {
                                 return "Enter Value".tr;
@@ -624,7 +624,7 @@ class _SingleProductShippingPolicyScreenState extends State<SingleProductShippin
                             controller: upTo40Controller,
                             keyboardType: TextInputType.number,
                             obSecure: false,
-                            hintText: 'Up to 40 KWD',
+                            hintText: 'Up to 40 KWD'.tr,
                             validator: (value) {
                               if (value!.trim().isEmpty) {
                                 return "Enter Value".tr;
@@ -652,7 +652,7 @@ class _SingleProductShippingPolicyScreenState extends State<SingleProductShippin
                         ),
                         Expanded(
                           child:
-                          Text("After  that  charge full to my customer", style: GoogleFonts.poppins(fontSize: 14)),
+                          Text("After that charge full to my customer".tr, style: GoogleFonts.poppins(fontSize: 14)),
                         ),
                       ],
                     ),
@@ -663,7 +663,7 @@ class _SingleProductShippingPolicyScreenState extends State<SingleProductShippin
                 height: 10,
               ),
               CustomOutlineButton(
-                  title: 'Next',
+                  title: 'Next'.tr,
                   borderRadius: 11,
                   onPressed: () {
                     if (formKey1.currentState!.validate()) {
@@ -676,7 +676,7 @@ class _SingleProductShippingPolicyScreenState extends State<SingleProductShippin
                         }
                       }
                     else {
-                        showToast('Please select Shipping Shipping Fees');
+                        showToast('Please select Shipping Shipping Fees'.tr);
                       }
 
                     // }

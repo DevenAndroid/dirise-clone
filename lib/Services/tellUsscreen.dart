@@ -160,7 +160,7 @@ class _TellUsScreenState extends State<TellUsScreen> {
                     contentPadding: const EdgeInsets.all(15),
                     filled: true,
                     fillColor: Colors.grey.shade100,
-                    hintText: 'Description',
+                    hintText: 'Description'.tr,
                     hintStyle: GoogleFonts.poppins(
                       color: AppTheme.primaryColor,
                       fontSize: 15,
@@ -186,10 +186,10 @@ class _TellUsScreenState extends State<TellUsScreen> {
                   ),
                   validator: (value) {
                     if (value!.trim().isEmpty) {
-                      return 'Enter short description';
+                      return 'Enter short description'.tr;
                     }
                     else if (value.length < 15) {
-                      return 'Short description must be at least 15 characters long';
+                      return 'Short description must be at least 15 characters long'.tr;
                     }
                     return null; // Return null if validation passes
                   },
@@ -286,19 +286,19 @@ class _TellUsScreenState extends State<TellUsScreen> {
                         if (inStockController.text.isEmpty) {
                           FocusManager.instance.primaryFocus!.unfocus();
                           alertDiscount.clear();
-                          showToastCenter('Enter stock quantity first');
+                          showToastCenter('Enter stock quantity first'.tr);
                           return;
                         }
                         if (sellingPrice > purchasePrice) {
                           FocusManager.instance.primaryFocus!.unfocus();
                           alertDiscount.clear();
-                          showToastCenter('Stock alert cannot be higher than stock quantity');
+                          showToastCenter('Stock alert cannot be higher than stock quantity'.tr);
                         }
                       },
                       hintText: 'Get notification on your stock quantity'.tr,
                       validator: (value) {
                         if (value!.trim().isEmpty) {
-                          return 'Set stock alert is required';
+                          return 'Set stock alert is required'.tr;
                         }
                         return null; // Return null if validation passes
                       },
@@ -402,9 +402,9 @@ class _TellUsScreenState extends State<TellUsScreen> {
                       borderRadius: BorderRadius.circular(10), // Border radius
                     ),
                     padding: const EdgeInsets.all(10), // Padding inside the container
-                    child: const Center(
+                    child:  Center(
                       child: Text(
-                        'Continue',
+                        'Continue'.tr,
                         style: TextStyle(
                           fontSize: 16,
                           fontWeight: FontWeight.bold,

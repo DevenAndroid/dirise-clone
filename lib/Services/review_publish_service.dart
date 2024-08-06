@@ -167,7 +167,7 @@ class _ReviewPublishServiceScreenState extends State<ReviewPublishServiceScreen>
                             mainAxisAlignment: MainAxisAlignment.spaceBetween,
                             children: [
                               Text(
-                                'Featured Image',
+                                'Featured Image'.tr,
                                 style: GoogleFonts.poppins(
                                   color: AppTheme.primaryColor,
                                   fontSize: 15,
@@ -227,8 +227,8 @@ class _ReviewPublishServiceScreenState extends State<ReviewPublishServiceScreen>
                                         galleryImg: gallery,
                                       ));
                                     },
-                                    child: const Text(
-                                      'Edit',
+                                    child:  Text(
+                                      'Edit'.tr,
                                       style: TextStyle(color: Colors.red, fontSize: 13),
                                     )))
                           ],
@@ -250,7 +250,7 @@ class _ReviewPublishServiceScreenState extends State<ReviewPublishServiceScreen>
                             mainAxisAlignment: MainAxisAlignment.spaceBetween,
                             children: [
                               Text(
-                                'Other Image',
+                                'Other Image'.tr,
                                 style: GoogleFonts.poppins(
                                   color: AppTheme.primaryColor,
                                   fontSize: 15,
@@ -314,7 +314,7 @@ class _ReviewPublishServiceScreenState extends State<ReviewPublishServiceScreen>
                                   );
                                 },
                               )
-                                  : const Text('No images available'),
+                                  :  Text('No images available'.tr),
                             ),
                             Positioned(
                               right: 10,
@@ -333,8 +333,8 @@ class _ReviewPublishServiceScreenState extends State<ReviewPublishServiceScreen>
                                     ));
                                   }
                                 },
-                                child: const Text(
-                                  'Edit',
+                                child:  Text(
+                                  'Edit'.tr,
                                   style: TextStyle(color: Colors.red, fontSize: 13),
                                 ),
                               ),
@@ -359,7 +359,7 @@ class _ReviewPublishServiceScreenState extends State<ReviewPublishServiceScreen>
                             mainAxisAlignment: MainAxisAlignment.spaceBetween,
                             children: [
                               Text(
-                                'Price',
+                                'Price'.tr,
                                 style: GoogleFonts.poppins(
                                   color: AppTheme.primaryColor,
                                   fontSize: 15,
@@ -401,17 +401,12 @@ class _ReviewPublishServiceScreenState extends State<ReviewPublishServiceScreen>
                                 crossAxisAlignment: CrossAxisAlignment.start,
                                 children: [
                                   20.spaceY,
-                                  Text(
-                                      'Service Name: ${controller.productDetailsModel.value.productDetails!.product!.pname ?? ""}'),
-                                  Text('Price: ${controller.productDetailsModel.value.productDetails!.product!.pPrice ?? ""} KWD'),
-                                  // Text(
-                                  //     'Make it on sale: ${productDetailsModel.value.productDetails!.product!.discountPercent ?? ''}'),
-                                  Text(
-                                      'Discount Price: ${controller.productDetailsModel.value.productDetails!.product!.discountPrice ?? ""} KWD'),
-                                  Text(
-                                      'Percentage: ${controller.productDetailsModel.value.productDetails!.product!.discountPercent ?? ""}'),
-                                  Text(
-                                      'Fixed after sale price: ${controller.productDetailsModel.value.productDetails!.product!.fixedDiscountPrice ?? ""} KWD'),
+                                  Text('${"Service Name:".tr} ${controller.productDetailsModel.value.productDetails!.product!.pname ?? ""}'),
+                                  Text('${"Price:".tr} ${controller.productDetailsModel.value.productDetails!.product!.pPrice ?? ""} KWD'),
+                                  // Text('Make it on sale: ${productDetailsModel.value.productDetails!.product!.discountPercent ?? ''}'),
+                                  Text('${"Discount Price:".tr} ${controller.productDetailsModel.value.productDetails!.product!.discountPrice ?? ""} KWD'),
+                                  Text('${"Percentage:".tr} ${controller.productDetailsModel.value.productDetails!.product!.discountPercent ?? ""}'),
+                                  Text('${"Fixed after sale price:".tr} ${controller.productDetailsModel.value.productDetails!.product!.fixedDiscountPrice ?? ""} KWD'),
 
                                 ],
                               ),
@@ -431,8 +426,8 @@ class _ReviewPublishServiceScreenState extends State<ReviewPublishServiceScreen>
                                         isDelivery: controller.productDetailsModel.value.productDetails!.product!.isOnsale,
                                       ));
                                     },
-                                    child: const Text(
-                                      'Edit',
+                                    child:  Text(
+                                      'Edit'.tr,
                                       style: TextStyle(color: Colors.red, fontSize: 13),
                                     )))
                           ],
@@ -457,7 +452,7 @@ class _ReviewPublishServiceScreenState extends State<ReviewPublishServiceScreen>
                             mainAxisAlignment: MainAxisAlignment.spaceBetween,
                             children: [
                               Text(
-                                'Tell us',
+                                'Tell us'.tr,
                                 style: GoogleFonts.poppins(
                                   color: AppTheme.primaryColor,
                                   fontSize: 15,
@@ -500,17 +495,13 @@ class _ReviewPublishServiceScreenState extends State<ReviewPublishServiceScreen>
                                 crossAxisAlignment: CrossAxisAlignment.start,
                                 children: [
                                   20.spaceY,
-                                  Text(
-                                      'Short Description: ${controller.productDetailsModel.value.productDetails!.product!.shortDescription ?? ""}'),
+                                  Text('${"Short Description:".tr} ${controller.productDetailsModel.value.productDetails!.product!.shortDescription ?? ""}'),
                                   if(controller.productDetailsModel.value.productDetails!.product!.inStock == '-1' )
-                                  const Text(
-                                      'Stock quantity : ${'No need'}'),
+                                   Text('${"Stock quantity :".tr} ${'No need'}'),
                                   if(controller.productDetailsModel.value.productDetails!.product!.inStock != '-1' )
-                                  Text(
-                                      'Stock quantity : ${controller.productDetailsModel.value.productDetails!.product!.inStock ?? ""}'),
-                                  Text(
-                                      'Set stock alert: ${controller.productDetailsModel.value.productDetails!.product!.stockAlert == null ? '0' : controller.productDetailsModel.value.productDetails!.product!.stockAlert.toString()}'),
-                                  Text('SEO Tags: ${controller.productDetailsModel.value.productDetails!.product!.seoTags ?? ""}'),
+                                  Text('${"Stock quantity :".tr} ${controller.productDetailsModel.value.productDetails!.product!.inStock ?? ""}'),
+                                  Text('${"Set stock alert:".tr} ${controller.productDetailsModel.value.productDetails!.product!.stockAlert == null ? '0' : controller.productDetailsModel.value.productDetails!.product!.stockAlert.toString()}'),
+                                  Text('${"SEO Tags:".tr} ${controller.productDetailsModel.value.productDetails!.product!.seoTags ?? ""}'),
                                 ],
                               ),
                             ),
@@ -529,8 +520,8 @@ class _ReviewPublishServiceScreenState extends State<ReviewPublishServiceScreen>
                                         noNeed:   controller.productDetailsModel.value.productDetails!.product!.noNeedStock,
                                       ));
                                     },
-                                    child: const Text(
-                                      'Edit',
+                                    child:  Text(
+                                      'Edit'.tr,
                                       style: TextStyle(color: Colors.red, fontSize: 13),
                                     )))
                           ],

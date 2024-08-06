@@ -271,7 +271,7 @@ class _InternationalshippingdetailsScreenState extends State<Internationalshippi
                   ),
                   validator: (value) {
                     if (value == null || value.isEmpty) {
-                      return 'Please select an item';
+                      return 'Please select an item'.tr;
                     }
                     return null;
                   },
@@ -295,10 +295,10 @@ class _InternationalshippingdetailsScreenState extends State<Internationalshippi
                 CommonTextField(
                     controller: weightController,
                     obSecure: false,
-                    hintText: 'Weight Of the Item ',
+                    hintText: 'Weight Of the item '.tr,
                     keyboardType: TextInputType.number,
                     validator: MultiValidator([
-                      RequiredValidator(errorText: 'Weight Of the Itemis required'.tr),
+                      RequiredValidator(errorText: 'Weight Of the Items required'.tr),
                     ])),
                 Text(
                   'Select Number Of Packages '.tr,
@@ -309,7 +309,7 @@ class _InternationalshippingdetailsScreenState extends State<Internationalshippi
                     controller: numberOfPackageController,
                     keyboardType: TextInputType.number,
                     obSecure: false,
-                    hintText: 'Number Of Package',
+                    hintText: 'Number Of Package'.tr,
                     validator: MultiValidator([
                       RequiredValidator(errorText: 'Number Of Package is required'.tr),
                     ])),
@@ -357,7 +357,7 @@ class _InternationalshippingdetailsScreenState extends State<Internationalshippi
                   ),
                   validator: (value) {
                     if (value == null || value.isEmpty) {
-                      return 'Please select an item';
+                      return 'Please select an item'.tr;
                     }
                     return null;
                   },
@@ -382,7 +382,7 @@ class _InternationalshippingdetailsScreenState extends State<Internationalshippi
                             controller: dimensionController,
                             obSecure: false,
                             keyboardType: TextInputType.number,
-                            hintText: 'Length X ',
+                            hintText: 'Length X '.tr,
                             validator: MultiValidator([
                               RequiredValidator(errorText: 'Product length is required'.tr),
                             ])),
@@ -405,7 +405,7 @@ class _InternationalshippingdetailsScreenState extends State<Internationalshippi
                         CommonTextField(
                             controller: dimensionWidthController,
                             obSecure: false,
-                            hintText: 'Width X',
+                            hintText: 'Width X'.tr,
                             keyboardType: TextInputType.number,
                             validator: MultiValidator([
                               RequiredValidator(errorText: 'Product Width is required'.tr),
@@ -429,7 +429,7 @@ class _InternationalshippingdetailsScreenState extends State<Internationalshippi
                         CommonTextField(
                             controller: dimensionHeightController,
                             obSecure: false,
-                            hintText: 'Height X',
+                            hintText: 'Height X'.tr,
                             keyboardType: TextInputType.number,
                             validator: MultiValidator([
                               RequiredValidator(errorText: 'Product Height is required'.tr),
@@ -481,7 +481,7 @@ class _InternationalshippingdetailsScreenState extends State<Internationalshippi
                   ),
                   validator: (value) {
                     if (value == null || value.isEmpty) {
-                      return 'Please select an Package type';
+                      return 'Please select an Package type'.tr;
                     }
                     return null;
                   },
@@ -489,7 +489,7 @@ class _InternationalshippingdetailsScreenState extends State<Internationalshippi
 
                 const SizedBox(height: 10),
                 CustomOutlineButton(
-                  title: 'Confirm',
+                  title: 'Confirm'.tr,
                   borderRadius: 11,
                   onPressed: () {
                     if (formKey2.currentState!.validate()) {

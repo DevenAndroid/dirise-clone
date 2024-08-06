@@ -134,7 +134,7 @@ class _LocationwherecustomerwilljoinState extends State<Locationwherecustomerwil
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: [
             Text(
-              'Location where customer will join',
+              'Location where customer will join'.tr,
               style: GoogleFonts.poppins(color: Colors.black, fontWeight: FontWeight.w600, fontSize: 18),
             ),
           ],
@@ -170,7 +170,7 @@ class _LocationwherecustomerwilljoinState extends State<Locationwherecustomerwil
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
                       Text(
-                        'Write Address',
+                        'Write Address'.tr,
                         style: GoogleFonts.poppins(
                           color: AppTheme.primaryColor,
                           fontSize: 15,
@@ -199,7 +199,7 @@ class _LocationwherecustomerwilljoinState extends State<Locationwherecustomerwil
                     Get.toNamed(PickUpAddressService.route);
                   },
                   child: Text(
-                    'Choose my default shipping address',
+                    'Choose my default shipping address'.tr,
                     style: GoogleFonts.poppins(
                       color: AppTheme.primaryColor,
                       fontSize: 15,
@@ -240,12 +240,12 @@ class _LocationwherecustomerwilljoinState extends State<Locationwherecustomerwil
                                           child: Column(
                                             crossAxisAlignment: CrossAxisAlignment.start,
                                             children: [
-                                              Text('City - $city'),
-                                              Text('State - $state'),
-                                              Text('Country - $country'),
-                                              Text('Zip code - $zip_code'),
-                                              Text('Street - $street'),
-                                              Text('Town - $town'),
+                                              Text('${"City".tr} - $city'),
+                                              Text('${"State".tr} - $state'),
+                                              Text('${"Country".tr} - $country'),
+                                              Text('${"Zip code".tr} - $zip_code'),
+                                              Text('${"Street".tr} - $street'),
+                                              Text('${"Town".tr} - $town'),
                                               const SizedBox(
                                                 height: 8,
                                               ),
@@ -294,7 +294,7 @@ class _LocationwherecustomerwilljoinState extends State<Locationwherecustomerwil
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
                       Text(
-                        'Not Needed - Online Product',
+                        'Not Needed - Online Product'.tr,
                         style: GoogleFonts.poppins(
                           color: AppTheme.primaryColor,
                           fontSize: 15,
@@ -317,7 +317,7 @@ class _LocationwherecustomerwilljoinState extends State<Locationwherecustomerwil
                 height: 20,
               ),
               CustomOutlineButton(
-                title: 'Next',
+                title: 'Next'.tr,
                 borderRadius: 11,
                 onPressed: () {
                   if (selectedRadio == 'write') {
@@ -347,7 +347,7 @@ class _LocationwherecustomerwilljoinState extends State<Locationwherecustomerwil
             } else if (selectedRadio == 'online') {
                     Get.to(ServiceInternationalShippingService());
                   } else {
-                    showToast('Please select Address Type');
+                    showToast('Please select Address Type'.tr);
                   }
                 },
               ),

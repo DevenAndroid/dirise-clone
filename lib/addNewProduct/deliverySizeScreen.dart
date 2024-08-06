@@ -121,7 +121,7 @@ class _DeliverySizeScreenState extends State<DeliverySizeScreen> {
                       crossAxisAlignment: CrossAxisAlignment.center,
                       children: [
                         Text(
-                          'Fits in small car',
+                          'Fits in small car'.tr,
                           style: GoogleFonts.poppins(color: Colors.black, fontWeight: FontWeight.w400, fontSize: 18),
                         ),
                         Radio(
@@ -149,7 +149,7 @@ class _DeliverySizeScreenState extends State<DeliverySizeScreen> {
                       crossAxisAlignment: CrossAxisAlignment.center,
                       children: [
                         Text(
-                          'Need Truck',
+                          'Need Truck'.tr,
                           style: GoogleFonts.poppins(color: Colors.black, fontWeight: FontWeight.w400, fontSize: 18),
                         ),
                         Radio(
@@ -177,7 +177,7 @@ class _DeliverySizeScreenState extends State<DeliverySizeScreen> {
                       crossAxisAlignment: CrossAxisAlignment.center,
                       children: [
                         Text(
-                          'Freight & Cargo',
+                          'Freight & Cargo'.tr,
                           style: GoogleFonts.poppins(color: Colors.black, fontWeight: FontWeight.w400, fontSize: 18),
                         ),
                         Radio(
@@ -200,7 +200,7 @@ class _DeliverySizeScreenState extends State<DeliverySizeScreen> {
                 height: 100,
               ),
               CustomOutlineButton(
-                title: 'Next',
+                title: 'Next'.tr,
                 borderRadius: 11,
                 onPressed: () {
                   if (selectedRadio == 'small_car') {
@@ -210,7 +210,7 @@ class _DeliverySizeScreenState extends State<DeliverySizeScreen> {
                   } else if (selectedRadio == 'freight_cargo') {
                     deliverySizeApi();
                   } else {
-                    showToast('Select delivery size');
+                    showToast('Select delivery size'.tr);
                   }
                 },
               ),

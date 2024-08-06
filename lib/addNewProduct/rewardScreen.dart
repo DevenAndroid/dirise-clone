@@ -99,7 +99,7 @@ class _RewardScreenState extends State<RewardScreen> {
                 height: 20,
               ),
               CustomOutlineButton(
-                title: 'Continue',
+                title: 'Continue'.tr,
                 borderRadius: 11,
                 onPressed: () {
                   Get.offAllNamed(BottomNavbar.route);

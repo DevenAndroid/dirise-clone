@@ -116,7 +116,7 @@ class _ServiceClassificationScreenState extends State<ServiceClassificationScree
                     obSecure: false,
                     hintText: 'Serial Number'.tr,
                     validator: MultiValidator([
-                      RequiredValidator(errorText: 'Serial Number is required'),
+                      RequiredValidator(errorText: 'Serial Number is required'.tr),
                     ])),
                 const SizedBox(height: 10,),
                 CommonTextField(
@@ -124,7 +124,7 @@ class _ServiceClassificationScreenState extends State<ServiceClassificationScree
                     obSecure: false,
                     hintText: 'Product number'.tr,
                     validator: MultiValidator([
-                      RequiredValidator(errorText: 'Product number is required'),
+                      RequiredValidator(errorText: 'Product number is required'.tr),
                     ])),
                 const SizedBox(height: 10,),
                 CommonTextField(
@@ -133,7 +133,7 @@ class _ServiceClassificationScreenState extends State<ServiceClassificationScree
                     hintText: 'Product Code'.tr,
                     keyboardType: TextInputType.text,
                     validator: MultiValidator([
-                      RequiredValidator(errorText: 'Product Code is required'),
+                      RequiredValidator(errorText: 'Product Code is required'.tr),
                     ])),
                 const SizedBox(height: 10,),
                 CommonTextField(
@@ -142,7 +142,7 @@ class _ServiceClassificationScreenState extends State<ServiceClassificationScree
                     hintText: 'Promotion Code'.tr,
                     keyboardType: TextInputType.text ,
                     validator: MultiValidator([
-                      RequiredValidator(errorText: 'Promotion Code is required'),
+                      RequiredValidator(errorText: 'Promotion Code is required'.tr),
                     ])),
                 const SizedBox(height: 10,),
                 TextFormField(
@@ -158,7 +158,7 @@ class _ServiceClassificationScreenState extends State<ServiceClassificationScree
                     errorMaxLines: 2,
                     contentPadding: const EdgeInsets.all(15),
                     fillColor: Colors.grey.shade100,
-                    hintText: 'Package details',
+                    hintText: 'Package details'.tr,
                     hintStyle: GoogleFonts.poppins(
                       color: AppTheme.primaryColor,
                       fontSize: 15,
@@ -186,7 +186,7 @@ class _ServiceClassificationScreenState extends State<ServiceClassificationScree
                 ),
                 const SizedBox(height: 20),
                 CustomOutlineButton(
-                  title: 'Next',
+                  title: 'Next'.tr,
                   borderRadius: 11,
                   onPressed: () {
                     if(formKey1.currentState!.validate()){
@@ -210,9 +210,9 @@ class _ServiceClassificationScreenState extends State<ServiceClassificationScree
                       borderRadius: BorderRadius.circular(10), // Border radius
                     ),
                     padding: const EdgeInsets.all(10), // Padding inside the container
-                    child: const Center(
+                    child:  Center(
                       child: Text(
-                        'Skip',
+                        'Skip'.tr,
                         style: TextStyle(
                           fontSize: 16,
                           fontWeight: FontWeight.bold,

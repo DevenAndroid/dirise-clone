@@ -71,8 +71,7 @@ class _CongratulationScreenState extends State<CongratulationScreen> {
             crossAxisAlignment: CrossAxisAlignment.center,
             children: [
               Image.asset('assets/images/new_logo.png',height: 200,width: 200,),
-              Text(
-                'Your job profile has been published successfully'.tr,
+              Text('Your job profile has been published successfully'.tr,
                 style: GoogleFonts.poppins(color: const Color(0xff0D5877), fontWeight: FontWeight.w600, fontSize: 30),
               ),
               SizedBox(height: 10,),
@@ -125,7 +124,7 @@ class _CongratulationScreenState extends State<CongratulationScreen> {
               ),
               const SizedBox(height: 20,),
               CustomOutlineButton(
-                title: 'Continue',
+                title: 'Continue'.tr,
                 borderRadius: 11,
                 onPressed: () {
                   Get.offAllNamed(BottomNavbar.route);

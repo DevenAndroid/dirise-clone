@@ -170,7 +170,7 @@ class _SingleProductDeliverySizeState extends State<SingleProductDeliverySize> {
                 height: 20,
               ),
               CustomOutlineButton(
-                title: 'Next',
+                title: 'Next'.tr,
                 borderRadius: 11,
                 onPressed: () {
                   if (selectedRadio != null && selectedRadio1 != null) {
@@ -180,7 +180,7 @@ class _SingleProductDeliverySizeState extends State<SingleProductDeliverySize> {
                     } else if (selectedRadio == 2) {
                       shippingPay = 'customer_pay';
                     } else {
-                      showToast('Select who will pay the shipping');
+                      showToast('Select who will pay the shipping'.tr);
                       return;
                     }
 
@@ -192,13 +192,13 @@ class _SingleProductDeliverySizeState extends State<SingleProductDeliverySize> {
                     } else if (selectedRadio1 == 5) {
                       deliverySize = 'freight_cargo';
                     } else {
-                      showToast('Select delivery according to package size');
+                      showToast('Select delivery according to package size'.tr);
                       return;
                     }
 
                     deliverySizeApi(shippingPay: shippingPay, deliverySize: deliverySize);
                   } else {
-                    showToast('Select both shipping and package size');
+                    showToast('Select both shipping and package size'.tr);
                   }
                 },
 

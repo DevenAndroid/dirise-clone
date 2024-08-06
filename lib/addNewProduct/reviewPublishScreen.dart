@@ -196,7 +196,7 @@ class _ReviewPublishScreenState extends State<ReviewPublishScreen> {
                               mainAxisAlignment: MainAxisAlignment.spaceBetween,
                               children: [
                                 Text(
-                                  'Featured Image',
+                                  'Featured Image'.tr,
                                   style: GoogleFonts.poppins(
                                     color: AppTheme.primaryColor,
                                     fontSize: 15,
@@ -257,8 +257,8 @@ class _ReviewPublishScreenState extends State<ReviewPublishScreen> {
 
                                         ));
                                       },
-                                      child: const Text(
-                                        'Edit',
+                                      child:  Text(
+                                        'Edit'.tr,
                                         style: TextStyle(color: Colors.red, fontSize: 13),
                                       )))
                             ],
@@ -280,7 +280,7 @@ class _ReviewPublishScreenState extends State<ReviewPublishScreen> {
                               mainAxisAlignment: MainAxisAlignment.spaceBetween,
                               children: [
                                 Text(
-                                  'Other Image',
+                                  'Other Image'.tr,
                                   style: GoogleFonts.poppins(
                                     color: AppTheme.primaryColor,
                                     fontSize: 15,
@@ -344,7 +344,7 @@ class _ReviewPublishScreenState extends State<ReviewPublishScreen> {
                                     );
                                   },
                                 )
-                                    : const Text('No images available'),
+                                    :  Text('No images available'.tr),
                               ),
                               Positioned(
                                 right: 10,
@@ -363,8 +363,8 @@ class _ReviewPublishScreenState extends State<ReviewPublishScreen> {
                                       ));
                                     }
                                   },
-                                  child: const Text(
-                                    'Edit',
+                                  child:  Text(
+                                    'Edit'.tr,
                                     style: TextStyle(color: Colors.red, fontSize: 13),
                                   ),
                                 ),
@@ -390,7 +390,8 @@ class _ReviewPublishScreenState extends State<ReviewPublishScreen> {
                                 border: Border.all(color: Colors.grey.shade400, width: 1)),
                             child:  Row(
                               mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                              children: [const Text('Item details'),
+                              children: [
+                                 Text('Item details'.tr),
                                 isItemDetailsVisible != true    ?
                                 Image.asset(
                           'assets/images/drop_icon.png',
@@ -422,13 +423,11 @@ class _ReviewPublishScreenState extends State<ReviewPublishScreen> {
                                     crossAxisAlignment: CrossAxisAlignment.start,
                                     children: [
                                       20.spaceY,
-                                      Text(
-                                          'product name: ${addProductControllerNew.productDetailsModel.value.productDetails!.product!.pname ?? ""}'),
-                                      Text(
-                                          'product Type: ${addProductControllerNew.productDetailsModel.value.productDetails!.product!.productType ?? ''}'),
-                                      Text('product ID: ${addProductControllerNew.productDetailsModel.value.productDetails!.product!.id ?? ""}'),
-                                      Text('vendor category: ${addProductControllerNew.productDetailsModel.value.productDetails!.product!.catName ?? ""}'),
-                                      Text('my item is a : ${ addProductControllerNew.productDetailsModel.value.productDetails!.product!.giveawayItemCondition}'),
+                                      Text('${"product name:".tr} ${addProductControllerNew.productDetailsModel.value.productDetails!.product!.pname ?? ""}'),
+                                      Text('${"product Type:".tr} ${addProductControllerNew.productDetailsModel.value.productDetails!.product!.productType ?? ''}'),
+                                      Text('${"product ID:".tr} ${addProductControllerNew.productDetailsModel.value.productDetails!.product!.id ?? ""}'),
+                                      Text('${"vendor category:".tr} ${addProductControllerNew.productDetailsModel.value.productDetails!.product!.catName ?? ""}'),
+                                      Text('${"my item is a :".tr} ${ addProductControllerNew.productDetailsModel.value.productDetails!.product!.giveawayItemCondition}'),
                                       // Text('my item is a : ${  addProductControllerNew.productDetailsModel.value.productDetails!.product!.catId != 'null' ?  addProductControllerNew.productDetailsModel.value.productDetails!.product!.catId : ''}'),
                                     ],
                                   ),
@@ -445,7 +444,8 @@ class _ReviewPublishScreenState extends State<ReviewPublishScreen> {
                                             categoryID:  addProductControllerNew.productDetailsModel.value.productDetails!.product!.catId != 'null' ?  addProductControllerNew.productDetailsModel.value.productDetails!.product!.catId : '',
                                           ));
                                         },
-                                        child: const Text('Edit',style: TextStyle(color: Colors.red,fontSize: 13),)))
+                                        child:  Text('Edit'.tr,
+                                          style: TextStyle(color: Colors.red,fontSize: 13),)))
                               ],
                             )
                         ),
@@ -464,7 +464,8 @@ class _ReviewPublishScreenState extends State<ReviewPublishScreen> {
                                 border: Border.all(color: Colors.grey.shade400, width: 1)),
                             child:  Row(
                               mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                              children: [const Text('Pickup address'),
+                              children: [
+                                Text('Pickup address'.tr),
                                 isItemDetailsVisible1 != true    ?
                                 Image.asset(
                                   'assets/images/drop_icon.png',
@@ -496,11 +497,11 @@ class _ReviewPublishScreenState extends State<ReviewPublishScreen> {
                                     crossAxisAlignment: CrossAxisAlignment.start,
                                     children: [
                                       20.spaceY,
-                                      Text('Town: ${addProductControllerNew.productDetailsModel.value.productDetails!.address!.town ?? ""}'),
-                                      Text('city: ${addProductControllerNew.productDetailsModel.value.productDetails!.address!.city ?? ""}'),
-                                      Text('state: ${addProductControllerNew.productDetailsModel.value.productDetails!.address!.state ?? ""}'),
-                                      Text('address: ${addProductControllerNew.productDetailsModel.value.productDetails!.address!.address ?? ""}'),
-                                      Text('zip code: ${addProductControllerNew.productDetailsModel.value.productDetails!.address!.zipCode ?? ""}'),
+                                      Text('${"Town:".tr} ${addProductControllerNew.productDetailsModel.value.productDetails!.address!.town ?? ""}'),
+                                      Text('${"city:".tr} ${addProductControllerNew.productDetailsModel.value.productDetails!.address!.city ?? ""}'),
+                                      Text('${"state:".tr} ${addProductControllerNew.productDetailsModel.value.productDetails!.address!.state ?? ""}'),
+                                      Text('${"address:".tr} ${addProductControllerNew.productDetailsModel.value.productDetails!.address!.address ?? ""}'),
+                                      Text('${"zip code:".tr} ${addProductControllerNew.productDetailsModel.value.productDetails!.address!.zipCode ?? ""}'),
                                     ],
                                   ),
                                   Positioned(
@@ -518,7 +519,7 @@ class _ReviewPublishScreenState extends State<ReviewPublishScreen> {
                                             street: addProductControllerNew.productDetailsModel.value.productDetails!.address!.address ?? "",
                                           ));
                                         },
-                                          child: const Text('Edit',style: TextStyle(color: Colors.red,fontSize: 13),)
+                                          child:  Text('Edit'.tr,style: TextStyle(color: Colors.red,fontSize: 13),)
                                       )
                                   )
                                 ],
@@ -539,7 +540,8 @@ class _ReviewPublishScreenState extends State<ReviewPublishScreen> {
                                 border: Border.all(color: Colors.grey.shade400, width: 1)),
                             child:  Row(
                               mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                              children: [const Text('Delivery Size'),
+                              children: [
+                                Text('Delivery Size'.tr),
                                 isItemDetailsVisible2 != true    ?
                                 Image.asset(
                                   'assets/images/drop_icon.png',
@@ -571,8 +573,7 @@ class _ReviewPublishScreenState extends State<ReviewPublishScreen> {
                                     crossAxisAlignment: CrossAxisAlignment.start,
                                     children: [
                                       20.spaceY,
-                                      Text(
-                                          'delivery Size: ${addProductControllerNew.productDetailsModel.value.productDetails!.product!.deliverySize ?? ""}'),
+                                      Text('${"delivery Size:".tr} ${addProductControllerNew.productDetailsModel.value.productDetails!.product!.deliverySize ?? ""}'),
                                     ],
                                   ),
                                 ),
@@ -584,7 +585,8 @@ class _ReviewPublishScreenState extends State<ReviewPublishScreen> {
                                           Get.to(DeliverySizeScreen(id: addProductControllerNew.productDetailsModel.value.productDetails!.product!.id,
                                             selectedRadio: addProductControllerNew.productDetailsModel.value.productDetails!.product!.deliverySize,));
                                         },
-                                        child: const Text('Edit',style: TextStyle(color: Colors.red,fontSize: 13),)))
+                                        child:  Text('Edit'.tr,
+                                          style: TextStyle(color: Colors.red,fontSize: 13),)))
 
                               ],
                             )),
@@ -603,7 +605,8 @@ class _ReviewPublishScreenState extends State<ReviewPublishScreen> {
                                 border: Border.all(color: Colors.grey.shade400, width: 1)),
                             child:  Row(
                               mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                              children: [const Text('Item Weight & Dimensions'),
+                              children: [
+                                Text('Item Weight & Dimensions'.tr),
                                 isItemDetailsVisible3 != true    ?
                                 Image.asset(
                                   'assets/images/drop_icon.png',
@@ -635,17 +638,12 @@ class _ReviewPublishScreenState extends State<ReviewPublishScreen> {
                                     crossAxisAlignment: CrossAxisAlignment.start,
                                     children: [
                                       20.spaceY,
-                                      Text(
-                                          'Unit of measure: ${addProductControllerNew.productDetailsModel.value.productDetails!.productDimentions!.units ?? ""}'),
-                                      Text(
-                                          'Weight Of the Item: ${addProductControllerNew.productDetailsModel.value.productDetails!.productDimentions!.weight ?? ""}'),
-                                      Text(
-                                          'Select Number Of Packages: ${addProductControllerNew.productDetailsModel.value.productDetails!.productDimentions!.numberOfPackage ?? ""}'),
-                                      Text(
-                                          'Select Type Material: ${addProductControllerNew.productDetailsModel.value.productDetails!.productDimentions!.material ?? ""}'),
-                                      Text(
-                                          'Select Type Of Packaging: ${addProductControllerNew.productDetailsModel.value.productDetails!.productDimentions!.typeOfPackages ?? ""}'),
-                                      Text('Length X Width X Height: ${addProductControllerNew.productDetailsModel.value.productDetails!.productDimentions!.boxLength ?? ""}X' +
+                                      Text('${"Unit of measure:"} ${addProductControllerNew.productDetailsModel.value.productDetails!.productDimentions!.units ?? ""}'),
+                                      Text('${"Weight Of the Item:"} ${addProductControllerNew.productDetailsModel.value.productDetails!.productDimentions!.weight ?? ""}'),
+                                      Text('${"Select Number Of Packages:"} ${addProductControllerNew.productDetailsModel.value.productDetails!.productDimentions!.numberOfPackage ?? ""}'),
+                                      Text('${"Select Type Material: "}${addProductControllerNew.productDetailsModel.value.productDetails!.productDimentions!.material ?? ""}'),
+                                      Text('${"Select Type Of Packaging:"} ${addProductControllerNew.productDetailsModel.value.productDetails!.productDimentions!.typeOfPackages ?? ""}'),
+                                      Text('${"Length X Width X Height:"} ${addProductControllerNew.productDetailsModel.value.productDetails!.productDimentions!.boxLength ?? ""}X' +
                                           "${addProductControllerNew.productDetailsModel.value.productDetails!.productDimentions!.boxWidth ?? ""}X"
                                               "${addProductControllerNew.productDetailsModel.value.productDetails!.productDimentions!.boxHeight ?? ""}"),
                                     ],
@@ -673,7 +671,8 @@ class _ReviewPublishScreenState extends State<ReviewPublishScreen> {
                                           );
 
                                         },
-                                        child: const Text('Edit',style: TextStyle(color: Colors.red,fontSize: 13),)))
+                                        child:  Text('Edit'.tr,
+                                          style: TextStyle(color: Colors.red,fontSize: 13),)))
 
                               ],
                             )),
@@ -692,7 +691,8 @@ class _ReviewPublishScreenState extends State<ReviewPublishScreen> {
                                 border: Border.all(color: Colors.grey.shade400, width: 1)),
                             child:  Row(
                               mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                              children: [const Text('Optional'),
+                              children: [
+                                Text('Optional'.tr),
                                 isItemDetailsVisible4 != true    ?
                                 Image.asset(
                                   'assets/images/drop_icon.png',
@@ -724,16 +724,11 @@ class _ReviewPublishScreenState extends State<ReviewPublishScreen> {
                                     crossAxisAlignment: CrossAxisAlignment.start,
                                     children: [
                                       20.spaceY,
-                                      Text(
-                                          'Long Description: ${addProductControllerNew.productDetailsModel.value.productDetails!.product!.longDescription ?? ""}'),
-                                      Text(
-                                          'Meta Title: ${addProductControllerNew.productDetailsModel.value.productDetails!.product!.metaTitle ?? ""}'),
-                                      Text(
-                                          'Meta Description: ${addProductControllerNew.productDetailsModel.value.productDetails!.product!.metaDescription ?? ""}'),
-                                      Text(
-                                          'Serial Number: ${addProductControllerNew.productDetailsModel.value.productDetails!.product!.serialNumber ?? ""}'),
-                                      Text(
-                                          'Product number: ${addProductControllerNew.productDetailsModel.value.productDetails!.product!.productNumber ?? ""}'),
+                                      Text('${"Long Description:".tr} ${addProductControllerNew.productDetailsModel.value.productDetails!.product!.longDescription ?? ""}'),
+                                      Text('${"Meta Title:".tr} ${addProductControllerNew.productDetailsModel.value.productDetails!.product!.metaTitle ?? ""}'),
+                                      Text('${"Meta Description:".tr} ${addProductControllerNew.productDetailsModel.value.productDetails!.product!.metaDescription ?? ""}'),
+                                      Text('${"Serial Number:".tr} ${addProductControllerNew.productDetailsModel.value.productDetails!.product!.serialNumber ?? ""}'),
+                                      Text('${"Product number:".tr} ${addProductControllerNew.productDetailsModel.value.productDetails!.product!.productNumber ?? ""}'),
                                     ],
                                   ),
                                 ),
@@ -752,14 +747,15 @@ class _ReviewPublishScreenState extends State<ReviewPublishScreen> {
                                           )
                                           );
                                         },
-                                        child: const Text('Edit',style: TextStyle(color: Colors.red,fontSize: 13),)))
+                                        child:  Text('Edit'.tr,
+                                          style: TextStyle(color: Colors.red,fontSize: 13),)))
 
                               ],
                             )
                         ),
                         const SizedBox(height: 20),
                         CustomOutlineButton(
-                          title: 'Confirm',
+                          title: 'Confirm'.tr,
                           borderRadius: 11,
                           onPressed: () {
                             completeApi();
