@@ -171,7 +171,7 @@ class _VirtualReviewandPublishScreenState extends State<VirtualReviewandPublishS
                             mainAxisAlignment: MainAxisAlignment.spaceBetween,
                             children: [
                               Text(
-                                'Featured Image',
+                                'Featured Image'.tr,
                                 style: GoogleFonts.poppins(
                                   color: AppTheme.primaryColor,
                                   fontSize: 15,
@@ -230,8 +230,8 @@ class _VirtualReviewandPublishScreenState extends State<VirtualReviewandPublishS
                                         galleryImg: gallery,
                                       ));
                                     },
-                                    child: const Text(
-                                      'Edit',
+                                    child:  Text(
+                                      'Edit'.tr,
                                       style: TextStyle(color: Colors.red, fontSize: 13),
                                     )))
                           ],
@@ -254,7 +254,7 @@ class _VirtualReviewandPublishScreenState extends State<VirtualReviewandPublishS
                             mainAxisAlignment: MainAxisAlignment.spaceBetween,
                             children: [
                               Text(
-                                'Other Image',
+                                'Other Image'.tr,
                                 style: GoogleFonts.poppins(
                                   color: AppTheme.primaryColor,
                                   fontSize: 15,
@@ -318,7 +318,7 @@ class _VirtualReviewandPublishScreenState extends State<VirtualReviewandPublishS
                                   );
                                 },
                               )
-                                  : const Text('No images available'),
+                                  :  Text('No images available'.tr),
                             ),
                             Positioned(
                               right: 10,
@@ -337,8 +337,8 @@ class _VirtualReviewandPublishScreenState extends State<VirtualReviewandPublishS
                                     ));
                                   }
                                 },
-                                child: const Text(
-                                  'Edit',
+                                child:  Text(
+                                  'Edit'.tr,
                                   style: TextStyle(color: Colors.red, fontSize: 13),
                                 ),
                               ),
@@ -362,7 +362,7 @@ class _VirtualReviewandPublishScreenState extends State<VirtualReviewandPublishS
                             mainAxisAlignment: MainAxisAlignment.spaceBetween,
                             children: [
                               Text(
-                                'Item Details',
+                                'Item Details'.tr,
                                 style: GoogleFonts.poppins(
                                   color: AppTheme.primaryColor,
                                   fontSize: 15,
@@ -405,11 +405,9 @@ class _VirtualReviewandPublishScreenState extends State<VirtualReviewandPublishS
                                 crossAxisAlignment: CrossAxisAlignment.start,
                                 children: [
                                   20.spaceY,
-                                  Text(
-                                      'product name: ${controller.productDetailsModel.value.productDetails!.product!.pname ?? ""}'),
-                                  Text(
-                                      'product Type: ${controller.productDetailsModel.value.productDetails!.product!.productType ?? ''}'),
-                                  Text('product ID: ${controller.productDetailsModel.value.productDetails!.product!.id ?? ""}'),
+                                  Text('${"product name:".tr} ${controller.productDetailsModel.value.productDetails!.product!.pname ?? ""}'),
+                                  Text('${"product Type:".tr} ${controller.productDetailsModel.value.productDetails!.product!.productType ?? ''}'),
+                                  Text('${"product ID:".tr} ${controller.productDetailsModel.value.productDetails!.product!.id ?? ""}'),
                                 ],
                               ),
                             ),
@@ -423,8 +421,8 @@ class _VirtualReviewandPublishScreenState extends State<VirtualReviewandPublishS
                                         name: controller.productDetailsModel.value.productDetails!.product!.pname,
                                       ));
                                     },
-                                    child: const Text(
-                                      'Edit',
+                                    child:  Text(
+                                      'Edit'.tr,
                                       style: TextStyle(color: Colors.red, fontSize: 13),
                                     )))
                           ],
@@ -449,7 +447,7 @@ class _VirtualReviewandPublishScreenState extends State<VirtualReviewandPublishS
                             mainAxisAlignment: MainAxisAlignment.spaceBetween,
                             children: [
                               Text(
-                                'Price',
+                                'Price'.tr,
                                 style: GoogleFonts.poppins(
                                   color: AppTheme.primaryColor,
                                   fontSize: 15,
@@ -492,11 +490,9 @@ class _VirtualReviewandPublishScreenState extends State<VirtualReviewandPublishS
                                 crossAxisAlignment: CrossAxisAlignment.start,
                                 children: [
                                   20.spaceY,
-                                  Text('Price: ${controller.productDetailsModel.value.productDetails!.product!.pPrice ?? ""} KWD'),
-                                  Text(
-                                      'Fixed Discounted Price : ${controller.productDetailsModel.value.productDetails!.product!.fixedDiscountPrice ?? ""} KWD'),
-                                  Text(
-                                      'Discount Percentage: ${controller.productDetailsModel.value.productDetails!.product!.discountPrice ?? ''}'),
+                                  Text('${"Price:".tr} ${controller.productDetailsModel.value.productDetails!.product!.pPrice ?? ""} KWD'),
+                                  Text('${"Fixed Discounted Price :".tr} ${controller.productDetailsModel.value.productDetails!.product!.fixedDiscountPrice ?? ""} KWD'),
+                                  Text('${"Discount Percentage:".tr} ${controller.productDetailsModel.value.productDetails!.product!.discountPrice ?? ''}'),
                                 ],
                               ),
                             ),
@@ -513,8 +509,8 @@ class _VirtualReviewandPublishScreenState extends State<VirtualReviewandPublishS
                                         onSale:controller.productDetailsModel.value.productDetails!.product!.isOnsale ,
                                       ));
                                     },
-                                    child: const Text(
-                                      'Edit',
+                                    child:  Text(
+                                      'Edit'.tr,
                                       style: TextStyle(color: Colors.red, fontSize: 13),
                                     )))
                           ],
@@ -599,7 +595,7 @@ class _VirtualReviewandPublishScreenState extends State<VirtualReviewandPublishS
                             mainAxisAlignment: MainAxisAlignment.spaceBetween,
                             children: [
                               Text(
-                                'Description',
+                                'Description'.tr,
                                 style: GoogleFonts.poppins(
                                   color: AppTheme.primaryColor,
                                   fontSize: 15,
@@ -640,17 +636,13 @@ class _VirtualReviewandPublishScreenState extends State<VirtualReviewandPublishS
                                 crossAxisAlignment: CrossAxisAlignment.start,
                                 children: [
                                   20.spaceY,
-                                  Text(
-                                      'Short Description: ${controller.productDetailsModel.value.productDetails!.product!.shortDescription ?? ""}'),
+                                  Text('${"Short Description:".tr} ${controller.productDetailsModel.value.productDetails!.product!.shortDescription ?? ""}'),
                                   if(controller.productDetailsModel.value.productDetails!.product!.inStock == '-1' )
-                                    const Text(
-                                        'Stock quantity : ${'No need'}'),
+                                     Text('${"Stock quantity :".tr} ${'No need'.tr}'),
                                   if(controller.productDetailsModel.value.productDetails!.product!.inStock != '-1' )
-                                    Text(
-                                        'Stock quantity : ${controller.productDetailsModel.value.productDetails!.product!.inStock ?? ""}'),
-                                  Text(
-                                      'Set stock/spot alert: ${controller.productDetailsModel.value.productDetails!.product!.stockAlert ?? ''}'),
-                                  Text('SEO Tags: ${controller.productDetailsModel.value.productDetails!.product!.seoTags ?? ''}'),
+                                    Text('${"Stock quantity :".tr} ${controller.productDetailsModel.value.productDetails!.product!.inStock ?? ""}'),
+                                  Text('${"Set stock/spot alert:".tr} ${controller.productDetailsModel.value.productDetails!.product!.stockAlert ?? ''}'),
+                                  Text('${"SEO Tags:".tr} ${controller.productDetailsModel.value.productDetails!.product!.seoTags ?? ''}'),
                                 ],
                               ),
                             ),
@@ -670,8 +662,8 @@ class _VirtualReviewandPublishScreenState extends State<VirtualReviewandPublishS
                                         longDesc:  controller.productDetailsModel.value.productDetails!.product!.longDescription,
                                       ));
                                     },
-                                    child: const Text(
-                                      'Edit',
+                                    child:  Text(
+                                      'Edit'.tr,
                                       style: TextStyle(color: Colors.red, fontSize: 13),
                                     )))
                           ],
@@ -692,7 +684,7 @@ class _VirtualReviewandPublishScreenState extends State<VirtualReviewandPublishS
                             mainAxisAlignment: MainAxisAlignment.spaceBetween,
                             children: [
                               Text(
-                                'Optional Description',
+                                'Optional Description'.tr,
                                 style: GoogleFonts.poppins(
                                   color: AppTheme.primaryColor,
                                   fontSize: 15,
@@ -734,12 +726,9 @@ class _VirtualReviewandPublishScreenState extends State<VirtualReviewandPublishS
                                 crossAxisAlignment: CrossAxisAlignment.start,
                                 children: [
                                   20.spaceY,
-                                  Text(
-                                      'Meta Tags: ${controller.productDetailsModel.value.productDetails!.product!.metaTags ?? ""}'),
-                                  Text(
-                                      'Meta Title: ${controller.productDetailsModel.value.productDetails!.product!.metaTitle ?? ""}'),
-                                  Text(
-                                      'Meta Description: ${controller.productDetailsModel.value.productDetails!.product!.metaDescription ?? ""}'),
+                                  Text('${"Meta Tags:".tr} ${controller.productDetailsModel.value.productDetails!.product!.metaTags ?? ""}'),
+                                  Text('${"Meta Title:".tr} ${controller.productDetailsModel.value.productDetails!.product!.metaTitle ?? ""}'),
+                                  Text('${"Meta Description:".tr} ${controller.productDetailsModel.value.productDetails!.product!.metaDescription ?? ""}'),
                                 ],
                               ),
                             ),
@@ -756,8 +745,8 @@ class _VirtualReviewandPublishScreenState extends State<VirtualReviewandPublishS
                                         metaTags: controller.productDetailsModel.value.productDetails!.product!.metaTags,
                                       ));
                                     },
-                                    child: const Text(
-                                      'Edit',
+                                    child:  Text(
+                                      'Edit'.tr,
                                       style: TextStyle(color: Colors.red, fontSize: 13),
                                     )))
                           ],
@@ -781,7 +770,7 @@ class _VirtualReviewandPublishScreenState extends State<VirtualReviewandPublishS
                             mainAxisAlignment: MainAxisAlignment.spaceBetween,
                             children: [
                               Text(
-                                'Optional Classification',
+                                'Optional Classification'.tr,
                                 style: GoogleFonts.poppins(
                                   color: AppTheme.primaryColor,
                                   fontSize: 15,
@@ -821,16 +810,11 @@ class _VirtualReviewandPublishScreenState extends State<VirtualReviewandPublishS
                                 crossAxisAlignment: CrossAxisAlignment.start,
                                 children: [
                                   20.spaceY,
-                                  Text(
-                                      'Product Code: ${controller.productDetailsModel.value.productDetails!.product!.productCode ?? ""}'),
-                                  Text(
-                                      'Promotion Code: ${controller.productDetailsModel.value.productDetails!.product!.promotionCode ?? ""}'),
-                                  Text(
-                                      'Package details: ${controller.productDetailsModel.value.productDetails!.product!.packageDetail ?? ""}'),
-                                  Text(
-                                      'Serial Number: ${controller.productDetailsModel.value.productDetails!.product!.serialNumber ?? ""}'),
-                                  Text(
-                                      'Product number: ${controller.productDetailsModel.value.productDetails!.product!.productNumber ?? ""}'),
+                                  Text('${"Product Code:".tr} ${controller.productDetailsModel.value.productDetails!.product!.productCode ?? ""}'),
+                                  Text('${"Promotion Code:".tr} ${controller.productDetailsModel.value.productDetails!.product!.promotionCode ?? ""}'),
+                                  Text('${"Package details:".tr} ${controller.productDetailsModel.value.productDetails!.product!.packageDetail ?? ""}'),
+                                  Text('${"Serial Number:".tr} ${controller.productDetailsModel.value.productDetails!.product!.serialNumber ?? ""}'),
+                                  Text('${"Product number:".tr} ${controller.productDetailsModel.value.productDetails!.product!.productNumber ?? ""}'),
                                 ],
                               ),
                             ),
@@ -853,8 +837,8 @@ class _VirtualReviewandPublishScreenState extends State<VirtualReviewandPublishS
                                         controller.productDetailsModel.value.productDetails!.product!.packageDetail ?? "",
                                       ));
                                     },
-                                    child: const Text(
-                                      'Edit',
+                                    child:  Text(
+                                      'Edit'.tr,
                                       style: TextStyle(color: Colors.red, fontSize: 13),
                                     )))
                           ],
@@ -950,7 +934,7 @@ class _VirtualReviewandPublishScreenState extends State<VirtualReviewandPublishS
                       // ),
 
                       CustomOutlineButton(
-                        title: 'Confirm',
+                        title: 'Confirm'.tr,
                         borderRadius: 11,
                         onPressed: () {
                           completeApi();

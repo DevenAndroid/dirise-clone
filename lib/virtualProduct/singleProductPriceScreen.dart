@@ -539,7 +539,7 @@ class _VirtualPriceScreenState extends State<VirtualPriceScreen> {
                 ),
                 const SizedBox(height: 20,),
                 CustomOutlineButton(
-                  title: 'Next',
+                  title: 'Next'.tr,
                   borderRadius: 11,
                   onPressed: () {
     if (formKey1.currentState!.validate()) {

@@ -34,7 +34,8 @@ class _ProductAccountCreatedSuccessfullyScreenState extends State<ProductAccount
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text('Done',style: TextStyle(fontWeight: FontWeight.w600),),
+        title: Text('Done'.tr,
+          style: TextStyle(fontWeight: FontWeight.w600),),
         centerTitle: true,
         automaticallyImplyLeading: false,
       ),
