@@ -12,6 +12,7 @@ import 'package:flutter/material.dart';
 import 'package:form_field_validator/form_field_validator.dart';
 import 'package:get/get.dart';
 import 'package:google_fonts/google_fonts.dart';
+import '../controller/home_controller.dart';
 import '../controller/profile_controller.dart';
 import '../controller/vendor_controllers/vendor_profile_controller.dart';
 import '../model/common_modal.dart';
@@ -51,6 +52,7 @@ class _ProductInformationScreensState extends State<ProductInformationScreens> {
   int tappedIndex = -1;
   final addProductController = Get.put(AddProductController());
   final profileController = Get.put(ProfileController());
+  final homeController = Get.put(TrendingProductsController());
   deliverySizeApi() {
     Map<String, dynamic> map = {};
     map['category_id'] = idForChild.join(',').toString();
@@ -224,7 +226,9 @@ class _ProductInformationScreensState extends State<ProductInformationScreens> {
               ),
               if (productController.modelCategoryList != null)
                 Text(
-                  productController.modelCategoryList!.vendorCategoryName.toString(),
+                  profileController.selectedLAnguage.value == 'English'
+                  ?productController.modelCategoryList!.vendorCategoryName.toString()
+                  :homeController.vendorCategory.usphone!.first.arabName.toString(),
                   style: GoogleFonts.poppins(color: Colors.black, fontWeight: FontWeight.w500, fontSize: 18),
                 ),
               const SizedBox(

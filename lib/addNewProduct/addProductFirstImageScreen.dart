@@ -107,7 +107,7 @@ class _AddProductFirstImageScreenState extends State<AddProductFirstImageScreen>
       else {
         Get.to(MyItemISScreen());
       }
-      showToast('Add Product Image successfully');
+      showToast('Add Product Image successfully'.tr);
     });
   }
   final productController = Get.put(AddProductController());
