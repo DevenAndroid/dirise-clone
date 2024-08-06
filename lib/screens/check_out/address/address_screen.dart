@@ -604,11 +604,10 @@ class _AddressScreenState extends State<AddressScreen> {
                         readOnly: true,
                         title: 'City',
                         hintText: 'Select City',
-                        controller:
-                            TextEditingController(text: (selectedCity ?? City()).cityName ?? cityController.text),
+                        controller: TextEditingController(text: (selectedCity ?? City()).cityName ?? cityController.text),
                         onTap: () {
                           if (modelCityList == null && cityRefresh.value > 0) {
-                            showToast("Select State First");
+                            showToast("Select City First");
                             return;
                           }
                           if (cityRefresh.value < 0) {
@@ -644,7 +643,7 @@ class _AddressScreenState extends State<AddressScreen> {
                         }),
                         validator: (v) {
                           if (v!.trim().isEmpty) {
-                            return "Please select state";
+                            return "Please select city";
                           }
                           return null;
                         },

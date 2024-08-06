@@ -49,7 +49,7 @@ class _ProductVarientState extends State<ProductVarient> {
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
                     Text(
-                      "Product Variants",
+                      "Product Variants".tr,
                       style: titleStyle,
                     ),
                     10.spaceY,
@@ -66,9 +66,9 @@ class _ProductVarientState extends State<ProductVarient> {
                         ),
                         enabled: true,
                         filled: true,
-                        hintText: "Select Variants",
+                        hintText: "Select Variants".tr,
                         labelStyle: GoogleFonts.poppins(color: Colors.black),
-                        labelText: "Select Variants",
+                        labelText: "Select Variants".tr,
                         fillColor: const Color(0xffE2E2E2).withOpacity(.35),
                         contentPadding: const EdgeInsets.symmetric(horizontal: 15, vertical: 14),
                         enabledBorder: const OutlineInputBorder(
@@ -78,7 +78,7 @@ class _ProductVarientState extends State<ProductVarient> {
                       ),
                       validator: (gg) {
                         if (controller.attributeList.isEmpty && controller.addMultipleItems.isEmpty) {
-                          return "Please select variants";
+                          return "Please select variants".tr;
                         }
                         return null;
                       },
@@ -98,7 +98,7 @@ class _ProductVarientState extends State<ProductVarient> {
                     ),
                     10.spaceY,
                     Text(
-                      "Product Variants",
+                      "Product Variants".tr,
                       style: titleStyle,
                     ),
                     5.spaceY,
@@ -228,7 +228,7 @@ class _ProductVarientState extends State<ProductVarient> {
                               children: [
                                 Expanded(
                                     child: Text(
-                                  "Create Variations",
+                                  "Create Variations".tr,
                                   textAlign: TextAlign.center,
                                   style: titleStyle.copyWith(color: Colors.white),
                                 )),
@@ -245,7 +245,7 @@ class _ProductVarientState extends State<ProductVarient> {
                                     children: [
                                       Expanded(
                                         child: Text(
-                                          "Variation: \n${e.attributes!.entries.map((e) => "${e.key.capitalizeFirst}: ${e.value.attrValueName.toString().capitalizeFirst}").toList().join("\n")}",
+                                          "${"Variation:".tr} \n${e.attributes!.entries.map((e) => "${e.key.capitalizeFirst}: ${e.value.attrValueName.toString().capitalizeFirst}").toList().join("\n")}",
                                           style: GoogleFonts.poppins(
                                               fontWeight: FontWeight.w500,
                                               color: const Color(0xff2F2F2F),
@@ -261,7 +261,7 @@ class _ProductVarientState extends State<ProductVarient> {
                                     ],
                                   ),
                                   ImageWidget(
-                                    title: "Variant Image",
+                                    title: "Variant Image".tr,
                                     key: e.variantImageKey,
                                     file: e.variantImages,
                                     imageOnly: true,
@@ -274,7 +274,7 @@ class _ProductVarientState extends State<ProductVarient> {
                                   VendorCommonTextfield(
                                       controller: e.variantSku,
                                       key: e.variantSku.getKey,
-                                      hintText: "Variant SKU",
+                                      hintText: "Variant SKU".tr,
                                       // validator: (value) {
                                       //   if (value!.trim().isEmpty) {
                                       //     return "Variant sku is required";
@@ -286,7 +286,7 @@ class _ProductVarientState extends State<ProductVarient> {
                                   VendorCommonTextfield(
                                       controller: e.variantPrice,
                                       key: e.variantPrice.getKey,
-                                      hintText: "Variant Price",
+                                      hintText: "Variant Price".tr,
                                       keyboardType: const TextInputType.numberWithOptions(decimal: true),
 
                                   ),
@@ -295,7 +295,7 @@ class _ProductVarientState extends State<ProductVarient> {
                                       controller: e.variantStock,
                                       key: e.variantStock.getKey,
                                       keyboardType: const TextInputType.numberWithOptions(decimal: true),
-                                      hintText: "Variant Stock",
+                                      hintText: "Variant Stock".tr,
                                       // validator: (value) {
                                       //   if (value!.trim().isEmpty) {
                                       //     return "Variant stock is required";
@@ -308,7 +308,7 @@ class _ProductVarientState extends State<ProductVarient> {
                                       controller: e.shortDescription,
                                       key: e.shortDescription.getKey,
                                       keyboardType: TextInputType.text,
-                                      hintText: "short Description",
+                                      hintText: "short Description".tr,
                                       // validator: (value) {
                                       //   if (value!.trim().isEmpty) {
                                       //     return "short Description is required";
@@ -321,7 +321,7 @@ class _ProductVarientState extends State<ProductVarient> {
                                       controller: e.longDescription,
                                       key: e.longDescription.getKey,
                                       keyboardType: TextInputType.text,
-                                      hintText: "long Description",
+                                      hintText: "long Description".tr,
                                       // validator: (value) {
                                       //   if (value!.trim().isEmpty) {
                                       //     return "long Description is required";

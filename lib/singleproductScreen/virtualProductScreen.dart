@@ -61,7 +61,7 @@ class _VirtualProductScreenState extends State<VirtualProductScreen> {
     if (featuredImage.path.isEmpty) {
 
       if (featuredImage.path.isEmpty) {
-        showToastCenter('Please Select File');
+        showToastCenter('Please Select File'.tr);
       }
 
       showValidation.value = true;
@@ -189,7 +189,7 @@ class _VirtualProductScreenState extends State<VirtualProductScreen> {
                 ),
                 validator: (value) {
                   if (value == null || value.isEmpty) {
-                    return 'Please select an item';
+                    return 'Please select an item'.tr;
                   }
                   return null;
                 },
@@ -274,7 +274,7 @@ class _VirtualProductScreenState extends State<VirtualProductScreen> {
                 ),
                 validator: (value) {
                   if (value == null || value.isEmpty) {
-                    return 'Please select an item';
+                    return 'Please select an item'.tr;
                   }
                   return null;
                 },
@@ -283,7 +283,7 @@ class _VirtualProductScreenState extends State<VirtualProductScreen> {
                 height: 100,
               ),
               CustomOutlineButton(
-                title: 'Confirm',
+                title: 'Confirm'.tr,
                 borderRadius: 11,
                 onPressed: () {
 

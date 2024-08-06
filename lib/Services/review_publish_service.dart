@@ -497,7 +497,7 @@ class _ReviewPublishServiceScreenState extends State<ReviewPublishServiceScreen>
                                   20.spaceY,
                                   Text('${"Short Description:".tr} ${controller.productDetailsModel.value.productDetails!.product!.shortDescription ?? ""}'),
                                   if(controller.productDetailsModel.value.productDetails!.product!.inStock == '-1' )
-                                   Text('${"Stock quantity :".tr} ${'No need'}'),
+                                   Text('${"Stock quantity :".tr} ${'No need'.tr}'),
                                   if(controller.productDetailsModel.value.productDetails!.product!.inStock != '-1' )
                                   Text('${"Stock quantity :".tr} ${controller.productDetailsModel.value.productDetails!.product!.inStock ?? ""}'),
                                   Text('${"Set stock alert:".tr} ${controller.productDetailsModel.value.productDetails!.product!.stockAlert == null ? '0' : controller.productDetailsModel.value.productDetails!.product!.stockAlert.toString()}'),
@@ -545,7 +545,7 @@ class _ReviewPublishServiceScreenState extends State<ReviewPublishServiceScreen>
                             mainAxisAlignment: MainAxisAlignment.spaceBetween,
                             children: [
                               Text(
-                                'return policy',
+                                'return policy'.tr,
                                 style: GoogleFonts.poppins(
                                   color: AppTheme.primaryColor,
                                   fontSize: 15,
@@ -588,17 +588,13 @@ class _ReviewPublishServiceScreenState extends State<ReviewPublishServiceScreen>
                                 crossAxisAlignment: CrossAxisAlignment.start,
                                 children: [
                                   20.spaceY,
-                                  Text(
-                                      'Policy Name: ${controller.productDetailsModel.value.productDetails!.product!.returnPolicyDesc!.title ?? ""}'),
+                                  Text('${"Policy Name:".tr} ${controller.productDetailsModel.value.productDetails!.product!.returnPolicyDesc!.title ?? ""}'),
                                   const SizedBox(height: 5,),
-                                  Text(
-                                      'Policy Description: ${controller.productDetailsModel.value.productDetails!.product!.returnPolicyDesc!.policyDiscreption ?? ""}'),
+                                  Text('${"Policy Description:".tr} ${controller.productDetailsModel.value.productDetails!.product!.returnPolicyDesc!.policyDiscreption ?? ""}'),
                                   const SizedBox(height: 5,),
-                                  Text(
-                                      'Return with In: ${controller.productDetailsModel.value.productDetails!.product!.returnPolicyDesc!.days ?? ""}'),
+                                  Text('${"Return with In:".tr} ${controller.productDetailsModel.value.productDetails!.product!.returnPolicyDesc!.days ?? ""}'),
                                   const SizedBox(height: 5,),
-                                  Text(
-                                      'Return Shipping Fees: ${controller.productDetailsModel.value.productDetails!.product!.returnPolicyDesc!.returnShippingFees ?? ""}'),
+                                  Text('${"Return Shipping Fees:".tr} ${controller.productDetailsModel.value.productDetails!.product!.returnPolicyDesc!.returnShippingFees ?? ""}'),
 
                                 ],
                               ),
@@ -617,7 +613,8 @@ class _ReviewPublishServiceScreenState extends State<ReviewPublishServiceScreen>
                                       )
                                       );
                                     },
-                                    child: const Text('Edit',style: TextStyle(color: Colors.red,fontSize: 13),)))
+                                    child:  Text('Edit'.tr,
+                                      style: TextStyle(color: Colors.red,fontSize: 13),)))
                           ],
                         ),
                         // modelReturnPolicy != null
@@ -659,8 +656,7 @@ class _ReviewPublishServiceScreenState extends State<ReviewPublishServiceScreen>
                           child: Row(
                             mainAxisAlignment: MainAxisAlignment.spaceBetween,
                             children: [
-                              Text(
-                                'Location where customer will join ',
+                              Text('Location where customer will join '.tr,
                                 style: GoogleFonts.poppins(
                                   color: AppTheme.primaryColor,
                                   fontSize: 15,
@@ -702,11 +698,11 @@ class _ReviewPublishServiceScreenState extends State<ReviewPublishServiceScreen>
                                 crossAxisAlignment: CrossAxisAlignment.start,
                                 children: [
                                   20.spaceY,
-                                  Text('Town: ${controller.productDetailsModel.value.productDetails!.address!.town ?? ""}'),
-                                  Text('city: ${controller.productDetailsModel.value.productDetails!.address!.city ?? ""}'),
-                                  Text('state: ${controller.productDetailsModel.value.productDetails!.address!.state ?? ""}'),
-                                  Text('country: ${controller.productDetailsModel.value.productDetails!.address!.country ?? ""}'),
-                                  Text('zip code: ${controller.productDetailsModel.value.productDetails!.address!.zipCode ?? ""}'),
+                                  Text('${"Town:".tr} ${controller.productDetailsModel.value.productDetails!.address!.town ?? ""}'),
+                                  Text('${"city:".tr} ${controller.productDetailsModel.value.productDetails!.address!.city ?? ""}'),
+                                  Text('${"state:".tr} ${controller.productDetailsModel.value.productDetails!.address!.state ?? ""}'),
+                                  Text('${"country:".tr} ${controller.productDetailsModel.value.productDetails!.address!.country ?? ""}'),
+                                  Text('${"zip code:".tr} ${controller.productDetailsModel.value.productDetails!.address!.zipCode ?? ""}'),
                                 ],
                               ),
                             ),
@@ -725,8 +721,8 @@ class _ReviewPublishServiceScreenState extends State<ReviewPublishServiceScreen>
                                         town: controller.productDetailsModel.value.productDetails!.address!.town,
                                       ));
                                     },
-                                    child: const Text(
-                                      'Edit',
+                                    child:  Text(
+                                      'Edit'.tr,
                                       style: TextStyle(color: Colors.red, fontSize: 13),
                                     )))
                           ],
@@ -950,7 +946,7 @@ class _ReviewPublishServiceScreenState extends State<ReviewPublishServiceScreen>
                             mainAxisAlignment: MainAxisAlignment.spaceBetween,
                             children: [
                               Text(
-                                'Optional Classification',
+                                'Optional Classification'.tr,
                                 style: GoogleFonts.poppins(
                                   color: AppTheme.primaryColor,
                                   fontSize: 15,
@@ -992,16 +988,11 @@ class _ReviewPublishServiceScreenState extends State<ReviewPublishServiceScreen>
                                 crossAxisAlignment: CrossAxisAlignment.start,
                                 children: [
                                   20.spaceY,
-                                  Text(
-                                      'Product Code: ${controller.productDetailsModel.value.productDetails!.product!.productCode ?? ""}'),
-                                  Text(
-                                      'Promotion Code: ${controller.productDetailsModel.value.productDetails!.product!.promotionCode ?? ""}'),
-                                  Text(
-                                      'Package details: ${controller.productDetailsModel.value.productDetails!.product!.packageDetail ?? ""}'),
-                                  Text(
-                                      'Serial Number: ${controller.productDetailsModel.value.productDetails!.product!.serialNumber ?? ""}'),
-                                  Text(
-                                      'Product number: ${controller.productDetailsModel.value.productDetails!.product!.productNumber ?? ""}'),
+                                  Text('${"Product Code:".tr} ${controller.productDetailsModel.value.productDetails!.product!.productCode ?? ""}'),
+                                  Text('${"Promotion Code:".tr} ${controller.productDetailsModel.value.productDetails!.product!.promotionCode ?? ""}'),
+                                  Text('${"Package details:".tr} ${controller.productDetailsModel.value.productDetails!.product!.packageDetail ?? ""}'),
+                                  Text('${"Serial Number:".tr} ${controller.productDetailsModel.value.productDetails!.product!.serialNumber ?? ""}'),
+                                  Text('${"Product number:".tr} ${controller.productDetailsModel.value.productDetails!.product!.productNumber ?? ""}'),
                                 ],
                               ),
                             ),
@@ -1020,8 +1011,8 @@ class _ReviewPublishServiceScreenState extends State<ReviewPublishServiceScreen>
                                         PromotionCode: controller.productDetailsModel.value.productDetails!.product!.promotionCode,
                                       ));
                                     },
-                                    child: const Text(
-                                      'Edit',
+                                    child:  Text(
+                                      'Edit'.tr,
                                       style: TextStyle(color: Colors.red, fontSize: 13),
                                     )))
                           ],
@@ -1032,7 +1023,7 @@ class _ReviewPublishServiceScreenState extends State<ReviewPublishServiceScreen>
                       ),
 
                       CustomOutlineButton(
-                        title: 'Confirm',
+                        title: 'Confirm'.tr,
                         borderRadius: 11,
                         onPressed: () {
                           completeApi();

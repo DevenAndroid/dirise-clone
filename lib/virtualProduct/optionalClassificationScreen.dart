@@ -205,7 +205,7 @@ class _VirtualOptionalClassificationScreenState extends State<VirtualOptionalCla
                     errorMaxLines: 2,
                     contentPadding: const EdgeInsets.all(15),
                     fillColor: Colors.grey.shade100,
-                    hintText: 'Package details',
+                    hintText: 'Package details'.tr,
                     hintStyle: GoogleFonts.poppins(
                       color: AppTheme.primaryColor,
                       fontSize: 15,
@@ -232,7 +232,7 @@ class _VirtualOptionalClassificationScreenState extends State<VirtualOptionalCla
                 ),
                 const SizedBox(height: 100),
                 CustomOutlineButton(
-                  title: 'Next',
+                  title: 'Next'.tr,
                   borderRadius: 11,
                   onPressed: () {
                     if (formKey1.currentState!.validate()) {
@@ -261,9 +261,9 @@ class _VirtualOptionalClassificationScreenState extends State<VirtualOptionalCla
                       borderRadius: BorderRadius.circular(10), // Border radius
                     ),
                     padding: const EdgeInsets.all(10), // Padding inside the container
-                    child: const Center(
+                    child:  Center(
                       child: Text(
-                        'Skip',
+                        'Skip'.tr,
                         style: TextStyle(
                           fontSize: 16,
                           fontWeight: FontWeight.bold,

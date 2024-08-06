@@ -27,11 +27,13 @@ class _ExtraInformationState extends State<ExtraInformation> {
           child: Column(
           
             children:[
-              Text("Extra information",style:GoogleFonts.poppins(fontSize:20,fontWeight:FontWeight.w500)),
+              Text("Extra information".tr,
+                  style:GoogleFonts.poppins(fontSize:20,fontWeight:FontWeight.w500)),
               const SizedBox(height: 30,),
               Padding(
                 padding: const EdgeInsets.symmetric(horizontal: 13,),
-                child: Text("This is an optional step for some products ",style:GoogleFonts.poppins(fontSize:20)),
+                child: Text("This is an optional step for some products ".tr,
+                    style:GoogleFonts.poppins(fontSize:20)),
               ),
               const SizedBox(height: 20,),
               GestureDetector(
