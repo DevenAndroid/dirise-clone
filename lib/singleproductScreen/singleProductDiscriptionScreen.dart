@@ -173,7 +173,7 @@ class _SingleProductDiscriptionScreenState extends State<SingleProductDiscriptio
                     errorMaxLines: 2,
                     contentPadding: const EdgeInsets.all(15),
                     fillColor: Colors.grey.shade100,
-                    hintText: 'Intro',
+                    hintText: 'Intro'.tr,
                     hintStyle: GoogleFonts.poppins(
                       color: AppTheme.primaryColor,
                       fontSize: 15,
@@ -228,7 +228,7 @@ class _SingleProductDiscriptionScreenState extends State<SingleProductDiscriptio
                     errorMaxLines: 2,
                     contentPadding: const EdgeInsets.all(15),
                     fillColor: Colors.grey.shade100,
-                    hintText: 'Description',
+                    hintText: 'Description'.tr,
                     hintStyle: GoogleFonts.poppins(
                       color: AppTheme.primaryColor,
                       fontSize: 15,
@@ -339,13 +339,13 @@ class _SingleProductDiscriptionScreenState extends State<SingleProductDiscriptio
                           if (inStockController.text.isEmpty) {
                             FocusManager.instance.primaryFocus!.unfocus();
                             alertDiscount.clear();
-                            showToastCenter('Enter stock quantity first');
+                            showToastCenter('Enter stock quantity first'.tr);
                             return;
                           }
                           if (stockAlert > stockQuantity) {
                             FocusManager.instance.primaryFocus!.unfocus();
                             alertDiscount.clear();
-                            showToastCenter('Stock alert cannot be higher than stock quantity');
+                            showToastCenter('Stock alert cannot be higher than stock quantity'.tr);
                           }
                         },
                         hintText: 'Get notification on your stock quantity'.tr,
@@ -413,9 +413,9 @@ class _SingleProductDiscriptionScreenState extends State<SingleProductDiscriptio
                       borderRadius: BorderRadius.circular(10),
                     ),
                     padding: const EdgeInsets.all(10),
-                    child: const Center(
+                    child:  Center(
                       child: Text(
-                        'Continue',
+                        'Continue'.tr,
                         style: TextStyle(
                           fontSize: 16,
                           fontWeight: FontWeight.bold,

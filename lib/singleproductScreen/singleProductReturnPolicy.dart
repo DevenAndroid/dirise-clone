@@ -262,7 +262,7 @@ class _SingleProductReturnPolicyState extends State<SingleProductReturnPolicy> {
                           if (modelReturnPolicy?.returnPolicy != null)
                             DropdownButtonFormField<ReturnPolicy>(
                               value: selectedReturnPolicy,
-                              hint: const Text("Select a Return Policy"),
+                              hint:  Text("Select a Return Policy".tr),
                               decoration: InputDecoration(
                                 border: InputBorder.none,
                                 filled: true,
@@ -323,7 +323,7 @@ class _SingleProductReturnPolicyState extends State<SingleProductReturnPolicy> {
                               controller: titleController,
                               hintText: selectedReturnPolicy != null
                                   ? selectedReturnPolicy!.title.toString()
-                                  : 'Policy name',
+                                  : 'Policy name'.tr,
                               validator: (value) {
                                 if (value!.trim().isEmpty) {
                                   return "Policy name".tr;
@@ -388,7 +388,7 @@ class _SingleProductReturnPolicyState extends State<SingleProductReturnPolicy> {
                                   ),
                                   validator: (value) {
                                     if (value == null || value.isEmpty) {
-                                      return 'Please select an item';
+                                      return 'Please select an item'.tr;
                                     }
                                     return null;
                                   },
@@ -414,7 +414,8 @@ class _SingleProductReturnPolicyState extends State<SingleProductReturnPolicy> {
                                       border: Border.all(color: AppTheme.secondaryColor),
                                       borderRadius: BorderRadius.circular(8)
                                   ),
-                                  child: const Center(child: Text('days')),
+                                  child:  Center(
+                                      child: Text('days'.tr)),
                                 ),
                               ),
                             ],
@@ -482,7 +483,7 @@ class _SingleProductReturnPolicyState extends State<SingleProductReturnPolicy> {
                             readOnly: singleModelReturnPolicy.value.data != null  || selectedReturnDay != '' ? true : false,
                             validator: (value) {
                               if (value == null || value.isEmpty) {
-                                return 'Please write return policy description';
+                                return 'Please write return policy description'.tr;
                               }
                               return null;
                             },
@@ -498,7 +499,7 @@ class _SingleProductReturnPolicyState extends State<SingleProductReturnPolicy> {
                               fillColor: Colors.grey.shade100,
                               hintText: selectedReturnPolicy != null
                                   ? selectedReturnPolicy!.policyDiscreption.toString()
-                                  : 'policy description',
+                                  : 'policy description'.tr,
                               hintStyle: GoogleFonts.poppins(
                                 color: AppTheme.primaryColor,
                                 fontSize: 15,
@@ -530,7 +531,7 @@ class _SingleProductReturnPolicyState extends State<SingleProductReturnPolicy> {
                   height: 15,
                 ),
                 CustomOutlineButton(
-                    title: 'Next',
+                    title: 'Next'.tr,
                     borderRadius: 11,
                     onPressed: () {
                       if (noReturnSelected == false) {
@@ -542,7 +543,7 @@ class _SingleProductReturnPolicyState extends State<SingleProductReturnPolicy> {
                               nextPageApi();
                             }
                           } else {
-                            showToastCenter('Select Return shipping fees');
+                            showToastCenter('Select Return shipping fees'.tr);
                           }
                         }
                       } else {

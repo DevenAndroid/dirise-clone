@@ -263,7 +263,7 @@ class _ServicesReturnPolicyState extends State<ServicesReturnPolicy> {
                     if (modelReturnPolicy?.returnPolicy != null)
                       DropdownButtonFormField<ReturnPolicy>(
                         value: selectedReturnPolicy,
-                        hint: const Text("Select a Return Policy"),
+                        hint:  Text("Select a Return Policy".tr),
                         decoration: InputDecoration(
                           border: InputBorder.none,
                           filled: true,
@@ -324,7 +324,7 @@ class _ServicesReturnPolicyState extends State<ServicesReturnPolicy> {
                         controller: titleController,
                         hintText: selectedReturnPolicy != null
                             ? selectedReturnPolicy!.title.toString()
-                            : 'Policy name',
+                            : 'Policy name'.tr,
                         validator: (value) {
                           if (value!.trim().isEmpty) {
                             return "Policy name".tr;
@@ -389,7 +389,7 @@ class _ServicesReturnPolicyState extends State<ServicesReturnPolicy> {
                             ),
                             validator: (value) {
                               if (value == null || value.isEmpty) {
-                                return 'Please select an item';
+                                return 'Please select an item'.tr;
                               }
                               return null;
                             },
@@ -415,7 +415,7 @@ class _ServicesReturnPolicyState extends State<ServicesReturnPolicy> {
                               border: Border.all(color: AppTheme.secondaryColor),
                               borderRadius: BorderRadius.circular(8)
                             ),
-                            child: const Center(child: Text('days')),
+                            child:  Center(child: Text('days'.tr)),
                           ),
                         ),
                       ],
@@ -483,7 +483,7 @@ class _ServicesReturnPolicyState extends State<ServicesReturnPolicy> {
                       readOnly: singleModelReturnPolicy.value.data != null ? true : false,
                       validator: (value) {
                         if (value == null || value.isEmpty) {
-                          return 'Please write return policy description';
+                          return 'Please write return policy description'.tr;
                         }
                         return null;
                       },
@@ -499,7 +499,7 @@ class _ServicesReturnPolicyState extends State<ServicesReturnPolicy> {
                         fillColor: Colors.grey.shade100,
                         hintText: selectedReturnPolicy != null
                             ? selectedReturnPolicy!.policyDiscreption.toString()
-                            : 'policy description',
+                            : 'policy description'.tr,
                         hintStyle: GoogleFonts.poppins(
                           color: AppTheme.primaryColor,
                           fontSize: 15,
@@ -531,7 +531,7 @@ class _ServicesReturnPolicyState extends State<ServicesReturnPolicy> {
                   height: 15,
                 ),
                 CustomOutlineButton(
-                    title: 'Next',
+                    title: 'Next'.tr,
                     borderRadius: 11,
                     onPressed: () {
                       if (noReturnSelected == false) {
@@ -544,7 +544,7 @@ class _ServicesReturnPolicyState extends State<ServicesReturnPolicy> {
                               nextPageApi();
                             }
                           } else {
-                            showToastCenter('Select Return shipping fees');
+                            showToastCenter('Select Return shipping fees'.tr);
                           }
                         }
                       } else {

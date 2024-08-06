@@ -322,7 +322,7 @@ class _AddProductPickUpAddressScreenState extends State<AddProductPickUpAddressS
                   hintText: 'Zip Code'.tr,
                   validator: (value) {
                     if (value!.trim().isEmpty) {
-                      return 'If you dont have any zipcode then write 99999 and make sure write a right zipcode otherwise we cant help in shipping'
+                      return 'If you dont have any zipcode then write 99999 and make sure write a right zipcode otherwise we cant help in shipping'.tr
                           .tr;
                     }
                     return null; // Return null if validation passes
@@ -371,7 +371,7 @@ class _AddProductPickUpAddressScreenState extends State<AddProductPickUpAddressS
                   height: size.height * .02,
                 ),
                 CustomOutlineButton(
-                  title: 'Confirm Your Location',
+                  title: 'Confirm Your Location'.tr,
                   borderRadius: 11,
                   onPressed: () {
                     if (formKey1.currentState!.validate()) {

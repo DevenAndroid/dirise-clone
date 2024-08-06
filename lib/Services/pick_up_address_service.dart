@@ -364,9 +364,9 @@ class _PickUpAddressServiceState extends State<PickUpAddressService> {
                       borderRadius: BorderRadius.circular(10), // Border radius
                     ),
                     padding: const EdgeInsets.all(10), // Padding inside the container
-                    child: const Center(
+                    child:  Center(
                       child: Text(
-                        'Confirm Your Location',
+                        'Confirm Your Location'.tr,
                         style: TextStyle(
                           fontSize: 16,
                           fontWeight: FontWeight.bold,

@@ -276,14 +276,14 @@ class _ServiceInternationalShippingServiceState extends State<ServiceInternation
                 ),
                 const SizedBox(height: 5),
                 Text(
-                  'Be as accurate as you can and always round up. Your shipping courier will always round up and charges you based on their weight.',
+                  'Be as accurate as you can and always round up. Your shipping courier will always round up and charges you based on their weight.'.tr,
                   style: GoogleFonts.poppins(color: const Color(0xff292F45), fontWeight: FontWeight.w400, fontSize: 13),
                 ),
                 const SizedBox(height: 10),
                 CommonTextField(
                     controller: weightController,
                     obSecure: false,
-                    hintText: 'Weight Of the Item ',
+                    hintText: 'Weight Of the Item '.tr,
                     keyboardType: TextInputType.number,
                     validator: MultiValidator([
                       RequiredValidator(errorText: 'Product Name is required'.tr),
@@ -327,7 +327,7 @@ class _ServiceInternationalShippingServiceState extends State<ServiceInternation
                   ),
                   validator: (value) {
                     if (value == null || value.isEmpty) {
-                      return 'Please select an item';
+                      return 'Please select an item'.tr;
                     }
                     return null;
                   },
@@ -392,7 +392,7 @@ class _ServiceInternationalShippingServiceState extends State<ServiceInternation
                           controller: dimensionController,
                           obSecure: false,
                           keyboardType: TextInputType.number,
-                          hintText: 'Length X ',
+                          hintText: 'Length X '.tr,
                           validator: MultiValidator([
                             RequiredValidator(errorText: 'Product length is required'.tr),
                           ])),
@@ -405,7 +405,7 @@ class _ServiceInternationalShippingServiceState extends State<ServiceInternation
                       child: CommonTextField(
                           controller: dimensionWidthController,
                           obSecure: false,
-                          hintText: 'Width X',
+                          hintText: 'Width X'.tr,
                           keyboardType: TextInputType.number,
                           validator: MultiValidator([
                             RequiredValidator(errorText: 'Product Width is required'.tr),
@@ -417,7 +417,7 @@ class _ServiceInternationalShippingServiceState extends State<ServiceInternation
                       child: CommonTextField(
                           controller: dimensionHeightController,
                           obSecure: false,
-                          hintText: 'Height X',
+                          hintText: 'Height X'.tr,
                           keyboardType: TextInputType.number,
                           validator: MultiValidator([
                             RequiredValidator(errorText: 'Product Height is required'.tr),
@@ -469,14 +469,14 @@ class _ServiceInternationalShippingServiceState extends State<ServiceInternation
                   ),
                   validator: (value) {
                     if (value == null || value.isEmpty) {
-                      return 'Please select an item';
+                      return 'Please select an item'.tr;
                     }
                     return null;
                   },
                 ),
                 const SizedBox(height: 20),
                 CustomOutlineButton(
-                  title: 'Confirm',
+                  title: 'Confirm'.tr,
                   borderRadius: 11,
                   onPressed: () {
                     if(formKey.currentState!.validate()){
@@ -500,9 +500,9 @@ class _ServiceInternationalShippingServiceState extends State<ServiceInternation
                       borderRadius: BorderRadius.circular(10), // Border radius
                     ),
                     padding: const EdgeInsets.all(10), // Padding inside the container
-                    child: const Center(
+                    child:  Center(
                       child: Text(
-                        'Skip',
+                        'Skip'.tr,
                         style: TextStyle(
                           fontSize: 16,
                           fontWeight: FontWeight.bold,

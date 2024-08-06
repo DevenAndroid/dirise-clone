@@ -398,7 +398,7 @@ class _whatServiceDoYouProvideState extends State<whatServiceDoYouProvide> {
                         obSecure: false,
                         // hintText: 'Name',
                         keyboardType: TextInputType.number,
-                        hintText: 'Discount percentage'.tr,
+                        hintText: 'Discount Percentage'.tr,
                         onChanged: (value) {
                           discountDouble = double.tryParse(value.toString()) ?? 0.0;
                           fixedDiscount.text = "";

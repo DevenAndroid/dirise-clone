@@ -124,7 +124,7 @@ class _JobReviewPublishScreenState extends State<JobReviewPublishScreen> {
                               mainAxisAlignment: MainAxisAlignment.spaceBetween,
                               children: [
                                 Text(
-                                  'Featured Image',
+                                  'Featured Image'.tr,
                                   style: GoogleFonts.poppins(
                                     color: Colors.black,
                                     fontSize: 15,
@@ -184,8 +184,8 @@ class _JobReviewPublishScreenState extends State<JobReviewPublishScreen> {
                                           // galleryImg: gallery,
                                         ));
                                       },
-                                      child: const Text(
-                                        'Edit',
+                                      child:  Text(
+                                        'Edit'.tr,
                                         style: TextStyle(color: Colors.red, fontSize: 13),
                                       )))
                             ],
@@ -208,7 +208,7 @@ class _JobReviewPublishScreenState extends State<JobReviewPublishScreen> {
                               mainAxisAlignment: MainAxisAlignment.spaceBetween,
                               children: [
                                 Text(
-                                  'Other Image',
+                                  'Other Image'.tr,
                                   style: GoogleFonts.poppins(
                                     color: AppTheme.primaryColor,
                                     fontSize: 15,
@@ -272,7 +272,7 @@ class _JobReviewPublishScreenState extends State<JobReviewPublishScreen> {
                                     );
                                   },
                                 )
-                                    : const Text('No images available'),
+                                    :  Text('No images available'.tr),
                               ),
                               Positioned(
                                 right: 10,
@@ -291,8 +291,8 @@ class _JobReviewPublishScreenState extends State<JobReviewPublishScreen> {
                                       ));
                                     }
                                   },
-                                  child: const Text(
-                                    'Edit',
+                                  child:  Text(
+                                    'Edit'.tr,
                                     style: TextStyle(color: Colors.red, fontSize: 13),
                                   ),
                                 ),
@@ -314,7 +314,7 @@ class _JobReviewPublishScreenState extends State<JobReviewPublishScreen> {
                                 border: Border.all(color: Colors.grey.shade400, width: 1)),
                             child:  Row(
                               mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                              children: [const Text('Job Details'),
+                              children: [ Text('Job Details'.tr),
                                 isItemDetailsVisible != true ?
                                 Image.asset(
                                   'assets/images/drop_icon.png',
@@ -346,20 +346,17 @@ class _JobReviewPublishScreenState extends State<JobReviewPublishScreen> {
                                     crossAxisAlignment: CrossAxisAlignment.start,
                                     children: [
                                       20.spaceY,
-                                      Text('Job title: ${addProductControllerNew.productDetailsModel.value.productDetails!.product!.pname ?? ""}'),
-                                      Text('Job Category: ${addProductControllerNew.productDetailsModel.value.productDetails!.product!.jobParentCat ?? ""}'),
-                                      Text(
-                                          'Job Sub Category: ${addProductControllerNew.productDetailsModel.value.productDetails!.product!.jobCat ?? ""}'),
-                                      Text(
-                                          'Job Country: ${addProductControllerNew.productDetailsModel.value.productDetails!.product!.jobCountryName ?? ""}'),
-                                      Text(
-                                          'Job State: ${addProductControllerNew.productDetailsModel.value.productDetails!.product!.jobStateName ?? ""}'),
-                                      Text('Job City: ${addProductControllerNew.productDetailsModel.value.productDetails!.product!.jobCityName ?? ""}'),
-                                      Text('Job Type: ${addProductControllerNew.productDetailsModel.value.productDetails!.product!.jobType ?? ""}'),
-                                      Text('Job Model: ${addProductControllerNew.productDetailsModel.value.productDetails!.product!.jobModel ?? ""}'),
-                                      Text('Experience: ${addProductControllerNew.productDetailsModel.value.productDetails!.product!.experience ?? ""}'),
-                                      Text('Salary: ${addProductControllerNew.productDetailsModel.value.productDetails!.product!.salary ?? ""}'),
-                                      Text('LinkedIn Url: ${addProductControllerNew.productDetailsModel.value.productDetails!.product!.linkdinUrl ?? ""}'),
+                                      Text('${"Job title:".tr} ${addProductControllerNew.productDetailsModel.value.productDetails!.product!.pname ?? ""}'),
+                                      Text('${"Job Category:".tr} ${addProductControllerNew.productDetailsModel.value.productDetails!.product!.jobParentCat ?? ""}'),
+                                      Text('${"Job Sub Category:".tr} ${addProductControllerNew.productDetailsModel.value.productDetails!.product!.jobCat ?? ""}'),
+                                      Text('${"Job Country:".tr} ${addProductControllerNew.productDetailsModel.value.productDetails!.product!.jobCountryName ?? ""}'),
+                                      Text('${"Job State:".tr} ${addProductControllerNew.productDetailsModel.value.productDetails!.product!.jobStateName ?? ""}'),
+                                      Text('${"Job City:".tr} ${addProductControllerNew.productDetailsModel.value.productDetails!.product!.jobCityName ?? ""}'),
+                                      Text('${"Job Type:".tr} ${addProductControllerNew.productDetailsModel.value.productDetails!.product!.jobType ?? ""}'),
+                                      Text('${"Job Model:".tr} ${addProductControllerNew.productDetailsModel.value.productDetails!.product!.jobModel ?? ""}'),
+                                      Text('${"Experience:".tr} ${addProductControllerNew.productDetailsModel.value.productDetails!.product!.experience ?? ""}'),
+                                      Text('${"Salary:".tr} ${addProductControllerNew.productDetailsModel.value.productDetails!.product!.salary ?? ""}'),
+                                      Text('${"LinkedIn Url:".tr} ${addProductControllerNew.productDetailsModel.value.productDetails!.product!.linkdinUrl ?? ""}'),
                                     ],
                                   ),
                                 ),
@@ -391,7 +388,8 @@ class _JobReviewPublishScreenState extends State<JobReviewPublishScreen> {
 
                                           ));
                                         },
-                                        child: const Text('Edit',style: TextStyle(color: Colors.red,fontSize: 13),)))
+                                        child:  Text('Edit'.tr,
+                                          style: TextStyle(color: Colors.red,fontSize: 13),)))
                               ],
 
                             )),
@@ -410,7 +408,7 @@ class _JobReviewPublishScreenState extends State<JobReviewPublishScreen> {
                                 border: Border.all(color: Colors.grey.shade400, width: 1)),
                             child:  Row(
                               mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                              children: [const Text('Tell us about yourself'),
+                              children: [ Text('Tell us about yourself'.tr),
                                 isItemDetailsVisible1 != true ?
                                 Image.asset(
                                   'assets/images/drop_icon.png',
@@ -440,14 +438,13 @@ class _JobReviewPublishScreenState extends State<JobReviewPublishScreen> {
                                 crossAxisAlignment: CrossAxisAlignment.start,
                                 children: [
                                   20.spaceY,
-                                  Text(
-                                      'Tell us about yourself: ${addProductControllerNew.productDetailsModel.value.productDetails!.product!.aboutYourself ?? ""}'),
+                                  Text('${"Tell us about yourself:".tr} ${addProductControllerNew.productDetailsModel.value.productDetails!.product!.aboutYourself ?? ""}'),
                                 ],
                               ),
                             )),
                         const SizedBox(height: 10),
                         CustomOutlineButton(
-                          title: 'Confirm',
+                          title: 'Confirm'.tr,
                           borderRadius: 11,
                           onPressed: () {
                             completeApi();

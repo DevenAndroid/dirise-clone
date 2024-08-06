@@ -80,7 +80,7 @@ class _ImageWidgetState extends State<ImageWidget> {
             children: <Widget>[
               ListTile(
                 leading: const Icon(Icons.photo_library),
-                title: const Text('Files'),
+                title:  Text('Files'.tr),
                 onTap: () async {
                   Get.back();
                   if (widget.imageOnly == true) {
@@ -118,7 +118,7 @@ class _ImageWidgetState extends State<ImageWidget> {
               ),
               ListTile(
                 leading: Icon(Icons.camera_alt),
-                title: Text('Camera'),
+                title: Text('Camera'.tr),
                 onTap: () async {
                   Get.back();
                   final pickedFile = await ImagePicker().pickImage(
@@ -135,7 +135,7 @@ class _ImageWidgetState extends State<ImageWidget> {
               ),
               ListTile(
                 leading: Icon(Icons.cancel),
-                title: Text('Cancel'),
+                title: Text('Cancel'.tr),
                 onTap: () {
                   Get.back();
                 },
