@@ -1047,7 +1047,8 @@ class _ServiceProductScreenState extends State<ServiceProductScreen> {
                       const SizedBox(
                         width: 20,
                       ),
-                      Image.asset("assets/svgs/verified.png",width: 100,)
+                      if( modelSingleProduct.value.simpleProduct!.storemeta!.verifyBatch == true)
+                        Image.asset("assets/svgs/verified.png",width: 100,)
                     ],
                   ),
                   const SizedBox(

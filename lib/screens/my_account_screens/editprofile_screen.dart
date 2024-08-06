@@ -154,7 +154,7 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
                                 trailing: selectedAddressId == filteredList[index].addressId
                                     ? const Icon(
                                         Icons.check,
-                                        color: Colors.purple,
+                                        color: AppTheme.buttonColor,
                                       )
                                     : Icon(
                                         Icons.arrow_forward_ios_rounded,

@@ -15,10 +15,10 @@ class GiveAwaySingleModel {
 
   Map<String, dynamic> toJson() {
     final Map<String, dynamic> data = new Map<String, dynamic>();
-    data['status'] = this.status;
-    data['message'] = this.message;
-    if (this.singleGiveawayProduct != null) {
-      data['single_giveaway_product'] = this.singleGiveawayProduct!.toJson();
+    data['status'] = status;
+    data['message'] = message;
+    if (singleGiveawayProduct != null) {
+      data['single_giveaway_product'] = singleGiveawayProduct!.toJson();
     }
     return data;
   }
@@ -138,44 +138,44 @@ class SingleGiveawayProduct {
 
   Map<String, dynamic> toJson() {
     final Map<String, dynamic> data = new Map<String, dynamic>();
-    data['id'] = this.id;
-    data['vendor_id'] = this.vendorId;
-    data['address_id'] = this.addressId;
-    if (this.catId != null) {
-      data['cat_id'] = this.catId!.map((v) => v.toJson()).toList();
+    data['id'] = id;
+    data['vendor_id'] = vendorId;
+    data['address_id'] = addressId;
+    if (catId != null) {
+      data['cat_id'] = catId!.map((v) => v.toJson()).toList();
     }
-    if (this.vendorInformation != null) {
-      data['vendor_information'] = this.vendorInformation!.toJson();
+    if (vendorInformation != null) {
+      data['vendor_information'] = vendorInformation!.toJson();
     }
-    data['cat_id_2'] = this.catId2;
-    data['pname'] = this.pname;
-    data['product_type'] = this.productType;
-    data['item_type'] = this.itemType;
-    data['giveaway_item_condition'] = this.giveawayItemCondition;
-    data['featured_image'] = this.featuredImage;
-    data['feature_image_app'] = this.featureImageApp;
-    data['feature_image_web'] = this.featureImageWeb;
-    data['gallery_image'] = this.galleryImage;
-    data['in_stock'] = this.inStock;
-    data['p_price'] = this.pPrice;
-    data['return_policy_desc'] = this.returnPolicyDesc;
-    data['short_description'] = this.shortDescription;
-    data['long_description'] = this.longDescription;
-    data['is_complete'] = this.isComplete;
-    data['virtual_product_file'] = this.virtualProductFile;
-    data['views'] = this.views;
-    data['rating'] = this.rating;
-    data['already_review'] = this.alreadyReview;
-    data['in_wishlist'] = this.inWishlist;
-    data['wishlist_count'] = this.wishlistCount;
-    if (this.storemeta != null) {
-      data['storemeta'] = this.storemeta!.toJson();
+    data['cat_id_2'] = catId2;
+    data['pname'] = pname;
+    data['product_type'] = productType;
+    data['item_type'] = itemType;
+    data['giveaway_item_condition'] = giveawayItemCondition;
+    data['featured_image'] = featuredImage;
+    data['feature_image_app'] = featureImageApp;
+    data['feature_image_web'] = featureImageWeb;
+    data['gallery_image'] = galleryImage;
+    data['in_stock'] = inStock;
+    data['p_price'] = pPrice;
+    data['return_policy_desc'] = returnPolicyDesc;
+    data['short_description'] = shortDescription;
+    data['long_description'] = longDescription;
+    data['is_complete'] = isComplete;
+    data['virtual_product_file'] = virtualProductFile;
+    data['views'] = views;
+    data['rating'] = rating;
+    data['already_review'] = alreadyReview;
+    data['in_wishlist'] = inWishlist;
+    data['wishlist_count'] = wishlistCount;
+    if (storemeta != null) {
+      data['storemeta'] = storemeta!.toJson();
     }
-    data['lowestDeliveryPrice'] = this.lowestDeliveryPrice;
-    data['shipping_date'] = this.shippingDate;
-    data['discount_price'] = this.discountPrice;
-    data['discount_off'] = this.discountOff;
-    data['shipping_policy'] = this.shippingPolicy;
+    data['lowestDeliveryPrice'] = lowestDeliveryPrice;
+    data['shipping_date'] = shippingDate;
+    data['discount_price'] = discountPrice;
+    data['discount_off'] = discountOff;
+    data['shipping_policy'] = shippingPolicy;
     return data;
   }
 }
@@ -221,17 +221,17 @@ class VendorInformation {
 
   Map<String, dynamic> toJson() {
     final Map<String, dynamic> data = new Map<String, dynamic>();
-    data['store_id'] = this.storeId;
-    data['store_name'] = this.storeName;
-    data['store_email'] = this.storeEmail;
-    data['store_phone'] = this.storePhone;
-    data['store_logo'] = this.storeLogo;
-    data['store_image'] = this.storeImage;
-    data['store_logo_app'] = this.storeLogoApp;
-    data['store_logo_web'] = this.storeLogoWeb;
-    data['banner_profile'] = this.bannerProfile;
-    data['banner_profile_app'] = this.bannerProfileApp;
-    data['banner_profile_web'] = this.bannerProfileWeb;
+    data['store_id'] = storeId;
+    data['store_name'] = storeName;
+    data['store_email'] = storeEmail;
+    data['store_phone'] = storePhone;
+    data['store_logo'] = storeLogo;
+    data['store_image'] = storeImage;
+    data['store_logo_app'] = storeLogoApp;
+    data['store_logo_web'] = storeLogoWeb;
+    data['banner_profile'] = bannerProfile;
+    data['banner_profile_app'] = bannerProfileApp;
+    data['banner_profile_web'] = bannerProfileWeb;
     return data;
   }
 }
@@ -248,8 +248,8 @@ class CatId {
 
   Map<String, dynamic> toJson() {
     final Map<String, dynamic> data = new Map<String, dynamic>();
-    data['id'] = this.id;
-    data['title'] = this.title;
+    data['id'] = id;
+    data['title'] = title;
     return data;
   }
 }
@@ -266,6 +266,7 @@ class Storemeta {
   dynamic commercialLicense;
   dynamic storeCategory;
   bool? isVendor;
+  dynamic verifyBatch;
 
   Storemeta(
       {this.firstName,
@@ -275,6 +276,7 @@ class Storemeta {
         this.storeLocation,
         this.profileImg,
         this.bannerProfile,
+        this.verifyBatch,
         this.document2,
         this.commercialLicense,
         this.isVendor,
@@ -286,6 +288,7 @@ class Storemeta {
     storeId = json['store_id'];
     storeName = json['store_name'];
     storeLocation = json['store_location'];
+    verifyBatch = json['verify_batch'];
     profileImg = json['profile_img'];
     bannerProfile = json['banner_profile'];
     document2 = json['document_2'];
@@ -296,17 +299,18 @@ class Storemeta {
 
   Map<String, dynamic> toJson() {
     final Map<String, dynamic> data = new Map<String, dynamic>();
-    data['first_name'] = this.firstName;
-    data['last_name'] = this.lastName;
-    data['store_id'] = this.storeId;
-    data['store_name'] = this.storeName;
-    data['document_2'] = this.document2;
-    data['store_location'] = this.storeLocation;
-    data['profile_img'] = this.profileImg;
-    data['banner_profile'] = this.bannerProfile;
-    data['commercial_license'] = this.commercialLicense;
-    data['store_category'] = this.storeCategory;
-    data['is_vendor'] = this.isVendor;
+    data['first_name'] = firstName;
+    data['last_name'] = lastName;
+    data['store_id'] = storeId;
+    data['store_name'] = storeName;
+    data['verify_batch'] = verifyBatch;
+    data['document_2'] = document2;
+    data['store_location'] = storeLocation;
+    data['profile_img'] = profileImg;
+    data['banner_profile'] = bannerProfile;
+    data['commercial_license'] = commercialLicense;
+    data['store_category'] = storeCategory;
+    data['is_vendor'] = isVendor;
 
     return data;
   }

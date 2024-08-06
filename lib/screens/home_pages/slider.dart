@@ -152,11 +152,11 @@ class _SliderWidgetState extends State<SliderWidget> {
                     },
                     child: ScrollLoopAutoScroll(
                         scrollDirection: Axis.vertical,
-                        delay: const Duration(seconds: 0),
+                        delay: const Duration(milliseconds: 0),
                         duration: const Duration(minutes: 3),
                         gap: 0,
                         reverseScroll: false,
-                        duplicateChild: 1,
+                        duplicateChild: 10,
                         enableScrollInput: true,
                         delayAfterScrollInput: const Duration(seconds: 1),
                         child: getPublishModel.value.allNews!= null && getPublishModel.value.allNews!.isNotEmpty?

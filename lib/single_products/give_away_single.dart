@@ -1283,16 +1283,18 @@ class _GiveAwayProductState extends State<GiveAwayProduct> {
 
                         Row(
                           children: [
-                            Text(
-                              modelSingleProduct.value.singleGiveawayProduct!.storemeta!.storeName.toString(),
-                              style:
-                                  GoogleFonts.poppins(color: Colors.black, fontSize: 20, fontWeight: FontWeight.w500),
+                            Flexible(
+                              child: Text(
+                                modelSingleProduct.value.singleGiveawayProduct!.storemeta!.storeName.toString(),
+                                style:
+                                    GoogleFonts.poppins(color: Colors.black, fontSize: 20, fontWeight: FontWeight.w500),
+                              ),
                             ),
                             const SizedBox(
                               width: 20,
                             ),
-                            modelSingleProduct.value.singleGiveawayProduct!.storemeta!.isVendor == true?
-                            Expanded(child: Image.asset("assets/svgs/verified.png",height: 30,)):SizedBox()
+                            if( modelSingleProduct.value.singleGiveawayProduct!.storemeta!.verifyBatch == true)
+                              Image.asset("assets/svgs/verified.png",width: 100,)
                           ],
                         ),
                         const SizedBox(

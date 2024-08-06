@@ -1229,6 +1229,7 @@ class _SimpleProductScreenState extends State<SimpleProductScreen> {
                       const SizedBox(
                         width: 20,
                       ),
+                      if( modelSingleProduct.value.simpleProduct!.storemeta!.verifyBatch == true)
                       Image.asset("assets/svgs/verified.png",width: 100,)
                     ],
                   ),

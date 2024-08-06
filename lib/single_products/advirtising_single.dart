@@ -1173,7 +1173,8 @@ class _AdvirtismentProductScreenState extends State<AdvirtismentProductScreen> {
                       const SizedBox(
                         width: 20,
                       ),
-                      Flexible(child: Image.asset("assets/svgs/verified.png"))
+                      if( modelSingleProduct.value.advertisingProduct!.storemeta!.verifyBatch == true)
+                        Image.asset("assets/svgs/verified.png",width: 100,)
                     ],
                   ),
                   const SizedBox(

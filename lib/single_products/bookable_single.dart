@@ -1219,7 +1219,8 @@ class _BookableProductScreenState extends State<BookableProductScreen> {
                       SizedBox(
                         width: 20,
                       ),
-                      Flexible(child: Image.asset("assets/svgs/verified.png"))
+                      if( modelSingleProduct.value.bookingProduct!.storemeta!.verifyBatch == true)
+                        Image.asset("assets/svgs/verified.png",width: 100,)
                     ],
                   ),
                   SizedBox(

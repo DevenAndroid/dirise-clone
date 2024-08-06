@@ -659,34 +659,44 @@ class _SingleStoreScreenState extends State<SingleStoreScreen> {
                               if (storeInfo.day != '' || storeInfo.start != '' || storeInfo.end != '' )
                                 Padding(
                                   padding: const EdgeInsets.symmetric(horizontal: 17),
-                                  child: Row(
+
+                                  child: Column(
+                                    crossAxisAlignment: CrossAxisAlignment.start,
                                     children: [
-                                      GestureDetector(
-                                        onTap: () {
-                                          log('storeeeeeeee${storeInfo.toJson()}');
-                                          print(storeInfo.status.toString());
-                                          print(getCategoryStoresModel.value.user!.status.toString());
-                                        },
-                                        child: SvgPicture.asset(
-                                          'assets/svgs/watch_icon.svg',
-                                          width: 20,
-                                          height: 20,
-                                        ),
-                                      ),
-                                      const SizedBox(
-                                        width: 5,
-                                      ),
-                                      Text(storeInfo.day.toString(), style: normalStyle.copyWith(
-                                        color: const Color(0xFF7D7D7D),
+                                      Text('Operating hours'.tr, style: normalStyle.copyWith(
+                                        color: Colors.black,
                                       ),),
-                                      const SizedBox(
-                                        width: 10,
+                                      10.spaceY,
+                                      Row(
+                                        children: [
+                                          GestureDetector(
+                                            onTap: () {
+                                              log('storeeeeeeee${storeInfo.toJson()}');
+                                              print(storeInfo.status.toString());
+                                              print(getCategoryStoresModel.value.user!.status.toString());
+                                            },
+                                            child: SvgPicture.asset(
+                                              'assets/svgs/watch_icon.svg',
+                                              width: 20,
+                                              height: 20,
+                                            ),
+                                          ),
+                                          const SizedBox(
+                                            width: 5,
+                                          ),
+                                          Text(storeInfo.day.toString(), style: normalStyle.copyWith(
+                                            color: const Color(0xFF7D7D7D),
+                                          ),),
+                                          const SizedBox(
+                                            width: 10,
+                                          ),
+                                          storeInfo.start != null ? Text(
+                                            '${storeInfo.start.toString()} - ${storeInfo.end.toString()}',
+                                            style: normalStyle.copyWith(
+                                              color: const Color(0xFF7D7D7D),
+                                            ),) : const SizedBox(),
+                                        ],
                                       ),
-                                      storeInfo.start != null ? Text(
-                                        '${storeInfo.start.toString()} - ${storeInfo.end.toString()}',
-                                        style: normalStyle.copyWith(
-                                          color: const Color(0xFF7D7D7D),
-                                        ),) : const SizedBox(),
                                     ],
                                   ),
                                 ),
