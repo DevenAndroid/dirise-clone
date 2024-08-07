@@ -248,13 +248,14 @@ class Storemeta {
   dynamic document2;
   dynamic storeCategory;
   bool? isVendor;
-
+  dynamic verifyBatch;
   Storemeta(
       {this.firstName,
         this.lastName,
         this.storeId,
         this.storeName,
         this.storeLocation,
+        this.verifyBatch,
         this.profileImg,
         this.bannerProfile,
         this.commercialLicense,
@@ -274,6 +275,7 @@ class Storemeta {
     document2 = json['document_2'];
     storeCategory = json['store_category'];
     isVendor = json['is_vendor'];
+    verifyBatch = json['verify_batch'];
   }
 
   Map<String, dynamic> toJson() {
@@ -289,6 +291,7 @@ class Storemeta {
     data['document_2'] = this.document2;
     data['store_category'] = this.storeCategory;
     data['is_vendor'] = this.isVendor;
+    data['verify_batch'] = verifyBatch;
     return data;
   }
 }

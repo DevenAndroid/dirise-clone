@@ -202,16 +202,15 @@ class _ApproveProductScreenState extends State<ApproveProductScreen> {
             child: DropdownButton<String>(
               isExpanded: true,
               hint: Text('All',style: TextStyle(color:  Colors.black),),
-              value:productController . selectedValue,
-
+              value:productController.selectedValue,
               onChanged: (String? newValue) {
                 setState(() {
-                  productController .selectedValue = newValue;
+                  productController.selectedValue = newValue;
                   print("value"+productController .selectedValue.toString());
                   productController.getProductList1(context: context);
                 });
               },
-              items:productController .dropdownItems.map<DropdownMenuItem<String>>((String value) {
+              items:productController.dropdownItems.map<DropdownMenuItem<String>>((String value) {
                 return DropdownMenuItem<String>(
                   value: value,
                   child: Text(value),

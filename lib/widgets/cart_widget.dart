@@ -49,9 +49,9 @@ class _CartBagCardState extends State<CartBagCard> {
             ),
             cartController.apiLoaded
               ? Positioned.fill(
-            top: 0,
-            left:  totalProducts.length != 1 ?  14 : 15,
-            bottom: totalProducts.length != 1 ? 0 : 8,
+            bottom: 0,
+            left:  totalProducts.length != 1 ?  15 : 13,
+            top: totalProducts.length != 1 ? 15 : 15,
             child: Center(
               child: Text(
                 key: ValueKey(DateTime.now().millisecondsSinceEpoch),

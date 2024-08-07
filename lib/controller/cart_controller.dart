@@ -151,8 +151,8 @@ class CartController extends GetxController {
       'callback_url': 'https://diriseapp.com/home/$navigationBackUrl',
       'failure_url': 'https://diriseapp.com/home/$failureUrl',
       "shipping": [
-
-
+        {"store_id": storeIdShipping!= '' ? storeIdShipping.toString() : '0', "store_name": storeNameShipping.toString(), "title": shippingTitle.toString(), "ship_price": shippingPrices1.toString() , "shipping_type_id": shippingList.isNotEmpty ? shippingList.join(',') : '',
+          'shipping_date' :  shippingDate.isNotEmpty ? shippingDate.join(',') : '' ,'type' : purchaseType1}
       ],
       "cart_id": ["2"],
       'billing_address' : {

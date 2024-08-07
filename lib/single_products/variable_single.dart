@@ -1031,7 +1031,8 @@ class _VarientsProductScreenState extends State<VarientsProductScreen> {
                             const SizedBox(
                               width: 20,
                             ),
-                            Flexible(child: Image.asset("assets/svgs/verified.png"))
+                            if( modelSingleProduct.value.variantProduct!.storemeta!.verifyBatch == true)
+                              Image.asset("assets/svgs/verified.png",width: 100,)
                           ],
                         ),
                         const SizedBox(

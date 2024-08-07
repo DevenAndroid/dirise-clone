@@ -191,10 +191,18 @@ class _BottomNavbarState extends State<BottomNavbar> {
                     color: Colors.white,
                     borderRadius: BorderRadius.circular(30),
                   ),
-                  child: Center(
-                    child: SvgPicture.asset(
-                      'assets/svgs/D-Sell-Icon.svg',
-                      height: 30,
+                  child: Padding(
+                    padding: const EdgeInsets.all(9.0),
+                    child: Center(
+                      child:     profileController.selectedLAnguage.value == 'English' ?
+                      Image.asset(
+                        'assets/images/D-Sell-Icon.png',
+                        height: 30,
+                      ) :
+                      Image.asset(
+                        'assets/images/D-Sell-Icon-arab.png',
+                        height: 30,
+                      )
                     ),
                   ),
                 ),
@@ -295,6 +303,7 @@ class _BottomNavbarState extends State<BottomNavbar> {
                             child: Image.asset(
                               'assets/images/profile_new.png',
                               width: 30,
+                              height: 30,
                               color:
                                   bottomController.pageIndex.value == 3 ? AppTheme.buttonColor : AppTheme.primaryColor,
                             ),

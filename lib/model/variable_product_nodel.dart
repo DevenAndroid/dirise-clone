@@ -401,7 +401,7 @@ class Storemeta {
   dynamic storeId;
   dynamic document2;
   dynamic storeName;
-
+  dynamic verifyBatch;
   dynamic storeLocation;
   dynamic profileImg;
   dynamic bannerProfile;
@@ -414,6 +414,7 @@ class Storemeta {
         this.storeId,
         this.storeName,
         this.storeLocation,
+        this.verifyBatch,
         this.document2,
         this.profileImg,
         this.bannerProfile,
@@ -431,6 +432,7 @@ class Storemeta {
     bannerProfile = json['banner_profile'];
     commercialLicense = json['commercial_license'];
     storeCategory = json['store_category'];
+    verifyBatch = json['verify_batch'];
   }
 
   Map<String, dynamic> toJson() {
@@ -445,6 +447,7 @@ class Storemeta {
     data['banner_profile'] = bannerProfile;
     data['commercial_license'] = commercialLicense;
     data['store_category'] = storeCategory;
+    data['verify_batch'] = verifyBatch;
     return data;
   }
 }

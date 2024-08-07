@@ -161,6 +161,7 @@ class _ShowCaseProductsState extends State<ShowCaseProducts> {
                                     const SizedBox(width: 20,),
                                     Flexible(
                                       child: Column(
+                                        crossAxisAlignment: CrossAxisAlignment.start,
                                         children: [
                                           const SizedBox(height: 15,),
                                           Row(

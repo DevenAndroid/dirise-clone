@@ -547,8 +547,8 @@ class _HomePageState extends State<HomePage> {
                   },
                   child: Image.asset(
                     'assets/images/menu_new.png',
-                    width: 35,
-                    height: 35,
+                    width: 27,
+                    height: 27
                     // color: Colors.white,
                   ),
                 ),
@@ -563,8 +563,8 @@ class _HomePageState extends State<HomePage> {
                   },
                   child: SvgPicture.asset(
                     'assets/svgs/search_icon_new.svg',
-                    width: 38,
-                    height: 38,
+                    width: 25,
+                    height: 25,
                     // color: Colors.white,
                   ),
                   // child : Image.asset('assets/images/search_icon_new.png')

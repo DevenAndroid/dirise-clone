@@ -1210,6 +1210,7 @@ class _VritualProductScreenState extends State<VritualProductScreen> {
                       const SizedBox(
                         width: 20,
                       ),
+                      if( modelSingleProduct.value.singleVirtualProduct!.storemeta!.verifyBatch == true)
                       Image.asset("assets/svgs/verified.png",width: 100,)
                     ],
                   ),

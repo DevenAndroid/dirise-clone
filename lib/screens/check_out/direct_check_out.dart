@@ -455,6 +455,8 @@ class _DirectCheckOutScreenState extends State<DirectCheckOutScreen> {
                                                   //   return e.value.toString();
                                                   // });
                                                   shippingType.value = "local_shipping";
+                                                  cartController.directOrderResponse.value.fedexShippingOption.value =
+                                                      value.toString();
                                                   double subtotal = double.parse(cartController.directOrderResponse.value.subtotal.toString().replaceAll(',', ''));
                                                   double shipping = double.parse(product.value.toString());
                                                   shippingPrice = product.value.toString();
@@ -647,8 +649,7 @@ class _DirectCheckOutScreenState extends State<DirectCheckOutScreen> {
                                                                 .toString());
                                                         print("rate" + product1.totalNetCharge.toString());
                                                         print('total isss${cartController.formattedTotal2.toString()}');
-                                                        cartController.shippingPrices1 = cartController.formattedTotal2
-                                                            .toString();
+                                                        cartController.shippingPrices1 = fedxTotalIs.toString();
                                                         // e.value.shippingId.value = product.id.toString();
                                                         // e.value.vendorId.value = e.value.shipping![ii].vendorId!;
                                                         // directOrderResponse.s.value = product.serviceName.toString();
@@ -830,8 +831,7 @@ class _DirectCheckOutScreenState extends State<DirectCheckOutScreen> {
                                                         cartController.directOrderResponse.value.icarryCommision.toString());
                                                     print("rate" + product.rate.toString());
                                                     print('total isss${cartController.formattedTotal2.toString()}');
-                                                    cartController.shippingPrices1 = cartController.formattedTotal2
-                                                        .toString();
+                                                    cartController.shippingPrices1 = icarryTotal.toString();
                                                     double subtotalForShip = double.parse(
                                                         cartController.directOrderResponse.value.icarryCommision.toString());
                                                     double shippingForShip = double.parse(product.rate.toString());
@@ -1423,7 +1423,8 @@ class _DirectCheckOutScreenState extends State<DirectCheckOutScreen> {
       bottomNavigationBar: InkWell(
         onTap: () {
           print("id::::::::::::::::::::::::::::" + cartController.countryId);
-          if (cartController.countryId.isNotEmpty) {
+          if (cartController.countryId.isNotEmpty ||
+              cartController.myDefaultAddressModel.value.defaultAddress != null) {
             showValidation.value = true;
             if (cartController.deliveryOption1.value == 'delivery') {
               BuildContext? context1 = addressKey.currentContext;
@@ -1433,7 +1434,7 @@ class _DirectCheckOutScreenState extends State<DirectCheckOutScreen> {
               showToast("Please select delivery options".tr);
               return;
             }
-            if (cartController.countryId.isEmpty) {
+            if (cartController.deliveryOption1.value == "delivery" && cartController.selectedAddress.id == null) {
               BuildContext? context1 = addressKey.currentContext;
               if (context1 != null) {
                 Scrollable.ensureVisible(context1, duration: const Duration(milliseconds: 650));
@@ -1442,8 +1443,7 @@ class _DirectCheckOutScreenState extends State<DirectCheckOutScreen> {
               return;
             }
             if(cartController.directOrderResponse.value.prodcutData!.itemType != 'service' && cartController.directOrderResponse.value.prodcutData!.itemType != 'virtual_product') {
-              if (cartController.directOrderResponse.value.fedexShippingOption.isEmpty &&
-                  cartController.countryName.value != 'Kuwait') {
+              if (cartController.directOrderResponse.value.fedexShippingOption.isEmpty) {
                 showToast("Please select shipping Method".tr);
                 return;
               }
