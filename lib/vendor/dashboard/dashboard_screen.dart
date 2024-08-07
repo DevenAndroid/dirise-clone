@@ -7,6 +7,7 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:intl/intl.dart';
+import '../../controller/profile_controller.dart';
 import '../../controller/vendor_controllers/vendor_dashboard_controller.dart';
 import '../../controller/vendor_controllers/vendor_profile_controller.dart';
 import '../../widgets/dimension_screen.dart';
@@ -27,6 +28,7 @@ class VendorDashBoardScreen extends StatefulWidget {
 class _VendorDashBoardScreenState extends State<VendorDashBoardScreen> {
   final controller = Get.put(VendorDashboardController());
   final vendorProfileController = Get.put(VendorProfileController());
+  final profileController = Get.put(ProfileController());
 
   @override
   void initState() {
@@ -127,7 +129,7 @@ class _VendorDashBoardScreenState extends State<VendorDashBoardScreen> {
                                                   Expanded(
                                                     flex: 3,
                                                     child: Text(
-                                                      order.status.toString().capitalize!,
+                                                     order.status.toString().capitalize!,
                                                       style: GoogleFonts.poppins(
                                                           fontWeight: FontWeight.w600,
                                                           fontSize: 14,

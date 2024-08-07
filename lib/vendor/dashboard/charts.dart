@@ -3,6 +3,7 @@ import 'package:flutter_svg/svg.dart';
 import 'package:get/get.dart';
 import 'package:google_fonts/google_fonts.dart';
 
+import '../../controller/profile_controller.dart';
 import '../../controller/vendor_controllers/vendor_dashboard_controller.dart';
 import '../../controller/vendor_controllers/vendor_profile_controller.dart';
 import '../../widgets/dimension_screen.dart';
@@ -16,6 +17,17 @@ class DashBoardCharts extends StatefulWidget {
 
 class _DashBoardChartsState extends State<DashBoardCharts> {
   final controller = Get.put(VendorDashboardController());
+  final profileController = Get.put(ProfileController());
+  String _getArabicText(int index) {
+    const List<String> localizedTexts = [
+      "إجمالي المبيعات",
+      "الأرباح",
+      "العناصر المباعة",
+      "طلب وارد",
+    ];
+
+    return localizedTexts[index];
+  }
   @override
   Widget build(BuildContext context) {
     return Obx(() {
@@ -57,10 +69,10 @@ class _DashBoardChartsState extends State<DashBoardCharts> {
                   ),
                   Flexible(
                     child: Text(
-                      gg.entries.map((e) => e.key.replaceAll("_", " ").capitalize).toList()[index].toString(),
-                      style: Theme.of(context)
-                          .textTheme
-                          .headlineSmall!
+                      profileController.selectedLAnguage.value =="English"
+                      ?gg.entries.map((e) => e.key.replaceAll("_", " ").capitalize).toList()[index].toString()
+                      :_getArabicText(index),
+                      style: Theme.of(context).textTheme.headlineSmall!
                           .copyWith(height: 1.5, fontWeight: FontWeight.w500, fontSize: 14, color: const Color(0xFF8C9BB2)),
                     ),
                   ),
