@@ -427,6 +427,7 @@ class _SelectedOrderScreenState extends State<SelectedOrderScreen> {
                         ],
                       ),
                     ),
+                    if(singleOrder.order!.orderShipping != null)
                     Padding(
                       padding: const EdgeInsets.only(bottom: 8),
                       child: Row(

@@ -455,6 +455,8 @@ class _DirectCheckOutScreenState extends State<DirectCheckOutScreen> {
                                                   //   return e.value.toString();
                                                   // });
                                                   shippingType.value = "local_shipping";
+                                                  cartController.directOrderResponse.value.fedexShippingOption.value =
+                                                      value.toString();
                                                   double subtotal = double.parse(cartController.directOrderResponse.value.subtotal.toString().replaceAll(',', ''));
                                                   double shipping = double.parse(product.value.toString());
                                                   shippingPrice = product.value.toString();
@@ -647,8 +649,7 @@ class _DirectCheckOutScreenState extends State<DirectCheckOutScreen> {
                                                                 .toString());
                                                         print("rate" + product1.totalNetCharge.toString());
                                                         print('total isss${cartController.formattedTotal2.toString()}');
-                                                        cartController.shippingPrices1 = cartController.formattedTotal2
-                                                            .toString();
+                                                        cartController.shippingPrices1 = fedxTotalIs.toString();
                                                         // e.value.shippingId.value = product.id.toString();
                                                         // e.value.vendorId.value = e.value.shipping![ii].vendorId!;
                                                         // directOrderResponse.s.value = product.serviceName.toString();
@@ -830,8 +831,7 @@ class _DirectCheckOutScreenState extends State<DirectCheckOutScreen> {
                                                         cartController.directOrderResponse.value.icarryCommision.toString());
                                                     print("rate" + product.rate.toString());
                                                     print('total isss${cartController.formattedTotal2.toString()}');
-                                                    cartController.shippingPrices1 = cartController.formattedTotal2
-                                                        .toString();
+                                                    cartController.shippingPrices1 = icarryTotal.toString();
                                                     double subtotalForShip = double.parse(
                                                         cartController.directOrderResponse.value.icarryCommision.toString());
                                                     double shippingForShip = double.parse(product.rate.toString());
