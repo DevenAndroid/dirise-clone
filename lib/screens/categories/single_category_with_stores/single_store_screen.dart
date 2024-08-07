@@ -519,8 +519,8 @@ class _SingleStoreScreenState extends State<SingleStoreScreen> {
                                       child: Row(
                                         //  crossAxisAlignment: CrossAxisAlignment.start,
                                         children: [
-                                          const Text(
-                                            "Store-Url",
+                                           Text(
+                                            "Store-Url".tr,
                                             style: TextStyle(fontSize: 15, fontWeight: FontWeight.bold),
                                           ),
                                           const SizedBox(

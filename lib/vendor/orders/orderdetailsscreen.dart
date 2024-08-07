@@ -944,7 +944,7 @@ RxString kgValue = "".obs;
                                                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                                                 children: [
                                                   Text(
-                                                    "Tracking iD".tr,
+                                                    "Tracking ID".tr,
                                                     style: GoogleFonts.poppins(
                                                       color: const Color(0xFF293044),
                                                       fontSize: 15,
@@ -1072,7 +1072,7 @@ RxString kgValue = "".obs;
                                                   // Open the saved PDF file
                                                   OpenFilex.open(file.path);
                                                 } else {
-                                                  showToast("Failed to download PDF");
+                                                  showToast("Failed to download PDF".tr);
                                                 }
                                               } catch (e) {
                                                 showToast("Error downloading PDF: $e");

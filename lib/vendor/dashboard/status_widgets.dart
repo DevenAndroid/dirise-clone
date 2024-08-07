@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:get/get_core/src/get_main.dart';
 
+import '../../controller/profile_controller.dart';
 import '../../controller/vendor_controllers/vendor_profile_controller.dart';
 import '../../utils/styles.dart';
 import '../profile/vendor_profile_screen.dart';
@@ -15,6 +16,7 @@ class StatusWidget extends StatefulWidget {
 
 class _StatusWidgetState extends State<StatusWidget> {
   final vendorProfileController = Get.put(VendorProfileController());
+  final profileController = Get.put(ProfileController());
 
   bool get paymentDone => vendorProfileController.model.user!.subscription_status.toString() == "pending";
   bool get profileComplete => vendorProfileController.model.user!.vendorProfile!.is_complete == "false";
@@ -48,14 +50,18 @@ class _StatusWidgetState extends State<StatusWidget> {
                             ),
                             vendorProfileController.model.user!.vendorPublishStatus.toString() == 'pending'
                                 ? Text(
-                                    'Pre-approved: You must upload the required documents to be approved and able to receive your payments.',
+                                    profileController.selectedLAnguage.value == "English"
+                                    ?'Pre-approved: You must upload the required documents to be approved and able to receive your payments.'
+                                    :'Pre-approved: You must upload the required documents to be approved and able to receive your payments'.tr,
                                     style: titleStyle.copyWith(
                                       fontWeight: FontWeight.w500,
                                       color: Colors.red
                                     ),
                                   )
                                 : Text(
-                                    vendorProfileController.model.user!.vendorPublishStatus.toString().capitalizeFirst.toString(),
+                                    profileController.selectedLAnguage.value =="English"
+                                    ?vendorProfileController.model.user!.vendorPublishStatus.toString().capitalizeFirst.toString()
+                                    :"Approved".tr,
                                     style: titleStyle.copyWith(
                                         fontWeight: FontWeight.w500,
                                         color: Colors.red
