@@ -69,7 +69,7 @@ class _SingleStoreScreenState extends State<SingleStoreScreen> {
   }*/
   bool allLoaded = false;
   bool paginationLoading = false;
-
+  RxBool isDataLoading = false.obs;
   ScrollController scrollController = ScrollController();
   ModelStoreProducts modelProductsList = ModelStoreProducts(vendorProducts: VendorProducts(data: []));
   Rx<ModelFilterByPrice> filterModel = ModelFilterByPrice().obs;
@@ -107,6 +107,7 @@ class _SingleStoreScreenState extends State<SingleStoreScreen> {
   }
   Future getCategoryStores({required int page, String? search, bool? resetAll}) async {
     if (resetAll == true) {
+      isDataLoading.value = false;
       allLoaded = false;
       paginationLoading = false;
       paginationPage = 1;
@@ -120,7 +121,7 @@ class _SingleStoreScreenState extends State<SingleStoreScreen> {
     paginationLoading = true;
     await repositories.getApi(url: "${ApiUrls.vendorProductListUrl}$url&country_id=${profileController.model.user!= null && cartController.countryId.isEmpty ? profileController.model.user!.country_id : cartController.countryId.toString()}&key=fedexRate&zip_code=${locationController.zipcode.value.toString()}pagination=10&page=$paginationPage").then((value) {
       paginationLoading = false;
-
+      isDataLoading.value = true;
       modelProductsList.vendorProducts!.data ??= [];
       final response = ModelStoreProducts.fromJson(jsonDecode(value));
       print('mapmapmap${response.toJson()}');
@@ -940,7 +941,7 @@ class _SingleStoreScreenState extends State<SingleStoreScreen> {
                   child:Text('Store is empty'.tr),
                 ),),
             if (modelProductsList.vendorProducts!.data != null && controller.isFilter.value == false )
-              modelProductsList.vendorProducts!.data!.isNotEmpty
+              isDataLoading.value
                   ? SliverGrid.builder(
                 gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
                   crossAxisCount: 1,
@@ -953,10 +954,10 @@ class _SingleStoreScreenState extends State<SingleStoreScreen> {
                 modelProductsList.vendorProducts!.data!.length,
                 itemBuilder: (BuildContext context, int index) {
                   final item = modelProductsList.vendorProducts!.data![index];
+                  log('index is::::$index');
+                  log('index Api is::::${modelProductsList.vendorProducts!.data!.length}');
                   if (index == modelProductsList.vendorProducts!.data!.length) {
-                    return  const Center(
-                      child: LoadingAnimation(),
-                    );
+                    return const LoadingAnimation();
                   }
                   else{
                     return Padding(
@@ -975,8 +976,8 @@ class _SingleStoreScreenState extends State<SingleStoreScreen> {
 
                   :  SliverToBoxAdapter(
                 child:  Center(
-                  child: Text('Store is empty'.tr),
-                  // child: LoadingAnimation(),
+                  // child: Text('Store is empty'.tr),
+                  child: LoadingAnimation(),
                 ),)
             else
               SliverToBoxAdapter(child: controller.isFilter.value == false ? const LoadingAnimation() : const SizedBox()),

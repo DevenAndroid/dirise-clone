@@ -55,7 +55,7 @@ class _CreateAccountNewScreenState extends State<CreateAccountNewScreen> {
   bool? _isValue = false;
   final Repositories repositories = Repositories();
   final profileController = Get.put(ProfileController());
-  String code = "+91";
+  String code = "965";
   registerApi() {
     if (_isValue == false) return;
     Map<String, dynamic> map = {};
@@ -65,7 +65,7 @@ class _CreateAccountNewScreenState extends State<CreateAccountNewScreen> {
     map['password'] = _passwordController.text.trim();
     map['confirm_password'] = _confirmPasswordController.text.trim();
     map['phone'] = phoneNumberController.text.trim();
-    map['phone_country_code'] = profileController.code;
+    map['phone_country_code'] = code.toString();
     FocusManager.instance.primaryFocus!.unfocus();
     repositories.postApi(url: ApiUrls.newRegisterUrl, context: context, mapData: map).then((value) {
       ModelCommonResponse response = ModelCommonResponse.fromJson(jsonDecode(value));
@@ -296,6 +296,7 @@ class _CreateAccountNewScreenState extends State<CreateAccountNewScreen> {
                   languageCode:  profileController.code,
                   onCountryChanged: (phone) {
                     profileController.code = phone.code;
+                    code = phone.dialCode.toString();
                     print(phone.code);
                     print(profileController.code.toString());
                   },
