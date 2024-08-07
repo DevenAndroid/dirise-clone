@@ -68,7 +68,7 @@ class _SingleStoreScreenState extends State<SingleStoreScreen> {
     await Share.share(code, subject: "link", sharePositionOrigin: box!.localToGlobal(Offset.zero) & box.size);
   }*/
   bool allLoaded = false;
-  bool paginationLoading = false;
+  RxBool paginationLoading = false.obs;
   RxBool isDataLoading = false.obs;
   ScrollController scrollController = ScrollController();
   ModelStoreProducts modelProductsList = ModelStoreProducts(vendorProducts: VendorProducts(data: []));
@@ -93,9 +93,11 @@ class _SingleStoreScreenState extends State<SingleStoreScreen> {
       }
     });
   }
+
   final profileController = Get.put(ProfileController());
   final locationController = Get.put(LocationController());
   final cartController = Get.put(CartController());
+
   void _scrollListener() {
     if (scrollController.position.pixels == scrollController.position.maxScrollExtent) {
       // homeController.page.value = homeController.page.value + 1;
@@ -105,22 +107,26 @@ class _SingleStoreScreenState extends State<SingleStoreScreen> {
       print("Don't callhg'h;lgfkhg;flhgfhgfhg");
     }
   }
+
   Future getCategoryStores({required int page, String? search, bool? resetAll}) async {
     if (resetAll == true) {
       isDataLoading.value = false;
       allLoaded = false;
-      paginationLoading = false;
+      paginationLoading.value = false;
       paginationPage = 1;
       modelProductsList.vendorProducts!.data = null;
       page = 1;
     }
     if (allLoaded) return;
-    if (paginationLoading) return;
+    //  if (paginationLoading) return;
 
     String url = "vendor_id=$vendorId";
-    paginationLoading = true;
-    await repositories.getApi(url: "${ApiUrls.vendorProductListUrl}$url&country_id=${profileController.model.user!= null && cartController.countryId.isEmpty ? profileController.model.user!.country_id : cartController.countryId.toString()}&key=fedexRate&zip_code=${locationController.zipcode.value.toString()}pagination=10&page=$paginationPage").then((value) {
-      paginationLoading = false;
+    paginationLoading.value = true;
+    await repositories.getApi(url: "${ApiUrls.vendorProductListUrl}$url&country_id=${profileController.model.user != null &&
+        cartController.countryId.isEmpty ? profileController.model.user!.country_id : cartController.countryId
+        .toString()}&key=fedexRate&zip_code=${locationController.zipcode.value
+        .toString()}pagination=10&page=$paginationPage").then((value) {
+      paginationLoading.value = false;
       isDataLoading.value = true;
       modelProductsList.vendorProducts!.data ??= [];
       final response = ModelStoreProducts.fromJson(jsonDecode(value));
@@ -198,6 +204,7 @@ class _SingleStoreScreenState extends State<SingleStoreScreen> {
       throw 'Could not launch $url';
     }
   }
+
   String storeUrl = '';
   Rx<ModelCategoryStores> getCategoryStoresModel = ModelCategoryStores().obs;
   Rx<VendorAvailability> vendorAvailabilityModel = VendorAvailability().obs;
@@ -519,7 +526,7 @@ class _SingleStoreScreenState extends State<SingleStoreScreen> {
                                       child: Row(
                                         //  crossAxisAlignment: CrossAxisAlignment.start,
                                         children: [
-                                           Text(
+                                          Text(
                                             "Store-Url".tr,
                                             style: TextStyle(fontSize: 15, fontWeight: FontWeight.bold),
                                           ),
@@ -927,7 +934,7 @@ class _SingleStoreScreenState extends State<SingleStoreScreen> {
                     padding: const EdgeInsets.symmetric(horizontal: 12),
                     child:
                     ProductUI(
-                      productElement:item,
+                      productElement: item,
                       isSingle: true,
                       onLiked: (value) {
                         filterModel.value.product![index].inWishlist = value;
@@ -937,45 +944,52 @@ class _SingleStoreScreenState extends State<SingleStoreScreen> {
                 },
               )
                   : SliverToBoxAdapter(
-                child:  Center(
-                  child:Text('Store is empty'.tr),
+                child: Center(
+                  child: Text('Store is empty'.tr),
                 ),),
             if (modelProductsList.vendorProducts!.data != null && controller.isFilter.value == false )
               isDataLoading.value
-                  ? SliverGrid.builder(
-                gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
-                  crossAxisCount: 1,
-                  crossAxisSpacing: 10,
-                  mainAxisSpacing: 10,
-                  childAspectRatio: .82,
-                ),
-                itemCount: paginationLoading ?
-                modelProductsList.vendorProducts!.data!.length + 1 :
-                modelProductsList.vendorProducts!.data!.length,
-                itemBuilder: (BuildContext context, int index) {
-                  final item = modelProductsList.vendorProducts!.data![index];
-                  log('index is::::$index');
-                  log('index Api is::::${modelProductsList.vendorProducts!.data!.length}');
-                  if (index == modelProductsList.vendorProducts!.data!.length) {
-                    return const LoadingAnimation();
-                  }
-                  else{
-                    return Padding(
-                      padding: const EdgeInsets.symmetric(horizontal: 12),
-                      child: ProductUI(
-                        isSingle: true,
-                        productElement: item,
-                        onLiked: (value) {
-                          modelProductsList.vendorProducts!.data![index].inWishlist = value;
-                        },
-                      ),
-                    );
-                  }
-                },
-              )
+                  ? Obx(() {
+                return SliverGrid.builder(
+                  gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
+                    crossAxisCount: 1,
+                    crossAxisSpacing: 10,
+                    mainAxisSpacing: 10,
+                    childAspectRatio: .82,
+                  ),
+                  itemCount: paginationLoading.value ?
+                  modelProductsList.vendorProducts!.data!.length + 1 :
+                  modelProductsList.vendorProducts!.data!.length,
+                  itemBuilder: (BuildContext context, int index) {
+                    if (index < modelProductsList.vendorProducts!.data!.length) {
+                      final item = modelProductsList.vendorProducts!.data![index];
+                      log('index is::::$index');
+                      log('index Api is::::${modelProductsList.vendorProducts!.data!.length}');
 
-                  :  SliverToBoxAdapter(
-                child:  Center(
+                      return Padding(
+                        padding: const EdgeInsets.symmetric(horizontal: 12),
+                        child: ProductUI(
+                          isSingle: true,
+                          productElement: item,
+                          onLiked: (value) {
+                            modelProductsList.vendorProducts!.data![index].inWishlist = value;
+                          },
+                        ),
+                      );
+                    }
+                    else {
+                      return Column(
+                        children: [
+                          //  if(paginationLoading.value)
+                          const LoadingAnimation(),
+                        ],
+                      );
+                    }
+                  },
+                );
+              })
+                  : const SliverToBoxAdapter(
+                child: Center(
                   // child: Text('Store is empty'.tr),
                   child: LoadingAnimation(),
                 ),)
