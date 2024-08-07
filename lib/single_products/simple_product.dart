@@ -816,7 +816,7 @@ class _SimpleProductScreenState extends State<SimpleProductScreen> {
                        crossAxisAlignment: CrossAxisAlignment.start,
                        mainAxisAlignment: MainAxisAlignment.center,
                        children: [
-                         const Text('RILS',
+                          Text('RILS'.tr,
                              style: TextStyle(
                                color: AppTheme.buttonColor,
                                fontWeight: FontWeight.w500
@@ -857,7 +857,7 @@ class _SimpleProductScreenState extends State<SimpleProductScreen> {
                   ),
                   const SizedBox(height: 20,),
       Text(
-        "Description",
+        "Description".tr,
         style: GoogleFonts.poppins(fontWeight: FontWeight.w500, fontSize: 18, color:const Color(0xFF014E70)),
 
       ),
@@ -896,7 +896,7 @@ class _SimpleProductScreenState extends State<SimpleProductScreen> {
             width: 7,
           ),
           Text(
-            'Shipping Type',
+            'Shipping Type'.tr,
             style: GoogleFonts.poppins(
 
                 color:  Colors.grey,
@@ -924,7 +924,7 @@ class _SimpleProductScreenState extends State<SimpleProductScreen> {
         children: [
 
           Text(
-            'Quantity : ',
+            'Quantity : '.tr,
             style: GoogleFonts.poppins(
 
                 color:  Colors.black,
@@ -976,7 +976,7 @@ class _SimpleProductScreenState extends State<SimpleProductScreen> {
                             borderRadius: BorderRadius.circular(20),
                           ),
                           child: Text(
-                            "Buy Now",
+                            "Buy Now".tr,
                             style: GoogleFonts.poppins(color: Colors.red, fontSize: 14, fontWeight: FontWeight.w500),
                           ),
                         ),
@@ -995,7 +995,7 @@ class _SimpleProductScreenState extends State<SimpleProductScreen> {
                             borderRadius: BorderRadius.circular(20),
                           ),
                           child: Text(
-                            "ADD TO CART",
+                            "ADD TO CART".tr,
                             style: GoogleFonts.poppins(color: Colors.white, fontSize: 14, fontWeight: FontWeight.w500),
                           ),
                         ),
@@ -1005,7 +1005,7 @@ class _SimpleProductScreenState extends State<SimpleProductScreen> {
 
                    const SizedBox(height: 10,),
                    Text(
-                     'Specifications',
+                     'Specifications'.tr,
                      style: GoogleFonts.poppins(
 
                          color: Colors.black,
@@ -1017,7 +1017,7 @@ class _SimpleProductScreenState extends State<SimpleProductScreen> {
                    Row(
                      children: [
                        Text(
-                         'SKU :',
+                         'SKU :'.tr,
                          style: GoogleFonts.poppins(
 
                              color: Colors.black,
@@ -1104,7 +1104,7 @@ class _SimpleProductScreenState extends State<SimpleProductScreen> {
                   ),
 
                   Text(
-                    'Delivery',
+                    'Delivery'.tr,
                     style: GoogleFonts.poppins(color: Colors.black, fontSize: 20, fontWeight: FontWeight.w500),
                   ),
                   const SizedBox(
@@ -1113,7 +1113,7 @@ class _SimpleProductScreenState extends State<SimpleProductScreen> {
                   Row(
                     children: [
                       Text(
-                        'Your Location :',
+                        'Your Location :'.tr,
                         style: GoogleFonts.poppins(color: Colors.black, fontSize: 16, fontWeight: FontWeight.w500),
                       ),
                       const SizedBox(
@@ -1144,7 +1144,7 @@ class _SimpleProductScreenState extends State<SimpleProductScreen> {
                   Row(
                     children: [
                       Text(
-                        'Standard Delivery :',
+                        'Standard Delivery :'.tr,
                         style: GoogleFonts.poppins(color: Colors.black, fontSize: 16, fontWeight: FontWeight.w500),
                       ),
                       const SizedBox(
@@ -1178,7 +1178,7 @@ class _SimpleProductScreenState extends State<SimpleProductScreen> {
                     // crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
                       Text(
-                        'Delivery Charges :',
+                        'Delivery Charges :'.tr,
                         style: GoogleFonts.poppins(color: Colors.black, fontSize: 16, fontWeight: FontWeight.w500),
                       ),
                       const SizedBox(
@@ -1241,7 +1241,7 @@ class _SimpleProductScreenState extends State<SimpleProductScreen> {
                     // crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
                       Text(
-                        'Seller id :',
+                        'Seller id :'.tr,
                         style: GoogleFonts.poppins(color: Colors.black, fontSize: 12, fontWeight: FontWeight.w500),
                       ),
                       const SizedBox(
@@ -1314,7 +1314,7 @@ class _SimpleProductScreenState extends State<SimpleProductScreen> {
                     height: 10,
                   ),
                   Text(
-                    'Seller documents',
+                    'Seller documents'.tr,
                     style: GoogleFonts.poppins(color: Colors.black, fontSize: 20, fontWeight: FontWeight.w600),
                   ),
                   const SizedBox(
@@ -1330,7 +1330,7 @@ class _SimpleProductScreenState extends State<SimpleProductScreen> {
        ),
                   ):Center(
         child: Text(
-        'No documents were uploaded by vendor ',
+        'No documents were uploaded by vendor '.tr,
           style: GoogleFonts.poppins(color: Colors.black, fontSize: 15, fontWeight: FontWeight.w400),
         ),
         ),
@@ -1341,7 +1341,7 @@ class _SimpleProductScreenState extends State<SimpleProductScreen> {
                   ),
                   // modelSingleProduct.value.simpleProduct!.storemeta!.document2 != ""?
                   Text(
-                    'Seller Translated documents',
+                    'Seller Translated documents'.tr,
                     style: GoogleFonts.poppins(color: Colors.black, fontSize: 20, fontWeight: FontWeight.w600),
                   ),
                   const SizedBox(
@@ -1360,7 +1360,7 @@ class _SimpleProductScreenState extends State<SimpleProductScreen> {
                       ),
                   ):  Center(
                     child: Text(
-                            'No documents were uploaded by vendor ',
+                            'No documents were uploaded by vendor '.tr,
                             style: GoogleFonts.poppins(color: Colors.black, fontSize: 15, fontWeight: FontWeight.w400),
                             ),
                   ),
@@ -1387,7 +1387,7 @@ class _SimpleProductScreenState extends State<SimpleProductScreen> {
                             borderRadius: BorderRadius.circular(30)),
                         child: Center(
                           child: Text(
-                            "Seller profile",
+                            "Seller profile".tr,
                             style:
                             GoogleFonts.poppins(color: const Color(0xFF014E70), fontSize: 14, fontWeight: FontWeight.w500),
                           ),
@@ -1437,7 +1437,7 @@ class _SimpleProductScreenState extends State<SimpleProductScreen> {
                   ),
                   modelRelated.value.relatedProduct != null?
                  Text(
-                   'Similar products',
+                   'Similar products'.tr,
                    style: GoogleFonts.poppins(color: Colors.black, fontSize: 20, fontWeight: FontWeight.w600),
                  ):const SizedBox(),
 
@@ -1601,7 +1601,7 @@ class _SimpleProductScreenState extends State<SimpleProductScreen> {
                                   const SizedBox(height: 8),
                                   if (item.inStock != "-1")
                                     Text(
-                                      '${'QTY'}: ${item.inStock} ${'piece'}',
+                                      '${'QTY'.tr}: ${item.inStock} ${'piece'.tr}',
                                       style: normalStyle,
                                     ),
                                   Row(
@@ -1639,7 +1639,7 @@ class _SimpleProductScreenState extends State<SimpleProductScreen> {
                                                 crossAxisAlignment: CrossAxisAlignment.start,
                                                 children: [
                                                   Text(
-                                                    'shipping',
+                                                    'shipping'.tr,
                                                     style: GoogleFonts.poppins(
                                                         color: const Color(0xff858484),
                                                         fontSize: 13,
@@ -1670,21 +1670,21 @@ class _SimpleProductScreenState extends State<SimpleProductScreen> {
                                                 },
                                                 child: RichText(
                                                   text: TextSpan(
-                                                      text: 'international shipping not available',
+                                                      text: 'international shipping not available'.tr,
                                                       style: GoogleFonts.poppins(
                                                           color: const Color(0xff858484),
                                                           fontSize: 13,
                                                           fontWeight: FontWeight.w500),
                                                       children: [
                                                         TextSpan(
-                                                            text: ' contact us',
+                                                            text: ' contact us'.tr,
                                                             style: GoogleFonts.poppins(
                                                                 decoration: TextDecoration.underline,
                                                                 color: AppTheme.buttonColor,
                                                                 fontSize: 13,
                                                                 fontWeight: FontWeight.w500)),
                                                         TextSpan(
-                                                            text: ' for the solution',
+                                                            text: ' for the solution'.tr,
                                                             style: GoogleFonts.poppins(
                                                                 color: const Color(0xff858484),
                                                                 fontSize: 13,
@@ -1789,7 +1789,7 @@ class _SimpleProductScreenState extends State<SimpleProductScreen> {
                       ),
                     ):  Center(
                     child: Text(
-                    'No Similar products',
+                    'No Similar products'.tr,
                     style: GoogleFonts.poppins(color: Colors.black, fontSize: 20, fontWeight: FontWeight.w600),
                     ),
                     );
