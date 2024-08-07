@@ -496,7 +496,7 @@ class _GiveAwayProductState extends State<GiveAwayProduct> {
                                   border: Border.all(color: const Color(0xFFFFDF33)),
                                   color: const Color(0xFFFFDF33).withOpacity(.25)),
                               child: Text(
-                                "Free",
+                                "Free".tr,
                                 style:
                                     GoogleFonts.poppins(fontWeight: FontWeight.w700, fontSize: 11, color: Colors.black),
                               ),
@@ -962,7 +962,7 @@ class _GiveAwayProductState extends State<GiveAwayProduct> {
                                   borderRadius: BorderRadius.circular(20),
                                 ),
                                 child: Text(
-                                  "Buy Now",
+                                  "Buy Now".tr,
                                   style:
                                       GoogleFonts.poppins(color: Colors.red, fontSize: 14, fontWeight: FontWeight.w500),
                                 ),
@@ -982,7 +982,7 @@ class _GiveAwayProductState extends State<GiveAwayProduct> {
                                   borderRadius: BorderRadius.circular(20),
                                 ),
                                 child: Text(
-                                  "ADD TO CART",
+                                  "ADD TO CART".tr,
                                   style: GoogleFonts.poppins(
                                       color: Colors.white, fontSize: 14, fontWeight: FontWeight.w500),
                                 ),
@@ -1142,7 +1142,7 @@ class _GiveAwayProductState extends State<GiveAwayProduct> {
                         ),
 
                         Text(
-                          'Delivery',
+                          'Delivery'.tr,
                           style: GoogleFonts.poppins(color: Colors.black, fontSize: 20, fontWeight: FontWeight.w500),
                         ),
                         const SizedBox(
@@ -1151,7 +1151,7 @@ class _GiveAwayProductState extends State<GiveAwayProduct> {
                         Row(
                           children: [
                             Text(
-                              'Your Location :',
+                              'Your Location :'.tr,
                               style:
                                   GoogleFonts.poppins(color: Colors.black, fontSize: 16, fontWeight: FontWeight.w500),
                             ),
@@ -1183,7 +1183,7 @@ class _GiveAwayProductState extends State<GiveAwayProduct> {
                         Row(
                           children: [
                             Text(
-                              'Standard Delivery :',
+                              'Standard Delivery :'.tr,
                               style:
                                   GoogleFonts.poppins(color: Colors.black, fontSize: 16, fontWeight: FontWeight.w500),
                             ),
@@ -1218,7 +1218,7 @@ class _GiveAwayProductState extends State<GiveAwayProduct> {
                           // crossAxisAlignment: CrossAxisAlignment.start,
                           children: [
                             Text(
-                              'Delivery Charges :',
+                              'Delivery Charges :'.tr,
                               style:
                                   GoogleFonts.poppins(color: Colors.black, fontSize: 16, fontWeight: FontWeight.w500),
                             ),
@@ -1257,7 +1257,7 @@ class _GiveAwayProductState extends State<GiveAwayProduct> {
                           height: 10,
                         ),
                         Text(
-                          'Description',
+                          'Description'.tr,
                           style: GoogleFonts.poppins(color: Colors.black, fontSize: 20, fontWeight: FontWeight.w500),
                         ),
                         const SizedBox(
@@ -1266,7 +1266,7 @@ class _GiveAwayProductState extends State<GiveAwayProduct> {
                         Text(
                           modelSingleProduct.value.singleGiveawayProduct!.longDescription != null
                               ? modelSingleProduct.value.singleGiveawayProduct!.longDescription.toString().capitalize!
-                              : "No description",
+                              : "No description".tr,
                           style: GoogleFonts.poppins(
                               fontWeight: FontWeight.w400, fontSize: 12, color: const Color(0xFF19313C)),
                         ),
@@ -1306,7 +1306,7 @@ class _GiveAwayProductState extends State<GiveAwayProduct> {
                           // crossAxisAlignment: CrossAxisAlignment.start,
                           children: [
                             Text(
-                              'Seller id :',
+                              'Seller id :'.tr,
                               style:
                                   GoogleFonts.poppins(color: Colors.black, fontSize: 12, fontWeight: FontWeight.w500),
                             ),
@@ -1383,7 +1383,7 @@ class _GiveAwayProductState extends State<GiveAwayProduct> {
                               height: 10,
                             ),
                             Text(
-                              'Seller documents',
+                              'Seller documents'.tr,
                               style: GoogleFonts.poppins(color: Colors.black, fontSize: 20, fontWeight: FontWeight.w600),
                             ),
                             const SizedBox(
@@ -1399,7 +1399,7 @@ class _GiveAwayProductState extends State<GiveAwayProduct> {
                             ),
                             ):Center(
                               child: Text(
-                                'No documents were uploaded by vendor ',
+                                'No documents were uploaded by vendor '.tr,
                                 style: GoogleFonts.poppins(color: Colors.black, fontSize: 15, fontWeight: FontWeight.w400),
                               ),
                             ),
@@ -1409,7 +1409,7 @@ class _GiveAwayProductState extends State<GiveAwayProduct> {
                               height: 25,
                             ),
                             Text(
-                              'Seller translated documents',
+                              'Seller translated documents'.tr,
                               style: GoogleFonts.poppins(color: Colors.black, fontSize: 20, fontWeight: FontWeight.w600),
                             ),
                             const SizedBox(
@@ -1426,7 +1426,7 @@ class _GiveAwayProductState extends State<GiveAwayProduct> {
                               ),
                             ):  Center(
                               child: Text(
-                                'No documents were uploaded by vendor ',
+                                'No documents were uploaded by vendor '.tr,
                                 style: GoogleFonts.poppins(color: Colors.black, fontSize: 15, fontWeight: FontWeight.w400),
                               ),
                             ),
@@ -1448,7 +1448,7 @@ class _GiveAwayProductState extends State<GiveAwayProduct> {
                                       borderRadius: BorderRadius.circular(30)),
                                   child: Center(
                                     child: Text(
-                                      "Seller profile",
+                                      "Seller profile".tr,
                                       style: GoogleFonts.poppins(
                                           color: const Color(0xFF014E70), fontSize: 14, fontWeight: FontWeight.w500),
                                     ),
@@ -1502,7 +1502,7 @@ class _GiveAwayProductState extends State<GiveAwayProduct> {
                         ),
                         modelRelated.value.relatedProduct != null
                             ? Text(
-                                'Similar products',
+                                'Similar products'.tr,
                                 style:
                                     GoogleFonts.poppins(color: Colors.black, fontSize: 20, fontWeight: FontWeight.w600),
                               )
@@ -1672,7 +1672,7 @@ class _GiveAwayProductState extends State<GiveAwayProduct> {
                                               const SizedBox(height: 8),
                                               if (item.inStock != "-1")
                                                 Text(
-                                                  '${'QTY'}: ${item.inStock} ${'piece'}',
+                                                  '${'QTY'.tr}: ${item.inStock} ${'piece'.tr}',
                                                   style: normalStyle,
                                                 ),
                                               Row(
@@ -1709,7 +1709,7 @@ class _GiveAwayProductState extends State<GiveAwayProduct> {
                                                             crossAxisAlignment: CrossAxisAlignment.start,
                                                             children: [
                                                               Text(
-                                                                'shipping',
+                                                                'shipping'.tr,
                                                                 style: GoogleFonts.poppins(
                                                                     color: const Color(0xff858484),
                                                                     fontSize: 13,
@@ -1747,14 +1747,14 @@ class _GiveAwayProductState extends State<GiveAwayProduct> {
                                                                       fontWeight: FontWeight.w500),
                                                                   children: [
                                                                     TextSpan(
-                                                                        text: ' contact us',
+                                                                        text: ' contact us'.tr,
                                                                         style: GoogleFonts.poppins(
                                                                             decoration: TextDecoration.underline,
                                                                             color: AppTheme.buttonColor,
                                                                             fontSize: 13,
                                                                             fontWeight: FontWeight.w500)),
                                                                     TextSpan(
-                                                                        text: ' for the solution',
+                                                                        text: ' for the solution'.tr,
                                                                         style: GoogleFonts.poppins(
                                                                             color: const Color(0xff858484),
                                                                             fontSize: 13,
@@ -1864,7 +1864,7 @@ class _GiveAwayProductState extends State<GiveAwayProduct> {
                                 )
                               : Center(
                                   child: Text(
-                                    'No Similar products',
+                                    'No Similar products'.tr,
                                     style: GoogleFonts.poppins(
                                         color: Colors.black, fontSize: 20, fontWeight: FontWeight.w600),
                                   ),
