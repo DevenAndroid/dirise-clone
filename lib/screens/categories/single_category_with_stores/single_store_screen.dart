@@ -206,7 +206,7 @@ class _SingleStoreScreenState extends State<SingleStoreScreen> {
     repositories.getApi(url: ApiUrls.getVendorInfoUrl + vendorId).then((value) {
       ModelSingleVendor response = ModelSingleVendor.fromJson(jsonDecode(value));
       productCount = response.productCount.toString();
-       description = response.user!.storeBannerDesccription ?? 'Description wasn\'t submitted'.tr;
+      description = response.user!.storeBannerDesccription ?? 'Description wasn\'t submitted'.tr;
       bannerString = response.user!.bannerProfileApp.toString();
       storeLogo = response.user!.storeLogo.toString();
       storeUrl = response.user!.storeUrl.toString();
@@ -512,78 +512,22 @@ class _SingleStoreScreenState extends State<SingleStoreScreen> {
                                   Expanded(
                                     child: MaterialButton(
                                       onPressed: () async {
-                            if (storeInfo.email
-                                .toString()
-                                .trim()
-                                .isNotEmpty || storeInfo.storePhone
-                                .toString()
-                                .trim()
-                                .isNotEmpty) ...[
-                              const SizedBox(
-                                height: 12,
-                              ),
-                              Row(
-                                children: [
-                                  if (storeUrl.isNotEmpty && storeUrl != '')
-                                    Expanded(
-                                      child: MaterialButton(
-                                        onPressed: () async {
 
-                                        },
-                                        shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(8)),
-                                        child: Row(
-                                          //  crossAxisAlignment: CrossAxisAlignment.start,
-                                          children: [
-                                             Text(
-                                              "Store-Url".tr,
-                                              style: TextStyle(fontSize: 15, fontWeight: FontWeight.bold),
-                                            ),
-                                            const SizedBox(
-                                              width: 5,
-                                            ),
-                                            Expanded(
-                                              child: Text(
-                                                "${storeUrl.toString()}",
-                                                style: normalStyle.copyWith(
-                                                  color: const Color(0xFF7D7D7D),
-                                                ),
-                                              ),
-                                            ),
-                                          ],
-                                        ),
-                                      ),
-                                    ),
-                                  if (storeInfo.storePhone
-                                      .toString()
-                                      .trim()
-                                      .isNotEmpty)
-                                    Expanded(
-                                      child: MaterialButton(
-                                        onPressed: () async {
-                                          await Clipboard.setData(
-                                              ClipboardData(text: storeInfo.storePhone.toString().trim()));
-                                          final snackBar = SnackBar(
-                                            content: Text(
-                                              "Phone no. copied".tr,
-                                              style: normalStyle,
-                                            ),
-                                            action: SnackBarAction(
-                                                label: "Make Call".tr,
-                                                onPressed: () {
-                                                  Helpers.makeCall(phoneNumber: storeInfo.storePhone.toString().trim());
-                                                }),
-                                            backgroundColor: AppTheme.buttonColor,
-                                          );
-                                          if (!mounted) return;
-                                          ScaffoldMessenger.of(context).showSnackBar(snackBar);
-                                        },
-                                        shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(8)),
-                                        child: Row(
-                                          crossAxisAlignment: CrossAxisAlignment.start,
-                                          children: [
-                                            SvgPicture.asset("assets/svgs/phone_call.svg"),
-                                            Text(
-                                              "+${storeInfo.storePhone}",
+                                      },
+                                      shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(8)),
+                                      child: Row(
+                                        //  crossAxisAlignment: CrossAxisAlignment.start,
+                                        children: [
+                                          const Text(
+                                            "Store-Url",
+                                            style: TextStyle(fontSize: 15, fontWeight: FontWeight.bold),
+                                          ),
+                                          const SizedBox(
+                                            width: 5,
+                                          ),
+                                          Expanded(
+                                            child: Text(
+                                              "${storeUrl.toString()}",
                                               style: normalStyle.copyWith(
                                                 color: const Color(0xFF7D7D7D),
                                               ),
@@ -803,7 +747,7 @@ class _SingleStoreScreenState extends State<SingleStoreScreen> {
                                         const SizedBox(
                                           width: 10,
                                         ),
-                                       Text(
+                                        Text(
                                           '${storeInfo.startBreakTime.toString()} - ${storeInfo.startBreakTime.toString()}',
                                           style: normalStyle.copyWith(
                                             color: const Color(0xFF7D7D7D),
@@ -992,13 +936,13 @@ class _SingleStoreScreenState extends State<SingleStoreScreen> {
                 },
               )
                   : SliverToBoxAdapter(
-                  child:  Center(
-                    child:Text('Store is empty'.tr),
-                  ),),
+                child:  Center(
+                  child:Text('Store is empty'.tr),
+                ),),
             if (modelProductsList.vendorProducts!.data != null && controller.isFilter.value == false )
               modelProductsList.vendorProducts!.data!.isNotEmpty
                   ? SliverGrid.builder(
-                  gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
+                gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
                   crossAxisCount: 1,
                   crossAxisSpacing: 10,
                   mainAxisSpacing: 10,
@@ -1030,10 +974,10 @@ class _SingleStoreScreenState extends State<SingleStoreScreen> {
               )
 
                   :  SliverToBoxAdapter(
-                  child:  Center(
-                    child: Text('Store is empty'.tr),
-                    // child: LoadingAnimation(),
-                  ),)
+                child:  Center(
+                  child: Text('Store is empty'.tr),
+                  // child: LoadingAnimation(),
+                ),)
             else
               SliverToBoxAdapter(child: controller.isFilter.value == false ? const LoadingAnimation() : const SizedBox()),
             const SliverToBoxAdapter(
