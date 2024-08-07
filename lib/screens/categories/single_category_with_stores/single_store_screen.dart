@@ -125,7 +125,7 @@ class _SingleStoreScreenState extends State<SingleStoreScreen> {
     await repositories.getApi(url: "${ApiUrls.vendorProductListUrl}$url&country_id=${profileController.model.user != null &&
         cartController.countryId.isEmpty ? profileController.model.user!.country_id : cartController.countryId
         .toString()}&key=fedexRate&zip_code=${locationController.zipcode.value
-        .toString()}pagination=10&page=$paginationPage").then((value) {
+        .toString()}pagination=1000&page=$paginationPage").then((value) {
       paginationLoading.value = false;
       isDataLoading.value = true;
       modelProductsList.vendorProducts!.data ??= [];
