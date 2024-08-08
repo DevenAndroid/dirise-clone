@@ -207,7 +207,7 @@ class _BankDetailsScreenState extends State<BankDetailsScreen> {
                                 }
                                 return null;
                               },
-                              hintText: 'Account No',
+                              hintText: 'Account No'.tr,
                               onTap: () {},
                             ),
                             const SizedBox(

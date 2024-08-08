@@ -436,7 +436,7 @@ class _FindMyLocationAddressState extends State<FindMyLocationAddress> {
                                             ));
                                       },
                                       child: Text(
-                                        'Save Location',
+                                        'Save Location'.tr,
                                         style: Theme.of(context).textTheme.headlineSmall!.copyWith(
                                             fontWeight: FontWeight.w600,
                                             fontSize: AddSize.font16,

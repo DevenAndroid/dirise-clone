@@ -212,7 +212,7 @@ class _AddressScreenState extends State<AddressScreen> {
                       },
                       child: Align(
                           alignment: Alignment.topRight,
-                          child: Text("Change Address",
+                          child: Text("Change Address".tr,
                               style: GoogleFonts.poppins(fontSize: 14, fontWeight: FontWeight.w500)))),
                 const SizedBox(
                   height: 10,
@@ -346,48 +346,48 @@ class _AddressScreenState extends State<AddressScreen> {
                     children: [
                       ...commonField(
                           textController: titleController,
-                          title: "Title*",
-                          hintText: "Title",
+                          title: "Title*".tr,
+                          hintText: "Title".tr,
                           keyboardType: TextInputType.name,
                           validator: (value) {
                             if (value!.trim().isEmpty) {
-                              return "Please enter address title";
+                              return "Please enter address title".tr;
                             }
                             return null;
                           }),
                       ...commonField(
                           textController: emailController,
-                          title: "Email Address*",
-                          hintText: "Email Address",
+                          title: "Email Address*".tr,
+                          hintText: "Email Address".tr,
                           keyboardType: TextInputType.emailAddress,
                           validator: (value) {
                             if (value!.trim().isEmpty) {
-                              return "Please enter email address";
+                              return "Please enter email address".tr;
                             }
                             if (value.trim().invalidEmail) {
-                              return "Please enter valid email address";
+                              return "Please enter valid email address".tr;
                             }
                             return null;
                           }),
                       ...commonField(
                           textController: firstNameController,
-                          title: "First Name*",
-                          hintText: "First Name",
+                          title: "First Name*".tr,
+                          hintText: "First Name".tr,
                           keyboardType: TextInputType.name,
                           validator: (value) {
                             if (value!.trim().isEmpty) {
-                              return "Please enter first name";
+                              return "Please enter first name".tr;
                             }
                             return null;
                           }),
                       ...commonField(
                           textController: lastNameController,
-                          title: "Last Name*",
-                          hintText: "Last Name",
+                          title: "Last Name*".tr,
+                          hintText: "Last Name".tr,
                           keyboardType: TextInputType.name,
                           validator: (value) {
                             if (value!.trim().isEmpty) {
-                              return "Please enter Last name";
+                              return "Please enter Last name".tr;
                             }
                             return null;
                           }),
@@ -409,10 +409,10 @@ class _AddressScreenState extends State<AddressScreen> {
                         dropdownTextStyle: const TextStyle(color: Colors.black),
                         style: const TextStyle(color: AppTheme.textColor),
                         controller: phoneController,
-                        decoration: const InputDecoration(
+                        decoration:  InputDecoration(
                             contentPadding: EdgeInsets.zero,
                             hintStyle: TextStyle(color: AppTheme.textColor),
-                            hintText: 'Enter your phone number',
+                            hintText: 'Enter your phone number'.tr,
                             labelStyle: TextStyle(color: AppTheme.textColor),
                             border: OutlineInputBorder(
                               borderSide: BorderSide(),
@@ -453,10 +453,10 @@ class _AddressScreenState extends State<AddressScreen> {
                         dropdownTextStyle: const TextStyle(color: Colors.black),
                         style: const TextStyle(color: AppTheme.textColor),
                         controller: alternatePhoneController,
-                        decoration: const InputDecoration(
+                        decoration:  InputDecoration(
                             contentPadding: EdgeInsets.zero,
                             hintStyle: TextStyle(color: AppTheme.textColor),
-                            hintText: 'Enter your phone number',
+                            hintText: 'Enter your phone number'.tr,
                             labelStyle: TextStyle(color: AppTheme.textColor),
                             border: OutlineInputBorder(
                               borderSide: BorderSide(),
@@ -478,19 +478,19 @@ class _AddressScreenState extends State<AddressScreen> {
                       ),
                       ...commonField(
                           textController: addressController,
-                          title: "Address*",
-                          hintText: "Enter your delivery address",
+                          title: "Address*".tr,
+                          hintText: "Enter your delivery address".tr,
                           keyboardType: TextInputType.streetAddress,
                           validator: (value) {
                             if (value!.trim().isEmpty) {
-                              return "Please enter delivery address";
+                              return "Please enter delivery address".tr;
                             }
                             return null;
                           }),
                       ...commonField(
                           textController: address2Controller,
-                          title: "Address 2",
-                          hintText: "Enter your delivery address",
+                          title: "Address 2".tr,
+                          hintText: "Enter your delivery address".tr,
                           keyboardType: TextInputType.streetAddress,
                           validator: (value) {
                             // if(value!.trim().isEmpty){
@@ -499,8 +499,8 @@ class _AddressScreenState extends State<AddressScreen> {
                             return null;
                           }),
                       ...fieldWithName(
-                        title: 'Country/Region',
-                        hintText: 'Select Country',
+                        title: 'Country/Region'.tr,
+                        hintText: 'Select Country'.tr,
                         readOnly: true,
                         onTap: () {
                           showAddressSelectorDialog(
@@ -534,24 +534,24 @@ class _AddressScreenState extends State<AddressScreen> {
                             TextEditingController(text: (selectedCountry ?? Country()).name ?? countryController.text),
                         validator: (v) {
                           if (v!.trim().isEmpty) {
-                            return "Please select country";
+                            return "Please select country".tr;
                           }
                           return null;
                         },
                       ),
                       ...fieldWithName(
-                        title: 'State',
-                        hintText: 'Select State',
+                        title: 'State'.tr,
+                        hintText: 'Select State'.tr,
                         controller: TextEditingController(
                             text: (selectedState ?? CountryState()).stateName ?? stateController.text),
                         readOnly: true,
                         onTap: () {
                           if (countryIddd == 'null') {
-                            showToast("Select Country First");
+                            showToast("Select Country First".tr);
                             return;
                           }
                           if (modelStateList == null && stateRefresh.value > 0) {
-                            showToast("Select Country First");
+                            showToast("Select Country First".tr);
                             return;
                           }
                           if (stateRefresh.value < 0) {
@@ -594,7 +594,7 @@ class _AddressScreenState extends State<AddressScreen> {
                         }),
                         validator: (v) {
                           if (v!.trim().isEmpty) {
-                            return "Please select state";
+                            return "Please select state".tr;
                           }
                           return null;
                         },
@@ -602,12 +602,12 @@ class _AddressScreenState extends State<AddressScreen> {
                       // if (modelCityList != null && modelCityList!.city!.isNotEmpty)
                       ...fieldWithName(
                         readOnly: true,
-                        title: 'City',
-                        hintText: 'Select City',
+                        title: 'City'.tr,
+                        hintText: 'Select City'.tr,
                         controller: TextEditingController(text: (selectedCity ?? City()).cityName ?? cityController.text),
                         onTap: () {
                           if (modelCityList == null && cityRefresh.value > 0) {
-                            showToast("Select City First");
+                            showToast("Select City First".tr);
                             return;
                           }
                           if (cityRefresh.value < 0) {
@@ -643,7 +643,7 @@ class _AddressScreenState extends State<AddressScreen> {
                         }),
                         validator: (v) {
                           if (v!.trim().isEmpty) {
-                            return "Please select city";
+                            return "Please select city".tr;
                           }
                           return null;
                         },
@@ -651,20 +651,20 @@ class _AddressScreenState extends State<AddressScreen> {
                       if (cartController.countryName.value != 'Kuwait')
                         ...commonField(
                             textController: zipCodeController,
-                            title: "Zip-Code*",
-                            hintText: "Enter location Zip-Code",
+                            title: "Zip-Code*".tr,
+                            hintText: "Enter location Zip-Code".tr,
                             keyboardType: TextInputType.number,
                             validator: (value) {
                               if (value!.trim().isEmpty) {
-                                return "Please enter Zip-Code*";
+                                return "Please enter Zip-Code*".tr;
                               }
                               return null;
                             }),
                       if (cartController.countryName.value != 'Kuwait')
                         ...commonField(
                             textController: landmarkController,
-                            title: "Landmark",
-                            hintText: "Enter your nearby landmark",
+                            title: "Landmark".tr,
+                            hintText: "Enter your nearby landmark".tr,
                             keyboardType: TextInputType.streetAddress,
                             validator: (value) {
                               // if(value!.trim().isEmpty){
@@ -706,7 +706,7 @@ class _AddressScreenState extends State<AddressScreen> {
                           alignment: Alignment.bottomCenter,
                           child: Align(
                               alignment: Alignment.center,
-                              child: Text("Save",
+                              child: Text("Save".tr,
                                   style: GoogleFonts.poppins(
                                       fontWeight: FontWeight.w500, fontSize: 19, color: Colors.white))),
                         ),
@@ -755,7 +755,7 @@ class _AddressScreenState extends State<AddressScreen> {
                       // bottomSheet();
                     },
                     obSecure: false,
-                    hintText: '+ Add Address',
+                    hintText: '+ Add Address'.tr,
                   ),
                   if(cartController.addressListModel.address!= null)
                   Expanded(
@@ -770,7 +770,7 @@ class _AddressScreenState extends State<AddressScreen> {
                               children: [
                                 Expanded(
                                   child: Text(
-                                    "Shipping Address",
+                                    "Shipping Address".tr,
                                     style: GoogleFonts.poppins(fontWeight: FontWeight.w500, fontSize: 16),
                                   ),
                                 ),
@@ -784,7 +784,7 @@ class _AddressScreenState extends State<AddressScreen> {
                                       size: 20,
                                     ),
                                     label: Text(
-                                      "Add New",
+                                      "Add New".tr,
                                       style: GoogleFonts.poppins(fontSize: 15),
                                     ))
                               ],
@@ -806,7 +806,7 @@ class _AddressScreenState extends State<AddressScreen> {
                                       size: 20,
                                     ),
                                     label: Text(
-                                      "Find my location",
+                                      "Find my location".tr,
                                       style: GoogleFonts.poppins(fontSize: 15),
                                     ))
                               ],
@@ -995,7 +995,7 @@ class _AddressScreenState extends State<AddressScreen> {
                                 ))
                               : SliverToBoxAdapter(
                                   child: Text(
-                                    "No Shipping Address Added!",
+                                    "No Shipping Address Added!".tr,
                                     textAlign: TextAlign.center,
                                     style: GoogleFonts.poppins(fontWeight: FontWeight.w500, fontSize: 16),
                                   ),
