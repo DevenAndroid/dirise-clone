@@ -2591,7 +2591,15 @@ class LocaleString extends Translations {
        'Please enter Zip-Code*' : 'الرجاء إدخال الرمز البريدي*',
        'Default' : 'تقصير',
        'Do you want to save your location.' : 'هل تريد حفظ موقعك.',
-       'Do you want to save your location.' : 'هل تريد حفظ موقعك.',
+       'Shipping Method' : 'طريقة الشحن',
+       'Fedex Shipping Method' : 'طريقة الشحن فيديكس',
+       'Icarry Shipping Method' : 'طريقة الشحن إيكاري',
+       'Please Select Address' : 'الرجاء تحديد العنوان',
+       'Enter your first name' : 'أدخل اسمك الأول',
+       'Enter your last name' : 'أدخل اسمك الأخير',
+       'Enter your Email' : 'أدخل بريدك الإلكتروني',
+       'Enter your address' : 'أدخل عنوانك',
+       'United States' : 'الولايات المتحدة',
 
         },
 

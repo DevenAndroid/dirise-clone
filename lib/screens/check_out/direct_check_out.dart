@@ -1019,7 +1019,7 @@ class _DirectCheckOutScreenState extends State<DirectCheckOutScreen> {
                               height: 15,
                             ),
                             Text(
-                              'Billing Address',
+                              'Billing Address'.tr,
                               style: GoogleFonts.poppins(fontWeight: FontWeight.w500, fontSize: 18, color: Colors.black),
                             ),
                             const SizedBox(
@@ -1030,7 +1030,7 @@ class _DirectCheckOutScreenState extends State<DirectCheckOutScreen> {
                               mainAxisAlignment: MainAxisAlignment.end,
                               children: [
                                 Text(
-                                  'Same As Shipping Address',
+                                  'Same As Shipping Address'.tr,
                                   style:
                                   GoogleFonts.poppins(fontWeight: FontWeight.w500, fontSize: 16, color: Colors.black),
                                 ),
@@ -1116,8 +1116,8 @@ class _DirectCheckOutScreenState extends State<DirectCheckOutScreen> {
                             ),
                             ...commonField(
                                 textController: cartController.addressDeliFirstName,
-                                title: "First Name *",
-                                hintText: "Enter your first name",
+                                title: "First Name *".tr,
+                                hintText: "Enter your first name".tr,
                                 keyboardType: TextInputType.text,
                                 validator: (value) {
                                   // if (value!.trim().isEmpty) {
@@ -1127,8 +1127,8 @@ class _DirectCheckOutScreenState extends State<DirectCheckOutScreen> {
                                 }),
                             ...commonField(
                                 textController: cartController.addressDeliLastName,
-                                title: "Last Name *",
-                                hintText: "Enter your last name",
+                                title: "Last Name *".tr,
+                                hintText: "Enter your last name".tr,
                                 keyboardType: TextInputType.text,
                                 validator: (value) {
                                   // if (value!.trim().isEmpty) {
@@ -1138,8 +1138,8 @@ class _DirectCheckOutScreenState extends State<DirectCheckOutScreen> {
                                 }),
                             ...commonField(
                               textController: cartController.addressDeliEmail,
-                              title: "Email *",
-                              hintText: "Enter your Email",
+                              title: "Email *".tr,
+                              hintText: "Enter your Email".tr,
                               keyboardType: TextInputType.text,
                               validator: (value) {
                                 // if (value!.trim().isEmpty) {
@@ -1159,8 +1159,8 @@ class _DirectCheckOutScreenState extends State<DirectCheckOutScreen> {
                             ),
                             ...commonField(
                                 textController: cartController.addressDeliPhone,
-                                title: "Phone Number *",
-                                hintText: "Enter your phone number",
+                                title: "Phone Number *".tr,
+                                hintText: "Enter your phone number".tr,
                                 keyboardType: TextInputType.phone,
                                 validator: (value) {
                                   // if (value!.trim().isEmpty) {
@@ -1170,15 +1170,15 @@ class _DirectCheckOutScreenState extends State<DirectCheckOutScreen> {
                                 }),
                             ...commonField(
                                 textController: cartController.addressDeliAlternate,
-                                title: "Alternate Phone Number *",
-                                hintText: "Enter your alternate phone number",
+                                title: "Alternate Phone Number *".tr,
+                                hintText: "Enter your alternate phone number".tr,
                                 keyboardType: TextInputType.phone,
                                 validator: (value) {
                                   return null;
                                 }),
                             ...fieldWithName(
-                              title: 'Country/Region',
-                              hintText: 'United States',
+                              title: 'Country/Region'.tr,
+                              hintText: 'United States'.tr,
                               readOnly: true,
                               onTap: () {
                                 showAddressSelectorDialog(
@@ -1211,21 +1211,21 @@ class _DirectCheckOutScreenState extends State<DirectCheckOutScreen> {
                                       cartController.addressCountryController.text),
                               validator: (v) {
                                 if (v!.trim().isEmpty) {
-                                  return "Please select country";
+                                  return "Please select country".tr;
                                 }
                                 return null;
                               },
                             ),
                             ...fieldWithName(
-                              title: 'State',
-                              hintText: 'Select State',
+                              title: 'State'.tr,
+                              hintText: 'Select State'.tr,
                               controller: TextEditingController(
                                   text: (selectedState ?? CountryState()).stateName ??
                                       cartController.addressStateController.text),
                               readOnly: true,
                               onTap: () {
                                 if (modelStateList == null && stateRefresh.value > 0) {
-                                  showToast("Select Country First");
+                                  showToast("Select State First".tr);
                                   return;
                                 }
                                 if (stateRefresh.value < 0) {
@@ -1265,7 +1265,7 @@ class _DirectCheckOutScreenState extends State<DirectCheckOutScreen> {
                               }),
                               validator: (v) {
                                 if (v!.trim().isEmpty) {
-                                  return "Please select state";
+                                  return "Please select state".tr;
                                 }
                                 return null;
                               },
@@ -1273,13 +1273,13 @@ class _DirectCheckOutScreenState extends State<DirectCheckOutScreen> {
                             // if (modelCityList != null && modelCityList!.city!.isNotEmpty)
                             ...fieldWithName(
                               readOnly: true,
-                              title: 'City',
-                              hintText: 'Select City',
+                              title: 'City'.tr,
+                              hintText: 'Select City'.tr,
                               controller: TextEditingController(
                                   text: (selectedCity ?? City()).cityName ?? cartController.addressCityController.text),
                               onTap: () {
                                 if (modelCityList == null && cityRefresh.value > 0) {
-                                  showToast("Select State First");
+                                  showToast("Select City First".tr);
                                   return;
                                 }
                                 if (cityRefresh.value < 0) {
@@ -1315,15 +1315,15 @@ class _DirectCheckOutScreenState extends State<DirectCheckOutScreen> {
                               }),
                               validator: (v) {
                                 if (v!.trim().isEmpty) {
-                                  return "Please select state";
+                                  return "Please select city".tr;
                                 }
                                 return null;
                               },
                             ),
                             ...commonField(
                                 textController: cartController.addressDeliAddress,
-                                title: "Address *",
-                                hintText: "Enter your address",
+                                title: "Address *".tr,
+                                hintText: "Enter your address".tr,
                                 keyboardType: TextInputType.text,
                                 validator: (value) {
                                   // if (value!.trim().isEmpty) {
@@ -1342,8 +1342,8 @@ class _DirectCheckOutScreenState extends State<DirectCheckOutScreen> {
                             // ),
                             ...commonField(
                                 textController: cartController.addressDeliZipCode,
-                                title: "Zip Code *",
-                                hintText: "Enter location Zip-Code",
+                                title: "Zip Code *".tr,
+                                hintText: "Enter location Zip-Code".tr,
                                 keyboardType: TextInputType.phone,
                                 validator: (value) {
                                   // if (value!.trim().isEmpty) {
@@ -1468,7 +1468,7 @@ class _DirectCheckOutScreenState extends State<DirectCheckOutScreen> {
               purchaseType1: shippingType.value.toString(),
               address: selectedAddress.toJson(),);
           } else {
-            showToast('Please Choose Address');
+            showToast('Please Choose Address'.tr);
           }
         },
         child: Container(
@@ -1934,12 +1934,12 @@ class _DirectCheckOutScreenState extends State<DirectCheckOutScreen> {
                           }),
                       ...commonField(
                           textController: emailController,
-                          title: "Email Address*",
-                          hintText: "Email Address",
+                          title: "Email Address*".tr,
+                          hintText: "Email Address".tr,
                           keyboardType: TextInputType.emailAddress,
                           validator: (value) {
                             if (value!.trim().isEmpty) {
-                              return "Please enter email address";
+                              return "Please enter email address".tr;
                             }
                             if (value
                                 .trim()
@@ -1971,10 +1971,10 @@ class _DirectCheckOutScreenState extends State<DirectCheckOutScreen> {
                         dropdownTextStyle: const TextStyle(color: Colors.black),
                         style: const TextStyle(color: AppTheme.textColor),
                         controller: phoneController,
-                        decoration: const InputDecoration(
+                        decoration:  InputDecoration(
                             contentPadding: EdgeInsets.zero,
                             hintStyle: TextStyle(color: AppTheme.textColor),
-                            hintText: 'Enter your phone number',
+                            hintText: 'Enter your phone number'.tr,
                             labelStyle: TextStyle(color: AppTheme.textColor),
                             border: OutlineInputBorder(
                               borderSide: BorderSide(),
@@ -2099,8 +2099,8 @@ class _DirectCheckOutScreenState extends State<DirectCheckOutScreen> {
                           }),
 
                       ...fieldWithName(
-                        title: 'Country/Region',
-                        hintText: 'Select Country',
+                        title: 'Country/Region'.tr,
+                        hintText: 'Select Country'.tr,
                         readOnly: true,
                         onTap: () {
                           showAddressSelectorDialog(
@@ -2130,20 +2130,20 @@ class _DirectCheckOutScreenState extends State<DirectCheckOutScreen> {
                         TextEditingController(text: (selectedCountry ?? Country()).name ?? countryController.text),
                         validator: (v) {
                           if (v!.trim().isEmpty) {
-                            return "Please select country";
+                            return "Please select country".tr;
                           }
                           return null;
                         },
                       ),
                       ...fieldWithName(
-                        title: 'State',
-                        hintText: 'Select State',
+                        title: 'State'.tr,
+                        hintText: 'Select State'.tr,
                         controller: TextEditingController(
                             text: (selectedState ?? CountryState()).stateName ?? stateController.text),
                         readOnly: true,
                         onTap: () {
                           if (modelStateList == null && stateRefresh.value > 0) {
-                            showToast("Select Country First");
+                            showToast("Select Country First".tr);
                             return;
                           }
                           if (stateRefresh.value < 0) {
@@ -2181,7 +2181,7 @@ class _DirectCheckOutScreenState extends State<DirectCheckOutScreen> {
                         }),
                         validator: (v) {
                           if (v!.trim().isEmpty) {
-                            return "Please select state";
+                            return "Please select state".tr;
                           }
                           return null;
                         },
@@ -2189,13 +2189,13 @@ class _DirectCheckOutScreenState extends State<DirectCheckOutScreen> {
                       // if (modelCityList != null && modelCityList!.city!.isNotEmpty)
                       ...fieldWithName(
                         readOnly: true,
-                        title: 'City',
-                        hintText: 'Select City',
+                        title: 'City'.tr,
+                        hintText: 'Select City'.tr,
                         controller:
                         TextEditingController(text: (selectedCity ?? City()).cityName ?? cityController.text),
                         onTap: () {
                           if (modelCityList == null && cityRefresh.value > 0) {
-                            showToast("Select State First");
+                            showToast("Select State First".tr);
                             return;
                           }
                           if (cityRefresh.value < 0) {
@@ -2227,7 +2227,7 @@ class _DirectCheckOutScreenState extends State<DirectCheckOutScreen> {
                         }),
                         validator: (v) {
                           if (v!.trim().isEmpty) {
-                            return "Please select state";
+                            return "Please select state".tr;
                           }
                           return null;
                         },
@@ -2402,7 +2402,7 @@ class _DirectCheckOutScreenState extends State<DirectCheckOutScreen> {
                       // bottomSheet();
                     },
                     obSecure: false,
-                    hintText: '+ Add Address',
+                    hintText: '+ Add Address'.tr,
                   ),
                   Expanded(
                     child: Obx(() {
@@ -2417,7 +2417,7 @@ class _DirectCheckOutScreenState extends State<DirectCheckOutScreen> {
                               children: [
                                 Expanded(
                                   child: Text(
-                                    "Shipping Address",
+                                    "Shipping Address".tr,
                                     style: GoogleFonts.poppins(fontWeight: FontWeight.w500, fontSize: 16),
                                   ),
                                 ),
@@ -2431,7 +2431,7 @@ class _DirectCheckOutScreenState extends State<DirectCheckOutScreen> {
                                       size: 20,
                                     ),
                                     label: Text(
-                                      "Add New",
+                                      "Add New".tr,
                                       style: GoogleFonts.poppins(fontSize: 15),
                                     ))
                               ],
@@ -2453,7 +2453,7 @@ class _DirectCheckOutScreenState extends State<DirectCheckOutScreen> {
                                       size: 20,
                                     ),
                                     label: Text(
-                                      "Find my location",
+                                      "Find my location".tr,
                                       style: GoogleFonts.poppins(fontSize: 15),
                                     ))
                               ],
@@ -2612,7 +2612,7 @@ class _DirectCheckOutScreenState extends State<DirectCheckOutScreen> {
                                                     }),
                                                 address.isDefault == true ?
                                                 Text(
-                                                  "Default",
+                                                  "Default".tr,
                                                   style: GoogleFonts.poppins(
                                                       fontWeight: FontWeight.w500,
                                                       fontSize: 15,
@@ -2631,7 +2631,7 @@ class _DirectCheckOutScreenState extends State<DirectCheckOutScreen> {
                               ))
                               : SliverToBoxAdapter(
                             child: Text(
-                              "No Shipping Address Added!",
+                              "No Shipping Address Added!".tr,
                               textAlign: TextAlign.center,
                               style: GoogleFonts.poppins(fontWeight: FontWeight.w500, fontSize: 16),
                             ),
@@ -2745,9 +2745,7 @@ class _DirectCheckOutScreenState extends State<DirectCheckOutScreen> {
                             if (value!.trim().isEmpty) {
                               return "Please enter email address".tr;
                             }
-                            if (value
-                                .trim()
-                                .invalidEmail) {
+                            if (value.trim().invalidEmail) {
                               return "Please enter valid email address".tr;
                             }
                             return null;
@@ -2807,10 +2805,10 @@ class _DirectCheckOutScreenState extends State<DirectCheckOutScreen> {
                         dropdownTextStyle: const TextStyle(color: Colors.black),
                         style: const TextStyle(color: AppTheme.textColor),
                         controller: phoneController,
-                        decoration: const InputDecoration(
+                        decoration:  InputDecoration(
                             contentPadding: EdgeInsets.zero,
                             hintStyle: TextStyle(color: AppTheme.textColor),
-                            hintText: 'Enter your phone number',
+                            hintText: 'Enter your phone number'.tr,
                             labelStyle: TextStyle(color: AppTheme.textColor),
                             border: OutlineInputBorder(
                               borderSide: BorderSide(),
@@ -2851,10 +2849,10 @@ class _DirectCheckOutScreenState extends State<DirectCheckOutScreen> {
                         dropdownTextStyle: const TextStyle(color: Colors.black),
                         style: const TextStyle(color: AppTheme.textColor),
                         controller: alternatePhoneController,
-                        decoration: const InputDecoration(
+                        decoration:  InputDecoration(
                             contentPadding: EdgeInsets.zero,
                             hintStyle: TextStyle(color: AppTheme.textColor),
-                            hintText: 'Enter your phone number',
+                            hintText: 'Enter your phone number'.tr,
                             labelStyle: TextStyle(color: AppTheme.textColor),
                             border: OutlineInputBorder(
                               borderSide: BorderSide(),
@@ -2897,8 +2895,8 @@ class _DirectCheckOutScreenState extends State<DirectCheckOutScreen> {
                             return null;
                           }),
                       ...fieldWithName(
-                        title: 'Country/Region',
-                        hintText: 'Select Country',
+                        title: 'Country/Region'.tr,
+                        hintText: 'Select Country'.tr,
                         readOnly: true,
                         onTap: () {
                           showAddressSelectorDialog(
@@ -2929,24 +2927,24 @@ class _DirectCheckOutScreenState extends State<DirectCheckOutScreen> {
                         TextEditingController(text: (selectedCountry ?? Country()).name ?? countryController.text),
                         validator: (v) {
                           if (v!.trim().isEmpty) {
-                            return "Please select country";
+                            return "Please select country".tr;
                           }
                           return null;
                         },
                       ),
                       ...fieldWithName(
-                        title: 'State',
-                        hintText: 'Select State',
+                        title: 'State'.tr,
+                        hintText: 'Select State'.tr,
                         controller: TextEditingController(
                             text: (selectedState ?? CountryState()).stateName ?? stateController.text),
                         readOnly: true,
                         onTap: () {
                           if (countryIddd == 'null') {
-                            showToast("Select Country First");
+                            showToast("Select Country First".tr);
                             return;
                           }
                           if (modelStateList == null && stateRefresh.value > 0) {
-                            showToast("Select Country First");
+                            showToast("Select Country First".tr);
                             return;
                           }
                           if (stateRefresh.value < 0) {
@@ -2991,7 +2989,7 @@ class _DirectCheckOutScreenState extends State<DirectCheckOutScreen> {
                         }),
                         validator: (v) {
                           if (v!.trim().isEmpty) {
-                            return "Please select state";
+                            return "Please select state".tr;
                           }
                           return null;
                         },
@@ -2999,13 +2997,13 @@ class _DirectCheckOutScreenState extends State<DirectCheckOutScreen> {
                       // if (modelCityList != null && modelCityList!.city!.isNotEmpty)
                       ...fieldWithName(
                         readOnly: true,
-                        title: 'City',
-                        hintText: 'Select City',
+                        title: 'City'.tr,
+                        hintText: 'Select City'.tr,
                         controller:
                         TextEditingController(text: (selectedCity ?? City()).cityName ?? cityController.text),
                         onTap: () {
                           if (modelCityList == null && cityRefresh.value > 0) {
-                            showToast("Select State First");
+                            showToast("Select City First".tr);
                             return;
                           }
                           if (cityRefresh.value < 0) {
@@ -3043,7 +3041,7 @@ class _DirectCheckOutScreenState extends State<DirectCheckOutScreen> {
                         }),
                         validator: (v) {
                           if (v!.trim().isEmpty) {
-                            return "Please select state";
+                            return "Please select city".tr;
                           }
                           return null;
                         },
@@ -3051,20 +3049,20 @@ class _DirectCheckOutScreenState extends State<DirectCheckOutScreen> {
                       if (cartController.countryName.value != 'Kuwait')
                         ...commonField(
                             textController: zipCodeController,
-                            title: "Zip-Code*",
-                            hintText: "Enter location Zip-Code",
+                            title: "Zip-Code*".tr,
+                            hintText: "Enter location Zip-Code".tr,
                             keyboardType: TextInputType.number,
                             validator: (value) {
                               if (value!.trim().isEmpty) {
-                                return "Please enter Zip-Code*";
+                                return "Please enter Zip-Code*".tr;
                               }
                               return null;
                             }),
                       if (cartController.countryName.value != 'Kuwait')
                         ...commonField(
                             textController: landmarkController,
-                            title: "Landmark",
-                            hintText: "Enter your nearby landmark",
+                            title: "Landmark".tr,
+                            hintText: "Enter your nearby landmark".tr,
                             keyboardType: TextInputType.streetAddress,
                             validator: (value) {
                               // if(value!.trim().isEmpty){
