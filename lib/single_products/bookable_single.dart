@@ -785,7 +785,8 @@ class _BookableProductScreenState extends State<BookableProductScreen> {
                       ),
                     ],
                   ),
-                  Row(
+
+                  modelSingleProduct.value.bookingProduct!.rating == '0' ? Row(
                     mainAxisAlignment: MainAxisAlignment.end,
                     children: [
                       modelSingleProduct.value.bookingProduct!.rating != '0' ?
@@ -824,7 +825,7 @@ class _BookableProductScreenState extends State<BookableProductScreen> {
                         ],
                       ) : const SizedBox.shrink()
                     ],
-                  ),
+                  ) : const Text('No reviews'),
                   SizedBox(height: 20,),
                   SizedBox(
                     height: 28,
@@ -866,7 +867,7 @@ class _BookableProductScreenState extends State<BookableProductScreen> {
                     Row(
                       crossAxisAlignment: CrossAxisAlignment.center,
                       children: [
-                        const Icon(Icons.circle,color: Colors.grey,size: 10,),
+                        // const Icon(Icons.circle,color: Colors.grey,size: 10,),
                         const SizedBox(
                           width: 7,
                         ),
@@ -884,33 +885,33 @@ class _BookableProductScreenState extends State<BookableProductScreen> {
                       ],
                     ),
                   SizedBox(height: 10,),
-                  Row(
-                    children: [
-                      Icon(Icons.circle,color: Colors.grey,size: 10,),
-                      const SizedBox(
-                        width: 7,
-                      ),
-                      Text(
-                        'Shipping type'.tr,
-                        style: GoogleFonts.poppins(
-
-                            color:  Colors.grey,
-                            fontSize: 14,
-                            fontWeight: FontWeight.w500),
-                      ),
-                      Text(
-                        modelSingleProduct.value.bookingProduct!.shippingDate.toString(),
-                        style: GoogleFonts.poppins(
-
-                            color:  Color(0xFf014E70),
-                            fontSize: 14,
-                            fontWeight: FontWeight.w600),
-                      ),
-
-
-
-                    ],
-                  ),
+                  // Row(
+                  //   children: [
+                  //     Icon(Icons.circle,color: Colors.grey,size: 10,),
+                  //     const SizedBox(
+                  //       width: 7,
+                  //     ),
+                  //     Text(
+                  //       'Shipping type'.tr,
+                  //       style: GoogleFonts.poppins(
+                  //
+                  //           color:  Colors.grey,
+                  //           fontSize: 14,
+                  //           fontWeight: FontWeight.w500),
+                  //     ),
+                  //     Text(
+                  //       modelSingleProduct.value.bookingProduct!.shippingDate.toString(),
+                  //       style: GoogleFonts.poppins(
+                  //
+                  //           color:  Color(0xFf014E70),
+                  //           fontSize: 14,
+                  //           fontWeight: FontWeight.w600),
+                  //     ),
+                  //
+                  //
+                  //
+                  //   ],
+                  // ),
                   SizedBox(height: 20,),
                   Row(
                     children: [
@@ -1207,7 +1208,13 @@ class _BookableProductScreenState extends State<BookableProductScreen> {
                   SizedBox(
                     height: 10,
                   ),
-
+                  Text(
+                    'Seller information'.tr,
+                    style: GoogleFonts.poppins(color: Colors.black, fontSize: 20, fontWeight: FontWeight.w500),
+                  ),
+                  const SizedBox(
+                    height: 10,
+                  ),
                   Row(
                     children: [
                       Flexible(
@@ -1297,10 +1304,10 @@ class _BookableProductScreenState extends State<BookableProductScreen> {
                   SizedBox(
                     height: 10,
                   ),
-                  Divider(
-                    color: Colors.grey.withOpacity(.5),
-                    thickness: 1,
-                  ),
+                  // Divider(
+                  //   color: Colors.grey.withOpacity(.5),
+                  //   thickness: 1,
+                  // ),
                   SizedBox(
                     height: 10,
                   ),

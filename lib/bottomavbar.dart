@@ -181,12 +181,12 @@ class _BottomNavbarState extends State<BottomNavbar> {
               child: Container(
                 padding: const EdgeInsets.all(5.0),
                 decoration: BoxDecoration(
-                  color: Colors.grey.withOpacity(.2),
+                    color: const Color(0xFFEBF3F6),
                   borderRadius: BorderRadius.circular(100)
                 ),
                 child: Container(
-                  height: 55,
-                  width: 55,
+                  height: 60,
+                  width: 60,
                   decoration: BoxDecoration(
                     color: Colors.white,
                     borderRadius: BorderRadius.circular(30),
@@ -194,7 +194,7 @@ class _BottomNavbarState extends State<BottomNavbar> {
                   child: Padding(
                     padding: const EdgeInsets.all(9.0),
                     child: Center(
-                      child:     profileController.selectedLAnguage.value == 'English' ?
+                      child: profileController.selectedLAnguage.value == 'English' ?
                       Image.asset(
                         'assets/images/D-Sell-Icon.png',
                         height: 30,
@@ -215,7 +215,7 @@ class _BottomNavbarState extends State<BottomNavbar> {
   }
 
   Widget buildMyNavBar() {
-    const padding = EdgeInsets.only(bottom: 7, top: 3);
+    const padding = EdgeInsets.only(bottom: 2, top: 3);
     return Column(
       mainAxisSize: MainAxisSize.min,
       children: [
@@ -226,6 +226,9 @@ class _BottomNavbarState extends State<BottomNavbar> {
             elevation: 0,
             child: Column(
               children: [
+                const SizedBox(
+                  height: 11,
+                ),
                 Row(
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [

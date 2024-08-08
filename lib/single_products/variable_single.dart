@@ -556,7 +556,7 @@ class _VarientsProductScreenState extends State<VarientsProductScreen> {
                             ),
                           ],
                         ),
-                        Row(
+                        modelSingleProduct.value.variantProduct!.rating == '0' ? Row(
                           mainAxisAlignment: MainAxisAlignment.end,
                           children: [
                             modelSingleProduct.value.variantProduct!.rating != '0' ?
@@ -598,7 +598,7 @@ class _VarientsProductScreenState extends State<VarientsProductScreen> {
                               ],
                             ) : const SizedBox.shrink()
                           ],
-                        ),
+                        ) :  const Text('No reviews'),
                         const SizedBox(
                           height: 20,
                         ),
@@ -1018,7 +1018,13 @@ class _VarientsProductScreenState extends State<VarientsProductScreen> {
                         const SizedBox(
                           height: 10,
                         ),
-
+                        Text(
+                          'Seller information'.tr,
+                          style: GoogleFonts.poppins(color: Colors.black, fontSize: 20, fontWeight: FontWeight.w500),
+                        ),
+                        const SizedBox(
+                          height: 10,
+                        ),
                         Row(
                           children: [
                             Flexible(
@@ -1088,10 +1094,10 @@ class _VarientsProductScreenState extends State<VarientsProductScreen> {
                         const SizedBox(
                           height: 10,
                         ),
-                        Divider(
-                          color: Colors.grey.withOpacity(.5),
-                          thickness: 1,
-                        ),
+                        // Divider(
+                        //   color: Colors.grey.withOpacity(.5),
+                        //   thickness: 1,
+                        // ),
                         const SizedBox(
                           height: 10,
                         ),

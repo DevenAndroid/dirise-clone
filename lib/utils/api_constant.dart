@@ -166,8 +166,8 @@ showToast(message, {ToastGravity? gravity, bool? center}) {
       toastLength: Toast.LENGTH_LONG,
       gravity: center == true ? ToastGravity.CENTER :  gravity ?? ToastGravity.BOTTOM,
       timeInSecForIosWeb: 4,
-      backgroundColor: AppTheme.buttonColor,
-      textColor: const Color(0xffffffff),
+      backgroundColor: Colors.grey,
+      textColor: Colors.white,
       fontSize: 15);
 }
 showToastCenter(message, {ToastGravity? gravity, bool? center}) {
@@ -177,8 +177,8 @@ showToastCenter(message, {ToastGravity? gravity, bool? center}) {
       toastLength: Toast.LENGTH_LONG,
       gravity: center == true ? ToastGravity.CENTER :  gravity ?? ToastGravity.CENTER,
       timeInSecForIosWeb: 4,
-      backgroundColor: const Color(0xffffffff),
-      textColor:  Colors.grey,
+      backgroundColor: Colors.grey,
+      textColor:  Colors.white,
       fontSize: 15);
 }
 

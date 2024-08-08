@@ -773,7 +773,7 @@ class _VritualProductScreenState extends State<VritualProductScreen> {
                       ),
                     ],
                   ),
-                  Row(
+                  modelSingleProduct.value.singleVirtualProduct!.rating == '0' ? Row(
                     mainAxisAlignment: MainAxisAlignment.end,
                     children: [
                       modelSingleProduct.value.singleVirtualProduct!.rating != '0' ? RatingBar.builder(
@@ -812,7 +812,7 @@ class _VritualProductScreenState extends State<VritualProductScreen> {
                       ) : const SizedBox.shrink()
 
                     ],
-                  ),
+                  ) : const Text('No reviews'),
                   const SizedBox(height: 20,),
                   modelSingleProduct.value.singleVirtualProduct!.catId!.isNotEmpty?
                   SizedBox(
@@ -855,7 +855,7 @@ class _VritualProductScreenState extends State<VritualProductScreen> {
                     Row(
                       crossAxisAlignment: CrossAxisAlignment.center,
                       children: [
-                        const Icon(Icons.circle,color: Colors.grey,size: 10,),
+                        // const Icon(Icons.circle,color: Colors.grey,size: 10,),
                         const SizedBox(
                           width: 7,
                         ),
@@ -1105,11 +1105,11 @@ class _VritualProductScreenState extends State<VritualProductScreen> {
                       const SizedBox(
                         width: 20,
                       ),
-                      const Icon(
-                        Icons.circle,
-                        color: Color(0xFF014E70),
-                        size: 6,
-                      ),
+                      // const Icon(
+                      //   Icons.circle,
+                      //   color: Color(0xFF014E70),
+                      //   size: 6,
+                      // ),
                       const SizedBox(
                         width: 7,
                       ),
@@ -1196,7 +1196,13 @@ class _VritualProductScreenState extends State<VritualProductScreen> {
                   const SizedBox(
                     height: 10,
                   ),
-
+                  Text(
+                    'Seller information'.tr,
+                    style: GoogleFonts.poppins(color: Colors.black, fontSize: 20, fontWeight: FontWeight.w500),
+                  ),
+                  const SizedBox(
+                    height: 10,
+                  ),
                   Row(
                     crossAxisAlignment: CrossAxisAlignment.center,
                     mainAxisAlignment: MainAxisAlignment.start,
@@ -1288,10 +1294,10 @@ class _VritualProductScreenState extends State<VritualProductScreen> {
                   const SizedBox(
                     height: 10,
                   ),
-                  Divider(
-                    color: Colors.grey.withOpacity(.5),
-                    thickness: 1,
-                  ),
+                  // Divider(
+                  //   color: Colors.grey.withOpacity(.5),
+                  //   thickness: 1,
+                  // ),
                   const SizedBox(
                     height: 10,
                   ),

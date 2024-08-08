@@ -737,6 +737,8 @@ class LocaleString extends Translations {
           'News not found' : 'News not found',
           'Store is empty' : 'Store is empty',
           'not found' :'not found',
+          'Seller information' : 'Seller information',
+          'Delivery:' : 'Delivery:',
        },
 
 
@@ -1483,6 +1485,11 @@ class LocaleString extends Translations {
        //    'Do You Want To Logout Your Account' : 'هل تريد تسجيل الخروج من حسابك',
        //    'FILTER BY PRICE' : 'تصفية حسب السعر',
        //    'Price' : 'سعر'
+       'Delivery:' : 'توصيل:',
+       'I am here to hire': 'أنا هنا للتأجير',
+       'I am here to find jobs': 'أنا هنا للعثور على وظائف',
+       'Seller information' : 'معلومات البائع',
+       'No jobs found at this moment' : 'لم يتم العثور على وظائف في هذه اللحظة',
        '+ Add Address'  : '+ إضافة عنوان',
        'Search' : 'ابحث',
        'You don\'t have any audio book in your collection' : 'ليس لديك أي كتاب صوتي في مجموعتك',

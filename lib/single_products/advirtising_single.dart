@@ -765,7 +765,7 @@ class _AdvirtismentProductScreenState extends State<AdvirtismentProductScreen> {
                       ),
                     ],
                   ),
-                  Row(
+                  modelSingleProduct.value.advertisingProduct!.rating == '0' ? Row(
                     mainAxisAlignment: MainAxisAlignment.end,
                     children: [
                       RatingBar.builder(
@@ -790,7 +790,7 @@ class _AdvirtismentProductScreenState extends State<AdvirtismentProductScreen> {
                       const SizedBox(width: 10,),
                       Image.asset("assets/svgs/rils.png"),
                     ],
-                  ),
+                  ) : const Text('No reviews'),
                   const SizedBox(height: 20,),
                   SizedBox(
                     height: 28,
@@ -822,7 +822,7 @@ class _AdvirtismentProductScreenState extends State<AdvirtismentProductScreen> {
                   ),
                   const SizedBox(height: 20,),
                   Text(
-                    "Dirise Welcome deal  ".tr,
+                    "Description".tr,
                     style: GoogleFonts.poppins(fontWeight: FontWeight.w500, fontSize: 18, color:const Color(0xFF014E70)),
 
                   ),
@@ -830,7 +830,7 @@ class _AdvirtismentProductScreenState extends State<AdvirtismentProductScreen> {
                   Row(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
-                      const Icon(Icons.circle,color: Colors.grey,size: 10,),
+                      // const Icon(Icons.circle,color: Colors.grey,size: 10,),
                       const SizedBox(
                         width: 7,
                       ),
@@ -983,7 +983,7 @@ class _AdvirtismentProductScreenState extends State<AdvirtismentProductScreen> {
                       const SizedBox(
                         width: 20,
                       ),
-                      const Icon(Icons.circle, color: Colors.grey, size: 6,),
+                      // const Icon(Icons.circle, color: Colors.grey, size: 6,),
                       const SizedBox(
                         width: 7,
                       ),
@@ -1074,11 +1074,11 @@ class _AdvirtismentProductScreenState extends State<AdvirtismentProductScreen> {
                       const SizedBox(
                         width: 20,
                       ),
-                      const Icon(
-                        Icons.circle,
-                        color: Color(0xFF014E70),
-                        size: 6,
-                      ),
+                      // const Icon(
+                      //   Icons.circle,
+                      //   color: Color(0xFF014E70),
+                      //   size: 6,
+                      // ),
                       const SizedBox(
                         width: 7,
                       ),
@@ -1214,7 +1214,7 @@ class _AdvirtismentProductScreenState extends State<AdvirtismentProductScreen> {
                         style: GoogleFonts.poppins(color: Colors.grey, fontSize: 14, fontWeight: FontWeight.w600),
                       ),
                       const SizedBox(
-                        width: 30,
+                        width: 16,
                       ),
                       Text(
                         modelSingleProduct.value.advertisingProduct!.storemeta!.storeCategory.toString(),

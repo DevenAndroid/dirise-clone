@@ -35,16 +35,16 @@ class _CartBagCardState extends State<CartBagCard> {
 
         },
         child: Padding(
-          padding: const EdgeInsets.only(left: 20,right: 15,bottom: 10),
+          padding: const EdgeInsets.only(left: 20,right: 15,bottom: 0),
           child:      Stack(children:[
             totalProducts.length != 1 ?  SvgPicture.asset("assets/svgs/cart_new.svg",
-              width: 32,
-              height: 32,
+              width: 34,
+              height: 34,
               // color: widget.isBlackTheme == true ? Colors.white : AppTheme.buttonColor,
             ):
             SvgPicture.asset("assets/svgs/bag_2digit.svg",
-              width: 32,
-              height: 32,
+              width: 34,
+              height: 34,
               // color: widget.isBlackTheme == true ? Colors.white : AppTheme.buttonColor,
             ),
             cartController.apiLoaded

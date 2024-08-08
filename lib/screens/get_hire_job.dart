@@ -116,7 +116,7 @@ class _GetHireJobState extends State<GetHireJob> {
         centerTitle: true,
         titleSpacing: 0,
         title: Text(
-          'Get Jobs'.tr,
+          'I am here to hire'.tr,
           style: GoogleFonts.poppins(color: Colors.black, fontWeight: FontWeight.w600, fontSize: 20),
         ),
       ),
@@ -138,7 +138,7 @@ class _GetHireJobState extends State<GetHireJob> {
                     Lottie.asset("assets/loti/wishlist.json"),
                     Center(
                       child: Text(
-                        'Job\'s not found'.tr,
+                        'No jobs found at this moment'.tr,
                         style: GoogleFonts.poppins(fontWeight: FontWeight.w500, fontSize: 22),
                       ),
                     ),

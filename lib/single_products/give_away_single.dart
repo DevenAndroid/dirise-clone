@@ -1280,7 +1280,13 @@ class _GiveAwayProductState extends State<GiveAwayProduct> {
                         const SizedBox(
                           height: 10,
                         ),
-
+                        Text(
+                          'Seller information'.tr,
+                          style: GoogleFonts.poppins(color: Colors.black, fontSize: 20, fontWeight: FontWeight.w500),
+                        ),
+                        const SizedBox(
+                          height: 10,
+                        ),
                         Row(
                           children: [
                             Flexible(
@@ -1372,10 +1378,10 @@ class _GiveAwayProductState extends State<GiveAwayProduct> {
                         const SizedBox(
                           height: 10,
                         ),
-                        Divider(
-                          color: Colors.grey.withOpacity(.5),
-                          thickness: 1,
-                        ),
+                        // Divider(
+                        //   color: Colors.grey.withOpacity(.5),
+                        //   thickness: 1,
+                        // ),
                         modelSingleProduct.value.singleGiveawayProduct!.storemeta!.isVendor == true ?
                         Column(
                           children: [

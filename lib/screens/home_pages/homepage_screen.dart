@@ -536,7 +536,7 @@ class _HomePageState extends State<HomePage> {
             statusBarIconBrightness: Brightness.dark,
           ),
           leading: Padding(
-            padding: const EdgeInsets.only(left: 8.0),
+            padding: profileController.selectedLAnguage.value == 'English' ? const EdgeInsets.only(left: 8.0) :  const EdgeInsets.only(right: 12.0),
             child: Row(
               children: [
                 InkWell(
@@ -547,12 +547,12 @@ class _HomePageState extends State<HomePage> {
                   },
                   child: Image.asset(
                     'assets/images/menu_new.png',
-                    width: 27,
-                    height: 27
+                    width: 30,
+                    height: 30
                     // color: Colors.white,
                   ),
                 ),
-                SizedBox(
+                const SizedBox(
                   width: 13,
                 ),
                 InkWell(
@@ -563,8 +563,8 @@ class _HomePageState extends State<HomePage> {
                   },
                   child: SvgPicture.asset(
                     'assets/svgs/search_icon_new.svg',
-                    width: 25,
-                    height: 25,
+                    width: 28,
+                    height: 28,
                     // color: Colors.white,
                   ),
                   // child : Image.asset('assets/images/search_icon_new.png')
@@ -577,7 +577,7 @@ class _HomePageState extends State<HomePage> {
             children: [
               Image.asset(
                 'assets/images/new_logo.png',
-                width: 75,
+                width: 62,
                 // color: Colors.white,
               ),
               // 5.spaceY,

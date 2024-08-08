@@ -118,14 +118,14 @@ class _SingleStoreScreenState extends State<SingleStoreScreen> {
       page = 1;
     }
     if (allLoaded) return;
-    //  if (paginationLoading) return;
+     if (paginationLoading.value) return;
 
     String url = "vendor_id=$vendorId";
     paginationLoading.value = true;
     await repositories.getApi(url: "${ApiUrls.vendorProductListUrl}$url&country_id=${profileController.model.user != null &&
         cartController.countryId.isEmpty ? profileController.model.user!.country_id : cartController.countryId
         .toString()}&key=fedexRate&zip_code=${locationController.zipcode.value
-        .toString()}pagination=1000&page=$paginationPage").then((value) {
+        .toString()}pagination=25&page=$paginationPage").then((value) {
       paginationLoading.value = false;
       isDataLoading.value = true;
       modelProductsList.vendorProducts!.data ??= [];
@@ -958,14 +958,30 @@ class _SingleStoreScreenState extends State<SingleStoreScreen> {
                     childAspectRatio: .82,
                   ),
                   itemCount: paginationLoading.value ?
-                  modelProductsList.vendorProducts!.data!.length + 1 :
+                  modelProductsList.vendorProducts!.data!.length:
                   modelProductsList.vendorProducts!.data!.length,
                   itemBuilder: (BuildContext context, int index) {
-                    if (index < modelProductsList.vendorProducts!.data!.length) {
-                      final item = modelProductsList.vendorProducts!.data![index];
-                      log('index is::::$index');
-                      log('index Api is::::${modelProductsList.vendorProducts!.data!.length}');
-
+                    final item = modelProductsList.vendorProducts!.data![index];
+                    log('index is::::$index');
+                    log('index Api is::::${modelProductsList.vendorProducts!.data!.length}');
+                    if (index == modelProductsList.vendorProducts!.data!.length - 1) {
+                      return Column(
+                        children: [
+                          ProductUI(
+                            isSingle: true,
+                            productElement: item,
+                            onLiked: (value) {
+                              modelProductsList.vendorProducts!.data![index].inWishlist = value;
+                            },
+                          ),
+                          if (paginationLoading.value == true)
+                            const SizedBox(
+                               width: 12,
+                                height : 12,
+                                child: CircularProgressIndicator()),
+                        ],
+                      );
+                    } else {
                       return Padding(
                         padding: const EdgeInsets.symmetric(horizontal: 12),
                         child: ProductUI(
@@ -975,14 +991,6 @@ class _SingleStoreScreenState extends State<SingleStoreScreen> {
                             modelProductsList.vendorProducts!.data![index].inWishlist = value;
                           },
                         ),
-                      );
-                    }
-                    else {
-                      return Column(
-                        children: [
-                          //  if(paginationLoading.value)
-                          const LoadingAnimation(),
-                        ],
                       );
                     }
                   },

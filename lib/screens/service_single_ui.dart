@@ -600,7 +600,7 @@ class _ServiceProductScreenState extends State<ServiceProductScreen> {
                       ),
                     ],
                   ),
-                  Row(
+                  modelSingleProduct.value.simpleProduct!.rating == '0' ?  Row(
                     mainAxisAlignment: MainAxisAlignment.end,
                     children: [
                       modelSingleProduct.value.simpleProduct!.rating != '0' ?
@@ -639,7 +639,7 @@ class _ServiceProductScreenState extends State<ServiceProductScreen> {
                         ],
                       ) : const SizedBox.shrink()
                     ],
-                  ),
+                  ) : const Text('No reviews'),
                   const SizedBox(height: 20,),
                   SizedBox(
                     height: 28,
@@ -681,7 +681,7 @@ class _ServiceProductScreenState extends State<ServiceProductScreen> {
                     Row(
                       crossAxisAlignment: CrossAxisAlignment.center,
                       children: [
-                        const Icon(Icons.circle,color: Colors.grey,size: 10,),
+                        // const Icon(Icons.circle,color: Colors.grey,size: 10,),
                         const SizedBox(
                           width: 7,
                         ),
@@ -699,37 +699,37 @@ class _ServiceProductScreenState extends State<ServiceProductScreen> {
                       ],
                     ),
                   const SizedBox(height: 10,),
-                  Row(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      const Icon(Icons.circle,color: Colors.grey,size: 10,),
-                      const SizedBox(
-                        width: 7,
-                      ),
-                      Text(
-                        'Shipping type'.tr,
-                        style: GoogleFonts.poppins(
-
-                            color:  Colors.grey,
-                            fontSize: 14,
-                            fontWeight: FontWeight.w500),
-                      ),
-                      5.spaceX,
-                      Expanded(
-                        child: Text(
-                          modelSingleProduct.value.simpleProduct!.shippingDate.toString(),
-                          style: GoogleFonts.poppins(
-
-                              color:  const Color(0xFf014E70),
-                              fontSize: 14,
-                              fontWeight: FontWeight.w600),
-                        ),
-                      ),
-
-
-
-                    ],
-                  ),
+                  // Row(
+                  //   crossAxisAlignment: CrossAxisAlignment.start,
+                  //   children: [
+                  //     // const Icon(Icons.circle,color: Colors.grey,size: 10,),
+                  //     const SizedBox(
+                  //       width: 7,
+                  //     ),
+                  //     Text(
+                  //       'Shipping type'.tr,
+                  //       style: GoogleFonts.poppins(
+                  //
+                  //           color:  Colors.grey,
+                  //           fontSize: 14,
+                  //           fontWeight: FontWeight.w500),
+                  //     ),
+                  //     5.spaceX,
+                  //     Expanded(
+                  //       child: Text(
+                  //         modelSingleProduct.value.simpleProduct!.shippingDate.toString(),
+                  //         style: GoogleFonts.poppins(
+                  //
+                  //             color:  const Color(0xFf014E70),
+                  //             fontSize: 14,
+                  //             fontWeight: FontWeight.w600),
+                  //       ),
+                  //     ),
+                  //
+                  //
+                  //
+                  //   ],
+                  // ),
                   const SizedBox(height: 20,),
                   Row(
                     children: [
@@ -838,7 +838,7 @@ class _ServiceProductScreenState extends State<ServiceProductScreen> {
                       const SizedBox(
                         width: 20,
                       ),
-                      const Icon(Icons.circle, color: Colors.grey, size: 6,),
+                      // const Icon(Icons.circle, color: Colors.grey, size: 6,),
                       const SizedBox(
                         width: 7,
                       ),
@@ -1031,7 +1031,13 @@ class _ServiceProductScreenState extends State<ServiceProductScreen> {
                   const SizedBox(
                     height: 10,
                   ),
-
+                  Text(
+                    'Seller information'.tr,
+                    style: GoogleFonts.poppins(color: Colors.black, fontSize: 20, fontWeight: FontWeight.w500),
+                  ),
+                  const SizedBox(
+                    height: 10,
+                  ),
                   Row(
                     crossAxisAlignment: CrossAxisAlignment.center,
                     mainAxisAlignment: MainAxisAlignment.start,
@@ -1123,10 +1129,10 @@ class _ServiceProductScreenState extends State<ServiceProductScreen> {
                   const SizedBox(
                     height: 10,
                   ),
-                  Divider(
-                    color: Colors.grey.withOpacity(.5),
-                    thickness: 1,
-                  ),
+                  // Divider(
+                  //   color: Colors.grey.withOpacity(.5),
+                  //   thickness: 1,
+                  // ),
                   const SizedBox(
                     height: 10,
                   ),
