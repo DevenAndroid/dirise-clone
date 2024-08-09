@@ -193,7 +193,9 @@ class _VritualProductScreenState extends State<VritualProductScreen> {
         imagesList.addAll(modelSingleProduct.value.singleVirtualProduct!.galleryImage ?? []);
         ratingRills = ratingRill * double.parse(modelSingleProduct.value.singleVirtualProduct!.rating.toString());
         imagesList = imagesList.toSet().toList();
-        releatedId = modelSingleProduct.value.singleVirtualProduct!.catId!.last.id.toString();
+        if (modelSingleProduct.value.singleVirtualProduct!.catId != null && modelSingleProduct.value.singleVirtualProduct!.catId!.isNotEmpty) {
+          releatedId = modelSingleProduct.value.singleVirtualProduct!.catId!.last.id.toString();
+        }
         print("releatedId" + releatedId);
         similarProduct();
         statusSingle = RxStatus.success();

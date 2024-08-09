@@ -194,16 +194,18 @@ class _GiveAwayProductState extends State<GiveAwayProduct> {
         log("modelSingleProduct.product!.toJson().....${modelSingleProduct.value.singleGiveawayProduct!.toJson()}");
         imagesList.addAll(modelSingleProduct.value.singleGiveawayProduct!.galleryImage ?? []);
         imagesList = imagesList.toSet().toList();
-        releatedId = modelSingleProduct.value.singleGiveawayProduct!.catId!.last.id.toString();
-
-        print("releatedId" + releatedId);
-        dateTimeString = modelSingleProduct.value.singleGiveawayProduct!.shippingDate.toString();
-
-// Parse the string into a DateTime object
-        DateTime dateTime = DateTime.parse(dateTimeString);
-
-// Format the DateTime object to display only the date part
-        formattedDate = "${dateTime.year}-${dateTime.month.toString().padLeft(2, '0')}-${dateTime.day.toString().padLeft(2, '0')}";
+        if (modelSingleProduct.value.singleGiveawayProduct!.catId != null && modelSingleProduct.value.singleGiveawayProduct!.catId!.isNotEmpty) {
+          releatedId = modelSingleProduct.value.singleGiveawayProduct!.catId!.last.id.toString();
+        }
+//
+//         print("releatedId" + releatedId);
+//         dateTimeString = modelSingleProduct.value.singleGiveawayProduct!.shippingDate.toString();
+//
+// // Parse the string into a DateTime object
+//         DateTime dateTime = DateTime.parse(dateTimeString);
+//
+// // Format the DateTime object to display only the date part
+//         formattedDate = "${dateTime.year}-${dateTime.month.toString().padLeft(2, '0')}-${dateTime.day.toString().padLeft(2, '0')}";
 
         similarProduct();
         statusSingle = RxStatus.success();

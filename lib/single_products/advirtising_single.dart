@@ -185,7 +185,9 @@ class _AdvirtismentProductScreenState extends State<AdvirtismentProductScreen> {
         log("modelSingleProduct.product!.toJson().....${modelSingleProduct.value.advertisingProduct!.toJson()}");
         imagesList.addAll(modelSingleProduct.value.advertisingProduct!.galleryImage ?? []);
         imagesList = imagesList.toSet().toList();
-        releatedId = modelSingleProduct.value.advertisingProduct!.catId!.last.id.toString();
+        if (modelSingleProduct.value.advertisingProduct!.catId != null && modelSingleProduct.value.advertisingProduct!.catId!.isNotEmpty) {
+          releatedId = modelSingleProduct.value.advertisingProduct!.catId!.last.id.toString();
+        }
         print("releatedId" + releatedId);
         similarProduct();
         statusSingle = RxStatus.success();

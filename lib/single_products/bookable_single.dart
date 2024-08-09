@@ -192,15 +192,17 @@ class _BookableProductScreenState extends State<BookableProductScreen> {
         ratingRills = ratingRill * double.parse(modelSingleProduct.value.bookingProduct!.rating.toString());
         imagesList.addAll(modelSingleProduct.value.bookingProduct!.galleryImage ?? []);
         imagesList = imagesList.toSet().toList();
-        releatedId = modelSingleProduct.value.bookingProduct!.catId!.last.id.toString();
+        if (modelSingleProduct.value.bookingProduct!.catId != null && modelSingleProduct.value.bookingProduct!.catId!.isNotEmpty) {
+          releatedId = modelSingleProduct.value.bookingProduct!.catId!.last.id.toString();
+        }
 
-        dateTimeString = modelSingleProduct.value.bookingProduct!.shippingDate.toString();
-
-// Parse the string into a DateTime object
-        DateTime dateTime = DateTime.parse(dateTimeString);
-
-// Format the DateTime object to display only the date part
-        formattedDate = "${dateTime.year}-${dateTime.month.toString().padLeft(2, '0')}-${dateTime.day.toString().padLeft(2, '0')}";
+//         dateTimeString = modelSingleProduct.value.bookingProduct!.shippingDate.toString();
+//
+// // Parse the string into a DateTime object
+//         DateTime dateTime = DateTime.parse(dateTimeString);
+//
+// // Format the DateTime object to display only the date part
+//         formattedDate = "${dateTime.year}-${dateTime.month.toString().padLeft(2, '0')}-${dateTime.day.toString().padLeft(2, '0')}";
 
         print("releatedId" + releatedId);
         similarProduct();

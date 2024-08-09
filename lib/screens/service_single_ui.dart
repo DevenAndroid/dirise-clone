@@ -82,7 +82,9 @@ class _ServiceProductScreenState extends State<ServiceProductScreen> {
         imagesList.addAll(modelSingleProduct.value.simpleProduct!.galleryImage ?? []);
         ratingRills = ratingRill * double.parse(modelSingleProduct.value.simpleProduct!.rating.toString());
         imagesList = imagesList.toSet().toList();
-        releatedId = modelSingleProduct.value.simpleProduct!.catId!.last.id.toString();
+        if (modelSingleProduct.value.simpleProduct!.catId != null && modelSingleProduct.value.simpleProduct!.catId!.isNotEmpty) {
+          releatedId = modelSingleProduct.value.simpleProduct!.catId!.last.id.toString();
+        }
         print("releatedId" + releatedId);
         similarProduct();
         statusSingle = RxStatus.success();

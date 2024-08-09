@@ -193,7 +193,10 @@ class _SimpleProductScreenState extends State<SimpleProductScreen> {
         log("modelSingleProduct.product!.toJson().....${modelSingleProduct.value.simpleProduct!.toJson()}");
         imagesList.addAll(modelSingleProduct.value.simpleProduct!.galleryImage ?? []);
         imagesList = imagesList.toSet().toList();
-        releatedId = modelSingleProduct.value.simpleProduct!.catId!.last.id.toString();
+        if (modelSingleProduct.value.simpleProduct!.catId != null && modelSingleProduct.value.simpleProduct!.catId!.isNotEmpty) {
+          releatedId = modelSingleProduct.value.simpleProduct!.catId!.last.id.toString();
+        }
+
         // dateTimeString = modelSingleProduct.value.simpleProduct!.shippingDate.toString();
 
 // Parse the string into a DateTime object
