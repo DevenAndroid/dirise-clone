@@ -84,7 +84,7 @@ class ProductsController extends GetxController {
     }
     await repositories.getApi(url: "$url&limit=50",context: context).then((value) {
       apiLoaded1 = true;
-      model1 = ApprovedModel.fromJson(jsonDecode(value));
+      model = ModelProductsList.fromJson(jsonDecode(value));
       updateUI;
     });
   }

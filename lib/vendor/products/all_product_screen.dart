@@ -45,7 +45,7 @@ class _VendorProductScreenState extends State<VendorProductScreen> {
   debounceSearch() {
     if (timer != null) timer!.cancel();
     timer = Timer(const Duration(milliseconds: 500), () {
-      productController.getProductList();
+      productController.getProductList(context: context);
     });
   }
 
@@ -53,7 +53,7 @@ class _VendorProductScreenState extends State<VendorProductScreen> {
   void initState() {
     super.initState();
     SchedulerBinding.instance.addPostFrameCallback((timeStamp) {
-      productController.getProductList();
+      productController.getProductList(context: context);
     });
   }
 
@@ -196,9 +196,10 @@ class _VendorProductScreenState extends State<VendorProductScreen> {
 
                     onChanged: (String? newValue) {
                       setState(() {
-                        productController .selectedValue1 = newValue;
-                        print("value"+productController .selectedValue1.toString());
                         productController.getProductList1(context: context);
+                        productController.selectedValue1 = newValue;
+                        print("value"+productController .selectedValue1.toString());
+
                       });
                     },
                     items:productController .dropdownItems1.map<DropdownMenuItem<String>>((String value) {
@@ -217,7 +218,7 @@ class _VendorProductScreenState extends State<VendorProductScreen> {
               Expanded(
                 child: RefreshIndicator(
                   onRefresh: () async {
-                    await productController.getProductList();
+                    await productController.getProductList(context: context);
                   },
                   child: Obx(() {
                     if (productController.refreshInt.value > 0) {}

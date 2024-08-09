@@ -565,10 +565,10 @@ class _ProductUIState extends State<ProductUI> {
                 ],
               )
                   : const SizedBox.shrink(),
-
-              const SizedBox(
-                height: 8,
-              ),
+              //
+              // const SizedBox(
+              //   height: 8,
+              // ),
 
               widget.productElement.inStock == "-1"?const SizedBox.shrink():
               Text(
@@ -610,9 +610,9 @@ class _ProductUIState extends State<ProductUI> {
                         //   '${widget.productElement.inStock.toString()} ${'pieces'.tr}',
                         //   style: GoogleFonts.poppins(color: Colors.grey.shade700, fontSize: 15,fontWeight: FontWeight.w500),
                         // ),
-                        const SizedBox(
-                          height: 7,
-                        ),
+                        // const SizedBox(
+                        //   height: 7,
+                        // ),
                         if(Platform.isAndroid)
                           widget.productElement.itemType != 'service' && widget.productElement.itemType != 'virtual_product' ?
                           widget.productElement.shippingDate != "No Internation Shipping Available"
@@ -784,6 +784,7 @@ class _ProductUIState extends State<ProductUI> {
                           style: ElevatedButton.styleFrom(
                             backgroundColor: Colors.red,
                             surfaceTintColor: Colors.red,
+                            minimumSize: const Size(double.maxFinite, 40),
                           ),
                           child: FittedBox(
                             child: Text(
@@ -863,13 +864,15 @@ class _ProductUIState extends State<ProductUI> {
                                         fontSize: 30, fontWeight: FontWeight.w300, color: const Color(0xFF014E70)),
                                   )),
                             ),
+
                           ],
                         )
                             : const SizedBox(),
                       ],
                     ),
 
-                  )],
+                  )
+                ],
               ),
             ],
           ),
